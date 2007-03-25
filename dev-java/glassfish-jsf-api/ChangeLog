@@ -1,0 +1,6 @@
+# ChangeLog for dev-java/glassfish-jsf-api
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  25 Mar 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
+  Initial ebuild for glassfish jsf api
