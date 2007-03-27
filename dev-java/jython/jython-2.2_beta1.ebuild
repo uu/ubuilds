@@ -10,7 +10,7 @@ inherit base java-pkg-2 java-ant-2
 DESCRIPTION="An implementation of Python written in Java"
 HOMEPAGE="http://www.jython.org"
 
-SRC_URI="${P}.tar.bz2"
+SRC_URI="http://www.counties.co.nz/alistair/distfiles/${P}.tar.bz2"
 LICENSE="JPython"
 SLOT="0"
 KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
@@ -62,14 +62,14 @@ src_install() {
 
 	java-pkg_dolauncher jythonc \
 						--main "org.python.util.jython" \
-						--java_args "-Dpython.home=/usr/share/jython \
-						-Dpython.cachedir=\$\{HOME\}/.jython/cachedir" \
+						--java_args "-Dpython.home=/usr/share/jython "\
+						"-Dpython.cachedir=\${HOME}/.jython/cachedir" \
 						--pkg_args "/usr/share/jython/tools/jythonc/jythonc.py"
 
 	java-pkg_dolauncher jython \
 						--main "org.python.util.jython" \
 						--java_args "-Dpython.home=/usr/share/jython  \
-						-Dpython.cachedir=\$\{HOME\}/.jython/cachedir"
+						-Dpython.cachedir=\${HOME}/.jython/cachedir"
 
 	dodir /usr/share/jython/cachedir
 	chmod a+rw ${D}/usr/share/jython/cachedir
