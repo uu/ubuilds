@@ -1,0 +1,14 @@
+# ChangeLog for dev-java/quartz
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  27 Mar 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
+  Moved package from java-overlay due to it being incomplete. Unbunlded a ton
+  of stuff, and added a bunch of new use flags for optional deps. Still not
+  complete and does not merge. Much work left to be done. Struts does not seem
+  to be a dep anymore, so it's been temporarily dropped/commented out.
+
+  14 Feb 2007; kiorky <kiorky@cryptelium.net> +quartz-1.5.2.ebuild:
+  Bumped to version 1.5.2
+  See #166776
+
