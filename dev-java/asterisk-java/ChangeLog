@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/asterisk-java>
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  29 Mar 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  +asterisk-java-0.2.ebuild, +files/asterisk-java-0.2-build.xml.patch:
+  Initial ebuild, tests do not work
+
