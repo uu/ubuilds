@@ -1,6 +1,7 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
+
 JAVA_PKG_IUSE="source"
 
 inherit java-pkg-2 java-ant-2
@@ -11,23 +12,24 @@ SRC_URI="mirror://sourceforge/${PN}/${P}-src.7z"
 LICENSE="GPL-2"
 KEYWORDS="~x86"
 SLOT="0"
+
 JAVA_VERSION="1.5"
 COMMON_DEPEND="dev-java/commons-logging
 	>=dev-java/kunststoff-2.0
 	>=dev-java/itp-1.4
 	>=dev-java/tablelayout-0.1"
 DEPEND="app-arch/p7zip
-	dev-java/ant-core
 	>=virtual/jdk-${JAVA_VERSION}
 	${COMMONT_DEPEND}"
 RDEPEND=">=virtual/jre-${JAVA_VERSION}
 	${COMMON_DEPEND}"
+
 S="${WORKDIR}/${P}-src/"
 
 src_unpack() {
 	unpack ${A}
-	rm -rf ${S}/lib/* ${S}/lib.test/*
-	cd ${S}/lib
+	rm -rv "${S}"/lib/* "${S}"/lib.test/* || die
+	cd "${S}/lib"
 	java-pkg_jar-from commons-logging
 	java-pkg_jar-from kunststoff-2.0
 	java-pkg_jar-from itp
