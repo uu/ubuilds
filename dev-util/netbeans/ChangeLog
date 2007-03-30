@@ -3,6 +3,10 @@
 # $Header: $
 
   30 Mar 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha8.ebuild:
+  Reverted to bundled jars to make things compile
+
+  30 Mar 2007; Miroslav Šulc <fordfrog@gentoo.org>
   +netbeans-6.0_alpha8.ebuild:
   Version bump, not working yet
 

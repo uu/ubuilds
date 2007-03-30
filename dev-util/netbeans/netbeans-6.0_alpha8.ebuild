@@ -129,9 +129,9 @@ src_unpack () {
 	cd ${S}/nbbuild
 	sed -i -e "s%tomcatint/tomcat5/bundled,%%g" *.properties
 
-	place_unpack_symlinks
-	use mobility && place_unpack_symlinks_mobility
-	use visualweb && place_unpack_symlinks_visualweb
+	#place_unpack_symlinks
+	#use mobility && place_unpack_symlinks_mobility
+	#use visualweb && place_unpack_symlinks_visualweb
 }
 
 src_compile() {
@@ -204,7 +204,6 @@ src_install() {
 	einfo "Installing the program..."
 	cd ${BUILDDESTINATION}
 	doins -r *
-	use profiler && doins -r ${WORKDIR}/profiler/*
 
 	# Change location of etc files
 	insinto /etc/${PN}-${SLOT}
@@ -213,9 +212,9 @@ src_install() {
 	dosym /etc/${PN}-${SLOT} ${DESTINATION}/etc
 
 	# Replace bundled jars with system jars
-	symlink_extjars ${D}/${DESTINATION}
-	use mobility && symlink_extjars_mobility ${D}/${DESTINATION}
-	use visualweb && symlink_extjars_visualweb ${D}/${DESTINATION}
+	#symlink_extjars ${D}/${DESTINATION}
+	#use mobility && symlink_extjars_mobility ${D}/${DESTINATION}
+	#use visualweb && symlink_extjars_visualweb ${D}/${DESTINATION}
 
 	# Correct permissions on executables
 	fperms 755 \
