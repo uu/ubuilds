@@ -1,6 +1,7 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
+
 JAVA_PKG_IUSE="doc source"
 
 inherit java-pkg-2
@@ -11,9 +12,11 @@ SRC_URI="https://tablelayout.dev.java.net/files/documents/3495/15739/TableLayout
 LICENSE="GPL-2"
 KEYWORDS="~x86"
 SLOT="0"
+
 JAVA_VERSION="1.4"
 DEPEND=">=virtual/jdk-${JAVA_VERSION}"
 RDEPEND=">=virtual/jre-${JAVA_VERSION}"
+
 SRC_DIR="${S}/src"
 JAVADOC_DIR="${S}/javadoc"
 
