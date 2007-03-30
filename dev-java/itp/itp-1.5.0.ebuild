@@ -1,21 +1,26 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
+
 JAVA_PKG_IUSE="doc source"
 
 inherit java-pkg-2
 
 DESCRIPTION="InfoNode Tabbed Panel is a highly flexible and customizable replacement for the Swing JTabbedPane component."
 HOMEPAGE="http://infonode.net/index.html?itp"
+
 MY_P="${PN}-gpl-${PV}"
 SRC_URI="mirror://sourceforge/infonode/${MY_P}-src.zip"
 LICENSE="GPL-2"
 KEYWORDS="~x86"
 SLOT="0"
+
 JAVA_VERSION="1.4"
 DEPEND=">=virtual/jdk-${JAVA_VERSION}"
 RDEPEND=">=virtual/jre-${JAVA_VERSION}"
+
 S="${WORKDIR}/${MY_P}"
+
 SRC_DIR="${S}/src"
 CLASSES_DIR="${WORKDIR}/classes"
 JAVADOC_DIR="${S}/javadoc"
@@ -24,7 +29,7 @@ src_compile() {
 	java-pkg_filter-compiler jikes
 	#Compile
 	mkdir "${CLASSES_DIR}" || die "Could not create compile output dir"
-	ejavac -d "${CLASSES_DIR}" $(find "${SRC_DIR}" -name "*.java") || die "Compilation failed"
+	ejavac -encoding ISO-8859-1 -d "${CLASSES_DIR}" $(find "${SRC_DIR}" -name "*.java") || die "Compilation failed"
 	#Make jar
 	jar -cf "${S}/${PN}.jar" -C "${CLASSES_DIR}" . || die "Could not create jar"
 	#Generate javadoc
