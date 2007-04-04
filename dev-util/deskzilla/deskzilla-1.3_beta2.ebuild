@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit java-utils-2
+inherit java-pkg-2
 
 DESCRIPTION="Deskzilla is a desktop client for Mozilla's Bugzilla bug tracking system."
 HOMEPAGE="http://almworks.com/deskzilla"
@@ -15,7 +15,6 @@ LICENSE="ALMWorks-1.2"
 SLOT="0"
 KEYWORDS="~x86"
 
-DEPEND=""
 RDEPEND=">=virtual/jre-1.5.0
 	>=dev-java/picocontainer-1.1
 	>=dev-java/jdom-1.0
@@ -45,6 +44,9 @@ src_unpack() {
 }
 
 src_install () {
+	#This is stupid
+	java-pkg_getjars picocontainer-1,jdom-1.0,commons-logging,commons-codec,nekohtml,jgoodies-forms,javolution-2.2,xmlrpc > /dev/null
+
 	local dir=/opt/${P}
 	insinto ${dir}
 	doins -r components etc license lib log deskzilla.url license.html README.txt
@@ -53,6 +55,4 @@ src_install () {
 	java-pkg_dojar ${PN}.jar
 	java-pkg_dolauncher ${PN} --main "com.almworks.launcher.Launcher" --java_args "-Xmx256M"
 	make_desktop_entry deskzilla "Deskzilla" deskzilla.png "Development"
-	#This is stupid
-	java-pkg_getjars picocontainer-1,jdom-1.0,commons-logging,commons-codec,nekohtml,jgoodies-forms,javolution-2.2,xmlrpc > /dev/null
 }
