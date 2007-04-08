@@ -1,0 +1,47 @@
+# Copyright 1999-2005 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+inherit eutils java-pkg-2 java-ant-2
+
+DESCRIPTION="Java Image Manager"
+HOMEPAGE="http://jim.sf.net/"
+SRC_URI="mirror://sourceforge/${PN}/${PN}-src-${PV}.zip"
+LICENSE="GPL-2"
+SLOT="0"
+KEYWORDS="~x86"
+IUSE="doc"
+
+RDEPEND=">=virtual/jre-1.5
+	 dev-java/log4j
+	 dev-java/flexdock"
+
+DEPEND="${RDEPEND}
+	>=virtual/jdk-1.5
+	app-arch/unzip
+	source? (app-arch/zip)"
+
+src_unpack() {
+	mkdir -p ${S}
+	cd ${S} && unpack ${A}
+	cd lwo_libraries
+	rm flexdock-0.4.0.jar
+	rm log4j-1.2.8.jar
+	java-pkg_jar-from log4j log4j.jar log4j-1.2.8.jar
+	java-pkg_jar-from flexdock flexdock.jar flexdock-0.4.0.jar
+}
+
+src_compile() {
+	for module in jim-io jim-imagebase jim; do
+		cd ${S}/${module}/app && eant jar
+	done
+}
+
+src_install() {
+	java-pkg_newjar jim/app/output/Jim.jar ${PN}.jar
+	java-pkg_newjar lwo_libraries/silk-1.2.jar silk.jar
+	for module in jim-io jim-imagebase; do
+		java-pkg_dojar ${module}/app/output/${module}.jar
+	done
+	java-pkg_dolauncher jim --main au.com.lastweekend.jim.Jim
+}
