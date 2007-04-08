@@ -1,5 +1,5 @@
 --- build.xml	2007-03-09 21:16:08.000000000 +0200
-+++ build.xml.fixed	2007-04-08 07:11:31.000000000 +0300
++++ build.xml.fixed	2007-04-08 14:32:56.000000000 +0300
 @@ -144,9 +144,7 @@
           <src path="${java.src.dockbar}"/>
           <src path="${java.src.drag}"/>
@@ -11,7 +11,7 @@
     </target>
  
  
-@@ -279,22 +277,21 @@
+@@ -279,22 +277,22 @@
     <target name="compile.unix.lib" depends="native.init,compile,resources" if="os.unixWithXlib" 
             description="Compile the shared library if you're on a UNIX of some sort">
  
@@ -28,6 +28,7 @@
  
 -      <exec executable="gcc" failonerror="true">
 +      <exec executable="${CC}" failonerror="true">
++         <arg value="-fPIC"/>
           <arg value="-lX11"/>
           <arg value="-L/usr/X11R6/lib"/>
           <arg value="-I/usr/X11R6/include"/>
@@ -37,7 +38,7 @@
           <arg value="-shared"/>
           <arg value="${c.dir}/RubberBand.c"/>
           <arg line='${sdk.include.gcc.args}'/> <!-- potentially multiple include dirs -->
-@@ -328,16 +325,6 @@
+@@ -328,16 +326,6 @@
  
        <!-- Don't try to make a generic demo jar, 
             here shouldn't be native code in the demos. -->

@@ -9,7 +9,7 @@ HOMEPAGE="http://flexdock.dev.java.net/"
 SRC_URI="http://flexdock.dev.java.net/files/documents/2037/52480/${P}-src.zip"
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 IUSE="doc"
 
 RDEPEND=">=virtual/jre-1.4
@@ -17,8 +17,7 @@ RDEPEND=">=virtual/jre-1.4
 
 DEPEND="${RDEPEND}
 	>=virtual/jdk-1.4
-	app-arch/unzip
-	source? (app-arch/zip)"
+	app-arch/unzip"
 
 src_unpack() {
 	mkdir -p ${S}

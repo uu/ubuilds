@@ -9,7 +9,7 @@ HOMEPAGE="http://piccolo.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/${P}-src.zip"
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 IUSE="doc source"
 
 RDEPEND=">=virtual/jre-1.4"

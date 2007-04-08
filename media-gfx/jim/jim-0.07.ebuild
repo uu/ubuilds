@@ -9,8 +9,8 @@ HOMEPAGE="http://jim.sf.net/"
 SRC_URI="mirror://sourceforge/${PN}/${PN}-src-${PV}.zip"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86"
-IUSE="doc"
+KEYWORDS="~x86 ~amd64"
+IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
 	 dev-java/log4j
@@ -18,8 +18,7 @@ RDEPEND=">=virtual/jre-1.5
 
 DEPEND="${RDEPEND}
 	>=virtual/jdk-1.5
-	app-arch/unzip
-	source? (app-arch/zip)"
+	app-arch/unzip"
 
 src_unpack() {
 	mkdir -p ${S}
