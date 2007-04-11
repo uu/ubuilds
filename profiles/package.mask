@@ -1,0 +1,51 @@
+#####################################################################
+# $Header: $
+# When you add an entry to this file, add your name, the date, and an
+# explanation of why something is getting masked
+#
+# NOTE: Please add your entry at the top!
+#
+
+# Alistair Bush. alistair.bush@gmail.com (20 Mar 2007)
+# Masked so I can experiement with building testng with both the 1.4 and 1.5
+# versions of jars
+=dev-java/testng-5.2-r1
+
+#Alistair Bush alistair.bush@gmail.com (11 Mar 2007)
+# Masked as does not build.  Currently attempting to seperate
+# gluegen from jogl.  It is going moderately successfully.  This shouldn't
+# be masked for very long
+=dev-java/jogl-1.0.0-r1
+
+#William L. Thomson Jr. wltjr@gentoo.org (8 Mar 2007)
+# Masked due to package being incomplete and broken. Not
+# all deps are packaged, last on run into seems to be a
+# jar from Jetty which is out of date and lacks maintainer
+dev-java/htmlunit
+
+#Alistair Bush alistair.bush@gmail.com (10 Feburary 2007)
+# Masked so that dev-db/octopus and dev-java/saxon can be updated
+# to depend on <fop-0.93.  This is required as fop
+# underwent a major redesign and breaks API.
+=dev-java/fop-0.93
+
+# kiorky kiorky@cryptelium.net
+# just backported stuff and began working on it, don't work yet
+=www-servers/jboss-4.0.5-r1
+
+# kiorky kiorky@cryptelium.net
+# This stuff is old and unusable, use jboss-bin in the mean-time
+www-servers/jboss
+
+# Alistair Bush <ali_bush> (28 October 2006)
+# =www-server/jboss-4.0.4-r2 is being masked so that I can attempt at
+# building jboss as a monolithic package for testing
+=www-servers/jboss-4.0.4-r2
+
+# Joshua Nichols <nichoj@gentoo.org (23 Aug 2006)
+# Masked since, it's VERY early in development
+=dev-java/sun-jdk-1.7*
+
+# Vlastimil Babka <caster@gentoo.org> (03 Jan 2006)
+# Masked snapshots of 1.6 update
+=dev-java/sun-jdk-1.6.0.1_alpha*
