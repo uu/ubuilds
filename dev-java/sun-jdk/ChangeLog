@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  12 Apr 2007; Vlastimil Babka <caster@gentoo.org>
+  -sun-jdk-1.6.0.02_alpha01.ebuild, +sun-jdk-1.6.0.02_alpha02.ebuild:
+  Bump of 6u2 snapshot. Javadoc fixed, hurray.
+
   11 Apr 2007; Vlastimil Babka <caster@gentoo.org>
   -sun-jdk-1.7.0.0_alpha10.ebuild, +sun-jdk-1.7.0.0_alpha11.ebuild:
   Bump to new 1.7 snapshot.

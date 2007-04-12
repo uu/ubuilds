@@ -8,7 +8,7 @@ MY_PV=${PV/_alpha*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 BETA=${PV#*_alpha}
-DATE="29_mar_2007"
+DATE="12_apr_2007"
 
 BASE_URL="http://www.java.net/download/jdk6/6u2/promoted/b${BETA}/binaries/"
 x86file="jdk-6u2-ea-bin-b${BETA}-linux-i586-${DATE}.bin"
