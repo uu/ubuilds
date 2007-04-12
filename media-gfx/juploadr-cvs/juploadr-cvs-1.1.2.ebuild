@@ -27,6 +27,7 @@ DEPEND=">=virtual/jdk-1.5
 	${RDEPEND}"
 
 S="${WORKDIR}/juploadr"
+EANT_BUILD_TARGET="dist"
 
 src_unpack() {
 	unpack ${A}
@@ -41,10 +42,6 @@ src_unpack() {
 	java-pkg_jarfrom sun-jai-bin jai_core.jar
 	java-pkg_jarfrom sun-jai-bin jai_codec.jar
 	java-pkg_jarfrom jim jim-io.jar
-}
-
-src_compile() {
-	eant dist
 }
 
 src_install() {
