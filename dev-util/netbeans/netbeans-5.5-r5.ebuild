@@ -15,6 +15,8 @@ SLOT="5.5"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
 IUSE="debug doc"
 
+# TODO: solve how to link jaxb-xjc
+
 COMMON_DEPEND="
 	>=dev-java/ant-1.6.3
 	>=dev-java/commons-logging-1.0.4
@@ -43,8 +45,10 @@ RDEPEND=">=virtual/jre-1.5
 	dev-java/fastinfoset
 	dev-java/jakarta-oro
 	dev-java/jax-rpc
-	dev-java/jaxb
+	>=dev-java/jaxb-2
 	dev-java/jaxp
+	dev-java/jsr67
+	dev-java/jsr101
 	dev-java/jsr173
 	dev-java/jsr181
 	dev-java/jsr250
@@ -451,23 +455,23 @@ function symlink_extjars() {
 	java-pkg_jar-from fastinfoset fastinfoset.jar FastInfoset.jar
 	java-pkg_jar-from jaxp
 	# MISSING: jax-qname.jar (no ebuild)
-	java-pkg_jar-from jax-rpc jaxrpc-api.jar
+	java-pkg_jar-from jsr101
 	java-pkg_jar-from jax-rpc jaxrpc-impl.jar
 	java-pkg_jar-from jax-rpc jaxrpc-spi.jar
 	java-pkg_jar-from jsr173 jsr173.jar jsr173_api.jar
 	java-pkg_jar-from sun-javamail
 	java-pkg_jar-from relaxng-datatype
-	java-pkg_jar-from saaj saaj-api.jar
-	java-pkg_jar-from saaj saaj-impl.jar
+	java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
+	java-pkg_jar-from saaj saaj.jar saaj-impl.jar
 	java-pkg_jar-from xsdlib
 
 	cd ${1}/ide${IDE_VERSION}/modules/ext/jaxws20
 	java-pkg_jar-from sun-jaf
 	java-pkg_jar-from fastinfoset fastinfoset.jar FastInfoset.jar
 	# MISSING: http.jar (no ebuild)
-	java-pkg_jar-from jaxb jaxb-api.jar
-	java-pkg_jar-from jaxb jaxb-impl.jar
-	java-pkg_jar-from jaxb jaxb-xjc.jar
+	java-pkg_jar-from jaxb-2 jaxb-api.jar
+	java-pkg_jar-from jaxb-2 jaxb-impl.jar
+	#java-pkg_jar-from jaxb-2 jaxb-xjc.jar
 	java-pkg_jar-from sun-jaxws-bin jaxws-api.jar
 	java-pkg_jar-from sun-jaxws-bin jaxws-rt.jar
 	java-pkg_jar-from sun-jaxws-bin jaxws-tools.jar
@@ -475,8 +479,8 @@ function symlink_extjars() {
 	java-pkg_jar-from jsr181 jsr181.jar jsr181-api.jar
 	java-pkg_jar-from jsr250
 	#resolver.jar (netbeans stuff)
-	java-pkg_jar-from saaj saaj-api.jar
-	java-pkg_jar-from saaj saaj-impl.jar
+	java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
+	java-pkg_jar-from saaj saaj.jar saaj-impl.jar
 	java-pkg_jar-from sjsxp
 
 

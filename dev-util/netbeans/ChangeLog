@@ -2,6 +2,10 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  14 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> netbeans-5.5-r5.ebuild,
+  netbeans-6.0_alpha8.ebuild:
+  Some correction with regard to the switch to wsdp overlay.
+
   14 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_alpha8.ebuild, +files/5.5-r2,
   +files/5.5-r2/jdbcstorage-build.xml-comments.patch,
