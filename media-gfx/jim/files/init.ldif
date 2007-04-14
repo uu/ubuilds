@@ -1,0 +1,23 @@
+dn: __SUFFIX__
+objectclass: dcObject
+objectclass: organization
+o: LastWeekend Online
+dc: lastweekend
+
+dn: cn=Manager,__SUFFIX__
+objectclass: organizationalRole
+cn: Manager
+
+dn: ou=jim,__SUFFIX__
+objectclass: organizationalUnit
+ou: jim
+
+dn: cn=jimConfig,ou=jim,__SUFFIX__
+objectclass: jimPhoto
+cn: jimConfig
+
+dn: ou=test,__SUFFIX__
+objectclass: organizationalUnit
+ou: test
+
+

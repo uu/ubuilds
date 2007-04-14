@@ -9,16 +9,18 @@ HOMEPAGE="http://jim.sf.net/"
 SRC_URI="mirror://sourceforge/${PN}/${PN}-src-${PV}.zip"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
-IUSE=""
+KEYWORDS="~x86"
+IUSE="openldap"
 
 RDEPEND=">=virtual/jre-1.5
 	 dev-java/log4j
-	 dev-java/flexdock"
+	 dev-java/flexdock
+	 openldap? ( net-nds/openldap )"
 
 DEPEND="${RDEPEND}
 	>=virtual/jdk-1.5
-	app-arch/unzip"
+	app-arch/unzip
+	source? (app-arch/zip)"
 
 src_unpack() {
 	mkdir -p ${S}
@@ -43,4 +45,17 @@ src_install() {
 		java-pkg_dojar ${module}/app/output/${module}.jar
 	done
 	java-pkg_dolauncher jim --main au.com.lastweekend.jim.Jim
+	insinto /etc/openldap/schema
+	use openldap && doins jim-imagebase/app/resources/openldap/etc/schema/jim.schema
+}
+
+pkg_postinst() {
+	if use openldap; then
+		einfo "Steps to use OpenLDAP to store and search image metadata"
+		einfo "1. Add the following line to /etc/openldap/slapd.conf"
+		einfo '	include "/etc/openldap/schema/jim.schema"'
+		einfo "2. Restart your slapd if it's already running"
+		einfo "3. Run the following command to load the initial data for the database"
+		einfo "	sed 's:__SUFFIX__:YOUR_REAL_SUFFIX:g' < ${FILESDIR}/init.ldif | ldapadd"
+	fi
 }
