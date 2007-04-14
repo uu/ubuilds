@@ -15,8 +15,6 @@ SLOT="5.5"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
 IUSE="debug doc"
 
-# TODO: solve how to link jaxb-xjc
-
 COMMON_DEPEND="
 	>=dev-java/ant-1.6.3
 	>=dev-java/commons-logging-1.0.4
@@ -46,6 +44,7 @@ RDEPEND=">=virtual/jre-1.5
 	dev-java/jakarta-oro
 	dev-java/jax-rpc
 	>=dev-java/jaxb-2
+	>=dev-java/jaxb-tools-2
 	dev-java/jaxp
 	dev-java/jsr67
 	dev-java/jsr101
@@ -250,7 +249,7 @@ function place_unpack_symlinks() {
 	einfo "Symlinking jars for apisupport"
 	cd ${S}/apisupport/external
 	java-pkg_jar-from --build-only jdom-1.0
-	java-pkg_jar-from javahelp jsearch.jar jsearch-2.0_03.jar
+	java-pkg_jar-from javahelp jhall.jar jsearch-2.0_03.jar
 	java-pkg_jar-from --build-only rome rome.jar rome-fetcher-0.6.jar
 	java-pkg_jar-from --build-only rome rome.jar rome-0.6.jar
 	#apisupport/project/test/unit/data/example-external-projects/suite3/nbplatform/platform5/core/openide.jar
@@ -424,7 +423,7 @@ function symlink_extjars() {
 	einfo "Symlinking harness jars"
 
 	cd ${1}/harness
-	java-pkg_jar-from javahelp jsearch.jar jsearch-2.0_03.jar
+	java-pkg_jar-from javahelp jhall.jar jsearch-2.0_03.jar
 
 
 	einfo "Symlinking ide jars"
@@ -471,7 +470,7 @@ function symlink_extjars() {
 	# MISSING: http.jar (no ebuild)
 	java-pkg_jar-from jaxb-2 jaxb-api.jar
 	java-pkg_jar-from jaxb-2 jaxb-impl.jar
-	#java-pkg_jar-from jaxb-2 jaxb-xjc.jar
+	java-pkg_jar-from jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
 	java-pkg_jar-from sun-jaxws-bin jaxws-api.jar
 	java-pkg_jar-from sun-jaxws-bin jaxws-rt.jar
 	java-pkg_jar-from sun-jaxws-bin jaxws-tools.jar
