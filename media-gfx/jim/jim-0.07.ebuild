@@ -19,8 +19,7 @@ RDEPEND=">=virtual/jre-1.5
 
 DEPEND="${RDEPEND}
 	>=virtual/jdk-1.5
-	app-arch/unzip
-	source? (app-arch/zip)"
+	app-arch/unzip"
 
 src_unpack() {
 	mkdir -p ${S}
