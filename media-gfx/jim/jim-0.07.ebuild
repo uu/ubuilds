@@ -1,4 +1,4 @@
-# Copyright 1999-2005 Gentoo Foundation
+# Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -21,12 +21,12 @@ DEPEND="${RDEPEND}
 	>=virtual/jdk-1.5
 	app-arch/unzip"
 
+S="${WORKDIR}"
+
 src_unpack() {
-	mkdir -p ${S}
-	cd ${S} && unpack ${A}
+	unpack ${A}
 	cd lwo_libraries
-	rm flexdock-0.4.0.jar
-	rm log4j-1.2.8.jar
+	rm -v *.jar || die
 	java-pkg_jar-from log4j log4j.jar log4j-1.2.8.jar
 	java-pkg_jar-from flexdock flexdock.jar flexdock-0.4.0.jar
 }
