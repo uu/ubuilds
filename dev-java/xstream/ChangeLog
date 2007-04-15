@@ -1,0 +1,7 @@
+# ChangeLog for dev-java/xstream
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  15 Apr 2007; Petteri Räty <betelgeuse@gentoo.org> +xstream-1.2.1.ebuild:
+  Add dev-java/xstream-1.2.1. Only works with sun-jdk-1.6 compiles it atm.
+
