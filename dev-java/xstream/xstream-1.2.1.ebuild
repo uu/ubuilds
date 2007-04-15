@@ -10,8 +10,9 @@ SRC_URI="http://repository.codehaus.org/com/thoughtworks/${PN}/${PN}-distributio
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
-IUSE="doc examples java5 source"
+KEYWORDS="~amd64 ~x86"
+#TODO java5
+IUSE="doc examples source"
 
 COMMON_DEPS="
 	=dev-java/commons-lang-2.1*
@@ -25,8 +26,10 @@ COMMON_DEPS="
 	>=dev-java/xpp3-1.1.3.4
 	=dev-java/xml-commons-external-1.3*
 "
-DEPEND="java5? ( >=virtual/jdk-1.5 )
-	!java5? ( =virtual/jdk-1.4* )
+
+# Add support for lower JDKS
+DEPEND="
+	>=virtual/jdk-1.6
 	>=dev-java/java-config-2.0.31
 	dev-java/ant-core
 	app-arch/unzip
