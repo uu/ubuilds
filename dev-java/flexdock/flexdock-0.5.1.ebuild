@@ -1,4 +1,4 @@
-# Copyright 1999-2005 Gentoo Foundation
+# Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -19,24 +19,24 @@ DEPEND="${RDEPEND}
 	>=virtual/jdk-1.4
 	app-arch/unzip"
 
+S="${WORKDIR}"
+
 src_unpack() {
-	mkdir -p ${S}
-	cd ${S} && unpack ${A}
-	epatch ${FILESDIR}/buildfixes.patch
+	unpack ${A}
+	epatch "${FILESDIR}/buildfixes.patch"
 	cd lib
-	rm commons-logging-1.1.jar
-	java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.1.jar
+	rm -v *.jar || die
+	java-pkg_jar-from commons-logging
+	java-pkg_jar-from skinlf
 }
 
 src_compile() {
-	local anttasks_opt
-	use doc && anttasks_opt="javadoc"
-	eant -DCC=$(tc-getCC) -Dsdk.home=$JAVA_HOME jar compile.native ${anttasks_opt}
+	eant -DCC=$(tc-getCC) -Dsdk.home="${JAVA_HOME}" jar compile.native $(use_doc)
 }
 
 src_install() {
 	java-pkg_newjar build/${P}.jar ${PN}.jar
 	java-pkg_doso build/bin/org/flexdock/docking/drag/outline/xlib/libRubberBand.so
+	dodoc release-notes.txt README* || die
 	use doc && java-pkg_dojavadoc build/docs/api
-	dodoc release-notes.txt README*
 }
