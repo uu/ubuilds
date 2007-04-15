@@ -55,8 +55,12 @@ src_unpack() {
 	java-pkg_jar-from xpp3
 }
 
+EANT_BUILD_TARGET="benchmark:compile jar"
+EANT_EXTRA_ARGS="-Dversion=${PV}"
+
 src_install() {
-	java-pkg_newjar ${P}.jar
+	java-pkg_newjar target/${P}.jar
+	java-pkg_newjar target/${PN}-benchmark-${PV}.jar ${PN}-benchmark.jar
 
 	if use doc; then
 		java-pkg_dohtml *.html

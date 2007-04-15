@@ -3,6 +3,9 @@
 # $Header: $
 
   15 Apr 2007; Petteri Räty <betelgeuse@gentoo.org> xstream-1.2.1.ebuild:
+  Now actually emerges.
+
+  15 Apr 2007; Petteri Räty <betelgeuse@gentoo.org> xstream-1.2.1.ebuild:
   Remove KEYWORDS.
 
   15 Apr 2007; Petteri Räty <betelgeuse@gentoo.org> +xstream-1.2.1.ebuild:
