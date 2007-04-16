@@ -12,14 +12,16 @@ MILESTONE="m8"
 MY_PV=$(replace_all_version_separators '_' $(get_version_component_range 1-2))
 NB_FILE="${PN}-${MY_PV}-${MILESTONE}-src-200703280911-ide_sources-28_Mar_2007_0911.tar.bz2"
 MOBILITY_FILE="${PN}-mobility-${MY_PV}-${MILESTONE}.tar.bz2"
+SCRIPTING_FILE="${PN}-scripting-${MY_PV}-${MILESTONE}.tar.bz2"
 VISUALWEB_FILE="${PN}-visualweb-${MY_PV}-${MILESTONE}.tar.bz2"
 SRC_URI="http://us1.mirror.netbeans.org/download/${MY_PV}/${MILESTONE}/200703280911/${NB_FILE}
 	mobility? ( http://dev.gentoo.org/~fordfrog/distfiles/${MOBILITY_FILE} )
+	ruby? ( http://dev.gentoo.org/~fordfrog/distfiles/${SCRIPTING_FILE} )
 	visualweb? ( http://dev.gentoo.org/~fordfrog/distfiles/${VISUALWEB_FILE} )"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="debug doc mobility visualweb"
+IUSE="debug doc mobility ruby visualweb"
 
 COMMON_DEPEND="
 	>=dev-java/ant-1.6.3
@@ -124,6 +126,10 @@ src_unpack () {
 		unpack ${MOBILITY_FILE}
 	fi
 
+	if use ruby ; then
+		unpack ${SCRIPTING_FILE}
+	fi
+
 	if use visualweb ; then
 		unpack ${VISUALWEB_FILE}
 	fi
@@ -137,6 +143,7 @@ src_unpack () {
 
 	place_unpack_symlinks
 	use mobility && place_unpack_symlinks_mobility
+	use ruby && place_unpack_symlinks_scripting
 	use visualweb && place_unpack_symlinks_visualweb
 }
 
@@ -159,21 +166,24 @@ src_compile() {
 
 	# Specify the build-nozip target otherwise it will build
 	# a zip file of the netbeans folder, which will copy directly.
-	cd ${S}/nbbuild
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} build-nozip
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f nbbuild/build.xml build-nozip
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
-	use doc && ANT_OPTS="-Xmx1g" eant build-javadoc
+	use doc && ANT_OPTS="-Xmx1g" eant -f nbbuild/build.xml build-javadoc
 
 	if use mobility ; then
-		cd ${S}/mobility
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} build
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f mobility/build.xml build
 		# no javadoc target for mobility
 	fi
 
+	if use ruby ; then
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f scripting/ruby/build.xml build
+		# no javadoc target for ruby
+	fi
+
 	if use visualweb ; then
-		cd ${S}/visualweb
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} build
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f visualweb/ravebuild/build.xml build \
+			-Dbypass.cache.validation=true
 		# no javadoc target for visualweb
 	fi
 
@@ -211,6 +221,12 @@ src_install() {
 	cd ${BUILDDESTINATION}
 	doins -r *
 
+	#Remove the build helper files
+	rm -f ${DESTINATION}/nb.cluster.*
+	rm -f ${DESTINATION}/moduleCluster.properties
+	rm -f ${DESTINATION}/module_tracking.xml
+	rm -f ${DESTINATION}/build_info
+
 	# Change location of etc files
 	insinto /etc/${PN}-${SLOT}
 	doins ${BUILDDESTINATION}/etc/*
@@ -220,6 +236,7 @@ src_install() {
 	# Replace bundled jars with system jars
 	symlink_extjars ${D}/${DESTINATION}
 	use mobility && symlink_extjars_mobility ${D}/${DESTINATION}
+	use ruby && symlink_extjars_scripting ${D}/${DESTINATION}
 	use visualweb && symlink_extjars_visualweb ${D}/${DESTINATION}
 
 	# Correct permissions on executables
@@ -232,13 +249,8 @@ src_install() {
 
 	# Ant installation
 	local ANTDIR="${DESTINATION}/ide${IDE_VERSION}/ant"
-	cd ${D}/${ANTDIR}
-
-	dodir /usr/share/ant-core/lib
-	dosym /usr/share/ant-core/lib ${ANTDIR}/lib
-
-	dodir /usr/share/ant-core/bin
-	dosym /usr/share/ant-core/bin  ${ANTDIR}/bin
+	dosym /usr/share/ant/lib ${ANTDIR}/lib
+	dosym /usr/share/ant-core/bin ${ANTDIR}/bin
 
 	# Documentation
 	einfo "Installing Documentation..."
@@ -473,6 +485,8 @@ function place_unpack_symlinks_mobility() {
 	#mobility/svg/perseus_svg_library/release/modules/ext/perseus-nb.jar
 }
 
+function place_unpack_symlinks_scripting() { :; }
+
 function place_unpack_symlinks_visualweb() {
 	einfo "Symlinking jars for visualweb"
 	#visualweb/dataconnectivity/external/derby/jars/derby.jar
@@ -629,7 +643,7 @@ function symlink_extjars() {
 	java-pkg_jar-from sun-javamail
 	java-pkg_jar-from relaxng-datatype
 	java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
-	java-pkg_jar-from saaj saaj-impl.jar
+	java-pkg_jar-from saaj saaj.jar saaj-impl.jar
 	java-pkg_jar-from xsdlib
 
 	cd ${1}/ide${IDE_VERSION}/modules/ext/jaxws21
@@ -725,7 +739,6 @@ function symlink_extjars_mobility() {
 	#extra/modules/ext/perseus-nb.jar
 }
 
-function symlink_extjars_visualweb() {
-	# TODO
-	echo test
-}
+function symlink_extjars_scripting() { :; }
+
+function symlink_extjars_visualweb() { :; }

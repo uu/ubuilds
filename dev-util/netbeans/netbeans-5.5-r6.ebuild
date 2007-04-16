@@ -183,13 +183,8 @@ src_install() {
 
 	# Ant installation
 	local ANTDIR="${DESTINATION}/ide${IDE_VERSION}/ant"
-	cd ${D}/${ANTDIR}
-
-	dodir /usr/share/ant-core/lib
-	dosym /usr/share/ant-core/lib ${ANTDIR}/lib
-
-	dodir /usr/share/ant-core/bin
-	dosym /usr/share/ant-core/bin  ${ANTDIR}/bin
+	dosym /usr/share/ant/lib ${ANTDIR}/lib
+	dosym /usr/share/ant-core/bin ${ANTDIR}/bin
 
 	# Documentation
 	einfo "Installing Documentation..."
