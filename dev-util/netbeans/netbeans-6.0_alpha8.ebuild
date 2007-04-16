@@ -128,6 +128,9 @@ src_unpack () {
 		unpack ${VISUALWEB_FILE}
 	fi
 
+	# Remove JARs that are not needed
+	find ${S}/mdr -name "*.jar" | xargs rm -v
+
 	# Disable the bundled Tomcat in favor of Portage installed version
 	cd ${S}/nbbuild
 	sed -i -e "s%tomcatint/tomcat5/bundled,%%g" *.properties
@@ -378,20 +381,6 @@ function place_unpack_symlinks() {
 	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.1.jar
 	java-pkg_jar-from --build-only xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
 	java-pkg_jar-from xerces-2 xercesImpl.jar xerces-2.8.0.jar
-
-	einfo "Symlinking jars for mdr"
-	cd ${S}/mdr/external
-	java-pkg_jar-from --build-only jmi-interface jmi.jar jmi.jar
-	java-pkg_jar-from --build-only jmi-interface mof.jar mof.jar
-	#mdr/test/perf/src/org/netbeans/mdr/test/data/jmi-java.jar
-	#mdr/test/perf/src/org/netbeans/mdr/test/data/mm.mysql-2.0.4-bin-1.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/component.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/indexedModel.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/java-jmi.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/pkg_inh-jmi.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/staticFeatures.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/text-jmi.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/uml-14.jar
 
 	# nbbuild
 	#nbbuild/external/scrambler.jar

@@ -2,6 +2,10 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  16 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha8.ebuild:
+  Removed jars that are no more used by upstream
+
   14 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> netbeans-5.5-r5.ebuild,
   netbeans-6.0_alpha8.ebuild:
   Corrected usage of javahelp and jaxb-xjc changed to jaxb-tools
