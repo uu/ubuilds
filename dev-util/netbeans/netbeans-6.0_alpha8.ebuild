@@ -132,6 +132,8 @@ src_unpack () {
 
 	if use visualweb ; then
 		unpack ${VISUALWEB_FILE}
+		cd ${S}/visualweb/insync/src/org/netbeans/modules/visualweb/insync/markup
+		epatch ${FILESDIR}/${SLOT}/visualweb-JxpsSerializer.java-xerces-2.8.1.patch
 	fi
 
 	# Remove JARs that are not needed
@@ -177,7 +179,9 @@ src_compile() {
 	fi
 
 	if use ruby ; then
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f scripting/ruby/build.xml build
+		addpredict /root/.jruby
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f scripting/ruby/build.xml build \
+			-Djruby.home=${T}/.jruby -Duser.home.directory=${T} -Duser.home=${T}
 		# no javadoc target for ruby
 	fi
 
@@ -663,7 +667,7 @@ function symlink_extjars() {
 	# MISSING: streambuffer.jar
 
 	cd ${1}/ide${IDE_VERSION}/modules/ext/jaxws21/api
-	java-pkg_jar-from jaxb jaxb-api.jar
+	java-pkg_jar-from jaxb-2 jaxb-api.jar
 	java-pkg_jar-from sun-jaxws-bin jaxws-api.jar
 	java-pkg_jar-from jsr181 jsr181.jar jsr181-api.jar
 	java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar

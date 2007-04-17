@@ -2,6 +2,11 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  17 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  +files/6.0/visualweb-JxpsSerializer.java-xerces-2.8.1.patch,
+  netbeans-6.0_alpha8.ebuild:
+  Finally made the ebuild working again
+
   16 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> -netbeans-5.5-r5.ebuild,
   +netbeans-5.5-r6.ebuild, netbeans-6.0_alpha8.ebuild:
   Added support for ruby + renamed 5.5 to -r6
