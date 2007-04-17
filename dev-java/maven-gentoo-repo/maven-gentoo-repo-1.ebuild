@@ -15,5 +15,4 @@ S="${WORKDIR}"
 
 src_install() {
 	dodir /usr/share/maven2-gentoo-repo
-	#cp -r * ${D}/usr/share/maven-gentoo-repo
 }
