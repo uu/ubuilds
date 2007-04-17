@@ -2,6 +2,10 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  17 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> netbeans-5.5-r6.ebuild:
+  Limited to 1.5 and 1.6 JDK because there is problem with compilation using
+  JDK 1.7
+
   17 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
   +files/6.0/visualweb-JxpsSerializer.java-xerces-2.8.1.patch,
   netbeans-6.0_alpha8.ebuild:

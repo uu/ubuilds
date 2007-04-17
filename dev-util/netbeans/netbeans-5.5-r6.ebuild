@@ -61,7 +61,8 @@ RDEPEND=">=virtual/jre-1.5
 	dev-java/xsdlib
 	${COMMON_DEPEND}"
 
-DEPEND=">=virtual/jdk-1.5
+# NOTE: netbeans cannot compile with latest JDK 1.7
+DEPEND="|| ( =virtual/jdk-1.5* =virtual/jdk-1.6* )
 	dev-java/commons-el
 	>=dev-java/commons-jxpath-1.1
 	dev-java/glassfish-persistence
