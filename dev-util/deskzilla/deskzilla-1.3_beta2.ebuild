@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~x86"
 
 RDEPEND=">=virtual/jre-1.5.0
-	>=dev-java/picocontainer-1.1
+	~dev-java/picocontainer-1.1
 	>=dev-java/jdom-1.0
 	>=dev-java/javolution-4.0.2
 	>=dev-java/commons-codec-1.3
