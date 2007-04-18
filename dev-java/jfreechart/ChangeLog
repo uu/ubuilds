@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/jfreechart
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  18 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  +jfreechart-1.0.5.ebuild, +files/jfreechart-1.0.5-build.xml.patch:
+  Version bump. Some tests fail.
+
