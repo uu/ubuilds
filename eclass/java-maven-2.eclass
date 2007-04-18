@@ -3,7 +3,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit java-pkg-2 java-ant-2
+inherit base java-pkg-2 java-ant-2
 
 JAVA_MAVEN_VERSION=${WANT_MAVEN_VERSION:=1}
 SLOT="${JAVA_MAVEN_VERSION}"
@@ -61,7 +61,7 @@ emaven() {
 java-maven-2-gen_build_xml() {
 	# generate build.xml whereever there is a project.xml
 	for project in $(find "${WORKDIR}" -name project*xml);do
-		cd $(dirname ${project}) || die
+		cd "$(dirname ${project})" || die
 		emaven ant:ant\
 			|| die "Generation of build.xml failed for ${project}"
 	done
@@ -72,8 +72,8 @@ java-maven-2-gen_build_xml() {
 # Separated from javava-maven-2-m1-gen_build_xml as we
 # don't have always the ant plugin !
 java-maven-2-rewrite_build_xml() {
-	for build in $(find "${WORKDIR}" -name build*xml);do
-		java-ant_rewrite-classpath "$build"
+		local build=$1
+		java-ant_rewrite-classpath "${build}"
 		# get out of classpath errors at build/test time
 		sed -i "${build}" -re\
 		's/pathelement\s*path="\$\{testclassesdir\}"/pathelement path="\$\{gentoo.classpath\}:\$\{testclassesdir\}"/'\
@@ -90,13 +90,17 @@ java-maven-2-rewrite_build_xml() {
 		sed -i "${build}" -re\
 		's/refid=\"build.classpath\"/path=\"\$\{gentoo.classpath\}\"/'\
 		|| die
-	done
 }
 
-java-maven-2_m1_src_unpack() {
+java-maven-2_src_unpack() {
 	base_src_unpack
-	java-maven-2-gen_build_xml
-	java-maven-2-rewrite_build_xml
+	# if build.xml are present we suppose they re generated from maven pom
+	# then we rewrite them, see the rewrite function
+	for build in $(find "${WORKDIR}" -name build*xml || die);do 
+		cd "$(dirname ${build} || die )" || die 
+		java-maven-2-rewrite_build_xml ${build}
+	done 
+	cd "${WORKDIR}" 
 }
 
 java-maven-2_src_test() {
@@ -111,5 +115,5 @@ java-maven-2_src_install() {
 	use source && java-pkg_dosrc src/java/*
 }
 
-EXPORT_FUNCTIONS src_test src_install
+EXPORT_FUNCTIONS src_test src_install src_unpack
 
