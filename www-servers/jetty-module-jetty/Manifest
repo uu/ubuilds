@@ -1,0 +1,12 @@
+AUX jetty-module-jetty-6.1.1-build.xml 3636 RMD160 d13883441e235a638eb463cc247d22846f964366 SHA1 3d41b440a6e0819ee256d1cbcf4e70464c360ca3 SHA256 46d201c8aeec3eec3da190e2987e76e9b905f24100349794c6ee714c25faa26b
+MD5 ebc2f1fefe2c06b0da2121dc4c4eeb6c files/jetty-module-jetty-6.1.1-build.xml 3636
+RMD160 d13883441e235a638eb463cc247d22846f964366 files/jetty-module-jetty-6.1.1-build.xml 3636
+SHA256 46d201c8aeec3eec3da190e2987e76e9b905f24100349794c6ee714c25faa26b files/jetty-module-jetty-6.1.1-build.xml 3636
+DIST jetty-6.1.1-src.zip 1876965 RMD160 c33d4b13ee2029bcac4bd45d81587acbb1bd131c SHA1 a80ebd697568c086d17f476ad70f24e0d5962cd8 SHA256 237ba55f82d85dbb2ac0b7ecd34baeea93eef0753b07d878548299f87c7c8cae
+EBUILD jetty-module-jetty-6.1.1.ebuild 1111 RMD160 9b59f297539cf5267d9cc340d8da373fb38832e3 SHA1 b14e72e566fd67b91eabc0cb554c504816cc04b3 SHA256 e305f94d6148948e70bf894f1a78d25618f5ab1f455ad1a74e902804a574ca42
+MD5 49294e88d6aa68bcc30faab288771459 jetty-module-jetty-6.1.1.ebuild 1111
+RMD160 9b59f297539cf5267d9cc340d8da373fb38832e3 jetty-module-jetty-6.1.1.ebuild 1111
+SHA256 e305f94d6148948e70bf894f1a78d25618f5ab1f455ad1a74e902804a574ca42 jetty-module-jetty-6.1.1.ebuild 1111
+MD5 20e9c4d503ff5d673ce14e570451cc13 files/digest-jetty-module-jetty-6.1.1 241
+RMD160 b1f6d9584ef6a0101650595d4b74a3588da081fc files/digest-jetty-module-jetty-6.1.1 241
+SHA256 b6b2d8ff3c3ceafcf74794f37cf8685e7ac15b7cbabdd54e2177f8ffa6cedb03 files/digest-jetty-module-jetty-6.1.1 241
