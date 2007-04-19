@@ -12,7 +12,7 @@ SRC_URI="http://dev.gentooexperimental.org/~kiorky/${PF}.tar.bz2"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~x86 "
+KEYWORDS=""
 IUSE="doc source examples"
 
 JDOM_SLOT="1.0_beta9"
