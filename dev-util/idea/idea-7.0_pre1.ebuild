@@ -34,6 +34,8 @@ src_install() {
 	dodir /usr/bin
 	cat >${D}/usr/bin/${exe} <<-EOF
 #!/bin/sh
+AWT_TOOLKIT=MToolkit
+export AWT_TOOLKIT
 /opt/${P}/bin/${PN}.sh \$@
 EOF
 	fperms 755 /usr/bin/${exe}
