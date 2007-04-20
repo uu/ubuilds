@@ -13,7 +13,7 @@ HOMEPAGE="http://htmlunit.sourceforge.net/"
 SRC_URI="mirror://sourceforge/htmlunit/${MY_P}.zip"
 LICENSE="as-is"
 SLOT="0"
-KEYWORDS="-* ~amd64 ~x86"
+KEYWORDS=""
 
 COMMON_DEP="
 	>=dev-java/commons-collections-3.2
@@ -21,7 +21,7 @@ COMMON_DEP="
 	>=dev-java/commons-io-1.2
 	~dev-java/commons-lang-2.1
 	>=dev-java/commons-logging-1.1
-	~dev-java/jaxen-1.1*
+	~dev-java/jaxen-1.1
 	dev-java/junit
 	dev-java/nekohtml
 	=dev-java/rhino-1.6*
