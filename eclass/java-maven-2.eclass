@@ -96,11 +96,10 @@ java-maven-2_src_unpack() {
 	base_src_unpack
 	# if build.xml are present we suppose they re generated from maven pom
 	# then we rewrite them, see the rewrite function
-	for build in $(find "${WORKDIR}" -name build*xml || die);do 
-		cd "$(dirname ${build} || die )" || die 
+	for build in $(find "${WORKDIR}" -name build*xml || die);do
+		cd "$(dirname ${build} || die )" || die
 		java-maven-2-rewrite_build_xml ${build}
-	done 
-	cd "${WORKDIR}" 
+	done
 }
 
 java-maven-2_src_test() {
