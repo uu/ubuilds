@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit maven-plugin-2
+inherit java-maven-plugin-2
 
 DESCRIPTION="Ant plugin for Maven"
 KEYWORDS="~x86"
