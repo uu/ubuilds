@@ -24,7 +24,7 @@ KEYWORDS="~amd64 ~x86 ~x86-fbsd"
 IUSE="debug doc mobility ruby visualweb"
 
 COMMON_DEPEND="
-	>=dev-java/ant-1.6.3
+	>=dev-java/ant-1.7.0
 	dev-java/antlr
 	=dev-java/commons-beanutils-1.7*
 	dev-java/commons-collections

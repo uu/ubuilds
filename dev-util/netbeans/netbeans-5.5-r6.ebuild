@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86 ~x86-fbsd"
 IUSE="debug doc"
 
 COMMON_DEPEND="
-	>=dev-java/ant-1.6.3
+	>=dev-java/ant-1.7.0
 	>=dev-java/commons-logging-1.0.4
 	dev-java/flute
 	>=dev-java/jakarta-jstl-1.1.2
