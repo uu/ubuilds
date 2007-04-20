@@ -22,13 +22,13 @@ IUSE="doc source examples"
 #connector-1_5.jar      
 #jndi.jar
 #ow_monolog.jar  
-JCup.jar                ?
-connector-1_5.jar       1.5
-jndi.jar                1.2.1
-kxml.jar                ?
-midpapi.jar             ?
-ow_monolog.jar          2.1.1
-soap.war                ?
+#JCup.jar                ?
+#connector-1_5.jar       1.5
+#jndi.jar                1.2.1
+#kxml.jar                ?
+#midpapi.jar             ?
+#ow_monolog.jar          2.1.1
+#soap.war                ?
 
 JDOM_SLOT="1.0_beta9"
 DEPEND=">=virtual/jdk-1.4
@@ -62,8 +62,8 @@ src_unpack(){
 	cd "${S}/lib" || die "cd failed"
 	pwd
 	# getting  Dependencies
-	has_version sun-jaf &&	java-pkg_jar-from sun-jaf
-						||	java-pkg_jar-from sun-jaf-bin
+	has_version sun-jaf && java-pkg_jar-from sun-jaf \
+						|| java-pkg_jar-from sun-jaf-bin
 	java-pkg_jar-from sun-jmx
 	java-pkg_jar-from jta
 	java-pkg_jar-from hsqldb
