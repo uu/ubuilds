@@ -39,7 +39,7 @@ COMMON_DEPEND="
 	=dev-java/servletapi-2.2*
 	>=dev-java/sun-j2ee-deployment-bin-1.1
 	=dev-java/swing-layout-1*
-	>=dev-java/xerces-2.8.0
+	>=dev-java/xerces-2.8.1
 	>=dev-java/xml-commons-1.0_beta2
 	mobility? (
 		dev-java/commons-httpclient
