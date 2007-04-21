@@ -7,8 +7,7 @@ WANT_ANT_TASKS="ant-nodeps"
 inherit java-pkg-2 java-ant-2
 
 MY_PN="JempBox"
-MY_PV="${PV/_pre/-dev}"
-MY_P="${MY_PN}-${MY_PV}"
+MY_P="${MY_PN}-${PV}"
 DESCRIPTION="Java library that implements Adobe's XMP specification"
 HOMEPAGE="http://www.jempbox.org"
 SRC_URI="mirror://sourceforge/${PN}/${MY_P}.zip"
@@ -26,9 +25,10 @@ S="${WORKDIR}/${MY_P}"
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
-	
-	rm lib/*.jar
+
+	rm -v lib/*.jar
 	rm -rf docs/javadoc
+	rm -rf src/test
 }
 
 EANT_BUILD_TARGET="package"
