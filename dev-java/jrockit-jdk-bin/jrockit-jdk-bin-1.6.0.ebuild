@@ -22,7 +22,7 @@ HOMEPAGE="http://commerce.bea.com/products/weblogicjrockit/jrockit_prod_fam.jsp"
 
 LICENSE="jrockit"
 SLOT="1.6"
-KEYWORDS="-* amd64 x86"
+KEYWORDS="-* ~amd64 ~x86"
 IUSE=""
 
 DEPEND=">=app-arch/unzip-5.50-r1"
