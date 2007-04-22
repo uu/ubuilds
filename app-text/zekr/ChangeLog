@@ -1,0 +1,6 @@
+# ChangeLog for app-text/zekr
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  23 Apr 2007; Serkan Kaba <serkan_kaba@yahoo.com> zekr-0.5.0.ebuild:
+  Initial commit.
