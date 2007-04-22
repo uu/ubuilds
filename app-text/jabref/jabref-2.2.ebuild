@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-text/jabref/jabref-2.1.ebuild,v 1.4 2007/01/26 15:05:40 nelchael Exp $
 
+JAVA_PKG_IUSE="doc"
 inherit eutils java-pkg-2 java-ant-2
 
 DESCRIPTION="GUI frontend for BibTeX, written in Java"
@@ -12,20 +13,22 @@ LICENSE="GPL-2"
 SLOT="0"
 #KEYWORDS="~amd64 ~ppc x86"
 KEYWORDS=""
-IUSE="doc"
+IUSE=""
 
-RDEPEND=">=virtual/jre-1.4
-	dev-java/spin
+CDEPEND="dev-java/spin
 	>=dev-java/glazedlists-1.5.0
 	>=dev-java/antlr-2.7.3
 	dev-java/jgoodies-forms
 	=dev-java/jgoodies-looks-2.0*
 	>=dev-java/microba-0.4.3
-	dev-java/jempbox"
+	dev-java/jempbox
+	dev-java/pdfbox"
 
-DEPEND="${RDEPEND}
-	>=virtual/jdk-1.4
-	>=dev-java/ant-core-1.4.1"
+RDEPEND=">=virtual/jre-1.4
+	${CDEPEND}"
+
+DEPEND=">=virtual/jdk-1.4
+	${RDEPEND}"
 
 src_unpack() {
 	unpack ${A}
@@ -37,20 +40,20 @@ src_unpack() {
 
 	mkdir libs
 	mv lib/antlr-3* libs/antlr3.jar
-	mv lib/PDF* libs/pdfbox.jar
-	rm lib/*
+	rm -v lib/*
 	
 	java-ant_rewrite-classpath
 }
 
 src_compile() {
-	local gcp=$(java-pkg_getjars antlr,spin,glazedlists,jgoodies-looks-2.0,jgoodies-forms,microba,jempbox)
-	gcp="${gcp}:libs/antlr3.jar:libs/pdfbox.jar"
+	local gcp=$(java-pkg_getjars antlr,spin,glazedlists,jgoodies-looks-2.0,jgoodies-forms,microba,jempbox,pdfbox)
+	gcp="${gcp}:libs/antlr3.jar"
 	eant -Dgentoo.classpath="${gcp}" jars $(use_doc -Dbuild.javadocs=build/docs/api javadocs)
 }
 
 src_install() {
-	java-pkg_dojar build/lib/${PN}.jar
+	java-pkg_newjar build/lib/JabRef-${PV}.jar
+	java-pkg_dojar libs/antlr3.jar
 
 	use doc && java-pkg_dohtml -r build/docs/api
 	dodoc src/txt/README
