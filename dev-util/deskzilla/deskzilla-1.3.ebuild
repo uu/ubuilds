@@ -13,7 +13,7 @@ S="${WORKDIR}/${MY_P}"
 SRC_URI="http://d1.almworks.com/.files/${MY_P}_without_jre.tar.gz"
 LICENSE="ALMWorks-1.2"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 
 RDEPEND=">=virtual/jre-1.5
 	~dev-java/picocontainer-1.1
