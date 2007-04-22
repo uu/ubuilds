@@ -1,0 +1,20 @@
+--- build.xml	2007-04-13 00:32:38.000000000 +0300
++++ build.xml.fixed	2007-04-22 21:30:37.000000000 +0300
+@@ -35,7 +35,7 @@
+     <property name="compile.deprecation" value="false" />
+     <property name="compile.optimize" value="false" />
+ 
+-    <path id="classpath" path="${stringtemplate.jar}" />
++    <path id="classpath"><fileset dir="lib" includes="*.jar"/></path>
+ 
+     <condition property="bcel.available">
+         <available classname="org.apache.bcel.Constants" />
+@@ -118,7 +118,7 @@
+ 
+     <target name="rebuild" depends="clean,build" />
+ 
+-    <target name="run-tests" depends="compile">
++    <target name="run-tests" depends="compile,templates">
+         <mkdir dir="${build.tests.xml}" />
+         <mkdir dir="${temp.dir}" />
+         <delete>
