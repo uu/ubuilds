@@ -44,7 +44,6 @@ src_unpack() {
 }
 
 src_install () {
-	#This is stupid
 	java-pkg_record-jar_	picocontainer-1
 	java-pkg_record-jar_	jdom-1.0
 	java-pkg_record-jar_	commons-logging
@@ -53,7 +52,6 @@ src_install () {
 	java-pkg_record-jar_	jgoodies-forms
 	java-pkg_record-jar_	javolution-2.2
 	java-pkg_record-jar_	xmlrpc
-	#java-pkg_getjars picocontainer-1,jdom-1.0,commons-logging,commons-codec,nekohtml,jgoodies-forms,javolution-2.2,xmlrpc > /dev/null
 
 	local dir=/opt/${P}
 	insinto ${dir}
@@ -69,4 +67,6 @@ src_install () {
 pkg_postinst() {
 	einfo "If you are going to use Deskzilla for open source project you can request a free license:"
 	einfo "http://almworks.com/opensource.html?product=deskzilla"
+	einfo "Or if you are going to use Deskzilla for Gentoo Linux you can get free license here:"
+	einfo "http://bugs.gentoo.org/attachment.cgi?id=116802"
 }
