@@ -22,7 +22,7 @@ RDEPEND=">=virtual/jre-1.4
 	 dev-java/log4j
 	 dev-java/swt
 	 dev-java/velocity"
-        
+
 DEPEND=">=virtual/jdk-1.4
 	app-arch/unzip
 	${RDEPEND}"
@@ -30,9 +30,8 @@ DEPEND=">=virtual/jdk-1.4
 S=${WORKDIR}/${PN}
 
 pkg_setup() {
-	#FIXME: check other browser flags when new swt is in main tree
-	if ! built_with_use swt seamonkey ; then
-		eerror "Re-emerge swt with the 'seamonkey' USE flag"
+	if ! built_with_use -o swt seamonkey xulrunner ; then
+		eerror "Re-emerge swt with the 'seamonkey' or 'xulrunner' USE flag"
 		die
 	fi
 }
@@ -60,8 +59,9 @@ src_install() {
         doicon ${FILESDIR}/zekr.png
         java-pkg_dolauncher zekr \
         	--main net.sf.zekr.ZekrMain \
-        	--pwd /usr/share/zekr \
-        	-pre ${FILESDIR}/pre
+        	--pwd /usr/share/zekr
+        #	-pre ${FILESDIR}/pre
+        #This should be handled by SWT
         make_desktop_entry zekr "Zekr" zekr.png
         insinto /usr/share/zekr
         doins -r res
