@@ -41,11 +41,13 @@ src_unpack() {
 	mkdir libs
 	mv lib/antlr-3* libs/antlr3.jar
 	rm -v lib/*
-	
+
 	java-ant_rewrite-classpath
 }
 
 src_compile() {
+	java-pkg_filter-compiler jikes
+
 	local gcp=$(java-pkg_getjars antlr,spin,glazedlists,jgoodies-looks-2.0,jgoodies-forms,microba,jempbox,pdfbox)
 	gcp="${gcp}:libs/antlr3.jar"
 	eant -Dgentoo.classpath="${gcp}" jars $(use_doc -Dbuild.javadocs=build/docs/api javadocs)
@@ -55,12 +57,12 @@ src_install() {
 	java-pkg_newjar build/lib/JabRef-${PV}.jar
 	java-pkg_dojar libs/antlr3.jar
 
-	use doc && java-pkg_dohtml -r build/docs/api
+	use doc && java-pkg_dojavadoc build/docs/api
 	dodoc src/txt/README
 
 	java-pkg_dolauncher ${PN} \
 		--main net.sf.jabref.JabRef
 
-	newicon src/images/JabRef-icon.png JabRef-icon.png
+	newicon src/images/JabRef-icon-48.png JabRef-icon.png || die
 	make_desktop_entry jabref JabRef JabRef-icon.png Office
 }
