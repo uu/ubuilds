@@ -13,7 +13,7 @@ HOMEPAGE="http://www.antlr.org/"
 SRC_URI="http://www.antlr.org/download/${MY_P}.tar.gz"
 LICENSE="BSD"
 SLOT="3"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
@@ -31,19 +31,17 @@ src_unpack() {
 	unpack ${A}
 	cd ${S}
 	epatch ${FILESDIR}/buildfixes.patch
-	cd lib
-	rm *.jar
-	java-pkg_jarfrom stringtemplate
-	use test && java-pkg_jarfrom --build-only antlr,junit
+	find -name "*.jar" | xargs rm -v
+	java-ant_rewrite-classpath
 	#antlr2 may need to be slotted
 }
 
 src_compile() {
-	eant -Dantlr3.jar=antlr3.jar build
+	eant -Dantlr3.jar=antlr3.jar build -Dgentoo.classpath=$(java-pkg_getjars stringtemplate):$(java-pkg_getjars --build-only antlr,junit)
 }
 
 src_test() {
-	ANT_TASKS="ant-antlr ant-junit" eant test
+	ANT_TASKS="ant-antlr ant-junit" eant test -Dgentoo.classpath=$(java-pkg_getjars antlr,junit)
 }
 
 src_install() {
