@@ -27,7 +27,7 @@ RDEPEND=">=virtual/jre-1.5
 	>=dev-java/jgoodies-forms-1.0.7
 	>=dev-java/nekohtml-0.9.5
 	>=dev-java/commons-logging-1.0.4
-	>=dev-java/xmlrpc-1.2_beta1"
+	>=dev-java/xmlrpc-2.0.1"
 
 src_unpack() {
 	unpack ${A}

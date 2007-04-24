@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  24 Apr 2007; Vlastimil Babka <caster@gentoo.org> deskzilla-1.3.ebuild:
+  Raise xmlrpc dep to recently added 2.0.1 to match upstream.
+
   24 Apr 2007; Vlastimil Babka <caster@gentoo.org> deskzilla-1.3.ebuild,
   +files/deskzilla_gentoo.license:
   Use the new java-pkg_register-dependency() function for dependencies;
