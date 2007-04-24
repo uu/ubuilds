@@ -1,0 +1,21 @@
+--- plexus-avalon-personality-0.13/src/main/java/org/codehaus/plexus/personality/avalon/lifecycle/phase/DisposePhase.java	2007-04-22 18:52:59.042723029 +0200
++++ DisposePhase.java	2007-04-23 20:55:40.346190055 +0200
+@@ -8,11 +8,17 @@
+     extends AbstractPhase
+ {
+     public void execute( Object object, ComponentManager manager )
+-        throws Exception
++		/*        throws Exception*/
+     {
++/*		try{*/
+         if ( object instanceof Disposable )
+         {
+             ( (Disposable) object ).dispose();
+         }
++/*		}
++		catch ( Exception e){
++			e.printStackTrace();
++		}*/
+     }
++
+ }

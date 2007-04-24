@@ -1,0 +1,21 @@
+--- plexus-avalon-personality-0.13/src/main/java/org/codehaus/plexus/personality/avalon/lifecycle/phase/ConfigurePhase.java	2007-04-22 18:52:58.982717534 +0200
++++ ConfigurePhase.java	2007-04-23 20:11:02.724950458 +0200
+@@ -12,8 +12,8 @@
+     extends AbstractPhase
+ {
+     public void execute( Object object, ComponentManager manager )
+-        throws Exception
+     {
++		try{
+         if ( object instanceof Configurable )
+         {
+             PlexusConfiguration plexusConfiguration = manager.getComponentDescriptor().getConfiguration();
+@@ -28,4 +28,8 @@
+             ( (Configurable) object ).configure( configuration );
+         }
+     }
++		catch( org.apache.avalon.framework.configuration.ConfigurationException e) {
++			e.printStackTrace();
++		}
++	}
+ }

@@ -1,0 +1,22 @@
+--- plexus-avalon-personality-0.13/src/main/java/org/codehaus/plexus/personality/avalon/lifecycle/phase/ReconfigurePhase.java	2007-04-22 18:52:59.058724496 +0200
++++ ReconfigurePhase.java	2007-04-23 21:12:43.671915031 +0200
+@@ -10,8 +10,9 @@
+     extends AbstractPhase
+ {
+     public void execute( Object object, ComponentManager manager )
+-        throws Exception
++		/*        throws Exception*/
+     {
++		try{
+         Configuration configuration = new AvalonConfiguration( manager.getComponentDescriptor().getConfiguration() );
+ 
+         if ( object instanceof Reconfigurable )
+@@ -24,4 +25,8 @@
+             ( (Reconfigurable) object ).reconfigure( configuration );
+         }
+     }
++		catch(Exception e){
++			e.printStackTrace();
++		}
++	}
+ }

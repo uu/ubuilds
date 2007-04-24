@@ -1,0 +1,22 @@
+--- plexus-avalon-personality-0.13/src/main/java/org/codehaus/plexus/personality/avalon/lifecycle/phase/LogEnablePhase.java	2007-04-22 18:52:59.050723764 +0200
++++ LogEnablePhase.java	2007-04-23 21:10:41.864758881 +0200
+@@ -15,8 +15,9 @@
+     extends AbstractPhase
+ {
+     public void execute( Object object, ComponentManager manager )
+-        throws Exception
++		/*        throws Exception*/
+     {
++		try{
+         if ( object instanceof LogEnabled )
+         {
+             PlexusContainer container = manager.getContainer();
+@@ -47,4 +48,8 @@
+             ( (LogEnabled) object ).enableLogging( logger );
+         }
+     }
++		catch (Exception e){
++			e.printStackTrace();
++	}
++}
+ }

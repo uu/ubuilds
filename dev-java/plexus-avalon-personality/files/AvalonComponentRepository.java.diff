@@ -1,0 +1,12 @@
+--- /usr/local/tmp/portage/dev-java/plexus-avalon-personality-0.13/work/plexus-avalon-personality-0.13/src/main/java/org/codehaus/plexus/personality/avalon/AvalonComponentRepository.java	2007-04-22 18:52:59.000000000 +0200
++++ AvalonComponentRepository.java	2007-04-23 02:14:34.113369601 +0200
+@@ -19,7 +19,8 @@
+ 	/**
+ 	 * @see org.codehaus.plexus.component.repository.ComponentRepository#initialize()
+ 	 */
+-	public void initialize() throws Exception
++	/* seem not to throw ...        public void initialize() throws Exception */
++	public void initialize() throws  org.codehaus.plexus.component.repository.exception.ComponentRepositoryException
+ 	{
+ 		super.initialize();
+ 	}

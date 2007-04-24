@@ -1,0 +1,17 @@
+# ChangeLog for dev-java/plexus-avalon-personality
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  24 Apr 2007; kiorky <kiorky@cryptelium.net>
+  +plexus-avalon-personality-0.13.ebuild,
+  +files/AvalonComponentRepository.java.diff,
+  +files/AvalonLifecycleHandler.java.diff, +files/ComposePhase.java.diff,
+  +files/ConfigurePhase.java.diff, +files/ContextualizePhase.java.diff,
+  +files/DisposePhase.java.diff, +files/InitializePhase.java.diff,
+  +files/LogDisablePhase.java.diff, +files/LogEnablePhase.java.diff,
+  +files/ReconfigurePhase.java.diff, +files/RecontextualizePhase.java.diff,
+  +files/ResumePhase.java.diff, +files/ServicePhase.java.diff,
+  +files/StartPhase.java.diff, +files/StopPhase.java.diff,
+  +files/SuspendPhase.java.diff, +metadata.xml:
+  added  to the java-experimental overlay as a maven dependency.see #175830
+
