@@ -4,7 +4,7 @@
 
 inherit java-pkg-2 versionator
 
-DESCRIPTION="Deskzilla is a desktop client for Mozilla's Bugzilla bug tracking system."
+DESCRIPTION="A desktop client for Mozilla's Bugzilla bug tracking system."
 HOMEPAGE="http://almworks.com/deskzilla"
 
 MY_PV=$(replace_all_version_separators '_')
@@ -12,9 +12,13 @@ MY_P="${PN}-${MY_PV}"
 S="${WORKDIR}/${MY_P}"
 SRC_URI="http://d1.almworks.com/.files/${MY_P}_without_jre.tar.gz"
 LICENSE="ALMWorks-1.2"
+# license does not allow redistributing, and they seem to silently update
+# distfiles...
+RESTRICT="mirror"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~x86"
 
+DEPEND=""
 RDEPEND=">=virtual/jre-1.5
 	~dev-java/picocontainer-1.1
 	>=dev-java/jdom-1.0
@@ -27,46 +31,48 @@ RDEPEND=">=virtual/jre-1.5
 
 src_unpack() {
 	unpack ${A}
-	#Remove public bundled jars
+	# Remove public bundled jars
 	local lib="${S}/lib"
 	local liborig="${S}/lib.orig"
 	mv ${lib} ${liborig}
 	mkdir ${lib}
-	#They've patched commons-httpclient (was version 3.0)
+	# They've patched commons-httpclient (was version 3.0)
 	mv ${liborig}/commons-httpclient.jar ${lib}
-	#Almworks proprietary lib
+	# Almworks proprietary lib
 	mv ${liborig}/almworks-tracker-api.jar ${lib}
-	#IntelliJ IDEA proprietary lib
+	# IntelliJ IDEA proprietary lib
 	mv ${liborig}/forms_rt.jar ${lib}
-	#God knows what's this. Anyway, proprietary.
+	# God knows what's this. Anyway, proprietary.
 	mv ${liborig}/twocents.jar ${lib}
 	rm -rf ${liborig}
 }
 
 src_install () {
-	java-pkg_record-jar_	picocontainer-1
-	java-pkg_record-jar_	jdom-1.0
-	java-pkg_record-jar_	commons-logging
-	java-pkg_record-jar_	commons-codec
-	java-pkg_record-jar_	nekohtml
-	java-pkg_record-jar_	jgoodies-forms
-	java-pkg_record-jar_	javolution-2.2
-	java-pkg_record-jar_	xmlrpc
-
 	local dir=/opt/${P}
+
 	insinto ${dir}
 	doins -r components etc license lib log deskzilla.url
-	doicon deskzilla.png
-	newdoc README.txt README
+	insinto ${dir}/license
+	doins ${FILESDIR}/${PN}_gentoo.license
+
 	java-pkg_jarinto ${dir}
 	java-pkg_dojar ${PN}.jar
+	java-pkg_register-dependency picocontainer-1,jdom-1.0,commons-logging,commons-codec,nekohtml,jgoodies-forms,javolution-4,xmlrpc
 	java-pkg_dolauncher ${PN} --main "com.almworks.launcher.Launcher" --java_args "-Xmx256M"
+
+	newdoc README.txt README
+
+	doicon deskzilla.png
 	make_desktop_entry deskzilla "Deskzilla" deskzilla.png "Development"
 }
 
 pkg_postinst() {
-	einfo "If you are going to use Deskzilla for open source project you can request a free license:"
+	einfo "The default, evaluation license allows usage for one month."
+	einfo "You may switch (per-user) to the license we obtained for Gentoo,"
+	einfo "located in /opt/${P}/licenses/${PN}_gentoo.license"
+	einfo "It is locked to Gentoo, ALM Works and Mozilla bugzilla only."
+	einfo
+	einfo "If you are going to use Deskzilla for an open source project,"
+	einfo "you can similarly request your own free license:"
 	einfo "http://almworks.com/opensource.html?product=deskzilla"
-	einfo "Or if you are going to use Deskzilla for Gentoo Linux you can get free license here:"
-	einfo "http://bugs.gentoo.org/attachment.cgi?id=116802"
 }
