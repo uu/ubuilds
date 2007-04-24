@@ -11,21 +11,26 @@ HOMEPAGE="http://www.stringtemplate.org/"
 SRC_URI="http://www.antlr.org/download/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND=">=virtual/jre-1.4"
+COMMON_DEPEND="dev-java/antlr"
 
-DEPEND="${RDEPEND}
-	>=virtual/jdk-1.4"
+RDEPEND=">=virtual/jre-1.4
+	${COMMON_DEPEND}"
 
-EANT_BUILD_TARGET="jar"
-EANT_DOC_TARGET="javadocs"
+DEPEND=">=virtual/jdk-1.4
+	${COMMON_DEPEND}"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}/lib
-	rm *.jar
+	cd ${S}
+	find -name "*.jar" | xargs rm -v
+	java-ant_rewrite-classpath
+}
+
+src_compile() {
+	ANT_TASKS="ant-antlr" eant jar $(use_doc javadocs) -Dgentoo.classpath=$(java-pkg_getjars antlr)
 }
 
 src_install() {
