@@ -94,7 +94,7 @@ src_unpack() {
 
 	java-pkg_jar-from ant-tasks ant-antlr.jar
 	java-pkg_jar-from antlr
-	java-pkg_jar-from ant-core ant.jar
+	java-pkg_jar-from --build-only ant-core ant.jar
 	java-pkg_jar-from asm-1.5 asm.jar
 	java-pkg_jar-from asm-1.5 asm-attrs.jar
 

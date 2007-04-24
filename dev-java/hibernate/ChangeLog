@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  24 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  hibernate-3.2.2-r1.ebuild:
+  Added --build-only to ant-core
+
   20 Mar 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
   Forgot to update jars from slot 3.3 to 3
 
