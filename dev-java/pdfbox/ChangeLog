@@ -1,9 +1,0 @@
-# ChangeLog for dev-java/pdfbox
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  22 Apr 2007; Vlastimil Babka <caster@gentoo.org> +pdfbox-0.7.3.ebuild:
-  New package for bug #161917. Needs testing, could use src_test() and create
-  launchers for the cmdline tools - need to find better names for some
-  ambiguous ones like decrypt/encrypt.
-
