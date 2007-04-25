@@ -28,7 +28,6 @@ dev-java/cornerstone-threads"
 DEPEND=">=virtual/jdk-1.4 	${DEP}"
 RDEPEND=">=virtual/jre-1.4	${DEP}"
 
-EANT_BUILD_TARGET="jar"
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 EANT_GENTOO_CLASSPATH="jetty-5
 tomcat-jasper-2
@@ -42,12 +41,4 @@ concurrent-util
 avalon-framework-4.1
 excalibur-pool
 cornerstone-threads"
-
-src_unpack(){
-	java-maven-2_src_unpack
-}
-
-src_compile() {
-	java-pkg-2_src_compile
-}
 
