@@ -2,6 +2,10 @@
 
   25 Apr 2007; kiorky <kiorky@cryptelium.net>
   plexus-container-default-1.0.ebuild:
+  Removing leading whitespace
+
+  25 Apr 2007; kiorky <kiorky@cryptelium.net>
+  plexus-container-default-1.0.ebuild:
   Migrating to new maven eclass
 
   17 Apr 2007; kiorky <kiorky@cryptelium.net>

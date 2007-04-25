@@ -12,10 +12,10 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="source"
 DEP="=dev-java/plexus-classworlds-1.2*
-     =dev-java/plexus-component-api-1*
-	 dev-java/plexus-utils
-	 dev-java/junit
-	 "
+=dev-java/plexus-component-api-1*
+dev-java/plexus-utils
+dev-java/junit
+"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 EANT_GENTOO_CLASSPATH="plexus-classworlds plexus-component-api plexus-utils junit"
