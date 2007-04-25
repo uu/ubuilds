@@ -21,7 +21,6 @@ dev-java/plexus-component-api"
 DEPEND=">=virtual/jdk-1.4 	${DEP}"
 RDEPEND=">=virtual/jre-1.4	${DEP}"
 
-EANT_BUILD_TARGET="jar"
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 EANT_GENTOO_CLASSPATH="avalon-framework-4.1
 plexus-container-default
@@ -47,9 +46,5 @@ src_unpack(){
 	epatch "${FILESDIR}"/StartPhase.java.diff
 	epatch "${FILESDIR}"/StopPhase.java.diff
 	epatch "${FILESDIR}"/SuspendPhase.java.diff
-}
-
-src_compile() {
-	java-pkg-2_src_compile
 }
 
