@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit java-pkg-2 java-maven-2
+inherit java-maven-2
 
 DESCRIPTION="The Wagon API project defines a simple API for transfering resources (artifacts) to and from repositories"
 # svn co http://svn.apache.org/repos/asf/maven/wagon/tags/*/wagon-provider-api/ wagon-provider-api

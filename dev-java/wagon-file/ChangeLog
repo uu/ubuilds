@@ -3,6 +3,9 @@
 # $Header: $
 
   25 Apr 2007; kiorky <kiorky@cryptelium.net> wagon-file-1.0.ebuild:
+  Remove useless inherit
+
+  25 Apr 2007; kiorky <kiorky@cryptelium.net> wagon-file-1.0.ebuild:
   Migrating to new maven eclass
 
   18 Apr 2007; kiorky <kiorky@cryptelium.net> ChangeLog:
