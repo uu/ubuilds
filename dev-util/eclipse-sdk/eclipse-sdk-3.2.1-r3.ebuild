@@ -1,4 +1,4 @@
-# Copyright 1999-2006 Gentoo Foundation
+# Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -9,7 +9,9 @@
 # http://cvs.fedora.redhat.com/viewcvs/devel/eclipse/
 # (USE %patch COMMAND AS A REFERENCE TO THEIR ORIGINAL BUILD FILE)
 
-inherit java-pkg-2 check-reqs
+# currently this breaks stuff
+JAVA_PKG_BSFIX="no"
+inherit java-pkg-2 java-ant-2 check-reqs
 
 DATESTAMP="200609210945"
 MY_A="eclipse-sourceBuild-srcIncluded-${PV}.zip"
@@ -17,7 +19,7 @@ MY_A="eclipse-sourceBuild-srcIncluded-${PV}.zip"
 DESCRIPTION="Eclipse Tools Platform"
 HOMEPAGE="http://www.eclipse.org/"
 SRC_URI="http://download.eclipse.org/eclipse/downloads/drops/R-${PV}-${DATESTAMP}/${MY_A}
-	http://www.fridrik.it/files/${PF}-patches.tar.bz2"
+	http://www.fridrik.it/files/${P}-r2-patches.tar.bz2"
 IUSE="branding cairo gnome opengl seamonkey tomcat"
 SLOT="3.2"
 LICENSE="EPL-1.0"
@@ -26,7 +28,7 @@ KEYWORDS="~amd64 ~ppc ~x86"
 S=${WORKDIR}
 
 COMMON_DEP="
-	>=dev-java/ant-1.6.5
+	>=dev-java/ant-1.7.0
 	tomcat? (
 		dev-java/commons-digester-rss
 		=dev-java/mx4j-2.1*
@@ -77,6 +79,15 @@ pkg_setup() {
 	debug-print "Checking for sufficient physical RAM"
 	CHECKREQS_MEMORY="768"
 	check_reqs
+	
+	local ant_dir="${ROOT}/${ECLIPSE_DIR}/plugins/org.apache.ant_1.6.5/lib"
+	if [[ -d "${ant_dir}" && ! -L "${ant_dir}" ]]; then
+		eerror "Detected directory ${ant_dir}"
+		eerror "This version replaces it with a symlink, so you need to"
+		eerror "uninstall previous version of ${PN}-${SLOT} before installing"
+		eerror "this one."
+		die "Please uninstall previous version of ${PN}-${SLOT}."
+	fi
 
 	# All other gentoo archs match in eclipse build system except amd64
 	if use amd64 ; then
@@ -201,10 +212,9 @@ setup-mozilla-opts() {
 
 install-link-system-jars() {
 	## BEGIN ANT ##
-	pushd plugins/org.apache.ant_*/lib/ > /dev/null || die "pushd failed"
-	rm *.jar
-	java-pkg_jarfrom ant-core
-	java-pkg_jarfrom ant-tasks
+	pushd plugins/org.apache.ant_*/ > /dev/null || die "pushd failed"
+	rm -rf lib
+	ln -s /usr/share/ant/lib lib
 	popd > /dev/null
 	## END ANT ##
 
@@ -359,12 +369,11 @@ patch-branding() {
 }
 
 patch-symlink-ant() {
-	pushd plugins/org.apache.ant/lib/ > /dev/null || die "pushd failed"
+	pushd plugins/org.apache.ant/ > /dev/null || die "pushd failed"
 
-	rm *.jar *src.zip
+	rm -rf lib
 
-	java-pkg_jarfrom ant-core
-	java-pkg_jarfrom ant-tasks
+	ln -s /usr/share/ant/lib lib
 
 	popd > /dev/null
 }
