@@ -1,4 +1,4 @@
-# Copyright 1999-2006 Gentoo Foundation
+# Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -6,26 +6,20 @@ JAVA_PKG_IUSE="doc source"
 
 inherit java-pkg-2 java-ant-2
 
+MY_PV="${PV/_beta/-b}"
 DESCRIPTION="Glassfish reference implementation of Servlet API 2.5 and JSP API 2.1"
 HOMEPAGE="https://glassfish.dev.java.net/javaee5/webtier/webtierhome.html"
-SRC_URI="http://download.java.net/javaee5/trunk/promoted/source/glassfish-v2-b39-src.zip"
+SRC_URI="http://download.java.net/javaee5/trunk/promoted/source/glassfish-v${MY_PV}-src.zip"
 LICENSE="CDDL"
 SLOT="2.5"
 KEYWORDS="~amd64 ~x86"
 
-COMMON_DEP=""
-
 DEPEND=">=virtual/jdk-1.5
-	doc? ( app-arch/unzip )
-	${COMMON_DEP}"
+	app-arch/unzip"
 
-RDEPEND=">=virtual/jre-1.5
-	${COMMON_DEP}"
+RDEPEND=">=virtual/jre-1.5"
 
 S="${WORKDIR}/glassfish/servlet-api/"
-
-EANT_BUILD_TARGET="build"
-EANT_EXTRA_ARGS="$( ! use doc && echo \"-Ddocs.uptodate=true\")"
 
 src_unpack() {
 	unpack "${A}"
@@ -33,10 +27,15 @@ src_unpack() {
 
 	epatch ${FILESDIR}/build_xml.patch
 }
+src_compile() {
+#	EANT_BUILD_TARGET="build"
+#	EANT_EXTRA_ARGS="$( ! use doc && echo \"-Ddocs.uptodate=true\")"
+	eant build "$( ! use doc && echo \"-Ddocs.uptodate=true\")"
+}
 src_install() {
-	cd "${S}"/src/jakarta-servletapi-5/jsr154/dist/lib
-	java-pkg_dojar servlet-api.jar
+	java-pkg_dojar "${S}"src/jakarta-servletapi-5/jsr154/dist/lib/*.jar
+	java-pkg_dojar "${S}"src/jsr245/dist/lib/*.jar
 
-	cd "${S}"src/jsr245/dist/lib/
-	java-pkg_dojar jsp-api.jar	
+	use doc && java-pkg_dojavadoc src/jsr245/build/docs/api
+	use source && java-pkg_dosrc src
 }

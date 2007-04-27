@@ -3,6 +3,9 @@
 # $Header: $
 
   27 Apr 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
+  Ebuild cleanups, fixes, and other refinements
+
+  27 Apr 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
   Corrected EANT_EXTRA_ARGS
 
   27 Apr 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
