@@ -47,7 +47,7 @@ src_compile() {
 	if use doc ; then
 		mkdir "${JAVADOC_DIR}" || die "Could not create javadoc dir"
 		cd ${SRC_DIR}
-		javadoc -source "${JAVA_VERSION}" -d ${JAVADOC_DIR} $(find "net/infonode" -type d | tr '/' '.') || die "Could not create javadoc"
+		javadoc -source "${JAVA_VERSION}" -d ${JAVADOC_DIR} $(find "org/apache/avalon/excalibur/datasource" -type d | tr '/' '.') || die "Could not create javadoc"
 	fi
 }
 
