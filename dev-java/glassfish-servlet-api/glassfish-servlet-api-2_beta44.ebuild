@@ -4,7 +4,7 @@
 
 JAVA_PKG_IUSE="doc source"
 
-inherit java-pkg-2 java-ant-2
+inherit base java-pkg-2 java-ant-2
 
 MY_PV="${PV/_beta/-b}"
 DESCRIPTION="Glassfish reference implementation of Servlet API 2.5 and JSP API 2.1"
@@ -21,15 +21,12 @@ RDEPEND=">=virtual/jre-1.5"
 
 S="${WORKDIR}/glassfish/servlet-api/"
 
-src_unpack() {
-	unpack "${A}"
-	cd "${S}"
+PATCHES="${FILESDIR}/build_xml.patch"
 
-	epatch ${FILESDIR}/build_xml.patch
-}
 src_compile() {
-	eant build $( ! use doc && echo "-Ddocs.uptodate=true")
+	eant build $(use doc || echo -Ddocs.uptodate=true)
 }
+
 src_install() {
 	java-pkg_dojar "${S}"/src/jakarta-servletapi-5/jsr154/dist/lib/*.jar
 	java-pkg_dojar "${S}"/src/jsr245/dist/lib/*.jar
