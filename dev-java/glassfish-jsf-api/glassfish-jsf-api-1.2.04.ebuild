@@ -22,7 +22,7 @@ COMMON_DEP="
 	=dev-java/jakarta-jstl-1.1*
 	=dev-java/jsr250-1.0
 	>=dev-java/junit-3.8.1
-	=dev-java/tomcat-servlet-api-6.0*"
+	dev-java/glassfish-servlet-api"
 
 DEPEND=">=virtual/jdk-1.4
 	doc? ( app-arch/unzip )
@@ -52,8 +52,8 @@ src_unpack() {
 	java-pkg_jar-from jsr250 jsr250-api.jar jsr250-api-1.0.jar
 #	java-pkg_jar-from maven-repository-importer maven-repository-importer.jar maven-repository-importer-1.2.jar
 #	java-pkg_jar-from tlddoc tlddoc.jar tlddoc-1.3.jar
-	java-pkg_jar-from tomcat-servlet-api-2.5 servlet-api.jar servlet-api-2.5.jar
-	java-pkg_jar-from tomcat-servlet-api-2.5 jsp-api.jar jsp-api-2.1.jar
+	java-pkg_jar-from glassfish-servlet-api-2.5 servlet-api.jar servlet-api-2.5.jar
+	java-pkg_jar-from glassfish-servlet-api-2.5 jsp-api.jar jsp-api-2.1.jar
 
 }
 src_compile() {

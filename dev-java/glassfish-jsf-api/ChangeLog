@@ -2,5 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  27 Apr 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
+  Switched from tomcat-servlet-api -> glassfish-servlet-api in java-exp. Moot
+  change ebuild is still way incomplete and has deps that still need to be
+  packaged.
+
   25 Mar 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
   Initial ebuild for glassfish jsf api
