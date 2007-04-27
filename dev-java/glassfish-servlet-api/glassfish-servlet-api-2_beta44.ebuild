@@ -25,7 +25,7 @@ RDEPEND=">=virtual/jre-1.5
 S="${WORKDIR}/glassfish/servlet-api/"
 
 EANT_BUILD_TARGET="build"
-EANT_EXTRA_ARGS=$( ! use doc && echo "-Ddocs.uptodate=true")
+EANT_EXTRA_ARGS="$( ! use doc && echo \"-Ddocs.uptodate=true\")"
 
 src_unpack() {
 	unpack "${A}"
