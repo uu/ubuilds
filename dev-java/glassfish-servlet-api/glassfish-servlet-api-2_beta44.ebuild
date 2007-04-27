@@ -28,14 +28,12 @@ src_unpack() {
 	epatch ${FILESDIR}/build_xml.patch
 }
 src_compile() {
-#	EANT_BUILD_TARGET="build"
-#	EANT_EXTRA_ARGS="$( ! use doc && echo \"-Ddocs.uptodate=true\")"
-	eant build "$( ! use doc && echo \"-Ddocs.uptodate=true\")"
+	eant build $( ! use doc && echo "-Ddocs.uptodate=true")
 }
 src_install() {
-	java-pkg_dojar "${S}"src/jakarta-servletapi-5/jsr154/dist/lib/*.jar
-	java-pkg_dojar "${S}"src/jsr245/dist/lib/*.jar
+	java-pkg_dojar "${S}"/src/jakarta-servletapi-5/jsr154/dist/lib/*.jar
+	java-pkg_dojar "${S}"/src/jsr245/dist/lib/*.jar
 
 	use doc && java-pkg_dojavadoc src/jsr245/build/docs/api
-	use source && java-pkg_dosrc src
+	use source && java-pkg_dosrc src/*
 }
