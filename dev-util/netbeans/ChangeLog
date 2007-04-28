@@ -2,6 +2,9 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  28 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> netbeans-5.5-r6.ebuild:
+  Corrected variable name specifying target dir for some jar symlinks
+
   28 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> netbeans-5.5-r6.ebuild,
   netbeans-6.0_alpha8.ebuild, +files/5.5-r2/jspparser-build.xml.patch:
   Changed from sun-jaxws-bin to jax-ws and jax-ws-api, unbundled ical4j, added

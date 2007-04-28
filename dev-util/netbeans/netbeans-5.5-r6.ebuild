@@ -381,7 +381,7 @@ function symlink_extjars() {
 	dosymjar ${TARGET_DIR} xsdlib xsdlib.jar
 
 	TARGET_DIR="ide${IDE_VERSION}/modules/ext/jaxws20"
-	cd ${A}/${TARGET_DIR}
+	cd ${1}/${TARGET_DIR}
 	dosymjar ${TARGET_DIR} sun-jaf activation.jar
 	dosymjar ${TARGET_DIR} fastinfoset fastinfoset.jar FastInfoset.jar
 	dosymjar ${TARGET_DIR} jaxb-2 jaxb-api.jar
