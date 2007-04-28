@@ -60,6 +60,8 @@ RDEPEND=">=virtual/jre-1.5
 	dev-java/fastinfoset
 	dev-java/jakarta-oro
 	dev-java/jax-rpc
+	dev-java/jax-ws
+	dev-java/jax-ws-api
 	>=dev-java/jaxb-2
 	>dev-java/jaxb-tools-2
 	dev-java/jaxp
@@ -75,7 +77,6 @@ RDEPEND=">=virtual/jre-1.5
 	dev-java/sjsxp
 	dev-java/sun-jaf
 	dev-java/sun-javamail
-	dev-java/sun-jaxws-bin
 	dev-java/xsdlib
 	${COMMON_DEPEND}"
 
@@ -87,6 +88,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/commons-jxpath-1.1
 	>=dev-java/commons-lang-2.1
 	dev-java/glassfish-persistence
+	dev-java/ical4j
 	mobility? ( dev-java/jakarta-oro )
 	>=dev-java/jcalendar-1.2
 	>=dev-java/jdom-1.0
@@ -121,6 +123,7 @@ JAVA_PKG_BSFIX="off"
 src_unpack () {
 	unpack ${NB_FILE}
 	cd ${S}
+	find -name "*.jar" | grep "/test/" | xargs rm -v
 
 	if use mobility ; then
 		unpack ${MOBILITY_FILE}
@@ -388,7 +391,7 @@ function place_unpack_symlinks() {
 	java-pkg_jar-from commons-logging commons-logging-api.jar commons-logging-api-1.1.jar
 	java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
 	# MISSING: freemarker-2.3.8.jar
-	# MISSING: ical4j-1.0-beta1.jar
+	java-pkg_jar-from --build-only ical4j
 	java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.2.jar
 	java-pkg_jar-from jsch jsch.jar jsch-0.1.24.jar
 	# MISSING: jsr223-api.jar
@@ -421,7 +424,7 @@ function place_unpack_symlinks() {
 	java-pkg_jar-from --build-only commons-cli-1
 	java-pkg_jar-from commons-collections commons-collections.jar
 	java-pkg_jar-from --build-only checkstyle
-	# MISSING: ical4j-0.9.20.jar
+	java-pkg_jar-from --build-only ical4j
 	java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.0.jar
 	java-pkg_jar-from --build-only jtidy Tidy.jar Tidy-r7.jar
 
@@ -656,8 +659,8 @@ function symlink_extjars() {
 	# MISSING: http.jar (no ebuild)
 	java-pkg_jar-from jaxb-2 jaxb-impl.jar
 	java-pkg_jar-from jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
-	java-pkg_jar-from sun-jaxws-bin jaxws-rt.jar
-	java-pkg_jar-from sun-jaxws-bin jaxws-tools.jar
+	java-pkg_jar-from jax-ws-2 jax-ws.jar jaxws-rt.jar
+	java-pkg_jar-from jax-ws-2 jax-ws.jar jaxws-tools.jar
 	java-pkg_jar-from jsr173 jsr173.jar jsr173_api.jar
 	java-pkg_jar-from jsr250
 	#resolver.jar (netbeans stuff)
@@ -668,7 +671,7 @@ function symlink_extjars() {
 
 	cd ${1}/ide${IDE_VERSION}/modules/ext/jaxws21/api
 	java-pkg_jar-from jaxb-2 jaxb-api.jar
-	java-pkg_jar-from sun-jaxws-bin jaxws-api.jar
+	java-pkg_jar-from jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
 	java-pkg_jar-from jsr181 jsr181.jar jsr181-api.jar
 	java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
 

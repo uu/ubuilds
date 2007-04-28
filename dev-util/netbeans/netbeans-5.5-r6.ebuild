@@ -43,6 +43,8 @@ RDEPEND=">=virtual/jre-1.5
 	dev-java/fastinfoset
 	dev-java/jakarta-oro
 	dev-java/jax-rpc
+	dev-java/jax-ws
+	dev-java/jax-ws-api
 	>=dev-java/jaxb-2
 	>=dev-java/jaxb-tools-2
 	dev-java/jaxp
@@ -57,15 +59,15 @@ RDEPEND=">=virtual/jre-1.5
 	=dev-java/struts-1.2*
 	dev-java/sun-jaf
 	dev-java/sun-javamail
-	dev-java/sun-jaxws-bin
 	dev-java/xsdlib
 	${COMMON_DEPEND}"
 
 # NOTE: netbeans cannot compile with latest JDK 1.7
-DEPEND="|| ( =virtual/jdk-1.5* =virtual/jdk-1.6* )
+DEPEND="|| ( =virtual/jdk-1.6* =virtual/jdk-1.5* )
 	dev-java/commons-el
 	>=dev-java/commons-jxpath-1.1
 	dev-java/glassfish-persistence
+	dev-java/ical4j
 	>=dev-java/jcalendar-1.2
 	>=dev-java/jdom-1.0
 	dev-java/jtidy
@@ -84,19 +86,18 @@ IDE_VERSION="7"
 PLATFORM="6"
 MY_FDIR="${FILESDIR}/${SLOT}-r2"
 DESTINATION="/usr/share/netbeans-${SLOT}"
-# NOTE: We cannot turn JAVA_PKG_BSFIX="off" as build file misses target=1.5 for
-# ./enterprise3/modules/ext/jsp-parser-ext.jar which causes it to be built using
-# default target which depends on JDK used for compilation. If JDK used for
-# compilation > 1.5 then it causes bug #164256.
+JAVA_PKG_BSFIX="off"
 
 
 src_unpack () {
 	unpack ${A}
+	cd ${S}
+	find -name "*.jar" | grep "/test/" | xargs rm -v
 
 	# Correct invalid XML
-	cd ${S}
 	epatch "${MY_FDIR}/jdbcstorage-build.xml-comments.patch"
 	epatch "${MY_FDIR}/mdrant-build.xml-comments.patch"
+	epatch "${MY_FDIR}/jspparser-build.xml.patch"
 
 	# Disable the bundled Tomcat in favor of Portage installed version
 	cd ${S}/nbbuild
@@ -237,68 +238,28 @@ pkg_postrm() {
 function place_unpack_symlinks() {
 	# Here are listed all bundled jars, some of them cannot be replaced.
 
-	# ant
-	#ant/freeform/test/unit/data/example-projects/simple/lib/lib1.jar
-	#ant/freeform/test/unit/data/example-projects/simple/lib/lib2.jar
-	#ant/test/qa-functional/src/org/netbeans/test/gui/ant/data/antscripts.jar
-
 	einfo "Symlinking jars for apisupport"
 	cd ${S}/apisupport/external
 	java-pkg_jar-from --build-only jdom-1.0
 	java-pkg_jar-from javahelp jhall.jar jsearch-2.0_03.jar
 	java-pkg_jar-from --build-only rome rome.jar rome-fetcher-0.6.jar
 	java-pkg_jar-from --build-only rome rome.jar rome-0.6.jar
-	#apisupport/project/test/unit/data/example-external-projects/suite3/nbplatform/platform5/core/openide.jar
-	#apisupport/project/test/unit/data/example-external-projects/suite3/nbplatform/random/modules/ext/stuff.jar
-	#apisupport/project/test/unit/data/example-external-projects/suite3/nbplatform/random/modules/random.jar
-	#apisupport/samples/feedreader-suite/branding/core/core.jar
-	#apisupport/samples/feedreader-suite/branding/modules/org-netbeans-core.jar
-	#apisupport/samples/feedreader-suite/branding/modules/org-netbeans-core-windows.jar
-	#apisupport/samples/PaintApp-suite/branding/core/core.jar
-	#apisupport/samples/PaintApp-suite/branding/modules/org-netbeans-core.jar
-	#apisupport/samples/PaintApp-suite/branding/modules/org-netbeans-core-windows.jar
-	#apisupport/samples/PaintApp-suite/ColorChooser/release/modules/ext/ColorChooser.jar
 
 	einfo "Symlinking jars for core"
 	cd ${S}/core/external
 	java-pkg_jar-from javahelp jh.jar jh-2.0_03.jar
-	#core/test/qa-functional/data/SampleProject/data.jar
-
-	# db
-	#db/core/test/unit/data/mysql5.0/mysql-connector-java-3.1.12-bin.jar
-	# MISSING: db/external/fake-jdbc40.jar (no ebuild)
-
-	# extbrowser
-	#extbrowser/test/ExtBrowser/qa-functional/testdata/data.jar
 
 	einfo "Symlinking jars for httpserver"
 	cd ${S}/httpserver/external
 	java-pkg_jar-from servletapi-2.2 servlet.jar servlet-2.2.jar
-	# MISSING: webserver.jar (something from tomcat)
-
-	# java
-	# cd java/external
-	#gjast.jar (netbeans stuff)
 
 	einfo "Symlinking jars for junit"
 	cd ${S}/junit/external
 	java-pkg_jar-from junit junit.jar junit-3.8.1.jar
-	#junit/test/function/lib/test.jar
 
 	einfo "Symlinking jars for j2ee"
-	#j2ee/archiveproject/test/qa-functional/data/jbrejb14.jar
-	#j2ee/clientproject/test/unit/data/projects/ApplicationClient1/libs/jar0.jar
-	#j2ee/clientproject/test/unit/data/projects/ApplicationClient1/libs/jar1.jar
-	#j2ee/clientproject/test/unit/data/projects/ApplicationClient1/libs/jar2.jar
-	#j2ee/ejbfreeform/test/unit/data/test-app/lib/test-lib1.jar
-	#j2ee/ejbjarproject/test/unit/data/projects/EJBModule1/libs/jar0.jar
-	#j2ee/ejbjarproject/test/unit/data/projects/EJBModule1/libs/jar1.jar
-	#j2ee/ejbjarproject/test/unit/data/projects/EJBModule1/libs/jar2.jar
 	cd ${S}/j2ee/external
 	java-pkg_jar-from --build-only glassfish-persistence
-	#j2ee/test/qa-functional/data/freeform_projects/cmp2/lib/junitejb.jar
-	#j2ee/test/qa-functional/data/freeform_projects/cmp2/lib/junit.jar
-	#j2ee/test/qa-functional/data/libs/MathLib.jar
 
 	einfo "Symlinking jars for j2eeserver"
 	cd ${S}/j2eeserver/external
@@ -310,7 +271,6 @@ function place_unpack_symlinks() {
 	java-pkg_jar-from jgoodies-forms forms.jar forms-1.0.5.jar
 	java-pkg_jar-from jsch jsch.jar jsch-0.1.24.jar
 	java-pkg_jar-from --build-only pmd pmd.jar pmd-1.3.jar
-	#resolver-1_1_nb.jar (netbeans stuff)
 	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.jar
 	java-pkg_jar-from --build-only xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
 	java-pkg_jar-from xerces-2 xercesImpl.jar xerces-2.8.0.jar
@@ -320,24 +280,10 @@ function place_unpack_symlinks() {
 	cd ${S}/mdr/external
 	java-pkg_jar-from jmi-interface jmi.jar jmi.jar
 	java-pkg_jar-from jmi-interface mof.jar mof.jar
-	#mdr/test/perf/src/org/netbeans/mdr/test/data/jmi-java.jar
-	#mdr/test/perf/src/org/netbeans/mdr/test/data/mm.mysql-2.0.4-bin-1.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/component.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/indexedModel.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/java-jmi.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/pkg_inh-jmi.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/staticFeatures.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/text-jmi.jar
-	#mdr/test/unit/src/org/netbeans/mdr/test/data/uml-14.jar
 
 	einfo "Symlinking jars for nbbuild"
 	cd ${S}/nbbuild/external
 	java-pkg_jar-from javahelp jhall.jar jhall-2.0_03.jar
-	#scrambler.jar (netbeans stuff)
-
-	# openide
-	#openide/test/qa-functional/src/DataLoaderTests/DataObjectTest/data/data.jar
-	#openide/test/qa-functional/src/gui/explorer/data/testfiles/CopyCutPasteRenameTest/test.jar
 
 	einfo "Symlinking jars for serverplugins"
 	cd ${S}/serverplugins/external
@@ -345,32 +291,22 @@ function place_unpack_symlinks() {
 
 	einfo "Symlinking jars for tasklist"
 	cd ${S}/tasklist/external
-	# MISSING: ical4j.jar (no ebuild)
+	java-pkg_jar-from --build-only ical4j
 	java-pkg_jar-from --build-only jcalendar-1.2
 	java-pkg_jar-from --build-only jtidy Tidy.jar Tidy-r7.jar
 
 	einfo "Symlinking jars for web"
 	cd ${S}/web/external
 	java-pkg_jar-from --build-only commons-el
-	# MISSING: glassfish-jspparser.jar (no ebuild)
-	# MISSING: glassfish-logging.jar (no ebuild)
 	java-pkg_jar-from jakarta-jstl jstl.jar jstl-1.1.2.jar
 	java-pkg_jar-from --build-only servletapi-2.3 servlet.jar servlet-2.3.jar
-	# MISSING: servlet2.5-jsp2.1-api.jar (no ebuild)
 	java-pkg_jar-from jakarta-jstl standard.jar standard-1.1.2.jar
-	#web/jspdebug/test/qa-functional/data/TestTagLibrary/jsp-api-2.0.jar
-	#web/jspdebug/test/qa-functional/data/TestTagLibrary/servlet-api-2.4.jar
-	#web/project/test/unit/data/projects/WebApplication1/libs/jar0.jar
-	#web/project/test/unit/data/projects/WebApplication1/libs/jar1.jar
-	#web/project/test/unit/data/projects/WebApplication1/libs/jar2.jar
-	#web/test/qa-functional/data/PerformanceTestData/src/org/netbeans/test/performance/test.jar
 
 	einfo "Symlinking jars for xml"
 	cd ${S}/xml/external
 	java-pkg_jar-from flute
 	java-pkg_jar-from --build-only commons-jxpath commons-jxpath.jar jxpath1.1.jar
 	java-pkg_jar-from --build-only prefuse-2006 prefuse.jar prefuse.jar
-	#resolver-1_1_nb.jar (netbeans stuff)
 	java-pkg_jar-from sac
 }
 
@@ -378,42 +314,33 @@ function symlink_extjars() {
 	einfo "Symlinking enterprise jars"
 
 	cd ${1}/enterprise${ENTERPRISE}/modules/ext
-	#appsrvbridge.jar (netbeans stuff)
-	# MISSING: glassfish-jspparser.jar (no ebuild)
-	# MISSING: glassfish-logging.jar (no ebuild)
-	#jsp-parser-ext.jar (netbeans stuff)
 	java-pkg_jar-from sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
 	java-pkg_jar-from jakarta-jstl jstl.jar
-	# MISSING: persistence-tool-support.jar (no ebuild)
-	# MISSING: servlet2.5-jsp2.1-api.jar (no ebuild)
 	java-pkg_jar-from jakarta-jstl standard.jar
-	#websvcregistry.jar (netbeans stuff)
 
-	cd ${1}/enterprise${ENTERPRISE}/modules/ext/blueprints
-	# MISSING: bp-ui-14.jar (no ebuild)
-	# MISSING: bp-ui-5.jar (no ebuild)
-	java-pkg_jar-from commons-fileupload commons-fileupload.jar commons-fileupload-1.1.1.jar
-	java-pkg_jar-from commons-io-1 commons-io.jar commons-io-1.2.jar
+	TARGET_DIR="enterprise${ENTERPRISE}/modules/ext/blueprints"
+	cd ${1}/${TARGET_DIR}
+	dosymjar ${TARGET_DIR} commons-fileupload commons-fileupload.jar commons-fileupload-1.1.1.jar
+	dosymjar ${TARGET_DIR} commons-io-1 commons-io.jar commons-io-1.2.jar
 	java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.1.jar
-	# MISSING: shale-remoting.jar (no ebuild)
 
-	cd ${1}/enterprise${ENTERPRISE}/modules/ext/jsf
-	java-pkg_jar-from commons-beanutils-1.7 commons-beanutils.jar
-	java-pkg_jar-from commons-collections commons-collections.jar
-	java-pkg_jar-from commons-digester commons-digester.jar
+	TARGET_DIR="enterprise${ENTERPRISE}/modules/ext/jsf"
+	cd ${1}/${TARGET_DIR}
+	dosymjar ${TARGET_DIR} commons-beanutils-1.7 commons-beanutils.jar
+	dosymjar ${TARGET_DIR} commons-collections commons-collections.jar
+	dosymjar ${TARGET_DIR} commons-digester commons-digester.jar
 	java-pkg_jar-from commons-logging commons-logging.jar
-	# MISSING: jsf-api.jar (no ebuild)
-	# MISSING: jsf-impl.jar (no ebuild)
 
-	cd ${1}/enterprise${ENTERPRISE}/modules/ext/struts
-	java-pkg_jar-from antlr antlr.jar
-	java-pkg_jar-from commons-beanutils-1.7 commons-beanutils.jar
-	java-pkg_jar-from commons-digester commons-digester.jar
-	java-pkg_jar-from commons-fileupload commons-fileupload.jar
+	TARGET_DIR="enterprise${ENTERPRISE}/modules/ext/struts"
+	cd ${1}/${TARGET_DIR}
+	dosymjar ${TARGET_DIR} antlr antlr.jar
+	dosymjar ${TARGET_DIR} commons-beanutils-1.7 commons-beanutils.jar
+	dosymjar ${TARGET_DIR} commons-digester commons-digester.jar
+	dosymjar ${TARGET_DIR} commons-fileupload commons-fileupload.jar
 	java-pkg_jar-from commons-logging commons-logging.jar
-	java-pkg_jar-from commons-validator commons-validator.jar
-	java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar
-	java-pkg_jar-from struts-1.2 struts.jar
+	dosymjar ${TARGET_DIR} commons-validator commons-validator.jar
+	dosymjar ${TARGET_DIR} jakarta-oro-2.0 jakarta-oro.jar
+	dosymjar ${TARGET_DIR} struts-1.2 struts.jar
 
 
 	einfo "Symlinking harness jars"
@@ -425,63 +352,63 @@ function symlink_extjars() {
 	einfo "Symlinking ide jars"
 
 	cd ${1}/ide${IDE_VERSION}/modules/ext
-	#AbsoluteLayout.jar (netbeans stuff)
 	java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
-	#ddl.jar (netbeans stuff)
 	java-pkg_jar-from flute
 	java-pkg_jar-from jgoodies-forms forms.jar forms-1.0.5.jar
-	#gjast.jar (netbeans stuff)
-	#java-parser.jar (netbeans stuff)
 	java-pkg_jar-from jmi-interface jmi.jar jmi.jar
-	#jmiutils.jar (netbeans stuff)
 	java-pkg_jar-from jsch jsch.jar jsch-0.1.24.jar
 	java-pkg_jar-from junit junit.jar junit-3.8.1.jar
-	#mdr.jar (netbeans stuff)
 	java-pkg_jar-from jmi-interface mof.jar mof.jar
-	#resolver-1_1_nb.jar (netbeans stuff)
 	java-pkg_jar-from sac
 	java-pkg_jar-from servletapi-2.2 servlet.jar servlet-2.2.jar
-	# MISSING: webserver.jar (something from tomcat)
 	java-pkg_jar-from xerces-2 xercesImpl.jar xerces-2.8.0.jar
 	java-pkg_jar-from xml-commons xml-apis.jar xml-commons-dom-ranges-1.0.b2.jar
 
-	cd ${1}/ide${IDE_VERSION}/modules/ext/jaxrpc16
-	java-pkg_jar-from sun-jaf
-	java-pkg_jar-from fastinfoset fastinfoset.jar FastInfoset.jar
-	java-pkg_jar-from jaxp
-	# MISSING: jax-qname.jar (no ebuild)
-	java-pkg_jar-from jsr101
-	java-pkg_jar-from jax-rpc jaxrpc-impl.jar
-	java-pkg_jar-from jax-rpc jaxrpc-spi.jar
-	java-pkg_jar-from jsr173 jsr173.jar jsr173_api.jar
-	java-pkg_jar-from sun-javamail
-	java-pkg_jar-from relaxng-datatype
-	java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
-	java-pkg_jar-from saaj saaj.jar saaj-impl.jar
-	java-pkg_jar-from xsdlib
+	TARGET_DIR="ide${IDE_VERSION}/modules/ext/jaxrpc16"
+	cd ${1}/${TARGET_DIR}
+	dosymjar ${TARGET_DIR} sun-jaf activation.jar
+	dosymjar ${TARGET_DIR} fastinfoset fastinfoset.jar FastInfoset.jar
+	dosymjar ${TARGET_DIR} jaxp jaxp-api.jar
+	dosymjar ${TARGET_DIR} jaxp jaxp-impl.jar
+	dosymjar ${TARGET_DIR} jsr101 jaxrpc-api.jar
+	dosymjar ${TARGET_DIR} jax-rpc jaxrpc-impl.jar
+	dosymjar ${TARGET_DIR} jax-rpc jaxrpc-spi.jar
+	dosymjar ${TARGET_DIR} jsr173 jsr173.jar jsr173_api.jar
+	dosymjar ${TARGET_DIR} sun-javamail mail.jar
+	dosymjar ${TARGET_DIR} relaxng-datatype relaxngDatatype.jar
+	dosymjar ${TARGET_DIR} jsr67 jsr67.jar saaj-api.jar
+	dosymjar ${TARGET_DIR} saaj saaj.jar saaj-impl.jar
+	dosymjar ${TARGET_DIR} xsdlib xsdlib.jar
 
-	cd ${1}/ide${IDE_VERSION}/modules/ext/jaxws20
-	java-pkg_jar-from sun-jaf
-	java-pkg_jar-from fastinfoset fastinfoset.jar FastInfoset.jar
-	# MISSING: http.jar (no ebuild)
-	java-pkg_jar-from jaxb-2 jaxb-api.jar
-	java-pkg_jar-from jaxb-2 jaxb-impl.jar
-	java-pkg_jar-from jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
-	java-pkg_jar-from sun-jaxws-bin jaxws-api.jar
-	java-pkg_jar-from sun-jaxws-bin jaxws-rt.jar
-	java-pkg_jar-from sun-jaxws-bin jaxws-tools.jar
-	java-pkg_jar-from jsr173 jsr173.jar jsr173_api.jar
-	java-pkg_jar-from jsr181 jsr181.jar jsr181-api.jar
-	java-pkg_jar-from jsr250
-	#resolver.jar (netbeans stuff)
-	java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
-	java-pkg_jar-from saaj saaj.jar saaj-impl.jar
-	java-pkg_jar-from sjsxp
+	TARGET_DIR="ide${IDE_VERSION}/modules/ext/jaxws20"
+	cd ${A}/${TARGET_DIR}
+	dosymjar ${TARGET_DIR} sun-jaf activation.jar
+	dosymjar ${TARGET_DIR} fastinfoset fastinfoset.jar FastInfoset.jar
+	dosymjar ${TARGET_DIR} jaxb-2 jaxb-api.jar
+	dosymjar ${TARGET_DIR} jaxb-2 jaxb-impl.jar
+	dosymjar ${TARGET_DIR} jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
+	dosymjar ${TARGET_DIR} jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
+	dosymjar ${TARGET_DIR} jax-ws-2 jax-ws.jar jaxws-rt.jar
+	dosymjar ${TARGET_DIR} jax-ws-2 jax-ws.jar jaxws-tools.jar
+	dosymjar ${TARGET_DIR} jsr173 jsr173.jar jsr173_api.jar
+	dosymjar ${TARGET_DIR} jsr181 jsr181.jar jsr181-api.jar
+	dosymjar ${TARGET_DIR} jsr250 jsr250-api.jar
+	dosymjar ${TARGET_DIR} jsr67 jsr67.jar saaj-api.jar
+	dosymjar ${TARGET_DIR} saaj saaj.jar saaj-impl.jar
+	dosymjar ${TARGET_DIR} sjsxp sjsxp.jar
 
 
 	einfo "Symlinking platform jars"
 	cd ${1}/platform${PLATFORM}/modules/ext
 	java-pkg_jar-from javahelp jh.jar jh-2.0_03.jar
 	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.jar
-	#updater.jar (netbeans stuff)
+}
+
+function dosymjar() {
+	if [ -z "${4}" ]; then
+		TARGET_FILE="${3}"
+	else
+		TARGET_FILE="${4}"
+	fi
+	dosym /usr/share/${2}/lib/${3} ${DESTINATION}/${1}/${TARGET_FILE}
 }

@@ -2,6 +2,16 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  28 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> netbeans-5.5-r6.ebuild,
+  netbeans-6.0_alpha8.ebuild, +files/5.5-r2/jspparser-build.xml.patch:
+  Changed from sun-jaxws-bin to jax-ws and jax-ws-api, unbundled ical4j, added
+  patch that makes JAVA_PKG_BSFIX="off" possible, now removing jars that are
+  related just to tests, removed lines that were just documenting bundled jars
+  (now available at Netbeans maintenance wiki page), changed from
+  java-pkg_jar-from to dosym for packages that appear just in RDEPEND but not
+  in DEPEND. All of this done for Netbeans 5.5, some changes also done in
+  Netbeans 6.0 (the rest needs to be done later).
+
   20 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> netbeans-5.5-r6.ebuild,
   -netbeans-6.0_alpha7.ebuild, netbeans-6.0_alpha8.ebuild:
   Corrected ant dependencies and removed m7
