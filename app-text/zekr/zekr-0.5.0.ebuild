@@ -13,8 +13,7 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE=""
 
-RDEPEND=">=virtual/jre-1.4
-	 dev-java/commons-collections
+COMMON_DEPS="dev-java/commons-collections
 	 dev-java/commons-configuration
 	 =dev-java/commons-io-1*
 	 =dev-java/commons-lang-2.1*
@@ -23,9 +22,13 @@ RDEPEND=">=virtual/jre-1.4
 	 dev-java/swt
 	 dev-java/velocity"
 
+RDEPEND=">=virtual/jre-1.4
+	 app-portage/portage-utils
+	 ${COMMON_DEPS}"
+
 DEPEND=">=virtual/jdk-1.4
 	app-arch/unzip
-	${RDEPEND}"
+	${COMMON_DEPS}"
 
 S=${WORKDIR}/${PN}
 
@@ -57,11 +60,11 @@ src_compile() {
 src_install() {
 	java-pkg_dojar src/zekr.jar
         doicon ${FILESDIR}/zekr.png
+        local use_flag=""
         java-pkg_dolauncher zekr \
         	--main net.sf.zekr.ZekrMain \
-        	--pwd /usr/share/zekr
-        #	-pre ${FILESDIR}/pre
-        #This should be handled by SWT
+        	--pwd /usr/share/zekr \
+        	-pre ${FILESDIR}/pre
         make_desktop_entry zekr "Zekr" zekr.png
         insinto /usr/share/zekr
         doins -r res
