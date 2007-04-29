@@ -57,6 +57,7 @@ RDEPEND=">=virtual/jre-1.5
 	dev-java/saaj
 	dev-java/sjsxp
 	=dev-java/struts-1.2*
+	dev-java/sun-httpserver-bin
 	dev-java/sun-jaf
 	dev-java/sun-javamail
 	dev-java/xsdlib
@@ -384,6 +385,7 @@ function symlink_extjars() {
 	cd ${1}/${TARGET_DIR}
 	dosymjar ${TARGET_DIR} sun-jaf activation.jar
 	dosymjar ${TARGET_DIR} fastinfoset fastinfoset.jar FastInfoset.jar
+	dosymjar ${TARGET_DIR} sun-httpserver-bin-2 http.jar
 	dosymjar ${TARGET_DIR} jaxb-2 jaxb-api.jar
 	dosymjar ${TARGET_DIR} jaxb-2 jaxb-impl.jar
 	dosymjar ${TARGET_DIR} jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
