@@ -11,7 +11,7 @@ SRC_URI="http://zemberek.googlecode.com/files/${P}-src.zip"
 
 LICENSE="MPL"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 LANGS="tr tm"
 IUSE=""
 S=${WORKDIR}/${P}-src
