@@ -1,6 +1,6 @@
 diff -Nur Jubler-3.2.0/build.xml Jubler-3.2.0_patched/build.xml
 --- Jubler-3.2.0/build.xml	2007-02-28 22:44:18.000000000 +0200
-+++ Jubler-3.2.0_patched/build.xml	2007-03-02 20:25:07.000000000 +0200
++++ Jubler-3.2.0_patched/build.xml	2007-04-29 21:06:51.000000000 +0300
 @@ -70,6 +70,7 @@
  
  
@@ -17,16 +17,18 @@ diff -Nur Jubler-3.2.0/build.xml Jubler-3.2.0_patched/build.xml
  
  
  	<target name="i18n">
-@@ -103,7 +105,8 @@
+@@ -103,8 +105,9 @@
  		<copy file="resources/help/question.png" todir="dist/help"/>
  	</target>
  
 -	<target name="xdevelop" depends="i18n,faq">
+-		<exec dir="resources/ffdecode" executable="make"/>
 +	<!-- Edited to support "nls" USE flag -->
 +	<target name="xdevelop" depends="faq">
- 		<exec dir="resources/ffdecode" executable="make"/>
++		<exec dir="resources/ffdecode" executable="make" failonerror="true"/>
  		<copy file="dist/help/jubler-faq.html" todir="build/classes/help"/>
  	</target>
+ 
 @@ -345,9 +348,11 @@
  	</target>
  	
@@ -41,7 +43,7 @@ diff -Nur Jubler-3.2.0/build.xml Jubler-3.2.0_patched/build.xml
  	<target name="MacSystem" depends="findsystem" if="isMac">
 diff -Nur Jubler-3.2.0/resources/ffdecode/Makefile Jubler-3.2.0_patched/resources/ffdecode/Makefile
 --- Jubler-3.2.0/resources/ffdecode/Makefile	2007-02-25 18:37:31.000000000 +0200
-+++ Jubler-3.2.0_patched/resources/ffdecode/Makefile	2007-03-02 21:21:16.000000000 +0200
++++ Jubler-3.2.0_patched/resources/ffdecode/Makefile	2007-04-29 20:53:19.000000000 +0300
 @@ -43,6 +43,7 @@
  
  SRCS=$(shell ls 2>/dev/null *.c)
@@ -78,7 +80,7 @@ diff -Nur Jubler-3.2.0/resources/ffdecode/Makefile Jubler-3.2.0_patched/resource
  clean:
 diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java
 --- Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java	2007-02-15 19:10:16.000000000 +0200
-+++ Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java	2007-03-02 20:26:39.000000000 +0200
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java	2007-04-29 20:53:19.000000000 +0300
 @@ -31,7 +31,7 @@
          
          history = new ArrayList<String>();
@@ -90,7 +92,7 @@ diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java Jub
          
 diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java
 --- Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java	2007-02-25 21:38:13.000000000 +0200
-+++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java	2007-03-02 20:39:36.000000000 +0200
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java	2007-04-29 20:53:19.000000000 +0300
 @@ -23,12 +23,7 @@
  
  package com.panayotis.jubler.os;
@@ -277,7 +279,7 @@ diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3
 -}
 diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemFileFinder.java Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java
 --- Jubler-3.2.0/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-02-27 21:02:25.000000000 +0200
-+++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-03-02 20:33:37.000000000 +0200
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-04-29 20:53:19.000000000 +0300
 @@ -44,20 +44,17 @@
      }
      
