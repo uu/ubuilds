@@ -23,7 +23,6 @@ RDEPEND=">=virtual/jre-1.5
 	 )"
         
 DEPEND=">=virtual/jdk-1.5
-	spell? ( >=dev-java/zemberek-2.0 )
 	app-text/docbook-sgml-utils
         nls? ( sys-devel/gettext)"
 
@@ -43,11 +42,11 @@ src_unpack() {
 	epatch ${FILESDIR}/${P}.patch
 	epatch ${FILESDIR}/${P}-fixsplit.patch
 	epatch ${FILESDIR}/${P}-zemberek2.patch
-	use spell && java-pkg_getjar zemberek zemberek2-cekirdek.jar > /dev/null
-	use spell && java-pkg_getjar zemberek zemberek2-tr.jar > /dev/null
 }
 
 src_compile() {
+	use spell && java-pkg_register-dependency zemberek zemberek2-cekirdek.jar
+	use spell && java-pkg_register-dependency zemberek zemberek2-tr.jar
 	local anttasks_opt
 	use nls && anttasks_opt="i18n"
 	eant ${anttasks_opt} jar xdevelop || die "compile failed"
