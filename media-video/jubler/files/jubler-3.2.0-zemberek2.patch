@@ -1,0 +1,37 @@
+diff -Nur --exclude 'Application*.java' --exclude '*.properties' Jubler-3.2.0/src/com/panayotis/jubler/tools/spell/checkers/ZemberekSpellChecker.java Jubler-3.2.0_z2/src/com/panayotis/jubler/tools/spell/checkers/ZemberekSpellChecker.java
+--- Jubler-3.2.0/src/com/panayotis/jubler/tools/spell/checkers/ZemberekSpellChecker.java	2007-02-16 03:44:57.000000000 +0200
++++ Jubler-3.2.0_z2/src/com/panayotis/jubler/tools/spell/checkers/ZemberekSpellChecker.java	2007-04-29 08:58:34.000000000 +0300
+@@ -27,6 +27,7 @@
+ 
+ package com.panayotis.jubler.tools.spell.checkers;
+ 
++import java.lang.reflect.Constructor;
+ import java.util.Hashtable;
+ import java.util.StringTokenizer;
+ import java.util.Vector;
+@@ -78,16 +79,21 @@
+     
+     public boolean initialize() {
+         try {
+-            Class zemclass = Class.forName("net.zemberek.erisim.Zemberek");
+-            kelimeDenetle = zemclass.getDeclaredMethod("kelimeDenetle", new Class[] {String.class});
+-            oner = zemclass.getDeclaredMethod("oner", new Class[] {String.class});
+-            zemberek = zemclass.newInstance();
++            Class zemberekClass = Class.forName("net.zemberek.erisim.Zemberek");
++            Class dilAyarlariClass=Class.forName("net.zemberek.yapi.DilAyarlari");
++            Class turkiyeTurkcesiClass=Class.forName("net.zemberek.tr.yapi.TurkiyeTurkcesi");
++            kelimeDenetle = zemberekClass.getDeclaredMethod("kelimeDenetle", String.class);
++            oner = zemberekClass.getDeclaredMethod("oner", String.class);
++            Constructor zemberekConstructor=zemberekClass.getDeclaredConstructor(dilAyarlariClass);
++            Object turkiyeTurkcesi=turkiyeTurkcesiClass.newInstance();
++            zemberek = zemberekConstructor.newInstance(turkiyeTurkcesi);
+             return true;
+         } catch (NoClassDefFoundError e) {
+         } catch (ClassNotFoundException e) {
+         } catch (NoSuchMethodException e) {
+         } catch (InstantiationException e) {
+         } catch (IllegalAccessException e) {
++        } catch (InvocationTargetException e) {
+         }
+         DEBUG.info(_("Unable to load plugin: {0}", "zemberek"), DEBUG.INFO_ALWAYS);
+         return false;

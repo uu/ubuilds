@@ -1,0 +1,303 @@
+diff -Nur Jubler-3.2.0/build.xml Jubler-3.2.0_patched/build.xml
+--- Jubler-3.2.0/build.xml	2007-02-28 22:44:18.000000000 +0200
++++ Jubler-3.2.0_patched/build.xml	2007-03-02 20:25:07.000000000 +0200
+@@ -70,6 +70,7 @@
+ 
+ 
+ 	<!-- Define new ant tasks -->
++	<!-- Commented to suppress warnings
+ 
+ 	<taskdef name="izpack"
+ 		onerror="report"
+@@ -86,6 +87,7 @@
+ 		onerror="report"
+ 		classpath="../TOOLS/jarbundler/jarbundler-1.9.jar"
+ 		classname="net.sourceforge.jarbundler.JarBundler" />
++	-->
+ 
+ 
+ 	<target name="i18n">
+@@ -103,7 +105,8 @@
+ 		<copy file="resources/help/question.png" todir="dist/help"/>
+ 	</target>
+ 
+-	<target name="xdevelop" depends="i18n,faq">
++	<!-- Edited to support "nls" USE flag -->
++	<target name="xdevelop" depends="faq">
+ 		<exec dir="resources/ffdecode" executable="make"/>
+ 		<copy file="dist/help/jubler-faq.html" todir="build/classes/help"/>
+ 	</target>
+@@ -345,9 +348,11 @@
+ 	</target>
+ 	
+ 	<target name="noMacSystem" depends="findsystem" if="isNotMac">
++	<!-- We do not want this behavior since we patch the file accordingly.
+ 		<copy todir="src/com">
+ 			<fileset dir="resources/system/no_mac"/>
+ 		</copy>
++	-->
+ 	</target>
+ 
+ 	<target name="MacSystem" depends="findsystem" if="isMac">
+diff -Nur Jubler-3.2.0/resources/ffdecode/Makefile Jubler-3.2.0_patched/resources/ffdecode/Makefile
+--- Jubler-3.2.0/resources/ffdecode/Makefile	2007-02-25 18:37:31.000000000 +0200
++++ Jubler-3.2.0_patched/resources/ffdecode/Makefile	2007-03-02 21:21:16.000000000 +0200
+@@ -43,6 +43,7 @@
+ 
+ SRCS=$(shell ls 2>/dev/null *.c)
+ OBJS=$(SRCS:.c=.o)
++CC=${PREF}gcc
+ 
+ ifeq (${SYSTEM},linux)
+ 	PREF=
+@@ -51,7 +52,6 @@
+ 	LIBNAME=lib${PROJ}.so
+ 	XLIBS=-lz
+ 	FCOPTS=
+-	STRIP=${PREF}strip -s
+ endif
+ ifeq (${SYSTEM},win32)
+ 	PREF=i586-mingw32msvc-
+@@ -86,7 +86,6 @@
+ 
+ FCONFCOMMON=--disable-debug --enable-gpl --enable-a52 --disable-ffmpeg --disable-ffserver --disable-ffplay --disable-encoders --disable-vhook --disable-ipv6 --disable-network --disable-dv1394 --disable-bktr --disable-v4l2 --disable-v4l --disable-audio-beos --disable-audio-oss
+ 
+-CC=${PREF}gcc ${ARCH}
+ RANLIB=${PREF}ranlib
+ 
+ 
+@@ -137,8 +136,7 @@
+ LIB:${LIBNAME}
+ 
+ $(LIBNAME):ffmpeg $(OBJS) ranlib
+-	$(LD) $(ARCH) -o $(LIBNAME) $(OBJS) $(LINKOPTS)
+-	$(STRIP) $(LIBNAME)
++	$(LD) -o $(LIBNAME) $(OBJS) $(LINKOPTS)
+ 
+ 
+ clean:
+diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java
+--- Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java	2007-02-15 19:10:16.000000000 +0200
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java	2007-03-02 20:26:39.000000000 +0200
+@@ -31,7 +31,7 @@
+         
+         history = new ArrayList<String>();
+         
+-        String initpage = "file:"+SystemFileFinder.getJublerAppPath()+"/help/jubler-faq.html";
++        String initpage = "file:"+SystemFileFinder.getJublerAppPath()+"/../help/jubler-faq.html";
+         setPage(initpage);
+         history.add(initpage);
+         
+diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java
+--- Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java	2007-02-25 21:38:13.000000000 +0200
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java	2007-03-02 20:39:36.000000000 +0200
+@@ -23,12 +23,7 @@
+ 
+ package com.panayotis.jubler.os;
+ 
+-import com.apple.eawt.Application;
+-import com.apple.eawt.ApplicationAdapter;
+-import com.apple.eawt.ApplicationEvent;
+ import com.panayotis.jubler.Main;
+-
+-
+ import static com.panayotis.jubler.i18n.I18N._;
+ import com.panayotis.jubler.StaticJubler;
+ import java.io.File;
+@@ -51,17 +46,6 @@
+         OS = props.getProperty("os.name").toLowerCase();
+     }
+     
+-    private static boolean isLinux() {
+-        return OS.toLowerCase().indexOf("linux") >= 0;
+-    }
+-    
+-    private static boolean isWindows() {
+-        return OS.toLowerCase().indexOf("windows") >= 0;
+-    }
+-    private static boolean isMacOSX() {
+-        return OS.toLowerCase().indexOf("mac") >= 0;
+-    }
+-    
+     public static int getSliderLOffset() {
+         return 7;
+     }
+@@ -72,42 +56,18 @@
+     
+     
+     public final static void setLookAndFeel() {
+-        try {
+-            if (isWindows() || isMacOSX()) {
+-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+-            }
+-        } catch ( ClassNotFoundException e ) {
+-        } catch ( InstantiationException e ) {
+-        } catch (IllegalAccessException e) {
+-        } catch (UnsupportedLookAndFeelException e) {
+-        }
+     }
+     
+     public static String getDefaultMPlayerArgs() {
+-        String fontconfig = "";
+-        String font = "";
+-
+-        if (isLinux()) {
+-            font = " -font %f";
+-            fontconfig=" -fontconfig";
+-        } else {
+-            if (isWindows()) {
+-                font=" -font c:\\Windows\\fonts\\arial.ttf";
+-            } else {
+-                File freesans = new File(SystemFileFinder.getJublerAppPath()+"/lib/freesans.ttf");
+-                if (freesans.exists()) {
+-                    font = " -font %j/lib/freesans.ttf";
+-                }
+-            }
+-        }
+-
++        String font = " -font %f";
++        String fontconfig=" -fontconfig";
+         return "%p -slave -identify -ontop -utf8 -noquiet -nofs"+fontconfig+" -subfont-autoscale 0 -volstep 10"+
+                 " -sub %s -ss %t -geometry +%x+%y"+font+" -subfont-text-scale %z %(-audiofile %a%) %v";
+     }
+     
+     /* Force ASpell to use UTF-8 encoding - broken on Windows */
+     public static boolean forceASpellEncoding() {
+-        return !isWindows();
++        return true;
+     }
+     
+     public static String getRealExecFilename( String fname ) {
+@@ -119,19 +79,10 @@
+     
+     
+     public static void hideSystemMenus(JMenuItem about, JMenuItem prefs, JMenuItem quit) {
+-        if (isMacOSX()) {
+-            about.setVisible(false);
+-            prefs.setVisible(false);
+-            quit.setVisible(false);
+-        }
+     }
+     
+     
+     public static void initApplication() {
+-        /* In Linux this is a dummy function */
+-        if (isMacOSX()) {
+-            JublerApp japp = new JublerApp();
+-        }
+     }
+     
+     
+@@ -139,16 +90,6 @@
+         return 4;
+     }
+     public static String getKeyMods(boolean [] mods) {
+-        if (isMacOSX()) {
+-            StringBuffer res = new StringBuffer();
+-            if (mods[0]) res.append("\u2318");
+-            if (mods[1]) res.append("\u2325");
+-            if (mods[2]) res.append("\u2303");
+-            if (mods[3]) res.append("\u21e7");
+-            if (res.length()>0) res.append(' ');
+-            return res.toString();
+-        }
+-        
+         StringBuffer res = new StringBuffer();
+         if (mods[0]) res.append("+Meta");
+         if (mods[1]) res.append("+Alt");
+@@ -162,24 +103,15 @@
+     }
+     
+     public static int getDefaultKeyModifier() {
+-        if (isMacOSX()) return 0;
+         return 2;
+     }
+     
+     public static String getCanonicalFilename(String filename) {
+-        if (isWindows()) return filename.toLowerCase()+".exe";
+         return filename.toLowerCase();
+     }
+     
+     public static void openURL(String url) {
+         try {
+-            if (isMacOSX()) {
+-                Class fileMgr = Class.forName("com.apple.eio.FileManager");
+-                Method openURL = fileMgr.getDeclaredMethod("openURL", new Class[] {String.class});
+-                openURL.invoke(null, new Object[] {url});
+-            } else if (isWindows())
+-                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+-            else { //assume Unix or Linux
+                 String[] browsers = {
+                     "firefox", "konqueror", "opera", "epiphany", "mozilla", "netscape" };
+                 String browser = null;
+@@ -191,7 +123,6 @@
+                     throw new Exception(_("Could not find web browser"));
+                 else
+                     Runtime.getRuntime().exec(new String[] {browser, url});
+-            }
+         } catch (Exception e) {
+             DEBUG.warning("URL selected: " + url);
+         }
+@@ -199,36 +130,3 @@
+     
+     
+ }
+-
+-
+-
+-class JublerApp extends Application {
+-    public JublerApp() {
+-        setEnabledPreferencesMenu(true);
+-        addApplicationListener(new ApplicationHandler());
+-    }
+-}
+-
+-class ApplicationHandler extends ApplicationAdapter {
+-    
+-    public ApplicationHandler() {}
+-    
+-    public void handleAbout(ApplicationEvent event) {
+-        StaticJubler.showAbout();
+-        event.setHandled(true);
+-    }
+-    
+-    public void handlePreferences(ApplicationEvent event) {
+-        StaticJubler.showPreferences();
+-        event.setHandled(true);
+-    }
+-    
+-    public void handleQuit(ApplicationEvent event) {
+-        StaticJubler.quitAll();
+-        event.setHandled(false);
+-    }
+-    
+-    public void handleOpenFile(ApplicationEvent event) {
+-        Main.asyncAddSubtitle(event.getFilename());
+-    }
+-}
+diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemFileFinder.java Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java
+--- Jubler-3.2.0/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-02-27 21:02:25.000000000 +0200
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-03-02 20:33:37.000000000 +0200
+@@ -44,20 +44,17 @@
+     }
+     
+     public static boolean loadLibrary(String name) {
+-        File libfile = findFile("lib"+pathseparator+System.mapLibraryName(name));
+-        if (libfile!=null) {
+             try {
+-                System.load(libfile.getAbsolutePath());
++                System.loadLibrary(name);
+                 return true;
+             } catch (UnsatisfiedLinkError e) {
+                 e.printStackTrace();
+             }
+-        }
+         return false;
+     }
+     
+     public static String getJublerAppPath() {
+-        File f = findFile("Jubler.jar");
++        File f = findFile("jubler.jar");
+         if (f==null) f = findFile("Jubler.exe");
+         
+         if (f!=null) return f.getParent();
