@@ -123,7 +123,6 @@ JAVA_PKG_BSFIX="off"
 src_unpack () {
 	unpack ${NB_FILE}
 	cd ${S}
-	find -name "*.jar" | grep "/test/" | xargs rm -v
 
 	if use mobility ; then
 		unpack ${MOBILITY_FILE}
@@ -141,6 +140,7 @@ src_unpack () {
 
 	# Remove JARs that are not needed
 	find ${S}/mdr -name "*.jar" | xargs rm -v
+	find ${S} -name "*.jar" | grep "/test/" | xargs rm -v
 
 	# Disable the bundled Tomcat in favor of Portage installed version
 	cd ${S}/nbbuild
