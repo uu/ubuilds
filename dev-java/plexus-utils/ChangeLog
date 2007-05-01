@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  01 May 2007; kiorky <kiorky@cryptelium.net> +plexus-utils-1.0.4.ebuild:
+  Adding specific ebuilds beecause of maven wants it
+
   25 Apr 2007; kiorky <kiorky@cryptelium.net> plexus-utils-1.0.5.ebuild:
   Migrating to new maven eclass
 
