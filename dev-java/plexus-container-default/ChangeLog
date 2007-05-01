@@ -1,5 +1,11 @@
 
 
+  01 May 2007; kiorky <kiorky@cryptelium.net>
+  +plexus-container-default-1.0_alpha9.ebuild,
+  +plexus-container-default-1.0_alpha10.ebuild,
+  -plexus-container-default-1.0.ebuild:
+  Adding specific ebuilds beecause of maven wants it
+
   25 Apr 2007; kiorky <kiorky@cryptelium.net>
   plexus-container-default-1.0.ebuild:
   Removing leading whitespace
