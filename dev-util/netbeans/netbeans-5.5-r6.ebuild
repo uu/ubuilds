@@ -178,8 +178,8 @@ src_install() {
 
 	# Correct permissions on executables
 	fperms 755 \
-		   ${DESTINATION}/bin/netbeans \
-		   ${DESTINATION}/platform${PLATFORM}/lib/nbexec
+		${DESTINATION}/bin/netbeans \
+		${DESTINATION}/platform${PLATFORM}/lib/nbexec
 
 	# The wrapper wrapper :)
 	newbin ${MY_FDIR}/startscript.sh netbeans-${SLOT}
@@ -236,7 +236,7 @@ pkg_postrm() {
 
 # Supporting functions for this ebuild
 
-function place_unpack_symlinks() {
+place_unpack_symlinks() {
 	# Here are listed all bundled jars, some of them cannot be replaced.
 
 	einfo "Symlinking jars for apisupport"
@@ -311,7 +311,7 @@ function place_unpack_symlinks() {
 	java-pkg_jar-from sac
 }
 
-function symlink_extjars() {
+symlink_extjars() {
 	einfo "Symlinking enterprise jars"
 
 	cd ${1}/enterprise${ENTERPRISE}/modules/ext
@@ -406,7 +406,7 @@ function symlink_extjars() {
 	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.jar
 }
 
-function dosymjar() {
+dosymjar() {
 	if [ -z "${4}" ]; then
 		TARGET_FILE="${3}"
 	else
