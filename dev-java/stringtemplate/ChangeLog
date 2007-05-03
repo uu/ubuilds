@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 May 2007; Alistair John Bush <ali_bush@gentoo.org> ChangeLog:
+  Drop all keywords from stringtemplate
+
   24 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
   stringtemplate-3.0.ebuild:
   Corrected compilation - could not create antlr task

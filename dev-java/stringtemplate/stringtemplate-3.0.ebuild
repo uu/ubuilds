@@ -11,7 +11,7 @@ HOMEPAGE="http://www.stringtemplate.org/"
 SRC_URI="http://www.antlr.org/download/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE=""
 
 COMMON_DEPEND="dev-java/antlr"
