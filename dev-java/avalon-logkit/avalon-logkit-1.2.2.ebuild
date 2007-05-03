@@ -27,7 +27,8 @@ DEPEND="|| (
 
 LICENSE="Apache-1.1"
 SLOT="1.2"
-KEYWORDS="amd64 ~ia64 ppc ppc64 x86"
+#KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86"
+KEYWORDS=""
 
 S="${WORKDIR}/logkit-${PV}-dev"
 SRC_DIR="${S}/src/java"
@@ -41,7 +42,8 @@ src_compile() {
 	if use doc ; then
 		mkdir "${JAVADOC_DIR}" || die "Could not create javadoc dir"
 		cd ${SRC_DIR}
-		javadoc -source "${JAVA_VERSION}" -d ${JAVADOC_DIR} $(find "net/infonode" -type d | tr '/' '.') || die "Could not create javadoc"
+		javadoc -source "${JAVA_VERSION}" -d ${JAVADOC_DIR} $(find
+		"org/apache/log" -type d | tr '/' '.') || die "Could not create javadoc"
 	fi
 }
 
