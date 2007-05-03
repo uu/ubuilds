@@ -13,7 +13,7 @@ HOMEPAGE="http://www.antlr.org/"
 SRC_URI="http://www.antlr.org/download/${MY_P}.tar.gz"
 LICENSE="BSD"
 SLOT="3"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
