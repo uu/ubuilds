@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  04 May 2007; Vlastimil Babka <caster@gentoo.org>
+  eclipse-sdk-3.2.1-r3.ebuild:
+  Micromanage ant-tasks dep to prevent bug #177079.
+
   26 Apr 2007; Vlastimil Babka <caster@gentoo.org>
   -eclipse-sdk-3.2.1-r2.ebuild, +eclipse-sdk-3.2.1-r3.ebuild:
   Revbump to support split-ant; fix building with JAVA_PKG_STRICT.

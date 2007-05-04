@@ -29,6 +29,7 @@ S=${WORKDIR}
 
 COMMON_DEP="
 	>=dev-java/ant-1.7.0
+	>=dev-java/ant-tasks-1.7.0-r2
 	tomcat? (
 		dev-java/commons-digester-rss
 		=dev-java/mx4j-2.1*
