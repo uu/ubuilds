@@ -71,7 +71,7 @@ pkg_nofetch() {
 src_unpack() {
 	# Do a little voodoo to extract the distfile
 	# Find the ELF in the script
-	testExp=$'\105\114\106'
+	testExp=$(echo -e '\0105\0114\0106')
 	startAt=$(grep -aonm 1 ${testExp}  ${DISTDIR}/${At} | cut -d: -f1)
 	# Extract and run it
 	tail -n +${startAt} ${DISTDIR}/${At} > install.sfx
