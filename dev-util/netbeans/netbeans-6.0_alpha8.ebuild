@@ -25,6 +25,7 @@ IUSE="debug doc mobility ruby visualweb"
 
 COMMON_DEPEND="
 	>=dev-java/ant-1.7.0
+	>=dev-java/ant-tasks-1.7.0-r2
 	dev-java/antlr
 	=dev-java/commons-beanutils-1.7*
 	dev-java/commons-collections
