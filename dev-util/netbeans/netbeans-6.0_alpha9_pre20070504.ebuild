@@ -1,0 +1,635 @@
+# Copyright 1999-2007 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: /var/cvsroot/gentoo-x86/dev-util/netbeans/netbeans-5.5-r4.ebuild,v 1.1 2007/01/28 19:40:16 fordfrog Exp $
+
+# TODO:
+# - bind dependencies to USE flags
+# - during src_compile nbbuild/build.xml downloads jsr223-api.jar so get rid of this download
+
+WANT_SPLIT_ANT=true
+inherit eutils java-pkg-2 java-ant-2 versionator
+
+DESCRIPTION="NetBeans IDE for Java"
+HOMEPAGE="http://www.netbeans.org"
+
+SLOT="6.0"
+MILESTONE="m9"
+MY_PV=${PV/_alpha/-m}
+SOURCE_SITE="http://dev.gentoo.org/~fordfrog/distfiles/"
+SRC_URI="
+	${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-autoupdate-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-core-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-editor-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-graph-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-libs-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-nbbuild-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-openide-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-projects-${MY_PV}.tar.bz2"
+#	a11y? ( ${SOURCE_SITE}/${PN}-a11y-${MY_PV}.tar.bz2 )
+#	ant? ( ${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2 )
+#	antlr? ( ${SOURCE_SITE}/${PN}-antlr-${MY_PV}.tar.bz2 )
+#	beans? ( ${SOURCE_SITE}/${PN}-beans-${MY_PV}.tar.bz2 )
+#	classfile? ( ${SOURCE_SITE}/${PN}-classfile-${MY_PV}.tar.bz2 )
+#	clazz? ( ${SOURCE_SITE}/${PN}-clazz-${MY_PV}.tar.bz2 )
+#	cnd? ( ${SOURCE_SITE}/${PN}-cnd-${MY_PV}.tar.bz2 )
+#	db? ( ${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2 )
+#	debugger? (
+#		${SOURCE_SITE}/${PN}-debuggercore-${MY_PV}.tar.bz2
+#		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
+#	)
+#	diff? ( ${SOURCE_SITE}/${PN}-diff-${MY_PV}.tar.bz2 )
+#	enterprise? ( ${SOURCE_SITE}/${PN}-enterprise-${MY_PV}.tar.bz2 )
+#	extbrowser? ( ${SOURCE_SITE}/${PN}-extbrowser-${MY_PV}.tar.bz2 )
+#	externaleditor? ( ${SOURCE_SITE}/${PN}-externaleditor-${MY_PV}.tar.bz2 )
+#	filecopy? ( ${SOURCE_SITE}/${PN}-filecopy-${MY_PV}.tar.bz2 )
+#	form? ( ${SOURCE_SITE}/${PN}-form-${MY_PV}.tar.bz2 )
+#	freestylebrowser? ( ${SOURCE_SITE}/${PN}-freestylebrowser-${MY_PV}.tar.bz2 )
+#	html? ( ${SOURCE_SITE}/${PN}-html-${MY_PV}.tar.bz2 )
+#	httpserver? ( ${SOURCE_SITE}/${PN}-httpserver-${MY_PV}.tar.bz2 )
+#	i18n? ( ${SOURCE_SITE}/${PN}-i18n-${MY_PV}.tar.bz2 )
+#	ide? ( ${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2 )
+#	identity? ( ${SOURCE_SITE}/${PN}-identity-${MY_PV}.tar.bz2 )
+#	image? ( ${SOURCE_SITE}/${PN}-image-${MY_PV}.tar.bz2 )
+#	itutor? ( ${SOURCE_SITE}/${PN}-itutor-${MY_PV}.tar.bz2 )
+#	j2ee? ( ${SOURCE_SITE}/${PN}-j2ee-${MY_PV}.tar.bz2 )
+#	j2eeserver? ( ${SOURCE_SITE}/${PN}-j2eeserver-${MY_PV}.tar.bz2 )
+#	jasm? ( ${SOURCE_SITE}/${PN}-jasm-${MY_PV}.tar.bz2 )
+#	java? ( ${SOURCE_SITE}/${PN}-java-${MY_PV}.tar.bz2 )
+#	javacvs? ( ${SOURCE_SITE}/${PN}-javacvs-${MY_PV}.tar.bz2 )
+#	javadoc? ( ${SOURCE_SITE}/${PN}-javadoc-${MY_PV}.tar.bz2 )
+#	javaembeddedserver? ( ${SOURCE_SITE}/${PN}-javaembeddedserver-${MY_PV}.tar.bz2 )
+#	javawebstart? ( ${SOURCE_SITE}/${PN}-javawebstart-${MY_PV}.tar.bz2 )
+#	jellytools? ( ${SOURCE_SITE}/${PN}-jellytools-${MY_PV}.tar.bz2 )
+#	jemmy? ( ${SOURCE_SITE}/${PN}-jemmy-${MY_PV}.tar.bz2 )
+#	jemmysupport? ( ${SOURCE_SITE}/${PN}-jemmysupport-${MY_PV}.tar.bz2 )
+#	jini? ( ${SOURCE_SITE}/${PN}-jini-${MY_PV}.tar.bz2 )
+#	junit? ( ${SOURCE_SITE}/${PN}-junit-${MY_PV}.tar.bz2 )
+#	languages? ( ${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2 )
+#	latex? ( ${SOURCE_SITE}/${PN}-latex-${MY_PV}.tar.bz2 )
+#	lexer? ( ${SOURCE_SITE}/${PN}-lexer-${MY_PV}.tar.bz2 )
+#	logger? ( ${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2 )
+#	management? ( ${SOURCE_SITE}/${PN}-management-${MY_PV}.tar.bz2 )
+#	mdr? ( ${SOURCE_SITE}/${PN}-mdr-${MY_PV}.tar.bz2 )
+#	metrics? ( ${SOURCE_SITE}/${PN}-metrics-${MY_PV}.tar.bz2 )
+#	mobility? ( ${SOURCE_SITE}/${PN}-mobility-${MY_PV}.tar.bz2 )
+#	monitor? ( ${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2 )
+#	netbrowser? ( ${SOURCE_SITE}/${PN}-netbrowser-${MY_PV}.tar.bz2 )
+#	objectbrowser? ( ${SOURCE_SITE}/${PN}-objectbrowser-${MY_PV}.tar.bz2 )
+#	openidex? ( ${SOURCE_SITE}/${PN}-openidex-${MY_PV}.tar.bz2 )
+#	print? ( ${SOURCE_SITE}/${PN}-print-${MY_PV}.tar.bz2 )
+#	profiler? ( ${SOURCE_SITE}/${PN}-profiler-${MY_PV}.tar.bz2 )
+#	properties? ( ${SOURCE_SITE}/${PN}-properties-${MY_PV}.tar.bz2 )
+#	refactoring? ( ${SOURCE_SITE}/${PN}-refactoring-${MY_PV}.tar.bz2 )
+#	remotefs? ( ${SOURCE_SITE}/${PN}-remotefs-${MY_PV}.tar.bz2 )
+#	rmi? ( ${SOURCE_SITE}/${PN}-rmi-${MY_PV}.tar.bz2 )
+#	schema2beans? ( ${SOURCE_SITE}/${PN}-schema2beans-${MY_PV}.tar.bz2 )
+#	scripting? ( ${SOURCE_SITE}/${PN}-scripting-${MY_PV}.tar.bz2 )
+#	serverplugins? ( ${SOURCE_SITE}/${PN}-serverplugins-${MY_PV}.tar.bz2 )
+#	sim? ( ${SOURCE_SITE}/${PN}-sim-${MY_PV}.tar.bz2 )
+#	spellchecker? ( ${SOURCE_SITE}/${PN}-spellchecker-${MY_PV}.tar.bz2 )
+#	subversion? ( ${SOURCE_SITE}/${PN}-subversion-${MY_PV}.tar.bz2 )
+#	sysprops? ( ${SOURCE_SITE}/${PN}-sysprops-${MY_PV}.tar.bz2 )
+#	tasklist? ( ${SOURCE_SITE}/${PN}-tasklist-${MY_PV}.tar.bz2 )
+#	testtools? ( ${SOURCE_SITE}/${PN}-testtools-${MY_PV}.tar.bz2 )
+#	tomcatint? ( ${SOURCE_SITE}/${PN}-tomcatint-${MY_PV}.tar.bz2 )
+#	translatedfiles? ( ${SOURCE_SITE}/${PN}-translatedfiles-${MY_PV}.tar.bz2 )
+#	ui? ( ${SOURCE_SITE}/${PN}-ui-${MY_PV}.tar.bz2 )
+#	uml? ( ${SOURCE_SITE}/${PN}-uml-${MY_PV}.tar.bz2 )
+#	usersguide? ( ${SOURCE_SITE}/${PN}-usersguide-${MY_PV}.tar.bz2 )
+#	utilities? ( ${SOURCE_SITE}/${PN}-utilities-${MY_PV}.tar.bz2 )
+#	vcscore? ( ${SOURCE_SITE}/${PN}-vcscore-${MY_PV}.tar.bz2 )
+#	vcscvs? ( ${SOURCE_SITE}/${PN}-vcscvs-${MY_PV}.tar.bz2 )
+#	vcsgeneric? ( ${SOURCE_SITE}/${PN}-vcsgeneric-${MY_PV}.tar.bz2 )
+#	versioncontrol? ( ${SOURCE_SITE}/${PN}-versioncontrol-${MY_PV}.tar.bz2 )
+#	visualweb? ( ${SOURCE_SITE}/${PN}-visualweb-${MY_PV}.tar.bz2 )
+#	web? ( ${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2 )
+#	websvc? ( ${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2 )
+#	xml? ( ${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2 )
+
+LICENSE="CDDL"
+KEYWORDS="~amd64 ~x86 ~x86-fbsd"
+IUSE="a11y ant antlr beans classfile clazz cnd db debug debugger diff doc enterprise extbrowser externaleditor \
+	filecopy form freestylebrowser html httpserver i18n ide identity image itutor j2ee j2eeserver \
+	jasm java javacvs javadoc javaembeddedserver javawebstart jellytools jemmy jemmysupport \
+	jini junit languages latex lexer logger management mdr metrics mobility monitor netbrowser \
+	objectbrowser openidex print profiler properties refactoring remotefs rmi schema2beans scripting \
+	serverplugins sim spellchecker subversion sysprops tasklist testtools tomcatint \
+	translatedfiles ui uml usersguide utilities vcscore vcscvs vcsgeneric versioncontrol \
+	visualweb web websvc xml"
+
+#COMMON_DEPEND="
+#	>=dev-java/ant-1.7.0
+#	dev-java/antlr
+#	=dev-java/commons-beanutils-1.7*
+#	dev-java/commons-collections
+#	>=dev-java/commons-logging-1.0.4
+#	dev-java/flute
+#	>=dev-java/jakarta-jstl-1.1.2
+#	>=dev-java/javahelp-2.0.02
+#	>=dev-java/jsch-0.1.24
+#	=dev-java/junit-3.8*
+#	>=dev-java/junit-4
+#	dev-java/sac
+#	=dev-java/servletapi-2.2*
+#	>=dev-java/sun-j2ee-deployment-bin-1.1
+#	=dev-java/swing-layout-1*
+#	>=dev-java/xerces-2.8.1
+#	>=dev-java/xml-commons-1.0_beta2
+#	mobility? (
+#		dev-java/commons-httpclient
+#		dev-java/commons-net
+#		dev-java/proguard
+#	)
+#	visualweb? (
+#		dev-java/commons-digester
+#		dev-java/commons-fileupload
+#	)
+#"
+
+#RDEPEND=">=virtual/jre-1.5
+#	dev-java/commons-digester
+#	>=dev-java/commons-fileupload-1.1
+#	>=dev-java/commons-io-1.2
+#	dev-java/commons-validator
+#	dev-java/fastinfoset
+#	dev-java/jakarta-oro
+#	dev-java/jax-rpc
+#	dev-java/jax-ws
+#	dev-java/jax-ws-api
+#	>=dev-java/jaxb-2
+#	>dev-java/jaxb-tools-2
+#	dev-java/jaxp
+#	mobility? ( >=dev-java/jdom-1.0 )
+#	dev-java/jsr67
+#	dev-java/jsr101
+#	dev-java/jsr173
+#	dev-java/jsr181
+#	dev-java/jsr250
+#	=dev-java/struts-1.2*
+#	dev-java/relaxng-datatype
+#	dev-java/saaj
+#	dev-java/sjsxp
+#	dev-java/sun-jaf
+#	dev-java/sun-javamail
+#	dev-java/xsdlib
+#	${COMMON_DEPEND}"
+
+# NOTE: Currently there is a problem with building netbeans and mobility pack with JDK 1.6
+# so we limit it to JDK 1.5 for now.
+#DEPEND="=virtual/jdk-1.5*
+#	>=dev-java/commons-cli-1.0
+#	dev-java/commons-el
+#	>=dev-java/commons-jxpath-1.1
+#	>=dev-java/commons-lang-2.1
+#	dev-java/glassfish-persistence
+#	dev-java/ical4j
+#	mobility? ( dev-java/jakarta-oro )
+#	>=dev-java/jcalendar-1.2
+#	>=dev-java/jdom-1.0
+#	>=dev-java/jmi-interface-1.0-r3
+#	dev-java/jtidy
+#	>=dev-java/prefuse-20060715_beta
+#	>=dev-java/rome-0.6
+#	=dev-java/servletapi-2.3*
+#	dev-java/sun-jmx
+#	>=dev-java/xml-xmlbeans-1.0.4
+#	dev-util/checkstyle
+#	>=dev-util/pmd-1.3
+#	${COMMON_DEPEND}"
+
+COMMON_DEPEND="
+	>=dev-java/javahelp-2.0.02
+	=dev-java/swing-layout-1*"
+
+RDEPEND=">=virtual/jdk-1.5
+	${COMMON_DEPEND}"
+
+DEPEND="=virtual/jdk-1.5*
+	>=dev-java/ant-nodeps-1.7.0
+	${COMMON_DEPEND}"
+
+S=${WORKDIR}/netbeans-src
+BUILDDESTINATION="${S}/nbbuild/netbeans"
+ENTERPRISE="4"
+IDE_VERSION="8"
+PLATFORM="7"
+MY_FDIR="${FILESDIR}/${SLOT}"
+DESTINATION="/usr/share/netbeans-${SLOT}"
+CLUSTER_FILE="/etc/${PN}-${SLOT}/netbeans.clusters"
+PRODUCTID_FILE="${DESTINATION}/nb${SLOT}/config/productid"
+JAVA_PKG_BSFIX="off"
+
+src_unpack () {
+	unpack ${A}
+
+	if use visualweb ; then
+		cd ${S}/visualweb/insync/src/org/netbeans/modules/visualweb/insync/markup
+		epatch ${FILESDIR}/${SLOT}/visualweb-JxpsSerializer.java-xerces-2.8.1.patch
+	fi
+
+	# Remove JARs that are not needed
+	if use mdr ; then
+		find ${S}/mdr -name "*.jar" | xargs rm -v || die "Cannot remove unneeded mrd files"
+	fi
+	for FILE in `find ${S} -name "*.jar" | grep "/test/"`; do
+		rm -v ${FILE} || die "Cannot remove ${FILE}"
+	done
+
+	place_unpack_symlinks
+}
+
+src_compile() {
+	local antflags="-Dstop.when.broken.modules=true -Ddo-not-rebuild-clusters=true"
+
+	if use debug; then
+		antflags="${antflags} -Dbuild.compiler.debug=true"
+		antflags="${antflags} -Dbuild.compiler.deprecation=true"
+	else
+		antflags="${antflags} -Dbuild.compiler.deprecation=false"
+	fi
+
+	# The build will attempt to display graphical
+	# dialogs for the licence agreements if this is set.
+	unset DISPLAY
+
+	# Fails to compile
+	java-pkg_filter-compiler ecj-3.1 ecj-3.2
+
+	# Specify the build-nozip target otherwise it will build
+	# a zip file of the netbeans folder, which will copy directly.
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} \
+		-f nbbuild/build.xml build-platform
+	#ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} -f nbbuild/build.xml build-nozip
+	# Running build-javadoc from the same command line as build-nozip doesn't work
+	# so we must run it separately
+	use doc && ANT_OPTS="-Xmx1g" eant -f nbbuild/build.xml build-javadoc
+
+	if use mobility ; then
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f mobility/build.xml build
+		# no javadoc target for mobility
+	fi
+
+	if use ruby ; then
+		addpredict /root/.jruby
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f scripting/ruby/build.xml build \
+			-Djruby.home=${T}/.jruby -Duser.home.directory=${T} -Duser.home=${T}
+		# no javadoc target for ruby
+	fi
+
+	if use visualweb ; then
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f visualweb/ravebuild/build.xml build \
+			-Dbypass.cache.validation=true
+		# no javadoc target for visualweb
+	fi
+
+	# Remove non-x86 Linux binaries
+	find ${BUILDDESTINATION} -type f \
+		-name "*.exe" -o \
+		-name "*.cmd" -o \
+		-name "*.bat" -o \
+		-name "*.dll"	  \
+		| xargs rm -f
+
+	# Removing external stuff. They are api docs from external libs.
+	rm -f ${BUILDDESTINATION}/ide${IDE_VERSION}/docs/*.zip
+
+	# Remove zip files from generated javadocs.
+	rm -f ${BUILDDESTINATION}/javadoc/*.zip
+
+	# Use the system ant
+	if use ant ; then
+		cd ${BUILDDESTINATION}/ide${IDE_VERSION}/ant
+		rm -fr lib
+		rm -fr bin
+	fi
+
+	# Set a initial default jdk
+	if [[ -e ${BUILDDESTINATION}/etc/netbeans.conf ]]; then
+		echo "netbeans_jdkhome=\"\$(java-config -O)\"" >> ${BUILDDESTINATION}/etc/netbeans.conf
+	fi
+
+	# fix paths per bug# 163483
+	if [[ -e ${BUILDDESTINATION}/bin/netbeans ]]; then
+		sed -i -e 's:"$progdir"/../etc/:/etc/netbeans-6.0/:' ${BUILDDESTINATION}/bin/netbeans
+		sed -i -e 's:"${userdir}"/etc/:/etc/netbeans-6.0/:' ${BUILDDESTINATION}/bin/netbeans
+	fi
+}
+
+src_install() {
+	insinto ${DESTINATION}
+
+	einfo "Installing the program..."
+	cd ${BUILDDESTINATION}
+	doins -r *
+
+	#Remove the build helper files
+	rm -f ${DESTINATION}/nb.cluster.*
+	rm -f ${DESTINATION}/moduleCluster.properties
+	rm -f ${DESTINATION}/module_tracking.xml
+	rm -f ${DESTINATION}/build_info
+
+	# Change location of etc files
+	if [[ -e ${BUILDDESTINATION}/etc ]]; then
+		insinto /etc/${PN}-${SLOT}
+		doins ${BUILDDESTINATION}/etc/*
+		rm -fr ${D}/${DESTINATION}/etc
+		dosym /etc/${PN}-${SLOT} ${DESTINATION}/etc
+	fi
+
+	# Replace bundled jars with system jars
+	symlink_extjars ${D}/${DESTINATION}
+
+	# Correct permissions on executables
+	[[ -e ${DESTINATION}/bin/netbeans ]] && fperms 755 ${DESTINATION}/bin/netbeans
+	fperms 775 ${DESTINATION}/platform${PLATFORM}/lib/nbexec
+
+	# The wrapper wrapper :)
+	if [[ -e ${DESTINATION}/bin/netbeans ]]; then
+		dosym ${DESTINATION}/bin/netbeans /usr/bin/${PN}-${SLOT}
+	else
+		dosym ${DESTINATION}/platform7/lib/nbexec /usr/bin/${PN}-${SLOT}
+	fi
+
+	# Ant installation
+	if use ant ; then
+		local ANTDIR="${DESTINATION}/ide${IDE_VERSION}/ant"
+		dosym /usr/share/ant/lib ${ANTDIR}/lib
+		dosym /usr/share/ant-core/bin ${ANTDIR}/bin
+	fi
+
+	# Documentation
+	einfo "Installing Documentation..."
+
+	cd ${D}/${DESTINATION}
+	dohtml CREDITS.html README.html netbeans.css
+	rm -f build_info CREDITS.html README.html netbeans.css
+
+	use doc && java-pkg_dojavadoc ${S}/nbbuild/build/javadoc
+
+	# Icons and shortcuts
+	if [[ -e ${S}/ide/branding/release/*png ]]; then
+		einfo "Installing icons..."
+
+		dodir ${DESTINATION}/icons
+		insinto ${DESTINATION}/icons
+		doins ${S}/ide/branding/release/*png
+
+		for res in "16x16" "24x24" "32x32" "48x48" "128x128" ; do
+			dodir /usr/share/icons/hicolor/${res}/apps
+			dosym ${DESTINATION}/icons/netbeans.png /usr/share/icons/hicolor/${res}/apps/netbeans.png
+		done
+	fi
+
+	make_desktop_entry netbeans-${SLOT} "Netbeans ${SLOT}" netbeans Development
+}
+
+pkg_postrm() {
+	if ! test -e /usr/bin/netbeans-${SLOT}; then
+		elog "Because of the way Portage works at the moment"
+		elog "symlinks to the system jars are left to:"
+		elog "${DESTINATION}"
+		elog "If you are uninstalling Netbeans you can safely"
+		elog "remove everything in this directory"
+	fi
+}
+
+# Supporting functions for this ebuild
+
+place_unpack_symlinks() {
+	einfo "Symlinking jars for apisupport"
+	cd ${S}/apisupport/external
+	#java-pkg_jar-from --build-only jdom-1.0
+	java-pkg_jar-from javahelp jhall.jar jsearch-2.0_04.jar
+	#java-pkg_jar-from --build-only rome rome.jar rome-fetcher-0.6.jar
+	#java-pkg_jar-from --build-only rome rome.jar rome-0.6.jar
+
+	einfo "Symlinking jars for core"
+	cd ${S}/core/external
+	java-pkg_jar-from javahelp jh.jar jh-2.0_04.jar
+
+	if use httpserver ; then
+		einfo "Symlinking jars for httpserver"
+		cd ${S}/httpserver/external
+		java-pkg_jar-from servletapi-2.2 servlet.jar servlet-2.2.jar
+	fi
+
+	if use j2ee ; then
+		einfo "Symlinking jars for j2ee"
+		cd ${S}/j2ee/external
+		java-pkg_jar-from --build-only glassfish-persistence
+	fi
+
+	if use j2eeserver ; then
+		einfo "Symlinking jars for j2eeserver"
+		cd ${S}/j2eeserver/external
+		java-pkg_jar-from sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
+	fi
+
+	if use junit ; then
+		einfo "Symlinking jars for junit"
+		cd ${S}/junit/external
+		java-pkg_jar-from junit junit.jar junit-3.8.2.jar
+		java-pkg_jar-from junit-4 junit.jar junit-4.1.jar
+	fi
+
+	if use lexer ; then
+		einfo "Symlinking jars for lexer"
+		cd ${S}/lexer/external
+		java-pkg_jar-from antlr antlr.jar antlr-2.7.1.jar
+	fi
+
+	einfo "Symlinking jars for libs"
+	cd ${S}/libs/external
+	#java-pkg_jar-from --build-only commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
+	#java-pkg_jar-from commons-logging commons-logging-api.jar commons-logging-api-1.1.jar
+	#java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
+	#java-pkg_jar-from --build-only ical4j
+	#java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.2.jar
+	#java-pkg_jar-from jsch jsch.jar jsch-0.1.24.jar
+	#java-pkg_jar-from --build-only pmd pmd.jar pmd-1.3.jar
+	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
+	#java-pkg_jar-from --build-only xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
+	#java-pkg_jar-from --build-only xerces-2 xercesImpl.jar xerces-2.8.0.jar
+
+	if use mobility ; then
+		einfo "Symlinking jars for mobility"
+		cd ${S}/mobility/deployment/ftpscp/external
+		java-pkg_jar-from commons-net commons-net.jar commons-net-1.4.1.jar
+		java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
+
+		cd ${S}/mobility/deployment/webdav/external
+		java-pkg_jar-from commons-httpclient
+		java-pkg_jar-from commons-logging commons-logging.jar
+		java-pkg_jar-from --build-only jdom-1.0
+
+		cd ${S}/mobility/proguard/external
+		java-pkg_jar-from proguard proguard.jar proguard3.5.jar
+	fi
+
+	if use serverplugins ; then
+		einfo "Symlinking jars for serverplugins"
+		cd ${S}/serverplugins/external
+		java-pkg_jar-from --build-only sun-jmx jmxri.jar jmxremote.jar
+	fi
+
+	if use subversion ; then
+		einfo "Symlinking jars for subversion"
+		cd ${S}/subversion/external
+	fi
+
+	if use tasklist ; then
+		einfo "Symlinking jars for tasklist"
+		cd ${S}/tasklist/external
+		java-pkg_jar-from antlr antlr.jar
+		java-pkg_jar-from commons-beanutils-1.7 commons-beanutils-core.jar
+		java-pkg_jar-from --build-only commons-cli-1
+		java-pkg_jar-from commons-collections commons-collections.jar
+		java-pkg_jar-from --build-only checkstyle
+		java-pkg_jar-from --build-only ical4j
+		java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.0.jar
+		java-pkg_jar-from --build-only jtidy Tidy.jar Tidy-r7.jar
+	fi
+
+	if use visualweb ; then
+		einfo "Symlinking jars for visualweb"
+		cd ${S}/visualweb/ravehelp/external
+		java-pkg_jar-from javahelp jhall.jar jhall-2.0_02.jar
+
+		cd ${S}/visualweb/ravelibs/commons-beanutils/release/modules/ext
+		java-pkg_jar-from commons-beanutils-1.7 commons-beanutils.jar
+
+		cd ${S}/visualweb/ravelibs/commons-collections/release/modules/ext
+		java-pkg_jar-from commons-collections
+
+		cd ${S}/visualweb/ravelibs/commons-digester/release/modules/ext
+		java-pkg_jar-from commons-digester
+
+		cd ${S}/visualweb/ravelibs/commons-fileupload/release/modules/ext
+		java-pkg_jar-from commons-fileupload
+
+		cd ${S}/visualweb/ravelibs/commons-logging/release/modules/ext
+		java-pkg_jar-from commons-logging commons-logging.jar
+	fi
+
+	if use web ; then
+		einfo "Symlinking jars for web"
+		cd ${S}/web/external
+		java-pkg_jar-from --build-only commons-el
+		java-pkg_jar-from jakarta-jstl jstl.jar jstl-1.1.2.jar
+		java-pkg_jar-from --build-only servletapi-2.3 servlet.jar servlet-2.3.jar
+		java-pkg_jar-from jakarta-jstl standard.jar standard-1.1.2.jar
+	fi
+
+	if use xml ; then
+		einfo "Symlinking jars for xml"
+		cd ${S}/xml/external
+		java-pkg_jar-from flute
+		java-pkg_jar-from --build-only commons-jxpath commons-jxpath.jar jxpath1.1.jar
+		java-pkg_jar-from --build-only prefuse-2006 prefuse.jar prefuse.jar
+		java-pkg_jar-from sac
+	fi
+}
+
+symlink_extjars() {
+	einfo "Symlinking enterprise jars"
+
+	#cd ${1}/enterprise${ENTERPRISE}/modules/ext
+	#java-pkg_jar-from sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
+	#java-pkg_jar-from jakarta-jstl jstl.jar
+	#java-pkg_jar-from jakarta-jstl standard.jar
+
+	#cd ${1}/enterprise${ENTERPRISE}/modules/ext/blueprints
+	#java-pkg_jar-from commons-fileupload commons-fileupload.jar commons-fileupload-1.1.1.jar
+	#java-pkg_jar-from commons-io-1 commons-io.jar commons-io-1.2.jar
+	#java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.1.jar
+
+	#cd ${1}/enterprise${ENTERPRISE}/modules/ext/jsf
+	#java-pkg_jar-from commons-beanutils-1.7 commons-beanutils.jar
+	#java-pkg_jar-from commons-collections commons-collections.jar
+	#java-pkg_jar-from commons-digester commons-digester.jar
+	#java-pkg_jar-from commons-logging commons-logging.jar
+
+	#cd ${1}/enterprise${ENTERPRISE}/modules/ext/struts
+	#java-pkg_jar-from antlr antlr.jar
+	#java-pkg_jar-from commons-beanutils-1.7 commons-beanutils.jar
+	#java-pkg_jar-from commons-digester commons-digester.jar
+	#java-pkg_jar-from commons-fileupload commons-fileupload.jar
+	#java-pkg_jar-from commons-logging commons-logging.jar
+	#java-pkg_jar-from commons-validator commons-validator.jar
+	#java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar
+	#java-pkg_jar-from struts-1.2 struts.jar
+
+
+	einfo "Symlinking harness jars"
+
+	cd ${1}/harness
+	java-pkg_jar-from javahelp jhall.jar jsearch-2.0_04.jar
+
+
+	einfo "Symlinking ide jars"
+
+	#cd ${1}/ide${IDE_VERSION}/modules/ext
+	#java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
+	#java-pkg_jar-from flute
+	#java-pkg_jar-from jsch jsch.jar jsch-0.1.24.jar
+	#java-pkg_jar-from junit junit.jar junit-3.8.2.jar
+	#java-pkg_jar-from sac
+	#java-pkg_jar-from servletapi-2.2 servlet.jar servlet-2.2.jar
+	#java-pkg_jar-from xerces-2 xercesImpl.jar xerces-2.8.0.jar
+
+	#cd ${1}/ide${IDE_VERSION}/modules/ext/jaxrpc16
+	#java-pkg_jar-from sun-jaf
+	#java-pkg_jar-from fastinfoset fastinfoset.jar FastInfoset.jar
+	#java-pkg_jar-from jaxp
+	#java-pkg_jar-from jsr101
+	#java-pkg_jar-from jax-rpc jaxrpc-impl.jar
+	#java-pkg_jar-from jax-rpc jaxrpc-spi.jar
+	#java-pkg_jar-from jsr173 jsr173.jar jsr173_api.jar
+	#java-pkg_jar-from sun-javamail
+	#java-pkg_jar-from relaxng-datatype
+	#java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
+	#java-pkg_jar-from saaj saaj.jar saaj-impl.jar
+	#java-pkg_jar-from xsdlib
+
+	#cd ${1}/ide${IDE_VERSION}/modules/ext/jaxws21
+	#java-pkg_jar-from sun-jaf
+	#java-pkg_jar-from fastinfoset fastinfoset.jar FastInfoset.jar
+	#java-pkg_jar-from jaxb-2 jaxb-impl.jar
+	#java-pkg_jar-from jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
+	#java-pkg_jar-from jax-ws-2 jax-ws.jar jaxws-rt.jar
+	#java-pkg_jar-from jax-ws-2 jax-ws.jar jaxws-tools.jar
+	#java-pkg_jar-from jsr173 jsr173.jar jsr173_api.jar
+	#java-pkg_jar-from jsr250
+	#java-pkg_jar-from saaj saaj.jar saaj-impl.jar
+	#java-pkg_jar-from sjsxp
+
+	#cd ${1}/ide${IDE_VERSION}/modules/ext/jaxws21/api
+	#java-pkg_jar-from jaxb-2 jaxb-api.jar
+	#java-pkg_jar-from jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
+	#java-pkg_jar-from jsr181 jsr181.jar jsr181-api.jar
+	#java-pkg_jar-from jsr67 jsr67.jar saaj-api.jar
+
+
+	einfo "Symlinking platform jars"
+
+	cd ${1}/platform${PLATFORM}/modules/ext
+	java-pkg_jar-from javahelp jh.jar jh-2.0_04.jar
+	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
+
+	if use mobility ; then
+		einfo "Symlinking mobility jars"
+
+		cd ${1}/extra/external
+		java-pkg_jar-from commons-httpclient
+		java-pkg_jar-from commons-logging commons-logging.jar
+		java-pkg_jar-from jdom-1.0
+
+		cd ${1}/extra/external/proguard
+		java-pkg_jar-from proguard proguard.jar proguard3.5.jar
+
+		cd ${1}/extra/modules/ext
+		java-pkg_jar-from commons-net commons-net.jar commons-net-1.4.1.jar
+		java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
+	fi
+}
