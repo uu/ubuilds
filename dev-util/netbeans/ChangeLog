@@ -3,6 +3,11 @@
 # $Header: $
 
   05 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  -netbeans-6.0_alpha8.ebuild, +netbeans-6.0_alpha10_pre20070505.ebuild,
+  -netbeans-6.0_alpha9_pre20070504.ebuild:
+  Version bump. Use flags are now based on clusters. Not tested yet.
+
+  05 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
   +netbeans-6.0_alpha9_pre20070504.ebuild:
   New experimental ebuild using USE flags for selection of features that
   should be compiled in. At this moment only compilation of Netbeans Platform

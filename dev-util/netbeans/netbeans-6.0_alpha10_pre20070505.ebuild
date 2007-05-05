@@ -5,6 +5,9 @@
 # TODO:
 # - bind dependencies to USE flags
 # - during src_compile nbbuild/build.xml downloads jsr223-api.jar so get rid of this download
+# - now apisupport is included in the unconditional section of SRC_URI though it is not needed by platform but
+#   at this moment I do not know how to build platform without harness as trying to build it causes error on
+#   xerces which I do not know how to solve - once it is solved apisupport can be removed from the unconditional section
 
 WANT_SPLIT_ANT=true
 inherit eutils java-pkg-2 java-ant-2 versionator
@@ -25,98 +28,102 @@ SRC_URI="
 	${SOURCE_SITE}/${PN}-libs-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-nbbuild-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-openide-${MY_PV}.tar.bz2
-	${SOURCE_SITE}/${PN}-projects-${MY_PV}.tar.bz2"
-#	a11y? ( ${SOURCE_SITE}/${PN}-a11y-${MY_PV}.tar.bz2 )
-#	ant? ( ${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2 )
-#	antlr? ( ${SOURCE_SITE}/${PN}-antlr-${MY_PV}.tar.bz2 )
-#	beans? ( ${SOURCE_SITE}/${PN}-beans-${MY_PV}.tar.bz2 )
-#	classfile? ( ${SOURCE_SITE}/${PN}-classfile-${MY_PV}.tar.bz2 )
-#	clazz? ( ${SOURCE_SITE}/${PN}-clazz-${MY_PV}.tar.bz2 )
-#	cnd? ( ${SOURCE_SITE}/${PN}-cnd-${MY_PV}.tar.bz2 )
-#	db? ( ${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2 )
-#	debugger? (
-#		${SOURCE_SITE}/${PN}-debuggercore-${MY_PV}.tar.bz2
-#		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
-#	)
-#	diff? ( ${SOURCE_SITE}/${PN}-diff-${MY_PV}.tar.bz2 )
-#	enterprise? ( ${SOURCE_SITE}/${PN}-enterprise-${MY_PV}.tar.bz2 )
-#	extbrowser? ( ${SOURCE_SITE}/${PN}-extbrowser-${MY_PV}.tar.bz2 )
-#	externaleditor? ( ${SOURCE_SITE}/${PN}-externaleditor-${MY_PV}.tar.bz2 )
-#	filecopy? ( ${SOURCE_SITE}/${PN}-filecopy-${MY_PV}.tar.bz2 )
-#	form? ( ${SOURCE_SITE}/${PN}-form-${MY_PV}.tar.bz2 )
-#	freestylebrowser? ( ${SOURCE_SITE}/${PN}-freestylebrowser-${MY_PV}.tar.bz2 )
-#	html? ( ${SOURCE_SITE}/${PN}-html-${MY_PV}.tar.bz2 )
-#	httpserver? ( ${SOURCE_SITE}/${PN}-httpserver-${MY_PV}.tar.bz2 )
-#	i18n? ( ${SOURCE_SITE}/${PN}-i18n-${MY_PV}.tar.bz2 )
-#	ide? ( ${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2 )
-#	identity? ( ${SOURCE_SITE}/${PN}-identity-${MY_PV}.tar.bz2 )
-#	image? ( ${SOURCE_SITE}/${PN}-image-${MY_PV}.tar.bz2 )
-#	itutor? ( ${SOURCE_SITE}/${PN}-itutor-${MY_PV}.tar.bz2 )
-#	j2ee? ( ${SOURCE_SITE}/${PN}-j2ee-${MY_PV}.tar.bz2 )
-#	j2eeserver? ( ${SOURCE_SITE}/${PN}-j2eeserver-${MY_PV}.tar.bz2 )
-#	jasm? ( ${SOURCE_SITE}/${PN}-jasm-${MY_PV}.tar.bz2 )
-#	java? ( ${SOURCE_SITE}/${PN}-java-${MY_PV}.tar.bz2 )
-#	javacvs? ( ${SOURCE_SITE}/${PN}-javacvs-${MY_PV}.tar.bz2 )
-#	javadoc? ( ${SOURCE_SITE}/${PN}-javadoc-${MY_PV}.tar.bz2 )
-#	javaembeddedserver? ( ${SOURCE_SITE}/${PN}-javaembeddedserver-${MY_PV}.tar.bz2 )
-#	javawebstart? ( ${SOURCE_SITE}/${PN}-javawebstart-${MY_PV}.tar.bz2 )
-#	jellytools? ( ${SOURCE_SITE}/${PN}-jellytools-${MY_PV}.tar.bz2 )
-#	jemmy? ( ${SOURCE_SITE}/${PN}-jemmy-${MY_PV}.tar.bz2 )
-#	jemmysupport? ( ${SOURCE_SITE}/${PN}-jemmysupport-${MY_PV}.tar.bz2 )
-#	jini? ( ${SOURCE_SITE}/${PN}-jini-${MY_PV}.tar.bz2 )
-#	junit? ( ${SOURCE_SITE}/${PN}-junit-${MY_PV}.tar.bz2 )
-#	languages? ( ${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2 )
-#	latex? ( ${SOURCE_SITE}/${PN}-latex-${MY_PV}.tar.bz2 )
-#	lexer? ( ${SOURCE_SITE}/${PN}-lexer-${MY_PV}.tar.bz2 )
-#	logger? ( ${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2 )
-#	management? ( ${SOURCE_SITE}/${PN}-management-${MY_PV}.tar.bz2 )
-#	mdr? ( ${SOURCE_SITE}/${PN}-mdr-${MY_PV}.tar.bz2 )
-#	metrics? ( ${SOURCE_SITE}/${PN}-metrics-${MY_PV}.tar.bz2 )
-#	mobility? ( ${SOURCE_SITE}/${PN}-mobility-${MY_PV}.tar.bz2 )
-#	monitor? ( ${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2 )
-#	netbrowser? ( ${SOURCE_SITE}/${PN}-netbrowser-${MY_PV}.tar.bz2 )
-#	objectbrowser? ( ${SOURCE_SITE}/${PN}-objectbrowser-${MY_PV}.tar.bz2 )
-#	openidex? ( ${SOURCE_SITE}/${PN}-openidex-${MY_PV}.tar.bz2 )
-#	print? ( ${SOURCE_SITE}/${PN}-print-${MY_PV}.tar.bz2 )
-#	profiler? ( ${SOURCE_SITE}/${PN}-profiler-${MY_PV}.tar.bz2 )
-#	properties? ( ${SOURCE_SITE}/${PN}-properties-${MY_PV}.tar.bz2 )
-#	refactoring? ( ${SOURCE_SITE}/${PN}-refactoring-${MY_PV}.tar.bz2 )
-#	remotefs? ( ${SOURCE_SITE}/${PN}-remotefs-${MY_PV}.tar.bz2 )
-#	rmi? ( ${SOURCE_SITE}/${PN}-rmi-${MY_PV}.tar.bz2 )
-#	schema2beans? ( ${SOURCE_SITE}/${PN}-schema2beans-${MY_PV}.tar.bz2 )
-#	scripting? ( ${SOURCE_SITE}/${PN}-scripting-${MY_PV}.tar.bz2 )
-#	serverplugins? ( ${SOURCE_SITE}/${PN}-serverplugins-${MY_PV}.tar.bz2 )
-#	sim? ( ${SOURCE_SITE}/${PN}-sim-${MY_PV}.tar.bz2 )
-#	spellchecker? ( ${SOURCE_SITE}/${PN}-spellchecker-${MY_PV}.tar.bz2 )
-#	subversion? ( ${SOURCE_SITE}/${PN}-subversion-${MY_PV}.tar.bz2 )
-#	sysprops? ( ${SOURCE_SITE}/${PN}-sysprops-${MY_PV}.tar.bz2 )
-#	tasklist? ( ${SOURCE_SITE}/${PN}-tasklist-${MY_PV}.tar.bz2 )
-#	testtools? ( ${SOURCE_SITE}/${PN}-testtools-${MY_PV}.tar.bz2 )
-#	tomcatint? ( ${SOURCE_SITE}/${PN}-tomcatint-${MY_PV}.tar.bz2 )
-#	translatedfiles? ( ${SOURCE_SITE}/${PN}-translatedfiles-${MY_PV}.tar.bz2 )
-#	ui? ( ${SOURCE_SITE}/${PN}-ui-${MY_PV}.tar.bz2 )
-#	uml? ( ${SOURCE_SITE}/${PN}-uml-${MY_PV}.tar.bz2 )
-#	usersguide? ( ${SOURCE_SITE}/${PN}-usersguide-${MY_PV}.tar.bz2 )
-#	utilities? ( ${SOURCE_SITE}/${PN}-utilities-${MY_PV}.tar.bz2 )
-#	vcscore? ( ${SOURCE_SITE}/${PN}-vcscore-${MY_PV}.tar.bz2 )
-#	vcscvs? ( ${SOURCE_SITE}/${PN}-vcscvs-${MY_PV}.tar.bz2 )
-#	vcsgeneric? ( ${SOURCE_SITE}/${PN}-vcsgeneric-${MY_PV}.tar.bz2 )
-#	versioncontrol? ( ${SOURCE_SITE}/${PN}-versioncontrol-${MY_PV}.tar.bz2 )
-#	visualweb? ( ${SOURCE_SITE}/${PN}-visualweb-${MY_PV}.tar.bz2 )
-#	web? ( ${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2 )
-#	websvc? ( ${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2 )
-#	xml? ( ${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2 )
+	${SOURCE_SITE}/${PN}-projects-${MY_PV}.tar.bz2
+	apisupport? (
+		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
+	)
+	harness? (
+		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
+	)
+	ide? (
+		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-classfile-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-debuggercore-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-diff-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-extbrowser-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-html-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-httpserver-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-image-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-javacvs-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-lexer-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-openidex-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-properties-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-refactoring-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-schema2beans-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-scripting-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-subversion-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-usersguide-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-utilities-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-versioncontrol-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2
+	)
+	j2ee? (
+		${SOURCE_SITE}/${PN}-j2ee-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-j2eeserver-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-serverplugins-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-tomcatint-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2
+	)
+	java? (
+		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-form-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-i18n-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-j2ee-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-java-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-javadoc-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-javawebstart-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-junit-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-refactoring-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-usersguide-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2
+	)
+	mobility? (
+		${SOURCE_SITE}/${PN}-mobility-${MY_PV}.tar.bz2
+	)
+	nb? (
+		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
+	)
+	profiler? (
+		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-profiler-${MY_PV}.tar.bz2
+	)
+	ruby? (
+		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-scripting-${MY_PV}.tar.bz2
+	)
+	soa? (
+		${SOURCE_SITE}/${PN}-enterprise-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-identity-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-print-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2
+	)
+	testtools? (
+		${SOURCE_SITE}/${PN}-jellytools-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-jemmy-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-jemmysupport-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-xtest-${MY_PV}.tar.bz2
+	)
+	uml? (
+		${SOURCE_SITE}/${PN}-uml-${MY_PV}.tar.bz2
+	)
+	visualweb? (
+		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-visualweb-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
+	)"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="a11y ant antlr beans classfile clazz cnd db debug debugger diff doc enterprise extbrowser externaleditor \
-	filecopy form freestylebrowser html httpserver i18n ide identity image itutor j2ee j2eeserver \
-	jasm java javacvs javadoc javaembeddedserver javawebstart jellytools jemmy jemmysupport \
-	jini junit languages latex lexer logger management mdr metrics mobility monitor netbrowser \
-	objectbrowser openidex print profiler properties refactoring remotefs rmi schema2beans scripting \
-	serverplugins sim spellchecker subversion sysprops tasklist testtools tomcatint \
-	translatedfiles ui uml usersguide utilities vcscore vcscvs vcsgeneric versioncontrol \
-	visualweb web websvc xml"
+IUSE="apisupport debug doc harness ide j2ee java mobility nb profiler ruby soa testtools uml visualweb"
 
 #COMMON_DEPEND="
 #	>=dev-java/ant-1.7.0
@@ -203,6 +210,7 @@ COMMON_DEPEND="
 	=dev-java/swing-layout-1*"
 
 RDEPEND=">=virtual/jdk-1.5
+	ant? ( >=dev-java/ant-tasks-1.7.0-r2 )
 	${COMMON_DEPEND}"
 
 DEPEND="=virtual/jdk-1.5*
@@ -216,12 +224,72 @@ IDE_VERSION="8"
 PLATFORM="7"
 MY_FDIR="${FILESDIR}/${SLOT}"
 DESTINATION="/usr/share/netbeans-${SLOT}"
-CLUSTER_FILE="/etc/${PN}-${SLOT}/netbeans.clusters"
-PRODUCTID_FILE="${DESTINATION}/nb${SLOT}/config/productid"
 JAVA_PKG_BSFIX="off"
+
+pkg_setup() {
+	if use apisupport && ( ! use jde || ! use java ) ; then
+		eerror "'apisupport' USE flag requires 'ide' and 'java' USE flags"
+		exit 1
+	fi
+
+	if use j2ee && ( ! use ide || ! use java ) ; then
+		eerror "'j2ee' USE flag requires 'ide' and 'java' USE flags"
+		exit 1
+	fi
+
+	if use java && ! use ide ; then
+		eerror "'java' USE flag requires 'ide' USE flag"
+		exit 1
+	fi
+
+	if use mobility && ( ! use ide || ! use java ) ; then
+		eerror "'mobility' USE flag requires 'ide' and 'java' USE flags"
+		exit 1
+	fi
+
+	if use nb && ! use ide ; then
+		eerror "'nb' USE flag requires 'ide' USE flag"
+		exit 1
+	fi
+
+	if use profiler && ! use j2ee ; then
+		eerror "'profiler' USE flag requires 'j2ee' USE flag"
+		exit 1
+	fi
+
+	if use ruby && ! use ide ; then
+		eerror "'ruby' USE flag requires 'ide' USE flag"
+		exit 1
+	fi
+
+	if use soa && ( ! use ide || ! use java || ! use j2ee ) ; then
+		eerror "'soa' USE flag requires 'ide', 'java' and 'j2ee' USE flags"
+		exit 1
+	fi
+
+	if use testtools && ! use ide ; then
+		eerror "'testtools' USE flag requires 'ide' USE flag"
+		exit 1
+	fi
+
+	if use uml && ( ! use ide || ! use java ) ; then
+		eerror "'uml' USE flag requires 'ide' and 'java' USE flags"
+		exit 1
+	fi
+
+	if use visualweb && ( ! use ide || ! use java || ! use j2ee ) ; then
+		eerror "'visualweb' USE flag requires 'ide', 'java' and 'j2ee' USE flags"
+		exit 1
+	fi
+
+	java-pkg-2_pkg_setup
+}
 
 src_unpack () {
 	unpack ${A}
+
+	# Clean up nbbuild
+	find ${S}/nbbuild -name "*.class" -delete
 
 	if use visualweb ; then
 		cd ${S}/visualweb/insync/src/org/netbeans/modules/visualweb/insync/markup
@@ -229,14 +297,11 @@ src_unpack () {
 	fi
 
 	# Remove JARs that are not needed
-	if use mdr ; then
-		find ${S}/mdr -name "*.jar" | xargs rm -v || die "Cannot remove unneeded mrd files"
-	fi
 	for FILE in `find ${S} -name "*.jar" | grep "/test/"`; do
 		rm -v ${FILE} || die "Cannot remove ${FILE}"
 	done
 
-	place_unpack_symlinks
+	#place_unpack_symlinks
 }
 
 src_compile() {
@@ -249,39 +314,44 @@ src_compile() {
 		antflags="${antflags} -Dbuild.compiler.deprecation=false"
 	fi
 
+	local clusters="-Dnb.clusters.list=nb.cluster.platform"
+	use apisupport && clusters="${clusters},nb.cluster.apisupport"
+	use harness && clusters="${clusters},nb.cluster.harness"
+	use ide && clusters="${clusters},nb.cluster.ide"
+	use j2ee && clusters="${clusters},nb.cluster.j2ee"
+	use java && clusters="${clusters},nb.cluster.java"
+	use mobility && clusters="${clusters},nb.cluster.mobility"
+	use nb && clusters="${clusters},nb.cluster.nb"
+	use profiler && clusters="${clusters},nb.cluster.profiler"
+	use ruby && clusters="${clusters},nb.cluster.ruby"
+	use soa && clusters="${clusters},nb.cluster.soa"
+	use testtools && clusters="${clusters},nb.cluster.testtools"
+	use uml && clusters="${clusters},nb.cluster.uml"
+	use visualweb && clusters="${clusters},nb.cluster.visualweb"
+
 	# The build will attempt to display graphical
 	# dialogs for the licence agreements if this is set.
-	unset DISPLAY
+	#unset DISPLAY
 
 	# Fails to compile
 	java-pkg_filter-compiler ecj-3.1 ecj-3.2
 
-	# Specify the build-nozip target otherwise it will build
-	# a zip file of the netbeans folder, which will copy directly.
+	# First build Netbeans Platform (building using nb.cluster.platform doesn't work for unknown reason)
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} \
 		-f nbbuild/build.xml build-platform
-	#ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} -f nbbuild/build.xml build-nozip
+	! use harness && rm -fr ${S}/nbbuild/netbeans/harness
+
+	# Build the rest of the clusters if any specified
+	if use apisupport || use harness || use ide || use j2ee || use java || use mobility \
+		|| use nb || use profiler || use ruby || use soa || use testtools || use uml \
+		|| use visualweb ; then
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} \
+			${clusters} -f nbbuild/build.xml build-nozip
+	fi
+
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
 	use doc && ANT_OPTS="-Xmx1g" eant -f nbbuild/build.xml build-javadoc
-
-	if use mobility ; then
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f mobility/build.xml build
-		# no javadoc target for mobility
-	fi
-
-	if use ruby ; then
-		addpredict /root/.jruby
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f scripting/ruby/build.xml build \
-			-Djruby.home=${T}/.jruby -Duser.home.directory=${T} -Duser.home=${T}
-		# no javadoc target for ruby
-	fi
-
-	if use visualweb ; then
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} -f visualweb/ravebuild/build.xml build \
-			-Dbypass.cache.validation=true
-		# no javadoc target for visualweb
-	fi
 
 	# Remove non-x86 Linux binaries
 	find ${BUILDDESTINATION} -type f \
@@ -298,7 +368,7 @@ src_compile() {
 	rm -f ${BUILDDESTINATION}/javadoc/*.zip
 
 	# Use the system ant
-	if use ant ; then
+	if use java ; then
 		cd ${BUILDDESTINATION}/ide${IDE_VERSION}/ant
 		rm -fr lib
 		rm -fr bin
@@ -323,7 +393,7 @@ src_install() {
 	cd ${BUILDDESTINATION}
 	doins -r *
 
-	#Remove the build helper files
+	# Remove the build helper files
 	rm -f ${DESTINATION}/nb.cluster.*
 	rm -f ${DESTINATION}/moduleCluster.properties
 	rm -f ${DESTINATION}/module_tracking.xml
@@ -338,13 +408,13 @@ src_install() {
 	fi
 
 	# Replace bundled jars with system jars
-	symlink_extjars ${D}/${DESTINATION}
+	#symlink_extjars ${D}/${DESTINATION}
 
 	# Correct permissions on executables
 	[[ -e ${DESTINATION}/bin/netbeans ]] && fperms 755 ${DESTINATION}/bin/netbeans
 	fperms 775 ${DESTINATION}/platform${PLATFORM}/lib/nbexec
 
-	# The wrapper wrapper :)
+	# Link netbeans executable from bin
 	if [[ -e ${DESTINATION}/bin/netbeans ]]; then
 		dosym ${DESTINATION}/bin/netbeans /usr/bin/${PN}-${SLOT}
 	else
@@ -352,7 +422,7 @@ src_install() {
 	fi
 
 	# Ant installation
-	if use ant ; then
+	if use java ; then
 		local ANTDIR="${DESTINATION}/ide${IDE_VERSION}/ant"
 		dosym /usr/share/ant/lib ${ANTDIR}/lib
 		dosym /usr/share/ant-core/bin ${ANTDIR}/bin
@@ -524,10 +594,10 @@ place_unpack_symlinks() {
 	if use xml ; then
 		einfo "Symlinking jars for xml"
 		cd ${S}/xml/external
-		java-pkg_jar-from flute
-		java-pkg_jar-from --build-only commons-jxpath commons-jxpath.jar jxpath1.1.jar
-		java-pkg_jar-from --build-only prefuse-2006 prefuse.jar prefuse.jar
-		java-pkg_jar-from sac
+		#java-pkg_jar-from flute
+		#java-pkg_jar-from --build-only commons-jxpath commons-jxpath.jar jxpath1.1.jar
+		#java-pkg_jar-from --build-only prefuse-2006 prefuse.jar prefuse.jar
+		#java-pkg_jar-from sac
 	fi
 }
 
