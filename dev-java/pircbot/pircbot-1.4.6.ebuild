@@ -9,8 +9,8 @@ DESCRIPTION="PircBot is a Java framework for writing IRC bots quickly and easily
 HOMEPAGE="http://www.jibble.org/pircbot.php"
 SRC_URI="http://www.jibble.org/files/${P}.zip"
 
-LICENSE="GPL-2"
-KEYWORDS="~x86"
+LICENSE="GPL-2 jibble.org"
+KEYWORDS=""
 IUSE=""
 SLOT="0"
 
