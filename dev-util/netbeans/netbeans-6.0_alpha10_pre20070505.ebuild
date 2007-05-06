@@ -66,7 +66,6 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-j2eeserver-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-serverplugins-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-tomcatint-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2
 	)
@@ -210,11 +209,13 @@ COMMON_DEPEND="
 	=dev-java/swing-layout-1*"
 
 RDEPEND=">=virtual/jdk-1.5
-	ant? ( >=dev-java/ant-tasks-1.7.0-r2 )
+	java? ( >=dev-java/ant-tasks-1.7.0-r2 )
 	${COMMON_DEPEND}"
 
 DEPEND="=virtual/jdk-1.5*
 	>=dev-java/ant-nodeps-1.7.0
+	testtools? ( >=dev-java/ant-trax-1.7.0 )
+	visualweb? ( >=dev-java/xerces-2.9.0 )
 	${COMMON_DEPEND}"
 
 S=${WORKDIR}/netbeans-src
@@ -227,7 +228,7 @@ DESTINATION="/usr/share/netbeans-${SLOT}"
 JAVA_PKG_BSFIX="off"
 
 pkg_setup() {
-	if use apisupport && ( ! use jde || ! use java ) ; then
+	if use apisupport && ( ! use ide || ! use java ) ; then
 		eerror "'apisupport' USE flag requires 'ide' and 'java' USE flags"
 		exit 1
 	fi
@@ -289,14 +290,15 @@ src_unpack () {
 	unpack ${A}
 
 	# Clean up nbbuild
+	einfo "Removing prebuilt *.class files from nbbuild"
 	find ${S}/nbbuild -name "*.class" -delete
 
-	if use visualweb ; then
-		cd ${S}/visualweb/insync/src/org/netbeans/modules/visualweb/insync/markup
-		epatch ${FILESDIR}/${SLOT}/visualweb-JxpsSerializer.java-xerces-2.8.1.patch
-	fi
+        # Disable the bundled Tomcat in favor of Portage installed version
+	einfo "Disabling bundled Tomcat"
+        sed -i -e "s%tomcatint/tomcat5,\\\\%%g" ${S}/nbbuild/cluster.properties || die "Cannot disable bundled Tomcat"
 
 	# Remove JARs that are not needed
+	einfo "Removing not needed JARs"
 	for FILE in `find ${S} -name "*.jar" | grep "/test/"`; do
 		rm -v ${FILE} || die "Cannot remove ${FILE}"
 	done
@@ -329,23 +331,26 @@ src_compile() {
 	use uml && clusters="${clusters},nb.cluster.uml"
 	use visualweb && clusters="${clusters},nb.cluster.visualweb"
 
-	# The build will attempt to display graphical
-	# dialogs for the licence agreements if this is set.
-	#unset DISPLAY
-
 	# Fails to compile
 	java-pkg_filter-compiler ecj-3.1 ecj-3.2
 
 	# First build Netbeans Platform (building using nb.cluster.platform doesn't work for unknown reason)
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} \
+	ANT_TASKS="ant-nodeps"
+	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} \
 		-f nbbuild/build.xml build-platform
-	! use harness && rm -fr ${S}/nbbuild/netbeans/harness
+	if ! use harness ; then
+		rm -fr ${S}/nbbuild/netbeans/harness
+		rm ${S}/nbbuild/netbeans/nb.cluster.harness.built
+		sed -i -e "s%apisupport/harness.dir=.*{netbeans.dest.dir}/harness%%g" ${S}/nbbuild/netbeans/moduleCluster.properties
+	fi
 
 	# Build the rest of the clusters if any specified
+	use ruby && addpredict /root/.jruby
 	if use apisupport || use harness || use ide || use j2ee || use java || use mobility \
 		|| use nb || use profiler || use ruby || use soa || use testtools || use uml \
 		|| use visualweb ; then
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} \
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} \
 			${clusters} -f nbbuild/build.xml build-nozip
 	fi
 
@@ -395,6 +400,7 @@ src_install() {
 
 	# Remove the build helper files
 	rm -f ${DESTINATION}/nb.cluster.*
+	rm -f ${DESTINATION}/*.built
 	rm -f ${DESTINATION}/moduleCluster.properties
 	rm -f ${DESTINATION}/module_tracking.xml
 	rm -f ${DESTINATION}/build_info
@@ -438,20 +444,14 @@ src_install() {
 	use doc && java-pkg_dojavadoc ${S}/nbbuild/build/javadoc
 
 	# Icons and shortcuts
-	if [[ -e ${S}/ide/branding/release/*png ]]; then
-		einfo "Installing icons..."
+	if use nb ; then
+		einfo "Installing icon"
+		dodir /usr/share/icons/hicolor/32x32/apps
+		dosym ${DESTINATION}/nb6.0/netbeans.png /usr/share/icons/hicolor/32x32/apps/netbeans-${SLOT}.png
 
-		dodir ${DESTINATION}/icons
-		insinto ${DESTINATION}/icons
-		doins ${S}/ide/branding/release/*png
-
-		for res in "16x16" "24x24" "32x32" "48x48" "128x128" ; do
-			dodir /usr/share/icons/hicolor/${res}/apps
-			dosym ${DESTINATION}/icons/netbeans.png /usr/share/icons/hicolor/${res}/apps/netbeans.png
-		done
 	fi
 
-	make_desktop_entry netbeans-${SLOT} "Netbeans ${SLOT}" netbeans Development
+	make_desktop_entry netbeans-${SLOT} "Netbeans ${SLOT}" netbeans-${SLOT}.png Development
 }
 
 pkg_postrm() {
