@@ -350,7 +350,7 @@ src_compile() {
 	if use apisupport || use harness || use ide || use j2ee || use java || use mobility \
 		|| use nb || use profiler || use ruby || use soa || use testtools || use uml \
 		|| use visualweb ; then
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} \
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} \
 			${clusters} -f nbbuild/build.xml build-nozip
 	fi
 
@@ -419,6 +419,7 @@ src_install() {
 	# Correct permissions on executables
 	[[ -e ${DESTINATION}/bin/netbeans ]] && fperms 755 ${DESTINATION}/bin/netbeans
 	fperms 775 ${DESTINATION}/platform${PLATFORM}/lib/nbexec
+	use ruby && fperms 755 ${DESTINATION}/ruby1/jruby-0.9.9/bin/*
 
 	# Link netbeans executable from bin
 	if [[ -e ${DESTINATION}/bin/netbeans ]]; then
