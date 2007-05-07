@@ -13,23 +13,23 @@ IUSE="source doc"
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
 DEP="dev-java/jtidy
-	dev-java/wagon-provider-api
-	dev-java/plexus-utils
-	dev-java/plexus-container-default
-	dev-java/plexus-jetty-httpd
-	dev-java/wagon-http-shared
-	dev-java/commons-logging
-	dev-java/commons-lang
-	=dev-java/commons-httpclient-2*"
+dev-java/wagon-provider-api
+dev-java/plexus-utils
+=dev-java/plexus-container-default-1.0_alpha9
+dev-java/plexus-jetty-httpd
+dev-java/wagon-http-shared
+dev-java/commons-logging
+dev-java/commons-lang
+=dev-java/commons-httpclient-2*"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 EANT_GENTOO_CLASSPATH="jtidy
-	wagon-provider-api
-	plexus-utils
-	plexus-container-default
-	plexus-jetty-httpd
-	wagon-http-shared
-	commons-logging
-	commons-lang
-	commons-httpclient"
+wagon-provider-api
+plexus-utils
+plexus-container-default-1.0_alpha9-maven
+plexus-jetty-httpd
+wagon-http-shared
+commons-logging
+commons-lang
+commons-httpclient"
 
