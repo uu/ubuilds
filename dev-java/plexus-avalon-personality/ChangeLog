@@ -4,6 +4,10 @@
 
   07 May 2007; kiorky <kiorky@cryptelium.net>
   plexus-avalon-personality-0.13.ebuild:
+  Whitespaces
+
+  07 May 2007; kiorky <kiorky@cryptelium.net>
+  plexus-avalon-personality-0.13.ebuild:
   fixing deps
 
   25 Apr 2007; kiorky <kiorky@cryptelium.net>

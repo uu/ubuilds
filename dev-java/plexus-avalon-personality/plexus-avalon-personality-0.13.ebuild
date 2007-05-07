@@ -23,7 +23,7 @@ RDEPEND=">=virtual/jre-1.4	${DEP}"
 
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 EANT_GENTOO_CLASSPATH="avalon-framework-4.1
-plexus-container-default-1.0_alpha9-maven 
+plexus-container-default-1.0_alpha9-maven
 xpp3
 plexus-utils"
 #plexus-component-api"
