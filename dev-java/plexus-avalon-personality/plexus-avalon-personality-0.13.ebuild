@@ -16,17 +16,17 @@ IUSE="source"
 DEP="=dev-java/avalon-framework-4.1*
 dev-java/plexus-container-default
 dev-java/xpp3
-dev-java/plexus-utils
-dev-java/plexus-component-api"
+dev-java/plexus-utils"
+#dev-java/plexus-component-api"
 DEPEND=">=virtual/jdk-1.4 	${DEP}"
 RDEPEND=">=virtual/jre-1.4	${DEP}"
 
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 EANT_GENTOO_CLASSPATH="avalon-framework-4.1
-plexus-container-default
+plexus-container-default-1.0_alpha9-maven 
 xpp3
-plexus-utils
-plexus-component-api"
+plexus-utils"
+#plexus-component-api"
 
 src_unpack(){
 	java-maven-2_src_unpack
