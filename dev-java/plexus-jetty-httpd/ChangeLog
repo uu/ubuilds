@@ -2,3 +2,8 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 May 2007; kiorky <kiorky@cryptelium.net>
+  +plexus-jetty-httpd-1.0_beta2.ebuild, -plexus-jetty-httpd-1.0.ebuild,
+  files/DefaultHttpd.java.diff:
+  Added as a maven dependency, #175482
+
