@@ -4,5 +4,5 @@
 
   01 May 2007; kiorky <kiorky@cryptelium.net> +maven-monitor-2.0.6.ebuild,
   +metadata.xml:
-  Added as a maven dependency
+  Added as a maven dependency, #177481
 
