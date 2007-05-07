@@ -13,11 +13,11 @@ IUSE="source doc"
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
 DEP="dev-java/plexus-utils
-	dev-java/plexus-container-default
-	dev-java/wagon-provider-api
-	dev-java/wagon-ssh-common
-	dev-java/junit"
+=dev-java/plexus-container-default-1.0_alpha9
+dev-java/wagon-provider-api
+dev-java/wagon-ssh-common
+dev-java/junit"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-utils plexus-container-default wagon-provider-api wagon-ssh-common junit"
+EANT_GENTOO_CLASSPATH="plexus-utils plexus-container-default-1.0_alpha9-maven wagon-provider-api wagon-ssh-common junit"
 
