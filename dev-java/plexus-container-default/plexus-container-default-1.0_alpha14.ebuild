@@ -8,14 +8,18 @@ DESCRIPTION="The Plexus project provides a full software stack for creating and 
 HOMEPAGE="http://plexus.codehaus.org/"
 SRC_URI="http://dev.gentooexperimental.org/~kiorky/${P}.tar.bz2"
 LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
-SLOT="1.0_alpha9-maven"
+SLOT="1.0_alpha14"
 KEYWORDS="~x86"
 IUSE="source"
 DEP="=dev-java/plexus-classworlds-1.2*
 dev-java/plexus-utils
 dev-java/junit
-"
+=dev-java/plexus-component-api-1.0_alpha14"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-classworlds plexus-utils junit"
+EANT_GENTOO_CLASSPATH="
+plexus-classworlds
+plexus-utils
+junit
+plexus-component-api-1.0_alpha14"
 
