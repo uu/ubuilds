@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/maven-plugin-registry
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  01 May 2007; kiorky <kiorky@cryptelium.net>
+  +maven-plugin-registry-2.0.6.ebuild, +metadata.xml:
+  Added as a maven dependency, #177487
+
