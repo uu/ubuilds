@@ -1,0 +1,7 @@
+# ChangeLog for app-benchmarks/jmeter
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  08 May 2007; Vlastimil Babka <caster@gentoo.org> jmeter-2.2.ebuild:
+  Update bsf dep.
+

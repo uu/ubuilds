@@ -31,7 +31,7 @@ COMMON_DEPEND="
 	dev-java/junit
 	=dev-java/commons-httpclient-3*
 	=dev-java/excalibur-datasource-1*
-	=dev-java/bsf-2.3*"
+	>=dev-java/bsf-2.3"
 
 DEPEND=">=virtual/jdk-1.4
 	doc? ( =dev-java/jdom-1.0* dev-java/velocity )
