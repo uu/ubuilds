@@ -3,6 +3,10 @@
 # $Header: $
 
   08 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild:
+  Fix SRC_URI to include BASE_URL.
+
+  08 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   +openjdk-1.7.0.0_alpha12.ebuild, +files/openjdk-1.7.env:
   Add initial ebuild for openjdk. The build takes long.
 

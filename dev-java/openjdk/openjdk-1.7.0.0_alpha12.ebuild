@@ -19,7 +19,7 @@ amd64_plug="jdk-7-ea-plug-b${ALPHA}-linux-amd64-${DATE}.jar"
 
 DESCRIPTION="Open Source JDK"
 HOMEPAGE="https://openjdk.java.net/"
-SRC_URI="${srcfile}"
+SRC_URI="${BASE_URL}/${srcfile}"
 #	x86? ( ${BASE_URL}/${x86_plug} )
 #	amd64? ( ${BASE_ULR}/${amd64_plug} )"
 SLOT="1.7"
