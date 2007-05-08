@@ -13,7 +13,7 @@ KEYWORDS="~amd64 ~x86"
 COMMON_DEPEND="
 	dev-java/log4j
 	dev-java/xalan
-	=dev-java/bsf-2.3*
+	>=dev-java/bsf-2.3
 	=dev-java/gnu-regexp-1*
 	dev-java/jgroups
 	dev-java/junit

@@ -11,7 +11,7 @@ SLOT="4"
 KEYWORDS="~x86"
 
 COMMON_DEPEND="dev-java/xalan
-	=dev-java/bsf-2.3*
+	>=dev-java/bsf-2.3
 	=dev-java/dom4j-1*
 	=dev-java/jaxen-1.1*
 	dev-java/junit

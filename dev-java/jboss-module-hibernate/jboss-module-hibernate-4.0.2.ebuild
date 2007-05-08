@@ -25,7 +25,7 @@ COMMON_DEPEND="=dev-java/commons-beanutils-1.6*
 	=dev-java/commons-lang-2.0*
 	dev-java/commons-logging
 	dev-java/xalan
-	=dev-java/bsf-2.3*
+	>=dev-java/bsf-2.3
 	=dev-java/dom4j-1*
 	=dev-java/jaxen-1.1*
 	=dev-java/asm-1.5*

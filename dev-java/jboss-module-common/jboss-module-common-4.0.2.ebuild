@@ -11,7 +11,7 @@ IUSE=""
 KEYWORDS="~amd64 ~x86"
 
 # FIXME uh, apparently this doesn't like newer xerces.
-COMMON_DEPEND="=dev-java/bsf-2.3*
+COMMON_DEPEND=">=dev-java/bsf-2.3
 	dev-java/xml-commons-resolver
 	dev-java/xalan
 	=dev-java/xerces-2.6.2*
