@@ -18,7 +18,7 @@ x86_plug="jdk-7-ea-plug-b${ALPHA}-linux-i586-${DATE}.jar"
 amd64_plug="jdk-7-ea-plug-b${ALPHA}-linux-amd64-${DATE}.jar"
 
 DESCRIPTION="Open Source JDK"
-HOMEPAGE="https://openjdk.java.net/"
+HOMEPAGE="https://openjdk.dev.java.net/"
 SRC_URI="${BASE_URL}/${srcfile}"
 #	x86? ( ${BASE_URL}/${x86_plug} )
 #	amd64? ( ${BASE_ULR}/${amd64_plug} )"
@@ -83,7 +83,7 @@ src_compile() {
 	make="${make} ALT_JDK_IMPORT_PATH=${sunjdk7}"
 	make="${make} OPENJDK=true"
 	unset CLASSPATH
-	eant -Dbootstrap.jdk="${JAVA_HOME}" -Dmake.options="${make}"
+	eant -Dbootstrap.jdk="${JAVA_HOME}" -Dmake.options="${make}" -Duser.home="${T}"
 }
 
 src_install() {
