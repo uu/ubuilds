@@ -40,6 +40,14 @@ DEPEND="
 	virtual/motif
 	>=virtual/jdk-1.6
 	>=dev-java/sun-jdk-1.7
+	x11-libs/libXmu
+	x11-libs/libXt
+	x11-proto/inputproto
+	x11-proto/xextproto
+	x11-proto/xproto
+	dev-libs/elfutils
+	media-libs/jpeg
+	net-print/cups
 	${COMMON_DEP}"
 
 RDEPEND="${COMMON_DEP}
@@ -99,9 +107,9 @@ src_install() {
 	local ddest="${D}/${dest}"
 	dodir ${dest}
 
-	local arc=i586
+	local arch=i586
 	[[ ${ARCH} = amd64 ]] && arch=amd64
-	cd control/build/linux-${arc}/j2sdk-image
+	cd control/build/linux-${arch}/j2sdk-image
 	local dirs="bin include jre lib man"
 	for i in $dirs ; do
 		cp -pPR $i ${ddest} || die "failed to copy"

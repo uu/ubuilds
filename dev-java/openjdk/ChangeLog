@@ -4,6 +4,10 @@
 
   09 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild:
+  Add DEPENDs gotten from included_headers.sh and fix src_install for amd64.
+
+  09 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild:
   Add libraries OpenJDK links against and don't RDEPEND on ant-core, sun-jdk,
   virtual/jdk or motif.
 
