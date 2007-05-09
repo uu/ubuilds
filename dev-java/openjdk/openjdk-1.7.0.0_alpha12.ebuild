@@ -29,14 +29,22 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="nostrip"
 IUSE="doc examples"
 
+COMMON_DEP="
+	media-libs/alsa-lib
+	x11-libs/libX11
+	x11-libs/libXext
+	x11-libs/libXi
+	x11-libs/libXtst"
+
 DEPEND="
 	virtual/motif
-	dev-java/ant-core
 	>=virtual/jdk-1.6
-	>=dev-java/sun-jdk-1.7"
+	>=dev-java/sun-jdk-1.7
+	${COMMON_DEP}"
 
-RDEPEND="${DEPEND}
-	doc? ( =dev-java/java-sdk-docs-1.6.0* )"
+RDEPEND="${COMMON_DEP}
+	doc? ( =dev-java/java-sdk-docs-1.6.0* )
+	"
 
 S="${WORKDIR}/${PN}"
 
