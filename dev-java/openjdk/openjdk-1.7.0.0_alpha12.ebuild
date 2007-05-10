@@ -26,7 +26,6 @@ SLOT="1.7"
 # Needs other for Apache asm etc see THIRD_PARTY_README
 LICENSE="GPL-2-with-classpath-exception sun-bcla"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="nostrip"
 IUSE="doc examples"
 
 COMMON_DEP="
@@ -54,7 +53,7 @@ RDEPEND="${COMMON_DEP}
 	doc? ( =dev-java/java-sdk-docs-1.6.0* )
 	"
 
-S="${WORKDIR}/${PN}"
+S="${WORKDIR}/o"
 
 JAVA_PROVIDE="jdbc-stdext jdbc-rowset"
 
@@ -89,6 +88,7 @@ pkg_nofetch() {
 
 src_unpack() {
 	unpack ${srcfile}
+	mv ${PN} o || die #Argument list gets too long on amd64 without this
 }
 
 src_compile() {

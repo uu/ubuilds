@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  10 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild:
+  Work around argument list getting too long by renaming openjdk to o and
+  don't RESTRICT stripping any more.
+
   09 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild:
   Add DEPENDs gotten from included_headers.sh and fix src_install for amd64.
