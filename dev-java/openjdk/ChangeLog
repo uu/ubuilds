@@ -4,6 +4,11 @@
 
   10 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild:
+  dev-libs/elfutils and media-libs/jpeg are not needed. Reasons in comments.
+  Don't strip binaries.
+
+  10 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild:
   Work around argument list getting too long by renaming openjdk to o and
   don't RESTRICT stripping any more.
 

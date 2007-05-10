@@ -35,6 +35,11 @@ COMMON_DEP="
 	x11-libs/libXi
 	x11-libs/libXtst"
 
+# Found by included libs but not built by default I think:
+#	dev-libs/elfutils
+# Bundled (should make it to use system copy):
+#   media-libs/jpeg
+
 DEPEND="
 	virtual/motif
 	>=virtual/jdk-1.6
@@ -44,8 +49,6 @@ DEPEND="
 	x11-proto/inputproto
 	x11-proto/xextproto
 	x11-proto/xproto
-	dev-libs/elfutils
-	media-libs/jpeg
 	net-print/cups
 	${COMMON_DEP}"
 
@@ -98,6 +101,7 @@ src_compile() {
 	make="${make} ALT_CLOSED_JDK_IMPORT_PATH=${sunjdk7}"
 	make="${make} ALT_JDK_IMPORT_PATH=${sunjdk7}"
 	make="${make} OPENJDK=true"
+	make="${make} NO_STRIP=true"
 	unset CLASSPATH
 	eant -Dbootstrap.jdk="${JAVA_HOME}" -Dmake.options="${make}" -Duser.home="${T}"
 }
