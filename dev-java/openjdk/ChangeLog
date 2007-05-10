@@ -3,6 +3,10 @@
 # $Header: $
 
   10 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild, +files/lesstif.patch:
+  Add patch to build against lesstif.
+
+  10 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild:
   dev-libs/elfutils and media-libs/jpeg are not needed. Reasons in comments.
   Don't strip binaries.

@@ -92,6 +92,8 @@ pkg_nofetch() {
 src_unpack() {
 	unpack ${srcfile}
 	mv ${PN} o || die #Argument list gets too long on amd64 without this
+	cd "${S}"
+	epatch "${FILESDIR}/lesstif.patch"
 }
 
 src_compile() {
