@@ -3,6 +3,10 @@
 # $Header: $
 
   11 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070511.ebuild:
+  Added missing ant-trax
+
+  11 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
   -netbeans-6.0_alpha10_pre20070505.ebuild,
   +netbeans-6.0_alpha10_pre20070511.ebuild:
   Version bump

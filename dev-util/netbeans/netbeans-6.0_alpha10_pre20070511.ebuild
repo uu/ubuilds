@@ -350,8 +350,7 @@ src_compile() {
 	if use apisupport || use harness || use ide || use j2ee || use java || use mobility \
 		|| use nb || use profiler || use ruby || use soa || use testtools || use uml \
 		|| use visualweb ; then
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ANT_TASKS="ant-nodeps" eant ${antflags} \
-			${clusters} -f nbbuild/build.xml build-nozip
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ${antflags} ${clusters} -f nbbuild/build.xml build-nozip
 	fi
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
