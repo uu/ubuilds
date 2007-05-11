@@ -1,0 +1,15 @@
+#!/bin/sh
+PN="maven"
+SLOT="2"
+JAVA_MAVEN_SYSTEM_HOME="/home/kiorky/.m2"
+JAVA_MAVEN_SYSTEM_PLUGINS="/home/kiorky/.m2"
+JAVA_MAVEN_SYSTEM_REPOSITORY="/home/kiorky/.m2/repo"
+$(java-config -J) \
+-classpath $(java-config -p classwords-1.1) \
+-Dclassworlds.conf=/usr/share/${PN}-${SLOT}/m2_classworlds.conf \
+-Dmaven.core.path=/usr/share/${PN}-${SLOT}" \
+-Dmaven.home=${JAVA_MAVEN_SYSTEM_HOME}" \
+-Dmaven.plugin.dir=${JAVA_MAVEN_SYSTEM_PLUGINS}" \
+-Dmaven.repo.remote=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \
+org.codehaus.classworlds.Launcher $*
+
