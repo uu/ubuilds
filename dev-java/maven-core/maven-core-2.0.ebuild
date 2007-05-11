@@ -38,7 +38,7 @@ dev-java/maven-settings"
 DEPEND=">=virtual/jdk-1.4 ${DEPS}
 source? ( app-arch/zip )"
 RDEPEND=">=virtual/jre-1.4 ${DEPS}"
-KEYWORDS=""
+KEYWORDS="~x86"
 IUSE="doc source"
 SLOT="2"
 EANT_GENTOO_CLASSPATH="
@@ -73,7 +73,7 @@ maven-settings
 
 src_unpack() {
 	java-maven-2_src_unpack
-	epatch "${FILESDIR}/MavenCli.java.diff"
+#	epatch "${FILESDIR}/MavenCli.java.diff"
 	mkdir -p "${S}/src/main/resources" || die
 	cp "${FILESDIR}/pom.properties" "${S}/src/main/resources" || die
 }
@@ -86,25 +86,11 @@ src_install() {
 	insinto "${JAVA_MAVEN_SYSTEM_HOME}"
 	doins  "${S}/src/conf/settings.xml"
 
-	insinto "/usr/share/${PN}-${SLOT}"
-	doins "${FILESDIR}/m2_classworlds.conf"
 
 	# create plugins and systtem repository directories
 	keepdir "${JAVA_MAVEN_SYSTEM_PLUGINS}"
 	keepdir "${JAVA_MAVEN_SYSTEM_REPOSITORY}"
 
-	# craete launcher
-	local JAVAOPT="-Dclassworlds.conf=/usr/share/${PN}-${SLOT}/m2_classworlds.conf"
-	JAVAOPT="${JAVAOPT} -Dmaven.core.path=/usr/share/${PN}-${SLOT}"
-	JAVAOPT="${JAVAOPT} -Dmaven.home=${JAVA_MAVEN_SYSTEM_HOME}"
-	JAVAOPT="${JAVAOPT} -Dmaven.plugin.dir=${JAVA_MAVEN_SYSTEM_PLUGINS}"
-	JAVAOPT="${JAVAOPT} -Dmaven.repo.remote=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY}"
 
-	java-pkg_dolauncher \
-	mvn \
-	--main org.codehaus.classworlds.Launcher \
-	-pre "${FILESDIR}/mvn-pre" \
-	--pkg_args \${QUOTED_ARGS} \
-	--java_args "${JAVAOPT}"
 }
 
