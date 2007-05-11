@@ -15,7 +15,7 @@ DEP="=dev-java/plexus-container-default-1.0_alpha24
 dev-java/plexus-component-api
 dev-java/plexus-component-factories
 =dev-java/classworlds-1.1*
-=dev-java/plexus-classworlds-1.2_alpha1
+dev-java/plexus-classworlds
 dev-java/bsh
 dev-java/plexus-utils"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
