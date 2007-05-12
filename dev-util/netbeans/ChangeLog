@@ -4,6 +4,10 @@
 
   12 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_alpha10_pre20070511.ebuild:
+  Fixed ant target path
+
+  12 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070511.ebuild:
   Compilation fix and some new info messages
 
   11 May 2007; Miroslav Šulc <fordfrog@gentoo.org>

@@ -20,7 +20,6 @@ MILESTONE="m9"
 MY_PV=${PV/_alpha/-m}
 SOURCE_SITE="http://dev.gentoo.org/~fordfrog/distfiles/"
 SRC_URI="
-	${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-autoupdate-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-core-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-editor-${MY_PV}.tar.bz2
@@ -337,7 +336,7 @@ src_compile() {
 	# First build Netbeans Platform (building using nb.cluster.platform doesn't work for unknown reason)
 	ANT_TASKS="ant-nodeps"
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
-	einfo "Cimpiling Netbeans Platform..."
+	einfo "Compiling Netbeans Platform..."
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} \
 		-f nbbuild/build.xml build-platform
 	if ! use harness ; then
@@ -375,7 +374,7 @@ src_compile() {
 
 	# Use the system ant
 	if use java ; then
-		cd ${BUILDDESTINATION}/ide${IDE_VERSION}/ant || die "Cannot cd to ${BUILDDESTINATION}/ide${IDE_VERSION}/ant"
+		cd ${BUILDDESTINATION}/java1/ant || die "Cannot cd to ${BUILDDESTINATION}/ide${IDE_VERSION}/ant"
 		rm -fr lib
 		rm -fr bin
 	fi
@@ -431,7 +430,7 @@ src_install() {
 
 	# Ant installation
 	if use java ; then
-		local ANTDIR="${DESTINATION}/ide${IDE_VERSION}/ant"
+		local ANTDIR="${DESTINATION}/java1/ant"
 		dosym /usr/share/ant/lib ${ANTDIR}/lib
 		dosym /usr/share/ant-core/bin ${ANTDIR}/bin
 	fi
