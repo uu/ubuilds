@@ -15,6 +15,6 @@ DEP="=dev-java/plexus-container-default-1.0_alpha9
 dev-java/plexus-utils"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-container-default-1.0_alpha9-maven
+EANT_GENTOO_CLASSPATH="plexus-container-default-1.0_alpha9
 plexus-utils"
 

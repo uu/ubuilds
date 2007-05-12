@@ -24,5 +24,5 @@ maven-artifact-manager
 wagon-provider-api
 maven-settings
 plexus-utils
-plexus-container-default-1.0_alpha9-maven"
+plexus-container-default-1.0_alpha9"
 

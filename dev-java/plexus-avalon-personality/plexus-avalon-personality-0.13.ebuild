@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="source"
 DEP="=dev-java/avalon-framework-4.1*
-dev-java/plexus-container-default
+=dev-java/plexus-container-default-1.0_alpha9*
 dev-java/xpp3
 dev-java/plexus-utils"
 #dev-java/plexus-component-api"
@@ -23,7 +23,7 @@ RDEPEND=">=virtual/jre-1.4	${DEP}"
 
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 EANT_GENTOO_CLASSPATH="avalon-framework-4.1
-plexus-container-default-1.0_alpha9-maven
+plexus-container-default-1.0_alpha9
 xpp3
 plexus-utils"
 #plexus-component-api"

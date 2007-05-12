@@ -46,7 +46,7 @@ classworlds-1.1
 commons-cli-1
 commons-lang-2.1
 commons-logging
-plexus-container-default-1.0_alpha9-maven
+plexus-container-default-1.0_alpha9
 plexus-interactivity-api
 plexus-utils-1.0.4
 wagon-http-lightweight

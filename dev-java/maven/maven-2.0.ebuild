@@ -89,7 +89,7 @@ src_unpack() {
 	java-pkg_jar-from jsch
 	java-pkg_jar-from plexus-interactivity-api
 	java-pkg_jar-from plexus-avalon-personality
-	java-pkg_jar-from plexus-container-default-1.0_alpha9-maven
+	java-pkg_jar-from plexus-container-default-1.0_alpha9
 
 	# generate our launch script
 	echo "#!/bin/sh" >> mvn

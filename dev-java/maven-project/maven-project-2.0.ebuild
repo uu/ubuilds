@@ -33,6 +33,6 @@ maven-plugin-registry
 maven-repository-metadata
 maven-profile
 maven-settings
-plexus-container-default-1.0_alpha9-maven
+plexus-container-default-1.0_alpha9
 plexus-utils"
 

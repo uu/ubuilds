@@ -14,5 +14,5 @@ IUSE="source doc"
 DEP="dev-java/maven-model dev-java/plexus-utils =dev-java/plexus-container-default-1.0_alpha9"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="maven-model plexus-utils plexus-container-default-1.0_alpha9-maven"
+EANT_GENTOO_CLASSPATH="maven-model plexus-utils plexus-container-default-1.0_alpha9"
 

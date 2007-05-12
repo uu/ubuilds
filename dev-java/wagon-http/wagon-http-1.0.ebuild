@@ -26,7 +26,7 @@ RDEPEND=">=virtual/jre-1.4 ${DEP}"
 EANT_GENTOO_CLASSPATH="jtidy
 wagon-provider-api
 plexus-utils
-plexus-container-default-1.0_alpha9-maven
+plexus-container-default-1.0_alpha9
 plexus-jetty-httpd
 wagon-http-shared
 commons-logging
