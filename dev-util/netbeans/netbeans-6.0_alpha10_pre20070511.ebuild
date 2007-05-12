@@ -337,6 +337,7 @@ src_compile() {
 	# First build Netbeans Platform (building using nb.cluster.platform doesn't work for unknown reason)
 	ANT_TASKS="ant-nodeps"
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
+	einfo "Cimpiling Netbeans Platform..."
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} \
 		-f nbbuild/build.xml build-platform
 	if ! use harness ; then
@@ -350,7 +351,8 @@ src_compile() {
 	if use apisupport || use harness || use ide || use j2ee || use java || use mobility \
 		|| use nb || use profiler || use ruby || use soa || use testtools || use uml \
 		|| use visualweb ; then
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" ${antflags} ${clusters} -f nbbuild/build.xml build-nozip
+		einfo "Compiling Netbeans IDE..."
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml build-nozip
 	fi
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
@@ -373,12 +375,12 @@ src_compile() {
 
 	# Use the system ant
 	if use java ; then
-		cd ${BUILDDESTINATION}/ide${IDE_VERSION}/ant
+		cd ${BUILDDESTINATION}/ide${IDE_VERSION}/ant || die "Cannot cd to ${BUILDDESTINATION}/ide${IDE_VERSION}/ant"
 		rm -fr lib
 		rm -fr bin
 	fi
 
-	# Set a initial default jdk
+	# Set initial default jdk
 	if [[ -e ${BUILDDESTINATION}/etc/netbeans.conf ]]; then
 		echo "netbeans_jdkhome=\"\$(java-config -O)\"" >> ${BUILDDESTINATION}/etc/netbeans.conf
 	fi
@@ -445,7 +447,7 @@ src_install() {
 
 	# Icons and shortcuts
 	if use nb ; then
-		einfo "Installing icon"
+		einfo "Installing icon..."
 		dodir /usr/share/icons/hicolor/32x32/apps
 		dosym ${DESTINATION}/nb6.0/netbeans.png /usr/share/icons/hicolor/32x32/apps/netbeans-${SLOT}.png
 
