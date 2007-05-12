@@ -4,6 +4,9 @@
 
 inherit base java-pkg-2 java-ant-2
 
+DEPENDS="${DEPENDS} dev-java/javatoolkit-0.2.0-r2"
+RDEPENDS="${RDEPENDS} dev-java/javatoolkit-0.2.0-r2"
+
 # We provide two ways to build maven based ebuilds.
 # The first is with maven itself
 # The second is via generated build.xml by the maven-ant plugin
@@ -59,8 +62,7 @@ esac
 JAVA_MAVEN_SYSTEM_HOME="/usr/share/maven-${SLOT}/maven_home"
 
 # our pom helper
-MAVEN_POM_HELPER="/home/kiorky/prog/svn/gentoo.org/gentoo-java-overlays/projects/javatoolkit/trunk/src/bsfix/maven-getpominfos.py"
-#MAVEN_POM_HELPER="/usr/bin/maven-getpominfos.py"
+MAVEN_POM_HELPER="/usr/bin/maven-getpominfos.py"
 
 # maven 1 and 1.1 share the same repo
 JAVA_MAVEN_SYSTEM_REPOSITORY="/usr/share/maven-${SLOT//1.1/1}/maven_home/gentoo-repo"
@@ -167,6 +169,9 @@ java-maven-2-rewrite_build_xml() {
 }
 
 java-maven-2_src_unpack() {
+	if  ! has_version ">=dev-java/javatoolkit-0.2.0-r2";then
+		die "please upgrade to at least dev-java/javatoolkit-0.2.0-r2"
+	fi
 	base_src_unpack
 
 	# if present using specific build.xml
