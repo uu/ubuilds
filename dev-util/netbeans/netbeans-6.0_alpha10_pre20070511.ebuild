@@ -399,11 +399,11 @@ src_install() {
 	doins -r *
 
 	# Remove the build helper files
-	rm -f ${DESTINATION}/nb.cluster.*
-	rm -f ${DESTINATION}/*.built
-	rm -f ${DESTINATION}/moduleCluster.properties
-	rm -f ${DESTINATION}/module_tracking.xml
-	rm -f ${DESTINATION}/build_info
+	rm -f ${D}/${DESTINATION}/nb.cluster.*
+	rm -f ${D}/${DESTINATION}/*.built
+	rm -f ${D}/${DESTINATION}/moduleCluster.properties
+	rm -f ${D}/${DESTINATION}/module_tracking.xml
+	rm -f ${D}/${DESTINATION}/build_info
 
 	# Change location of etc files
 	if [[ -e ${BUILDDESTINATION}/etc ]]; then
@@ -417,12 +417,12 @@ src_install() {
 	#symlink_extjars ${D}/${DESTINATION}
 
 	# Correct permissions on executables
-	[[ -e ${DESTINATION}/bin/netbeans ]] && fperms 755 ${DESTINATION}/bin/netbeans
+	[[ -e ${D}/${DESTINATION}/bin/netbeans ]] && fperms 755 ${DESTINATION}/bin/netbeans
 	fperms 775 ${DESTINATION}/platform${PLATFORM}/lib/nbexec
 	use ruby && fperms 755 ${DESTINATION}/ruby1/jruby-0.9.9/bin/*
 
 	# Link netbeans executable from bin
-	if [[ -e ${DESTINATION}/bin/netbeans ]]; then
+	if [[ -f ${D}/${DESTINATION}/bin/netbeans ]]; then
 		dosym ${DESTINATION}/bin/netbeans /usr/bin/${PN}-${SLOT}
 	else
 		dosym ${DESTINATION}/platform7/lib/nbexec /usr/bin/${PN}-${SLOT}
