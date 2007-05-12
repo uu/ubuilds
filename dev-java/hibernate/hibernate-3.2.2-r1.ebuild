@@ -3,6 +3,7 @@
 # $Header: $
 
 WANT_ANT_TASKS="ant-swing ant-junit ant-antlr"
+JAVA_PKG_IUSE="source doc jboss"
 
 inherit java-pkg-2 java-ant-2 eutils
 
@@ -12,7 +13,7 @@ DESCRIPTION="Hibernate is a powerful, ultra-high performance object / relational
 SRC_URI="mirror://sourceforge/${PN}/${MY_P}.ga.tar.gz"
 HOMEPAGE="http://www.hibernate.org"
 LICENSE="LGPL-2"
-IUSE="doc jboss source"
+IUSE=""
 SLOT="3.2"
 KEYWORDS="~x86 ~amd64"
 
