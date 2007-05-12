@@ -118,6 +118,6 @@ src_install() {
 
 	chmod 755 "${S}/mvn"
 	exeinto /usr/bin
-	doexe  "${S}/mvn"
+	doexe  "${S}/mvn-non-bin"
 }
 
