@@ -14,6 +14,7 @@ IUSE="source doc"
 DEP="dev-java/maven-artifact
 dev-java/maven-artifact-manager
 dev-java/maven-settings
+dev-java/junit
 dev-java/wagon-provider-api
 dev-java/plexus-utils
 =dev-java/plexus-container-default-1.0_alpha9"
@@ -22,6 +23,7 @@ RDEPEND=">=virtual/jre-1.4 ${DEP}"
 EANT_GENTOO_CLASSPATH="maven-artifact
 maven-artifact-manager
 wagon-provider-api
+junit
 maven-settings
 plexus-utils
 plexus-container-default-1.0_alpha9"
