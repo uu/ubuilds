@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  13 May 2007; Vlastimil Babka <caster@gentoo.org> xstream-1.2.1.ebuild:
+  Remove KEYWORDS again till it compiles bytecode useable with all reverse
+  deps like groovy, bug #178315.
+
   15 Apr 2007; Petteri Räty <betelgeuse@gentoo.org> xstream-1.2.1.ebuild:
   Force >=sun-jdk-1.6 until lower ones work and add back KEYWORDS.
 

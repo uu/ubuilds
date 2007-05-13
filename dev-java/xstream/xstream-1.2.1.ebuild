@@ -10,7 +10,8 @@ SRC_URI="http://repository.codehaus.org/com/thoughtworks/${PN}/${PN}-distributio
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+#KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 #TODO java5
 IUSE="doc examples source"
 
