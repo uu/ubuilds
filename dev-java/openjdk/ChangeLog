@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  13 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild, +files/external-zlib.patch,
+  +files/j2se-cxxflags.patch:
+  Use system installed copy of zlib.
+
   10 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild, +files/lesstif.patch:
   Add patch to build against lesstif.

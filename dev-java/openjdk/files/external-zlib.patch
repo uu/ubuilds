@@ -1,0 +1,214 @@
+Index: openjdk/j2se/make/com/sun/java/pack/Makefile
+===================================================================
+--- openjdk.orig/j2se/make/com/sun/java/pack/Makefile
++++ openjdk/j2se/make/com/sun/java/pack/Makefile
+@@ -61,6 +61,10 @@ vpath %.cpp $(SHARE_SRC)/native/$(PKGDIR
+ 
+ 
+ ifeq ($(STANDALONE),true)
++ ifeq ($(EXTERNAL_ZLIB),true)
++  ZIPOBJS = -lz
++  ZINCLUDE = -DEXTERNAL_ZLIB
++ else
+   ZIPOBJDIR = $(OUTPUTDIR)/tmp/sun/java.util.zip/zip/$(OBJDIRNAME)
+ 
+   ZIPOBJS =  $(ZIPOBJDIR)/zcrc32.$(OBJECT_SUFFIX) \
+@@ -76,6 +80,8 @@ ifeq ($(STANDALONE),true)
+ 	     $(ZIPOBJDIR)/inffast.$(OBJECT_SUFFIX)
+ 
+   ZINCLUDE=-I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
++ endif
++
+   OTHER_CXXFLAGS += $(ZINCLUDE)
+   LDDFLAGS += $(ZIPOBJS)
+ else
+Index: openjdk/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
+===================================================================
+--- openjdk.orig/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
++++ openjdk/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
+@@ -87,11 +87,13 @@ extern void assert_failed(const char*);
+ // bytes and byte arrays
+ 
+ typedef unsigned int uint;
++#ifndef EXTERNAL_ZLIB
+ #ifdef _LP64
+ typedef unsigned int uLong; // Historical zlib, should be 32-bit.
+ #else
+ typedef unsigned long uLong;
+ #endif
++#endif
+ #ifdef _MSC_VER 
+ typedef LONGLONG 	jlong;
+ typedef DWORDLONG 	julong;
+@@ -160,3 +162,7 @@ enum { false, true };
+ #define BOOL_TF(x) (((x) != null && strcmp((x),STR_TRUE) == 0) ? true : false)
+ 
+ #define DEFAULT_ARCHIVE_MODTIME 1060000000 // Aug 04, 2003 5:26 PM PDT
++
++#ifdef EXTERNAL_ZLIB
++# include <zconf.h>
++#endif
+Index: openjdk/j2se/make/java/jli/Makefile
+===================================================================
+--- openjdk.orig/j2se/make/java/jli/Makefile
++++ openjdk/j2se/make/java/jli/Makefile
+@@ -56,15 +56,7 @@ FILES_c = \
+ 	$(CTARGDIR)parse_manifest.c \
+ 	$(CTARGDIR)version_comp.c \
+ 	$(CTARGDIR)wildcard.c \
+-	$(CTARGDIR)jli_util.c \
+-	$(CTARGDIR)inflate.c \
+-	$(CTARGDIR)infblock.c \
+-	$(CTARGDIR)inftrees.c \
+-	$(CTARGDIR)infcodes.c \
+-	$(CTARGDIR)inffast.c \
+-	$(CTARGDIR)infutil.c \
+-	$(CTARGDIR)zadler32.c \
+-	$(CTARGDIR)zutil.c
++	$(CTARGDIR)jli_util.c
+ 
+ OTHER_CPPFLAGS += -DEXPAND_CLASSPATH_WILDCARDS
+ 
+@@ -74,6 +66,21 @@ ifneq (,$(findstring $(PLATFORM), linux 
+ 	LDLIBS = -lc
+ endif
+ 
++ifeq ($(EXTERNAL_ZLIB), true)
++  LDLIBS += -lz
++else
++  OTHER_INCLUDES += -I$(ZIP_SRC)
++
++  FILES_C += $(CTARGDIR)inflate.c \
++	$(CTARGDIR)infblock.c \
++	$(CTARGDIR)inftrees.c \
++	$(CTARGDIR)infcodes.c \
++	$(CTARGDIR)inffast.c \
++	$(CTARGDIR)infutil.c \
++	$(CTARGDIR)zadler32.c \
++	$(CTARGDIR)zutil.c
++endif
++
+ ifeq ($(PLATFORM), windows)
+ 	EXTRA_LIBS =
+ 	JAVALIB =
+@@ -98,7 +105,6 @@ endif
+ 
+ OTHER_INCLUDES += -I$(LAUNCHER_SHARE_SRC)
+ OTHER_INCLUDES += -I$(LAUNCHER_PLATFORM_SRC)
+-OTHER_INCLUDES += -I$(ZIP_SRC)
+ 
+ #
+ # Library to compile.
+Index: openjdk/j2se/make/java/zip/FILES_c.gmk
+===================================================================
+--- openjdk.orig/j2se/make/java/zip/FILES_c.gmk
++++ openjdk/j2se/make/java/zip/FILES_c.gmk
+@@ -33,7 +33,10 @@ FILES_c = \
+ 	$(CTARGDIR)Inflater.c \
+ 	$(CTARGDIR)ZipFile.c \
+ 	$(CTARGDIR)ZipEntry.c \
+-	$(CTARGDIR)zadler32.c \
++	$(CTARGDIR)zip_util.c
++
++ifneq ($(EXTERNAL_ZLIB), true)
++FILES_c += $(CTARGDIR)zadler32.c \
+ 	$(CTARGDIR)zcrc32.c \
+ 	$(CTARGDIR)deflate.c \
+ 	$(CTARGDIR)trees.c \
+@@ -43,5 +46,5 @@ FILES_c = \
+ 	$(CTARGDIR)inftrees.c \
+ 	$(CTARGDIR)infcodes.c \
+ 	$(CTARGDIR)infutil.c \
+-	$(CTARGDIR)inffast.c \
+-	$(CTARGDIR)zip_util.c
++	$(CTARGDIR)inffast.c
++endif
+\ No newline at end of file
+Index: openjdk/j2se/make/java/zip/Makefile
+===================================================================
+--- openjdk.orig/j2se/make/java/zip/Makefile
++++ openjdk/j2se/make/java/zip/Makefile
+@@ -78,7 +78,6 @@ else
+ CPPFLAGS += -UDEBUG 
+ endif
+ 
+-CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-$(ZLIB_VERSION)
+ CPPFLAGS += -I$(SHARE_SRC)/native/java/io
+ CPPFLAGS += -I$(PLATFORM_SRC)/native/java/io
+ 
+@@ -96,3 +95,9 @@ JAVAHFLAGS += -jni
+ # Link to JVM library for JVM_Zip* functions
+ #
+ OTHER_LDLIBS = $(JVMLIB)
++
++ifeq ($(EXTERNAL_ZLIB), true)
++  OTHER_LDLIBS += -lz
++else
++  CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-$(ZLIB_VERSION)
++endif
+Index: openjdk/j2se/make/sun/splashscreen/FILES_c.gmk
+===================================================================
+--- openjdk.orig/j2se/make/sun/splashscreen/FILES_c.gmk
++++ openjdk/j2se/make/sun/splashscreen/FILES_c.gmk
+@@ -52,20 +52,6 @@ FILES_c = \
+ 	$(CTARGDIR)dgif_lib.c \
+ 	$(CTARGDIR)gif_err.c \
+ 	$(CTARGDIR)gifalloc.c \
+-	$(CTARGDIR)compress.c \
+-	$(CTARGDIR)deflate.c \
+-	$(CTARGDIR)gzio.c \
+-	$(CTARGDIR)infblock.c \
+-	$(CTARGDIR)infcodes.c \
+-	$(CTARGDIR)inffast.c \
+-	$(CTARGDIR)inflate.c \
+-	$(CTARGDIR)inftrees.c \
+-	$(CTARGDIR)infutil.c \
+-	$(CTARGDIR)trees.c \
+-	$(CTARGDIR)uncompr.c \
+-	$(CTARGDIR)zadler32.c \
+-	$(CTARGDIR)zcrc32.c \
+-	$(CTARGDIR)zutil.c \
+ 	$(CTARGDIR)jcomapi.c \
+ 	$(CTARGDIR)jdapimin.c \
+ 	$(CTARGDIR)jdapistd.c \
+@@ -111,3 +97,19 @@ FILES_c = \
+ 	$(CTARGDIR)jfdctfst.c \
+ 	$(CTARGDIR)jfdctint.c
+ 
++ifneq ($(EXTERNAL_ZLIB),true)
++FILES_c += $(CTARGDIR)compress.c \
++	$(CTARGDIR)deflate.c \
++	$(CTARGDIR)gzio.c \
++	$(CTARGDIR)infblock.c \
++	$(CTARGDIR)infcodes.c \
++	$(CTARGDIR)inffast.c \
++	$(CTARGDIR)inflate.c \
++	$(CTARGDIR)inftrees.c \
++	$(CTARGDIR)infutil.c \
++	$(CTARGDIR)trees.c \
++	$(CTARGDIR)uncompr.c \
++	$(CTARGDIR)zadler32.c \
++	$(CTARGDIR)zcrc32.c \
++	$(CTARGDIR)zutil.c
++endif
+Index: openjdk/j2se/make/sun/splashscreen/Makefile
+===================================================================
+--- openjdk.orig/j2se/make/sun/splashscreen/Makefile
++++ openjdk/j2se/make/sun/splashscreen/Makefile
+@@ -83,9 +83,15 @@ vpath %.c   $(SHARE_SRC)/native/$(PKGDIR
+ vpath %.c   $(PLATFORM_SRC)/native/$(PKGDIR)/splashscreen
+ 
+ CPPFLAGS += -I$(PLATFORM_SRC)/native/$(PKGDIR)/splashscreen -I$(SHARE_SRC)/native/$(PKGDIR)/splashscreen
+-CPPFLAGS += -I$(SHARE_SRC)/native/$(PKGDIR)/image/jpeg -I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
++CPPFLAGS += -I$(SHARE_SRC)/native/$(PKGDIR)/image/jpeg
+ 
+ #
+ # Has been converted to the JNI: generate JNI-style header files
+ #
+ JAVAHFLAGS += -jni
++
++ifeq ($(EXTERNAL_ZLIB), true)
++  OTHER_LDLIBS += -lz
++else
++  CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
++endif

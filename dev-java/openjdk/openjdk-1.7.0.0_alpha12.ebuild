@@ -60,8 +60,6 @@ S="${WORKDIR}/o"
 
 JAVA_PROVIDE="jdbc-stdext jdbc-rowset"
 
-PACKED_JARS="lib/tools.jar jre/lib/rt.jar jre/lib/jsse.jar jre/lib/charsets.jar jre/lib/ext/localedata.jar jre/lib/plugin.jar jre/lib/javaws.jar jre/lib/deploy.jar"
-
 # the build system should know what it's doing
 JAVA_PKG_BSFIX="off"
 
@@ -93,7 +91,10 @@ src_unpack() {
 	unpack ${srcfile}
 	mv ${PN} o || die #Argument list gets too long on amd64 without this
 	cd "${S}"
+	echo "Deleting bundled zlib"
+	rm -r j2se/src/share/native/java/util/zip/zlib-1.1.3 || die
 	epatch "${FILESDIR}/lesstif.patch"
+	epatch "${FILESDIR}/external-zlib.patch"
 }
 
 src_compile() {
@@ -104,6 +105,8 @@ src_compile() {
 	make="${make} ALT_JDK_IMPORT_PATH=${sunjdk7}"
 	make="${make} OPENJDK=true"
 	make="${make} NO_STRIP=true"
+	make="${make} EXTERNAL_ZLIB=true"
+
 	unset CLASSPATH
 	eant -Dbootstrap.jdk="${JAVA_HOME}" -Dmake.options="${make}" -Duser.home="${T}"
 }
