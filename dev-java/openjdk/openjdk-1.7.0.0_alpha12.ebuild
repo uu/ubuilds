@@ -24,7 +24,7 @@ SRC_URI="${BASE_URL}/${srcfile}"
 #	amd64? ( ${BASE_ULR}/${amd64_plug} )"
 SLOT="1.7"
 # Needs other for Apache asm etc see THIRD_PARTY_README
-LICENSE="GPL-2-with-classpath-exception sun-bcla"
+LICENSE="GPL-2-with-linking-exception sun-bcla"
 KEYWORDS="~amd64 ~x86"
 IUSE="doc examples"
 

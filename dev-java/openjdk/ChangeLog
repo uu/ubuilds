@@ -3,6 +3,10 @@
 # $Header: $
 
   13 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild:
+  Fix GPL-2-with-classpath-exception to GPL-2-with-linking-exception
+
+  13 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild, +files/external-zlib.patch,
   +files/j2se-cxxflags.patch:
   Use system installed copy of zlib.
