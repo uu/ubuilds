@@ -257,8 +257,10 @@ java-maven-2_install_one() {
 		local jarname="$(echo ${1}|sed -re 's:(.*/)([^/]*)(/*):\2:g')"
 		java-pkg_newjar target/*.jar "${jarname}.jar"
 	fi
-	use doc && java-pkg_dojavadoc dist/docs/api
-	use source && java-pkg_dosrc src/java/*
+	hasq doc ${IUSE} && use doc && java-pkg_dojavadoc dist/docs/api
+	if hasq source ${IUSE} && use source; then
+		java-pkg_dosrc ${JAVA_PKG_SRC_DIRS:=src/java/*}
+	fi
 }
 
 
