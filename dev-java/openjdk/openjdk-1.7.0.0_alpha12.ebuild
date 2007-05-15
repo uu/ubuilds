@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/sun-jdk/sun-jdk-1.5.0.05.ebuild,v 1.2 2005/10/10 16:23:12 betelgeuse Exp $
 
-inherit pax-utils eutils java-pkg-2 java-ant-2 java-vm-2
+inherit pax-utils eutils java-pkg-2 java-vm-2
 
 MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
@@ -98,7 +98,7 @@ src_unpack() {
 }
 
 src_compile() {
-	cd j2se/make/netbeans/world
+	cd control/make
 	local sunjdk7="$(java-config --select-vm=sun-jdk-1.7 -O)"
 	local make=" ALT_BOOTDIR=${JAVA_HOME}"
 	make="${make} ALT_CLOSED_JDK_IMPORT_PATH=${sunjdk7}"
@@ -106,9 +106,10 @@ src_compile() {
 	make="${make} OPENJDK=true"
 	make="${make} NO_STRIP=true"
 	make="${make} EXTERNAL_ZLIB=true"
+	make="${make} SKIP_COMPARE_IMAGES=true"
 
-	unset CLASSPATH
-	eant -Dbootstrap.jdk="${JAVA_HOME}" -Dmake.options="${make}" -Duser.home="${T}"
+	unset JAVA_HOME CLASSPATH LD_LIBRARY_PATH
+	emake ${make} -j1 dev || die "emake failed"
 }
 
 src_install() {
