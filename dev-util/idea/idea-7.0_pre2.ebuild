@@ -14,9 +14,7 @@ RDEPEND=">=virtual/jdk-1.5"
 MY_PV="7.0.M1a"
 MY_P="${PN}-${MY_PV}"
 
-DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE intensely focused on \
-developer productivity that provides a robust combination of enhanced \
-development tools."
+DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
 HOMEPAGE="http://jetbrains.com/idea/"
 SRC_URI="http://download.jetbrains.com/${PN}/${MY_P}.tar.gz"
 LICENSE="IntelliJ-IDEA"
@@ -34,8 +32,6 @@ src_install() {
 	dodir /usr/bin
 	cat >${D}/usr/bin/${exe} <<-EOF
 #!/bin/sh
-AWT_TOOLKIT=MToolkit
-export AWT_TOOLKIT
 /opt/${P}/bin/${PN}.sh \$@
 EOF
 	fperms 755 /usr/bin/${exe}

@@ -5,20 +5,15 @@
 inherit eutils
 
 #Change next lines when updating version
-BUILD="6819"
+BUILD="6180"
 #Change slot number between incompatible IDEA versions
-SLOT="7"
+SLOT="6"
 #Change JDK version if required
 RDEPEND=">=virtual/jdk-1.5"
 
-MY_PV="7.0.M1"
-MY_P="${PN}-${MY_PV}"
-
-DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE intensely focused on \
-developer productivity that provides a robust combination of enhanced \
-development tools."
+DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
 HOMEPAGE="http://jetbrains.com/idea/"
-SRC_URI="http://download.jetbrains.com/${PN}/${MY_P}.tar.gz"
+SRC_URI="http://download.jetbrains.com/${PN}/${P}.tar.gz"
 LICENSE="IntelliJ-IDEA"
 KEYWORDS="~x86"
 S="${WORKDIR}/${PN}-${BUILD}"
@@ -34,8 +29,6 @@ src_install() {
 	dodir /usr/bin
 	cat >${D}/usr/bin/${exe} <<-EOF
 #!/bin/sh
-AWT_TOOLKIT=MToolkit
-export AWT_TOOLKIT
 /opt/${P}/bin/${PN}.sh \$@
 EOF
 	fperms 755 /usr/bin/${exe}
