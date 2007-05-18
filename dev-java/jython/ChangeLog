@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  18 May 2007; Alistair John Bush <ali_bush@gentoo.org> ChangeLog:
+  Version bump jython to next beta. and improve existing ebuild.
+
   06 May 2007; Alistair John Bush <ali_bush@gentoo.org>
   +jython-2.2_beta1-r1.ebuild, +metadata.xml:
   Rev Bump jython with lots of cleanup and fixes. Will add extra use flags

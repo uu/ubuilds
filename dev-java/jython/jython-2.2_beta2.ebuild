@@ -10,7 +10,7 @@ inherit base java-pkg-2 java-ant-2
 DESCRIPTION="An implementation of Python written in Java"
 HOMEPAGE="http://www.jython.org"
 
-MY_PV="installer-2.2b1"
+MY_PV="installer-2.2b2"
 PYVER="2.2.3"
 SRC_URI="http://www.python.org/ftp/python/${PYVER%_*}/Python-${PYVER}.tgz
 	  mirror://sourceforge/${PN}/${PN}_${MY_PV}.jar"
@@ -57,7 +57,7 @@ src_unpack() {
 		>> ant.properties
 	fi
 
-	if postgresql; then
+	if use postgresql; then
 		echo \
 		"postgresql.jar=$(java-pkg_getjar jdbc-postgresql jdbc-postgresql.jar)"\
 		 >> ant.properties
@@ -72,11 +72,22 @@ src_unpack() {
 src_compile() {
 
 	local antflags="-Dbase.path=src/java -Dsource.dir=src/java/src"
-	local pylib="Python-${PYVER}/Lib"
+	#local pylib="Python-${PYVER}/Lib"
+	local pylib="Lib"
 	antflags="${antflags} -Dpython.lib=${pylib}"
 	LC_ALL=C eant ${antflags} developer-build $(use_doc javadoc)
 	#LC_ALL=C eant ${antflags} -Ddo.checkout=false full-build
 }
+
+src_test() {
+	local antflags="-Dbase.path=src/java -Dsource.dir=src/java/src"
+	antflags="${antflags} -Dpython.home=dist"
+	local pylib="Python-${PYVER}/Lib"
+	#local pylib="Lib"
+	antflags="${antflags} -Dpython.lib=${pylib}"
+	eant ${antflags} regrtest
+}
+
 
 src_install() {
 	java-pkg_dojar "dist/${PN}.jar"
