@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+#JAVA_PKG_FORCE_VM=sun-jdk-1.6
+
 inherit eutils java-pkg-2 java-utils-2 java-ant-2 versionator
 
 MY_PV=$(replace_version_separator 3 '-' )
@@ -45,8 +47,6 @@ src_unpack() {
 }
 
 src_compile() {
-	use spell && java-pkg_register-dependency zemberek zemberek2-cekirdek.jar
-	use spell && java-pkg_register-dependency zemberek zemberek2-tr.jar
 	local anttasks_opt
 	use nls && anttasks_opt="i18n"
 	eant ${anttasks_opt} jar xdevelop || die "compile failed"
@@ -54,6 +54,8 @@ src_compile() {
 
 src_install() {
 	java-pkg_newjar dist/Jubler.jar ${PN}.jar
+	use spell && java-pkg_register-dependency zemberek zemberek2-cekirdek.jar
+	use spell && java-pkg_register-dependency zemberek zemberek2-tr.jar
         java-pkg_doso resources/ffdecode/libffdecode.so
         doicon resources/installers/linux/jubler.png
 	newicon resources/installers/linux/subtitle-32.png subtitle.png
