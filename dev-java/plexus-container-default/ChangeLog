@@ -1,5 +1,9 @@
 
 
+  19 May 2007; Alistair John Bush <ali_bush@gentoo.org>
+  plexus-container-default-1.0_alpha9.ebuild:
+  Adding to ~amd64 and Restrict tests
+
   01 May 2007; kiorky <kiorky@cryptelium.net>
   +plexus-container-default-1.0_alpha9.ebuild,
   +plexus-container-default-1.0_alpha10.ebuild,
