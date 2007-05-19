@@ -11,7 +11,7 @@ HOMEPAGE="http://plexus.codehaus.org/"
 SRC_URI="http://dev.gentooexperimental.org/~kiorky/${P}.tar.bz2"
 LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
