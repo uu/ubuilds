@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  19 May 2007; Alistair John Bush <ali_bush@gentoo.org>
+  plexus-component-api-1.0_alpha24.ebuild:
+  Added to ~amd64, Restricted tests
+
   07 May 2007; kiorky <kiorky@cryptelium.net>
   +plexus-component-api-1.0_alpha14.ebuild,
   +plexus-component-api-1.0_alpha22.ebuild,
