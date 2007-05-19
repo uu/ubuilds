@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-JAVA_PKG_IUSE="doc source"
+JAVA_PKG_IUSE="source" #doc
 
 inherit eutils java-pkg-2 java-ant-2
 
@@ -11,7 +11,7 @@ HOMEPAGE="http://www.stringtemplate.org/"
 SRC_URI="http://www.antlr.org/download/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 COMMON_DEPEND="dev-java/antlr"
@@ -30,12 +30,12 @@ src_unpack() {
 }
 
 src_compile() {
-	ANT_TASKS="ant-antlr" eant jar $(use_doc javadocs) -Dgentoo.classpath=$(java-pkg_getjars antlr)
+	ANT_TASKS="ant-antlr" eant jar -Dgentoo.classpath=$(java-pkg_getjars antlr)
 }
 
 src_install() {
 	java-pkg_dojar build/stringtemplate.jar
-	use doc && java-pkg_dojavadoc docs/api
+	#use doc && java-pkg_dojavadoc docs/api
 	use source && java-pkg_dosrc src/*
 	dodoc README.txt || die
 }
