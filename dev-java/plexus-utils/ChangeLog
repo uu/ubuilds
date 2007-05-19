@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  19 May 2007; Alistair John Bush <ali_bush@gentoo.org>
+  plexus-utils-1.0.5.ebuild:
+  Adding to ~amd64, Restrict test and removed doc use flag
+
   01 May 2007; kiorky <kiorky@cryptelium.net> +plexus-utils-1.0.4.ebuild:
   Adding specific ebuilds beecause of maven wants it
 

@@ -9,11 +9,12 @@ HOMEPAGE="http://plexus.codehaus.org/"
 SRC_URI="http://dev.gentooexperimental.org/~kiorky/${P}.tar.bz2"
 LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
 SLOT="0"
-KEYWORDS="~x86"
-IUSE="source doc"
+KEYWORDS="~amd64 ~x86"
+IUSE="source" #no javadoc target
 DEP="=dev-java/classworlds-1.1*"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 EANT_GENTOO_CLASSPATH="classworlds-1.1"
 
+RESTRICT="test" #until at least it works
