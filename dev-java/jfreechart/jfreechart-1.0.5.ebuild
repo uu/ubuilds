@@ -58,7 +58,7 @@ src_install() {
 
 get_jars() {
 	local antflags="
-		-Ditext.jar=$(java-pkg_getjars itext) \
+		-Ditext.jar=$(java-pkg_getjar itext iText.jar) \
 		-Djcommon.jar=$(java-pkg_getjars jcommon-1.0) \
 		-Dservlet.jar=$(java-pkg_getjars servletapi-2.3)"
 	use test && antflags="${antflags} \
