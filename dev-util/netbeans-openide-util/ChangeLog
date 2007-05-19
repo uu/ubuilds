@@ -1,8 +1,0 @@
-# ChangeLog for dev-util/netbeans-openide-util
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  29 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
-  +netbeans-openide-util-6.0_alpha9_pre20070429.ebuild:
-  New ebuild
-
