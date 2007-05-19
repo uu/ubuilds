@@ -1,0 +1,9 @@
+# ChangeLog for net-news/rssowl
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  19 May 2007; Vlastimil Babka <caster@gentoo.org> rssowl-1.2.3.ebuild:
+  Use java-pkg_getjars instead of jar-from; stop bundling iTextAsian.jar; Use
+  T instead of /tmp during build; drop seamonkey USEflag and only warn about
+  internal browser not working if swt built without seamonkey or xulrunner.
+
