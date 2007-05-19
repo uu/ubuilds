@@ -2,8 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-#JAVA_PKG_FORCE_VM=sun-jdk-1.6
-
 inherit eutils java-pkg-2 java-utils-2 java-ant-2 versionator
 
 MY_PV=$(replace_version_separator 3 '-' )
