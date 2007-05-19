@@ -30,21 +30,22 @@ plexus-utils"
 
 src_unpack(){
 	java-maven-2_src_unpack
-	epatch "${FILESDIR}"/AvalonComponentRepository.java.diff
-	epatch "${FILESDIR}"/AvalonLifecycleHandler.java.diff
-	epatch "${FILESDIR}"/ComposePhase.java.diff
-	epatch "${FILESDIR}"/ConfigurePhase.java.diff
-	epatch "${FILESDIR}"/ContextualizePhase.java.diff
-	epatch "${FILESDIR}"/DisposePhase.java.diff
-	epatch "${FILESDIR}"/InitializePhase.java.diff
-	epatch "${FILESDIR}"/LogDisablePhase.java.diff
-	epatch "${FILESDIR}"/LogEnablePhase.java.diff
-	epatch "${FILESDIR}"/ReconfigurePhase.java.diff
-	epatch "${FILESDIR}"/RecontextualizePhase.java.diff
-	epatch "${FILESDIR}"/ResumePhase.java.diff
-	epatch "${FILESDIR}"/ServicePhase.java.diff
-	epatch "${FILESDIR}"/StartPhase.java.diff
-	epatch "${FILESDIR}"/StopPhase.java.diff
-	epatch "${FILESDIR}"/SuspendPhase.java.diff
+	#epatch "${FILESDIR}"/AvalonComponentRepository.java.diff
+	#epatch "${FILESDIR}"/AvalonLifecycleHandler.java.diff
+	#epatch "${FILESDIR}"/ComposePhase.java.diff
+	#epatch "${FILESDIR}"/ConfigurePhase.java.diff
+	#epatch "${FILESDIR}"/ContextualizePhase.java.diff
+	#epatch "${FILESDIR}"/DisposePhase.java.diff
+	#epatch "${FILESDIR}"/InitializePhase.java.diff
+	#epatch "${FILESDIR}"/LogDisablePhase.java.diff
+	#epatch "${FILESDIR}"/LogEnablePhase.java.diff
+	#epatch "${FILESDIR}"/ReconfigurePhase.java.diff
+	#epatch "${FILESDIR}"/RecontextualizePhase.java.diff
+	#epatch "${FILESDIR}"/ResumePhase.java.diff
+	#epatch "${FILESDIR}"/ServicePhase.java.diff
+	#epatch "${FILESDIR}"/StartPhase.java.diff
+	#epatch "${FILESDIR}"/StopPhase.java.diff
+	#epatch "${FILESDIR}"/SuspendPhase.java.diff
+	epatch "${FILESDIR}/${P}.patch"
 }
 
