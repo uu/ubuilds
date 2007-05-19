@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+JAVA_PKG_IUSE="source"
+
 inherit java-pkg-2 java-maven-2
 
 DESCRIPTION="The Plexus project provides a full software stack for creating and executing software projects."
@@ -11,8 +13,8 @@ SRC_URI="http://dev.gentooexperimental.org/~kiorky/${P}.tar.bz2"
 
 LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
 SLOT="0"
-KEYWORDS="~x86"
-IUSE="source"
+KEYWORDS="~amd64 ~x86"
+IUSE=""
 DEP="=dev-java/avalon-framework-4.1*
 =dev-java/plexus-container-default-1.0_alpha9*
 dev-java/xpp3

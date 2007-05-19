@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  19 May 2007; Alistair John Bush <ali_bush@gentoo.org>
+  plexus-avalon-personality-0.13.ebuild:
+  Adding to ~amd64.
+
   07 May 2007; kiorky <kiorky@cryptelium.net>
   plexus-avalon-personality-0.13.ebuild:
   Whitespaces
