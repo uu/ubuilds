@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  19 May 2007; Alistair John Bush <ali_bush@gentoo.org>
+  plexus-jetty-httpd-1.0_beta2.ebuild, files/DefaultHttpd.java.diff:
+  Adding to ~amd64, updating patch
+
   07 May 2007; kiorky <kiorky@cryptelium.net>
   +plexus-jetty-httpd-1.0_beta2.ebuild, -plexus-jetty-httpd-1.0.ebuild,
   files/DefaultHttpd.java.diff:
