@@ -259,7 +259,7 @@ java-maven-2_install_one() {
 	fi
 	hasq doc ${IUSE} && use doc && java-pkg_dojavadoc dist/docs/api
 	if hasq source ${IUSE} && use source; then
-		java-pkg_dosrc ${JAVA_PKG_SRC_DIRS:=src/java/*}
+		java-pkg_dosrc ${JAVA_PKG_SRC_DIRS:=src/main/java/*}
 	fi
 }
 
