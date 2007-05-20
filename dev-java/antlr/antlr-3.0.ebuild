@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-JAVA_PKG_IUSE="source test"
-WANT_ANT_TASKS="ant-antlr ant-junit"
+JAVA_PKG_IUSE="source"
+WANT_ANT_TASKS="ant-antlr"
 inherit eutils java-pkg-2 java-ant-2
 
 DESCRIPTION="A parser generator for C++, C#, Java, and Python"
@@ -12,7 +12,7 @@ SRC_URI="http://www.antlr.org/download/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="3"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="test"
 
 RDEPEND=">=virtual/jre-1.5
 	 dev-java/stringtemplate"
@@ -23,6 +23,8 @@ DEPEND="${RDEPEND}
 	(
 		dev-java/junit
 		=dev-java/antlr-2*
+		dev-java/ant-junit
+		dev-java/ant-trax
 	)"
 
 src_unpack() {
@@ -51,7 +53,7 @@ src_compile() {
 
 src_test() {
 	#ANT_TASKS="ant-antlr ant-junit" eant test -Dgentoo.classpath=$(java-pkg_getjars antlr,junit)
-	ANT_TASKS="ant-antlr ant-junit" eant -Dtemp.dir=${T}/antlr3 test
+	ANT_TASKS="ant-antlr ant-junit ant-trax" eant -Dtemp.dir=${T}/antlr3 test
 }
 
 src_install() {

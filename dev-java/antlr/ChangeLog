@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  20 May 2007; Miroslav Šulc <fordfrog@gentoo.org> antlr-3.0.ebuild:
+  Added missing ant-trax to tests and minor cleanups
+
   18 May 2007; <serkan_kaba@yahoo.com> +antlr-3.0.ebuild:
   Added antlr-3.0
 
