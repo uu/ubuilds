@@ -2,6 +2,13 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  20 May 2007; Miroslav Šulc <fordfrog@gentoo.org> -poi-3.0_alpha3.ebuild,
+  +poi-3.0.ebuild, +files/poi-3.0-src-isDateFormat.patch,
+  -files/poi-3.0_alpha3-build.xml.patch, -files/poi-3.0_alpha3-src.patch:
+  Version bump. Needs check whether apps that need it can build against it so
+  it can stay in the same slot or would need new slot as apicheck reports some
+  changes. Afther this it can go to tree.
+
   13 Feb 2007; Vlastimil Babka <caster@gentoo.org> -poi-2.5.1-r1.ebuild,
   -files/poi-2.5.1-build.xml.patch, -files/poi-2.5-jikes-fix.patch:
   Remove 2.5.1-r1 which was added to main tree and improved a while ago.
