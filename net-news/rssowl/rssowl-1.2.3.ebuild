@@ -28,7 +28,9 @@ CDEPEND="dev-java/commons-codec
 		>=dev-java/xerces-2
 		dev-java/blowfishj
 		dev-java/itext
-		>=dev-java/swt-3.2"
+		>=dev-java/swt-3.2
+		=dev-java/eclipse-jface-3*
+		=dev-java/eclipse-core-commands-3*"
 
 DEPEND=">=virtual/jdk-1.4
 		${CDEPEND}"
@@ -42,7 +44,7 @@ src_unpack() {
 	epatch "${FILESDIR}/${PN}-unjar-build-fix.patch"
 
 	cd "${S}/lib"
-	mv jface.jar res.jar swt-nl.jar "${S}" || die
+	mv res.jar swt-nl.jar "${S}" || die
 	rm -v *.jar
 }
 
@@ -50,14 +52,12 @@ src_unpack() {
 
 src_compile() {
 	cd "${S}/src"
-	local cp="$(java-pkg_getjars jdom-1.0,itext,blowfishj,commons-codec,commons-httpclient-3,commons-logging,xerces-2,swt-3)"
-	cp="${cp}:${S}/jface.jar"
+	local cp="$(java-pkg_getjars jdom-1.0,itext,blowfishj,commons-codec,commons-httpclient-3,commons-logging,xerces-2,swt-3,eclipse-jface-3,eclipse-core-commands-3)"
 	eant -Djava.io.tmpdir="${T}" -Dlibs="${cp}" deploy_linux $(use_doc)
 }
 
 src_install() {
 	java-pkg_dojar "${PN}.jar"
-	java-pkg_dojar jface.jar
 	java-pkg_dojar swt-nl.jar
 	java-pkg_dojar res.jar
 

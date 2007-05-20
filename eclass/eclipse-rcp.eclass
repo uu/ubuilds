@@ -20,16 +20,19 @@ eclipse-rcp_src_unpack() {
 	unpack ${A}
 	mkdir -p ${S}/src
 	unzip -q ${WORKDIR}/eclipse/plugins/${RCP_ROOT}/src/${RCP_PACKAGE_DIR}/src.zip -d ${S}/src
+	unzip -q ${WORKDIR}/eclipse/plugins/${RCP_PACKAGE_DIR}.jar -d ${S}/src
+	cd ${S}/src
+	find . -name '*.class' -delete
 	rm -rf ${WORKDIR}/eclipse	
 }
 
 eclipse-rcp_src_compile() {
-	#ejavac -cp ${classpath} -sourcepath src
 	cd src
 	find . -name '*.java' -print > sources.list
 	[[ -n "${RCP_EXTRA_DEPS}" ]] && classpath=$(java-pkg_getjars ${RCP_EXTRA_DEPS})
 	ejavac -cp .:${classpath} @sources.list
-  	find . -name '*.class' -print > classes.list
+	rm -rf META-INF sources.list 
+  	find . -name '*' -not -name '*.java' -type f -not -name 'classes.list' -print > classes.list
   	touch myManifest
   	jar cmf myManifest ${PN}.jar @classes.list
 }
