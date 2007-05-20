@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  20 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha12.ebuild, +files/external-giflib.patch,
+  +files/external-jpeg-splash.patch, +files/external-libpng.patch:
+  Use the system installed copy of libpng instead of the bundled one.
+
   15 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild:
   Remove the need for dev-java/ant by running make directly.

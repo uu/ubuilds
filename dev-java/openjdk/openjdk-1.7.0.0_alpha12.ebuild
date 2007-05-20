@@ -30,6 +30,7 @@ IUSE="doc examples"
 
 COMMON_DEP="
 	media-libs/alsa-lib
+	media-libs/libpng
 	x11-libs/libX11
 	x11-libs/libXext
 	x11-libs/libXi
@@ -93,23 +94,33 @@ src_unpack() {
 	cd "${S}"
 	echo "Deleting bundled zlib"
 	rm -r j2se/src/share/native/java/util/zip/zlib-1.1.3 || die
+	echo "Deleting bundled libpng"
+	rm -r j2se/src/share/native/sun/awt/libpng || die
 	epatch "${FILESDIR}/lesstif.patch"
 	epatch "${FILESDIR}/external-zlib.patch"
+	epatch "${FILESDIR}/external-jpeg-splash.patch"
+	epatch "${FILESDIR}/external-giflib.patch"
+	epatch "${FILESDIR}/external-libpng.patch"
 }
 
 src_compile() {
 	cd control/make
+
+	# Handling the binary plugs by using sun-jdk-1.7.
+	# Should switch to the upstream plug when it can be unpacked without a GUI
 	local sunjdk7="$(java-config --select-vm=sun-jdk-1.7 -O)"
 	local make=" ALT_BOOTDIR=${JAVA_HOME}"
 	make="${make} ALT_CLOSED_JDK_IMPORT_PATH=${sunjdk7}"
 	make="${make} ALT_JDK_IMPORT_PATH=${sunjdk7}"
-	make="${make} OPENJDK=true"
-	make="${make} NO_STRIP=true"
-	make="${make} EXTERNAL_ZLIB=true"
-	make="${make} SKIP_COMPARE_IMAGES=true"
 
 	unset JAVA_HOME CLASSPATH LD_LIBRARY_PATH
-	emake ${make} -j1 dev || die "emake failed"
+	emake ${make} -j1 dev \
+		EXTERNAL_LIBPNG=true \
+		EXTERNAL_ZLIB=true \
+		OPENJDK=true \
+		NO_STRIP=true \
+		SKIP_COMPARE_IMAGES=true \
+		|| die "emake failed"
 }
 
 src_install() {
@@ -120,10 +131,8 @@ src_install() {
 	local arch=i586
 	[[ ${ARCH} = amd64 ]] && arch=amd64
 	cd control/build/linux-${arch}/j2sdk-image
-	local dirs="bin include jre lib man"
-	for i in $dirs ; do
-		cp -pPR $i ${ddest} || die "failed to copy"
-	done
+
+	cp -pPR bin include jre lib man "${ddest}" || die "failed to copy"
 
 	pax-mark m $(list-paxables ${ddest}{,/jre}/bin/*)
 

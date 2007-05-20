@@ -1,0 +1,50 @@
+Index: openjdk/j2se/make/sun/splashscreen/FILES_c.gmk
+===================================================================
+--- openjdk.orig/j2se/make/sun/splashscreen/FILES_c.gmk
++++ openjdk/j2se/make/sun/splashscreen/FILES_c.gmk
+@@ -48,10 +48,13 @@ FILES_c = \
+ 	$(CTARGDIR)pngwio.c \
+ 	$(CTARGDIR)pngwrite.c \
+ 	$(CTARGDIR)pngwtran.c \
+-	$(CTARGDIR)pngwutil.c \
+-	$(CTARGDIR)dgif_lib.c \
++	$(CTARGDIR)pngwutil.c
++
++ifneq ($(EXTERNAL_GIFLIB), true)
++FILES_c += $(CTARGDIR)dgif_lib.c \
+ 	$(CTARGDIR)gif_err.c \
+ 	$(CTARGDIR)gifalloc.c
++endif
+ 
+ ifneq ($(EXTERNAL_JPEG), true)
+ FILES_c += $(CTARGDIR)jcomapi.c \
+Index: openjdk/j2se/make/sun/splashscreen/Makefile
+===================================================================
+--- openjdk.orig/j2se/make/sun/splashscreen/Makefile
++++ openjdk/j2se/make/sun/splashscreen/Makefile
+@@ -89,6 +89,12 @@ CPPFLAGS += -I$(PLATFORM_SRC)/native/$(P
+ #
+ JAVAHFLAGS += -jni
+ 
++ifeq ($(EXTERNAL_GIFLIB), true)
++  OTHER_LDLIBS += -lgif
++else
++  CPPFLAGS += -I$(SHARE_SRC)/native/sun/awt/giflib
++endif
++
+ ifeq ($(EXTERNAL_JPEG), true)
+   OTHER_LDLIBS += -ljpeg
+ else
+Index: openjdk/j2se/src/share/native/sun/awt/splashscreen/splashscreen_gif.c
+===================================================================
+--- openjdk.orig/j2se/src/share/native/sun/awt/splashscreen/splashscreen_gif.c
++++ openjdk/j2se/src/share/native/sun/awt/splashscreen/splashscreen_gif.c
+@@ -26,7 +26,7 @@
+ #include "splashscreen_impl.h"
+ #include "splashscreen_gfx.h"
+ 
+-#include "../giflib/gif_lib.h"
++#include "gif_lib.h"
+ 
+ #define GIF_TRANSPARENT     0x01
+ #define GIF_USER_INPUT      0x02
