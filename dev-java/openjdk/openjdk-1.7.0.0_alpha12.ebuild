@@ -42,6 +42,8 @@ COMMON_DEP="
 #   media-libs/jpeg
 
 DEPEND="
+	app-arch/unzip
+	app-arch/zip
 	virtual/motif
 	>=virtual/jdk-1.6
 	>=dev-java/sun-jdk-1.7
