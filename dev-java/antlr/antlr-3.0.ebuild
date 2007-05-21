@@ -11,7 +11,7 @@ HOMEPAGE="http://www.antlr.org/"
 SRC_URI="http://www.antlr.org/download/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="3"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="test"
 
 RDEPEND=">=virtual/jre-1.5
@@ -29,7 +29,7 @@ DEPEND="${RDEPEND}
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 	#epatch ${FILESDIR}/buildfixes.patch
 	sed -i -e 's:depends=\"compile\":depends=\"compile,templates\":g' build.xml
 	#find -name "*.jar" | xargs rm -v
@@ -44,9 +44,9 @@ src_unpack() {
 
 src_compile() {
 	find . -name '*.class' -print > classes.list
-  	touch myManifest
-  	jar cmf myManifest "${S}/lib/antlr3-runtime.jar" @classes.list
-  	cd "${S}"
+	touch myManifest
+	jar cmf myManifest "${S}/lib/antlr3-runtime.jar" @classes.list
+	cd "${S}"
 	#eant -Dantlr3.jar=antlr3.jar build -Dgentoo.classpath=$(java-pkg_getjars stringtemplate):$(java-pkg_getjars --build-only antlr,junit)
 	eant -Dantlr3.jar=antlr3.jar build
 }
