@@ -123,6 +123,7 @@ src_compile() {
 		NO_STRIP=true \
 		SKIP_COMPARE_IMAGES=true \
 		|| die "emake failed"
+	rmdir control/build/linux-${arch}/j2sdk-image/man/ja
 }
 
 src_install() {
@@ -134,7 +135,21 @@ src_install() {
 	[[ ${ARCH} = amd64 ]] && arch=amd64
 	cd control/build/linux-${arch}/j2sdk-image
 
-	cp -pPR bin include jre lib man "${ddest}" || die "failed to copy"
+	# For some people the files got 600 so doing it manually
+	# should be investigated why this happened
+	if is-java-strict; then
+		if [[ $(find . -perm 600) ]]; then
+			eerror "OpenJDK built with permission mask 600"
+			eerror "report this on #gentoo-java on freenode"
+		fi
+	fi
+	cp -RP bin include jre lib man "${ddest}" || die "failed to copy"
+	fperms 755 ${dest}/bin/* \
+		${dest}/jre/bin* \
+		${dest}/jre/lib/*/*.so \
+		${dest}/jre/lib/*/*/*.so \
+		${dest}/jre/lib/jexec \
+		${dest}/lib/jexec || die
 
 	pax-mark m $(list-paxables ${ddest}{,/jre}/bin/*)
 
@@ -142,7 +157,7 @@ src_install() {
 	dohtml README.html || die
 
 	if use examples; then
-		cp -pPR demo sample ${D}/opt/${P}/share/
+		cp -pPR demo sample "${ddest}/share/"
 	fi
 
 	cp src.zip "${ddest}" || die
