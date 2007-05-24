@@ -3,6 +3,10 @@
 # $Header: $
 
   24 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  -openjdk-1.7.0.0_alpha12.ebuild, +openjdk-1.7.0.0_alpha12-r1.ebuild:
+  Revision bump to push out accumulated fixes.
+
+  24 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild, +files/noundef.patch:
   Link dynamically against libstdc++.
 
