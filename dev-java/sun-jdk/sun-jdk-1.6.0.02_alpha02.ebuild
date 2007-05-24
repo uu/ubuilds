@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/sun-jdk/sun-jdk-1.5.0.05.ebuild,v 1.2 2005/10/10 16:23:12 betelgeuse Exp $
 
-inherit java-vm-2 eutils
+inherit java-vm-2 eutils pax-utils
 
 MY_PV=${PV/_alpha*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
@@ -13,12 +13,6 @@ DATE="12_apr_2007"
 BASE_URL="http://www.java.net/download/jdk6/6u2/promoted/b${BETA}/binaries/"
 x86file="jdk-6u2-ea-bin-b${BETA}-linux-i586-${DATE}.bin"
 amd64file="jdk-6u2-ea-bin-b${BETA}-linux-amd64-${DATE}.bin"
-
-if use x86; then
-	At=${x86file}
-elif use amd64; then
-	At=${amd64file}
-fi
 
 S="${WORKDIR}/jdk${MY_PVL}"
 DESCRIPTION="Sun's Java Development Kit"
@@ -74,9 +68,9 @@ src_unpack() {
 	# Do a little voodoo to extract the distfile
 	# Find the ELF in the script
 	testExp=$(echo -e '\0105\0114\0106')
-	startAt=$(grep -aonm 1 ${testExp}  ${DISTDIR}/${At} | cut -d: -f1)
+	startAt=$(grep -aonm 1 ${testExp}  ${DISTDIR}/${A} | cut -d: -f1)
 	# Extract and run it
-	tail -n +${startAt} ${DISTDIR}/${At} > install.sfx
+	tail -n +${startAt} ${DISTDIR}/${A} > install.sfx
 	chmod +x install.sfx
 	./install.sfx >/dev/null || die
 	rm install.sfx
@@ -102,12 +96,17 @@ src_unpack() {
 
 src_install() {
 	local dirs="bin include jre lib man"
+
+	# Set PaX markings on all JDK/JRE executables to allow code-generation on
+	# the heap by the JIT compiler.
+	pax-mark m $(list-paxables ${S}{,/jre}/bin/*)
+
 	dodir /opt/${P}
 
 	for i in $dirs ; do
 		cp -pPR $i ${D}/opt/${P}/ || die "failed to copy"
 	done
-	dodoc COPYRIGHT LICENSE README.html
+	dodoc COPYRIGHT README.html
 	dohtml README.html
 	dodir /opt/${P}/share/
 
@@ -151,34 +150,30 @@ pkg_postinst() {
 	# Set as default VM if none exists
 	java-vm-2_pkg_postinst
 
-	# if chpax is on the target system, set the appropriate PaX flags
-	# this will not hurt the binary, it modifies only unused ELF bits
-	# but may confuse things like AV scanners and automatic tripwire
-	if has_version sys-apps/chpax; then
-		echo
-		einfo "setting up conservative PaX flags for jar, javac and java"
-
-		for paxkills in "jar" "javac" "java" "javah" "javadoc"; do
-			chpax -${CHPAX_CONSERVATIVE_FLAGS} /opt/${P}/bin/$paxkills
-		done
-
-		chpax -${CHPAX_CONSERVATIVE_FLAGS} /opt/${P}/jre/bin/java_vm
-
-		einfo "you should have seen lots of chpax output above now"
-		ewarn "make sure the grsec ACL contains those entries also"
-		ewarn "because enabling it will override the chpax setting"
-		ewarn "on the physical files - help for PaX and grsecurity"
-		ewarn "can be given by #gentoo-hardened + hardened@gentoo.org"
+	if ! use X; then
+		local xwarn="virtual/x11 and/or"
 	fi
 
 	echo
-	ewarn "Some parts of Sun's JDK require virtual/x11 and/or virtual/lpr to be installed."
+	ewarn "Some parts of Sun's JDK require ${xwarn} virtual/lpr to be installed."
 	ewarn "Be careful which Java libraries you attempt to use."
 
 	echo
-	einfo " Be careful: ${P}'s Java compiler uses"
-	einfo " '-source 1.6' as default. This means that some keywords "
-	einfo " such as 'enum' are not valid identifiers any more in that mode,"
-	einfo " which can cause incompatibility with certain sources."
-	einfo " Additionally, some API changes may cause some breakages."
+	elog " Be careful: ${P}'s Java compiler uses"
+	elog " '-source 1.6' as default. Some keywords such as 'enum'"
+	elog " are not valid identifiers any more in that mode,"
+	elog " which can cause incompatibility with certain sources."
+
+	echo
+	elog "Beginning with 1.5.0.10 the hotspot vm can use epoll"
+	elog "The epoll-based implementation of SelectorProvider is not selected by"
+	elog "default."
+	elog "Use java -Djava.nio.channels.spi.SelectorProvider=sun.nio.ch.EPollSelectorProvider"
+	elog ""
+	elog "Starting with 1.6.0-r2 the src.zip is installed to the standard"
+	elog "location. It is still symlinked to the old location (/opt/${P}/share)"
+	elog "but the symlink will be removed with the next version bump."
+	elog "See https://bugs.gentoo.org/show_bug.cgi?id=2241 and"
+	elog "http://java.sun.com/javase/6/docs/technotes/tools/linux/jdkfiles.html"
+	elog "for more details."
 }

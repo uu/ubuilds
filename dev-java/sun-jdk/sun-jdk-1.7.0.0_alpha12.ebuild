@@ -34,8 +34,7 @@ IUSE="doc nsplugin examples"
 
 DEPEND="sys-apps/sed"
 
-RDEPEND="x86? ( sys-libs/lib-compat )
-	doc? ( =dev-java/java-sdk-docs-1.6.0* )"
+RDEPEND="doc? ( =dev-java/java-sdk-docs-1.6.0* )"
 
 JAVA_PROVIDE="jdbc-stdext jdbc-rowset"
 
@@ -54,9 +53,9 @@ pkg_nofetch() {
 	#initialisation
 	myfile=${x86file}
 	if use x86; then
-		myfile=${x86file} 
+		myfile=${x86file}
 	elif use amd64; then
-		myfile=${amd64file} 
+		myfile=${amd64file}
 	fi
 
 	einfo "Please download:"
