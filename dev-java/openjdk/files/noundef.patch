@@ -1,0 +1,28 @@
+Index: openjdk/j2se/make/common/Defs-linux.gmk
+===================================================================
+--- openjdk.orig/j2se/make/common/Defs-linux.gmk
++++ openjdk/j2se/make/common/Defs-linux.gmk
+@@ -208,12 +208,8 @@ endif
+ 
+ EXTRA_LIBS += -lc
+ 
+-ifneq ($(ARCH),ppc)
+-  ifneq ($(ARCH_DATA_MODEL),64)
+-    LDFLAGS_DEFS_OPTION  = -z defs
+-    LDFLAGS_COMMON  += $(LDFLAGS_DEFS_OPTION)
+-  endif
+-endif
++LDFLAGS_DEFS_OPTION  = -z defs
++LDFLAGS_COMMON  += $(LDFLAGS_DEFS_OPTION)
+ 
+ #
+ # -L paths for finding and -ljava
+@@ -288,7 +284,7 @@ override LEX_LIBRARY             = -lfl
+ ifeq ($(STATIC_CXX),true)
+ override LIBCXX                  = -Wl,-Bstatic -lstdc++ -lgcc -Wl,-Bdynamic
+ else
+-override LIBCXX                  =
++override LIBCXX                  = -lstdc++
+ endif
+ override LIBPOSIX4               =
+ override LIBSOCKET               =

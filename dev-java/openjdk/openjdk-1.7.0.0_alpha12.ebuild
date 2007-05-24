@@ -103,6 +103,7 @@ src_unpack() {
 	epatch "${FILESDIR}/external-jpeg-splash.patch"
 	epatch "${FILESDIR}/external-giflib.patch"
 	epatch "${FILESDIR}/external-libpng.patch"
+	epatch "${FILESDIR}/noundef.patch"
 }
 
 src_compile() {
@@ -122,6 +123,7 @@ src_compile() {
 		OPENJDK=true \
 		NO_STRIP=true \
 		SKIP_COMPARE_IMAGES=true \
+		STATIC_CXX=false \
 		|| die "emake failed"
 	rmdir control/build/linux-${arch}/j2sdk-image/man/ja
 }
