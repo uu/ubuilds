@@ -28,7 +28,7 @@ CDEPEND="dev-java/commons-codec
 		>=dev-java/xerces-2
 		dev-java/blowfishj
 		dev-java/itext
-		>=dev-java/swt-3.2
+		>=dev-java/swt-3.2.2-r1
 		=dev-java/eclipse-jface-3*
 		=dev-java/eclipse-core-commands-3*"
 
@@ -45,7 +45,7 @@ src_unpack() {
 
 	cd "${S}/lib"
 	mv res.jar swt-nl.jar "${S}" || die
-	rm -v *.jar
+	rm -v *.jar || die
 }
 
 #EANT_BUILD_TARGET="deploy_linux"
@@ -64,17 +64,17 @@ src_install() {
 	java-pkg_dolauncher rssowl \
 		--main net.sourceforge.rssowl.controller.RSSOwlLoader
 
-	doicon "img/${PN}.xpm"
+	doicon "img/${PN}.xpm" || die
 
 	make_desktop_entry rssowl "RSSOwl" rssowl
 
 	dodoc doc/{CHANGELOG.txt,README.txt} || die
-	use doc && java-pkg_dojavadoc doc/api/
+	use doc && java-pkg_dojavadoc doc/api
 }
 
 pkg_postinst() {
-	if ! built_with_use dev-java/swt seamonkey && ! built_with_use dev-java/swt xulrunner; then
-		ewarn "dev-java/swt should be compiled with the seamonkey or xulrunner use flag"
+	if ! built_with_use --missing false -o dev-java/swt seamonkey xulrunner; then
+		ewarn "dev-java/swt must be compiled with the seamonkey or xulrunner USE flag"
 		ewarn "for the internal browser to work"
 	fi
 }
