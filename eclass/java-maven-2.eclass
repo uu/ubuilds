@@ -4,7 +4,7 @@
 
 inherit base java-pkg-2 java-ant-2
 
-DEPEND=">=dev-java/javatoolkit-0.2.0-r3 source? (app-arch/zip)"
+DEPEND=">=dev-java/javatoolkit-0.2.0-r3 source? ( app-arch/zip )"
 RDEPEND=">=dev-java/javatoolkit-0.2.0-r3"
 
 # We provide two ways to build maven based ebuilds.
