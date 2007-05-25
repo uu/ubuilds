@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 May 2007; Vlastimil Babka <caster@gentoo.org> htmlunit-1.10.ebuild:
+  Update jaxen dep.
+
   20 Apr 2007; Vlastimil Babka <caster@gentoo.org> htmlunit-1.10.ebuild:
   Fix malformed DEPEND.
 

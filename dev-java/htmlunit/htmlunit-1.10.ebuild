@@ -21,7 +21,7 @@ COMMON_DEP="
 	>=dev-java/commons-io-1.2
 	~dev-java/commons-lang-2.1
 	>=dev-java/commons-logging-1.1
-	~dev-java/jaxen-1.1
+	=dev-java/jaxen-1.1*
 	dev-java/junit
 	dev-java/nekohtml
 	=dev-java/rhino-1.6*
