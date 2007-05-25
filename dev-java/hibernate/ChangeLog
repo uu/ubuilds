@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 May 2007; Vlastimil Babka <caster@gentoo.org>
+  hibernate-3.0.5-r2.ebuild, hibernate-3.1.3-r1.ebuild:
+  Sync changes from main tree.
+
   12 May 2007; Alistair John Bush <ali_bush@gentoo.org>
   hibernate-3.2.2-r1.ebuild:
   Minor cleanup by moving IUSE to JAVA_PKG_IUSE

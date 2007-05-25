@@ -14,7 +14,9 @@ SLOT="3"
 KEYWORDS="~amd64 ~x86"
 
 COMMON_DEPEND="
-	=dev-java/asm-2*
+	dev-java/ant-core
+	=dev-java/antlr-2*
+	=dev-java/asm-2.0*
 	dev-java/c3p0
 	=dev-java/cglib-2.1*
 	dev-java/commons-collections
@@ -60,9 +62,9 @@ src_unpack() {
 	fi
 	
 	cd lib
-	rm *.jar
+	rm -v *.jar || die
 
-	local JAR_PACKAGES="ant-core antlr asm-2 c3p0 commons-collections 
+	local JAR_PACKAGES="ant-core antlr asm-2 c3p0 commons-collections
 		commons-logging dom4j-1 ehcache jaxen-1.1 jta
 		log4j oscache proxool swarmcache-1.0 sun-jacc-api xerces-2"
 	for PACKAGE in ${JAR_PACKAGES}; do
