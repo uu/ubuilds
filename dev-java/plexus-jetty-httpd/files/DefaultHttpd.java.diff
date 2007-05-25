@@ -1,5 +1,6 @@
---- src/main/java/org/codehaus/plexus/jetty/DefaultHttpd.java	2007-05-20 08:54:15.000000000 +1200
-+++ src/main/java/org/codehaus/plexus/jetty/DefaultHttpd.java	2007-05-20 09:06:39.000000000 +1200
+diff -ur plexus-jetty-httpd-1.0_beta2/src/main/java/org/codehaus/plexus/jetty/DefaultHttpd.java new/src/main/java/org/codehaus/plexus/jetty/DefaultHttpd.java
+--- plexus-jetty-httpd-1.0_beta2/src/main/java/org/codehaus/plexus/jetty/DefaultHttpd.java	2007-05-01 23:31:07.000000000 +0200
++++ new/src/main/java/org/codehaus/plexus/jetty/DefaultHttpd.java	2007-05-25 19:14:04.987973224 +0200
 @@ -76,7 +76,7 @@
          {
              server.start();
@@ -14,5 +15,6 @@
          }
      }
 -}
-\ No newline at end of file
+\ Pas de fin de ligne à la fin du fichier.
 +}
+Seulement dans new/src/main/resources/META-INF: maven
