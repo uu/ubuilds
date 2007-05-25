@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 May 2007; Vlastimil Babka <caster@gentoo.org>
+  stringtemplate-3.0.ebuild, +files/stringtemplate-3.0-javadoc.patch:
+  Fix various stuff.
+
   03 May 2007; Alistair John Bush <ali_bush@gentoo.org> ChangeLog:
   Drop all keywords from stringtemplate
 
