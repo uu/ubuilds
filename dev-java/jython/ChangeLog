@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 May 2007; Vlastimil Babka <caster@gentoo.org> -jython-2.2_beta1.ebuild:
+  Remove because it's broken and there are fixed newer versions already.
+
   18 May 2007; Alistair John Bush <ali_bush@gentoo.org> ChangeLog:
   Version bump jython to next beta. and improve existing ebuild.
 
