@@ -46,7 +46,7 @@ DEPEND="
 	app-arch/zip
 	virtual/motif
 	>=virtual/jdk-1.6
-	>=dev-java/sun-jdk-1.7
+	>=dev-java/sun-jdk-${PV}
 	x11-libs/libXmu
 	x11-libs/libXt
 	x11-proto/inputproto
