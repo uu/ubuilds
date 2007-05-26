@@ -79,13 +79,13 @@ src_unpack() {
 	rm -r j2se/src/share/native/java/util/zip/zlib-1.1.3 || die
 	echo "Deleting bundled libpng"
 	rm -r j2se/src/share/native/sun/awt/libpng || die
-	epatch "${FILESDIR}/lesstif.patch"
-	epatch "${FILESDIR}/external-zlib.patch"
-	epatch "${FILESDIR}/external-jpeg-splash.patch"
-	epatch "${FILESDIR}/external-giflib.patch"
-	epatch "${FILESDIR}/external-libpng.patch"
-	epatch "${FILESDIR}/noundef.patch"
-	epatch "${FILESDIR}/gettimeofday-declaration.patch"
+
+	PATCHES="lesstif external-zlib external-jpeg-splash external-giflib \
+		noundef gettimeofday-declaration j2se-cxxflags hotspot-cflags"
+
+	for patch in ${PATCHES}; do
+		epatch "${FILESDIR}/${patch}.patch"
+	done
 }
 
 src_compile() {
@@ -97,6 +97,14 @@ src_compile() {
 	local make=" ALT_BOOTDIR=${JAVA_HOME}"
 	make="${make} ALT_CLOSED_JDK_IMPORT_PATH=${sunjdk7}"
 	make="${make} ALT_JDK_IMPORT_PATH=${sunjdk7}"
+
+	# Don't pass these to make, or they'll break stuff.
+	export OTHER_CFLAGS=${CFLAGS}
+	export OTHER_CXXFLAGS=${CXXFLAGS}
+
+	# Unset these so they are not used by the build process.
+	# Setting them to '' breaks other things.
+	unset CFLAGS CXXFLAGS
 
 	unset JAVA_HOME CLASSPATH LD_LIBRARY_PATH
 	emake ${make} -j1 dev \
