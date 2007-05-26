@@ -5,9 +5,11 @@
 # TODO:
 # - bind dependencies to USE flags
 # - during src_compile nbbuild/build.xml downloads jsr223-api.jar so get rid of this download
-# - now apisupport is included in the unconditional section of SRC_URI though it is not needed by platform but
+# - now 'apisupport' is included in the unconditional section of SRC_URI though it is not needed by platform but
 #   at this moment I do not know how to build platform without harness as trying to build it causes error on
 #   xerces which I do not know how to solve - once it is solved apisupport can be removed from the unconditional section
+# - now 'ide' is included in 'harness' SRC_URI as it is needed during compilation though not mentioned
+#   in cluster properties
 
 WANT_SPLIT_ANT=true
 inherit eutils java-pkg-2 java-ant-2 versionator
@@ -34,6 +36,7 @@ SRC_URI="
 	)
 	harness? (
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 	)
 	ide? (
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
@@ -297,9 +300,9 @@ src_unpack () {
 	einfo "Removing prebuilt *.class files from nbbuild"
 	find ${S}/nbbuild -name "*.class" -delete
 
-        # Disable the bundled Tomcat in favor of Portage installed version
+	# Disable the bundled Tomcat in favor of Portage installed version
 	einfo "Disabling bundled Tomcat"
-        sed -i -e "s%tomcatint/tomcat5,\\\\%%g" ${S}/nbbuild/cluster.properties || die "Cannot disable bundled Tomcat"
+	sed -i -e "s%tomcatint/tomcat5,\\\\%%g" ${S}/nbbuild/cluster.properties || die "Cannot disable bundled Tomcat"
 
 	# Remove JARs that are not needed
 	einfo "Removing not needed JARs"
@@ -640,10 +643,11 @@ symlink_extjars() {
 	#java-pkg_jar-from struts-1.2 struts.jar
 
 
-	#einfo "Symlinking harness jars"
-
-	#cd ${1}/harness
-	#java-pkg_jar-from javahelp jhall.jar jsearch-2.0_04.jar
+	if use harness ; then
+		einfo "Symlinking harness jars"
+		targetdir="harness"
+		dosymjar ${targetdir} javahelp jhall.jar jsearch-2.0_04.jar
+	fi
 
 
 	#einfo "Symlinking ide jars"

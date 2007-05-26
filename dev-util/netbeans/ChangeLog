@@ -4,6 +4,11 @@
 
   26 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_alpha10_pre20070519031150.ebuild:
+  Now also 'harness' cluster is being built using unbundled stuff. Building of
+  other clusters should fail atm afaik.
+
+  26 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070519031150.ebuild:
   Unbundled jars for netbeans platform build (except jsr223-api.jar)
 
   19 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
