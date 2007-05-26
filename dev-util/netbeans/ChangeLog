@@ -2,6 +2,10 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070519031150.ebuild:
+  Unbundled jars for netbeans platform build (except jsr223-api.jar)
+
   19 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
   -netbeans-6.0_alpha10_pre20070511.ebuild,
   +netbeans-6.0_alpha10_pre20070519031150.ebuild:

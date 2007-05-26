@@ -20,6 +20,7 @@ MILESTONE="m9"
 MY_PV=${PV/_alpha/-m}
 SOURCE_SITE="http://dev.gentoo.org/~fordfrog/distfiles/"
 SRC_URI="
+	${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-autoupdate-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-core-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-editor-${MY_PV}.tar.bz2
@@ -208,11 +209,15 @@ COMMON_DEPEND="
 	=dev-java/swing-layout-1*"
 
 RDEPEND=">=virtual/jdk-1.5
+	>=dev-java/javahelp-2.0.02
+	=dev-java/swing-layout-1*
 	java? ( >=dev-java/ant-tasks-1.7.0-r2 )
 	${COMMON_DEPEND}"
 
 DEPEND="=virtual/jdk-1.5*
 	>=dev-java/ant-nodeps-1.7.0
+	>=dev-java/javahelp-2.0.02
+	=dev-java/swing-layout-1*
 	testtools? ( >=dev-java/ant-trax-1.7.0 )
 	visualweb? ( >=dev-java/xerces-2.9.0 )
 	${COMMON_DEPEND}"
@@ -302,7 +307,7 @@ src_unpack () {
 		rm -v ${FILE} || die "Cannot remove ${FILE}"
 	done
 
-	#place_unpack_symlinks
+	place_unpack_symlinks
 }
 
 src_compile() {
@@ -414,7 +419,7 @@ src_install() {
 	fi
 
 	# Replace bundled jars with system jars
-	#symlink_extjars ${D}/${DESTINATION}
+	symlink_extjars
 
 	# Correct permissions on executables
 	[[ -e ${D}/${DESTINATION}/bin/netbeans ]] && fperms 755 ${DESTINATION}/bin/netbeans
@@ -477,38 +482,38 @@ place_unpack_symlinks() {
 
 	einfo "Symlinking jars for core"
 	cd ${S}/core/external
-	java-pkg_jar-from javahelp jh.jar jh-2.0_04.jar
+	java-pkg_jar-from --build-only javahelp jh.jar jh-2.0_04.jar
 
-	if use httpserver ; then
-		einfo "Symlinking jars for httpserver"
-		cd ${S}/httpserver/external
-		java-pkg_jar-from servletapi-2.2 servlet.jar servlet-2.2.jar
-	fi
+	#if use httpserver ; then
+	#	einfo "Symlinking jars for httpserver"
+	#	cd ${S}/httpserver/external
+	#	java-pkg_jar-from servletapi-2.2 servlet.jar servlet-2.2.jar
+	#fi
 
-	if use j2ee ; then
-		einfo "Symlinking jars for j2ee"
-		cd ${S}/j2ee/external
-		java-pkg_jar-from --build-only glassfish-persistence
-	fi
+	#if use j2ee ; then
+	#	einfo "Symlinking jars for j2ee"
+	#	cd ${S}/j2ee/external
+	#	java-pkg_jar-from --build-only glassfish-persistence
+	#fi
 
-	if use j2eeserver ; then
-		einfo "Symlinking jars for j2eeserver"
-		cd ${S}/j2eeserver/external
-		java-pkg_jar-from sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
-	fi
+	#if use j2eeserver ; then
+	#	einfo "Symlinking jars for j2eeserver"
+	#	cd ${S}/j2eeserver/external
+	#	java-pkg_jar-from sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
+	#fi
 
-	if use junit ; then
-		einfo "Symlinking jars for junit"
-		cd ${S}/junit/external
-		java-pkg_jar-from junit junit.jar junit-3.8.2.jar
-		java-pkg_jar-from junit-4 junit.jar junit-4.1.jar
-	fi
+	#if use junit ; then
+	#	einfo "Symlinking jars for junit"
+	#	cd ${S}/junit/external
+	#	java-pkg_jar-from junit junit.jar junit-3.8.2.jar
+	#	java-pkg_jar-from junit-4 junit.jar junit-4.1.jar
+	#fi
 
-	if use lexer ; then
-		einfo "Symlinking jars for lexer"
-		cd ${S}/lexer/external
-		java-pkg_jar-from antlr antlr.jar antlr-2.7.1.jar
-	fi
+	#if use lexer ; then
+	#	einfo "Symlinking jars for lexer"
+	#	cd ${S}/lexer/external
+	#	java-pkg_jar-from antlr antlr.jar antlr-2.7.1.jar
+	#fi
 
 	einfo "Symlinking jars for libs"
 	cd ${S}/libs/external
@@ -518,92 +523,95 @@ place_unpack_symlinks() {
 	#java-pkg_jar-from --build-only ical4j
 	#java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.2.jar
 	#java-pkg_jar-from jsch jsch.jar jsch-0.1.24.jar
+	#jar223-api.jar
 	#java-pkg_jar-from --build-only pmd pmd.jar pmd-1.3.jar
-	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
+	java-pkg_jar-from --build-only swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
 	#java-pkg_jar-from --build-only xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
 	#java-pkg_jar-from --build-only xerces-2 xercesImpl.jar xerces-2.8.0.jar
 
-	if use mobility ; then
-		einfo "Symlinking jars for mobility"
-		cd ${S}/mobility/deployment/ftpscp/external
-		java-pkg_jar-from commons-net commons-net.jar commons-net-1.4.1.jar
-		java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
+	#if use mobility ; then
+	#	einfo "Symlinking jars for mobility"
+	#	cd ${S}/mobility/deployment/ftpscp/external
+	#	java-pkg_jar-from commons-net commons-net.jar commons-net-1.4.1.jar
+	#	java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
 
-		cd ${S}/mobility/deployment/webdav/external
-		java-pkg_jar-from commons-httpclient
-		java-pkg_jar-from commons-logging commons-logging.jar
-		java-pkg_jar-from --build-only jdom-1.0
+	#	cd ${S}/mobility/deployment/webdav/external
+	#	java-pkg_jar-from commons-httpclient
+	#	java-pkg_jar-from commons-logging commons-logging.jar
+	#	java-pkg_jar-from --build-only jdom-1.0
 
-		cd ${S}/mobility/proguard/external
-		java-pkg_jar-from proguard proguard.jar proguard3.5.jar
-	fi
+	#	cd ${S}/mobility/proguard/external
+	#	java-pkg_jar-from proguard proguard.jar proguard3.5.jar
+	#fi
 
-	if use serverplugins ; then
-		einfo "Symlinking jars for serverplugins"
-		cd ${S}/serverplugins/external
-		java-pkg_jar-from --build-only sun-jmx jmxri.jar jmxremote.jar
-	fi
+	#if use serverplugins ; then
+	#	einfo "Symlinking jars for serverplugins"
+	#	cd ${S}/serverplugins/external
+	#	java-pkg_jar-from --build-only sun-jmx jmxri.jar jmxremote.jar
+	#fi
 
-	if use subversion ; then
-		einfo "Symlinking jars for subversion"
-		cd ${S}/subversion/external
-	fi
+	#if use subversion ; then
+	#	einfo "Symlinking jars for subversion"
+	#	cd ${S}/subversion/external
+	#fi
 
-	if use tasklist ; then
-		einfo "Symlinking jars for tasklist"
-		cd ${S}/tasklist/external
-		java-pkg_jar-from antlr antlr.jar
-		java-pkg_jar-from commons-beanutils-1.7 commons-beanutils-core.jar
-		java-pkg_jar-from --build-only commons-cli-1
-		java-pkg_jar-from commons-collections commons-collections.jar
-		java-pkg_jar-from --build-only checkstyle
-		java-pkg_jar-from --build-only ical4j
-		java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.0.jar
-		java-pkg_jar-from --build-only jtidy Tidy.jar Tidy-r7.jar
-	fi
+	#if use tasklist ; then
+	#	einfo "Symlinking jars for tasklist"
+	#	cd ${S}/tasklist/external
+	#	java-pkg_jar-from antlr antlr.jar
+	#	java-pkg_jar-from commons-beanutils-1.7 commons-beanutils-core.jar
+	#	java-pkg_jar-from --build-only commons-cli-1
+	#	java-pkg_jar-from commons-collections commons-collections.jar
+	#	java-pkg_jar-from --build-only checkstyle
+	#	java-pkg_jar-from --build-only ical4j
+	#	java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.0.jar
+	#	java-pkg_jar-from --build-only jtidy Tidy.jar Tidy-r7.jar
+	#fi
 
-	if use visualweb ; then
-		einfo "Symlinking jars for visualweb"
-		cd ${S}/visualweb/ravehelp/external
-		java-pkg_jar-from javahelp jhall.jar jhall-2.0_02.jar
+	#if use visualweb ; then
+	#	einfo "Symlinking jars for visualweb"
+	#	cd ${S}/visualweb/ravehelp/external
+	#	java-pkg_jar-from javahelp jhall.jar jhall-2.0_02.jar
 
-		cd ${S}/visualweb/ravelibs/commons-beanutils/release/modules/ext
-		java-pkg_jar-from commons-beanutils-1.7 commons-beanutils.jar
+	#	cd ${S}/visualweb/ravelibs/commons-beanutils/release/modules/ext
+	#	java-pkg_jar-from commons-beanutils-1.7 commons-beanutils.jar
 
-		cd ${S}/visualweb/ravelibs/commons-collections/release/modules/ext
-		java-pkg_jar-from commons-collections
+	#	cd ${S}/visualweb/ravelibs/commons-collections/release/modules/ext
+	#	java-pkg_jar-from commons-collections
 
-		cd ${S}/visualweb/ravelibs/commons-digester/release/modules/ext
-		java-pkg_jar-from commons-digester
+	#	cd ${S}/visualweb/ravelibs/commons-digester/release/modules/ext
+	#	java-pkg_jar-from commons-digester
 
-		cd ${S}/visualweb/ravelibs/commons-fileupload/release/modules/ext
-		java-pkg_jar-from commons-fileupload
+	#	cd ${S}/visualweb/ravelibs/commons-fileupload/release/modules/ext
+	#	java-pkg_jar-from commons-fileupload
 
-		cd ${S}/visualweb/ravelibs/commons-logging/release/modules/ext
-		java-pkg_jar-from commons-logging commons-logging.jar
-	fi
+	#	cd ${S}/visualweb/ravelibs/commons-logging/release/modules/ext
+	#	java-pkg_jar-from commons-logging commons-logging.jar
+	#fi
 
-	if use web ; then
-		einfo "Symlinking jars for web"
-		cd ${S}/web/external
-		java-pkg_jar-from --build-only commons-el
-		java-pkg_jar-from jakarta-jstl jstl.jar jstl-1.1.2.jar
-		java-pkg_jar-from --build-only servletapi-2.3 servlet.jar servlet-2.3.jar
-		java-pkg_jar-from jakarta-jstl standard.jar standard-1.1.2.jar
-	fi
+	#if use web ; then
+	#	einfo "Symlinking jars for web"
+	#	cd ${S}/web/external
+	#	java-pkg_jar-from --build-only commons-el
+	#	java-pkg_jar-from jakarta-jstl jstl.jar jstl-1.1.2.jar
+	#	java-pkg_jar-from --build-only servletapi-2.3 servlet.jar servlet-2.3.jar
+	#	java-pkg_jar-from jakarta-jstl standard.jar standard-1.1.2.jar
+	#fi
 
-	if use xml ; then
-		einfo "Symlinking jars for xml"
-		cd ${S}/xml/external
+	#if use xml ; then
+	#	einfo "Symlinking jars for xml"
+	#	cd ${S}/xml/external
 		#java-pkg_jar-from flute
 		#java-pkg_jar-from --build-only commons-jxpath commons-jxpath.jar jxpath1.1.jar
 		#java-pkg_jar-from --build-only prefuse-2006 prefuse.jar prefuse.jar
 		#java-pkg_jar-from sac
-	fi
+	#fi
 }
 
 symlink_extjars() {
-	einfo "Symlinking enterprise jars"
+	local targetdir=""
+
+	#einfo "Symlinking enterprise jars"
 
 	#cd ${1}/enterprise${ENTERPRISE}/modules/ext
 	#java-pkg_jar-from sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
@@ -632,13 +640,13 @@ symlink_extjars() {
 	#java-pkg_jar-from struts-1.2 struts.jar
 
 
-	einfo "Symlinking harness jars"
+	#einfo "Symlinking harness jars"
 
-	cd ${1}/harness
-	java-pkg_jar-from javahelp jhall.jar jsearch-2.0_04.jar
+	#cd ${1}/harness
+	#java-pkg_jar-from javahelp jhall.jar jsearch-2.0_04.jar
 
 
-	einfo "Symlinking ide jars"
+	#einfo "Symlinking ide jars"
 
 	#cd ${1}/ide${IDE_VERSION}/modules/ext
 	#java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
@@ -684,23 +692,35 @@ symlink_extjars() {
 
 	einfo "Symlinking platform jars"
 
-	cd ${1}/platform${PLATFORM}/modules/ext
-	java-pkg_jar-from javahelp jh.jar jh-2.0_04.jar
-	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
+	targetdir="platform${PLATFORM}/modules/ext"
+	dosymjar ${targetdir} javahelp jh.jar jh-2.0_04.jar
+	dosymjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
 
-	if use mobility ; then
-		einfo "Symlinking mobility jars"
+	#if use mobility ; then
+	#	einfo "Symlinking mobility jars"
 
-		cd ${1}/extra/external
-		java-pkg_jar-from commons-httpclient
-		java-pkg_jar-from commons-logging commons-logging.jar
-		java-pkg_jar-from jdom-1.0
+	#	cd ${1}/extra/external
+	#	java-pkg_jar-from commons-httpclient
+	#	java-pkg_jar-from commons-logging commons-logging.jar
+	#	java-pkg_jar-from jdom-1.0
 
-		cd ${1}/extra/external/proguard
-		java-pkg_jar-from proguard proguard.jar proguard3.5.jar
+	#	cd ${1}/extra/external/proguard
+	#	java-pkg_jar-from proguard proguard.jar proguard3.5.jar
 
-		cd ${1}/extra/modules/ext
-		java-pkg_jar-from commons-net commons-net.jar commons-net-1.4.1.jar
-		java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
+	#	cd ${1}/extra/modules/ext
+	#	java-pkg_jar-from commons-net commons-net.jar commons-net-1.4.1.jar
+	#	java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
+	#fi
+}
+
+dosymjar() {
+	local target_file=""
+	if [ -z "${4}" ]; then
+		target_file="${3}"
+	else
+		target_file="${4}"
 	fi
+	local target="${DESTINATION}/${1}/${target_file}"
+	[ ! -e "${D}/${target}" ] && die "Target jar does not exist so will not create link: ${D}/${target}"
+	dosym /usr/share/${2}/lib/${3} ${target}
 }
