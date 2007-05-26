@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/insanelib
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  26 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  +insanelib-20061207.ebuild:
+  new package: insanelib needed by netbeans
+
