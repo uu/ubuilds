@@ -4,6 +4,10 @@
 
   26 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha13.ebuild:
+  Revert user CFLAGS/CXXFLAGS pach as it makes the ebuild segmentation fault.
+
+  26 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha13.ebuild:
   Change sun-bcla to sun-prerelease-jdk7 as that's where we take our binary plug.
 
   26 May 2007; Petteri Räty <betelgeuse@gentoo.org>

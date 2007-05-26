@@ -81,7 +81,8 @@ src_unpack() {
 	rm -r j2se/src/share/native/sun/awt/libpng || die
 
 	PATCHES="lesstif external-zlib external-jpeg-splash external-giflib \
-		noundef gettimeofday-declaration j2se-cxxflags hotspot-cflags"
+		noundef gettimeofday-declaration"
+	#	j2se-cxxflags hotspot-cflags"
 
 	for patch in ${PATCHES}; do
 		epatch "${FILESDIR}/${patch}.patch"
@@ -99,12 +100,13 @@ src_compile() {
 	make="${make} ALT_JDK_IMPORT_PATH=${sunjdk7}"
 
 	# Don't pass these to make, or they'll break stuff.
-	export OTHER_CFLAGS=${CFLAGS}
-	export OTHER_CXXFLAGS=${CXXFLAGS}
+	# Seems to be making things segmentation fault
+	#export OTHER_CFLAGS=${CFLAGS}
+	#export OTHER_CXXFLAGS=${CXXFLAGS}
 
 	# Unset these so they are not used by the build process.
 	# Setting them to '' breaks other things.
-	unset CFLAGS CXXFLAGS
+	#unset CFLAGS CXXFLAGS
 
 	unset JAVA_HOME CLASSPATH LD_LIBRARY_PATH
 	emake ${make} -j1 dev \
