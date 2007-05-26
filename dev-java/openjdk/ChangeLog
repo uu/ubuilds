@@ -4,6 +4,10 @@
 
   26 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha13.ebuild:
+  My cleanup dropped external-libpng patch so it wasn't compiling.
+
+  26 May 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha13.ebuild:
   Revert user CFLAGS/CXXFLAGS pach as it makes the ebuild segmentation fault.
 
   26 May 2007; Petteri Räty <betelgeuse@gentoo.org>
