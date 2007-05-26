@@ -10,7 +10,7 @@ DESCRIPTION="An open platform for simply browsing and research on the Holy Quran
 HOMEPAGE="http://siahe.com/zekr/"
 SRC_URI="mirror://sourceforge/${PN}/${P/_/}-linux.tar.gz"
 
-LICENSE="EPL-1.0"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86"
 IUSE=""
@@ -21,13 +21,12 @@ COMMON_DEPS="dev-java/commons-collections
 	 =dev-java/commons-lang-2.1*
 	 dev-java/commons-logging
 	 dev-java/log4j
-	 dev-java/swt
+	 >=dev-java/swt-3.2.2-r1
 	 dev-java/velocity
 	 =dev-java/lucene-2*
 	 =dev-java/lucene-highlighter-2*"
 
 RDEPEND=">=virtual/jre-1.4
-	 app-portage/portage-utils
 	 ${COMMON_DEPS}"
 
 DEPEND=">=virtual/jdk-1.4
@@ -47,15 +46,15 @@ pkg_setup() {
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
-	rm lib/*.jar
-	rm dist/zekr.jar
-	mv res/*.ttf .
-	unzip -q dist/zekr-src.jar -d src
+	cd "${S}" || die
+	unzip -q dist/zekr-src.jar -d src || die
+	rm lib/*.jar || die
+	rm dist/*.jar || die
+	mv res/*.ttf . || die
 }
 
 src_compile() {
-	cd src
+	cd src || die
 	local classpath=$(java-pkg_getjars commons-collections,commons-configuration,commons-io-1,commons-lang-2.1,commons-logging,log4j,swt-3,velocity,lucene-highlighter-2)
 	classpath="${classpath}:$(java-pkg_getjar lucene-2 lucene-core.jar)"
 	find . -name '*.java'  -print > sources.list
@@ -71,8 +70,7 @@ src_install() {
         local use_flag=""
         java-pkg_dolauncher zekr \
         	--main net.sf.zekr.ZekrMain \
-        	--pwd /usr/share/zekr \
-        	-pre ${FILESDIR}/pre
+        	--pwd /usr/share/zekr
         make_desktop_entry zekr "Zekr" zekr.png
         insinto /usr/share/zekr
         doins -r res

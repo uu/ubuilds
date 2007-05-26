@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 May 2007; <serkan_kaba@yahoo.com> zekr-0.6.0_beta1.ebuild:
+  Use the recent swt for MOZILLA_FIVE_HOME detection, fix license and remove
+  all bundled jars.
+
   06 May 2007; <serkan_kaba@yahoo.com> +zekr-0.6.0_beta1.ebuild:
   Version bump
 
