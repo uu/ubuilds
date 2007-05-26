@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils java-pkg-2 java-utils-2 java-ant-2 versionator
+inherit eutils java-pkg-2 java-utils-2 java-ant-2 versionator toolchain-funcs flag-o-matic
 
 MY_PV=$(replace_version_separator 3 '-' )
 MY_PN=${PN/#j/J}
@@ -45,9 +45,13 @@ src_unpack() {
 }
 
 src_compile() {
+	append-flags 
 	local anttasks_opt
 	use nls && anttasks_opt="i18n"
-	eant ${anttasks_opt} jar xdevelop || die "compile failed"
+	eant ${anttasks_opt} jar faq || die "eant failed"
+	cp -v dist/help/jubler-faq.html build/classes/help || die "cp failed"
+	cd resources/ffdecode
+	emake CC="$(tc-getCC) ${CFLAGS}"
 }
 
 src_install() {
