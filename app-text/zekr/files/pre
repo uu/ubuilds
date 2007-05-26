@@ -1,2 +1,0 @@
-if [[ " $(qdepends -Ck USE dev-java/swt) " = *" seamonkey "* ]]; then export MOZILLA_FIVE_HOME="/usr/lib/seamonkey"; fi
-if [[ " $(qdepends -Ck USE dev-java/swt) " = *" xulrunner "* ]]; then export MOZILLA_FIVE_HOME="/usr/lib/xulrunner"; fi
