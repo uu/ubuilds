@@ -18,6 +18,7 @@ dev-java/commons-logging
 dev-java/plexus-interactivity-api
 =dev-java/plexus-utils-1.0.4
 dev-java/wagon-ssh
+dev-java/doxia
 dev-java/wagon-ssh-external
 dev-java/wagon-http-lightweight
 dev-java/wagon-provider-api
@@ -45,6 +46,7 @@ EANT_GENTOO_CLASSPATH="
 classworlds-1.1
 commons-cli-1
 commons-lang-2.1
+doxia
 commons-logging
 plexus-container-default-1.0_alpha9
 plexus-interactivity-api

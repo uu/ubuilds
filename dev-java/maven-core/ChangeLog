@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 May 2007; kiorky <kiorky@cryptelium.net> maven-core-2.0.ebuild:
+  fix DEPEND
+
   02 Mar 2007; kiorky <kiorky@cryptelium.net>
   +files/build.xml-core-1.0.2-r1, +files/build.xml-jelly-1.0.2-r1,
   +files/build.xml-1.0.2-r1, +maven-core-1.0.2-r1.ebuild, +metadata.xml:
