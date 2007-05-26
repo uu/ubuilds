@@ -23,6 +23,7 @@ dev-java/concurrent-util
 dev-java/commons-collections
 dev-java/excalibur-pool
 dev-java/cornerstone-sockets
+ev-java/excalibur-thread
 dev-java/plexus-avalon-personality
 dev-java/cornerstone-threads"
 DEPEND=">=virtual/jdk-1.4 	${DEP}"
@@ -36,6 +37,7 @@ plexus-avalon-personality
 plexus-utils
 cornerstone-connection
 commons-collections
+excalibur-thread
 cornerstone-sockets
 concurrent-util
 avalon-framework-4.1

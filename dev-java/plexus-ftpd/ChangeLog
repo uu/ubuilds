@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 May 2007; kiorky <kiorky@cryptelium.net> plexus-ftpd-1.0.ebuild:
+  Fix deps
+
   25 Apr 2007; kiorky <kiorky@cryptelium.net> plexus-ftpd-1.0.ebuild:
   Migrating to new maven eclass
 
