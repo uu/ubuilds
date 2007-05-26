@@ -63,9 +63,6 @@ S="${WORKDIR}/o"
 
 JAVA_PROVIDE="jdbc-stdext jdbc-rowset"
 
-# the build system should know what it's doing
-JAVA_PKG_BSFIX="off"
-
 pkg_setup() {
 	java-vm-2_pkg_setup
 	java-pkg-2_pkg_setup
@@ -136,13 +133,19 @@ src_install() {
 			eerror "report this on #gentoo-java on freenode"
 		fi
 	fi
+
 	cp -vRP bin include jre lib man "${ddest}" || die "failed to copy"
 	chmod 755 ${ddest}/bin/* \
 		${ddest}/jre/bin* \
-		${ddest}/jre/lib/*/*.so \
+		${ddest}/jre/lib/*/*.{so,cfg} \
 		${ddest}/jre/lib/*/*/*.so \
 		${ddest}/jre/lib/jexec \
 		${ddest}/lib/jexec || die
+
+	if [[ $(find "${ddest}" -perm 600) ]]; then
+		eerror "Files with permission set to 600 found in the image"
+		eerror "please report this to java@gentoo.org"
+	fi
 
 	pax-mark m $(list-paxables ${ddest}{,/jre}/bin/*)
 
