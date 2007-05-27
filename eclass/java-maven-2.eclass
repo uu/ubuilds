@@ -73,7 +73,6 @@ MAVEN_POM_HELPER="/usr/share/javatoolkit/maven-helper.py"
 JAVA_MAVEN_SYSTEM_REPOSITORY="/usr/share/maven-${SLOT//1.1/1}/maven_home/gentoo-repo"
 JAVA_MAVEN_SYSTEM_PLUGINS="${JAVA_MAVEN_SYSTEM_HOME}/plugins"
 JAVA_MAVEN_SYSTEM_BIN="${JAVA_MAVEN_SYSTEM_HOME}/bin"
-JAVA_MAVEN_SYSTEM_LIB="${JAVA_MAVEN_SYSTEM_HOME}/lib"
 
 JAVA_MAVEN_BUILD_HOME=${JAVA_MAVEN_BUILD_HOME:="${T}/.maven"}
 JAVA_MAVEN_BUILD_REPO=${JAVA_MAVEN_BUILD_REPO:="${JAVA_MAVEN_BUILD_HOME}/repository"}
@@ -323,7 +322,18 @@ java-maven-2_install_one() {
 			[[ -d ${dir} ]] && java-pkg_dosrc ${dir}
 		done
 	fi
+	java-maven-2_ensure_repo_exists
 	java-maven-2_install_into_repo ${jarname}
+}
+
+java-maven-2_ensure_repo_exists() {
+	einfo "cacaprout"
+	if [[ ! -d "${JAVA_MAVEN_SYSTEM_REPOSITORY}" ]];then
+		einfo "prout"
+		keepdir "${JAVA_MAVEN_SYSTEM_HOME}"
+		keepdir "${JAVA_MAVEN_SYSTEM_PLUGINS}"
+		keepdir "${JAVA_MAVEN_SYSTEM_REPOSITORY}"
+	fi
 }
 
 # in most cases we re safe, there is one jar but it can be
