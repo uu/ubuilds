@@ -1,0 +1,8 @@
+# ChangeLog for dev-util/deskzilla
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  27 May 2007; Vlastimil Babka <caster@gentoo.org>
+  deskzilla-1.4_beta1.ebuild:
+  Use bundled nekohtml because they patched it. Small tweaks.
+
