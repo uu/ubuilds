@@ -254,10 +254,11 @@ java-maven-2_do_sig() {
 
 # do signatures and install into maven repository
 # first arguement is inner repository directory where the files goes
+# it must be created before calling this funcion.
 # second argument is the file itself
 java-maven-2_install_file_into_repo() {
 	local rep_dir="${1}" input_file="${2}"
-	[[ ! -d ${rep_dir} ]] && die "Directory in repository doesn't exist"
+	[[ ! -d ${D}${rep_dir} ]] && die "Directory in repository doesn't exist"
 	[[ ! -f ${input_file} ]] && die "Input file doesn't exists"
 	java-maven-2_do_sig  "${input_file}"
 	insinto "${rep_dir}"
@@ -352,7 +353,7 @@ java-maven-2_install_one() {
 					# install jar in repo
 					# use the target jar instead one in /usr/share/pnslot/lib
 					# to allow dosig to generate the right name and version
-					pushd target
+					pushd target >> /dev/null || die
 					java-maven-2_install_file_into_repo ${rep_dir} ${myjar}
 					popd >> /dev/null || die
 				fi
