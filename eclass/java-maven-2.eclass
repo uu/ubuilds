@@ -74,6 +74,15 @@ JAVA_MAVEN_SYSTEM_REPOSITORY="/usr/share/maven-${SLOT//1.1/1}/maven_home/gentoo-
 JAVA_MAVEN_SYSTEM_PLUGINS="${JAVA_MAVEN_SYSTEM_HOME}/plugins"
 JAVA_MAVEN_SYSTEM_BIN="${JAVA_MAVEN_SYSTEM_HOME}/bin"
 
+# repo used by maven when running as root
+# that s what upstream calls glocal repository, something available for all
+# users
+JAVA_MAVEN_ROOT_HOME="/usr/share/maven-${SLOT}/maven_root"
+JAVA_MAVEN_ROOT_REPOSITORY="/usr/share/maven-${SLOT//1.1/1}/maven_root/gentoo-repo"
+JAVA_MAVEN_ROOT_PLUGINS="${JAVA_MAVEN_ROOT_HOME}/plugins"
+JAVA_MAVEN_ROOT_BIN="${JAVA_MAVEN_ROOT_HOME}/bin"
+
+
 JAVA_MAVEN_BUILD_HOME=${JAVA_MAVEN_BUILD_HOME:="${T}/.maven"}
 JAVA_MAVEN_BUILD_REPO=${JAVA_MAVEN_BUILD_REPO:="${JAVA_MAVEN_BUILD_HOME}/repository"}
 JAVA_MAVEN_BUILD_PLUGINS=${JAVA_MAVEN_BUILD_PLUGINS:="${JAVA_MAVEN_BUILD_HOME}/plugins"}
