@@ -12,7 +12,7 @@ SRC_URI="mirror://sourceforge/${PN}/${MY_PN}-fullsrc-${MY_PV}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 IUSE="nls spell kde"
 
 RDEPEND=">=virtual/jre-1.5
@@ -29,7 +29,7 @@ DEPEND=">=virtual/jdk-1.5
 S=${WORKDIR}/${MY_PN}-${MY_PV}
 
 pkg_setup() {
-	! built_with_use zemberek linguas_tr \
+	use spell && ! built_with_use zemberek linguas_tr \
 	&& die "Zemberek should be built with Turkish language support"
 	java-pkg-2_pkg_setup
 }
