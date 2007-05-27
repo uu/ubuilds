@@ -136,7 +136,8 @@ src_install() {
 
 	# doins can't handle symlinks
 	cp -vRP bin include jre lib man "${ddest}" || die "failed to copy"
-	find "${ddest}" -exec chmod 644 {} +
+	find "${ddest}" -type f -exec chmod 644 {} +
+	find "${ddest}" -type d -exec chmod 755 {} +
 	chmod 755 ${ddest}/bin/* \
 		${ddest}/jre/bin* \
 		${ddest}/jre/lib/*/*.{so,cfg} \
