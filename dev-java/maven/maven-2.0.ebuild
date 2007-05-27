@@ -102,15 +102,57 @@ src_unpack() {
 	# generate our launch script
 	if [[ ! -f mvn ]];then
 		echo "#!/bin/sh" >> mvn
-		echo "\$(java-config -J) \\" >> mvn
-		echo "-classpath \$(java-config -p classworlds-1.1) \\" >> mvn
-		echo "-Dclassworlds.conf=${JAVA_MAVEN_SYSTEM_HOME}/conf/m2_classworlds.conf \\" >> mvn
-	#	echo "-Dmaven.core.path=/usr/share/${PN}-${SLOT} \\" >> mvn
-		echo "-Dmaven.home=${JAVA_MAVEN_SYSTEM_HOME} \\" >> mvn
-		echo "-Dmaven.plugin.dir=${JAVA_MAVEN_SYSTEM_PLUGINS} \\" >> mvn
-		echo "-Dmaven.repo.remote=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \\" >> mvn
-		echo "-Dmaven.repo.local=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \\" >> mvn
-		echo "org.codehaus.classworlds.Launcher \${@} " >> mvn
+
+		echo "if [[ \$(id -u) == \"0\" ]];then" >> mvn
+		echo "	if [[ \${1} == \"fromportage\" ]];then" >> mvn
+		# as root, use maven repo and offline mode when used in portage ebuilds
+		echo "		shift" >> mvn
+		echo "		\$(java-config -J) \\" >> mvn
+		echo "		-classpath \$(java-config -p classworlds-1.1) \\" >> mvn
+		echo "		-Dclassworlds.conf=${JAVA_MAVEN_SYSTEM_HOME}/conf/m2_classworlds.conf \\" >> mvn
+		echo "		-Dmaven.home=${JAVA_MAVEN_SYSTEM_HOME} \\" >> mvn
+		echo "		-Dmaven.plugin.dir=${JAVA_MAVEN_SYSTEM_PLUGINS} \\" >> mvn
+		echo "		-Dmaven.repo.remote=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \\" >> mvn
+		echo "		-Dmaven.repo.local=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \\" >> mvn
+		# OFFLINE MODE !
+		echo "		org.codehaus.classworlds.Launcher -o \\" >> mvn
+		# user args
+		echo "		\${@} " >> mvn
+		echo "	else" >> mvn
+		# as root and not from portage, use local repo and online mode
+		echo "		if [[ ! -d \"${JAVA_MAVEN_ROOT_HOME}\" ]];then" >> mvn
+		echo "			mkdir -p "${JAVA_MAVEN_ROOT_HOME}" || die " >> mvn
+		echo "		fi" >> mvn
+		echo "		if [[ ! -d \"${JAVA_MAVEN_ROOT_REPOSITORY}\" ]];then" >> mvn
+		echo "			mkdir -p "${JAVA_MAVEN_ROOT_REPOSITORY}" || die " >> mvn
+		echo "		fi" >> mvn
+		echo "		if [[ ! -d \"${JAVA_MAVEN_ROOT_PLUGINS}\" ]];then" >> mvn
+		echo "			mkdir -p "${JAVA_MAVEN_ROOT_PLUGINS}" || die " >> mvn
+		echo "		fi" >> mvn
+		echo "		\$(java-config -J) \\" >> mvn
+		echo "		-classpath \$(java-config -p classworlds-1.1) \\" >> mvn
+		echo "		-Dclassworlds.conf=${JAVA_MAVEN_SYSTEM_HOME}/conf/m2_classworlds.conf \\" >> mvn
+		echo "		-Dmaven.home=${JAVA_MAVEN_ROOT_HOME} \\" >> mvn
+		echo "		-Dmaven.plugin.dir=${JAVA_MAVEN_ROOT_PLUGINS} \\" >> mvn
+		echo "		-Dmaven.repo.remote=file:/${JAVA_MAVEN_ROOT_REPOSITORY} \\" >> mvn
+		echo "		-Dmaven.repo.local=file:/${JAVA_MAVEN_ROOT_REPOSITORY} \\" >> mvn
+		echo "		org.codehaus.classworlds.Launcher \\" >> mvn
+		# user args
+		echo "		\${@} " >> mvn
+		echo "	fi"  >> mvn
+		echo "else" >> mvn
+		echo "	\$(java-config -J) \\" >> mvn
+		echo "	-classpath \$(java-config -p classworlds-1.1) \\" >> mvn
+		echo "	-Dclassworlds.conf=${JAVA_MAVEN_SYSTEM_HOME}/conf/m2_classworlds.conf \\" >> mvn
+		echo "	-Dmaven.home=${JAVA_MAVEN_SYSTEM_HOME} \\" >> mvn
+		echo "	-Dmaven.plugin.dir=${HOME}/.m2/plugins \\" >> mvn
+		echo "	-Dmaven.repo.remote=file:/\${HOME}/.m2/repository \\" >> mvn
+		echo "	-Dmaven.repo.local=file:/\${HOME}/.m2/repository  \\" >> mvn
+		echo "	org.codehaus.classworlds.Launcher \\" >> mvn
+		# user args
+		echo "	\${@} " >> mvn
+		echo "fi" >> mvn
+		echo "" >> mvn
 	else
 		die "mvn file allready exists"
 	fi

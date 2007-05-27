@@ -3,6 +3,9 @@
 # $Header: $
 
   27 May 2007; kiorky <kiorky@cryptelium.net> maven-2.0.ebuild:
+  rewrite launch script
+
+  27 May 2007; kiorky <kiorky@cryptelium.net> maven-2.0.ebuild:
   Commiting as finnaly working
 
   26 May 2007; kiorky <kiorky@cryptelium.net> maven-2.0.ebuild,
