@@ -25,7 +25,6 @@ dev-java/maven-reporting-api
 dev-java/maven-repository-metadata
 dev-java/maven-script
 dev-java/maven-settings
-
 dev-java/wagon-file
 dev-java/wagon-ftp
 dev-java/wagon-http
@@ -51,73 +50,93 @@ KEYWORDS="~x86"
 IUSE="doc source"
 SLOT="2"
 
+MAVEN_UBERJAR_FAKE="
+maven-artifact
+maven-artifact-manager
+maven-artifact-test
+maven-core-2
+maven-error-diagnostics
+maven-model
+maven-monitor
+maven-plugin-api
+maven-plugin-descriptor
+maven-plugin-parameter-documenter
+maven-plugin-registry
+maven-profile
+maven-project
+maven-reporting-api
+maven-repository-metadata
+maven-script
+maven-settings
+wagon-file
+wagon-ftp
+wagon-http
+wagon-http-lightweight
+wagon-http-shared
+wagon-provider-api
+wagon-ssh
+wagon-ssh-common
+wagon-ssh-common-test
+wagon-ssh-external
+jtidy
+commons-cli-1
+plexus-utils
+jsch
+plexus-interactivity-api
+plexus-avalon-personality
+plexus-container-default-1.0_alpha9
+"
+
 src_unpack() {
-	mkdir -p "${S}" "${S}/img" || die
+	mkdir -p "${S}/gentoo_maven_jars" || die
+
+	cd "${S}/gentoo_maven_jars" || die
+	for i in ${MAVEN_UBERJAR_FAKE};do
+		java-pkg_jar-from ${i}
+	done
+
+	# copy our pom
 	cd "${S}" || die
-
-	java-pkg_jar-from maven-artifact
-	java-pkg_jar-from maven-artifact-manager
-	java-pkg_jar-from maven-artifact-test
-	java-pkg_jar-from maven-core-2
-	java-pkg_jar-from maven-error-diagnostics
-	java-pkg_jar-from maven-model
-	java-pkg_jar-from maven-monitor
-	java-pkg_jar-from maven-plugin-api
-	java-pkg_jar-from maven-plugin-descriptor
-	java-pkg_jar-from maven-plugin-parameter-documenter
-	java-pkg_jar-from maven-plugin-registry
-	java-pkg_jar-from maven-profile
-	java-pkg_jar-from maven-project
-	java-pkg_jar-from maven-reporting-api
-	java-pkg_jar-from maven-repository-metadata
-	java-pkg_jar-from maven-script
-	java-pkg_jar-from maven-settings
-
-	java-pkg_jar-from wagon-file
-	java-pkg_jar-from wagon-ftp
-	java-pkg_jar-from wagon-http
-	java-pkg_jar-from wagon-http-lightweight
-	java-pkg_jar-from wagon-http-shared
-	java-pkg_jar-from wagon-provider-api
-	java-pkg_jar-from wagon-ssh
-	java-pkg_jar-from wagon-ssh-common
-	java-pkg_jar-from wagon-ssh-common-test
-	java-pkg_jar-from wagon-ssh-external
-	java-pkg_jar-from jtidy
-	java-pkg_jar-from commons-cli-1
-	java-pkg_jar-from plexus-utils
-	java-pkg_jar-from jsch
-	java-pkg_jar-from plexus-interactivity-api
-	java-pkg_jar-from plexus-avalon-personality
-	java-pkg_jar-from plexus-container-default-1.0_alpha9
+	cp "${FILESDIR}/maven-${PV}.pom" pom.xml || die
 
 	# generate our launch script
-	echo "#!/bin/sh" >> mvn
-	echo "\$(java-config -J) \\" >> mvn
-	echo "-classpath \$(java-config -p classworlds-1.1) \\" >> mvn
-	echo "-Dclassworlds.conf=/usr/share/${PN}-${SLOT}/m2_classworlds.conf \\" >> mvn
-	echo "-Dmaven.core.path=/usr/share/${PN}-${SLOT} \\" >> mvn
-	echo "-Dmaven.home=${JAVA_MAVEN_SYSTEM_HOME} \\" >> mvn
-	echo "-Dmaven.plugin.dir=${JAVA_MAVEN_SYSTEM_PLUGINS} \\" >> mvn
-	echo "-Dmaven.repo.remote=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \\" >> mvn
-	echo "org.codehaus.classworlds.Launcher \$* " >> mvn
-
+	if [[ ! -f mvn ]];then
+		echo "#!/bin/sh" >> mvn
+		echo "\$(java-config -J) \\" >> mvn
+		echo "-classpath \$(java-config -p classworlds-1.1) \\" >> mvn
+		echo "-Dclassworlds.conf=${JAVA_MAVEN_SYSTEM_HOME}/conf/m2_classworlds.conf \\" >> mvn
+	#	echo "-Dmaven.core.path=/usr/share/${PN}-${SLOT} \\" >> mvn
+		echo "-Dmaven.home=${JAVA_MAVEN_SYSTEM_HOME} \\" >> mvn
+		echo "-Dmaven.plugin.dir=${JAVA_MAVEN_SYSTEM_PLUGINS} \\" >> mvn
+		echo "-Dmaven.repo.remote=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \\" >> mvn
+		echo "-Dmaven.repo.local=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY} \\" >> mvn
+		echo "org.codehaus.classworlds.Launcher \${@} " >> mvn
+	else
+		die "mvn file allready exists"
+	fi
 }
 
 src_install() {
-	for i in *.jar; do
-		unzip -od img $i
+	# register maven pom
+	java-maven-2_install_one
+
+	# replacement for maven uberjar
+	cd "${S}/gentoo_maven_jars" || die
+	for i in $(ls -1 .); do
+		java-pkg_dojar ${i}
 	done
-	cd img || die
-	jar -cvf maven-uber.jar *
-	java-pkg_dojar maven-uber.jar
 
-	cd ..
-	insinto "/usr/share/${PN}-${SLOT}"
+	cd "${S}" || die
+
+	# classworlds and basic maven configurations
+	keepdir "${JAVA_MAVEN_SYSTEM_HOME}/conf"
+	insinto "${JAVA_MAVEN_SYSTEM_HOME}/conf"
 	doins "${FILESDIR}/m2_classworlds.conf"
+	doins "${FILESDIR}/settings.xml"
 
-	chmod 755 "${S}/mvn"
+	# install our launchers
+	chmod 755 "${S}/mvn" || die
 	exeinto /usr/bin
-	doexe  "${FILESDIR}/mvn-non-bin"
+	doexe  "${S}/mvn"
 }
 
