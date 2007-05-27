@@ -2,7 +2,7 @@
   <property file="${user.home}/.m2/maven.properties"/>
   <property name="maven.build.output" value="target/classes"/>
   <property name="maven.build.directory" value="target"/>
-  <property name="maven.build.final.name" value="maven-plugin-parameter-documenter-1.0-alpha-10"/>
+  <property name="maven.build.final.name" value="maven-plugin-parameter-documenter-2.0.7-SNAPSHOT"/>
   <property name="maven.test.reports" value="${maven.build.directory}/test-reports"/>
   <property name="maven.test.output" value="target/test-classes"/>
   <property name="maven.repo.local" value="${user.home}/.m2/repository"/>
