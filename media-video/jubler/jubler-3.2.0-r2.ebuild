@@ -45,7 +45,7 @@ src_unpack() {
 }
 
 src_compile() {
-	append-flags 
+	append-flags -fPIC
 	local anttasks_opt
 	use nls && anttasks_opt="i18n"
 	eant ${anttasks_opt} jar faq || die "eant failed"
