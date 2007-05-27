@@ -327,9 +327,7 @@ java-maven-2_install_one() {
 }
 
 java-maven-2_ensure_repo_exists() {
-	einfo "cacaprout"
 	if [[ ! -d "${JAVA_MAVEN_SYSTEM_REPOSITORY}" ]];then
-		einfo "prout"
 		keepdir "${JAVA_MAVEN_SYSTEM_HOME}"
 		keepdir "${JAVA_MAVEN_SYSTEM_PLUGINS}"
 		keepdir "${JAVA_MAVEN_SYSTEM_REPOSITORY}"
