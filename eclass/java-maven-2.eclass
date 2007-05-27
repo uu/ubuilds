@@ -147,7 +147,6 @@ java-maven-2_src_unpack() {
 	if [[ -n ${JAVA_MAVEN_EANT_BUILD} ]]; then
 		for build in $(find "${WORKDIR}" -name build.xml || die);do
 			pushd "$(dirname ${build} || die )" > /dev/null || die
-#			java-maven-2-rewrite_build_xml "${build}"
 			# make specials dir and put generated stuff in there
 			local maven_group="" maven_artifact="" maven_version="" maven_dest_dir=""
 			if [[ -f ${POM_XML} ]];then
@@ -242,6 +241,7 @@ java-maven-2_src_compile() {
 #	emaven test || die "Tests failed"
 #}
 
+# do md5sum and sha1sum of a specified file in maven format
 java-maven-2_do_sig() {
 	if [[ -f ${1} ]];then
 		local input_file=$(basename $1)
@@ -252,80 +252,23 @@ java-maven-2_do_sig() {
 	fi
 }
 
-java-maven-2_install_into_repo() {
-	local maven_group="" maven_artifact="" maven_version=""
-	local jarname=${1}
-	if [[ -f ${POM_XML} ]];then
-		maven_group=$(${MAVEN_POM_HELPER}     -g -f ${POM_XML})
-		maven_group="${maven_group//*:}"
-		maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${POM_XML})
-		maven_artifact="${maven_artifact//*:}"
-		maven_version=$(${MAVEN_POM_HELPER}   -v -f ${POM_XML})
-		maven_version=${maven_version//*:/}
-		# registering jar in our faked repository
-		local rep_dir="${JAVA_MAVEN_SYSTEM_REPOSITORY}/${maven_group//.//}/${maven_artifact}/${maven_version}"
-		dodir ${rep_dir}
-		if [[ -n ${jarname} ]];then
-			local pn_slot="${PN}"
-			if [[ ! ${SLOT} == "0" ]] && [[ ! -z ${SLOT} ]];then
-				pn_slot="${PN}-${SLOT}"
-			fi
-			if [[ -f ${D}usr/share/${pn_slot}/lib/${jarname}.jar ]];then
-				# use the target jar instead one in /usr/share/pnslot/lib
-				# to allow dosig to generate the right name and version
-				java-maven-2_do_sig target/${maven_artifact}-${maven_version}.jar
-				# symlink our jar in the maven repo
-				dosym \
-				/usr/share/${pn_slot}/lib/${jarname}.jar \
-				${rep_dir}/${maven_artifact}-${maven_version}.jar
-				insinto ${rep_dir}
-				doins ${maven_artifact}-${maven_version}.jar.md5
-				doins ${maven_artifact}-${maven_version}.jar.sha1
-			fi
-		fi
-		cp ${POM_XML} ${maven_artifact}-${maven_version}.pom || die
-		java-maven-2_do_sig ${maven_artifact}-${maven_version}.pom
-		insinto ${rep_dir}
-		doins ${maven_artifact}-${maven_version}.pom
-		doins ${maven_artifact}-${maven_version}.pom.md5
-		doins ${maven_artifact}-${maven_version}.pom.sha1
-	fi
+# do signatures and install into maven repository
+# first arguement is inner repository directory where the files goes
+# second argument is the file itself
+java-maven-2_install_file_into_repo() {
+	local rep_dir="${1}" input_file="${2}"
+	[[ ! -d ${rep_dir} ]] && die "Directory in repository doesn't exist"
+	[[ ! -f ${input_file} ]] && die "Input file doesn't exists"
+	java-maven-2_do_sig  "${input_file}"
+	insinto "${rep_dir}"
+	# in case of jar, do not try to install them as the symlink to the real jar
+	# is allready done
+	[[ ! -f "${rep_dir}/${input_file}" ]] && doins "${input_file}"
+	doins "${input_file}.md5"
+	doins "${input_file}.sha1"
 }
 
-java-maven-2_get_jar_name() {
-	local jarname="" maven_artifact="" maven_version="" pom="${1}"
-	if [[ -f ${POM_XML} ]];then
-		maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${pom:=${POM_XML}})
-		maven_artifact="${maven_artifact//*:}"
-		maven_version=$(${MAVEN_POM_HELPER}   -v -f ${pom:=${POM_XML}})
-		maven_version=${maven_version//*:/}
-		jarname=${maven_artifact}-${maven_version}.jar
-	fi
-	echo ${jarname}
-}
-
-java-maven-2_install_one() {
-	local jarname=""   module=${1}
-	local myjar=$(java-maven-2_get_jar_name)
-	mkdir -p target || die # ensure next part going fine with globbing
-	# install jar if existing
-	if [[ -f  target/${myjar} ]];then
-		#take the last part of a module path for the jar name
-		jarname="$(echo ${module}|sed -re 's:(.*/)([^/]*)(/*):\2:g')"
-		java-pkg_newjar target/${myjar} "${jarname}.jar"
-	fi
-	hasq doc ${IUSE} && use doc \
-	&& [[ -n ${JAVA_ANT_JAVADOC_INPUT_DIRS} ]] \
-	&& java-pkg_dojavadoc ${JAVA_ANT_JAVADOC_OUTPUT_DIR}
-	if hasq source ${IUSE} && use source; then
-		for dir in ${JAVA_MAVEN_SRC_DIRS};do
-			[[ -d ${dir} ]] && java-pkg_dosrc ${dir}
-		done
-	fi
-	java-maven-2_ensure_repo_exists
-	java-maven-2_install_into_repo ${jarname}
-}
-
+# if repositories are not created yet, create them
 java-maven-2_ensure_repo_exists() {
 	if [[ ! -d "${JAVA_MAVEN_SYSTEM_REPOSITORY}" ]];then
 		keepdir "${JAVA_MAVEN_SYSTEM_HOME}"
@@ -334,19 +277,117 @@ java-maven-2_ensure_repo_exists() {
 	fi
 }
 
-# in most cases we re safe, there is one jar but it can be
-# either versionnated  or "SNAPSHOTED"
+# get versionnated name of a pom taking ${POM_XML} as default
+java-maven-2_get_name() {
+	local pom="$(java-maven-2_verify_pom ${1})"
+	local name="" maven_artifact="" maven_version=""
+	if [[ -f ${pom} ]];then
+		maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${pom})
+		maven_artifact="${maven_artifact//*:}"
+		maven_version=$(${MAVEN_POM_HELPER}   -v -f ${pom})
+		maven_version=${maven_version//*:/}
+		name=${maven_artifact}-${maven_version}
+	fi
+	echo ${name}
+}
+
+# return the directory into the repo where will be installed all stuff of a
+# specified pom.
+# take a pom in input or ${POM_XML} as default
+java-maven-2_get_repo_dir() {
+	local pom="$(java-maven-2_verify_pom ${1})"
+	local maven_group="" maven_artifact="" maven_version=""
+	maven_group=$(${MAVEN_POM_HELPER}     -g -f ${pom})
+	maven_group="${maven_group//*:}"
+	maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${pom})
+	maven_artifact="${maven_artifact//*:}"
+	maven_version=$(${MAVEN_POM_HELPER}   -v -f ${pom})
+	maven_version=${maven_version//*:/}
+	# returning in our faked repository directory
+	echo "${JAVA_MAVEN_SYSTEM_REPOSITORY}/${maven_group//.//}/${maven_artifact}/${maven_version}"
+}
+
+# return ${POM_XML} or arg1 if arg1 is given and is a pom
+java-maven-2_verify_pom() {
+	local pom="${1}"
+	[[ ! -f ${1} ]] && pom=${POM_XML}
+	echo ${pom}
+}
+
+# prepare to a file in a repository
+# all jar installed will be symlink and real location
+# will be in /usr/share/PN_SLOT/lib as usual
+# don't forget to cd to pom dir before calling
+#  * take a maven pom as input and use ${POM_XML} as default pom.
+java-maven-2_install_one() {
+	local pom="$(java-maven-2_verify_pom ${1})"
+	local rep_dir="$(java-maven-2_get_repo_dir ${pom})"
+	local myname="$(java-maven-2_get_name ${pom})"
+	local myjar="${myname}.jar"
+	local maven_pom="${myname}.pom" maven_artifact=""
+
+	java-maven-2_ensure_repo_exists
+
+	if [[ -f ${pom} ]];then
+		if [[ -n ${rep_dir} ]];then
+			dodir ${rep_dir}
+			# install jar if existing
+			if [[ -f  target/${myjar} ]];then
+				# get a non versionnated name for our jar
+				maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${pom})
+				maven_artifact="${maven_artifact//*:}"
+				java-pkg_newjar target/${myjar} "${maven_artifact}.jar"
+			fi
+			if [[ -n ${maven_artifact} ]];then
+				local pn_slot="${PN}"
+				if [[ ! ${SLOT} == "0" ]] && [[ ! -z ${SLOT} ]];then
+					pn_slot="${PN}-${SLOT}"
+				fi
+				if [[ -f "${D}usr/share/${pn_slot}/lib/${maven_artifact}.jar" ]] \
+				   && [[ -f "target/${myjar}" ]];then
+					# symlink our jar in the maven repo
+					dosym \
+					"/usr/share/${pn_slot}/lib/${maven_artifact}.jar" \
+					"${rep_dir}/${myjar}"
+					# install jar in repo
+					# use the target jar instead one in /usr/share/pnslot/lib
+					# to allow dosig to generate the right name and version
+					pushd target
+					java-maven-2_install_file_into_repo ${rep_dir} ${myjar}
+					popd >> /dev/null || die
+				fi
+			fi
+			# install pom in repo
+			cp ${pom} ${maven_pom} || die
+			java-maven-2_install_file_into_repo ${rep_dir} ${maven_pom}
+		fi
+	fi
+}
+
+# basic src_install which can install in most cases (multi and single project
+# mode)
 java-maven-2_src_install() {
+	hasq doc ${IUSE} && use doc \
+	&& [[ -n ${JAVA_ANT_JAVADOC_INPUT_DIRS} ]] \
+	&& java-pkg_dojavadoc ${JAVA_ANT_JAVADOC_OUTPUT_DIR}
+	if hasq source ${IUSE} && use source; then
+		for dir in ${JAVA_MAVEN_SRC_DIRS};do
+			[[ -d ${dir} ]] && java-pkg_dosrc ${dir}
+		done
+	fi
+
+	# install all subprojects
 	if [[ -n "${EMAVEN_PROJECTS}" ]];then
 		for module in ${EMAVEN_PROJECTS};do
 			pushd "${module}" >> /dev/null || die
-			java-maven-2_install_one ${module}
+			java-maven-2_install_one
 			popd >> /dev/null || die
 		done
 	fi
 
-	[[ -z "${EMAVEN_PROJECTS}" ]] && java-maven-2_install_one ${PN}
-
+	# either install parent pom in multi-projects mode
+	# or just install in single project mode
+	java-maven-2_install_one
 }
 
 EXPORT_FUNCTIONS src_unpack src_compile src_install
