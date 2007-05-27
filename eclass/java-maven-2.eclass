@@ -263,7 +263,7 @@ java-maven-2_install_into_repo() {
 		maven_version=$(${MAVEN_POM_HELPER}   -v -f ${POM_XML})
 		maven_version=${maven_version//*:/}
 		# registering jar in our faked repository
-		local rep_dir="${JAVA_MAVEN_SYSTEM_REPOSITORY}/${maven_group//./\/}/${maven_artifact}/${maven_version}"
+		local rep_dir="${JAVA_MAVEN_SYSTEM_REPOSITORY}/${maven_group//.//}/${maven_artifact}/${maven_version}"
 		dodir ${rep_dir}
 		if [[ -n ${jarname} ]];then
 			local pn_slot="${PN}"
