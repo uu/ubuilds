@@ -25,7 +25,7 @@ RDEPEND=">=virtual/jre-1.4
 	dev-java/concurrent-util
 	=dev-java/avalon-logkit-2.0*
 	=dev-java/java-service-wrapper-3.1*
-	>=dev-java/picocontainer-1.2_beta1
+	>=dev-java/picocontainer-1.2
 	dev-java/log4j
 	>dev-java/mx4j-3.0.1
 	dev-java/backport-util-concurrent"
@@ -37,9 +37,9 @@ AVALON_FRAMEWORK="avalon-framework-4.1 avalon-framework.jar avalon-framework-4.1
 CONCURRENT="concurrent-util concurrent.jar concurrent-1.3.2.jar"
 LOGKIT="avalon-logkit-2.0 avalon-logkit.jar logkit-1.2.jar"
 WRAPPER="java-service-wrapper-3.1 wrapper.jar wrapper-3.1.0.jar"
-PICOCONTAINER="picocontainer-1 picocontainer.jar picocontainer-1.2.jar"
+PICOCONTAINER="picocontainer-1.2 picocontainer.jar picocontainer-1.2.jar"
 
-EANT_GENTOO_CLASSPATH="picocontainer-1"
+EANT_GENTOO_CLASSPATH="picocontainer-1.2"
 EANT_EXTRA_ARGS="-Dmx4j.home=/usr/share/mx4j-core/lib"
 EANT_DOC_TARGET="doc"
 EANT_BUILD_TARGET="realclean all core_jacorb_jar jacorb_services_jar \

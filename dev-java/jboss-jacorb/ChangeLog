@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  27 May 2007; Vlastimil Babka <caster@gentoo.org>
+  -jboss-jacorb-2.2.4.ebuild, +jboss-jacorb-2.2.4-r1.ebuild:
+  Revbump to use new slot 1.2 of picocontainer
+
   13 Feb 2007; kiorky <kiorky@cryptelium.net> +jboss-jacorb-2.2.4.ebuild,
   +files/jboss-jacorb-2.2.4-dist.patch, +metadata.xml:
   Added as it is a jboss dependency
