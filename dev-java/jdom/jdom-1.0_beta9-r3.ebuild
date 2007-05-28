@@ -1,6 +1,6 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/jdom/jdom-1.0_beta9-r2.ebuild,v 1.5 2007/01/05 23:31:51 caster Exp $
+# $Header: $
 
 JAVA_PKG_IUSE="source doc"
 
@@ -47,23 +47,12 @@ EANT_DOC_TARGET=""
 # to prevent a newer jdom from going into cp
 ANT_TASKS="none"
 
-src_compile() {
-
-	eant package || die "compile problem"
-
-}
-
 src_install() {
 	java-pkg_dojar build/*.jar
+
+	java-pkg_register-dependency "jdom-jaxen-1.0_beta9"
 
 	dodoc CHANGES.txt COMMITTERS.txt README.txt TODO.txt
 	use doc && java-pkg_dohtml -r build/apidocs/*
 	use source && java-pkg_dosrc src/java/*
-}
-
-pkg_postinst() {
-		elog ""
-		elog "If you want jaxen support for jdom then"
-		elog "please emerge =dev-java/jdom-jaxen-${PV}."
-		elog ""
 }
