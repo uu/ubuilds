@@ -27,5 +27,5 @@ ant-core
 plexus-utils
 bsh
 plexus-classworlds"
-EMAVEN_PROJECTS="plexus-ant-factory plexus-bsh-factory"
+JAVA_MAVEN_PROJECTS="plexus-ant-factory plexus-bsh-factory"
 
