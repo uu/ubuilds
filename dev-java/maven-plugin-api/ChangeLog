@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  29 May 2007; kiorky <kiorky@cryptelium.net> maven-plugin-api-2.0.ebuild:
+  Adding maven bootstrap flag
+
   13 May 2007; Alistair John Bush <ali_bush@gentoo.org>
   maven-plugin-api-2.0.ebuild:
   Adding to ~amd64

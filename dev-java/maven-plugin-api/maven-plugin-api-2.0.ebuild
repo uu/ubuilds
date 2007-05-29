@@ -3,6 +3,7 @@
 # $Header: $
 
 JAVA_PKG_IUSE="source"
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 SRC_URI="http://dev.gentooexperimental.org/~kiorky/${P}.tar.bz2"
