@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2 java-pkg-2 java-utils-2
 
 DESCRIPTION="The core of Maven"
