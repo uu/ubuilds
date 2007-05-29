@@ -5,6 +5,9 @@
   29 May 2007; kiorky <kiorky@cryptelium.net> ChangeLog:
   Adding maven bootstrap flag
 
+  29 May 2007; kiorky <kiorky@cryptelium.net> ChangeLog:
+  Adding maven bootstrap flag
+
   29 May 2007; kiorky <kiorky@cryptelium.net>
   plexus-component-api-1.0_alpha14.ebuild,
   plexus-component-api-1.0_alpha22.ebuild,
