@@ -31,7 +31,7 @@ plexus-component-api
 bsh
 plexus-container-default
 plexus-utils"
-EMAVEN_PROJECTS="maven-script-ant maven-script-beanshell"
+JAVA_MAVEN_PROJECTS="maven-script-ant maven-script-beanshell"
 
 
 
