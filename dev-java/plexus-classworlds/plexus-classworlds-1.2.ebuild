@@ -4,6 +4,7 @@
 
 JAVA_PKG_IUSE="source"
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DESCRIPTION="The Plexus project provides a full software stack for creating and executing software projects."
