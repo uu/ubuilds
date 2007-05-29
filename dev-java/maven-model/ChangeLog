@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  29 May 2007; kiorky <kiorky@cryptelium.net> maven-model-2.0.ebuild:
+  Adding maven bootstrap flag
+
   27 May 2007; kiorky <kiorky@cryptelium.net> files/build-2.0.xml:
   fix build.xml
 
