@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DM_GENERATED_SOURCES="doxia-decoration-model-gen-src-${PV}.tar.bz2"
