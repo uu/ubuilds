@@ -11,9 +11,10 @@ RDEPEND=">=dev-java/javatoolkit-0.2.0-r3"
 # The first is with maven itself
 # The second is via generated build.xml by the maven-ant plugin
 # to control how to handle it there is two variables
-# WANT_MAVEN_MAVEN_BUILD : if set use maven as the builder : TODO implement
-# JAVA_MAVEN_BUILD_SYSTEM : use any generated build.xml found.
-# if both two variables are set, the build will fail.
+# JAVA_MAVEN_BUILD_SYSTEM :
+# possibles values:
+# 	eant:  if set use any generated build.xml found.
+# 	maven; if set use maven as the builder : TODO implement
 #
 # For multi projects you can use JAVA_MAVEN_PROJECTS which is a space separated
 # list of inner modules to build in a maven multiproject based build.
