@@ -4,6 +4,7 @@
 
 JAVA_PKG_IUSE="source doc"
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DESCRIPTION="Maven is a software project management and comprehension tool."
