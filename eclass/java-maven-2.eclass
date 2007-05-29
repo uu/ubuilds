@@ -12,10 +12,10 @@ RDEPEND=">=dev-java/javatoolkit-0.2.0-r3"
 # The second is via generated build.xml by the maven-ant plugin
 # to control how to handle it there is two variables
 # WANT_MAVEN_MAVEN_BUILD : if set use maven as the builder : TODO implement
-# JAVA_MAVEN_EANT_BUILD : use any generated build.xml found.
+# JAVA_MAVEN_BUILD_SYSTEM : use any generated build.xml found.
 # if both two variables are set, the build will fail.
 #
-# For multi projects you can use EMAVEN_PROJECTS which is a space separated
+# For multi projects you can use JAVA_MAVEN_PROJECTS which is a space separated
 # list of inner modules to build in a maven multiproject based build.
 # Remember to generate all necessary build.xml.
 # Normally, doing mvn ant:ant on the parent project is suffisant.
@@ -30,15 +30,29 @@ RDEPEND=">=dev-java/javatoolkit-0.2.0-r3"
 # list of java source directories and add "doc" and
 # "source" uses in IUSE.
 
-[[ -n ${JAVA_MAVEN_EANT_BUILD} ]] && [[ -n ${WANT_MAVEN_MAVEN_BUILD} ]] \
-&& die "Please choose between eant or maven to build !"
+if [[ -n ${JAVA_MAVEN_BUILD_SYSTEM} ]];then
+	if [[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "eant" ]] && \
+		[[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "maven" ]];then
+		die "Please choose between eant or maven build system."
+	fi
+fi
 
-# using eant by default
-[[ -z ${JAVA_MAVEN_EANT_BUILD} ]] && [[ -z ${WANT_MAVEN_MAVEN_BUILD} ]] \
-&& JAVA_MAVEN_EANT_BUILD="eant"
+# using maven by default
+[[ -z ${JAVA_MAVEN_BUILD_SYSTEM} ]] && JAVA_MAVEN_BUILD_SYSTEM="maven"
+
+# If the ebuild is part of maven boostrap, we use only and only ant !
+# if this variable is present in an ebuild, dont remove it and
+# use don't rely on maven for build the package !
+[[ -n ${JAVA_MAVEN_BOOTSTRAP} ]] && JAVA_MAVEN_BUILD_SYSTEM="eant"
+
+# grab maven dependency
+if [[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "eant"  ]];then
+	DEPEND="${DEPEND} =dev-java/maven-2*"
+	RDEPEND="${RDEPEND} =dev-java/maven-2*"
+fi 
 
 # SPECIFIC TO MODELLO BASED EBUILDS
-# used to facilitate modello plugiin integration
+# used to facilitate modello plugin integration
 # - generate sources with a maven installation, compress them
 #   to fit in subdirs of src/main/java
 # - name the tarball ${PN}-gen-src-${PV}.tar.bz2
@@ -67,7 +81,7 @@ esac
 JAVA_MAVEN_SYSTEM_HOME="/usr/share/maven-${SLOT}/maven_home"
 
 # our pom helper
-MAVEN_POM_HELPER="/usr/share/javatoolkit/maven-helper.py"
+JAVA_MAVEN_POM_HELPER="/usr/share/javatoolkit/maven-helper.py"
 
 # maven 1 and 1.1 share the same repo
 JAVA_MAVEN_SYSTEM_REPOSITORY="/usr/share/maven-${SLOT//1.1/1}/maven_home/gentoo-repo"
@@ -82,16 +96,6 @@ JAVA_MAVEN_ROOT_REPOSITORY="/usr/share/maven-${SLOT//1.1/1}/maven_root/gentoo-re
 JAVA_MAVEN_ROOT_PLUGINS="${JAVA_MAVEN_ROOT_HOME}/plugins"
 JAVA_MAVEN_ROOT_BIN="${JAVA_MAVEN_ROOT_HOME}/bin"
 
-
-JAVA_MAVEN_BUILD_HOME=${JAVA_MAVEN_BUILD_HOME:="${T}/.maven"}
-JAVA_MAVEN_BUILD_REPO=${JAVA_MAVEN_BUILD_REPO:="${JAVA_MAVEN_BUILD_HOME}/repository"}
-JAVA_MAVEN_BUILD_PLUGINS=${JAVA_MAVEN_BUILD_PLUGINS:="${JAVA_MAVEN_BUILD_HOME}/plugins"}
-
-JAVA_MAVEN_OPTS="${JAVA_MAVEN_OPTS} -Dmaven.home.local=${JAVA_MAVEN_BUILD_HOME}"
-JAVA_MAVEN_OPTS="${JAVA_MAVEN_OPTS} -Dmaven.plugin.dir=${JAVA_MAVEN_BUILD_PLUGINS}"
-JAVA_MAVEN_OPTS="${JAVA_MAVEN_OPTS}	-Dmaven.repo.remote=file:/${JAVA_MAVEN_BUILD_REPO}"
-JAVA_MAVEN_OPTS="${JAVA_MAVEN_OPTS} -Dmaven.repo.remote=file:/${JAVA_MAVEN_SYSTEM_REPOSITORY}"
-
 # multiproject
 JAVA_MAVEN_MULTIPROJECT_CLASSESPATH="${WORKDIR}/maven_classes"
 
@@ -102,8 +106,15 @@ JAVA_MAVEN_SRC_DIRS=${JAVA_MAVEN_SRC_DIRS}
 # maven build file
 POM_XML="pom.xml"
 
+# for patches in src_unpack
+# a list of patches ..
+JAVA_MAVEN_PATCHES=""
+
+# classpath for build with maven
+JAVA_MAVEN_CLASSPATH="."
+
 emaven() {
-	local gcp="${EMAVEN_GENTOO_CLASSPATH}"
+	local gcp="${JAVA_MAVEN_CLASSPATH}"
 	local cp
 
 	for atom in ${gcp}; do
@@ -132,38 +143,44 @@ java-maven-2-gen_build_xml() {
 }
 
 
+# take a list of patch as arguments
 java-maven-2_src_unpack() {
 	if  ! has_version ">=dev-java/javatoolkit-0.2.0-r2";then
 		die "please upgrade to at least dev-java/javatoolkit-0.2.0-r2"
 	fi
 	base_src_unpack
 
-	# if present using specific build.xml
-	if [[ -f "${FILESDIR}/build-${PV}.xml" ]];then
-		cp "${FILESDIR}/build-${PV}.xml" "${S}/build.xml" || die
-	fi
-
-	# specific to modello based ebuild
-	# eventually copy build.xml from filesdir then unpack pre-generated sources.
-	if [[ -n ${IS_MODELLO_EBUILD} ]];then
-		mkdir -p "${S}/src/main/java" || die
-		cd "${S}/src/main/java" || die
-		unpack "${MVN_MOD_GEN_SRC}"
+	# patch if neccessary
+	if [[ -n "${JAVA_MAVEN_PATCHES}" ]];then
+		for i in ${JAVA_MAVEN_PATCHES};do
+			[[ -f "${i}" ]] && epatch ${i}
+		done
 	fi
 
 	# if build.xml are present we suppose they re generated from maven pom
 	# then we rewrite them, see the rewrite function
-	if [[ -n ${JAVA_MAVEN_EANT_BUILD} ]]; then
+	if [[ ${JAVA_MAVEN_BUILD_SYSTEM} == "eant" ]]; then
+		# if present using specific build.xml
+		if [[ -f "${FILESDIR}/build-${PV}.xml" ]];then
+			cp "${FILESDIR}/build-${PV}.xml" "${S}/build.xml" || die
+		fi
+		# specific to modello based ebuild
+		# eventually copy build.xml from filesdir then unpack pre-generated sources.
+		if [[ -n ${IS_MODELLO_EBUILD} ]];then
+			mkdir -p "${S}/src/main/java" || die
+			cd "${S}/src/main/java" || die
+			unpack "${MVN_MOD_GEN_SRC}"
+		fi
 		for build in $(find "${WORKDIR}" -name build.xml || die);do
 			pushd "$(dirname ${build} || die )" > /dev/null || die
 			# make specials dir and put generated stuff in there
 			local maven_group="" maven_artifact="" maven_version="" maven_dest_dir=""
 			if [[ -f ${POM_XML} ]];then
-				maven_group=$(${MAVEN_POM_HELPER}     -g -f ${POM_XML})
+				maven_group=$(${JAVA_MAVEN_POM_HELPER}     -g -f ${POM_XML})
 				maven_group="${maven_group//*:/}"
-				maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${POM_XML})
+				maven_artifact=$(${JAVA_MAVEN_POM_HELPER}  -a -f ${POM_XML})
 				maven_artifact="${maven_artifact//*:}"
-				maven_version=$(${MAVEN_POM_HELPER}   -v -f ${POM_XML})
+				maven_version=$(${JAVA_MAVEN_POM_HELPER}   -v -f ${POM_XML})
 				maven_version=${maven_version//*:/}
 				maven_dest_dir="src/main/resources/META-INF/maven/${maven_group}/${maven_artifact}"
 				maven_pom_properties="${maven_dest_dir}/pom.properties"
@@ -184,7 +201,7 @@ java-maven-2_src_unpack() {
 	# maven projects may not contain java sources or maybe
 	# in a non-standart place, in this case
 	# please use JAVA_ANT_JAVADOC_INPUT_DIRS directly
-	for project in ${EMAVEN_PROJECTS} ./;do
+	for project in ${JAVA_MAVEN_PROJECTS} ./;do
 		if [[ -d "${S}/${project}/${JAVA_MAVEN_SOURCES}/java" ]];then
 			JAVA_MAVEN_SRC_DIRS="${JAVA_MAVEN_SRC_DIRS} ${S}/${project//.\//}/${JAVA_MAVEN_SOURCES}/java"
 		fi
@@ -196,7 +213,7 @@ java-maven-2_src_unpack() {
 
 	# create temporary class output for classpath and interdeps
 	# for multi project based maven ebuilds.
-	if [[ -n "${EMAVEN_PROJECTS}" ]];then
+	if [[ -n "${JAVA_MAVEN_PROJECTS}" ]];then
 		mkdir -p "${JAVA_MAVEN_MULTIPROJECT_CLASSESPATH}" || die
 	fi
 
@@ -214,11 +231,11 @@ java-maven-2_src_compile_from_build_xml() {
 
 
 	# javadoc is controlled as in ant builds, see ant eclass.
-	if [[ -n ${EMAVEN_PROJECTS} ]];then
+	if [[ -n ${JAVA_MAVEN_PROJECTS} ]];then
 		# use our own classpath and append it tempory classes path in case of maven
 		# multiproject
 		BSFIX_EXTRA_ARGS="${BSFIX_EXTRA_ARGS} -s ${JAVA_MAVEN_MULTIPROJECT_CLASSESPATH}"
-		for module in ${EMAVEN_PROJECTS};do
+		for module in ${JAVA_MAVEN_PROJECTS};do
 			einfo "Compiling module: ${module}"
 			pushd "${module}" >> /dev/null || die
 			[[ -f build.xml ]] && java-ant_bsfix_files build.xml
@@ -232,7 +249,7 @@ java-maven-2_src_compile_from_build_xml() {
 		done
 	fi
 
-	if [[ -z "${EMAVEN_PROJECTS}" ]];then
+	if [[ -z "${JAVA_MAVEN_PROJECTS}" ]];then
 		[[ -f build.xml ]] && java-ant_bsfix_files build.xml
 		java-pkg-2_src_compile
 	fi
@@ -240,7 +257,8 @@ java-maven-2_src_compile_from_build_xml() {
 }
 
 java-maven-2_src_compile() {
-	if [[ -n "${JAVA_MAVEN_EANT_BUILD}" ]]; then
+	einfo "Building with ${JAVA_MAVEN_BUILD_SYSTEM}"
+	if [[  ${JAVA_MAVEN_BUILD_SYSTEM} == "eant" ]]; then
 		java-maven-2_src_compile_from_build_xml
 	fi
 }
@@ -292,9 +310,9 @@ java-maven-2_get_name() {
 	local pom="$(java-maven-2_verify_pom ${1})"
 	local name="" maven_artifact="" maven_version=""
 	if [[ -f ${pom} ]];then
-		maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${pom})
+		maven_artifact=$(${JAVA_MAVEN_POM_HELPER}  -a -f ${pom})
 		maven_artifact="${maven_artifact//*:}"
-		maven_version=$(${MAVEN_POM_HELPER}   -v -f ${pom})
+		maven_version=$(${JAVA_MAVEN_POM_HELPER}   -v -f ${pom})
 		maven_version=${maven_version//*:/}
 		name=${maven_artifact}-${maven_version}
 	fi
@@ -307,11 +325,11 @@ java-maven-2_get_name() {
 java-maven-2_get_repo_dir() {
 	local pom="$(java-maven-2_verify_pom ${1})"
 	local maven_group="" maven_artifact="" maven_version=""
-	maven_group=$(${MAVEN_POM_HELPER}     -g -f ${pom})
+	maven_group=$(${JAVA_MAVEN_POM_HELPER}     -g -f ${pom})
 	maven_group="${maven_group//*:}"
-	maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${pom})
+	maven_artifact=$(${JAVA_MAVEN_POM_HELPER}  -a -f ${pom})
 	maven_artifact="${maven_artifact//*:}"
-	maven_version=$(${MAVEN_POM_HELPER}   -v -f ${pom})
+	maven_version=$(${JAVA_MAVEN_POM_HELPER}   -v -f ${pom})
 	maven_version=${maven_version//*:/}
 	# returning in our faked repository directory
 	echo "${JAVA_MAVEN_SYSTEM_REPOSITORY}/${maven_group//.//}/${maven_artifact}/${maven_version}"
@@ -344,7 +362,7 @@ java-maven-2_install_one() {
 			# install jar if existing
 			if [[ -f  target/${myjar} ]];then
 				# get a non versionnated name for our jar
-				maven_artifact=$(${MAVEN_POM_HELPER}  -a -f ${pom})
+				maven_artifact=$(${JAVA_MAVEN_POM_HELPER}  -a -f ${pom})
 				maven_artifact="${maven_artifact//*:}"
 				java-pkg_newjar target/${myjar} "${maven_artifact}.jar"
 			fi
@@ -387,8 +405,8 @@ java-maven-2_src_install() {
 	fi
 
 	# install all subprojects
-	if [[ -n "${EMAVEN_PROJECTS}" ]];then
-		for module in ${EMAVEN_PROJECTS};do
+	if [[ -n "${JAVA_MAVEN_PROJECTS}" ]];then
+		for module in ${JAVA_MAVEN_PROJECTS};do
 			pushd "${module}" >> /dev/null || die
 			java-maven-2_install_one
 			popd >> /dev/null || die
