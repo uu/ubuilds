@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DESCRIPTION="The Wagon API project defines a simple API for transfering resources (artifacts) to and from repositories"
