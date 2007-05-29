@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DESCRIPTION="The Plexus project provides a full software stack for creating and executing software projects."
