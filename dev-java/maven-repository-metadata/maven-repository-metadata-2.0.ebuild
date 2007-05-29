@@ -4,6 +4,7 @@
 
 JAVA_PKG_IUSE="source" #no javadoc target
 IS_MODELLO_EBUILD="y"
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DESCRIPTION="Maven is a software project management and comprehension tool."
