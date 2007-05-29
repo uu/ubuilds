@@ -3,6 +3,7 @@
 # $Header: $
 
 JAVA_PKG_IUSE="source"
+JAVA_MAVEN_BOOTSTRAP="Y"
 
 inherit java-pkg-2 java-maven-2
 
