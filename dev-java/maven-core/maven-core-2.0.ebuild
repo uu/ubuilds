@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-utils-2 java-maven-2
 
 MY_PN=maven
