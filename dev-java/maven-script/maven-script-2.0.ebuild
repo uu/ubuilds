@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DESCRIPTION="Maven is a software project management and comprehension tool."
