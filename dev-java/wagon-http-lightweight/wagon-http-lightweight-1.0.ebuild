@@ -4,6 +4,7 @@
 
 JAVA_PKG_IUSE="source doc"
 
+JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
 DESCRIPTION="The Wagon API project defines a simple API for transfering resources (artifacts) to and from repositories"
