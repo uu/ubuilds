@@ -3,6 +3,9 @@
 # $Header: $
 
   29 May 2007; kiorky <kiorky@cryptelium.net> doxia-1.0.ebuild:
+  renaming EMAVEN_PROJECTS
+
+  29 May 2007; kiorky <kiorky@cryptelium.net> doxia-1.0.ebuild:
   Adding maven bootstrap flag
 
   01 May 2007; kiorky <kiorky@cryptelium.net> +doxia-1.0.ebuild,

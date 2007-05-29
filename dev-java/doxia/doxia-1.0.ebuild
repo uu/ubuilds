@@ -38,7 +38,7 @@ velocity
 #  doxia-core     for tkwiki
 #  doxia-decoration-model for siterdr
 #  doxia-core for siterdr
-EMAVEN_PROJECTS="doxia-sink-api doxia-core doxia-decoration-model doxia-site-renderer doxia-modules/doxia-module-confluence doxia-modules/doxia-module-docbook-simple doxia-modules/doxia-module-twiki"
+JAVA_MAVEN_PROJECTS="doxia-sink-api doxia-core doxia-decoration-model doxia-site-renderer doxia-modules/doxia-module-confluence doxia-modules/doxia-module-docbook-simple doxia-modules/doxia-module-twiki"
 
 src_unpack(){
 	java-maven-2_src_unpack
