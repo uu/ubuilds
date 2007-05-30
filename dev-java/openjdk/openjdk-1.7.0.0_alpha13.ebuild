@@ -139,7 +139,7 @@ src_install() {
 	find "${ddest}" -type f -exec chmod 644 {} +
 	find "${ddest}" -type d -exec chmod 755 {} +
 	chmod 755 ${ddest}/bin/* \
-		${ddest}/jre/bin* \
+		${ddest}/jre/bin/* \
 		${ddest}/jre/lib/*/*.{so,cfg} \
 		${ddest}/jre/lib/*/*/*.so \
 		${ddest}/jre/lib/jexec \
