@@ -1,0 +1,10 @@
+# ChangeLog for dev-java/ant-ivy
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  01 Jun 2007; Vlastimil Babka <caster@gentoo.org> +ant-ivy-1.4.1.ebuild:
+  Version bump, bug #180326. Registers as split-ant ant task instead of
+  symlink to ant-core/lib. New examples USE flag. Problems: javadoc target
+  fails, tests fail so it's restricted, webdav support removed because of
+  missing deps.
+
