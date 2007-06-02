@@ -18,7 +18,7 @@ DEP="=dev-java/classworlds-1.1*"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
-EANT_GENTOO_CLASSPATH="classworlds-1.1"
+JAVA_MAVEN_CLASSPATH="classworlds-1.1"
 
 JAVA_PKG_SRC_DIRS="src/main/java/*"
 RESTRICT="test" #until at least it works
