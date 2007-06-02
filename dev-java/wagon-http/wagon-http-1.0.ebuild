@@ -26,7 +26,7 @@ dev-java/commons-lang
 =dev-java/commons-httpclient-2*"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="jtidy
+JAVA_MAVEN_CLASSPATH="jtidy
 wagon-provider-api
 plexus-utils
 plexus-container-default-1.0_alpha9
