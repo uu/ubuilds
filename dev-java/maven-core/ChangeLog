@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  02 Jun 2007; kiorky <kiorky@cryptelium.net>
+  maven-core-2.0_pre20070530.ebuild:
+  slot correction
+
   02 Jun 2007; kiorky <kiorky@cryptelium.net> ChangeLog:
   slot correction
 

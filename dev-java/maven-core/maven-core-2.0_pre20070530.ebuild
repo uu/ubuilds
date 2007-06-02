@@ -42,7 +42,7 @@ source? ( app-arch/zip )"
 RDEPEND=">=virtual/jre-1.4 ${DEPS}"
 KEYWORDS="~x86"
 IUSE="doc source"
-SLOT="2"
+SLOT="0"
 EANT_GENTOO_CLASSPATH="
 classworlds-1.1
 commons-cli-1
