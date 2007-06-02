@@ -17,7 +17,7 @@ HOMEPAGE="http://maven.apache.org"
 DEP="dev-java/jtidy dev-java/wagon-provider-api dev-java/plexus-utils"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="jtidy wagon-provider-api plexus-utils"
+JAVA_MAVEN_CLASSPATH="jtidy wagon-provider-api plexus-utils"
 
 RESTRICT=test
 JAVA_PKG_SRC_DIRS="src/main/java/*"
