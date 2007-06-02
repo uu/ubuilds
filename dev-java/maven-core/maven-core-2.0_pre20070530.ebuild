@@ -43,7 +43,7 @@ RDEPEND=">=virtual/jre-1.4 ${DEPS}"
 KEYWORDS="~x86"
 IUSE="doc source"
 SLOT="0"
-EANT_GENTOO_CLASSPATH="
+JAVA_MAVEN_CLASSPATH="
 classworlds-1.1
 commons-cli-1
 commons-lang-2.1
@@ -72,14 +72,8 @@ maven-repository-metadata
 maven-settings
 "
 
-#JAVA_MAVEN_PATCHES="${FILESDIR}/addsystemclasspath.patch"
-
-
-#S="${WORKDIR}/${PF}"
-
 src_unpack() {
 	java-maven-2_src_unpack
-#	epatch "${FILESDIR}/MavenCli.java.diff"
 	mkdir -p "${S}/src/main/resources" || die
 	cp "${FILESDIR}/pom.properties" "${S}/src/main/resources" || die
 }
@@ -92,11 +86,8 @@ src_install() {
 	insinto "${JAVA_MAVEN_SYSTEM_HOME}"
 	doins  "${S}/src/conf/settings.xml"
 
-
 	# create plugins and systtem repository directories
 	keepdir "${JAVA_MAVEN_SYSTEM_PLUGINS}"
 	keepdir "${JAVA_MAVEN_SYSTEM_REPOSITORY}"
-
-
 }
 

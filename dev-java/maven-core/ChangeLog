@@ -4,6 +4,10 @@
 
   02 Jun 2007; kiorky <kiorky@cryptelium.net>
   maven-core-2.0_pre20070530.ebuild:
+  moving to JAVA_MAVEN_CLASSPATH
+
+  02 Jun 2007; kiorky <kiorky@cryptelium.net>
+  maven-core-2.0_pre20070530.ebuild:
   slot correction
 
   02 Jun 2007; kiorky <kiorky@cryptelium.net> ChangeLog:
