@@ -22,7 +22,7 @@ dev-java/bsh
 dev-java/plexus-utils"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="
+JAVA_MAVEN_CLASSPATH="
 maven-plugin-api
 classworlds-1.1
 plexus-classworlds
