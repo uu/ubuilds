@@ -25,7 +25,7 @@ DEPEND=">=virtual/jdk-1.4 	${DEP}"
 RDEPEND=">=virtual/jre-1.4	${DEP}"
 
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
-EANT_GENTOO_CLASSPATH="avalon-framework-4.1
+JAVA_MAVEN_CLASSPATH="avalon-framework-4.1
 plexus-container-default-1.0_alpha9
 xpp3
 plexus-utils"
