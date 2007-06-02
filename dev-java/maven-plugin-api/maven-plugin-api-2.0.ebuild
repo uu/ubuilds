@@ -16,6 +16,6 @@ IUSE=""
 DEP="dev-java/junit"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="junit"
+JAVA_MAVEN_CLASSPATH="junit"
 
 JAVA_PKG_SRC_DIRS="src/main/java/*"
