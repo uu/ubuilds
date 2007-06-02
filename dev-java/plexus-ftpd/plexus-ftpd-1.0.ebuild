@@ -31,7 +31,7 @@ DEPEND=">=virtual/jdk-1.4 	${DEP}"
 RDEPEND=">=virtual/jre-1.4	${DEP}"
 
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
-EANT_GENTOO_CLASSPATH="jetty-5
+JAVA_MAVEN_CLASSPATH="jetty-5
 tomcat-jasper-2
 plexus-component-api
 plexus-avalon-personality
