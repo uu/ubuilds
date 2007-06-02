@@ -20,5 +20,5 @@ dev-java/wagon-ssh-common
 dev-java/junit"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-utils plexus-container-default-1.0_alpha9 wagon-provider-api wagon-ssh-common junit"
+JAVA_MAVEN_CLASSPATH="plexus-utils plexus-container-default-1.0_alpha9 wagon-provider-api wagon-ssh-common junit"
 
