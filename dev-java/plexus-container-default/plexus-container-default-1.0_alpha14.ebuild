@@ -18,7 +18,7 @@ dev-java/junit
 =dev-java/plexus-component-api-1.0_alpha14"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="
+JAVA_MAVEN_CLASSPATH="
 plexus-classworlds
 plexus-utils
 junit
