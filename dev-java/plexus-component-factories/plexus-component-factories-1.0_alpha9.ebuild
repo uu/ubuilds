@@ -20,7 +20,7 @@ dev-java/bsh
 dev-java/plexus-classworlds"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="
+JAVA_MAVEN_CLASSPATH="
 plexus-container-default-1.0_alpha14
 plexus-component-api-1.0_alpha14
 ant-core
