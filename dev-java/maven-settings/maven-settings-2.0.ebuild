@@ -18,7 +18,7 @@ IUSE=""
 DEP="dev-java/maven-model dev-java/plexus-utils =dev-java/plexus-container-default-1.0_alpha9"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="maven-model plexus-utils plexus-container-default-1.0_alpha9"
+JAVA_MAVEN_CLASSPATH="maven-model plexus-utils plexus-container-default-1.0_alpha9"
 
 RESTRICT=test
 JAVA_PKG_SRC_DIRS="src/main/java/*"
