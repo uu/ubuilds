@@ -31,9 +31,9 @@ RDEPEND=">=dev-java/javatoolkit-0.2.0-r3"
 # list of java source directories and add "doc" and
 # "source" uses in IUSE.
 
-if [[ -n ${JAVA_MAVEN_BUILD_SYSTEM} ]];then
+if [[ -n ${JAVA_MAVEN_BUILD_SYSTEM} ]]; then
 	if [[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "eant" ]] && \
-		[[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "maven" ]];then
+		[[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "maven" ]]; then
 		die "Please choose between eant or maven build system."
 	fi
 fi
@@ -47,10 +47,11 @@ fi
 [[ -n ${JAVA_MAVEN_BOOTSTRAP} ]] && JAVA_MAVEN_BUILD_SYSTEM="eant"
 
 # grab maven dependency
-if [[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "eant"  ]];then
-	DEPEND="${DEPEND} =dev-java/maven-2*"
-	RDEPEND="${RDEPEND} =dev-java/maven-2*"
-fi 
+if [[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "eant"  ]]; then
+	local  ECLASS_DEP="dev-java/gentoo-void-jar  =dev-java/maven-2*"
+	DEPEND="${DEPEND} ${ECLASS_DEP}"
+	RDEPEND="${RDEPEND} ${ECLASS_DEP}"
+fi
 
 # SPECIFIC TO MODELLO BASED EBUILDS
 # used to facilitate modello plugin integration
@@ -58,7 +59,7 @@ fi
 #   to fit in subdirs of src/main/java
 # - name the tarball ${PN}-gen-src-${PV}.tar.bz2
 
-if [[ -n ${IS_MODELLO_EBUILD} ]];then
+if [[ -n ${IS_MODELLO_EBUILD} ]]; then
 	MVN_MOD_GEN_SRC="${PN}-gen-src-${PV}.tar.bz2"
 	BASE_URL="http://dev.gentooexperimental.org/~kiorky"
 	SRC_URI="${BASE_URL}/${P}.tar.bz2 ${BASE_URL}/${MVN_MOD_GEN_SRC} ${SRC_URI}"
@@ -112,24 +113,56 @@ POM_XML="pom.xml"
 JAVA_MAVEN_PATCHES=""
 
 # classpath for build with maven
-JAVA_MAVEN_CLASSPATH="."
+# same construction as ANT 's one
+JAVA_MAVEN_CLASSPATH=".:"
 
+
+# maven launcher function
+# first, we rewrite pom.xml release-pom.xml in the current dir
+# and in parent dir if this is a child pom.
+# Please do not put in extra args  some -f arg as we rewrite
+# poms not to use maven dependencies.
+# Goal is to feed maven with our classpath, set source/target versions
+# and desactivate its own dependencies.
+# Also, use profile with caution for the same reason !
 emaven() {
-	local gcp="${JAVA_MAVEN_CLASSPATH}"
-	local cp
+	local want_source="$(java-pkg_get-source)"
+	local want_target="$(java-pkg_get-target)"
+	local gcp="" poms="pom.xml release-pom.xml"
 
-	for atom in ${gcp}; do
-		cp="${cp}:$(java-pkg_getjars ${atom})"
+	for atom in ${JAVA_MAVEN_CLASSPATH}; do
+		gcp="${gcp}:$(java-pkg_getjars ${atom})"
 	done
 
-	local 	maven_flags="${maven_flags} -Dmaven.plugin.dir=${JAVA_MAVEN_BUILD_PLUGINS}"
-	maven_flags="${maven_flags} -Dmaven.home.local=${JAVA_MAVEN_BUILD_HOME}"
-	maven_flags="${maven_flags} -Dmaven.repo.local=${JAVA_MAVEN_BUILD_REPO}"
-	maven_flags="${maven_flags} -DsystemClasspath${cp}"
+	# make maven knows we call it from portage
+	local maven_flags="fromportage"
 
-	# TODO launch with scope system and systemClasspath set
-	# launching (offline mode, we dont get anything !)
-	${JAVA_MAVEN_EXEC} ${maven_flags} "-o $@" || die "maven failed"
+	# rewrite poms to be portage friendly :p
+	for i in . ..; do
+		for pom in ${poms};do
+			local current_pom="${i}/${pom}"
+			if [[ -f "${current_pom}" ]];then
+				cp -f "${current_pom}" "${current_pom}.sav" || die
+				einfo "Rewriting ${current_pom}"
+				${JAVA_MAVEN_POM_HELPER} -r \
+				-c "${gcp}" \
+				-s "${want_source}" \
+				-t "${want_target}" \
+				-f "${current_pom}" || die "failed rewriting ${current_pom}"
+			fi
+		done
+	done
+
+	# finnaly launch maven
+	${JAVA_MAVEN_EXEC} ${maven_flags} "${@}" || die "maven failed"
+
+	# restore poms
+	for i in . ..; do
+		for pom in ${poms};do
+			local current_pom="${i}/${pom}"
+			[[ -f "${current_pom}.sav" ]] && cp -f "${current_pom}.sav"	"${current_pom}" || die
+		done
+	done
 }
 
 # in case we re using maven1, we will need to generate
@@ -146,13 +179,13 @@ java-maven-2-gen_build_xml() {
 
 # take a list of patch as arguments
 java-maven-2_src_unpack() {
-	if  ! has_version ">=dev-java/javatoolkit-0.2.0-r2";then
+	if  ! has_version ">=dev-java/javatoolkit-0.2.0-r2"; then
 		die "please upgrade to at least dev-java/javatoolkit-0.2.0-r2"
 	fi
 	base_src_unpack
 
 	# patch if neccessary
-	if [[ -n "${JAVA_MAVEN_PATCHES}" ]];then
+	if [[ -n "${JAVA_MAVEN_PATCHES}" ]]; then
 		for i in ${JAVA_MAVEN_PATCHES};do
 			[[ -f "${i}" ]] && epatch ${i}
 		done
@@ -162,12 +195,12 @@ java-maven-2_src_unpack() {
 	# then we rewrite them, see the rewrite function
 	if [[ ${JAVA_MAVEN_BUILD_SYSTEM} == "eant" ]]; then
 		# if present using specific build.xml
-		if [[ -f "${FILESDIR}/build-${PV}.xml" ]];then
+		if [[ -f "${FILESDIR}/build-${PV}.xml" ]]; then
 			cp "${FILESDIR}/build-${PV}.xml" "${S}/build.xml" || die
 		fi
 		# specific to modello based ebuild
 		# eventually copy build.xml from filesdir then unpack pre-generated sources.
-		if [[ -n ${IS_MODELLO_EBUILD} ]];then
+		if [[ -n ${IS_MODELLO_EBUILD} ]]; then
 			mkdir -p "${S}/src/main/java" || die
 			cd "${S}/src/main/java" || die
 			unpack "${MVN_MOD_GEN_SRC}"
@@ -176,7 +209,7 @@ java-maven-2_src_unpack() {
 			pushd "$(dirname ${build} || die )" > /dev/null || die
 			# make specials dir and put generated stuff in there
 			local maven_group="" maven_artifact="" maven_version="" maven_dest_dir=""
-			if [[ -f ${POM_XML} ]];then
+			if [[ -f ${POM_XML} ]]; then
 				maven_group=$(${JAVA_MAVEN_POM_HELPER}     -g -f ${POM_XML})
 				maven_group="${maven_group//*:/}"
 				maven_artifact=$(${JAVA_MAVEN_POM_HELPER}  -a -f ${POM_XML})
@@ -203,7 +236,7 @@ java-maven-2_src_unpack() {
 	# in a non-standart place, in this case
 	# please use JAVA_ANT_JAVADOC_INPUT_DIRS directly
 	for project in ${JAVA_MAVEN_PROJECTS} ./;do
-		if [[ -d "${S}/${project}/${JAVA_MAVEN_SOURCES}/java" ]];then
+		if [[ -d "${S}/${project}/${JAVA_MAVEN_SOURCES}/java" ]]; then
 			JAVA_MAVEN_SRC_DIRS="${JAVA_MAVEN_SRC_DIRS} ${S}/${project//.\//}/${JAVA_MAVEN_SOURCES}/java"
 		fi
 	done
@@ -214,7 +247,7 @@ java-maven-2_src_unpack() {
 
 	# create temporary class output for classpath and interdeps
 	# for multi project based maven ebuilds.
-	if [[ -n "${JAVA_MAVEN_PROJECTS}" ]];then
+	if [[ -n "${JAVA_MAVEN_PROJECTS}" ]]; then
 		mkdir -p "${JAVA_MAVEN_MULTIPROJECT_CLASSESPATH}" || die
 	fi
 
@@ -228,14 +261,14 @@ java-maven-2_src_compile_from_build_xml() {
 
 	# remove maven predefined depends to let us control the build
 	# steps (order, and not use external jars)
-	BSFIX_EXTRA_ARGS="${BSFIX_EXTRA_ARGS} --maven-cleaning"
+	JAVA_ANT_BSFIX_EXTRA_ARGS="${JAVA_ANT_BSFIX_EXTRA_ARGS} --maven-cleaning"
 
 
 	# javadoc is controlled as in ant builds, see ant eclass.
-	if [[ -n ${JAVA_MAVEN_PROJECTS} ]];then
+	if [[ -n ${JAVA_MAVEN_PROJECTS} ]]; then
 		# use our own classpath and append it tempory classes path in case of maven
 		# multiproject
-		BSFIX_EXTRA_ARGS="${BSFIX_EXTRA_ARGS} -s ${JAVA_MAVEN_MULTIPROJECT_CLASSESPATH}"
+		JAVA_ANT_BSFIX_EXTRA_ARGS="${JAVA_ANT_BSFIX_EXTRA_ARGS} -s ${JAVA_MAVEN_MULTIPROJECT_CLASSESPATH}"
 		for module in ${JAVA_MAVEN_PROJECTS};do
 			einfo "Compiling module: ${module}"
 			pushd "${module}" >> /dev/null || die
@@ -250,7 +283,7 @@ java-maven-2_src_compile_from_build_xml() {
 		done
 	fi
 
-	if [[ -z "${JAVA_MAVEN_PROJECTS}" ]];then
+	if [[ -z "${JAVA_MAVEN_PROJECTS}" ]]; then
 		[[ -f build.xml ]] && java-ant_bsfix_files build.xml
 		java-pkg-2_src_compile
 	fi
@@ -271,7 +304,7 @@ java-maven-2_src_compile() {
 
 # do md5sum and sha1sum of a specified file in maven format
 java-maven-2_do_sig() {
-	if [[ -f ${1} ]];then
+	if [[ -f ${1} ]]; then
 		local input_file=$(basename $1)
 		md5sum  ${1} | awk '{print $1}' > ${input_file}.md5
 		sha1sum ${1} | awk '{print $1}' > ${input_file}.sha1
@@ -299,7 +332,7 @@ java-maven-2_install_file_into_repo() {
 
 # if repositories are not created yet, create them
 java-maven-2_ensure_repo_exists() {
-	if [[ ! -d "${JAVA_MAVEN_SYSTEM_REPOSITORY}" ]];then
+	if [[ ! -d "${JAVA_MAVEN_SYSTEM_REPOSITORY}" ]]; then
 		keepdir "${JAVA_MAVEN_SYSTEM_HOME}"
 		keepdir "${JAVA_MAVEN_SYSTEM_PLUGINS}"
 		keepdir "${JAVA_MAVEN_SYSTEM_REPOSITORY}"
@@ -310,7 +343,7 @@ java-maven-2_ensure_repo_exists() {
 java-maven-2_get_name() {
 	local pom="$(java-maven-2_verify_pom ${1})"
 	local name="" maven_artifact="" maven_version=""
-	if [[ -f ${pom} ]];then
+	if [[ -f ${pom} ]]; then
 		maven_artifact=$(${JAVA_MAVEN_POM_HELPER}  -a -f ${pom})
 		maven_artifact="${maven_artifact//*:}"
 		maven_version=$(${JAVA_MAVEN_POM_HELPER}   -v -f ${pom})
@@ -357,23 +390,23 @@ java-maven-2_install_one() {
 
 	java-maven-2_ensure_repo_exists
 
-	if [[ -f ${pom} ]];then
-		if [[ -n ${rep_dir} ]];then
+	if [[ -f ${pom} ]]; then
+		if [[ -n ${rep_dir} ]]; then
 			dodir ${rep_dir}
 			# install jar if existing
-			if [[ -f  target/${myjar} ]];then
+			if [[ -f  target/${myjar} ]]; then
 				# get a non versionnated name for our jar
 				maven_artifact=$(${JAVA_MAVEN_POM_HELPER}  -a -f ${pom})
 				maven_artifact="${maven_artifact//*:}"
 				java-pkg_newjar target/${myjar} "${maven_artifact}.jar"
 			fi
-			if [[ -n ${maven_artifact} ]];then
+			if [[ -n ${maven_artifact} ]]; then
 				local pn_slot="${PN}"
-				if [[ ! ${SLOT} == "0" ]] && [[ ! -z ${SLOT} ]];then
+				if [[ ! ${SLOT} == "0" ]] && [[ ! -z ${SLOT} ]]; then
 					pn_slot="${PN}-${SLOT}"
 				fi
 				if [[ -f "${D}usr/share/${pn_slot}/lib/${maven_artifact}.jar" ]] \
-				   && [[ -f "target/${myjar}" ]];then
+				   && [[ -f "target/${myjar}" ]]; then
 					# symlink our jar in the maven repo
 					dosym \
 					"/usr/share/${pn_slot}/lib/${maven_artifact}.jar" \
@@ -406,7 +439,7 @@ java-maven-2_src_install() {
 	fi
 
 	# install all subprojects
-	if [[ -n "${JAVA_MAVEN_PROJECTS}" ]];then
+	if [[ -n "${JAVA_MAVEN_PROJECTS}" ]]; then
 		for module in ${JAVA_MAVEN_PROJECTS};do
 			pushd "${module}" >> /dev/null || die
 			java-maven-2_install_one
