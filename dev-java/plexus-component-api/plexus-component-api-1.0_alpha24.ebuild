@@ -17,7 +17,7 @@ IUSE=""
 DEP="=dev-java/plexus-classworlds-1.2*"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-classworlds"
+JAVA_MAVEN_CLASSPATH="plexus-classworlds"
 
 RESTRICT=test
 
