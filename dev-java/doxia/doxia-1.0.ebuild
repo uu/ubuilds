@@ -24,7 +24,7 @@ dev-java/plexus-velocity"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 
-EANT_GENTOO_CLASSPATH="
+JAVA_MAVEN_CLASSPATH="
 plexus-container-default-1.0_alpha9
 plexus-utils
 jakarta-oro-2.0
