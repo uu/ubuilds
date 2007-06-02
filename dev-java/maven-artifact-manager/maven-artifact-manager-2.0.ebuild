@@ -23,7 +23,7 @@ dev-java/wagon-provider-api"
 #for tests only dev-java/easymock
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="maven-artifact
+JAVA_MAVEN_CLASSPATH="maven-artifact
 maven-repository-metadata
 plexus-container-default-1.0_alpha9
 classworlds-1.1
