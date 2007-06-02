@@ -18,7 +18,7 @@ dev-java/commons-collections
 dev-java/plexus-component-api"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="velocity
+JAVA_MAVEN_CLASSPATH="velocity
 plexus-container-default
 plexus-component-api
 commons-collections"
