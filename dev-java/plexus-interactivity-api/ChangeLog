@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  02 Jun 2007; kiorky <kiorky@cryptelium.net>
+  plexus-interactivity-api-1.0.ebuild:
+  moving to JAVA_MAVEN_CLASSPATH
+
   29 May 2007; kiorky <kiorky@cryptelium.net>
   plexus-interactivity-api-1.0.ebuild:
   Adding maven bootstrap flag

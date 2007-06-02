@@ -17,5 +17,5 @@ DEP="dev-java/plexus-component-api
 	dev-java/plexus-velocity"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-utils plexus-velocity plexus-component-api"
+JAVA_MAVEN_CLASSPATH="plexus-utils plexus-velocity plexus-component-api"
 
