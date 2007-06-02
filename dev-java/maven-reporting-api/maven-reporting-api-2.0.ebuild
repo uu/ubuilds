@@ -16,6 +16,6 @@ DEP="dev-java/doxia"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 
-EANT_GENTOO_CLASSPATH="doxia"
+JAVA_MAVEN_CLASSPATH="doxia"
 
 
