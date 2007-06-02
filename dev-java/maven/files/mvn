@@ -20,7 +20,7 @@ if [[ ${1} == "fromportage" ]];then
 	-Dmaven.repo.local=__MAVENHOME__/gentoo-repo \
 	org.codehaus.classworlds.Launcher \
 	-o  ${@} # OFFLINE MODE !
-elif [[ $(id -u) == "0" ]];then 
+elif [[ $(id -u) == "0" ]];then
 	# as root and not from portage, use local repo and online mode
 	if [[ ! -d "__MAVENROOT__" ]];then
 		mkdir -p "__MAVENROOT__" || die
@@ -38,6 +38,7 @@ elif [[ $(id -u) == "0" ]];then
 	-Dmaven.repo.remote=__MAVENROOT__/gentoo-repo \
 	-Dmaven.repo.local=__MAVENROOT__/gentoo-repo \
 	org.codehaus.classworlds.Launcher \
+	${@}
 else
 	# do everything as user
 	"${java_cmd}" \
