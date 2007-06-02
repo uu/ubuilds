@@ -19,5 +19,5 @@ DEP="dev-java/plexus-utils
 	dev-java/wagon-ssh-common-test"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-utils wagon-ssh-common wagon-ssh-common-test wagon-provider-api"
+JAVA_MAVEN_CLASSPATH="plexus-utils wagon-ssh-common wagon-ssh-common-test wagon-provider-api"
 
