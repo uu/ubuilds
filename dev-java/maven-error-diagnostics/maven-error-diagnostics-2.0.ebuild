@@ -16,5 +16,5 @@ IUSE=""
 DEP="=dev-java/plexus-container-default-1.0_alpha9"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-container-default-1.0_alpha9"
+JAVA_MAVEN_CLASSPATH="plexus-container-default-1.0_alpha9"
 
