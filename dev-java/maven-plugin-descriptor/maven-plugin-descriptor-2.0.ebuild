@@ -21,7 +21,7 @@ dev-java/plexus-utils
 dev-java/xpp3"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="maven-artifact
+JAVA_MAVEN_CLASSPATH="maven-artifact
 maven-plugin-api
 plexus-container-default-1.0_alpha9
 classworlds-1.1
