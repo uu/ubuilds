@@ -3,6 +3,10 @@
 # $Header: $
 
   02 Jun 2007; kiorky <kiorky@cryptelium.net>
+  maven-project-2.0_pre20070529.ebuild:
+  moving to JAVA_MAVEN_CLASSPATH
+
+  02 Jun 2007; kiorky <kiorky@cryptelium.net>
   +maven-project-2.0_pre20070529.ebuild, -maven-project-2.0.ebuild, +digest,
   +files/cp.patch:
   bump to 2.0_pre20070530

@@ -27,7 +27,7 @@ dev-java/maven-repository-metadata
 dev-java/plexus-utils"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="maven-artifact
+JAVA_MAVEN_CLASSPATH="maven-artifact
 maven-artifact-manager
 maven-artifact-test
 wagon-provider-api
