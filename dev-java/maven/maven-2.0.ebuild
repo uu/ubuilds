@@ -9,7 +9,7 @@ DESCRIPTION="The core of Maven"
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
 DEPS="=dev-java/maven-script-${PV}*
-=dev-java/maven-core-${PV}*
+dev-java/maven-core
 dev-java/maven-artifact
 dev-java/maven-artifact-manager
 dev-java/maven-artifact-test
