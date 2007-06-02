@@ -40,3 +40,6 @@ plexus-container-default-1.0_alpha9
 plexus-utils"
 
 JAVA_PKG_SRC_DIRS="src/main/java/*"
+#JAVA_MAVEN_PATCHES="${FILESDIR}/cp.patch"
+
+
