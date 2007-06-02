@@ -72,6 +72,9 @@ maven-repository-metadata
 maven-settings
 "
 
+#JAVA_MAVEN_PATCHES="${FILESDIR}/addsystemclasspath.patch"
+
+
 #S="${WORKDIR}/${PF}"
 
 src_unpack() {

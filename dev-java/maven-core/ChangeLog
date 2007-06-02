@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  02 Jun 2007; kiorky <kiorky@cryptelium.net>
+  +maven-core-2.0_pre20070530.ebuild, -maven-core-2.0.ebuild,
+  +files/addsystemclasspath.patch:
+  bump to 2.0_pre20070530
+
   29 May 2007; kiorky <kiorky@cryptelium.net> maven-core-2.0.ebuild:
   Adding maven bootstrap flag
 
