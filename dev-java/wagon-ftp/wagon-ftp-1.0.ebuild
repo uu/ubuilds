@@ -20,7 +20,7 @@ DEP="dev-java/plexus-utils
 	dev-java/wagon-provider-api"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-utils
+JAVA_MAVEN_CLASSPATH="plexus-utils
 	wagon-provider-api
 	xml-commons
 	commons-net
