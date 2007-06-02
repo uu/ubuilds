@@ -16,7 +16,7 @@ IUSE=""
 DEP="dev-java/plexus-utils"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-EANT_GENTOO_CLASSPATH="plexus-utils"
+JAVA_MAVEN_CLASSPATH="plexus-utils"
 
 JAVA_PKG_SRC_DIRS="src/main/java/"
 RESTRICT="test"
