@@ -20,7 +20,7 @@ DEP="=www-servers/jetty-5* dev-java/tomcat-jasper dev-java/plexus-component-api"
 DEPEND=">=virtual/jdk-1.4 	${DEP}"
 RDEPEND=">=virtual/jre-1.4	${DEP}"
 
-EANT_GENTOO_CLASSPATH="jetty-5 tomcat-jasper-2 plexus-component-api"
+JAVA_MAVEN_CLASSPATH="jetty-5 tomcat-jasper-2 plexus-component-api"
 
 src_unpack(){
 	java-maven-2_src_unpack
