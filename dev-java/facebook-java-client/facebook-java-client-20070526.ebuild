@@ -14,6 +14,7 @@ DOWNLOAD_URI="http://developers.facebook.com/clientlibs/facebook_java_client.zip
 
 LICENSE="GPL-2" #Don't know the license exactly.
 KEYWORDS="~x86"
+SLOT="0"
 IUSE="examples"
 
 RESTRICT="fetch"
@@ -62,7 +63,7 @@ src_compile() {
 
 src_install() {
 	java-pkg_dojar src/${PN}.jar
-	use source && java-pkg_dosrc src/
-	use examples && java-pkg_doexamples examples/
+	use source && java-pkg_dosrc src/*
+	use examples && java-pkg_doexamples examples/*
 	dodoc README CHANGELOG
 }
