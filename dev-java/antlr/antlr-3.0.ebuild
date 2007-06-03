@@ -14,7 +14,7 @@ SLOT="3"
 KEYWORDS=""
 IUSE="test"
 # operates in /tmp and some tests fail
-RESTRICT="test"
+#RESTRICT="test"
 
 CDEPEND="dev-java/stringtemplate
 	 =dev-java/antlr-2*"
