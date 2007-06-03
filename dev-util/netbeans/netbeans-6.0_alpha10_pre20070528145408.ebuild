@@ -39,6 +39,7 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 	)
 	ide? (
+		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-classfile-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
@@ -49,6 +50,7 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-httpserver-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-image-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-java-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-javacvs-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-lexer-${MY_PV}.tar.bz2
@@ -92,7 +94,6 @@ SRC_URI="
 	)
 	nb? (
 		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
 	)
 	profiler? (
 		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
@@ -121,11 +122,14 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-visualweb-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
+	)
+	xml? (
+		${SOURCE_SITE}/${PN}-uml-${MY_PV}.tar.bz2
 	)"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="apisupport debug doc harness ide j2ee java mobility nb profiler ruby soa testtools uml visualweb"
+IUSE="apisupport debug doc harness ide j2ee java mobility nb profiler ruby soa testtools uml visualweb xml"
 
 #COMMON_DEPEND="
 #	>=dev-java/ant-1.7.0
@@ -224,6 +228,7 @@ DEPEND="=virtual/jdk-1.5*
 	ide? (
 		dev-java/insanelib
 		>=dev-java/jsch-0.1.24
+		>=dev-java/xerces-2.9.0
 	)
 	testtools? ( >=dev-java/ant-trax-1.7.0 )
 	visualweb? ( >=dev-java/xerces-2.9.0 )
@@ -274,8 +279,8 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use soa && ( ! use ide || ! use java || ! use j2ee ) ; then
-		eerror "'soa' USE flag requires 'ide', 'java' and 'j2ee' USE flags"
+	if use soa && ( ! use ide || ! use java || ! use j2ee || ! use xml ) ; then
+		eerror "'soa' USE flag requires 'ide', 'java', 'j2ee' and 'xml' USE flags"
 		exit 1
 	fi
 
@@ -291,6 +296,11 @@ pkg_setup() {
 
 	if use visualweb && ( ! use ide || ! use java || ! use j2ee ) ; then
 		eerror "'visualweb' USE flag requires 'ide', 'java' and 'j2ee' USE flags"
+		exit 1
+	fi
+
+	if use xml && ( ! use ide || ! use java ) ; then
+		eerror "'xml' USE flag requires 'ide' and 'java' USE flags"
 		exit 1
 	fi
 
@@ -341,6 +351,7 @@ src_compile() {
 	use testtools && clusters="${clusters},nb.cluster.testtools"
 	use uml && clusters="${clusters},nb.cluster.uml"
 	use visualweb && clusters="${clusters},nb.cluster.visualweb"
+	use xml && clusters="${clusters},nb.cluster.xml"
 
 	# Fails to compile
 	java-pkg_filter-compiler ecj-3.1 ecj-3.2
@@ -487,7 +498,7 @@ place_unpack_symlinks() {
 	#java-pkg_jar-from --build-only rome rome.jar rome-fetcher-0.6.jar
 	#java-pkg_jar-from --build-only rome rome.jar rome-0.6.jar
 	cd ${S}/apisupport/timers/external
-	java-pkg_jar-from --build-only insanelib
+	use ide && java-pkg_jar-from --build-only insanelib
 
 	einfo "Symlinking jars for core"
 	cd ${S}/core/external
@@ -531,12 +542,12 @@ place_unpack_symlinks() {
 	#java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
 	#java-pkg_jar-from --build-only ical4j
 	#java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.2.jar
-	java-pkg_jar-from --build-only jsch jsch.jar jsch-0.1.24.jar
+	use ide && java-pkg_jar-from --build-only jsch jsch.jar jsch-0.1.24.jar
 	#jsr223-api.jar
 	#java-pkg_jar-from --build-only pmd pmd.jar pmd-1.3.jar
 	java-pkg_jar-from --build-only swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
 	#java-pkg_jar-from --build-only xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
-	#java-pkg_jar-from --build-only xerces-2 xercesImpl.jar xerces-2.8.0.jar
+	use ide && java-pkg_jar-from --build-only xerces-2 xercesImpl.jar xerces-2.8.0.jar
 
 	#if use mobility ; then
 	#	einfo "Symlinking jars for mobility"

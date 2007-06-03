@@ -2,6 +2,14 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070519031150.ebuild, +files/5.5.1,
+  +files/5.5.1/jdbcstorage-build.xml-comments.patch,
+  +files/5.5.1/jspparser-build.xml.patch, +netbeans-5.5.1.ebuild,
+  +files/5.5.1/mdrant-build.xml-comments.patch, +files/5.5.1/startscript.sh,
+  +netbeans-6.0_alpha10_pre20070528145408.ebuild:
+  Added bump for version 5.5.1 with extra packs from binaries
+
   26 May 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_alpha10_pre20070519031150.ebuild:
   Now also 'harness' cluster is being built using unbundled stuff. Building of
