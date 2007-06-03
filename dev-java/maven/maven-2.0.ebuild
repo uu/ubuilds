@@ -44,9 +44,13 @@ dev-java/plexus-interactivity-api
 dev-java/plexus-avalon-personality
 =dev-java/plexus-container-default-1.0_alpha9*
 "
-DEPEND=">=virtual/jdk-1.4 ${DEPS}
+
+MAVEN_PLUGINS_DEPS="
+dev-java/maven-plugin-testing-harness
+"
+DEPEND=">=virtual/jdk-1.4 ${DEPS} ${MAVEN_PLUGINS_DEPS}
 source? ( app-arch/zip )"
-RDEPEND=">=virtual/jre-1.4 ${DEPS}"
+RDEPEND=">=virtual/jre-1.4 ${DEPS} ${MAVEN_PLUGINS_DEPS}"
 KEYWORDS="~x86"
 IUSE="doc source"
 SLOT="2"
@@ -55,7 +59,7 @@ MAVEN_UBERJAR_FAKE="
 maven-artifact
 maven-artifact-manager
 maven-artifact-test
-maven-core-2
+maven-core
 maven-error-diagnostics
 maven-model
 maven-monitor
