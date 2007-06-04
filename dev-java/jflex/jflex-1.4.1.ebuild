@@ -27,15 +27,15 @@ src_unpack() {
 	unpack "${P}.tar.gz"
 	cd "${S}/src"
 	epatch "${FILESDIR}/${P}-build.xml.patch"
-        rm -rf java_cup "${S}/lib/JFlex.jar"
+    rm -rf java_cup "${S}/lib/JFlex.jar"
 	mkdir "${S}/tools"
-	cp "${DISTDIR}/JFlex-${PV}.jar"  "${S}/tools/JFlex.jar"
+	cp "${DISTDIR}/JFlex-${PV}.jar" "${S}/tools/JFlex.jar"
 	java-ant_rewrite-classpath
 }
 
 src_compile() {
 	ANT_TASKS="javacup"
-        jflex_cp="$(java-pkg_getjars --build-only junit):$(java-pkg_getjars ant-core,javacup)"
+	jflex_cp="$(java-pkg_getjars --build-only junit):$(java-pkg_getjars ant-core,javacup)"
 	cd "${S}/src"
 	eant realclean
 	eant -Dgentoo.classpath="${jflex_cp}" jar
@@ -44,7 +44,7 @@ src_compile() {
 	cp "${S}/lib/JFlex.jar" "${S}/tools/" 
 
 	eant realclean
-        einfo "Recompiling using the newly generated JFlex library"
+	einfo "Recompiling using the newly generated JFlex library"
 	eant -Dgentoo.classpath="${jflex_cp}" jar
 }
 
