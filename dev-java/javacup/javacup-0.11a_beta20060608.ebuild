@@ -21,15 +21,16 @@ KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE="doc source"
 
 DEPEND=">=virtual/jdk-1.4
-        source? ( app-arch/zip )"
+		source? ( app-arch/zip )"
+
 RDEPEND=">=virtual/jre-1.4
 		>=dev-java/ant-core-1.7.0"
 
 src_unpack() {
-        unpack ${A}
-        cd ${S}
-        find . -name "*.class" -exec rm -f {} \;
-        java-ant_rewrite-classpath
+	unpack ${A}
+	cd ${S}
+	find . -name "*.class" -exec rm -f {} \;
+	java-ant_rewrite-classpath
 }
 
 src_compile() {
