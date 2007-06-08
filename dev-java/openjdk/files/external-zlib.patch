@@ -1,7 +1,7 @@
-Index: openjdk/j2se/make/com/sun/java/pack/Makefile
+Index: openjdk-b13/j2se/make/com/sun/java/pack/Makefile
 ===================================================================
---- openjdk.orig/j2se/make/com/sun/java/pack/Makefile
-+++ openjdk/j2se/make/com/sun/java/pack/Makefile
+--- openjdk-b13.orig/j2se/make/com/sun/java/pack/Makefile
++++ openjdk-b13/j2se/make/com/sun/java/pack/Makefile
 @@ -61,6 +61,10 @@ vpath %.cpp $(SHARE_SRC)/native/$(PKGDIR
  
  
@@ -22,10 +22,10 @@ Index: openjdk/j2se/make/com/sun/java/pack/Makefile
    OTHER_CXXFLAGS += $(ZINCLUDE)
    LDDFLAGS += $(ZIPOBJS)
  else
-Index: openjdk/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
+Index: openjdk-b13/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
 ===================================================================
---- openjdk.orig/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
-+++ openjdk/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
+--- openjdk-b13.orig/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
++++ openjdk-b13/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
 @@ -87,11 +87,13 @@ extern void assert_failed(const char*);
  // bytes and byte arrays
  
@@ -48,10 +48,10 @@ Index: openjdk/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
 +#ifdef EXTERNAL_ZLIB
 +# include <zconf.h>
 +#endif
-Index: openjdk/j2se/make/java/jli/Makefile
+Index: openjdk-b13/j2se/make/java/jli/Makefile
 ===================================================================
---- openjdk.orig/j2se/make/java/jli/Makefile
-+++ openjdk/j2se/make/java/jli/Makefile
+--- openjdk-b13.orig/j2se/make/java/jli/Makefile
++++ openjdk-b13/j2se/make/java/jli/Makefile
 @@ -56,15 +56,7 @@ FILES_c = \
  	$(CTARGDIR)parse_manifest.c \
  	$(CTARGDIR)version_comp.c \
@@ -99,10 +99,10 @@ Index: openjdk/j2se/make/java/jli/Makefile
  
  #
  # Library to compile.
-Index: openjdk/j2se/make/java/zip/FILES_c.gmk
+Index: openjdk-b13/j2se/make/java/zip/FILES_c.gmk
 ===================================================================
---- openjdk.orig/j2se/make/java/zip/FILES_c.gmk
-+++ openjdk/j2se/make/java/zip/FILES_c.gmk
+--- openjdk-b13.orig/j2se/make/java/zip/FILES_c.gmk
++++ openjdk-b13/j2se/make/java/zip/FILES_c.gmk
 @@ -33,7 +33,10 @@ FILES_c = \
  	$(CTARGDIR)Inflater.c \
  	$(CTARGDIR)ZipFile.c \
@@ -124,10 +124,10 @@ Index: openjdk/j2se/make/java/zip/FILES_c.gmk
 +	$(CTARGDIR)inffast.c
 +endif
 \ No newline at end of file
-Index: openjdk/j2se/make/java/zip/Makefile
+Index: openjdk-b13/j2se/make/java/zip/Makefile
 ===================================================================
---- openjdk.orig/j2se/make/java/zip/Makefile
-+++ openjdk/j2se/make/java/zip/Makefile
+--- openjdk-b13.orig/j2se/make/java/zip/Makefile
++++ openjdk-b13/j2se/make/java/zip/Makefile
 @@ -78,7 +78,6 @@ else
  CPPFLAGS += -UDEBUG 
  endif
@@ -145,70 +145,4 @@ Index: openjdk/j2se/make/java/zip/Makefile
 +  OTHER_LDLIBS += -lz
 +else
 +  CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-$(ZLIB_VERSION)
-+endif
-Index: openjdk/j2se/make/sun/splashscreen/FILES_c.gmk
-===================================================================
---- openjdk.orig/j2se/make/sun/splashscreen/FILES_c.gmk
-+++ openjdk/j2se/make/sun/splashscreen/FILES_c.gmk
-@@ -52,20 +52,6 @@ FILES_c = \
- 	$(CTARGDIR)dgif_lib.c \
- 	$(CTARGDIR)gif_err.c \
- 	$(CTARGDIR)gifalloc.c \
--	$(CTARGDIR)compress.c \
--	$(CTARGDIR)deflate.c \
--	$(CTARGDIR)gzio.c \
--	$(CTARGDIR)infblock.c \
--	$(CTARGDIR)infcodes.c \
--	$(CTARGDIR)inffast.c \
--	$(CTARGDIR)inflate.c \
--	$(CTARGDIR)inftrees.c \
--	$(CTARGDIR)infutil.c \
--	$(CTARGDIR)trees.c \
--	$(CTARGDIR)uncompr.c \
--	$(CTARGDIR)zadler32.c \
--	$(CTARGDIR)zcrc32.c \
--	$(CTARGDIR)zutil.c \
- 	$(CTARGDIR)jcomapi.c \
- 	$(CTARGDIR)jdapimin.c \
- 	$(CTARGDIR)jdapistd.c \
-@@ -111,3 +97,19 @@ FILES_c = \
- 	$(CTARGDIR)jfdctfst.c \
- 	$(CTARGDIR)jfdctint.c
- 
-+ifneq ($(EXTERNAL_ZLIB),true)
-+FILES_c += $(CTARGDIR)compress.c \
-+	$(CTARGDIR)deflate.c \
-+	$(CTARGDIR)gzio.c \
-+	$(CTARGDIR)infblock.c \
-+	$(CTARGDIR)infcodes.c \
-+	$(CTARGDIR)inffast.c \
-+	$(CTARGDIR)inflate.c \
-+	$(CTARGDIR)inftrees.c \
-+	$(CTARGDIR)infutil.c \
-+	$(CTARGDIR)trees.c \
-+	$(CTARGDIR)uncompr.c \
-+	$(CTARGDIR)zadler32.c \
-+	$(CTARGDIR)zcrc32.c \
-+	$(CTARGDIR)zutil.c
-+endif
-Index: openjdk/j2se/make/sun/splashscreen/Makefile
-===================================================================
---- openjdk.orig/j2se/make/sun/splashscreen/Makefile
-+++ openjdk/j2se/make/sun/splashscreen/Makefile
-@@ -83,9 +83,15 @@ vpath %.c   $(SHARE_SRC)/native/$(PKGDIR
- vpath %.c   $(PLATFORM_SRC)/native/$(PKGDIR)/splashscreen
- 
- CPPFLAGS += -I$(PLATFORM_SRC)/native/$(PKGDIR)/splashscreen -I$(SHARE_SRC)/native/$(PKGDIR)/splashscreen
--CPPFLAGS += -I$(SHARE_SRC)/native/$(PKGDIR)/image/jpeg -I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
-+CPPFLAGS += -I$(SHARE_SRC)/native/$(PKGDIR)/image/jpeg
- 
- #
- # Has been converted to the JNI: generate JNI-style header files
- #
- JAVAHFLAGS += -jni
-+
-+ifeq ($(EXTERNAL_ZLIB), true)
-+  OTHER_LDLIBS += -lz
-+else
-+  CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
 +endif

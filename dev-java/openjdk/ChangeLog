@@ -2,6 +2,14 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  08 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha13.ebuild, +files/cpuid-fomit-frame-pointer.patch,
+  files/external-zlib.patch, +files/external-zlib-splash.patch,
+  files/gettimeofday-declaration.patch, files/lesstif.patch:
+  Build and install platform javadocs with the doc use flag, enable user
+  CFLAGS over build system, update the zlib patches to be split in two and
+  make FULL_VERSION static so that ccache works properly.
+
   30 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha13.ebuild:
   Fix jre/bin executable permission marking.

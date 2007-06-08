@@ -1,5 +1,5 @@
---- j2se/make/common/shared/Sanity.gmk-orig	2007-05-06 11:03:47.000000000 +0200
-+++ j2se/make/common/shared/Sanity.gmk	2007-05-09 17:36:23.000000000 +0200
+--- openjdk.old/j2se/make/common/shared/Sanity.gmk-orig	2007-05-06 11:03:47.000000000 +0200
++++ openjdk/j2se/make/common/shared/Sanity.gmk	2007-05-09 17:36:23.000000000 +0200
 @@ -838,10 +838,10 @@
  	fi
      endif  

@@ -77,9 +77,9 @@ src_unpack() {
 	echo "Deleting bundled libpng"
 	rm -r j2se/src/share/native/sun/awt/libpng || die
 
-	PATCHES="lesstif external-zlib external-jpeg-splash external-giflib \
-		external-libpng noundef gettimeofday-declaration"
-	#j2se-cxxflags hotspot-cflags"
+	PATCHES="lesstif external-zlib external-zlib-splash external-jpeg-splash \
+		external-giflib external-libpng noundef gettimeofday-declaration j2se-cxxflags \
+		hotspot-cflags cpuid-fomit-frame-pointer"
 
 	for patch in ${PATCHES}; do
 		epatch "${FILESDIR}/${patch}.patch"
@@ -96,22 +96,34 @@ src_compile() {
 	make="${make} ALT_CLOSED_JDK_IMPORT_PATH=${sunjdk7}"
 	make="${make} ALT_JDK_IMPORT_PATH=${sunjdk7}"
 
+	if ! use doc; then
+		make="${make} NO_DOCS=true"
+	fi
+
 	# Don't pass these to make, or they'll break stuff.
-	#export OTHER_CFLAGS=${CFLAGS}
-	#export OTHER_CXXFLAGS=${CXXFLAGS}
+	export OTHER_CFLAGS=${CFLAGS}
+	export OTHER_CXXFLAGS=${CXXFLAGS}
 
 	# Unset these so they are not used by the build process.
 	# Setting them to '' breaks other things.
-	#unset CFLAGS CXXFLAGS
+	unset CFLAGS CXXFLAGS
 
 	unset JAVA_HOME CLASSPATH LD_LIBRARY_PATH
-	emake ${make} -j1 dev \
+
+	# By default FULL_VERSION gets set like:
+	# USER_RELEASE_SUFFIX := $(shell echo $(USER)_`date '+%d_%b_%Y_%H_%M' | tr "A-Z" "a-z"`)
+	# FULL_VERSION = $(RELEASE)-$(USER_RELEASE_SUFFIX)-$(BUILD_NUMBER)
+	# This doesn't work with ccache because it expects the command line to be
+	# identical.
+	emake ${make} -j1 \
 		EXTERNAL_LIBPNG=true \
 		EXTERNAL_ZLIB=true \
 		OPENJDK=true \
 		NO_STRIP=true \
 		SKIP_COMPARE_IMAGES=true \
 		STATIC_CXX=false \
+		MILESTONE=experimental \
+		BUILD_NUMBER=gentoo-b${ALPHA} \
 		|| die "emake failed"
 	rmdir control/build/linux-${arch}/j2sdk-image/man/ja
 }
@@ -123,7 +135,14 @@ src_install() {
 
 	local arch=i586
 	[[ ${ARCH} = amd64 ]] && arch=amd64
-	cd control/build/linux-${arch}/j2sdk-image
+
+	cd control/build/linux-${arch}/
+
+	if use doc; then
+		dohtml -r docs/* || die
+	fi
+
+	cd j2sdk-image
 
 	# For some people the files got 600 so doing it manually
 	# should be investigated why this happened

@@ -14,8 +14,8 @@ This fixes those warnings by including the needed header.
 
 Index: j2se/src/solaris/native/java/net/Inet4AddressImpl.c
 ===================================================================
---- j2se/src/solaris/native/java/net/Inet4AddressImpl.c	(revision 235)
-+++ j2se/src/solaris/native/java/net/Inet4AddressImpl.c	(working copy)
+--- openjdk.old/j2se/src/solaris/native/java/net/Inet4AddressImpl.c	(revision 235)
++++ openjdk/j2se/src/solaris/native/java/net/Inet4AddressImpl.c	(working copy)
 @@ -24,6 +24,7 @@
   */
  
@@ -26,8 +26,8 @@ Index: j2se/src/solaris/native/java/net/Inet4AddressImpl.c
  #include <netinet/in_systm.h>
 Index: j2se/src/solaris/native/java/net/Inet6AddressImpl.c
 ===================================================================
---- j2se/src/solaris/native/java/net/Inet6AddressImpl.c	(revision 235)
-+++ j2se/src/solaris/native/java/net/Inet6AddressImpl.c	(working copy)
+--- openjdk.old/j2se/src/solaris/native/java/net/Inet6AddressImpl.c	(revision 235)
++++ openjdk/j2se/src/solaris/native/java/net/Inet6AddressImpl.c	(working copy)
 @@ -24,6 +24,7 @@
   */
  
