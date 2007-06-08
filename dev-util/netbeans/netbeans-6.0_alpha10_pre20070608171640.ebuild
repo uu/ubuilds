@@ -18,11 +18,10 @@ DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.0"
-MILESTONE="m9"
+MILESTONE="m10"
 MY_PV=${PV/_alpha/-m}
 SOURCE_SITE="http://dev.gentoo.org/~fordfrog/distfiles/"
 SRC_URI="
-	${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-autoupdate-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-core-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-editor-${MY_PV}.tar.bz2
@@ -34,9 +33,28 @@ SRC_URI="
 	apisupport? (
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 	)
+	experimental? (
+		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-collab-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-contrib-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-j2ee-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-jackpot-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-management-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-performance-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-scripting-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-serverplugins-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-sysprops-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-tasklist-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-utilities-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-vcscore-${MY_PV}.tar.bz2
+	)
 	harness? (
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 	)
 	ide? (
 		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
@@ -50,7 +68,6 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-httpserver-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-image-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-java-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-javacvs-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-lexer-${MY_PV}.tar.bz2
@@ -119,9 +136,7 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-uml-${MY_PV}.tar.bz2
 	)
 	visualweb? (
-		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-visualweb-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
 	)
 	xml? (
 		${SOURCE_SITE}/${PN}-uml-${MY_PV}.tar.bz2
@@ -129,7 +144,7 @@ SRC_URI="
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="apisupport debug doc harness ide j2ee java mobility nb profiler ruby soa testtools uml visualweb xml"
+IUSE="apisupport debug doc experimental harness ide j2ee java mobility nb profiler ruby soa testtools uml visualweb xml"
 
 #COMMON_DEPEND="
 #	>=dev-java/ant-1.7.0
@@ -211,28 +226,19 @@ IUSE="apisupport debug doc harness ide j2ee java mobility nb profiler ruby soa t
 #	>=dev-util/pmd-1.3
 #	${COMMON_DEPEND}"
 
-COMMON_DEPEND="
-	>=dev-java/javahelp-2.0.02
-	=dev-java/swing-layout-1*"
-
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/javahelp-2.0.02
 	=dev-java/swing-layout-1*
-	java? ( >=dev-java/ant-tasks-1.7.0-r2 )
-	${COMMON_DEPEND}"
+	java? ( >=dev-java/ant-tasks-1.7.0-r2 )"
 
 DEPEND="=virtual/jdk-1.5*
 	>=dev-java/ant-nodeps-1.7.0
+	dev-java/insanelib
 	>=dev-java/javahelp-2.0.02
+	>=dev-java/jsch-0.1.24
 	=dev-java/swing-layout-1*
-	ide? (
-		dev-java/insanelib
-		>=dev-java/jsch-0.1.24
-		>=dev-java/xerces-2.9.0
-	)
-	testtools? ( >=dev-java/ant-trax-1.7.0 )
-	visualweb? ( >=dev-java/xerces-2.9.0 )
-	${COMMON_DEPEND}"
+	>=dev-java/xerces-2.9.0
+	testtools? ( >=dev-java/ant-trax-1.7.0 )"
 
 S=${WORKDIR}/netbeans-src
 BUILDDESTINATION="${S}/nbbuild/netbeans"
@@ -247,6 +253,10 @@ pkg_setup() {
 	if use apisupport && ( ! use ide || ! use java ) ; then
 		eerror "'apisupport' USE flag requires 'ide' and 'java' USE flags"
 		exit 1
+	fi
+
+	if use experimental && ( ! use apisupport || ! use ide || ! use j2ee || ! use java || ! use mobility || ! use nb || ! use profiler || ! use ruby || ! use soa || ! use testtools || ! use uml || ! use visualweb || ! use xml ) ; then
+		eerror "'experimental' USE flag requires 'apisupport', 'ide', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', ̈́'uml', 'visualweb' and 'xml' USE flags"
 	fi
 
 	if use j2ee && ( ! use ide || ! use java ) ; then
@@ -339,6 +349,7 @@ src_compile() {
 
 	local clusters="-Dnb.clusters.list=nb.cluster.platform"
 	use apisupport && clusters="${clusters},nb.cluster.apisupport"
+	use experimental && clusters="${clusters},nb.cluster.experimental"
 	use harness && clusters="${clusters},nb.cluster.harness"
 	use ide && clusters="${clusters},nb.cluster.ide"
 	use j2ee && clusters="${clusters},nb.cluster.j2ee"
@@ -361,7 +372,7 @@ src_compile() {
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
 	einfo "Compiling Netbeans Platform..."
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} \
-		-f nbbuild/build.xml build-platform
+		-f nbbuild/build.xml -Dbuildnum="Gentoo ${PV}" build-platform
 	if ! use harness ; then
 		rm -fr ${S}/nbbuild/netbeans/harness
 		rm ${S}/nbbuild/netbeans/nb.cluster.harness.built
@@ -370,11 +381,12 @@ src_compile() {
 
 	# Build the rest of the clusters if any specified
 	use ruby && addpredict /root/.jruby
-	if use apisupport || use harness || use ide || use j2ee || use java || use mobility \
-		|| use nb || use profiler || use ruby || use soa || use testtools || use uml \
-		|| use visualweb ; then
+	if use apisupport || use experimental || use harness || use ide || use j2ee || use java \
+		|| use mobility || use nb || use profiler || use ruby || use soa || use testtools \
+		|| use uml || use visualweb ; then
 		einfo "Compiling Netbeans IDE..."
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml build-nozip
+		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
+			-Dbuildnum="Gentoo ${PV}" build-nozip
 	fi
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
@@ -491,18 +503,24 @@ pkg_postrm() {
 # Supporting functions for this ebuild
 
 place_unpack_symlinks() {
-	einfo "Symlinking jars for apisupport"
-	cd ${S}/apisupport/external
-	#java-pkg_jar-from --build-only jdom-1.0
-	java-pkg_jar-from --build-only javahelp jhall.jar jsearch-2.0_04.jar
-	#java-pkg_jar-from --build-only rome rome.jar rome-fetcher-0.6.jar
-	#java-pkg_jar-from --build-only rome rome.jar rome-0.6.jar
-	cd ${S}/apisupport/timers/external
-	use ide && java-pkg_jar-from --build-only insanelib
+	local target=""
 
-	einfo "Symlinking jars for core"
-	cd ${S}/core/external
-	java-pkg_jar-from --build-only javahelp jh.jar jh-2.0_04.jar
+	if [ -e ${S}/apisupport ] ; then
+		einfo "Symlinking jars for apisupport"
+		target="apisupport/external"
+		#java-pkg_jar-from --build-only jdom-1.0
+		dosymcompilejar ${target} javahelp jhall.jar jsearch-2.0_04.jar
+		#java-pkg_jar-from --build-only rome rome.jar rome-fetcher-0.6.jar
+		#java-pkg_jar-from --build-only rome rome.jar rome-0.6.jar
+		target="apisupport/timers/external"
+		dosymcompilejar ${target} insanelib
+	fi
+
+	if [ -e ${S}/core ] ; then
+		einfo "Symlinking jars for core"
+		target="core/external"
+		dosymcompilejar ${target} javahelp jh.jar jh-2.0_04.jar
+	fi
 
 	#if use httpserver ; then
 	#	einfo "Symlinking jars for httpserver"
@@ -535,19 +553,21 @@ place_unpack_symlinks() {
 	#	java-pkg_jar-from antlr antlr.jar antlr-2.7.1.jar
 	#fi
 
-	einfo "Symlinking jars for libs"
-	cd ${S}/libs/external
-	#java-pkg_jar-from --build-only commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
-	#java-pkg_jar-from commons-logging commons-logging-api.jar commons-logging-api-1.1.jar
-	#java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
-	#java-pkg_jar-from --build-only ical4j
-	#java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.2.jar
-	use ide && java-pkg_jar-from --build-only jsch jsch.jar jsch-0.1.24.jar
-	#jsr223-api.jar
-	#java-pkg_jar-from --build-only pmd pmd.jar pmd-1.3.jar
-	java-pkg_jar-from --build-only swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
-	#java-pkg_jar-from --build-only xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
-	use ide && java-pkg_jar-from --build-only xerces-2 xercesImpl.jar xerces-2.8.0.jar
+	if [ -e ${S}/libs ] ; then
+		einfo "Symlinking jars for libs"
+		target="libs/external"
+		#java-pkg_jar-from --build-only commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
+		#java-pkg_jar-from commons-logging commons-logging-api.jar commons-logging-api-1.1.jar
+		#java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
+		#java-pkg_jar-from --build-only ical4j
+		#java-pkg_jar-from --build-only jcalendar-1.2 jcalendar.jar jcalendar-1.3.2.jar
+		dosymcompilejar ${target} jsch jsch.jar jsch-0.1.24.jar
+		#jsr223-api.jar
+		#java-pkg_jar-from --build-only pmd pmd.jar pmd-1.3.jar
+		dosymcompilejar ${target} swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
+		#java-pkg_jar-from --build-only xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
+		dosymcompilejar ${target} xerces-2 xercesImpl.jar xerces-2.8.0.jar
+	fi
 
 	#if use mobility ; then
 	#	einfo "Symlinking jars for mobility"
@@ -663,7 +683,7 @@ symlink_extjars() {
 	if use harness ; then
 		einfo "Symlinking harness jars"
 		targetdir="harness"
-		dosymjar ${targetdir} javahelp jhall.jar jsearch-2.0_04.jar
+		dosyminstjar ${targetdir} javahelp jhall.jar jsearch-2.0_04.jar
 	fi
 
 
@@ -714,8 +734,8 @@ symlink_extjars() {
 	einfo "Symlinking platform jars"
 
 	targetdir="platform${PLATFORM}/modules/ext"
-	dosymjar ${targetdir} javahelp jh.jar jh-2.0_04.jar
-	dosymjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
+	dosyminstjar ${targetdir} javahelp jh.jar jh-2.0_04.jar
+	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
 
 	#if use mobility ; then
 	#	einfo "Symlinking mobility jars"
@@ -734,14 +754,33 @@ symlink_extjars() {
 	#fi
 }
 
-dosymjar() {
+dosymcompilejar() {
+	local dest="${1}"
+	local package="${2}"
+	local jar_file="${3}"
+	local target_file="${4}"
+
+	# We want to know whether the target jar exists and fail if it doesn't so we know
+	# something is wrong
+	local target="${S}/${dest}/${target_file}"
+	[ ! -e "${target}" ] && die "Target jar does not exist so will not create link: ${target}"
+	java-pkg_jar-from --build-only --into ${S}/${dest} ${package} ${jar_file} ${target_file}
+}
+
+dosyminstjar() {
+	local dest="${1}"
+	local package="$2}"
+	local jar_file="${3}"
 	local target_file=""
 	if [ -z "${4}" ]; then
 		target_file="${3}"
 	else
 		target_file="${4}"
 	fi
-	local target="${DESTINATION}/${1}/${target_file}"
+
+	# We want to know whether the target jar exists and fail if it doesn't so we know
+	# something is wrong
+	local target="${DESTINATION}/${dest}/${target_file}"
 	[ ! -e "${D}/${target}" ] && die "Target jar does not exist so will not create link: ${D}/${target}"
-	dosym /usr/share/${2}/lib/${3} ${target}
+	dosym /usr/share/${package}/lib/${jar_file} ${target}
 }
