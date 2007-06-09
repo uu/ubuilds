@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/maven-common-artifact-filters
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  09 Jun 2007; kiorky <kiorky@cryptelium.net>
+  +maven-common-artifact-filters-2.1_pre20070603.ebuild, +metadata.xml:
+  Added as a maven dependency, See #181492
+
