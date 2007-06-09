@@ -2,14 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/netbeans/netbeans-5.5-r4.ebuild,v 1.1 2007/01/28 19:40:16 fordfrog Exp $
 
+# NOTE:
+# - for debug purposes you can set JAVA_PKG_NB_BUNDLED="true" if you want to disable unbundling
+
 # TODO:
 # - bind dependencies to USE flags
-# - during src_compile nbbuild/build.xml downloads jsr223-api.jar so get rid of this download
-# - now 'apisupport' is included in the unconditional section of SRC_URI though it is not needed by platform but
-#   at this moment I do not know how to build platform without harness as trying to build it causes error on
-#   xerces which I do not know how to solve - once it is solved apisupport can be removed from the unconditional section
-# - now 'ide' is included in 'harness' SRC_URI as it is needed during compilation though not mentioned
-#   in cluster properties
 
 WANT_SPLIT_ANT=true
 inherit eutils java-pkg-2 java-ant-2 versionator
@@ -237,7 +234,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/javahelp-2.0.02
 	>=dev-java/jsch-0.1.24
 	=dev-java/swing-layout-1*
-	>=dev-java/xerces-2.9.0
+	>=dev-java/xerces-2.8.1
 	testtools? ( >=dev-java/ant-trax-1.7.0 )"
 
 S=${WORKDIR}/netbeans-src
@@ -250,13 +247,19 @@ DESTINATION="/usr/share/netbeans-${SLOT}"
 JAVA_PKG_BSFIX="off"
 
 pkg_setup() {
+	if use visualweb ; then
+		eerror "Currently building visualweb fails, see bug http://www.netbeans.org/issues/show_bug.cgi?id=106191"
+		exit 1
+	fi
+
 	if use apisupport && ( ! use ide || ! use java ) ; then
 		eerror "'apisupport' USE flag requires 'ide' and 'java' USE flags"
 		exit 1
 	fi
 
-	if use experimental && ( ! use apisupport || ! use ide || ! use j2ee || ! use java || ! use mobility || ! use nb || ! use profiler || ! use ruby || ! use soa || ! use testtools || ! use uml || ! use visualweb || ! use xml ) ; then
-		eerror "'experimental' USE flag requires 'apisupport', 'ide', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', ̈́'uml', 'visualweb' and 'xml' USE flags"
+	if use experimental && ( ! use apisupport || ! use ide || ! use j2ee || ! use java || ! use mobility || ! use nb || ! use profiler || ! use ruby || ! use soa || ! use testtools || ! use uml || ! use xml ) ; then
+		eerror "'experimental' USE flag requires 'apisupport', 'ide', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', ̈́'uml' and 'xml' USE flags"
+		exit 1
 	fi
 
 	if use j2ee && ( ! use ide || ! use java ) ; then
@@ -320,6 +323,11 @@ pkg_setup() {
 src_unpack () {
 	unpack ${A}
 
+	if use visualweb && [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
+		cd ${S}/visualweb/insync/src/org/netbeans/modules/visualweb/insync/markup
+		epatch ${MY_FDIR}/visualweb-JxpsSerializer.java-xerces-2.8.1.patch
+	fi
+
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
 	find ${S}/nbbuild -name "*.class" -delete
@@ -329,16 +337,18 @@ src_unpack () {
 	sed -i -e "s%tomcatint/tomcat5,\\\\%%g" ${S}/nbbuild/cluster.properties || die "Cannot disable bundled Tomcat"
 
 	# Remove JARs that are not needed
-	einfo "Removing not needed JARs"
-	for FILE in `find ${S} -name "*.jar" | grep "/test/"`; do
-		rm -v ${FILE} || die "Cannot remove ${FILE}"
-	done
+	if [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
+		einfo "Removing not needed JARs"
+		for FILE in `find ${S} -name "*.jar" | grep "/test/"`; do
+			rm -v ${FILE} || die "Cannot remove ${FILE}"
+		done
+	fi
 
 	place_unpack_symlinks
 }
 
 src_compile() {
-	local antflags="-Dstop.when.broken.modules=true -Ddo-not-rebuild-clusters=true"
+	local antflags="-Dstop.when.broken.modules=true"
 
 	if use debug; then
 		antflags="${antflags} -Dbuild.compiler.debug=true"
@@ -367,27 +377,12 @@ src_compile() {
 	# Fails to compile
 	java-pkg_filter-compiler ecj-3.1 ecj-3.2
 
-	# First build Netbeans Platform (building using nb.cluster.platform doesn't work for unknown reason)
+	# Build the the clusters
+	use ruby && addpredict /root/.jruby
 	ANT_TASKS="ant-nodeps"
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
-	einfo "Compiling Netbeans Platform..."
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} \
-		-f nbbuild/build.xml -Dbuildnum="Gentoo ${PV}" build-platform
-	if ! use harness ; then
-		rm -fr ${S}/nbbuild/netbeans/harness
-		rm ${S}/nbbuild/netbeans/nb.cluster.harness.built
-		sed -i -e "s%apisupport/harness.dir=.*{netbeans.dest.dir}/harness%%g" ${S}/nbbuild/netbeans/moduleCluster.properties
-	fi
-
-	# Build the rest of the clusters if any specified
-	use ruby && addpredict /root/.jruby
-	if use apisupport || use experimental || use harness || use ide || use j2ee || use java \
-		|| use mobility || use nb || use profiler || use ruby || use soa || use testtools \
-		|| use uml || use visualweb ; then
-		einfo "Compiling Netbeans IDE..."
-		ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
-			-Dbuildnum="Gentoo ${PV}" build-nozip
-	fi
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
+		-Dbuildnum="Gentoo ${PV}" build-nozip
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
@@ -755,32 +750,36 @@ symlink_extjars() {
 }
 
 dosymcompilejar() {
-	local dest="${1}"
-	local package="${2}"
-	local jar_file="${3}"
-	local target_file="${4}"
+	if [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
+		local dest="${1}"
+		local package="${2}"
+		local jar_file="${3}"
+		local target_file="${4}"
 
-	# We want to know whether the target jar exists and fail if it doesn't so we know
-	# something is wrong
-	local target="${S}/${dest}/${target_file}"
-	[ ! -e "${target}" ] && die "Target jar does not exist so will not create link: ${target}"
-	java-pkg_jar-from --build-only --into ${S}/${dest} ${package} ${jar_file} ${target_file}
+		# We want to know whether the target jar exists and fail if it doesn't so we know
+		# something is wrong
+		local target="${S}/${dest}/${target_file}"
+		[ ! -e "${target}" ] && die "Target jar does not exist so will not create link: ${target}"
+		java-pkg_jar-from --build-only --into ${S}/${dest} ${package} ${jar_file} ${target_file}
+	fi
 }
 
 dosyminstjar() {
-	local dest="${1}"
-	local package="$2}"
-	local jar_file="${3}"
-	local target_file=""
-	if [ -z "${4}" ]; then
-		target_file="${3}"
-	else
-		target_file="${4}"
-	fi
+	if [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
+		local dest="${1}"
+		local package="$2}"
+		local jar_file="${3}"
+		local target_file=""
+		if [ -z "${4}" ]; then
+			target_file="${3}"
+		else
+			target_file="${4}"
+		fi
 
-	# We want to know whether the target jar exists and fail if it doesn't so we know
-	# something is wrong
-	local target="${DESTINATION}/${dest}/${target_file}"
-	[ ! -e "${D}/${target}" ] && die "Target jar does not exist so will not create link: ${D}/${target}"
-	dosym /usr/share/${package}/lib/${jar_file} ${target}
+		# We want to know whether the target jar exists and fail if it doesn't so we know
+		# something is wrong
+		local target="${DESTINATION}/${dest}/${target_file}"
+		[ ! -e "${D}/${target}" ] && die "Target jar does not exist so will not create link: ${D}/${target}"
+		dosym /usr/share/${package}/lib/${jar_file} ${target}
+	fi
 }
