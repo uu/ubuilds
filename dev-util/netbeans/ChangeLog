@@ -3,6 +3,10 @@
 # $Header: $
 
   09 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070608171640.ebuild:
+  netbeans-6.0: fixed requirements for 'experimental' use flag
+
+  09 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
   +files/6.0/visualweb-JxpsSerializer.java-xerces-2.8.1.patch,
   netbeans-6.0_alpha10_pre20070608171640.ebuild:
   netbeans-6.0: several fixes and improvements

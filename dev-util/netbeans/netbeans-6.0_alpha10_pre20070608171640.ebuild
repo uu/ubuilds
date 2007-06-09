@@ -257,8 +257,8 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use experimental && ( ! use apisupport || ! use ide || ! use j2ee || ! use java || ! use mobility || ! use nb || ! use profiler || ! use ruby || ! use soa || ! use testtools || ! use uml || ! use xml ) ; then
-		eerror "'experimental' USE flag requires 'apisupport', 'ide', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', ̈́'uml' and 'xml' USE flags"
+	if use experimental && ( ! use apisupport || ! use ide || ! use j2ee || ! use java || ! use mobility || ! use nb || ! use profiler || ! use ruby || ! use soa || ! use testtools || ! use uml || ! use visualweb || ! use xml ) ; then
+		eerror "'experimental' USE flag requires 'apisupport', 'ide', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', ̈́'uml', 'visualweb' and 'xml' USE flags"
 		exit 1
 	fi
 
