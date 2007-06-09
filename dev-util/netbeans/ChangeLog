@@ -4,6 +4,10 @@
 
   09 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_alpha10_pre20070608171640.ebuild:
+  hopefully fixed that problem with nb startup
+
+  09 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070608171640.ebuild:
   Added workaround for missing org-netbeans-libs-glassfish_logging.jar, still
   there are some problems at startup of nb
 

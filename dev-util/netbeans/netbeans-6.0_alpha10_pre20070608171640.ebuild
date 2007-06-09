@@ -772,7 +772,7 @@ dosymcompilejar() {
 dosyminstjar() {
 	if [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
 		local dest="${1}"
-		local package="$2}"
+		local package="${2}"
 		local jar_file="${3}"
 		local target_file=""
 		if [ -z "${4}" ]; then
