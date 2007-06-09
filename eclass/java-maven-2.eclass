@@ -25,7 +25,7 @@ RDEPEND=">=dev-java/javatoolkit-0.2.0-r3"
 # you can use your own build.xml to compile and assembly
 # sources by placing it in ${FILESDIR}/build-${PV}.xml.
 # eg: doesn't contain any javac target but some is needed,
-#
+
 # For javadoc generation and source bundling,
 # you can set JAVA_MAVEN_SRC_DIRS as a comma sepated
 # list of java source directories and add "doc" and
@@ -395,7 +395,6 @@ java-maven-2_install_one() {
 	local myname="$(java-maven-2_get_name ${pom})"
 	local myjar="${myname}.jar"
 	local maven_pom="${myname}.pom" maven_artifact=""
-	einfo $myjar
 
 	java-maven-2_ensure_repo_exists
 
