@@ -452,9 +452,16 @@ src_install() {
 	symlink_extjars
 
 	# Correct permissions on executables
-	[[ -e ${D}/${DESTINATION}/bin/netbeans ]] && fperms 755 ${DESTINATION}/bin/netbeans
-	fperms 775 ${DESTINATION}/platform${PLATFORM}/lib/nbexec
-	use ruby && fperms 755 ${DESTINATION}/ruby1/jruby-0.9.9/bin/*
+	local nbexec_exe="${DESTINATION}/platform${PLATFORM}/lib/nbexec"
+	fperms 775 ${nbexec_exe} || die "Cannot update perms on ${nbexec_exe}"
+	if [[ -e ${D}/${DESTINATION}/bin/netbeans ]] ; then
+		local netbeans_exe="${DESTINATION}/bin/netbeans"
+		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
+	fi
+	if use ruby ; then
+		local jrubypath="${DESTINATION}/ruby1/jruby-1.0/bin/*"
+		fperms 755 ${jrubypath} || die "Cannot update perms on ${jrubypath}"
+	fi
 
 	# Link netbeans executable from bin
 	if [[ -f ${D}/${DESTINATION}/bin/netbeans ]]; then
