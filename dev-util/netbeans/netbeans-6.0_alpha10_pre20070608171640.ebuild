@@ -7,6 +7,8 @@
 
 # TODO:
 # - bind dependencies to USE flags
+# - solve compilation of org-netbeans-libs-glassfish_logging.jar so it is compiled using standard compileation
+#   instead of the current workaround
 
 WANT_SPLIT_ANT=true
 inherit eutils java-pkg-2 java-ant-2 versionator
@@ -383,6 +385,9 @@ src_compile() {
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
 		-Dbuildnum="Gentoo ${PV}" build-nozip
+
+	# Workaround for compilation of org-netbeans-libs-glassfish_logging.jar
+	eant -f web/libs/glassfish_logging/build.xml
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
