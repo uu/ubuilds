@@ -38,7 +38,7 @@ COMMON_DEPEND="dev-java/commons-collections
 		dev-java/sun-javamail
 		dev-java/sun-jms
 		!java5? ( >=dev-java/sun-jmx-1.2.1 )
-		oracle? ( >=dev-java/jdbc3-oracle-9.2.0.3 )
+		oracle? ( =dev-java/jdbc-oracle-bin-9.2* )
 		jboss? ( >=www-servers/jboss-3.2.3 )"
 
 
@@ -77,7 +77,7 @@ src_compile() {
 	CLASSPATH="$CLASSPATH:$(java-pkg_getjars sun-javamail)"
 	CLASSPATH="$CLASSPATH:$(java-pkg_getjars sun-jms)"
 	use ! java5 && CLASSPATH="$CLASSPATH:$(java-pkg_getjars sun-jmx)"
-	use oracle && CLASSPATH="$CLASSPATH:$(java-pkg_getjars jdbc2-oracle-5)"
+	use oracle && CLASSPATH="$CLASSPATH:$(java-pkg_getjars jdbc-oracle-bin-9.2)"
 	if use jboss; then
 
 #		Nastyness
