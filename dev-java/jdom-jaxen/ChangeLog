@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  10 Jun 2007; Alistair John Bush <ali_bush@gentoo.org>
+  +jdom-jaxen-1.0_beta9-r1.ebuild:
+  Bump jdom-jaxen to change slots.
+
   25 May 2007; Alistair John Bush <ali_bush@gentoo.org> ChangeLog:
   Initial ebuild to resolve circular deps with hdom and jaxen
 
