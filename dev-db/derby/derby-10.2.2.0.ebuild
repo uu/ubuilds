@@ -26,7 +26,7 @@ DEPEND="|| ( =virtual/jdk-1.5* =virtual/jdk-1.4* )
 # probably just for tests	
 #		>=dev-java/geronimo-specs-1.1
 #		>=dev-java/jakarta-oro-2.0.8
-	
+
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEP}"
 
@@ -64,7 +64,7 @@ src_unpack(){
 #	java-pkg_jar-from jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
 #	java-pkg_jar-from geronimo-specs geronimo-spec-jta.jar geronimo-spec-jta-1.0.1B-rc4.jar
 #	java-pkg_jar-from geronimo-specs geronimo-spec-servlet.jar geronimo-spec-servlet-2.4-rc4.jar
-	
+
 	cd "${S}"
 	# ecj fails when 1.5 JDK is used because it can't handle extending
 	# PrintWriter in 1.5 without -source 1.5... and jikes is just jikes
