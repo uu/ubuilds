@@ -1,0 +1,1464 @@
+diff --git a/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement.java b/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement.java
+index bdd4954..f2bc27a 100644
+--- a/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement.java
++++ b/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement.java
+@@ -23,6 +23,7 @@ package org.apache.derby.iapi.jdbc;
+ 
+ import java.sql.*;
+ import java.math.BigDecimal;
++import java.net.URL;
+ 
+ import java.util.Calendar;
+ import java.util.Map;
+@@ -236,15 +237,227 @@ public class BrokeredCallableStatement extends BrokeredPreparedStatement
+     final PreparedStatement getPreparedStatement() throws SQLException {
+ 		return getCallableStatement();
+ 	}
++
++    public final void setURL(java.lang.String parameterName, java.net.URL value) throws SQLException {
++		getCallableStatement().setURL(parameterName, value);
++	}
++
++	public final void setNull(java.lang.String parameterName, int type) throws SQLException {
++		getCallableStatement().setNull(parameterName, type);
++	}
++
++	public final void setBoolean(java.lang.String parameterName, boolean value) throws SQLException {
++		getCallableStatement().setBoolean(parameterName, value);
++	}
++
++	public final void setByte(java.lang.String parameterName, byte value) throws SQLException {
++		getCallableStatement().setByte(parameterName, value);
++	}
++
++	public final void setShort(java.lang.String parameterName, short value) throws SQLException {
++		getCallableStatement().setShort(parameterName, value);
++	}
++
++	public final void setInt(java.lang.String parameterName, int value) throws SQLException {
++		getCallableStatement().setInt(parameterName, value);
++	}
++
++	public final void setLong(java.lang.String parameterName, long value) throws SQLException {
++		getCallableStatement().setLong(parameterName, value);
++	}
++
++	public final void setFloat(java.lang.String parameterName, float value) throws SQLException {
++		getCallableStatement().setFloat(parameterName, value);
++	}
++
++	public final void setDouble(java.lang.String parameterName, double value) throws SQLException {
++		getCallableStatement().setDouble(parameterName, value);
++	}
++
++	public final void setBigDecimal(java.lang.String parameterName, java.math.BigDecimal value) throws SQLException {
++		getCallableStatement().setBigDecimal(parameterName, value);
++	}
++
++	public final void setString(java.lang.String parameterName, java.lang.String value) throws SQLException {
++		getCallableStatement().setString(parameterName, value);
++	}
++
++	public final void setBytes(java.lang.String parameterName, byte[] value) throws SQLException {
++		getCallableStatement().setBytes(parameterName, value);
++	}
++
++	public final void setDate(java.lang.String parameterName, java.sql.Date value) throws SQLException {
++		getCallableStatement().setDate(parameterName, value);
++	}
++
++	public final void setTime(java.lang.String parameterName, java.sql.Time value) throws SQLException {
++		getCallableStatement().setTime(parameterName, value);
++	}
++
++	public final void setTimestamp(java.lang.String parameterName, java.sql.Timestamp value) throws SQLException {
++		getCallableStatement().setTimestamp(parameterName, value);
++	}
++
++	public final void setAsciiStream(java.lang.String parameterName, java.io.InputStream value, int length) throws SQLException {
++		getCallableStatement().setAsciiStream(parameterName, value, length);
++	}
++
++	public final void setBinaryStream(java.lang.String parameterName, java.io.InputStream value, int length) throws SQLException {
++		getCallableStatement().setBinaryStream(parameterName, value, length);
++	}
++
++	public final void setObject(java.lang.String parameterName, java.lang.Object value, int a, int b) throws SQLException {
++		getCallableStatement().setObject(parameterName, value, a, b);
++	}
++
++	public final void setObject(java.lang.String parameterName, java.lang.Object value, int a) throws SQLException {
++		getCallableStatement().setObject(parameterName, value, a);
++	}
++
++	public final void setObject(java.lang.String parameterName, java.lang.Object value) throws SQLException {
++		getCallableStatement().setObject(parameterName, value);
++	}
++
++	public final void setCharacterStream(java.lang.String parameterName, java.io.Reader value, int length) throws SQLException {
++		getCallableStatement().setCharacterStream(parameterName, value, length);
++	}
++
++	public final void setDate(java.lang.String parameterName, java.sql.Date value, java.util.Calendar cal) throws SQLException {
++		getCallableStatement().setDate(parameterName, value, cal);
++	}
++
++	public final void setTime(java.lang.String parameterName, java.sql.Time value, java.util.Calendar cal) throws SQLException {
++		getCallableStatement().setTime(parameterName, value, cal);
++	}
++
++	public final void setTimestamp(java.lang.String parameterName, java.sql.Timestamp value, java.util.Calendar cal) throws SQLException {
++		getCallableStatement().setTimestamp(parameterName, value, cal);
++	}
++
++	public final void setNull(java.lang.String parameterName, int a, java.lang.String b) throws SQLException {
++		getCallableStatement().setNull(parameterName, a, b);
++	}
++
++	public final java.lang.String getString(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getString(parameterName);
++	}
++
++	public final boolean getBoolean(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getBoolean(parameterName);
++	}
++
++	public final byte getByte(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getByte(parameterName);
++	}
++
++	public final short getShort(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getShort(parameterName);
++	}
++
++	public final int getInt(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getInt(parameterName);
++	}
++
++	public final long getLong(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getLong(parameterName);
++	}
++
++	public final float getFloat(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getFloat(parameterName);
++	}
++
++	public final double getDouble(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getDouble(parameterName);
++	}
++
++	public final byte[] getBytes(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getBytes(parameterName);
++	}
++
++	public final java.sql.Date getDate(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getDate(parameterName);
++	}
++
++	public final java.sql.Time getTime(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getTime(parameterName);
++	}
++
++	public final java.sql.Timestamp getTimestamp(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getTimestamp(parameterName);
++	}
++
++	public final java.lang.Object getObject(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getObject(parameterName);
++	}
++
++	public final java.math.BigDecimal getBigDecimal(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getBigDecimal(parameterName);
++	}
++
++	public final java.lang.Object getObject(java.lang.String parameterName, java.util.Map map) throws SQLException {
++		return getCallableStatement().getObject(parameterName, map);
++	}
++
++	public final java.sql.Ref getRef(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getRef(parameterName);
++	}
++
++	public final java.sql.Blob getBlob(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getBlob(parameterName);
++	}
++
++	public final java.sql.Clob getClob(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getClob(parameterName);
++	}
++
++	public final java.sql.Array getArray(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getArray(parameterName);
++	}
++
++	public final java.sql.Date getDate(java.lang.String parameterName, java.util.Calendar cal) throws SQLException {
++		return getCallableStatement().getDate(parameterName, cal);
++	}
++
++	public final java.sql.Time getTime(java.lang.String parameterName, java.util.Calendar cal) throws SQLException {
++		return getCallableStatement().getTime(parameterName, cal);
++	}
++
++	public final java.sql.Timestamp getTimestamp(java.lang.String parameterName, java.util.Calendar cal) throws SQLException {
++		return getCallableStatement().getTimestamp(parameterName, cal);
++	}
++
++	public final java.net.URL getURL(java.lang.String parameterName) throws SQLException {
++		return getCallableStatement().getURL(parameterName);
++	}
++
++	public final java.net.URL getURL(int i) throws SQLException {
++		return getCallableStatement().getURL(i);
++	}
++
++	public final void registerOutParameter(String a, int b) throws SQLException {
++		getCallableStatement().registerOutParameter(a,b);
++	}
++
++	public final void registerOutParameter(String a, int b, int c) throws SQLException {
++		getCallableStatement().registerOutParameter(a,b,c);
++	}
++
++	public final void registerOutParameter(String a, int b, String c) throws SQLException {
++		getCallableStatement().registerOutParameter(a,b,c);
++	}
++	/*
++	** Control methods
++	*/
++
+ 	/**
+ 		Create a duplicate CalableStatement to this, including state, from the passed in Connection.
+ 	*/
+ 	public CallableStatement createDuplicateStatement(Connection conn, CallableStatement oldStatement) throws SQLException {
+-
+-		CallableStatement newStatement = conn.prepareCall(sql, resultSetType, resultSetConcurrency);
+-
++	
++		CallableStatement newStatement = conn.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
++	
+ 		setStatementState(oldStatement, newStatement);
+-
++	
+ 		return newStatement;
+ 	}
+ }
+diff --git a/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement30.java b/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement30.java
+index f062904..19a0663 100644
+--- a/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement30.java
++++ b/java/engine/org/apache/derby/iapi/jdbc/BrokeredCallableStatement30.java
+@@ -21,12 +21,7 @@
+ 
+ package org.apache.derby.iapi.jdbc;
+ 
+-import java.sql.*;
+-import java.math.BigDecimal;
+-import java.net.URL;
+-
+-import java.util.Calendar;
+-import java.util.Map;
++import java.sql.SQLException;
+ 
+ 
+ /**
+@@ -38,189 +33,4 @@ public class BrokeredCallableStatement30 extends BrokeredCallableStatement
+ 	public BrokeredCallableStatement30(BrokeredStatementControl control, int jdbcLevel, String sql) throws SQLException {
+ 		super(control, jdbcLevel, sql);
+ 	}
+-    public final void setURL(java.lang.String parameterName, java.net.URL value) throws SQLException {
+-		getCallableStatement().setURL(parameterName, value);
+-	}
+-    public final void setNull(java.lang.String parameterName, int type) throws SQLException {
+-		getCallableStatement().setNull(parameterName, type);
+-	}
+-    public final void setBoolean(java.lang.String parameterName, boolean value) throws SQLException {
+-		getCallableStatement().setBoolean(parameterName, value);
+-	}
+-    public final void setByte(java.lang.String parameterName, byte value) throws SQLException {
+-		getCallableStatement().setByte(parameterName, value);
+-	}
+-    public final void setShort(java.lang.String parameterName, short value) throws SQLException {
+-		getCallableStatement().setShort(parameterName, value);
+-	}
+-    public final void setInt(java.lang.String parameterName, int value) throws SQLException {
+-		getCallableStatement().setInt(parameterName, value);
+-	}
+-    public final void setLong(java.lang.String parameterName, long value) throws SQLException {
+-		getCallableStatement().setLong(parameterName, value);
+-	}
+-    public final void setFloat(java.lang.String parameterName, float value) throws SQLException {
+-		getCallableStatement().setFloat(parameterName, value);
+-	}
+-    public final void setDouble(java.lang.String parameterName, double value) throws SQLException {
+-		getCallableStatement().setDouble(parameterName, value);
+-	}
+-    public final void setBigDecimal(java.lang.String parameterName, java.math.BigDecimal value) throws SQLException {
+-		getCallableStatement().setBigDecimal(parameterName, value);
+-	}
+-    public final void setString(java.lang.String parameterName, java.lang.String value) throws SQLException {
+-		getCallableStatement().setString(parameterName, value);
+-	}
+-    public final void setBytes(java.lang.String parameterName, byte[] value) throws SQLException {
+-		getCallableStatement().setBytes(parameterName, value);
+-	}
+-    public final void setDate(java.lang.String parameterName, java.sql.Date value) throws SQLException {
+-		getCallableStatement().setDate(parameterName, value);
+-	}
+-    public final void setTime(java.lang.String parameterName, java.sql.Time value) throws SQLException {
+-		getCallableStatement().setTime(parameterName, value);
+-	}
+-    public final void setTimestamp(java.lang.String parameterName, java.sql.Timestamp value) throws SQLException {
+-		getCallableStatement().setTimestamp(parameterName, value);
+-	}
+-    public final void setAsciiStream(java.lang.String parameterName, java.io.InputStream value, int length) throws SQLException {
+-		getCallableStatement().setAsciiStream(parameterName, value, length);
+-	}
+-    public final void setBinaryStream(java.lang.String parameterName, java.io.InputStream value, int length) throws SQLException {
+-		getCallableStatement().setBinaryStream(parameterName, value, length);
+-	}
+-    public final void setObject(java.lang.String parameterName, java.lang.Object value, int a, int b) throws SQLException {
+-		getCallableStatement().setObject(parameterName, value, a, b);
+-	}
+-    public final void setObject(java.lang.String parameterName, java.lang.Object value, int a) throws SQLException {
+-		getCallableStatement().setObject(parameterName, value, a);
+-	}
+-    public final void setObject(java.lang.String parameterName, java.lang.Object value) throws SQLException {
+-		getCallableStatement().setObject(parameterName, value);
+-	}
+-    public final void setCharacterStream(java.lang.String parameterName, java.io.Reader value, int length) throws SQLException {
+-		getCallableStatement().setCharacterStream(parameterName, value, length);
+-	}
+-    public final void setDate(java.lang.String parameterName, java.sql.Date value, java.util.Calendar cal) throws SQLException {
+-		getCallableStatement().setDate(parameterName, value, cal);
+-	}
+-    public final void setTime(java.lang.String parameterName, java.sql.Time value, java.util.Calendar cal) throws SQLException {
+-		getCallableStatement().setTime(parameterName, value, cal);
+-	}
+-    public final void setTimestamp(java.lang.String parameterName, java.sql.Timestamp value, java.util.Calendar cal) throws SQLException {
+-		getCallableStatement().setTimestamp(parameterName, value, cal);
+-	}
+-    public final void setNull(java.lang.String parameterName, int a, java.lang.String b) throws SQLException {
+-		getCallableStatement().setNull(parameterName, a, b);
+-	}
+-    public final java.lang.String getString(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getString(parameterName);
+-	}
+-    public final boolean getBoolean(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getBoolean(parameterName);
+-	}
+-    public final byte getByte(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getByte(parameterName);
+-	}
+-    public final short getShort(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getShort(parameterName);
+-	}
+-    public final int getInt(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getInt(parameterName);
+-	}
+-    public final long getLong(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getLong(parameterName);
+-	}
+-    public final float getFloat(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getFloat(parameterName);
+-	}
+-    public final double getDouble(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getDouble(parameterName);
+-	}
+-    public final byte[] getBytes(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getBytes(parameterName);
+-	}
+-    public final java.sql.Date getDate(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getDate(parameterName);
+-	}
+-    public final java.sql.Time getTime(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getTime(parameterName);
+-	}
+-    public final java.sql.Timestamp getTimestamp(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getTimestamp(parameterName);
+-	}
+-    public final java.lang.Object getObject(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getObject(parameterName);
+-	}
+-    public final java.math.BigDecimal getBigDecimal(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getBigDecimal(parameterName);
+-	}
+-    public final java.lang.Object getObject(java.lang.String parameterName, java.util.Map map) throws SQLException {
+-		return getCallableStatement().getObject(parameterName, map);
+-	}
+-    public final java.sql.Ref getRef(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getRef(parameterName);
+-	}
+-    public final java.sql.Blob getBlob(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getBlob(parameterName);
+-	}
+-    public final java.sql.Clob getClob(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getClob(parameterName);
+-	}
+-    public final java.sql.Array getArray(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getArray(parameterName);
+-	}
+-    public final java.sql.Date getDate(java.lang.String parameterName, java.util.Calendar cal) throws SQLException {
+-		return getCallableStatement().getDate(parameterName, cal);
+-	}
+-    public final java.sql.Time getTime(java.lang.String parameterName, java.util.Calendar cal) throws SQLException {
+-		return getCallableStatement().getTime(parameterName, cal);
+-	}
+-    public final java.sql.Timestamp getTimestamp(java.lang.String parameterName, java.util.Calendar cal) throws SQLException {
+-		return getCallableStatement().getTimestamp(parameterName, cal);
+-	}
+-    public final java.net.URL getURL(java.lang.String parameterName) throws SQLException {
+-		return getCallableStatement().getURL(parameterName);
+-	}
+-    public final java.net.URL getURL(int i) throws SQLException {
+-		return getCallableStatement().getURL(i);
+-	}
+-    public final void registerOutParameter(String a, int b) throws SQLException {
+-		getCallableStatement().registerOutParameter(a,b);
+-	}
+-    public final void registerOutParameter(String a, int b, int c) throws SQLException {
+-		getCallableStatement().registerOutParameter(a,b,c);
+-	}
+-    public final void registerOutParameter(String a, int b, String c) throws SQLException {
+-		getCallableStatement().registerOutParameter(a,b,c);
+-	}
+-	/*
+-	** JDBC 3.0 PreparedStatement methods
+-	*/
+-
+-	public final void setURL(int i, URL x)
+-        throws SQLException
+-    {
+-        getPreparedStatement().setURL( i, x);
+-    }
+-    public final ParameterMetaData getParameterMetaData()
+-        throws SQLException
+-    {
+-        return getPreparedStatement().getParameterMetaData();
+-    }
+-	/*
+-	** Control methods
+-	*/
+-
+-	/**
+-		Create a duplicate CalableStatement to this, including state, from the passed in Connection.
+-	*/
+-	public CallableStatement createDuplicateStatement(Connection conn, CallableStatement oldStatement) throws SQLException {
+-
+-		CallableStatement newStatement = conn.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
+-
+-		setStatementState(oldStatement, newStatement);
+-
+-		return newStatement;
+-	}
+ }
+diff --git a/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection.java b/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection.java
+index 12091f3..8a5f11d 100644
+--- a/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection.java
++++ b/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection.java
+@@ -22,6 +22,7 @@
+ package org.apache.derby.iapi.jdbc;
+ 
+ import java.sql.Connection;
++import java.sql.Savepoint;
+ import java.sql.Statement;
+ import java.sql.PreparedStatement;
+ import java.sql.CallableStatement;
+@@ -449,12 +450,6 @@ public class BrokeredConnection implements EngineConnection
+ 	public BrokeredStatement newBrokeredStatement(BrokeredStatementControl statementControl) throws SQLException {
+ 		return new BrokeredStatement(statementControl, getJDBCLevel());
+ 	}
+-	public BrokeredPreparedStatement newBrokeredStatement(BrokeredStatementControl statementControl, String sql, Object generatedKeys) throws SQLException {
+-		return new BrokeredPreparedStatement(statementControl, getJDBCLevel(), sql);
+-	}
+-	public BrokeredCallableStatement newBrokeredStatement(BrokeredStatementControl statementControl, String sql) throws SQLException {
+-		return new BrokeredCallableStatement(statementControl, getJDBCLevel(), sql);
+-	}
+ 
+ 	/**
+ 	 *  set the DrdaId for this connection. The drdaID prints with the 
+@@ -547,8 +542,6 @@ public class BrokeredConnection implements EngineConnection
+         return connString;
+     }
+ 
+-	int getJDBCLevel() { return 2;}
+-
+     /*
+      * JDBC 3.0 methods that are exposed through EngineConnection.
+      */
+@@ -615,4 +608,134 @@ public class BrokeredConnection implements EngineConnection
+         return holdability;
+         
+     }
++
++	public final Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
++		try {
++	        resultSetHoldability = statementHoldabilityCheck(resultSetHoldability);
++			return control.wrapStatement(getRealConnection().createStatement(resultSetType,
++	                resultSetConcurrency, resultSetHoldability));
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
++		try {
++	        resultSetHoldability = statementHoldabilityCheck(resultSetHoldability);
++			return control.wrapStatement(
++				getRealConnection().prepareCall(sql, resultSetType,
++	                    resultSetConcurrency, resultSetHoldability), sql);
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final Savepoint setSavepoint() throws SQLException {
++		try {
++			control.checkSavepoint();
++			return getRealConnection().setSavepoint();
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final Savepoint setSavepoint(String name) throws SQLException {
++		try {
++			control.checkSavepoint();
++			return getRealConnection().setSavepoint(name);
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final void rollback(Savepoint savepoint) throws SQLException {
++		try {
++			control.checkRollback();
++			getRealConnection().rollback(savepoint);
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final void releaseSavepoint(Savepoint savepoint) throws SQLException {
++		try {
++			getRealConnection().releaseSavepoint(savepoint);
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final void setHoldability(int holdability) throws SQLException {
++		try {
++			holdability = control.checkHoldCursors(holdability, false);
++			getRealConnection().setHoldability(holdability);
++			stateHoldability = holdability;
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
++		try {
++			return control.wrapStatement(getRealConnection().prepareStatement(sql, autoGeneratedKeys), sql, new Integer(autoGeneratedKeys));
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
++		try {
++			return control.wrapStatement(getRealConnection().prepareStatement(sql, columnIndexes), sql, columnIndexes);
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public final PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
++		try {
++			return control.wrapStatement(getRealConnection().prepareStatement(sql, columnNames), sql, columnNames);
++		}
++		catch (SQLException se)
++		{
++			notifyException(se);
++			throw se;
++		}
++	}
++
++	public BrokeredPreparedStatement newBrokeredStatement(BrokeredStatementControl statementControl, String sql, Object generatedKeys) throws SQLException {
++		return new BrokeredPreparedStatement30(statementControl, getJDBCLevel(), sql, generatedKeys);
++	}
++
++	public BrokeredCallableStatement newBrokeredStatement(BrokeredStatementControl statementControl, String sql) throws SQLException {
++		return new BrokeredCallableStatement30(statementControl, getJDBCLevel(), sql);
++	}
++
++	protected int getJDBCLevel() { return 3;}
+ }
+diff --git a/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection30.java b/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection30.java
+index 3fc3ea8..f9fcb8f 100644
+--- a/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection30.java
++++ b/java/engine/org/apache/derby/iapi/jdbc/BrokeredConnection30.java
+@@ -21,12 +21,6 @@
+ 
+ package org.apache.derby.iapi.jdbc;
+ 
+-import java.sql.Statement;
+-import java.sql.PreparedStatement;
+-import java.sql.CallableStatement;
+-import java.sql.SQLException;
+-import java.sql.Savepoint;
+-import org.apache.derby.iapi.reference.JDBC30Translation;
+ 
+ /**
+ 	Extends BrokeredConnection to provide the JDBC 3.0 connection methods.
+@@ -39,162 +33,4 @@ public class BrokeredConnection30 extends BrokeredConnection
+ 		super(control);
+ 	}
+ 
+-	public final Statement createStatement(int resultSetType,
+-                                 int resultSetConcurrency,
+-                                 int resultSetHoldability)
+-								 throws SQLException {
+-		try {
+-            resultSetHoldability = statementHoldabilityCheck(resultSetHoldability);
+-			return control.wrapStatement(getRealConnection().createStatement(resultSetType,
+-                    resultSetConcurrency, resultSetHoldability));
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-	public final CallableStatement prepareCall(String sql,
+-                                     int resultSetType,
+-                                     int resultSetConcurrency,
+-                                     int resultSetHoldability)
+-									 throws SQLException {
+-		try {
+-            resultSetHoldability = statementHoldabilityCheck(resultSetHoldability);
+-			return control.wrapStatement(
+-				getRealConnection().prepareCall(sql, resultSetType,
+-                        resultSetConcurrency, resultSetHoldability), sql);
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public final Savepoint setSavepoint()
+-		throws SQLException
+-	{
+-		try {
+-			control.checkSavepoint();
+-			return getRealConnection().setSavepoint();
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public final Savepoint setSavepoint(String name)
+-		throws SQLException
+-	{
+-		try {
+-			control.checkSavepoint();
+-			return getRealConnection().setSavepoint(name);
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public final void rollback(Savepoint savepoint)
+-		throws SQLException
+-	{
+-		try {
+-			control.checkRollback();
+-			getRealConnection().rollback(savepoint);
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public final void releaseSavepoint(Savepoint savepoint)
+-		throws SQLException
+-	{
+-		try {
+-			getRealConnection().releaseSavepoint(savepoint);
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-
+-	public final void setHoldability(int holdability)
+-		throws SQLException
+-	{
+-		try {
+-			holdability = control.checkHoldCursors(holdability, false);
+-			getRealConnection().setHoldability(holdability);
+-			stateHoldability = holdability;
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public final PreparedStatement prepareStatement(
+-			String sql,
+-			int autoGeneratedKeys)
+-    throws SQLException
+-	{
+-		try {
+-			return control.wrapStatement(getRealConnection().prepareStatement(sql, autoGeneratedKeys), sql, new Integer(autoGeneratedKeys));
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public final PreparedStatement prepareStatement(
+-			String sql,
+-			int[] columnIndexes)
+-    throws SQLException
+-	{
+-		try {
+-			return control.wrapStatement(getRealConnection().prepareStatement(sql, columnIndexes), sql, columnIndexes);
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public final PreparedStatement prepareStatement(
+-			String sql,
+-			String[] columnNames)
+-    throws SQLException
+-	{
+-		try {
+-			return control.wrapStatement(getRealConnection().prepareStatement(sql, columnNames), sql, columnNames);
+-		}
+-		catch (SQLException se)
+-		{
+-			notifyException(se);
+-			throw se;
+-		}
+-	}
+-
+-	public BrokeredPreparedStatement newBrokeredStatement(BrokeredStatementControl statementControl, String sql, Object generatedKeys) throws SQLException {
+-		return new BrokeredPreparedStatement30(statementControl, getJDBCLevel(), sql, generatedKeys);
+-	}
+-	public BrokeredCallableStatement newBrokeredStatement(BrokeredStatementControl statementControl, String sql) throws SQLException {
+-		return new BrokeredCallableStatement30(statementControl, getJDBCLevel(), sql);
+-	}
+-
+-	int getJDBCLevel() { return 3;}
+-
+ }
+diff --git a/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement.java b/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement.java
+index 25dec30..6e2b046 100644
+--- a/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement.java
++++ b/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement.java
+@@ -40,11 +40,18 @@ public class BrokeredPreparedStatement extends BrokeredStatement
+ 		SQL used to create me.
+ 	*/
+ 	final String	sql;
++	protected final Object generatedKeys;
+ 
+-    public BrokeredPreparedStatement(BrokeredStatementControl control, int jdbcLevel, String sql) throws SQLException
++    public BrokeredPreparedStatement(BrokeredStatementControl control, int jdbcLevel, String sql, Object generatedKeys) throws SQLException
+     {
+         super(control, jdbcLevel);
+ 		this.sql = sql;
++		this.generatedKeys = generatedKeys;
++    }
++    
++    public BrokeredPreparedStatement(BrokeredStatementControl control, int jdbcLevel, String sql) throws SQLException
++    {
++    	this(control, jdbcLevel, sql, null);
+     }
+ 
+     /**
+@@ -523,15 +530,37 @@ public class BrokeredPreparedStatement extends BrokeredStatement
+ 		return getPreparedStatement();
+ 	}
+ 
++	public final void setURL(int i, URL x) throws SQLException {
++	    getPreparedStatement().setURL( i, x);
++	}
++
++	public final ParameterMetaData getParameterMetaData() throws SQLException {
++	    return getPreparedStatement().getParameterMetaData();
++	}
++
+ 	/**
+ 		Create a duplicate PreparedStatement to this, including state, from the passed in Connection.
+ 	*/
+ 	public PreparedStatement createDuplicateStatement(Connection conn, PreparedStatement oldStatement) throws SQLException {
+-
+-		PreparedStatement newStatement = conn.prepareStatement(sql, resultSetType, resultSetConcurrency);
+-
++	
++		PreparedStatement newStatement;
++	
++		if (generatedKeys == null)
++			newStatement = conn.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
++		else {
++			// The prepareStatement() calls that take a generated key value do not take resultSet* type
++			// parameters, but since they don't return ResultSets that is OK. There are only for INSERT statements.
++			if (generatedKeys instanceof Integer)
++				newStatement = conn.prepareStatement(sql, ((Integer) generatedKeys).intValue());
++			else if (generatedKeys instanceof int[])
++				newStatement = conn.prepareStatement(sql, (int[]) generatedKeys);
++			else
++				newStatement = conn.prepareStatement(sql, (String[]) generatedKeys);
++		}
++	
++	
+ 		setStatementState(oldStatement, newStatement);
+-
++	
+ 		return newStatement;
+ 	}
+ }
+diff --git a/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement30.java b/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement30.java
+index 03eda5c..29b4161 100644
+--- a/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement30.java
++++ b/java/engine/org/apache/derby/iapi/jdbc/BrokeredPreparedStatement30.java
+@@ -22,52 +22,13 @@
+ package org.apache.derby.iapi.jdbc;
+ 
+ import java.sql.*;
+-import java.net.URL;
+ 
+ /**
+ 	JDBC 3 implementation of PreparedStatement.
+ */
+ public class BrokeredPreparedStatement30 extends BrokeredPreparedStatement {
+ 
+-	private final Object generatedKeys;
+ 	public BrokeredPreparedStatement30(BrokeredStatementControl control, int jdbcLevel, String sql, Object generatedKeys) throws SQLException {
+-		super(control, jdbcLevel, sql);
+-		this.generatedKeys = generatedKeys;
+-	}
+-
+-	public final void setURL(int i, URL x)
+-        throws SQLException
+-    {
+-        getPreparedStatement().setURL( i, x);
+-    }
+-    public final ParameterMetaData getParameterMetaData()
+-        throws SQLException
+-    {
+-        return getPreparedStatement().getParameterMetaData();
+-    }
+-	/**
+-		Create a duplicate PreparedStatement to this, including state, from the passed in Connection.
+-	*/
+-	public PreparedStatement createDuplicateStatement(Connection conn, PreparedStatement oldStatement) throws SQLException {
+-
+-		PreparedStatement newStatement;
+-
+-		if (generatedKeys == null)
+-			newStatement = conn.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
+-		else {
+-			// The prepareStatement() calls that take a generated key value do not take resultSet* type
+-			// parameters, but since they don't return ResultSets that is OK. There are only for INSERT statements.
+-			if (generatedKeys instanceof Integer)
+-				newStatement = conn.prepareStatement(sql, ((Integer) generatedKeys).intValue());
+-			else if (generatedKeys instanceof int[])
+-				newStatement = conn.prepareStatement(sql, (int[]) generatedKeys);
+-			else
+-				newStatement = conn.prepareStatement(sql, (String[]) generatedKeys);
+-		}
+-
+-
+-		setStatementState(oldStatement, newStatement);
+-
+-		return newStatement;
++		super(control, jdbcLevel, sql, generatedKeys);
+ 	}
+ }
+diff --git a/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement20.java b/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement20.java
+index 5647e48..22f1306 100644
+--- a/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement20.java
++++ b/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement20.java
+@@ -23,6 +23,7 @@ package org.apache.derby.impl.jdbc;
+ 
+ import java.math.BigDecimal;
+ import java.sql.CallableStatement;
++import java.sql.ParameterMetaData;
+ import java.sql.SQLException;
+ import java.sql.Date;
+ import java.sql.Time;
+@@ -1228,4 +1229,23 @@ public class EmbedCallableStatement20
+             }
+         } // End synchronized block
+     }
++
++	/**
++	* JDBC 3.0
++	*
++	* Retrieves the number, types and properties of this PreparedStatement
++	* object's parameters.
++	*
++	* @return a ParameterMetaData object that contains information about the
++	* number, types and properties of this PreparedStatement object's parameters.
++	* @exception SQLException if a database access error occurs
++	*/
++	public ParameterMetaData getParameterMetaData() throws SQLException {
++		checkStatus();
++		if (preparedStatement == null)
++			return null;
++		
++		return new EmbedParameterMetaData30(
++				getParms(), preparedStatement.getParameterTypes());
++	}
+ }
+diff --git a/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement30.java b/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement30.java
+index 65e2343..c3a3d48 100644
+--- a/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement30.java
++++ b/java/engine/org/apache/derby/impl/jdbc/EmbedCallableStatement30.java
+@@ -23,7 +23,6 @@ package org.apache.derby.impl.jdbc;
+ 
+ import java.math.BigDecimal;
+ 
+-import java.sql.ParameterMetaData;
+ import java.sql.SQLException;
+ 
+ 
+@@ -61,35 +60,6 @@ public class EmbedCallableStatement30 extends EmbedCallableStatement20
+ 		super(conn, sql, resultSetType, resultSetConcurrency, resultSetHoldability);
+ 	}
+ 
+-	/*
+-	 * Note: all the JDBC 3.0 Prepared statement methods are duplicated
+-	 * in here because this class inherits from Local20/EmbedCallableStatement, which
+-	 * inherits from Local/EmbedCallableStatement.  This class should inherit from a
+-	 * local30/PreparedStatement.  Since java does not allow multiple inheritance,
+-	 * duplicate the code here.
+-	 */
+-
+-	/**
+-    * JDBC 3.0
+-    *
+-    * Retrieves the number, types and properties of this PreparedStatement
+-    * object's parameters.
+-    *
+-    * @return a ParameterMetaData object that contains information about the
+-    * number, types and properties of this PreparedStatement object's parameters.
+-    * @exception SQLException if a database access error occurs
+-	*/
+-	public ParameterMetaData getParameterMetaData()
+-    throws SQLException
+-	{
+-		checkStatus();
+-		if (preparedStatement == null)
+-			return null;
+-		
+-		return new EmbedParameterMetaData30(
+-				getParms(), preparedStatement.getParameterTypes());
+-	}
+-
+ }
+ 
+ 
+diff --git a/java/engine/org/apache/derby/impl/jdbc/EmbedConnection.java b/java/engine/org/apache/derby/impl/jdbc/EmbedConnection.java
+index 4e8339e..cb0d8b1 100644
+--- a/java/engine/org/apache/derby/impl/jdbc/EmbedConnection.java
++++ b/java/engine/org/apache/derby/impl/jdbc/EmbedConnection.java
+@@ -26,6 +26,7 @@ import org.apache.derby.jdbc.InternalDriver;
+ import org.apache.derby.iapi.reference.Attribute;
+ import org.apache.derby.iapi.reference.JDBC20Translation;
+ import org.apache.derby.iapi.reference.JDBC30Translation;
++import org.apache.derby.iapi.reference.Limits;
+ import org.apache.derby.iapi.reference.MessageId;
+ import org.apache.derby.iapi.reference.Property;
+ import org.apache.derby.iapi.reference.SQLState;
+@@ -42,6 +43,7 @@ import org.apache.derby.iapi.db.Database;
+ import org.apache.derby.iapi.error.StandardException;
+ import org.apache.derby.iapi.services.i18n.MessageService;
+ import org.apache.derby.iapi.sql.conn.LanguageConnectionContext;
++import org.apache.derby.iapi.sql.conn.StatementContext;
+ import org.apache.derby.iapi.sql.execute.ExecutionContext;
+ import org.apache.derby.iapi.sql.dictionary.DataDictionary;
+ import org.apache.derby.iapi.store.access.XATransactionController;
+@@ -55,6 +57,7 @@ import java.sql.CallableStatement;
+ import java.sql.DatabaseMetaData;
+ import java.sql.SQLException;
+ import java.sql.SQLWarning;
++import java.sql.Savepoint;
+ import java.sql.Statement;
+ 
+ import java.util.Properties;
+@@ -2030,4 +2033,155 @@ public class EmbedConnection implements EngineConnection
+     }
+ 
+ 
++	/**
++	 * Creates an unnamed savepoint in the current transaction and
++	 * returns the new Savepoint object that represents it.
++	 *
++	 *
++	 * @return  The new Savepoint object
++	 *
++	 * @exception SQLException if a database access error occurs or
++	 * this Connection object is currently in auto-commit mode
++	 */
++	public Savepoint setSavepoint() throws SQLException {
++		return commonSetSavepointCode(null, false);
++	}
++
++
++	/**
++	 * Creates a savepoint with the given name in the current transaction and
++	 * returns the new Savepoint object that represents it.
++	 *
++	 *
++	 * @param name  A String containing the name of the savepoint
++	 *
++	 * @return  The new Savepoint object
++	 *
++	 * @exception SQLException if a database access error occurs or
++	 * this Connection object is currently in auto-commit mode
++	 */
++	public Savepoint setSavepoint(String name) throws SQLException {
++		return commonSetSavepointCode(name, true);
++	}
++
++
++	/**
++	 * Creates a savepoint with the given name(if it is a named savepoint else we will generate a name
++	 * becuase Cloudscape only supports named savepoints internally) in the current transaction and
++	 * returns the new Savepoint object that represents it.
++	 *
++	 * @param name  A String containing the name of the savepoint. Will be null if this is an unnamed savepoint
++	 * @param userSuppliedSavepointName  If true means it's a named user defined savepoint.
++	 *
++	 * @return  The new Savepoint object
++	 */
++	private Savepoint commonSetSavepointCode(String name, boolean userSuppliedSavepointName) throws SQLException {
++		synchronized (getConnectionSynchronization()) {
++			setupContextStack();
++			try {
++				verifySavepointCommandIsAllowed();
++				if (userSuppliedSavepointName && (name == null))//make sure that if it is a named savepoint then supplied name is not null
++					throw newSQLException(SQLState.NULL_NAME_FOR_SAVEPOINT);
++				//make sure that if it is a named savepoint then supplied name length is not > 128
++				if (userSuppliedSavepointName && (name.length() > Limits.MAX_IDENTIFIER_LENGTH))
++					throw newSQLException(SQLState.LANG_IDENTIFIER_TOO_LONG, name, String.valueOf(Limits.MAX_IDENTIFIER_LENGTH));
++				if (userSuppliedSavepointName && name.startsWith("SYS")) //to enforce DB2 restriction which is savepoint name can't start with SYS
++					throw newSQLException(SQLState.INVALID_SCHEMA_SYS, "SYS");
++				Savepoint savePt = new EmbedSavepoint30(this, name);
++				return savePt;
++			} catch (StandardException e) {
++				throw handleException(e);
++			} finally {
++			    restoreContextStack();
++			}
++		}
++	}
++
++
++	/**
++	 * Undoes all changes made after the given Savepoint object was set.
++	 * This method should be used only when auto-commit has been disabled.
++	 *
++	 *
++	 * @param savepoint  The Savepoint object to rollback to
++	 *
++	 * @exception SQLException  if a database access error occurs,
++	 * the Savepoint object is no longer valid, or this Connection
++	 * object is currently in auto-commit mode
++	 */
++	public void rollback(Savepoint savepoint) throws SQLException {
++		synchronized (getConnectionSynchronization()) {
++			setupContextStack();
++			try {
++				verifySavepointCommandIsAllowed();
++				verifySavepointArg(savepoint);
++				//Need to cast and get the name because JDBC3 spec doesn't support names for
++				//unnamed savepoints but Cloudscape keeps names for named & unnamed savepoints.
++				getLanguageConnection().internalRollbackToSavepoint(((EmbedSavepoint30)savepoint).getInternalName(),true, savepoint);
++			} catch (StandardException e) {
++				throw handleException(e);
++			} finally {
++			    restoreContextStack();
++			}
++		}
++	}
++
++
++	/**
++	 * Removes the given Savepoint object from the current transaction.
++	 * Any reference to the savepoint after it has been removed will cause
++	 * an SQLException to be thrown
++	 *
++	 *
++	 * @param savepoint  The Savepoint object to be removed
++	 *
++	 * @exception SQLException  if a database access error occurs or the
++	 * given Savepoint object is not a valid savepoint in the current transaction
++	 */
++	public void releaseSavepoint(Savepoint savepoint) throws SQLException {
++		synchronized (getConnectionSynchronization()) {
++			setupContextStack();
++			try {
++				verifySavepointCommandIsAllowed();
++				verifySavepointArg(savepoint);
++				//Need to cast and get the name because JDBC3 spec doesn't support names for
++				//unnamed savepoints but Cloudscape keeps name for named & unnamed savepoints.
++				getLanguageConnection().releaseSavePoint(((EmbedSavepoint30)savepoint).getInternalName(), savepoint);
++			} catch (StandardException e) {
++				throw handleException(e);
++			} finally {
++			    restoreContextStack();
++			}
++		}
++	}
++
++
++	private void verifySavepointCommandIsAllowed() throws SQLException {
++		if (autoCommit)
++			throw newSQLException(SQLState.NO_SAVEPOINT_WHEN_AUTO);
++	
++		//Bug 4507 - savepoint not allowed inside trigger
++		StatementContext stmtCtxt = getLanguageConnection().getStatementContext();
++		if (stmtCtxt!= null && stmtCtxt.inTrigger())
++			throw newSQLException(SQLState.NO_SAVEPOINT_IN_TRIGGER);
++	}
++
++
++	private void verifySavepointArg(Savepoint savepoint) throws SQLException {
++		//bug 4451 - Check for null savepoint
++		EmbedSavepoint30 lsv = (EmbedSavepoint30) savepoint;
++	    // bug 4451 need to throw error for null Savepoint
++	    if (lsv == null)
++		throw
++		    Util.generateCsSQLException(SQLState.XACT_SAVEPOINT_NOT_FOUND, "null");
++	
++		//bug 4468 - verify that savepoint rollback is for a savepoint from the current
++		// connection
++		if (!lsv.sameConnection(this))
++			throw newSQLException(SQLState.XACT_SAVEPOINT_RELEASE_ROLLBACK_FAIL);
++	
++		return;
++	}
++
++
+ }
+diff --git a/java/engine/org/apache/derby/impl/jdbc/EmbedConnection30.java b/java/engine/org/apache/derby/impl/jdbc/EmbedConnection30.java
+index 144c651..5ed0e18 100644
+--- a/java/engine/org/apache/derby/impl/jdbc/EmbedConnection30.java
++++ b/java/engine/org/apache/derby/impl/jdbc/EmbedConnection30.java
+@@ -21,23 +21,11 @@
+ 
+ package org.apache.derby.impl.jdbc;
+ 
+-import org.apache.derby.iapi.error.StandardException;
+-import org.apache.derby.iapi.sql.conn.StatementContext;
+ 
+-import org.apache.derby.impl.jdbc.EmbedConnection;
+-import org.apache.derby.impl.jdbc.Util;
+-import org.apache.derby.jdbc.InternalDriver;
+-
+-import org.apache.derby.iapi.reference.SQLState;
+-import org.apache.derby.iapi.reference.Limits;
+-
+-import org.apache.derby.iapi.error.ExceptionSeverity;
+-
+-import java.sql.Savepoint;
+ import java.sql.SQLException;
+-
+ import java.util.Properties;
+-import java.util.Vector;
++
++import org.apache.derby.jdbc.InternalDriver;
+ 
+ 
+ /**
+@@ -78,170 +66,4 @@ public class EmbedConnection30 extends EmbedConnection
+ 	{
+ 		super(inputConnection);
+ 	}
+-
+- 	/////////////////////////////////////////////////////////////////////////
+-	//
+-	//	JDBC 3.0	-	New public methods
+-	//
+-	/////////////////////////////////////////////////////////////////////////
+-
+-	/**
+-	 * Creates an unnamed savepoint in the current transaction and
+-	 * returns the new Savepoint object that represents it.
+-	 *
+-	 *
+-	 * @return  The new Savepoint object
+-	 *
+-	 * @exception SQLException if a database access error occurs or
+-	 * this Connection object is currently in auto-commit mode
+-	 */
+-	public Savepoint setSavepoint()
+-		throws SQLException
+-	{
+-		return commonSetSavepointCode(null, false);
+-	}
+-
+-	/**
+-	 * Creates a savepoint with the given name in the current transaction and
+-	 * returns the new Savepoint object that represents it.
+-	 *
+-	 *
+-	 * @param name  A String containing the name of the savepoint
+-	 *
+-	 * @return  The new Savepoint object
+-	 *
+-	 * @exception SQLException if a database access error occurs or
+-	 * this Connection object is currently in auto-commit mode
+-	 */
+-	public Savepoint setSavepoint(
+-			String name)
+-		throws SQLException
+-	{
+-		return commonSetSavepointCode(name, true);
+-	}
+-
+-	/**
+-	 * Creates a savepoint with the given name(if it is a named savepoint else we will generate a name
+-	 * becuase Cloudscape only supports named savepoints internally) in the current transaction and
+-	 * returns the new Savepoint object that represents it.
+-	 *
+-	 * @param name  A String containing the name of the savepoint. Will be null if this is an unnamed savepoint
+-	 * @param userSuppliedSavepointName  If true means it's a named user defined savepoint.
+-	 *
+-	 * @return  The new Savepoint object
+-	 */
+-	private Savepoint commonSetSavepointCode(String name, boolean userSuppliedSavepointName) throws SQLException
+-	{
+-		synchronized (getConnectionSynchronization()) {
+-			setupContextStack();
+-			try {
+-				verifySavepointCommandIsAllowed();
+-				if (userSuppliedSavepointName && (name == null))//make sure that if it is a named savepoint then supplied name is not null
+-					throw newSQLException(SQLState.NULL_NAME_FOR_SAVEPOINT);
+-				//make sure that if it is a named savepoint then supplied name length is not > 128
+-				if (userSuppliedSavepointName && (name.length() > Limits.MAX_IDENTIFIER_LENGTH))
+-					throw newSQLException(SQLState.LANG_IDENTIFIER_TOO_LONG, name, String.valueOf(Limits.MAX_IDENTIFIER_LENGTH));
+-				if (userSuppliedSavepointName && name.startsWith("SYS")) //to enforce DB2 restriction which is savepoint name can't start with SYS
+-					throw newSQLException(SQLState.INVALID_SCHEMA_SYS, "SYS");
+-				Savepoint savePt = new EmbedSavepoint30(this, name);
+-				return savePt;
+-			} catch (StandardException e) {
+-				throw handleException(e);
+-			} finally {
+-			    restoreContextStack();
+-			}
+-		}
+-	}
+-
+-	/**
+-	 * Undoes all changes made after the given Savepoint object was set.
+-	 * This method should be used only when auto-commit has been disabled.
+-	 *
+-	 *
+-	 * @param savepoint  The Savepoint object to rollback to
+-	 *
+-	 * @exception SQLException  if a database access error occurs,
+-	 * the Savepoint object is no longer valid, or this Connection
+-	 * object is currently in auto-commit mode
+-	 */
+-	public void rollback(
+-			Savepoint savepoint)
+-		throws SQLException
+-	{
+-		synchronized (getConnectionSynchronization()) {
+-			setupContextStack();
+-			try {
+-				verifySavepointCommandIsAllowed();
+-				verifySavepointArg(savepoint);
+-				//Need to cast and get the name because JDBC3 spec doesn't support names for
+-				//unnamed savepoints but Cloudscape keeps names for named & unnamed savepoints.
+-				getLanguageConnection().internalRollbackToSavepoint(((EmbedSavepoint30)savepoint).getInternalName(),true, savepoint);
+-			} catch (StandardException e) {
+-				throw handleException(e);
+-			} finally {
+-			    restoreContextStack();
+-			}
+-		}
+-	}
+-
+-	/**
+-	 * Removes the given Savepoint object from the current transaction.
+-	 * Any reference to the savepoint after it has been removed will cause
+-	 * an SQLException to be thrown
+-	 *
+-	 *
+-	 * @param savepoint  The Savepoint object to be removed
+-	 *
+-	 * @exception SQLException  if a database access error occurs or the
+-	 * given Savepoint object is not a valid savepoint in the current transaction
+-	 */
+-	public void releaseSavepoint(
+-			Savepoint savepoint)
+-		throws SQLException
+-	{
+-		synchronized (getConnectionSynchronization()) {
+-			setupContextStack();
+-			try {
+-				verifySavepointCommandIsAllowed();
+-				verifySavepointArg(savepoint);
+-				//Need to cast and get the name because JDBC3 spec doesn't support names for
+-				//unnamed savepoints but Cloudscape keeps name for named & unnamed savepoints.
+-				getLanguageConnection().releaseSavePoint(((EmbedSavepoint30)savepoint).getInternalName(), savepoint);
+-			} catch (StandardException e) {
+-				throw handleException(e);
+-			} finally {
+-			    restoreContextStack();
+-			}
+-		}
+-	}
+-
+-	// used by setSavepoint to check autocommit is false and not inside the trigger code
+-	private void verifySavepointCommandIsAllowed() throws SQLException
+-	{
+-		if (autoCommit)
+-			throw newSQLException(SQLState.NO_SAVEPOINT_WHEN_AUTO);
+-
+-		//Bug 4507 - savepoint not allowed inside trigger
+-		StatementContext stmtCtxt = getLanguageConnection().getStatementContext();
+-		if (stmtCtxt!= null && stmtCtxt.inTrigger())
+-			throw newSQLException(SQLState.NO_SAVEPOINT_IN_TRIGGER);
+-	}
+-
+-	// used by release/rollback to check savepoint argument
+-	private void verifySavepointArg(Savepoint savepoint) throws SQLException
+-	{
+-		//bug 4451 - Check for null savepoint
+-		EmbedSavepoint30 lsv = (EmbedSavepoint30) savepoint;
+-	    // bug 4451 need to throw error for null Savepoint
+-	    if (lsv == null)
+-		throw
+-		    Util.generateCsSQLException(SQLState.XACT_SAVEPOINT_NOT_FOUND, "null");
+-
+-		//bug 4468 - verify that savepoint rollback is for a savepoint from the current
+-		// connection
+-		if (!lsv.sameConnection(this))
+-			throw newSQLException(SQLState.XACT_SAVEPOINT_RELEASE_ROLLBACK_FAIL);
+-      
+-		return;
+-	}
+ }
+diff --git a/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement20.java b/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement20.java
+index cf32dfd..b5e7882 100644
+--- a/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement20.java
++++ b/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement20.java
+@@ -33,6 +33,7 @@ import java.io.InputStream;
+ 
+ import java.math.BigDecimal;
+ 
++import java.sql.ParameterMetaData;
+ import java.sql.SQLException;
+ import java.sql.SQLWarning;
+ import java.sql.Date;
+@@ -153,5 +154,21 @@ public class EmbedPreparedStatement20
+ 		}
+ 		return false;
+ 	}
++
++	/**
++	* JDBC 3.0
++	*
++	* Retrieves the number, types and properties of this PreparedStatement
++	* object's parameters.
++	*
++	* @return a ParameterMetaData object that contains information about the
++	* number, types and properties of this PreparedStatement object's parameters.
++	* @exception SQLException if a database access error occurs
++	*/
++	public ParameterMetaData getParameterMetaData() throws SQLException {
++	  checkStatus();
++	  return new EmbedParameterMetaData30(
++				getParms(), preparedStatement.getParameterTypes());
++	}
+ }
+ 
+diff --git a/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement30.java b/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement30.java
+index 89d7e85..5a6cd42 100644
+--- a/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement30.java
++++ b/java/engine/org/apache/derby/impl/jdbc/EmbedPreparedStatement30.java
+@@ -26,7 +26,6 @@ import org.apache.derby.impl.jdbc.Util;
+ 
+ import org.apache.derby.iapi.sql.ResultSet;
+ 
+-import java.sql.ParameterMetaData;
+ import java.sql.SQLException;
+ import java.net.URL;
+ 
+@@ -63,23 +62,5 @@ public class EmbedPreparedStatement30 extends EmbedPreparedStatement20
+ 		super(conn, sql, forMetaData, resultSetType, resultSetConcurrency, resultSetHoldability,
+ 		autoGeneratedKeys, columnIndexes, columnNames);
+ 	}
+-
+-	/**
+-    * JDBC 3.0
+-    *
+-    * Retrieves the number, types and properties of this PreparedStatement
+-    * object's parameters.
+-    *
+-    * @return a ParameterMetaData object that contains information about the
+-    * number, types and properties of this PreparedStatement object's parameters.
+-    * @exception SQLException if a database access error occurs
+-	*/
+-	public ParameterMetaData getParameterMetaData()
+-    throws SQLException
+-	{
+-	  checkStatus();
+-	  return new EmbedParameterMetaData30(
+-				getParms(), preparedStatement.getParameterTypes());
+-	}
+ }
+ 
