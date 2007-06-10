@@ -2,6 +2,10 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  10 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070608171640.ebuild:
+  unbundled many src_compile jars
+
   09 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_alpha10_pre20070608171640.ebuild:
   fixed jruby perms update
