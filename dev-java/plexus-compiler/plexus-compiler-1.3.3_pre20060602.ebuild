@@ -19,8 +19,7 @@ dev-java/maven-artifact
 dev-java/maven-artifact-test
 dev-java/commons-lang
 dev-java/junit
-dev-java/plexus-container-default
-dev-java/plexus-component-api
+=dev-java/plexus-container-default-1.0_alpha9
 dev-java/plexus-utils
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
@@ -33,8 +32,7 @@ commons-lang
 maven-artifact
 junit
 maven-artifact-test
-plexus-container-default
-plexus-component-api
+plexus-container-default-1.0_alpha9
 plexus-utils
 "
 JAVA_MAVEN_PROJECTS="
