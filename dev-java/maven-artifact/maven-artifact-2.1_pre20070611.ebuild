@@ -4,7 +4,7 @@
 
 JAVA_PKG_IUSE="source" #no javadoc target
 
-IS_MODELLO_EBUILD="y"
+JAVA_MAVEN_ADD_GENERATED_STUFF="y"
 JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
@@ -15,18 +15,24 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 DEP="
-=dev-java/plexus-container-default-1.0_alpha9
-dev-java/wagon-provider-api
-dev-java/plexus-utils
 =dev-java/classworlds-1*
+dev-java/plexus-classworlds
+dev-java/plexus-component-api
+dev-java/plexus-container-default
+dev-java/plexus-utils
+dev-java/wagon-provider-api
+dev-java/wagon-file
 "
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 JAVA_MAVEN_CLASSPATH="
-plexus-container-default-1.0_alpha9
-plexus-utils
 classworlds-1
+plexus-classworlds
+plexus-component-api
+plexus-container-default
+plexus-utils
 wagon-provider-api
+wagon-file
 "
 
 RESTRICT=test
