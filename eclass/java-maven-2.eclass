@@ -53,14 +53,15 @@ if [[ ! ${JAVA_MAVEN_BUILD_SYSTEM} == "eant"  ]]; then
 	RDEPEND="${RDEPEND} ${ECLASS_DEP}"
 fi
 
-# SPECIFIC TO MODELLO BASED EBUILDS
-# used to facilitate modello plugin integration
-# - generate sources with a maven installation, compress them
-#   to fit in subdirs of src/main/java
-# - name the tarball ${PN}-gen-src-${PV}.tar.bz2
 
-if [[ -n ${IS_MODELLO_EBUILD} ]]; then
-	MVN_MOD_GEN_SRC="${PN}-gen-src-${PV}.tar.bz2"
+# TO MANUALLY ADD Generated stuff to src/main :
+# set the following variable JAVA_MAVEN_ADD_GENERATED_STUFF
+# used to facilitate modello and others plugins integration with mvn ant plugin
+# - generate sources with a maven installation, compress them
+#   to fit in subdirs of src/main/
+# - name the tarball ${P}-gen-src.tar.bz2
+if [[ -n ${JAVA_MAVEN_ADD_GENERATED_STUFF} ]]; then
+	MVN_MOD_GEN_SRC="${P}-gen-src.tar.bz2"
 	BASE_URL="http://dev.gentooexperimental.org/~kiorky"
 	SRC_URI="${BASE_URL}/${P}.tar.bz2 ${BASE_URL}/${MVN_MOD_GEN_SRC} ${SRC_URI}"
 fi
@@ -114,7 +115,7 @@ JAVA_MAVEN_PATCHES=""
 
 # classpath for build with maven
 # same construction as ANT 's one
-JAVA_MAVEN_CLASSPATH=".:"
+JAVA_MAVEN_CLASSPATH=""
 
 
 # maven launcher function
@@ -182,7 +183,14 @@ java-maven-2_src_unpack() {
 	if  ! has_version ">=dev-java/javatoolkit-0.2.0-r2"; then
 		die "please upgrade to at least dev-java/javatoolkit-0.2.0-r2"
 	fi
-	base_src_unpack
+
+	# unpack time.
+	if [[ -z "${JAVA_MAVEN_ADD_GENERATED_STUFF}" ]]; then
+		base_src_unpack
+	else
+		# only unpack base tarball, we unpack generated stuff later
+		unpack "${P}.tar.bz2"
+	fi
 
 	# patch if neccessary
 	if [[ -n "${JAVA_MAVEN_PATCHES}" ]]; then
@@ -200,9 +208,11 @@ java-maven-2_src_unpack() {
 		fi
 		# specific to modello based ebuild
 		# eventually copy build.xml from filesdir then unpack pre-generated sources.
-		if [[ -n "${IS_MODELLO_EBUILD}" ]]; then
-			mkdir -p "${S}/src/main/java" || die
-			cd "${S}/src/main/java" || die
+		if [[ -n "${JAVA_MAVEN_ADD_GENERATED_STUFF}" ]]; then
+			if [[ ! -d "${S}/src/main" ]]; then
+				mkdir -p "${S}/src/main" || die
+			fi
+			cd "${S}/src/main" || die
 			unpack "${MVN_MOD_GEN_SRC}"
 		fi
 		for build in $(find "${WORKDIR}" -name build.xml || die);do

@@ -18,7 +18,7 @@ dev-java/maven-plugin-descriptor
 dev-java/maven-plugin-testing-harness
 dev-java/plexus-classworlds
 dev-java/plexus-component-api
-=dev-java/plexus-container-default-1.0_alpha9
+dev-java/plexus-container-default
 dev-java/plexus-utils
 dev-java/maven-project
 dev-java/maven-settings
@@ -38,7 +38,7 @@ maven-plugin-descriptor
 maven-plugin-testing-harness
 plexus-classworlds
 plexus-component-api
-plexus-container-default-1.0_alpha9
+plexus-container-default
 plexus-utils
 wagon-provider-api
 "
