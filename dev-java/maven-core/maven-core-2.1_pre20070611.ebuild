@@ -10,36 +10,42 @@ MY_PN=maven
 DESCRIPTION="The core of Maven"
 HOMEPAGE="http://maven.apache.org"
 SRC_URI="http://dev.gentooexperimental.org/~kiorky/${PF}.tar.bz2"
-DEPS="=dev-java/classworlds-1.1*
+COMMON_DEPS="
+=dev-java/classworlds-1.1*
 =dev-java/commons-cli-1*
 dev-java/commons-lang
 =dev-java/commons-lang-2.1*
 dev-java/commons-logging
-=dev-java/plexus-container-default-1.0_alpha9
-dev-java/plexus-interactivity-api
-=dev-java/plexus-utils-1.0.4
-dev-java/wagon-ssh
 dev-java/doxia
-dev-java/wagon-ssh-external
-dev-java/wagon-http-lightweight
-dev-java/wagon-provider-api
 dev-java/maven-artifact
-dev-java/maven-artifact-manager
+dev-java/maven-build-context
+dev-java/maven-error-diagnostics
+dev-java/maven-lifecycle
 dev-java/maven-model
 dev-java/maven-monitor
 dev-java/maven-plugin-api
-dev-java/maven-plugin-registry
 dev-java/maven-plugin-descriptor
 dev-java/maven-plugin-parameter-documenter
+dev-java/maven-plugin-registry
 dev-java/maven-profile
 dev-java/maven-project
-dev-java/maven-error-diagnostics
 dev-java/maven-reporting-api
 dev-java/maven-repository-metadata
-dev-java/maven-settings"
-DEPEND=">=virtual/jdk-1.4 ${DEPS}
+dev-java/maven-settings
+dev-java/plexus-classworlds
+dev-java/plexus-active-collections
+dev-java/plexus-component-api
+dev-java/plexus-container-default
+dev-java/plexus-interactivity-api
+=dev-java/plexus-utils-1.0.4
+dev-java/wagon-http-lightweight
+dev-java/wagon-provider-api
+dev-java/wagon-ssh
+dev-java/wagon-ssh-external
+"
+DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}
 source? ( app-arch/zip )"
-RDEPEND=">=virtual/jre-1.4 ${DEPS}"
+RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 KEYWORDS="~x86"
 IUSE="doc source"
 SLOT="0"
@@ -47,20 +53,14 @@ JAVA_MAVEN_CLASSPATH="
 classworlds-1.1
 commons-cli-1
 commons-lang-2.1
-doxia
 commons-logging
-plexus-container-default-1.0_alpha9
-plexus-interactivity-api
-plexus-utils-1.0.4
-wagon-http-lightweight
-wagon-provider-api
-wagon-ssh
-wagon-ssh-external
+doxia
 maven-artifact
-maven-artifact-manager
+maven-build-context
+maven-error-diagnostics
+maven-lifecycle
 maven-model
 maven-monitor
-maven-error-diagnostics
 maven-plugin-api
 maven-plugin-descriptor
 maven-plugin-parameter-documenter
@@ -70,6 +70,16 @@ maven-project
 maven-reporting-api
 maven-repository-metadata
 maven-settings
+plexus-active-collections
+plexus-classworlds
+plexus-component-api
+plexus-container-default
+plexus-interactivity-api
+plexus-utils-1.0.4
+wagon-http-lightweight
+wagon-provider-api
+wagon-ssh
+wagon-ssh-external
 "
 
 src_unpack() {

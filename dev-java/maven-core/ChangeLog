@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Jun 2007; kiorky <kiorky@cryptelium.net>
+  -maven-core-2.0_pre20070530.ebuild, +maven-core-2.1_pre20070611.ebuild,
+  files/pom.properties:
+  Maven 2.1 Bump
+
   02 Jun 2007; kiorky <kiorky@cryptelium.net>
   maven-core-2.0_pre20070530.ebuild:
   moving to JAVA_MAVEN_CLASSPATH
