@@ -13,8 +13,14 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DEP="=dev-java/plexus-container-default-1.0_alpha9"
-DEPEND=">=virtual/jdk-1.4 ${DEP}"
-RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="plexus-container-default-1.0_alpha9"
+COMMON_DEPS="
+dev-java/plexus-container-default
+dev-java/plexus-component-api
+"
+DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
+RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
+JAVA_MAVEN_CLASSPATH="
+plexus-container-default
+plexus-component-api
+"
 
