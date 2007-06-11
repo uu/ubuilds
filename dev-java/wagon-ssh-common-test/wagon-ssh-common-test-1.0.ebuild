@@ -13,12 +13,21 @@ KEYWORDS="~x86"
 IUSE="source doc"
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
-DEP="dev-java/plexus-utils
-=dev-java/plexus-container-default-1.0_alpha9
+COMMON_DEPS="
+dev-java/plexus-utils
+dev-java/plexus-container-default
+dev-java/plexus-component-api
 dev-java/wagon-provider-api
 dev-java/wagon-ssh-common
 dev-java/junit"
-DEPEND=">=virtual/jdk-1.4 ${DEP}"
-RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="plexus-utils plexus-container-default-1.0_alpha9 wagon-provider-api wagon-ssh-common junit"
+DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
+RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
+JAVA_MAVEN_CLASSPATH="
+plexus-utils
+plexus-container-default
+plexus-component-api
+wagon-provider-api
+wagon-ssh-common
+junit
+"
 
