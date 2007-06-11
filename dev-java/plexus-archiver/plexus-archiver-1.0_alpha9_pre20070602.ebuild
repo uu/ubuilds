@@ -14,20 +14,20 @@ LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
 SLOT="0"
 KEYWORDS="~x86"
 IUSE="source doc"
-DEP="
+COMMON_DEPS="
 dev-java/plexus-component-api
-=dev-java/plexus-container-default-1.0_alpha9
+dev-java/plexus-container-default
 dev-java/plexus-utils
 dev-java/plexus-io
 dev-java/plexus-classworlds
 "
-DEPEND=">=virtual/jdk-1.4 	${DEP}"
-RDEPEND=">=virtual/jre-1.4	${DEP}"
+DEPEND=">=virtual/jdk-1.4 	${COMMON_DEPS}"
+RDEPEND=">=virtual/jre-1.4	${COMMON_DEPS}"
 
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 JAVA_MAVEN_CLASSPATH="
 plexus-component-api
-plexus-container-default-1.0_alpha9
+plexus-container-default
 plexus-io
 plexus-classworlds
 plexus-utils
