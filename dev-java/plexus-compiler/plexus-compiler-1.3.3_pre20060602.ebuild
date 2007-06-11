@@ -16,11 +16,12 @@ COMMON_DEPS="
 dev-java/ant-core
 dev-java/ant-nodeps
 dev-java/maven-artifact
-dev-java/maven-artifact-test
 dev-java/commons-lang
 dev-java/junit
-=dev-java/plexus-container-default-1.0_alpha9
-dev-java/plexus-utils
+dev-java/maven-artifact-test
+dev-java/plexus-component-api
+dev-java/plexus-container-default
+=dev-java/plexus-utils-1.0.4*
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
@@ -29,11 +30,12 @@ JAVA_MAVEN_CLASSPATH="
 ant-core
 ant-nodeps
 commons-lang
-maven-artifact
 junit
+maven-artifact
 maven-artifact-test
-plexus-container-default-1.0_alpha9
-plexus-utils
+plexus-component-api
+plexus-container-default
+plexus-utils-1.0.4
 "
 JAVA_MAVEN_PROJECTS="
 plexus-compiler-api
