@@ -5,7 +5,7 @@
 
 JAVA_PKG_IUSE="source" #no javadoc target
 
-IS_MODELLO_EBUILD="y"
+JAVA_MAVEN_ADD_GENERATED_STUFF="y"
 JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
@@ -15,10 +15,24 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DEP="dev-java/maven-model dev-java/plexus-utils =dev-java/plexus-container-default-1.0_alpha9"
-DEPEND=">=virtual/jdk-1.4 ${DEP}"
-RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="maven-model plexus-utils plexus-container-default-1.0_alpha9"
+COMMON_DEPS="
+=dev-java/jdom-1.0*
+dev-java/maven-build-context
+dev-java/maven-model 
+dev-java/plexus-component-api
+dev-java/plexus-container-default
+dev-java/plexus-utils 
+"
+DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
+RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
+JAVA_MAVEN_CLASSPATH="
+jdom-1.0
+maven-build-context
+maven-model 
+plexus-component-api
+plexus-container-default
+plexus-utils 
+"
 
 RESTRICT=test
 JAVA_PKG_SRC_DIRS="src/main/java/*"
