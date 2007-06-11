@@ -3,7 +3,7 @@
 # $Header: $
 
 JAVA_PKG_IUSE="source" #No javadoc target
-IS_MODELLO_EBUILD="y"
+JAVA_MAVEN_ADD_GENERATED_STUFF="y"
 JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
@@ -13,10 +13,16 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DEP="dev-java/plexus-utils"
-DEPEND=">=virtual/jdk-1.4 ${DEP}"
-RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="plexus-utils"
+COMMON_DEPS="
+=dev-java/jdom-1.0*
+dev-java/plexus-utils
+"
+DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
+RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
+JAVA_MAVEN_CLASSPATH="
+plexus-utils
+jdom-1.0
+"
 
 RESTRICT=test
 JAVA_PKG_SRC_DIRS="src/main/java/*"
