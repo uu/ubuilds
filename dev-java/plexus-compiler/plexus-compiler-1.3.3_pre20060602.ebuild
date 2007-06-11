@@ -20,7 +20,7 @@ dev-java/maven-artifact-test
 dev-java/commons-lang
 dev-java/junit
 dev-java/plexus-container-default
-dev-java/plexus-compiler-api
+dev-java/plexus-component-api
 dev-java/plexus-utils
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
