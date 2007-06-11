@@ -15,24 +15,30 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
-DEP="dev-java/jtidy
-dev-java/wagon-provider-api
-dev-java/plexus-utils
-=dev-java/plexus-container-default-1.0_alpha9
-dev-java/plexus-jetty-httpd
-dev-java/wagon-http-shared
-dev-java/commons-logging
+DEP="
+=dev-java/commons-httpclient-2*
 dev-java/commons-lang
-=dev-java/commons-httpclient-2*"
+dev-java/commons-logging
+dev-java/jtidy
+dev-java/plexus-component-api
+dev-java/plexus-container-default
+dev-java/plexus-jetty-httpd
+dev-java/plexus-utils
+dev-java/wagon-http-shared
+dev-java/wagon-provider-api
+"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="jtidy
-wagon-provider-api
-plexus-utils
-plexus-container-default-1.0_alpha9
-plexus-jetty-httpd
-wagon-http-shared
-commons-logging
+JAVA_MAVEN_CLASSPATH="
+commons-httpclient
 commons-lang
-commons-httpclient"
+commons-logging
+jtidy
+plexus-component-api
+plexus-container-default
+plexus-jetty-httpd
+plexus-utils
+wagon-http-shared
+wagon-provider-api
+"
 
