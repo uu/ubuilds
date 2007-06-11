@@ -18,20 +18,20 @@ IUSE=""
 COMMON_DEPS="
 =dev-java/jdom-1.0*
 dev-java/maven-build-context
-dev-java/maven-model 
+dev-java/maven-model
 dev-java/plexus-component-api
 dev-java/plexus-container-default
-dev-java/plexus-utils 
+dev-java/plexus-utils
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 JAVA_MAVEN_CLASSPATH="
 jdom-1.0
 maven-build-context
-maven-model 
+maven-model
 plexus-component-api
 plexus-container-default
-plexus-utils 
+plexus-utils
 "
 
 RESTRICT=test
