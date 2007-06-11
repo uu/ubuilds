@@ -38,12 +38,12 @@ velocity
 "
 # PLEASE KEEP  THE ORDER !
 JAVA_MAVEN_PROJECTS="
-doxia-sink-api 
-doxia-core 
+doxia-sink-api
+doxia-core
 doxia-modules/doxia-module-confluence
 doxia-modules/doxia-module-docbook-simple
-doxia-modules/doxia-module-twiki 
-doxia-modules/doxia-module-xdoc   
+doxia-modules/doxia-module-twiki
+doxia-modules/doxia-module-xdoc
 doxia-modules/doxia-module-apt
 doxia-modules/doxia-module-itext
 doxia-modules/doxia-module-fml
