@@ -14,30 +14,36 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DEP="dev-java/maven-artifact
-dev-java/maven-artifact-manager
-dev-java/maven-artifact-test
+DEP="
+dev-java/maven-artifact
+dev-java/maven-build-context
 dev-java/maven-model
-dev-java/wagon-provider-api
 dev-java/maven-plugin-registry
 dev-java/maven-profile
-dev-java/maven-settings
 dev-java/maven-repository-metadata
-=dev-java/plexus-container-default-1.0_alpha9
-dev-java/plexus-utils"
+dev-java/maven-settings
+dev-java/plexus-container-default
+dev-java/plexus-component-api
+dev-java/plexus-utils
+dev-java/wagon-provider-api
+dev-java/plexus-classworlds
+"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="maven-artifact
-maven-artifact-manager
-maven-artifact-test
-wagon-provider-api
+JAVA_MAVEN_CLASSPATH="
+maven-artifact
+maven-build-context
 maven-model
 maven-plugin-registry
-maven-repository-metadata
 maven-profile
+maven-repository-metadata
 maven-settings
-plexus-container-default-1.0_alpha9
-plexus-utils"
+plexus-component-api
+plexus-classworlds
+plexus-container-default
+plexus-utils
+wagon-provider-api
+"
 
 JAVA_PKG_SRC_DIRS="src/main/java/*"
 #JAVA_MAVEN_PATCHES="${FILESDIR}/cp.patch"
