@@ -4,6 +4,8 @@
 
 # NOTE:
 # - for debug purposes you can set JAVA_PKG_NB_BUNDLED="true" if you want to disable unbundling
+# - though no part of 'ide' module is built when building just platform, it is needed because
+#   some files are copied from 'ide' module in 'build-nozip' target
 
 # TODO:
 # - bind dependencies to USE flags
@@ -27,6 +29,7 @@ SRC_URI="
 	${SOURCE_SITE}/${PN}-core-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-editor-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-graph-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-libs-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-nbbuild-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-openide-${MY_PV}.tar.bz2
@@ -388,7 +391,7 @@ src_compile() {
 		-Dbuildnum="Gentoo ${PV}" build-nozip
 
 	# Workaround for compilation of org-netbeans-libs-glassfish_logging.jar
-	eant -f web/libs/glassfish_logging/build.xml
+	use j2ee && eant -f web/libs/glassfish_logging/build.xml
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately

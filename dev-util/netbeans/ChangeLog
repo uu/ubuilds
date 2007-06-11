@@ -3,6 +3,10 @@
 # $Header: $
 
   11 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070611093109.ebuild:
+  fixed compilation of just nb platform
+
+  11 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
   +netbeans-6.0_alpha10_pre20070611093109.ebuild:
   Version bump
 
