@@ -25,7 +25,8 @@ dev-java/maven-model
 dev-java/maven-plugin-descriptor
 dev-java/plexus-container-default
 dev-java/plexus-utils
-=dev-java/plexus-container-default-1.0_alpha9
+dev-java/plexus-container-default
+dev-java/plexus-component-api
 dev-java/maven-project
 dev-java/qdox
 "
@@ -38,7 +39,7 @@ easymock-1
 junit
 maven-project
 maven-model
-plexus-container-default-1.0_alpha9 
+plexus-component-api
 plexus-container-default
 plexus-utils
 qdox-1.6
