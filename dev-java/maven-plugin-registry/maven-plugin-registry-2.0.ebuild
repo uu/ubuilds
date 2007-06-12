@@ -4,7 +4,7 @@
 
 JAVA_PKG_IUSE="source" #guessing no javadoc target
 
-IS_MODELLO_EBUILD="y"
+JAVA_MAVEN_ADD_GENERATED_STUFF="y"
 JAVA_MAVEN_BOOTSTRAP="Y"
 inherit java-maven-2
 
