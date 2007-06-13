@@ -43,7 +43,6 @@ dev-java/wagon-ssh-external
 dev-java/jsch
 =dev-java/jdom-1.0*
 dev-java/jtidy
-dev-java/plexus-avalon-personality
 dev-java/plexus-classworlds
 dev-java/plexus-component-api
 dev-java/plexus-container-default
@@ -98,7 +97,6 @@ jsch
 jtidy
 jdom-1.0
 plexus-active-collections
-plexus-avalon-personality
 plexus-classworlds
 plexus-component-api
 plexus-container-default
