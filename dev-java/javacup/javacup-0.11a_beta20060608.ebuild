@@ -51,7 +51,7 @@ src_install() {
 
 	dodoc changelog.txt || die
 	dohtml manual.html || die
-	use source && java-pkg_dosrc java_cup
+	use source && java-pkg_dosrc java/*
 	use doc && java-pkg_dojavadoc javadoc
 }
 
