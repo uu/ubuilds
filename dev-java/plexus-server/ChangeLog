@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  13 Jun 2007; kiorky <kiorky@cryptelium.net>
+  +plexus-server-1.0_pre20070612.ebuild, +metadata.xml:
+  moving to plexus server
+
   02 Jun 2007; kiorky <kiorky@cryptelium.net> plexus-ftpd-1.0.ebuild:
   moving to JAVA_MAVEN_CLASSPATH
 
