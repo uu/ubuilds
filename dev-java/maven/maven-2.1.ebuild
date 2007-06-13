@@ -24,7 +24,6 @@ dev-java/maven-plugin-registry
 dev-java/maven-profile
 dev-java/maven-project
 dev-java/maven-reporting-api
-dev-java/maven-repository-metadata
 dev-java/maven-script
 dev-java/maven-settings
 
@@ -61,6 +60,7 @@ KEYWORDS="~x86"
 IUSE="doc source"
 SLOT="2"
 
+# maven-repository-metadata
 MAVEN_UBERJAR_FAKE="
 maven-artifact
 maven-build-context
@@ -77,7 +77,6 @@ maven-plugin-registry
 maven-profile
 maven-project
 maven-reporting-api
-maven-repository-metadata
 maven-script
 maven-settings
 
