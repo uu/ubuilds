@@ -3,6 +3,11 @@
 # $Header: $
 
   13 Jun 2007; kiorky <kiorky@cryptelium.net>
+  -plexus-component-api-1.0_alpha24.ebuild,
+  +plexus-component-api-1.0_alpha24-r1.ebuild:
+  cleanup / not used
+
+  13 Jun 2007; kiorky <kiorky@cryptelium.net>
   -plexus-component-api-1.0_alpha14.ebuild,
   -plexus-component-api-1.0_alpha22.ebuild,
   plexus-component-api-1.0_alpha24.ebuild, +files/maven.patch:
