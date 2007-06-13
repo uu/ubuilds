@@ -42,9 +42,9 @@ maven-project
 plexus-archiver
 plexus-classworlds
 plexus-component-api
-plexus-component-factories
 plexus-container-default
 plexus-utils
+plexus-component-factories
 "
 JAVA_MAVEN_PROJECTS="
 maven-script-ant
