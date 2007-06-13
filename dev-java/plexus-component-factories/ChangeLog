@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  13 Jun 2007; kiorky <kiorky@cryptelium.net>
+  -plexus-component-factories-1.0_alpha9.ebuild,
+  +plexus-component-factories-1.0_alpha11_pre20070613.ebuild:
+  cleanup / not used
+
   02 Jun 2007; kiorky <kiorky@cryptelium.net>
   plexus-component-factories-1.0_alpha9.ebuild:
   moving to JAVA_MAVEN_CLASSPATH
