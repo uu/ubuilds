@@ -14,7 +14,7 @@ IUSE="source doc"
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
 DEP="dev-java/plexus-utils
-	dev-java/plexus-ftpd
+	dev-java/plexus-server
 	dev-java/commons-net
 	dev-java/xml-commons
 	dev-java/wagon-provider-api"
@@ -24,5 +24,5 @@ JAVA_MAVEN_CLASSPATH="plexus-utils
 	wagon-provider-api
 	xml-commons
 	commons-net
-	plexus-ftpd"
+	plexus-server"
 
