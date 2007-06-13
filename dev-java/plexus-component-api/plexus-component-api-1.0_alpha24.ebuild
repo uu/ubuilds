@@ -21,4 +21,8 @@ JAVA_MAVEN_CLASSPATH="plexus-classworlds"
 
 RESTRICT=test
 
+# backport a method from alpha14 for maven
+# org/codehaus/plexus/component/repository/ComponentDescriptor.java::getComponentKey()
+JAVA_MAVEN_PATCHES="${FILESDIR}/maven.patch"
 JAVA_PKG_SRC_DIRS="src/main/java/*"
+
