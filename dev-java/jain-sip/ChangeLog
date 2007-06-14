@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  14 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  +jain-sip-1.2_p20070609.ebuild,
+  +files/jain-sip-1.2_p20070609-build.xml.patch:
+  Version bump
+
   22 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org>
   +jain-sip-1.2_p20070410.ebuild,
   +files/jain-sip-1.2_p20070410-build.xml.patch, +metadata.xml:
