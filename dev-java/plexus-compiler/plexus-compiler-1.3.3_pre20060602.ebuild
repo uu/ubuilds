@@ -18,7 +18,6 @@ dev-java/ant-nodeps
 dev-java/maven-artifact
 dev-java/commons-lang
 dev-java/junit
-dev-java/maven-artifact-test
 dev-java/plexus-component-api
 dev-java/plexus-container-default
 =dev-java/plexus-utils-1.0.4*
@@ -32,7 +31,6 @@ ant-nodeps
 commons-lang
 junit
 maven-artifact
-maven-artifact-test
 plexus-component-api
 plexus-container-default
 plexus-utils-1.0.4

@@ -17,7 +17,6 @@ IUSE=""
 COMMON_DEPS="
 dev-java/junit
 dev-java/maven-artifact
-dev-java/maven-artifact-manager
 dev-java/maven-core
 dev-java/maven-model
 dev-java/maven-plugin-api
@@ -33,7 +32,6 @@ RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 JAVA_MAVEN_CLASSPATH="
 junit
 maven-artifact
-maven-artifact-manager
 maven-core
 maven-model
 maven-plugin-api

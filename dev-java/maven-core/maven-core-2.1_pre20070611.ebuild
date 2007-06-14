@@ -26,11 +26,9 @@ dev-java/maven-monitor
 dev-java/maven-plugin-api
 dev-java/maven-plugin-descriptor
 dev-java/maven-plugin-parameter-documenter
-dev-java/maven-plugin-registry
 dev-java/maven-profile
 dev-java/maven-project
-dev-java/maven-reporting-api
-dev-java/maven-repository-metadata
+dev-java/maven-reporting
 dev-java/maven-settings
 dev-java/plexus-classworlds
 dev-java/plexus-active-collections
@@ -64,11 +62,9 @@ maven-monitor
 maven-plugin-api
 maven-plugin-descriptor
 maven-plugin-parameter-documenter
-maven-plugin-registry
 maven-profile
 maven-project
-maven-reporting-api
-maven-repository-metadata
+maven-reporting
 maven-settings
 plexus-active-collections
 plexus-classworlds

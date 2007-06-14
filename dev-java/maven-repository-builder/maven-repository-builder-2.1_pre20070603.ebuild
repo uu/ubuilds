@@ -18,7 +18,6 @@ COMMON_DEPS="
 =dev-java/easymock-1*
 dev-java/junit
 dev-java/maven-artifact
-dev-java/maven-artifact-manager
 dev-java/maven-common-artifact-filters
 dev-java/maven-project
 dev-java/maven-test-tools
@@ -32,7 +31,6 @@ JAVA_MAVEN_CLASSPATH="
 easymock-1
 junit
 maven-artifact
-maven-artifact-manager
 maven-common-artifact-filters
 maven-project
 maven-test-tools

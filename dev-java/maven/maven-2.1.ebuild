@@ -20,10 +20,9 @@ dev-java/maven-monitor
 dev-java/maven-plugin-api
 dev-java/maven-plugin-descriptor
 dev-java/maven-plugin-parameter-documenter
-dev-java/maven-plugin-registry
 dev-java/maven-profile
 dev-java/maven-project
-dev-java/maven-reporting-api
+dev-java/maven-reporting
 dev-java/maven-script
 dev-java/maven-settings
 
@@ -39,20 +38,27 @@ dev-java/wagon-ssh-common-test
 dev-java/wagon-ssh-external
 
 =dev-java/commons-cli-1*
-dev-java/jsch
 =dev-java/jdom-1.0*
+dev-java/jsch
 dev-java/jtidy
+
+dev-java/plexus-active-collections
 dev-java/plexus-classworlds
 dev-java/plexus-component-api
 dev-java/plexus-container-default
 dev-java/plexus-interactivity-api
 dev-java/plexus-utils
-dev-java/plexus-active-collections
 "
 
 MAVEN_PLUGINS_DEPS="
+dev-java/maven-ant-plugin
+dev-java/maven-resources-plugin
+dev-java/maven-assembly-plugin
+dev-java/maven-compiler-plugin
+dev-java/maven-jar-plugin
 dev-java/maven-plugin-testing-harness
 "
+
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS} ${MAVEN_PLUGINS_DEPS}
 source? ( app-arch/zip )"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS} ${MAVEN_PLUGINS_DEPS}"
@@ -73,10 +79,9 @@ maven-monitor
 maven-plugin-api
 maven-plugin-descriptor
 maven-plugin-parameter-documenter
-maven-plugin-registry
 maven-profile
 maven-project
-maven-reporting-api
+maven-reporting
 maven-script
 maven-settings
 
@@ -92,9 +97,10 @@ wagon-ssh-common-test
 wagon-ssh-external
 
 commons-cli-1
+jdom-1.0
 jsch
 jtidy
-jdom-1.0
+
 plexus-active-collections
 plexus-classworlds
 plexus-component-api

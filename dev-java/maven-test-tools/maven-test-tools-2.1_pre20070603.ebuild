@@ -19,18 +19,6 @@ dev-java/junit
 dev-java/plexus-utils 
 =dev-java/easymock-1*
 "
-#dev-java/maven-artifact
-#dev-java/maven-artifact-manager
-#dev-java/maven-core
-#dev-java/maven-model
-#dev-java/maven-plugin-api
-#dev-java/maven-project
-#dev-java/plexus-classworlds
-#dev-java/plexus-component-api
-#dev-java/plexus-container-default
-#
-#dev-java/wagon-provider-api
-#"
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 JAVA_MAVEN_CLASSPATH="
@@ -38,19 +26,6 @@ junit
 plexus-utils 
 easymock-1
 "
-#maven-artifact
-#maven-artifact-manager
-#maven-core
-#maven-model
-#maven-plugin-api
-#maven-project
-#plexus-classworlds
-#plexus-component-api
-#plexus-container-default
-#
-#wagon-provider-api
-#"
-#
 RESTRICT=test
 JAVA_PKG_SRC_DIRS="src/main/java/*"
 

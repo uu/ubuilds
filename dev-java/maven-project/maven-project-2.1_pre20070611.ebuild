@@ -18,9 +18,7 @@ DEP="
 dev-java/maven-artifact
 dev-java/maven-build-context
 dev-java/maven-model
-dev-java/maven-plugin-registry
 dev-java/maven-profile
-dev-java/maven-repository-metadata
 dev-java/maven-settings
 dev-java/plexus-container-default
 dev-java/plexus-component-api
@@ -34,9 +32,7 @@ JAVA_MAVEN_CLASSPATH="
 maven-artifact
 maven-build-context
 maven-model
-maven-plugin-registry
 maven-profile
-maven-repository-metadata
 maven-settings
 plexus-component-api
 plexus-classworlds
