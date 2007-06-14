@@ -35,6 +35,9 @@ src_compile() {
 }
 
 src_test() {
+	# we need to backup javadoc as it is deleted by testing targets
+	use doc && mv ${S}/javadoc ${S}/javadoc.bak
+
 	ANT_TASKS="ant-junit" eant runtck runtckcallflows torture parsertest \
 		-Dlog4j_jar=$(java-pkg_getjars log4j) -Dconcurrent_jar=$(java-pkg_getjars concurrent-util) \
 		-Djunit_jar=$(java-pkg_getjars junit)
@@ -50,7 +53,7 @@ src_install() {
 
 	if use doc ; then
 		dohtml docs
-		java-pkg_dojavadoc javadoc
+		java-pkg_dojavadoc javadoc.bak
 	fi
 
 	use source && java-pkg_dosrc src/javax src/gov
