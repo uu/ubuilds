@@ -22,6 +22,8 @@ dev-java/plexus-container-default
 dev-java/plexus-utils
 dev-java/wagon-provider-api
 dev-java/wagon-file
+dev-java/junit
+dev-java/easymock
 "
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
@@ -33,7 +35,13 @@ plexus-container-default
 plexus-utils
 wagon-provider-api
 wagon-file
+easymock-1
+junit
 "
 
 RESTRICT=test
 JAVA_PKG_SRC_DIRS="src/main/java/*"
+
+# NOTE: the tests are merged with the compiled classes for plexus-compiler to build.
+# please adapt future build.xml when bumping
+

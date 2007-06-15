@@ -38,7 +38,6 @@ plexus-utils-1.0.4
 JAVA_MAVEN_PROJECTS="
 plexus-compiler-api
 plexus-compiler-manager
-plexus-compiler-test
 plexus-compilers/plexus-compiler-csharp
 plexus-compilers/plexus-compiler-javac
 plexus-compilers/plexus-compiler-jikes
@@ -46,4 +45,8 @@ plexus-compilers
 "
 # please fix aspectj ebuild and make it build before adding aspectj plugin!
 #plexus-compilers/plexus-compiler-aspectj
+
+# NOTE: module plexus-compiler-test is just here for unit tests, it depends on old
+# libs so if there is no deps belonging on it , we should just not include it :p
+
 

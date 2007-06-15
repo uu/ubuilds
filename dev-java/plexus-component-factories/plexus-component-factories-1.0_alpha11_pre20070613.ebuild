@@ -36,10 +36,11 @@ plexus-classworlds
 JAVA_MAVEN_PROJECTS="
 plexus-ant-factory
 plexus-bsh-factory
-plexus-groovy-factory
-plexus-jruby-factory
-plexus-judo-factory
-plexus-jython-factory
-plexus-marmalade-factory
 "
+# in case, we ll need to add  them
+#plexus-groovy-factory
+#plexus-jruby-factory
+#plexus-judo-factory
+#plexus-jython-factory
+#plexus-marmalade-factory
 
