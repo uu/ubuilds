@@ -2,13 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils java-pkg-2 java-utils-2 java-ant-2 versionator toolchain-funcs flag-o-matic
+inherit eutils java-pkg-2 java-utils-2 java-ant-2 toolchain-funcs flag-o-matic
 
-MY_PV=$(replace_version_separator 3 '-' )
 MY_PN=${PN/#j/J}
 DESCRIPTION="Java subtitle editor"
 HOMEPAGE="http://www.panayotis.com/jubler/"
-SRC_URI="mirror://sourceforge/${PN}/${MY_PN}-src-${MY_PV}.tar.bz2"
+SRC_URI="mirror://sourceforge/${PN}/${MY_PN}-src-${PV}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -29,7 +28,7 @@ DEPEND=">=virtual/jdk-1.5
 	dev-util/pkgconfig
         nls? ( sys-devel/gettext)"
 
-S=${WORKDIR}/${MY_PN}-${MY_PV}
+S=${WORKDIR}/${MY_PN}-${PV}
 
 pkg_setup() {
 	use spell && ! built_with_use zemberek linguas_tr \
