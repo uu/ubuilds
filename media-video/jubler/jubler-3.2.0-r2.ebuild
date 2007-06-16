@@ -8,7 +8,7 @@ MY_PV=$(replace_version_separator 3 '-' )
 MY_PN=${PN/#j/J}
 DESCRIPTION="Java subtitle editor"
 HOMEPAGE="http://www.panayotis.com/jubler/"
-SRC_URI="mirror://sourceforge/${PN}/${MY_PN}-fullsrc-${MY_PV}.tar.bz2"
+SRC_URI="mirror://sourceforge/${PN}/${MY_PN}-src-${MY_PV}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -16,6 +16,7 @@ KEYWORDS="~x86 ~amd64"
 IUSE="nls spell kde"
 
 RDEPEND=">=virtual/jre-1.5
+	 media-video/ffmpeg
 	 spell?
 	 (
 	 	app-text/aspell
@@ -23,7 +24,9 @@ RDEPEND=">=virtual/jre-1.5
 	 )"
         
 DEPEND=">=virtual/jdk-1.5
+	media-video/ffmpeg
 	app-text/docbook-sgml-utils
+	dev-util/pkgconfig
         nls? ( sys-devel/gettext)"
 
 S=${WORKDIR}/${MY_PN}-${MY_PV}
@@ -35,23 +38,22 @@ pkg_setup() {
 }
 
 src_unpack() {
-        unpack ${A}
-        cd ${S}
-        chmod +x resources/ffmpeg-svn/configure
-        chmod +x resources/ffmpeg-svn/doc/texi2pod.pl
+	unpack ${A}
+	cd ${S}
 	epatch ${FILESDIR}/${P}.patch
 	epatch ${FILESDIR}/${P}-fixsplit.patch
 	epatch ${FILESDIR}/${P}-zemberek2.patch
 }
 
 src_compile() {
-	append-flags -fPIC
+	append-flags -fPIC $(pkg-config --cflags libavformat libavutil libavcodec)
+	append-ldflags -lm $(pkg-config --libs libavformat libavutil libavcodec)
 	local anttasks_opt
 	use nls && anttasks_opt="i18n"
 	eant ${anttasks_opt} jar faq || die "eant failed"
 	cp -v dist/help/jubler-faq.html build/classes/help || die "cp failed"
 	cd resources/ffdecode
-	emake CC="$(tc-getCC) ${CFLAGS}"
+	emake CC=$(tc-getCC)
 }
 
 src_install() {

@@ -1,6 +1,6 @@
 diff -Nur Jubler-3.2.0/build.xml Jubler-3.2.0_patched/build.xml
 --- Jubler-3.2.0/build.xml	2007-02-28 22:44:18.000000000 +0200
-+++ Jubler-3.2.0_patched/build.xml	2007-05-26 14:51:54.000000000 +0300
++++ Jubler-3.2.0_patched/build.xml	2007-06-16 06:05:14.000000000 +0300
 @@ -70,6 +70,7 @@
  
  
@@ -43,7 +43,7 @@ diff -Nur Jubler-3.2.0/build.xml Jubler-3.2.0_patched/build.xml
  	<target name="MacSystem" depends="findsystem" if="isMac">
 diff -Nur Jubler-3.2.0/resources/ffdecode/Makefile Jubler-3.2.0_patched/resources/ffdecode/Makefile
 --- Jubler-3.2.0/resources/ffdecode/Makefile	2007-02-25 18:37:31.000000000 +0200
-+++ Jubler-3.2.0_patched/resources/ffdecode/Makefile	2007-05-26 15:04:31.000000000 +0300
++++ Jubler-3.2.0_patched/resources/ffdecode/Makefile	2007-06-16 06:31:29.000000000 +0300
 @@ -3,7 +3,6 @@
  #######################################################
  
@@ -52,7 +52,20 @@ diff -Nur Jubler-3.2.0/resources/ffdecode/Makefile Jubler-3.2.0_patched/resource
  
  
  
-@@ -51,7 +50,6 @@
+@@ -34,12 +33,7 @@
+ 
+ PROJ=ffdecode
+ NATIVES=$(shell cd ../../src ; grep -r ' native ' * | grep -v '/.svn/' | gawk -F ':' '{print $$1}' | uniq | sed -e 's/\.java$$//g' | tr '/' '.' )
+-LIBPATH=-L${LIBRARIES}
+-LIBS=-lavformat${LIBSUF} -lavcodec${LIBSUF} -lavutil${LIBSUF} -lm
+-INCS=-I${FFMPEG}/libavcodec -I${FFMPEG}/libavformat -I${FFMPEG}/libavutil
+ 
+-LINKOPTS=${LIBPATH} ${LIBS} ${XLIBS}
+-LIBSUF=_${SYSTEM}
+ 
+ SRCS=$(shell ls 2>/dev/null *.c)
+ OBJS=$(SRCS:.c=.o)
+@@ -51,7 +45,6 @@
  	LIBNAME=lib${PROJ}.so
  	XLIBS=-lz
  	FCOPTS=
@@ -60,7 +73,7 @@ diff -Nur Jubler-3.2.0/resources/ffdecode/Makefile Jubler-3.2.0_patched/resource
  endif
  ifeq (${SYSTEM},win32)
  	PREF=i586-mingw32msvc-
-@@ -86,7 +84,6 @@
+@@ -86,7 +79,6 @@
  
  FCONFCOMMON=--disable-debug --enable-gpl --enable-a52 --disable-ffmpeg --disable-ffserver --disable-ffplay --disable-encoders --disable-vhook --disable-ipv6 --disable-network --disable-dv1394 --disable-bktr --disable-v4l2 --disable-v4l --disable-audio-beos --disable-audio-oss
  
@@ -68,19 +81,30 @@ diff -Nur Jubler-3.2.0/resources/ffdecode/Makefile Jubler-3.2.0_patched/resource
  RANLIB=${PREF}ranlib
  
  
-@@ -137,8 +134,7 @@
+@@ -95,7 +87,7 @@
+ .SUFFIXES:.o .c
+ 
+ .c.o:
+-	$(CC) -c -O3 -Wall ${INCS} -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/$(SYSTEM) -std=c99 -pedantic -o $@ $?
++	$(CC) $(CFLAGS) -c -Wall ${INCS} -I$(JAVA_HOME)/include -I$(JAVA_HOME)/include/$(SYSTEM) -std=c99 -pedantic -o $@ $?
+ 
+ 
+ develop:
+@@ -136,9 +128,8 @@
+ 
  LIB:${LIBNAME}
  
- $(LIBNAME):ffmpeg $(OBJS) ranlib
+-$(LIBNAME):ffmpeg $(OBJS) ranlib
 -	$(LD) $(ARCH) -o $(LIBNAME) $(OBJS) $(LINKOPTS)
 -	$(STRIP) $(LIBNAME)
-+	$(LD) -o $(LIBNAME) $(OBJS) $(LINKOPTS)
++$(LIBNAME):$(OBJS)
++	$(LD) $(LDFLAGS) -o $(LIBNAME) $(OBJS)
  
  
  clean:
 diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java
 --- Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java	2007-02-15 19:10:16.000000000 +0200
-+++ Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java	2007-05-26 14:51:54.000000000 +0300
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/information/HelpBrowser.java	2007-06-16 06:05:14.000000000 +0300
 @@ -31,7 +31,7 @@
          
          history = new ArrayList<String>();
@@ -92,7 +116,7 @@ diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/information/HelpBrowser.java Jub
          
 diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java
 --- Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java	2007-02-25 21:38:13.000000000 +0200
-+++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java	2007-05-26 14:51:54.000000000 +0300
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemDependent.java	2007-06-16 06:05:14.000000000 +0300
 @@ -23,12 +23,7 @@
  
  package com.panayotis.jubler.os;
@@ -279,7 +303,7 @@ diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3
 -}
 diff -Nur Jubler-3.2.0/src/com/panayotis/jubler/os/SystemFileFinder.java Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java
 --- Jubler-3.2.0/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-02-27 21:02:25.000000000 +0200
-+++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-05-26 14:51:54.000000000 +0300
++++ Jubler-3.2.0_patched/src/com/panayotis/jubler/os/SystemFileFinder.java	2007-06-16 06:05:14.000000000 +0300
 @@ -44,20 +44,17 @@
      }
      
