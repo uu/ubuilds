@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/maven-shared-components
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  18 Jun 2007; kiorky <kiorky@cryptelium.net> ChangeLog:
+  dev-java/maven-shared-components added as a maven dependency. See #182518.
+  Cleanup of its inner components
+
