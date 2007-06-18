@@ -1,0 +1,15 @@
+# ChangeLog for net-p2p/azureus
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  18 Jun 2007; Vlastimil Babka <caster@gentoo.org>
+  +files/azureus-bcprov-1.35.patch, +azureus-3.0.1.4.ebuild,
+  +files/patches-3.0.1.4, +files/patches-3.0.1.4/azureus-cache-size.patch,
+  +files/patches-3.0.1.4/azureus-remove-manifest-classpath.patch,
+  +files/patches-3.0.1.4/azureus-remove-win32-PlatformManagerUpdateChecker.p
+  atch, +files/patches-3.0.1.4/azureus-remove-win32-mediaplayer.patch,
+  +files/patches-3.0.1.4/azureus-remove-win32-osx-platforms.patch,
+  +files/patches-3.0.1.4/azureus-remove-win32-osx-restarter.patch,
+  +files/azureus-3-pre, +files/azureus.desktop, +files/azureus.png:
+  Adding work-in-progress azureus-3. Check ebuild for known issues.
+
