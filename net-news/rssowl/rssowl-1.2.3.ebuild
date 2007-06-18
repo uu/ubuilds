@@ -73,8 +73,8 @@ src_install() {
 }
 
 pkg_postinst() {
-	if ! built_with_use --missing false -o dev-java/swt seamonkey xulrunner; then
-		ewarn "dev-java/swt must be compiled with the seamonkey or xulrunner USE flag"
-		ewarn "for the internal browser to work"
+	if ! built_with_use --missing false -o dev-java/swt firefox seamonkey xulrunner; then
+		ewarn "dev-java/swt must be compiled with the firefox, seamonkey or xulrunner USE flag"
+		ewarn "(support may vary per swt version) for the internal browser to work"
 	fi
 }
