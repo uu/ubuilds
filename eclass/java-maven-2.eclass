@@ -4,8 +4,11 @@
 
 inherit base java-pkg-2 java-ant-2
 
-DEPEND=">=dev-java/javatoolkit-0.2.0-r3 source? ( app-arch/zip )"
-RDEPEND=">=dev-java/javatoolkit-0.2.0-r3"
+JAVA_MAVEN_COMMON_DEPS="dev-java/maven-base-poms"
+DEPEND=">=dev-java/javatoolkit-0.2.0-r3 source? ( app-arch/zip )
+${JAVA_MAVEN_COMMON_DEPS}"
+RDEPEND=">=dev-java/javatoolkit-0.2.0-r3
+${JAVA_MAVEN_COMMON_DEPS}"
 
 # We provide two ways to build maven based ebuilds.
 # The first is with maven itself
@@ -59,6 +62,8 @@ fi
 # used to facilitate modello and others plugins integration with mvn ant plugin
 # - generate sources with a maven installation, compress them
 #   to fit in subdirs of src/main/
+# - if you want to unpack elsewhere set the variable
+#   JAVA_MAVEN_GENERATED_STUFF_UNPACK_DIR to where you want to unpack.
 # - name the tarball ${P}-gen-src.tar.bz2
 if [[ -n ${JAVA_MAVEN_ADD_GENERATED_STUFF} ]]; then
 	MVN_MOD_GEN_SRC="${P}-gen-src.tar.bz2"
@@ -127,18 +132,33 @@ JAVA_MAVEN_CLASSPATH=""
 # and desactivate its own dependencies.
 # Also, use profile with caution for the same reason !
 emaven() {
+	# make maven knows we call it from portage
+	local maven_flags="fromportage"
+
+	# finnaly launch maven
+	${JAVA_MAVEN_EXEC} ${maven_flags} "${@}" || die "maven failed"
+}
+
+# rewrite poms to be portage friendly :p
+# take poms as args
+java-maven-2_rewrite_poms() {
 	local want_source="$(java-pkg_get-source)"
 	local want_target="$(java-pkg_get-target)"
-	local gcp="" poms="pom.xml release-pom.xml"
+	local gcp=""
 
+	# parse cli args
+	local poms=""
+	for pom in ${@};do
+		[[ -f ${pom} ]] && poms="${poms} ${pom}"
+	done
+
+	# generate classpath
 	for atom in ${JAVA_MAVEN_CLASSPATH}; do
 		gcp="${gcp}:$(java-pkg_getjars ${atom})"
 	done
 
-	# make maven knows we call it from portage
-	local maven_flags="fromportage"
 
-	# rewrite poms to be portage friendly :p
+	# rewrite current and parent if any
 	for i in . ..; do
 		for pom in ${poms};do
 			local current_pom="${i}/${pom}"
@@ -151,17 +171,6 @@ emaven() {
 				-t "${want_target}" \
 				-f "${current_pom}" || die "failed rewriting ${current_pom}"
 			fi
-		done
-	done
-
-	# finnaly launch maven
-	${JAVA_MAVEN_EXEC} ${maven_flags} "${@}" || die "maven failed"
-
-	# restore poms
-	for i in . ..; do
-		for pom in ${poms};do
-			local current_pom="${i}/${pom}"
-			[[ -f "${current_pom}.sav" ]] && cp -f "${current_pom}.sav"	"${current_pom}" || die
 		done
 	done
 }
@@ -212,7 +221,7 @@ java-maven-2_src_unpack() {
 			if [[ ! -d "${S}/src/main" ]]; then
 				mkdir -p "${S}/src/main" || die
 			fi
-			cd "${S}/src/main" || die
+			cd "${JAVA_MAVEN_GENERATED_STUFF_UNPACK_DIR:-${S}/src/main}" || die
 			unpack "${MVN_MOD_GEN_SRC}"
 		fi
 		for build in $(find "${WORKDIR}" -name build.xml || die);do
@@ -241,11 +250,26 @@ java-maven-2_src_unpack() {
 		done
 	fi
 
-	# set default source directories and javadoc input directories
-	# maven projects may not contain java sources or maybe
-	# in a non-standart place, in this case
-	# please use JAVA_ANT_JAVADOC_INPUT_DIRS directly
+	# * rewrite poms to adapt dependency stuff to our system.
+	#
+	# * set default source directories and javadoc input directories
+	#  maven projects may not contain java sources or maybe
+	#  in a non-standart place, in this case
+	#  please use JAVA_ANT_JAVADOC_INPUT_DIRS directly
+	cd ${S} || die
 	for project in ${JAVA_MAVEN_PROJECTS} ./;do
+		# rewrite poms
+		pushd "${project}" >> /dev/null || die
+		for localpom in "${POM_XML}" "release-pom.xml"; do
+			if [[ -f "${localpom}" ]]; then
+				# backup the original before rewritting !
+				cp "${localpom}" "${localpom}.sav"
+				java-maven-2_rewrite_poms ${localpom}
+			fi
+		done
+		popd >> /dev/null || die
+
+		# add src dirs
 		if [[ -d "${S}/${project}/${JAVA_MAVEN_SOURCES}/java" ]]; then
 			JAVA_MAVEN_SRC_DIRS="${JAVA_MAVEN_SRC_DIRS} ${S}/${project//.\//}/${JAVA_MAVEN_SOURCES}/java"
 		fi
@@ -343,7 +367,7 @@ java-maven-2_install_file_into_repo() {
 	insinto "${rep_dir}"
 	# in case of jar, do not try to install them as the symlink to the real jar
 	# is allready done
-	[[ ! -f "${rep_dir}/${input_file}" ]] && doins "${input_file}"
+	[[ ! -f "${D}${rep_dir}/${input_file}" ]] && doins "${input_file}"
 	doins "${input_file}.md5"
 	doins "${input_file}.sha1"
 }
@@ -406,7 +430,7 @@ java-maven-2_install_one() {
 	local myjar="${myname}.jar"
 	local maven_pom="${myname}.pom" maven_artifact=""
 
-	java-maven-2_ensure_repo_exists
+
 
 	if [[ -f "${pom}" ]]; then
 		if [[ -n "${rep_dir}" ]]; then
@@ -437,9 +461,33 @@ java-maven-2_install_one() {
 					popd >> /dev/null || die
 				fi
 			fi
-			# install pom in repo
+			# install REWRITTEN pom in repo
 			cp "${pom}" "${maven_pom}" || die
 			java-maven-2_install_file_into_repo ${rep_dir} ${maven_pom}
+
+			# install originals pom in packages dir for history
+			local poms_tarball="poms.tbz2"
+			local pomstosave=""
+			for localpom in "${pom}" "release-pom.xml"; do
+				if [[ -f "${localpom}.sav" ]];then
+					 pomstosave="${pomstosave} ${localpom}"
+				 fi
+			done
+			if [[ -n ${pomstosave} ]]; then
+				# in case there are multiple poms
+				if [[ ! -d "${PN}_poms"  ]]; then
+					mkdir "${PN}_poms" || die
+				fi
+				for localpom in ${pomstosave};do
+					cp -f "${localpom}.sav"	"${PN}_poms/${localpom}" || die
+				done
+				tar cjf "${poms_tarball}" "${PN}_poms"
+				if [[ -f "${poms_tarball}" ]]; then
+					dodir "/usr/share/${pn_slot}/poms"
+					insinto "/usr/share/${pn_slot}/poms"
+					doins "${poms_tarball}"
+				fi
+			fi
 		fi
 	fi
 }
@@ -457,17 +505,15 @@ java-maven-2_src_install() {
 	fi
 
 	# install all subprojects
-	if [[ -n "${JAVA_MAVEN_PROJECTS}" ]]; then
-		for module in ${JAVA_MAVEN_PROJECTS};do
-			pushd "${module}" >> /dev/null || die
-			java-maven-2_install_one
-			popd >> /dev/null || die
-		done
-	fi
-
-	# either install parent pom in multi-projects mode
+	# then  either install parent pom in multi-projects mode
 	# or just install in single project mode
-	java-maven-2_install_one
+	# ensure to be in ${S}
+	cd "${S}" || die
+	for module in ${JAVA_MAVEN_PROJECTS} "${S}";do
+		pushd "${module}" >> /dev/null || die
+		java-maven-2_install_one
+		popd >> /dev/null || die
+	done
 }
 
 EXPORT_FUNCTIONS src_unpack src_compile src_install
