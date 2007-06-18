@@ -52,11 +52,10 @@ dev-java/plexus-utils
 
 MAVEN_PLUGINS_DEPS="
 dev-java/maven-ant-plugin
-dev-java/maven-resources-plugin
 dev-java/maven-assembly-plugin
 dev-java/maven-compiler-plugin
 dev-java/maven-jar-plugin
-dev-java/maven-plugin-testing-harness
+dev-java/maven-resources-plugin
 "
 
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS} ${MAVEN_PLUGINS_DEPS}

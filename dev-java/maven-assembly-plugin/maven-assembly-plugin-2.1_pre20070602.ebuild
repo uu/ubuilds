@@ -17,11 +17,6 @@ COMMON_DEPS="
 dev-java/easymock
 =dev-java/jaxen-1.1*
 =dev-java/jdom-1.0*
-dev-java/maven-archiver
-dev-java/maven-plugin-testing-tools
-dev-java/file-management
-dev-java/maven-plugin-tools
-dev-java/maven-repository-builder
 dev-java/plexus-archiver
 dev-java/saxpath
 "
@@ -32,11 +27,7 @@ JAVA_MAVEN_CLASSPATH="
 easymock-1
 jaxen-1.1
 jdom-1.0
-maven-archiver
-maven-plugin-testing-tools
-maven-plugin-tools
-file-management
-maven-repository-builder
+maven-shared-components
 plexus-archiver
 saxpath
 "
