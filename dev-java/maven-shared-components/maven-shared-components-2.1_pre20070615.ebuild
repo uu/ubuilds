@@ -17,6 +17,7 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="source doc"
 COMMON_DEPS="
+dev-java/maven-base-poms
 dev-java/ant-core
 dev-java/ant-junit
 dev-java/bsh
