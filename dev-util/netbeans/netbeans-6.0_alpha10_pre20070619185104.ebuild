@@ -9,13 +9,11 @@
 
 # TODO:
 # - bind dependencies to USE flags
-# - solve compilation of org-netbeans-libs-glassfish_logging.jar so it is compiled using standard compilation
-#   instead of the current workaround
 # - commons-jxpath seems to be patched
 # - antlr in uml module seems to be patched
 
-WANT_SPLIT_ANT=true
-inherit eutils java-pkg-2 java-ant-2 versionator
+WANT_SPLIT_ANT="true"
+inherit eutils java-pkg-2 java-ant-2
 
 DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
@@ -241,7 +239,10 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/xmlunit-1.0
 	dev-util/checkstyle
 	>=dev-util/pmd-1.3
-	cnd? ( >=dev-java/ant-antlr-1.7.0 )
+	cnd? (
+		>=dev-java/ant-antlr-1.7.0
+		>=dev-java/antlr-netbeans-cnd-2.7.7
+	)
 	testtools? ( >=dev-java/ant-trax-1.7.0 )"
 
 S=${WORKDIR}/netbeans-src
@@ -255,7 +256,7 @@ JAVA_PKG_BSFIX="off"
 
 pkg_setup() {
 	if use visualweb ; then
-		ewarn "Currently building visualweb fails, see bug http://www.netbeans.org/issues/show_bug.cgi?id=106191"
+		ewarn "Currently building with 'experimental' USE flag fails, see bug http://www.netbeans.org/issues/show_bug.cgi?id=107435"
 	fi
 
 	if use apisupport && ( ! use ide || ! use java ) ; then
@@ -396,13 +397,10 @@ src_compile() {
 	# Build the the clusters
 	use ruby && addpredict /root/.jruby
 	ANT_TASKS="ant-nodeps"
-	use cnd && ANT_TASKS="${ANT_TASKS} ant-antlr"
+	use cnd && ANT_TASKS="${ANT_TASKS} antlr-netbeans-cnd ant-antlr"
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
 		-Dbuildnum="${PV}" build-nozip
-
-	# Workaround for compilation of org-netbeans-libs-glassfish_logging.jar
-	#use j2ee && eant -f web/libs/glassfish_logging/build.xml
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
