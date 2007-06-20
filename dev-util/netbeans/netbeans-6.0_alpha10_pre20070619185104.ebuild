@@ -93,6 +93,7 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-j2eeserver-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-serverplugins-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-tomcatint-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2
 	)
@@ -255,7 +256,7 @@ DESTINATION="/usr/share/netbeans-${SLOT}"
 JAVA_PKG_BSFIX="off"
 
 pkg_setup() {
-	if use visualweb ; then
+	if use experimental ; then
 		ewarn "Currently building with 'experimental' USE flag fails, see bug http://www.netbeans.org/issues/show_bug.cgi?id=107435"
 	fi
 
@@ -343,11 +344,6 @@ src_unpack () {
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
 	find ${S}/nbbuild -name "*.class" -delete
-
-	# Disable the bundled Tomcat in favor of Portage installed version
-	einfo "Disabling bundled Tomcat"
-	grep -v tomcat ${S}/nbbuild/cluster.properties > ${S}/nbbuild/cluster.properties.new
-	mv ${S}/nbbuild/cluster.properties.new ${S}/nbbuild/cluster.properties
 
 	# Remove JARs that are not needed
 	if [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
