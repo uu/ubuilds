@@ -241,6 +241,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/xmlunit-1.0
 	dev-util/checkstyle
 	>=dev-util/pmd-1.3
+	cnd? ( >=dev-java/ant-antlr-1.7.0 )
 	testtools? ( >=dev-java/ant-trax-1.7.0 )"
 
 S=${WORKDIR}/netbeans-src
@@ -395,6 +396,7 @@ src_compile() {
 	# Build the the clusters
 	use ruby && addpredict /root/.jruby
 	ANT_TASKS="ant-nodeps"
+	use cnd && ANT_TASKS="${ANT_TASKS} ant-antlr"
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
 		-Dbuildnum="${PV}" build-nozip
@@ -761,7 +763,7 @@ place_unpack_symlinks() {
 	fi
 
 	if [ -e ${S}/xtest ] ; then
-		einfo "Symlinking hars for xtest"
+		einfo "Symlinking jars for xtest"
 		target="xtest/external"
 		dosymcompilejar ${target} insanelib
 	fi
