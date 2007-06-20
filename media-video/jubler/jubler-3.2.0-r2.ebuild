@@ -21,18 +21,19 @@ RDEPEND=">=virtual/jre-1.5
 	 	app-text/aspell
 	 	>=dev-java/zemberek-2.0
 	 )"
-        
+
 DEPEND=">=virtual/jdk-1.5
 	media-video/ffmpeg
 	app-text/docbook-sgml-utils
 	dev-util/pkgconfig
-        nls? ( sys-devel/gettext)"
+	nls? ( sys-devel/gettext)"
 
 S=${WORKDIR}/${MY_PN}-${PV}
 
 pkg_setup() {
-	use spell && ! built_with_use zemberek linguas_tr \
-	&& die "Zemberek should be built with Turkish language support"
+	if use spell && ! built_with_use zemberek linguas_tr; then
+		die "Zemberek should be built with Turkish language support"
+	fi
 	java-pkg-2_pkg_setup
 }
 
@@ -59,14 +60,14 @@ src_install() {
 	java-pkg_newjar dist/Jubler.jar ${PN}.jar
 	use spell && java-pkg_register-dependency zemberek zemberek2-cekirdek.jar
 	use spell && java-pkg_register-dependency zemberek zemberek2-tr.jar
-        java-pkg_doso resources/ffdecode/libffdecode.so
-        doicon resources/installers/linux/jubler.png
+	java-pkg_doso resources/ffdecode/libffdecode.so
+	doicon resources/installers/linux/jubler.png
 	newicon resources/installers/linux/subtitle-32.png subtitle.png
-        java-pkg_dolauncher jubler --main com.panayotis.jubler.Main
-        make_desktop_entry ${PN} "Jubler" ${PN}.png
-        doman resources/installers/linux/jubler.1
-        insinto /usr/share/jubler/help
-        doins dist/help/*
-        insinto /usr/share/mimelnk/application
-        use kde && doins resources/installers/linux/sub-*.desktop
+	java-pkg_dolauncher jubler --main com.panayotis.jubler.Main
+	make_desktop_entry ${PN} "Jubler" ${PN}.png
+	doman resources/installers/linux/jubler.1
+	insinto /usr/share/jubler/help
+	doins dist/help/*
+	insinto /usr/share/mimelnk/application
+	use kde && doins resources/installers/linux/sub-*.desktop
 }
