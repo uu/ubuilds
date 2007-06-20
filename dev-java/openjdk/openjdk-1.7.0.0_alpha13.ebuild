@@ -79,7 +79,7 @@ src_unpack() {
 
 	PATCHES="lesstif external-zlib external-zlib-splash external-jpeg-splash \
 		external-giflib external-libpng noundef gettimeofday-declaration j2se-cxxflags \
-		hotspot-cflags cpuid-fomit-frame-pointer"
+		hotspot-cflags cpuid-fomit-frame-pointer dynamic-libstdc++"
 
 	for patch in ${PATCHES}; do
 		epatch "${FILESDIR}/${patch}.patch"
