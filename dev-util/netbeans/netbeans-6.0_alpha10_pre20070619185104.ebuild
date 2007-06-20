@@ -244,6 +244,7 @@ DEPEND="=virtual/jdk-1.5*
 		>=dev-java/ant-antlr-1.7.0
 		>=dev-java/antlr-netbeans-cnd-2.7.7
 	)
+	doc? ( >=dev-java/ant-trax-1.7.0 )
 	testtools? ( >=dev-java/ant-trax-1.7.0 )"
 
 S=${WORKDIR}/netbeans-src
@@ -356,6 +357,12 @@ src_unpack () {
 		done
 	fi
 
+	# Disable extra stuff that doesn't build
+	if use experimental ; then
+		grep -v "monitor/loadgen-profiler-bridge," ${S}/nbbuild/cluster.properties > ${S}/nbbuild/cluster.properties.new || die "Cannot remove failing extra module"
+		mv ${S}/nbbuild/cluster.properties.new ${S}/nbbuild/cluster.properties || die "Cannot update cluster.properties"
+	fi
+
 	place_unpack_symlinks
 }
 
@@ -400,7 +407,10 @@ src_compile() {
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
-	use doc && ANT_OPTS="-Xmx1g" eant -f nbbuild/build.xml build-javadoc
+	if use doc ; then
+		! use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
+		ANT_OPTS="-Xmx1g" eant ${antflags} ${clusters} -f nbbuild/build.xml build-javadoc
+	fi
 
 	# Remove non-Linux binaries
 	find ${BUILDDESTINATION} -type f \
@@ -468,8 +478,9 @@ src_install() {
 		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
 	fi
 	if use ruby ; then
-		local jrubypath="${DESTINATION}/ruby1/jruby-1.0/bin/*"
-		fperms 755 ${jrubypath} || die "Cannot update perms on ${jrubypath}"
+		for file in ${DESTINATION}/ruby1/jruby-1.0/bin/* ; do
+			fperms 755 ${file} || die "Cannot update perms on ${file}"
+		done
 	fi
 
 	# Link netbeans executable from bin
