@@ -257,6 +257,10 @@ DESTINATION="/usr/share/netbeans-${SLOT}"
 JAVA_PKG_BSFIX="off"
 
 pkg_setup() {
+	if use doc ; then
+		ewarn "Currently building with 'doc' USE flag fails, see bug http://www.netbeans.org/issues/show_bug.cgi?id=107510"
+	fi
+
 	if use experimental ; then
 		ewarn "Currently building with 'experimental' USE flag fails, see bug http://www.netbeans.org/issues/show_bug.cgi?id=107435"
 	fi

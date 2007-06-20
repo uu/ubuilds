@@ -4,6 +4,10 @@
 
   20 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_alpha10_pre20070619185104.ebuild:
+  Added info about failing compilation with 'doc' USE flag.
+
+  20 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_alpha10_pre20070619185104.ebuild:
   Attempt to fix javadoc compilation - still doesn't work. Removed
   monitor/loadgen-profiler-bridge from the experimental cluster build as it
   currently fails. Homefully fixed fperms on jruby files.
