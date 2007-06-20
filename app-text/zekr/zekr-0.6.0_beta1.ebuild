@@ -36,8 +36,8 @@ DEPEND=">=virtual/jdk-1.4
 FONT_SUFFIX="ttf"
 
 pkg_setup() {
-	if ! built_with_use -o swt seamonkey xulrunner ; then
-		eerror "Re-emerge swt with the 'seamonkey' or 'xulrunner' USE flag"
+	if ! built_with_use -o swt firefox seamonkey xulrunner ; then
+		eerror "Re-emerge swt with the 'firefox', 'seamonkey' or 'xulrunner' USE flag"
 		die
 	fi
 	java-pkg-2_pkg_setup
