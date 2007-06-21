@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  21 Jun 2007; Vlastimil Babka <caster@gentoo.org> derby-10.2.2.0.ebuild:
+  Add jdbc4 USE flag to build also jdbc4 client classes in addition to jdbc3,
+  currently limited to sun-jdk-1.6. Tested building with ibm and jrockit,
+  seems fine. Added src_test which yet fails to compile tests.
+
   10 Jun 2007; Vlastimil Babka <caster@gentoo.org>
   apache-derby-10.2.2.0.ebuild, +files/build.patch,
   +files/jdbc2-abstract.patch, +files/jdbc2-pull.patch, +files/vti.patch:
