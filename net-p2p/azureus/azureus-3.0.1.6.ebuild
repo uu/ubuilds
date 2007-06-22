@@ -22,7 +22,7 @@ HOMEPAGE="http://azureus.sourceforge.net/"
 SRC_URI="mirror://sourceforge/azureus/Azureus_${PV}_source.zip"
 LICENSE="GPL-2 BSD"
 SLOT="0"
-KEYWORDS="amd64 ~ppc ~x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~ppc ~x86 ~x86-fbsd"
 IUSE=""
 
 RDEPEND="
