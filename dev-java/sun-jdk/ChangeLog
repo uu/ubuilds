@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  22 Jun 2007; Vlastimil Babka <caster@gentoo.org>
+  +sun-jdk-1.7.0.0_alpha14.ebuild:
+  Snapshot bump. No openjdk source bundle yet.
+
   25 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   sun-jdk-1.7.0.0_alpha13.ebuild:
   Port pax-utils, src.zip and SRC_URI handling fixes from the main tree.
