@@ -2,6 +2,17 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*openjdk-1.7.0.0_alpha14 (22 Jun 2007)
+
+  22 Jun 2007; Petteri Räty <betelgeuse@gentoo.org> 
+  +openjdk-1.7.0.0_alpha14.ebuild,
+  +files/b14-gcc4.patch, +files/execstack.patch,
+  +files/external-libXinerama.patch, +files/fontconfig-directlink.patch,
+  +files/icedtea-text-relocations.patch, +files/tempname-free.patch:
+  Version bump. Uses external libXinerama, fixes text relocations, can use
+  fontconfig via direct linking instead of dlopening with the fontconfig USE
+  flag.
+
   20 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
   +files/dynamic-libstdc++.patch, openjdk-1.7.0.0_alpha13.ebuild:
   Always link libstdc++ dynamically.
@@ -47,6 +58,8 @@
   openjdk-1.7.0.0_alpha13.ebuild:
   Change sun-bcla to sun-prerelease-jdk7 as that's where we take our binary plug.
 
+*openjdk-1.7.0.0_alpha13 (26 May 2007)
+
   26 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   +openjdk-1.7.0.0_alpha13.ebuild, +files/gettimeofday-declaration.patch:
   Version bump.
@@ -54,6 +67,8 @@
   25 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12-r1.ebuild:
   Bring in matching version of sun-jdk so the the binary parts stay in sync.
+
+*openjdk-1.7.0.0_alpha12-r1 (24 May 2007)
 
   24 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   -openjdk-1.7.0.0_alpha12.ebuild, +openjdk-1.7.0.0_alpha12-r1.ebuild:
@@ -120,6 +135,8 @@
   08 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha12.ebuild:
   Fix SRC_URI to include BASE_URL.
+
+*openjdk-1.7.0.0_alpha12 (08 May 2007)
 
   08 May 2007; Petteri Räty <betelgeuse@gentoo.org>
   +openjdk-1.7.0.0_alpha12.ebuild, +files/openjdk-1.7.env:

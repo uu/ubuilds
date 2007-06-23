@@ -1,0 +1,21 @@
+http://dev.gentooexperimental.org/~flameeyes/openjdk-patches/
+
+Index: openjdk/hotspot/src/os_cpu/linux_amd64/vm/linux_amd64.s
+===================================================================
+--- openjdk.orig/hotspot/src/os_cpu/linux_amd64/vm/linux_amd64.s
++++ openjdk/hotspot/src/os_cpu/linux_amd64/vm/linux_amd64.s
+@@ -401,3 +401,5 @@ acl_CopyLeft:
+         addq     $4,%rdx
+         jg       4b
+         ret
++
++.section .note.GNU-stack,"",%progbits
+Index: openjdk/hotspot/src/os_cpu/linux_i486/vm/linux_i486.s
+===================================================================
+--- openjdk.orig/hotspot/src/os_cpu/linux_i486/vm/linux_i486.s
++++ openjdk/hotspot/src/os_cpu/linux_i486/vm/linux_i486.s
+@@ -651,3 +651,4 @@ _Atomic_cmpxchg_long:
+         popl     %ebx
+         ret
+ 
++.section .note.GNU-stack,"",%progbits

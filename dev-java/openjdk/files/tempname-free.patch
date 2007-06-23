@@ -1,0 +1,14 @@
+http://dev.gentooexperimental.org/~flameeyes/openjdk-patches/
+
+Index: openjdk/j2se/src/share/native/com/sun/java/util/jar/pack/unpack.cpp
+===================================================================
+--- openjdk.orig/j2se/src/share/native/com/sun/java/util/jar/pack/unpack.cpp
++++ openjdk/j2se/src/share/native/com/sun/java/util/jar/pack/unpack.cpp
+@@ -4664,6 +4664,7 @@ void unpacker::redirect_stdio() {
+ 
+     char *tname = tempnam(tmpdir,"#upkg");	
+     sprintf(log_file_name, "%s", tname);
++    ::free(tname);
+     if ((errstrm = fopen(log_file_name, "a+")) != NULL) {
+       log_file = errstrm_name = saveStr(log_file_name);
+       return ;
