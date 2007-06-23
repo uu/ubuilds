@@ -20,7 +20,7 @@ SRC_URI="${BASE_URL}/${srcfile}"
 SLOT="1.7"
 # Needs other for Apache asm etc see THIRD_PARTY_README
 LICENSE="GPL-2-with-linking-exception sun-prerelease-jdk7"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="doc examples fontconfig"
 
 COMMON_DEP="
@@ -43,7 +43,7 @@ DEPEND="
 	app-arch/zip
 	virtual/motif
 	>=virtual/jdk-1.6
-	>=dev-java/sun-jdk-${PV}
+	~dev-java/sun-jdk-${PV}
 	x11-libs/libXmu
 	x11-libs/libXrandr
 	x11-libs/libXt

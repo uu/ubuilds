@@ -11,6 +11,7 @@ Currently the building gives:
 ../../../src/solaris/native/java/net/Inet6AddressImpl.c:511: warning: implicit declaration of function 'gettimeofday'
 
 This fixes those warnings by including the needed header.
+Written by: betelgeuse@gentoo.org
 
 Index: j2se/src/solaris/native/java/net/Inet4AddressImpl.c
 ===================================================================

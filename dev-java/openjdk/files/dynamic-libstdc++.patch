@@ -1,3 +1,5 @@
+http://dev.gentooexperimental.org/~flameeyes/openjdk-patches/
+
 Index: openjdk-b13/hotspot/build/linux/makefiles/vm.make
 ===================================================================
 --- openjdk-b13.orig/hotspot/build/linux/makefiles/vm.make
