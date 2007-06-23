@@ -24,18 +24,24 @@ SLOT="1.7"
 LICENSE="sun-prerelease-jdk7"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="nostrip fetch"
-IUSE="doc nsplugin examples"
+IUSE="X alsa doc nsplugin examples"
 
 DEPEND="sys-apps/sed"
 
-RDEPEND="doc? ( =dev-java/java-sdk-docs-1.6.0* )"
+RDEPEND="doc? ( =dev-java/java-sdk-docs-1.6.0* )
+	alsa? ( media-libs/alsa-lib )
+	x86? ( =virtual/libstdc++-3.3 )
+	X? (
+		x11-libs/libX11
+		x11-libs/libXext
+		x11-libs/libXi
+		x11-libs/libXmu
+		x11-libs/libXp
+		x11-libs/libXtst
+	)
+	"
 
 JAVA_PROVIDE="jdbc-stdext jdbc-rowset"
-
-PACKED_JARS="lib/tools.jar jre/lib/rt.jar jre/lib/jsse.jar jre/lib/charsets.jar jre/lib/ext/localedata.jar jre/lib/plugin.jar jre/lib/javaws.jar jre/lib/deploy.jar"
-
-# this is needed for proper operating under a PaX kernel without activated grsecurity acl
-CHPAX_CONSERVATIVE_FLAGS="pemsv"
 
 QA_TEXTRELS_x86="opt/${P}/jre/lib/i386/server/libjvm.so
 	opt/${P}/jre/lib/i386/client/libjvm.so
@@ -91,9 +97,7 @@ src_install() {
 
 	dodir /opt/${P}
 
-	for i in $dirs ; do
-		cp -pPR $i ${D}/opt/${P}/ || die "failed to copy"
-	done
+	cp -pPR ${dirs} "${D}/opt/${P}/" || die "failed to copy"
 	dodoc COPYRIGHT LICENSE README.html || die
 	dohtml README.html || die
 	dodir /opt/${P}/share/
@@ -102,7 +106,6 @@ src_install() {
 		cp -pPR demo sample ${D}/opt/${P}/share/ || die
 	fi
 	cp -pPR src.zip ${D}/opt/${P}/ || die
-
 
 	if use nsplugin; then
 		local plugin_dir="ns7-gcc29"

@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  23 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
+  sun-jdk-1.7.0.0_alpha14.ebuild:
+  Fix RDEPEND and cleanup ebuild.
+
   22 Jun 2007; Vlastimil Babka <caster@gentoo.org>
   +sun-jdk-1.7.0.0_alpha14.ebuild:
   Snapshot bump. No openjdk source bundle yet.
