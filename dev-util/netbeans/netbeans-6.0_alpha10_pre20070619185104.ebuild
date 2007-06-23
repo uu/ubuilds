@@ -482,8 +482,10 @@ src_install() {
 		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
 	fi
 	if use ruby ; then
-		for file in ${DESTINATION}/ruby1/jruby-1.0/bin/* ; do
-			fperms 755 ${file} || die "Cannot update perms on ${file}"
+		local ruby_path="${DESTINATION}/ruby1/jruby-1.0/bin"
+		cd ${D}/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
+		for file in * ; do
+			fperms 755 ${ruby_path}/${file} || die "Cannot update perms on ${ruby_path}/${file}"
 		done
 	fi
 
