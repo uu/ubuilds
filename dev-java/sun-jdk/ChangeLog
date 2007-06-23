@@ -4,6 +4,11 @@
 
   23 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
   sun-jdk-1.7.0.0_alpha14.ebuild:
+  Add pack PACKED_JARS as a local variable in src_unpack as this way of doing
+  it uses it.
+
+  23 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
+  sun-jdk-1.7.0.0_alpha14.ebuild:
   Fix RDEPEND and cleanup ebuild.
 
   22 Jun 2007; Vlastimil Babka <caster@gentoo.org>

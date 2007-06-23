@@ -69,11 +69,15 @@ src_unpack() {
 	./install.sfx >/dev/null || die
 	rm install.sfx
 
+	local packed_jars="lib/tools.jar jre/lib/rt.jar jre/lib/jsse.jar \
+		jre/lib/charsets.jar jre/lib/ext/localedata.jar jre/lib/plugin.jar \
+		jre/lib/javaws.jar jre/lib/deploy.jar"
+
 	if [ -f ${S}/bin/unpack200 ]; then
 		UNPACK_CMD=${S}/bin/unpack200
 		chmod +x $UNPACK_CMD
 		sed -i 's#/tmp/unpack.log#/dev/null\x00\x00\x00\x00\x00\x00#g' $UNPACK_CMD
-		for i in $PACKED_JARS; do
+		for i in $packed_jars; do
 			PACK_FILE=${S}/$(dirname $i)/$(basename $i .jar).pack
 			if [ -f ${PACK_FILE} ]; then
 				echo "	unpacking: $i"
