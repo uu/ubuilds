@@ -25,7 +25,7 @@ S=${WORKDIR}/${MY_P}
 
 src_unpack() {
 	unpack ${A}
-	rm -v ${S}/lib/*.jar
+	find ${S} -name "*.jar" | xargs rm -v
 }
 
 src_compile() {
