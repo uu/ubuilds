@@ -123,7 +123,7 @@ src_compile() {
 	# FULL_VERSION = $(RELEASE)-$(USER_RELEASE_SUFFIX)-$(BUILD_NUMBER)
 	# This doesn't work with ccache because it expects the command line to be
 	# identical.
-	emake ${make} -j1 \
+	if ! emake ${make} -j1 \
 		EXTERNAL_LIBPNG=true \
 		EXTERNAL_ZLIB=true \
 		OPENJDK=true \
@@ -132,8 +132,15 @@ src_compile() {
 		STATIC_CXX=false \
 		MILESTONE=experimental \
 		BUILD_NUMBER=gentoo-b${ALPHA} \
-		EXTERNAL_LIBXINERAMA=true \
-		|| die "emake failed"
+		EXTERNAL_LIBXINERAMA=true; then
+		if [[ ${#S} -gt 56 ]]; then
+			ewarn "Build failed and your build directory is longer than the default."
+			local url='http://mail.openjdk.java.net/pipermail/build-dev/2007-May/000011.html'
+			ewarn "See ${url}"
+			ewarn 'for more details. Try shortening your PORTAGE_TMPDIR.'
+		fi
+		die "emake failed"
+	fi
 	rmdir control/build/linux-${arch}/j2sdk-image/man/ja
 }
 

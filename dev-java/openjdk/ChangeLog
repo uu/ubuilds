@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
+  openjdk-1.7.0.0_alpha14.ebuild:
+  When build fails, detect when $S is longer than the default and point users
+  to http://mail.openjdk.java.net/pipermail/build-dev/2007-May/000011.html.
+
   23 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
   files/cpuid-fomit-frame-pointer.patch, files/dynamic-libstdc++.patch,
   files/gettimeofday-declaration.patch, openjdk-1.7.0.0_alpha14.ebuild:
