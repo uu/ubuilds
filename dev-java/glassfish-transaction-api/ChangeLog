@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/glassfish-transaction-api
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  26 Jun 2007; Alistair John Bush <ali_bush@gentoo.org> +metadata.xml,
+  +glassfish-transaction-api-1.0.ebuild:
+  Adding glassfish-transaction-api.
+
