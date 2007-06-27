@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  27 Jun 2007; Alistair John Bush <ali_bush@gentoo.org> ++,
+  -toplink-essentuals-1.0.ebuild:
+  Fixed package spelling error.
+
   27 Jun 2007; Alistair John Bush <ali_bush@gentoo.org> +metadata.xml,
   +toplink-essentuals-1.0.ebuild:
   Adding toplink-essentuals.
