@@ -13,9 +13,9 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
 IUSE=""
 
-DEPEND="=virtual/jdk-1.5
+DEPEND="=virtual/jdk-1.5*
 		app-arch/unzip"
-RDEPEND="=virtual/jre-1.5
+RDEPEND="=virtual/jre-1.5*
 		dev-java/glassfish-persistence
 		dev-java/glassfish-transaction-api"
 
