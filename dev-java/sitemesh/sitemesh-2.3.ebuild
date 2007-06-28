@@ -33,7 +33,7 @@ DEPEND=">=virtual/jdk-1.4
 	>=dev-java/velocity-1.4
 	dev-java/velocity-tools"
 
-IUSE="doc source vim-syntax"
+IUSE="doc source"
 
 S="${WORKDIR}"
 

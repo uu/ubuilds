@@ -2,12 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
+# Currently, this package uses an included JFlex.jar file to bootstrap.
+# Upstream was contacted and this bootstrap is really needed. The only way to avoid it would be to use a supplied pre-compiled .scanner file.
+
 JAVA_PKG_IUSE="source"
 
 inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="JFlex is a lexical analyzer generator for Java"
-SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz JFlex-${PV}.jar"
+SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 HOMEPAGE="http://www.jflex.de/"
 LICENSE="GPL-2"
 SLOT="0"
@@ -27,9 +30,11 @@ src_unpack() {
 	unpack "${P}.tar.gz"
 	cd "${S}/src"
 	epatch "${FILESDIR}/${P}-build.xml.patch"
+	
+	mkdir "${S}/tools"	
+	cp "${S}/lib/JFlex.jar" "${S}/tools/JFlex.jar"	
     rm -rf java_cup "${S}/lib/JFlex.jar"
-	mkdir "${S}/tools"
-	cp "${DISTDIR}/JFlex-${PV}.jar" "${S}/tools/JFlex.jar"
+
 	java-ant_rewrite-classpath
 }
 
@@ -42,7 +47,8 @@ src_compile() {
 
 	rm "${S}/tools/JFlex.jar"
 	cp "${S}/lib/JFlex.jar" "${S}/tools/" 
-
+    rm "${S}/lib/JFlex.jar"
+    
 	eant realclean
 	einfo "Recompiling using the newly generated JFlex library"
 	eant -Dgentoo.classpath="${jflex_cp}" jar
