@@ -1,0 +1,9 @@
+# ChangeLog for dev-java/gant
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  29 Jun 2007; Jean-Noël Rivasseau <elvanor@gmail.com> ChangeLog:
+  Initial ebuild for Gant 0.3.0. The LICENSE.txt is not present in the source
+  distribution, so I had to fetch it from Subversion. No javadoc option
+  currently.
+
