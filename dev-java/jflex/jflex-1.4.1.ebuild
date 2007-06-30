@@ -33,7 +33,7 @@ src_unpack() {
 	
 	mkdir "${S}/tools"	
 	cp "${S}/lib/JFlex.jar" "${S}/tools/JFlex.jar"	
-    rm -rf java_cup "${S}/lib/JFlex.jar"
+	rm -rf java_cup "${S}/lib/JFlex.jar"
 
 	java-ant_rewrite-classpath
 }
@@ -47,8 +47,8 @@ src_compile() {
 
 	rm "${S}/tools/JFlex.jar"
 	cp "${S}/lib/JFlex.jar" "${S}/tools/" 
-    rm "${S}/lib/JFlex.jar"
-    
+	rm "${S}/lib/JFlex.jar"
+
 	eant realclean
 	einfo "Recompiling using the newly generated JFlex library"
 	eant -Dgentoo.classpath="${jflex_cp}" jar
@@ -62,7 +62,7 @@ src_install() {
 	dodoc doc/manual.pdf doc/manual.ps.gz src/changelog
 	dohtml -r doc/*
 
-	use source && java-pkg_dosrc src/JFlex src/java_cup
+	use source && java-pkg_dosrc src/JFlex
 
 	if use vim-syntax; then
 		insinto /usr/share/vim/vimfiles/syntax
