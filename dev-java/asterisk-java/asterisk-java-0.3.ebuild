@@ -5,7 +5,6 @@
 JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-ant-2
 
-MY_PV=${PV/_pre/-m}
 DESCRIPTION="Set of Java classes that allow you to easily build Java applications that interact with an Asterisk PBX Server. It supports the FastAGI protocol and the Manager API."
 HOMEPAGE="http://asterisk-java.org/"
 SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2"
