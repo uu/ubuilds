@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  02 Jul 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  -asterisk-java-0.3_pre2.ebuild, +asterisk-java-0.3.ebuild:
+  Version bump.
+
   14 Jun 2007; Miroslav Šulc <fordfrog@gentoo.org>
   +asterisk-java-0.3_pre2.ebuild:
   Version bump
