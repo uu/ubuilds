@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/svnant
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  06 Jul 2007; Jean-Noël Rivasseau <elvanor@gmail.com>
+  +svnant-1.1.0_rc2_pre3198.ebuild:
+  Initial ebuild from a SVN checkout. No test, or Javadoc generation yet.
+
