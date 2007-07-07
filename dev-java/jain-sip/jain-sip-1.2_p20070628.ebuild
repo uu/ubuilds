@@ -27,7 +27,7 @@ src_unpack() {
 	unpack ${A}
 	cd ${S}
 	epatch ${FILESDIR}/${P}-build.xml.patch
-	find -name "*.jar" | xargs rm -v
+	find ${S} -name "*.jar" | xargs rm -v
 	java-ant_rewrite-classpath
 }
 
@@ -36,8 +36,12 @@ src_compile() {
 }
 
 src_test() {
+	# we need to backup javadoc as it is deleted by testing targets
+	use doc && mv ${S}/javadoc ${S}/javadoc.bak
+
 	ANT_TASKS="ant-junit" eant runtck runtckcallflows torture parsertest \
-		-Dgentoo.classpath=$(java-pkg_getjars --build-only junit,log4j,concurrent-util)
+		-Dlog4j_jar=$(java-pkg_getjars log4j) -Dconcurrent_jar=$(java-pkg_getjars concurrent-util) \
+		-Djunit_jar=$(java-pkg_getjars junit)
 }
 
 src_install() {
@@ -57,6 +61,6 @@ src_install() {
 
 	if use examples ; then
 		dodir /usr/share/doc/${PF}/examples
-		cp src/examples/* ${D}/usr/share/doc/${PF}/examples
+		cp -r src/examples/* ${D}/usr/share/doc/${PF}/examples
 	fi
 }
