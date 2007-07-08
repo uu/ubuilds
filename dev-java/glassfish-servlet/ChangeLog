@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/glassfish-servlet
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  08 Jul 2007; Alistair John Bush <ali_bush@gentoo.org>
+  +glassfish-servlet-1.0.ebuild:
+  Added draft ebuild for glassfish-servlet api.
+
