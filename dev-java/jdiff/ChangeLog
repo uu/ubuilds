@@ -1,0 +1,9 @@
+# ChangeLog for dev-java/jdiff
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  12 Jul 2007; Jean-Noël Rivasseau <elvanor@gmail.com>
+  +jdiff-1.0.10.ebuild:
+  Initial jdiff ebuild. Not ready yet for inclusion because of a big problem
+  with com.sun.javadoc, needs to register this in package.env.
+
