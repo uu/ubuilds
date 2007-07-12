@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  12 Jul 2007; Petteri Räty <betelgeuse@gentoo.org>
+  -sun-jdk-1.6.0.02_alpha02.ebuild:
+  No need for 1.6u2 alphas as the real thing is out.
+
   23 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
   sun-jdk-1.7.0.0_alpha14.ebuild:
   Add pack PACKED_JARS as a local variable in src_unpack as this way of doing
