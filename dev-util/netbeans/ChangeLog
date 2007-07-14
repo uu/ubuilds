@@ -2,6 +2,11 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  14 Jul 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.0_pre20070714111440.ebuild,
+  -netbeans-6.0_alpha10_pre20070619185104.ebuild:
+  ok, it works :-) just emerged that with all the use flags and it runs
+
   14 Jul 2007; Miroslav Šulc <fordfrog@gentoo.org> ++:
   Version bump. Not fully tested yet.
 

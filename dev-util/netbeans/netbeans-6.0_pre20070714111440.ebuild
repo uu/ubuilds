@@ -264,10 +264,6 @@ pkg_setup() {
 		ewarn "Currently building with 'doc' USE flag fails, see bugs http://www.netbeans.org/issues/show_bug.cgi?id=109722 http://www.netbeans.org/issues/show_bug.cgi?id=107510"
 	fi
 
-	if use cnd ; then
-		ewarn "When using 'cnd' USE flag, it may randomly happen that the compilation fails. If it happens then just try your luck again ;-)"
-	fi
-
 	if use experimental ; then
 		ewarn "apisupport/apidocs is excluded from the experimental cluster for now, see bug http://www.netbeans.org/issues/show_bug.cgi?id=107435"
 	fi
