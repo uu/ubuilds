@@ -2,6 +2,12 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*openjdk-1.7.0.0_alpha15 (14 Jul 2007)
+
+  14 Jul 2007; Petteri Räty <betelgeuse@gentoo.org>
+  +openjdk-1.7.0.0_alpha15.ebuild, +files/icedtea-b15-gcc4.patch:
+  Version bump.
+
   26 Jun 2007; Petteri Räty <betelgeuse@gentoo.org>
   openjdk-1.7.0.0_alpha14.ebuild:
   When build fails, detect when $S is longer than the default and point users
