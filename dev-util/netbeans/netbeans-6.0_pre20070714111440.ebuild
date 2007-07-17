@@ -130,6 +130,7 @@ SRC_URI="
 	)
 	ruby? (
 		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-ruby-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-scripting-${MY_PV}.tar.bz2
 	)
 	soa? (
