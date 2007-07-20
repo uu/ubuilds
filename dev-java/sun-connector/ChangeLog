@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/sun-connector
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  20 Jul 2007; Jean-Noël Rivasseau <elvanor@gmail.com> +metadata.xml,
+  +sun-connector-1.5.ebuild:
+  Initial 1.5 ebuild, based on sun-jms.
+

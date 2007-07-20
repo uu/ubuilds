@@ -12,6 +12,8 @@ DESCRIPTION="AspectJ is a seemless extension to the Java programming language fo
 #
 # Remove inside the lib/ directory everything except build/, bcel/, ext/ and aspectj/ subdirectories
 # This saves about 13 MB in the tarball.
+#
+# Note that for convenience I am also providing a prebuilt tarball on my personal server.
 
 # Notes so far:
 #
@@ -21,6 +23,8 @@ DESCRIPTION="AspectJ is a seemless extension to the Java programming language fo
 # If need be, we could try to build it, source is present in bcel-builder/.
 # We also use the very small Jrockit bundled jar file. Maybe we could extract it from JRockit but this is probably not worth it.
 #
+# The output of the build system is in the aj-build directory. Do not take the main jar (dist/aspectj-1.5.3-gentoo.jar) from there.
+# This jar contains docs and all so we better install the jars in dist/tools/lib/
 
 # Possible improvements:
 #
@@ -102,7 +106,7 @@ src_compile() {
 
 src_install() {
 	cd "${S}"
-	java-pkg_newjar aj-build/dist/aspectj-${PV}-gentoo.jar
+	java-pkg_dojar aj-build/dist/tools/lib/*.jar
 
 	java-pkg_dolauncher ajc --main org.aspectj.tools.ajc.Main
 	java-pkg_dolauncher ajbrowser --main org.aspectj.tools.ajbrowser.Main
