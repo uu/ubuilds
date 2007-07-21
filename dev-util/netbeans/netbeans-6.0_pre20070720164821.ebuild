@@ -59,6 +59,7 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-tasklist-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-utilities-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-vcscore-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2
 	)
 	harness? (
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
@@ -123,6 +124,7 @@ SRC_URI="
 	)
 	nb? (
 		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
 	)
 	profiler? (
 		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
