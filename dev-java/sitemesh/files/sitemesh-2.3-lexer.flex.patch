@@ -1,5 +1,5 @@
---- lexer.flex	2005-08-10 17:51:34.000000000 +0200
-+++ lexer-gentoo.flex	2007-06-08 11:31:21.000000000 +0200
+--- src/java/com/opensymphony/module/sitemesh/html/tokenizer/lexer.flex.orig	2005-08-10 17:51:34.000000000 +0200
++++ src/java/com/opensymphony/module/sitemesh/html/tokenizer/lexer.flex	2007-07-23 11:38:49.000000000 +0200
 @@ -29,7 +29,7 @@
  %{
      // Additional methods to add to generated Lexer to aid in error reporting.
