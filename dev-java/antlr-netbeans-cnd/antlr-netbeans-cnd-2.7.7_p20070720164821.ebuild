@@ -12,7 +12,7 @@ SRC_URI="
 	${SOURCE_SITE}/netbeans-cnd-${MY_PV}.tar.bz2"
 LICENSE="CDDL"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 DEPEND="=virtual/jdk-1.5*
 	>=dev-java/ant-nodeps-1.7.0"
 RDEPEND=">=virtual/jre-1.5
