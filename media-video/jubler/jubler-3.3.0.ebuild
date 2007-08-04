@@ -41,23 +41,19 @@ src_unpack() {
 	unpack ${A}
 	cd ${S}
 	epatch ${FILESDIR}/${P}.patch
-	epatch ${FILESDIR}/${P}-fixsplit.patch
-	epatch ${FILESDIR}/${P}-zemberek2.patch
 }
 
 src_compile() {
-	append-flags -fPIC $(pkg-config --cflags libavformat libavutil libavcodec)
-	append-ldflags -lm $(pkg-config --libs libavformat libavutil libavcodec)
 	local anttasks_opt
 	use nls && anttasks_opt="i18n"
 	eant ${anttasks_opt} jar faq || die "eant failed"
 	cp -v dist/help/jubler-faq.html build/classes/help || die "cp failed"
 	cd resources/ffdecode
-	emake CC=$(tc-getCC)
+	CC=$(tc-getCC) emake linuxdyn
 }
 
 src_install() {
-	java-pkg_newjar dist/Jubler.jar ${PN}.jar
+	java-pkg_dojar dist/Jubler.jar
 	use spell && java-pkg_register-dependency zemberek zemberek2-cekirdek.jar
 	use spell && java-pkg_register-dependency zemberek zemberek2-tr.jar
 	java-pkg_doso resources/ffdecode/libffdecode.so
