@@ -36,8 +36,18 @@ diff -Nur Jubler-3.3.0/build.xml Jubler-3.3.0_patched/build.xml
  	<target name="MacSystem" depends="findsystem" if="isMac">
 diff -Nur Jubler-3.3.0/resources/ffdecode/Makefile Jubler-3.3.0_patched/resources/ffdecode/Makefile
 --- Jubler-3.3.0/resources/ffdecode/Makefile	2007-07-19 01:30:08.000000000 +0300
-+++ Jubler-3.3.0_patched/resources/ffdecode/Makefile	2007-08-04 03:48:07.000000000 +0300
-@@ -41,11 +41,7 @@
++++ Jubler-3.3.0_patched/resources/ffdecode/Makefile	2007-08-04 05:13:00.000000000 +0300
+@@ -12,9 +12,6 @@
+ # Name of the produced library
+ PROJ=ffdecode
+ 
+-# Paths of include files
+-JAVA_HOME=${shell /bin/sh ../system/findjava.sh -j}
+-
+ # Path of the local ffmpeg source structure (already inside the source version of Jubler)
+ FFMPEG=../ffmpeg-svn
+ 
+@@ -41,11 +38,7 @@
  OBJS=${SRCS:.c=.o}
  
  
@@ -50,7 +60,7 @@ diff -Nur Jubler-3.3.0/resources/ffdecode/Makefile Jubler-3.3.0_patched/resource
  
  ifeq (${STATIC},no)
  	FFMPEGREQ=
-@@ -101,7 +97,6 @@
+@@ -101,7 +94,6 @@
  
  FCONFCOMMON=--disable-debug --enable-gpl --enable-a52 --disable-ffmpeg --disable-ffserver --disable-ffplay --disable-encoders --disable-vhook --disable-ipv6 --disable-network --disable-dv1394 --disable-bktr --disable-v4l2 --disable-v4l --disable-audio-beos --disable-audio-oss
  
@@ -58,7 +68,7 @@ diff -Nur Jubler-3.3.0/resources/ffdecode/Makefile Jubler-3.3.0_patched/resource
  RANLIB=${PREF}ranlib
  
  
-@@ -155,8 +150,7 @@
+@@ -155,8 +147,7 @@
  LIB:${LIBNAME}
  
  ${LIBNAME}:${FFMPEGREQ} ${OBJS} ${RANLIBREQ}
