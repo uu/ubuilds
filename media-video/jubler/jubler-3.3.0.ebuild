@@ -48,8 +48,8 @@ src_compile() {
 	use nls && anttasks_opt="i18n"
 	eant ${anttasks_opt} jar faq || die "eant failed"
 	cp -v dist/help/jubler-faq.html build/classes/help || die "cp failed"
-	cd resources/ffdecode
-	CC=$(tc-getCC) emake linuxdyn
+	cd resources/ffdecode || die
+	CC=$(tc-getCC) emake linuxdyn || die "make failed"
 }
 
 src_install() {
