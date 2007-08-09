@@ -13,7 +13,7 @@ SRC_URI="facebook_java_client-${PV}.zip"
 DOWNLOAD_URI="http://developers.facebook.com/clientlibs/facebook_java_client.zip"
 
 LICENSE="facebook"
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 SLOT="0"
 IUSE="examples"
 
