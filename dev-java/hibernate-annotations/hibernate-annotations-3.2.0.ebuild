@@ -70,10 +70,6 @@ src_unpack() {
 	java-pkg_jar-from hibernate-${SLOT}
 }
 
-src_compile() {
-	eant jar $(use_doc)
-}
-
 src_install() {
 	java-pkg_dojar ${PN}.jar
 

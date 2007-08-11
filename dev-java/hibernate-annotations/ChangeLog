@@ -3,6 +3,10 @@
 # $Header: $
 
   11 Aug 2007; Petteri Räty <betelgeuse@gentoo.org>
+  hibernate-annotations-3.2.0.ebuild:
+  Use default src_compile.
+
+  11 Aug 2007; Petteri Räty <betelgeuse@gentoo.org>
   -hibernate-annotations-3.2.0_rc2.ebuild:
   Remove old version.
 
