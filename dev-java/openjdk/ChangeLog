@@ -2,6 +2,17 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*openjdk-1.7.0.0_alpha18 (18 Aug 2007)
+
+  18 Aug 2007; Petteri Räty <betelgeuse@gentoo.org>
+  +openjdk-1.7.0.0_alpha18.ebuild+,
+  +files/external-giflib-b17.patch, +files/external-giflib-splash-b17.patch,
+  +files/external-jpeg-splash-b17.patch,
+  +files/external-jpep-splash-b17.patch,
+  +files/external-libXinerama-b17.patch, +files/external-libpng-b17.patch,
+  +files/external-zlib-b18.patch, +files/external-zlib-splash-b17.patch:
+  Version bump.
+
 *openjdk-1.7.0.0_alpha16 (21 Jul 2007)
 
   21 Jul 2007; Petteri Räty <betelgeuse@gentoo.org>

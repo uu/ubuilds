@@ -1,0 +1,162 @@
+Index: openjdk-b13/j2se/make/com/sun/java/pack/Makefile
+===================================================================
+--- openjdk-b13.orig/j2se/make/com/sun/java/pack/Makefile
++++ openjdk-b13/j2se/make/com/sun/java/pack/Makefile
+@@ -61,6 +61,10 @@ vpath %.cpp $(SHARE_SRC)/native/$(PKGDIR
+ 
+ 
+ ifeq ($(STANDALONE),true)
++ ifeq ($(EXTERNAL_ZLIB),true)
++  ZIPOBJS = -lz
++  ZINCLUDE = -DEXTERNAL_ZLIB
++ else
+   ZIPOBJDIR = $(OUTPUTDIR)/tmp/sun/java.util.zip/zip/$(OBJDIRNAME)
+ 
+   ZIPOBJS =  $(ZIPOBJDIR)/zcrc32.$(OBJECT_SUFFIX) \
+@@ -76,6 +80,8 @@ ifeq ($(STANDALONE),true)
+ 	     $(ZIPOBJDIR)/inffast.$(OBJECT_SUFFIX)
+ 
+   ZINCLUDE=-I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
++ endif
++
+   OTHER_CXXFLAGS += $(ZINCLUDE)
+   LDDFLAGS += $(ZIPOBJS)
+ else
+Index: openjdk-b13/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
+===================================================================
+--- openjdk-b13.orig/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
++++ openjdk-b13/j2se/src/share/native/com/sun/java/util/jar/pack/defines.h
+@@ -87,11 +87,13 @@ extern void assert_failed(const char*);
+ // bytes and byte arrays
+ 
+ typedef unsigned int uint;
++#ifndef EXTERNAL_ZLIB
+ #ifdef _LP64
+ typedef unsigned int uLong; // Historical zlib, should be 32-bit.
+ #else
+ typedef unsigned long uLong;
+ #endif
++#endif
+ #ifdef _MSC_VER 
+ typedef LONGLONG 	jlong;
+ typedef DWORDLONG 	julong;
+@@ -160,3 +162,7 @@ enum { false, true };
+ #define BOOL_TF(x) (((x) != null && strcmp((x),STR_TRUE) == 0) ? true : false)
+ 
+ #define DEFAULT_ARCHIVE_MODTIME 1060000000 // Aug 04, 2003 5:26 PM PDT
++
++#ifdef EXTERNAL_ZLIB
++# include <zconf.h>
++#endif
+Index: openjdk-b13/j2se/make/java/jli/Makefile
+===================================================================
+--- openjdk/j2se/make/java/jli/Makefile.orig	2007-08-02 09:17:54.000000000 +0200
++++ openjdk/j2se/make/java/jli/Makefile	2007-08-03 01:05:12.000000000 +0200
+@@ -56,15 +56,7 @@
+ 	parse_manifest.c \
+ 	version_comp.c \
+ 	wildcard.c \
+-	jli_util.c \
+-	inflate.c \
+-	infblock.c \
+-	inftrees.c \
+-	infcodes.c \
+-	inffast.c \
+-	infutil.c \
+-	zadler32.c \
+-	zutil.c
++	jli_util.c
+ 
+ OTHER_CPPFLAGS += -DEXPAND_CLASSPATH_WILDCARDS
+ 
+@@ -74,6 +66,21 @@
+ 	LDLIBS = -lc
+ endif
+ 
++ifeq ($(EXTERNAL_ZLIB), true)
++  LDLIBS += -lz
++else
++  OTHER_INCLUDES += -I$(ZIP_SRC)
++
++  FILES_C += inflate.c \
++	infblock.c \
++	inftrees.c \
++	infcodes.c \
++	inffast.c \
++	infutil.c \
++	zadler32.c \
++	zutil.c
++endif
++
+ ifeq ($(PLATFORM), windows)
+ 	EXTRA_LIBS =
+ 	JAVALIB =
+@@ -98,7 +105,6 @@
+ 
+ OTHER_INCLUDES += -I$(LAUNCHER_SHARE_SRC)
+ OTHER_INCLUDES += -I$(LAUNCHER_PLATFORM_SRC)
+-OTHER_INCLUDES += -I$(ZIP_SRC)
+ 
+ #
+ # Library to compile.
+Index: openjdk-b13/j2se/make/java/zip/FILES_c.gmk
+===================================================================
+--- openjdk/j2se/make/java/zip/FILES_c.gmk.orig	2007-08-02 09:17:54.000000000 +0200
++++ openjdk/j2se/make/java/zip/FILES_c.gmk	2007-08-03 01:06:59.000000000 +0200
+@@ -30,7 +30,10 @@
+ 	Inflater.c \
+ 	ZipFile.c \
+ 	ZipEntry.c \
+-	zadler32.c \
++	zip_util.c
++
++ifneq ($(EXTERNAL_ZLIB), true)
++FILES_c += zadler32.c \
+ 	zcrc32.c \
+ 	deflate.c \
+ 	trees.c \
+@@ -40,5 +43,5 @@
+ 	inftrees.c \
+ 	infcodes.c \
+ 	infutil.c \
+-	inffast.c \
+-	zip_util.c
++	inffast.c
++endif
+Index: openjdk-b13/j2se/make/java/zip/Makefile
+===================================================================
+--- openjdk/j2se/make/java/zip/Makefile.orig	2007-08-13 06:51:57.000000000 +0200
++++ openjdk/j2se/make/java/zip/Makefile	2007-08-13 06:53:36.000000000 +0200
+@@ -78,16 +78,20 @@
+ CPPFLAGS += -UDEBUG 
+ endif
+ 
+-CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-$(ZLIB_VERSION)
++ifeq ($(EXTERNAL_ZLIB), true)
++  OTHER_LDLIBS += -lz
++else
++  CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-$(ZLIB_VERSION)
++  #
++  # Add to ambient vpath so we pick up the library files
++  #
++  vpath %.c $(SHARE_SRC)/native/$(PKGDIR)/zlib-$(ZLIB_VERSION)
++endif
++
+ CPPFLAGS += -I$(SHARE_SRC)/native/java/io
+ CPPFLAGS += -I$(PLATFORM_SRC)/native/java/io
+ 
+ #
+-# Add to ambient vpath so we pick up the library files
+-#
+-vpath %.c $(SHARE_SRC)/native/$(PKGDIR)/zlib-$(ZLIB_VERSION)
+-
+-#
+ # Has been converted to the JNI: generate JNI-style header files
+ #
+ JAVAHFLAGS += -jni
+@@ -95,4 +99,4 @@
+ #
+ # Link to JVM library for JVM_Zip* functions
+ #
+-OTHER_LDLIBS = $(JVMLIB)
++OTHER_LDLIBS += $(JVMLIB)
