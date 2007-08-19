@@ -7,7 +7,7 @@
 # Purpose:
 #
 
-inherit java-pkg-2
+inherit java-pkg-2 java-ant-2
 
 DEPEND="${DEPEND}
 	dev-java/ant-core
@@ -36,6 +36,8 @@ http://dev.gentoo.org/~nichoj/distfiles/${GENTOO_CONF}"
 MY_A="${P}-gentoo.tar.bz2 ${TOOLS_P}.tar.bz2 ${THIRDPARTY_P}.tar.bz2"
 HOMEPAGE="http://www.jboss.org"
 LICENSE="LGPL-2"
+
+JAVA_PKG_BSFIX="off"
 
 EXPORT_FUNCTIONS src_unpack src_compile src_install
 
