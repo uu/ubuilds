@@ -6,7 +6,7 @@ inherit java-pkg-2 java-ant-2
 DESCRIPTION="Patched version of ANTLR used by Netbeans CND cluster"
 HOMEPAGE="http://cnd.netbeans.org/"
 SOURCE_SITE="http://dev.gentoo.org/~fordfrog/distfiles/"
-MY_PV="6.0_pre20070720164821"
+MY_PV="6.0_pre20070825092557"
 SRC_URI="
 	${SOURCE_SITE}/netbeans-nbbuild-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/netbeans-cnd-${MY_PV}.tar.bz2"
