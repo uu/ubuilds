@@ -6,6 +6,11 @@
 # NOTE: Please add your entry at the top!
 #
 
+=dev-util/eclipse-sdk-3.2.1-r3
+# Alistair Bush. ali_bush@gentoo.org (27 Aug 2007)
+# Masked as fridrik's patch set is no longer availble
+# Please contact me if you have it.
+
 # Alistair Bush. alistair.bush@gmail.com (20 Mar 2007)
 # Masked so I can experiement with building testng with both the 1.4 and 1.5
 # versions of jars
