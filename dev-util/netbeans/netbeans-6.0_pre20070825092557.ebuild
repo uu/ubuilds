@@ -19,8 +19,6 @@ DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.0"
-#MILESTONE="m10"
-#MY_PV=${PV/_alpha/-m}
 MY_PV=${PV}
 SOURCE_SITE="http://dev.gentoo.org/~fordfrog/distfiles/"
 SRC_URI="
@@ -48,6 +46,7 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-j2ee-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-jackpot-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-libs-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-management-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2
@@ -58,7 +57,8 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-sysprops-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-tasklist-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-utilities-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-vcscore-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-versioncontrol-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-web-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-websvc-${MY_PV}.tar.bz2
 	)
 	harness? (
@@ -68,9 +68,11 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-classfile-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-core-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-debuggercore-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-diff-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-editor-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-extbrowser-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-html-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-httpserver-${MY_PV}.tar.bz2
@@ -79,8 +81,10 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-javacvs-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-lexer-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-libs-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-openidex-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-performance-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-projects-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-properties-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-refactoring-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-schema2beans-${MY_PV}.tar.bz2
@@ -140,6 +144,15 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-print-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2
 	)
+	stableuc? (
+		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-collab-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-management-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-libs-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
+	)
 	testtools? (
 		${SOURCE_SITE}/${PN}-jellytools-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-jemmy-${MY_PV}.tar.bz2
@@ -158,7 +171,7 @@ SRC_URI="
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="apisupport cnd debug doc experimental harness ide identity j2ee java mobility nb profiler ruby soa testtools uml visualweb xml"
+IUSE="apisupport cnd debug doc experimental harness ide identity j2ee java mobility nb profiler ruby soa stableuc testtools uml visualweb xml"
 
 #RDEPEND=">=virtual/jre-1.5
 #	>=dev-java/commons-io-1.2
@@ -219,6 +232,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/jdom-1.0
 	>=dev-java/jexcelapi-2.5
 	>=dev-java/jsch-0.1.24
+	dev-java/json
 	dev-java/jsr173
 	dev-java/jtidy
 	=dev-java/junit-3.8*
@@ -229,7 +243,6 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/portletapi-1
 	>=dev-java/prefuse-20060715_beta
 	>=dev-java/proguard-3.7
-	>=dev-java/rome-0.6
 	dev-java/sac
 	dev-java/saxpath
 	dev-java/sjsxp
@@ -282,7 +295,7 @@ pkg_setup() {
 	fi
 
 	if use experimental && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use testtools && use uml && use visualweb && use xml ) ; then
-		eerror "'experimental' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', ̈́'uml', 'visualweb' and 'xml' USE flags"
+		eerror "'experimental' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', 'uml', 'visualweb' and 'xml' USE flags"
 		exit 1
 	fi
 
@@ -323,6 +336,11 @@ pkg_setup() {
 
 	if use soa && ! ( use ide && use java ) ; then
 		eerror "'soa' USE flag requires 'ide' and 'java' USE flags"
+		exit 1
+	fi
+
+	if use stableuc && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use uml && use visualweb && use xml ) ; then
+		eerror "'experimental' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'uml', 'visualweb' and 'xml' USE flags"
 		exit 1
 	fi
 
@@ -405,6 +423,7 @@ src_compile() {
 	use profiler && clusters="${clusters},nb.cluster.profiler"
 	use ruby && clusters="${clusters},nb.cluster.ruby"
 	use soa && clusters="${clusters},nb.cluster.soa"
+	use stableuc && clusters="${clusters},nb.cluster.stableuc"
 	use testtools && clusters="${clusters},nb.cluster.testtools"
 	use uml && clusters="${clusters},nb.cluster.uml"
 	use visualweb && clusters="${clusters},nb.cluster.visualweb"
@@ -494,7 +513,7 @@ src_install() {
 		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
 	fi
 	if use ruby ; then
-		local ruby_path="${DESTINATION}/ruby1/jruby-1.0/bin"
+		local ruby_path="${DESTINATION}/ruby1/jruby-1.0.1/bin"
 		cd ${D}/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
 		for file in * ; do
 			fperms 755 ${ruby_path}/${file} || die "Cannot update perms on ${ruby_path}/${file}"
@@ -552,16 +571,13 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/apisupport ] ; then
 		einfo "Symlinking jars for apisupport"
-		target="apisupport/external"
-		dosymcompilejar ${target} jdom-1.0
+		target="apisupport/harness/external"
 		dosymcompilejar ${target} javahelp jhall.jar jsearch-2.0_04.jar
-		dosymcompilejar ${target} rome rome.jar rome-fetcher-0.6.jar
-		dosymcompilejar ${target} rome rome.jar rome-0.6.jar
 	fi
 
 	if [ -e ${S}/collab ] ; then
 		einfo "Symlinking jars for collab"
-		target="collab/external"
+		target="collab/im/external"
 		dosymcompilejar ${target} jaxen-1.1 jaxen.jar jaxen-core-1.0.jar
 		dosymcompilejar ${target} log4j log4j.jar log4j-1.2.8.jar
 		dosymcompilejar ${target} saxpath
@@ -569,11 +585,22 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/contrib ] ; then
 		einfo "Symlinking jars for contrib"
+		target="contrib/jalopy/external"
+		dosymcompilejar ${target} log4j log4j.jar log4j-1.2.6.jar
+		target="/contrib/pmd-nb-wrapper/external"
+		dosymcompilejar ${target} pmd pmd.jar pmd-1.3.jar
+		target="/contrib/projectpackager/external"
+		dosymcompilejar ${target} sun-jaf activation.jar activation-1.0.2.jar
+		dosymcompilejar ${target} sun-javamail mail.jar mail-1.3.2.jar
+		target="contrib/tasklist/checkstyle/external"
+		dosymcompilejar ${target} checkstyle checkstyle.jar checkstyle-all.jar
+		target="contrib/tteditor/GDESuite/GDEWizard/src/gdefolder/std-lib"
+		dosymcompilejar ${target} portletapi-1 portletapi.jar portlet.jar
 	fi
 
 	if [ -e ${S}/core ] ; then
 		einfo "Symlinking jars for core"
-		target="core/external"
+		target="/core/javahelp/external"
 		dosymcompilejar ${target} javahelp jh.jar jh-2.0_04.jar
 	fi
 
@@ -583,9 +610,6 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/enterprise ] ; then
 		einfo "Symlinking jars for enterprise"
-		target="enterprise/compapp/external"
-		dosymcompilejar ${target} httpunit httpunit.jar httpunit-1.6.2.jar
-		dosymcompilejar ${target} xmlunit-1 xmlunit.jar xmlunit1.0.jar
 		target="enterprise/dataintegrator/external"
 		dosymcompilejar ${target} avalon-logkit-2.0 avalon-logkit.jar avalon-logkit-current.jar
 		dosymcompilejar ${target} axion axion.jar axiondb.jar
@@ -598,10 +622,16 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} sjsxp
 		dosymcompilejar ${target} velocity velocity.jar velocity-1.4.jar
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar
+		target="enterprise/dcom/external"
+		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.5.2.jar
 		target="enterprise/dcom/external/wsdl4j-1_5_2"
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar
 		dosymcompilejar ${target} wsdl4j qname.jar
-		target="enterprise/openesbaddons/aspect/external"
+		target="enterprise/libs/httpunit/external"
+		dosymcompilejar ${target} httpunit httpunit.jar httpunit-1.6.2.jar
+		target="enterprise/libs/xmlunit/external"
+		dosymcompilejar ${target} xmlunit-1 xmlunit.jar xmlunit-1.0.jar
+		target="/enterprise/openesbaddons/aspect/external"
 		dosymcompilejar ${target} sun-jaf
 		dosymcompilejar ${target} jaxb-2 jaxb-api.jar
 		dosymcompilejar ${target} jaxb-2 jaxb-impl.jar
@@ -611,20 +641,32 @@ place_unpack_symlinks() {
 		target="enterprise/openesbaddons/contrib-imola/cics-bc/netbeansplugin/libraries/release/modules/ext"
 		dosymcompilejar ${target} sun-jaf activation.jar activation-1.1.jar
 		dosymcompilejar ${target} antlr antlr.jar antlr-2.7.7.jar
+		dosymcompilejar ${target} asm-2.2 asm.jar asm-all-2.2.3.jar
 		dosymcompilejar ${target} commons-collections commons-collections.jar commons-collections-3.2.jar
 		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.5.2.jar
 		target="enterprise/openesbaddons/contrib-imola/corba-bc/netbeansplugin/libraries/release/modules/ext"
 		dosymcompilejar ${target} sun-jaf activation.jar activation-1.1.jar
+		dosymcompilejar ${target} antlr antlr.jar antlr-2.7.6.jar
+		dosymcompilejar ${target} asm-2.2 asm.jar asm-all-2.2.3.jar
+		dosymcompilejar ${target} commons-beanutils-1.7 commons-beanutils-core.jar commons-beanutils-core-1.7.0.jar
+		dosymcompilejar ${target} commons-beanutils-1.7 commons-beanutils.jar commons-beanutils-1.7.0.jar
+		dosymcompilejar ${target} commons-lang-2.1 commons-lang.jar commons-lang-2.3.jar
+		dosymcompilejar ${target} checkstyle checkstyle.jar checkstyle-4.3.jar
+		dosymcompilejar ${target} jaxb-2 jaxb-api.jar jaxb-api-2.1.jar
+		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
+		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.6.1.jar
+		target="enterprise/openesbaddons/contrib-imola/ejb-bc/netbeansplugin/libraries/release/modules/ext"
+		dosymcompilejar ${target} sun-jaf activation.jar activation-1.1.jar
 		dosymcompilejar ${target} asm-2.2 asm.jar asm-all-2.2.3.jar
 		dosymcompilejar ${target} commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
 		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
+		dosymcompilejar ${target} jsr173 jsr173.jar jsr173_api-1.0.jar
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.5.2.jar
-		target="enterprise/openesbaddons/workflow/project/release/modules/ext/workflow"
+		target="enterprise/openesbaddons/smtpmail/release/modules/ext"
+		dosymcompilejar ${target} sun-javamail
+		target="enterprise/openesbaddons/workflow/project/external"
 		dosymcompilejar ${target} log4j log4j.jar log4j-1.2.13.jar
-		dosymcompilejar ${target} wsdl4j wsdl4j.jar
-		target="enterprise/workflow/project/release/modules/ext/workflow"
-		dosymcompilejar ${target} wsdl4j wsdl4j.jar
 	fi
 
 	if [ -e ${S}/form ] ; then
@@ -666,46 +708,62 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/libs ] ; then
 		einfo "Symlinking jars for libs"
-		target="libs/external"
+		target="libs/commons_lang/external"
 		dosymcompilejar ${target} commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
-		dosymcompilejar ${target} commons-logging commons-logging-api.jar commons-logging-api-1.1.jar
+		target="libs/commons_logging/external"
 		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.4.jar
+		target="/libs/freemarker/external"
 		dosymcompilejar ${target} freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
+		target="libs/ical4j/external"
+		dosymcompilejar ${target} commons-logging commons-logging-api.jar commons-logging-api-1.1.jar
 		dosymcompilejar ${target} ical4j ical4j.jar ical4j-1.0-beta1.jar
+		target="libs/jcalendar/external"
 		dosymcompilejar ${target} jcalendar-1.2 jcalendar.jar jcalendar-1.3.2.jar
+		target="libs/jsch/external"
 		dosymcompilejar ${target} jsch jsch.jar jsch-0.1.24.jar
+		target="libs/lucene/external"
 		dosymcompilejar ${target} lucene-2 lucene-core.jar lucene-core-2.1.0.jar
-		dosymcompilejar ${target} pmd pmd.jar pmd-1.3.jar
+		target="libs/swing-layout/external"
 		dosymcompilejar ${target} swing-layout-1 swing-layout.jar swing-layout-1.0.2.jar
-		dosymcompilejar ${target} xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
+		target="libs/xerces/external"
 		dosymcompilejar ${target} xerces-2 xercesImpl.jar xerces-2.8.0.jar
+		target="libs/xmlbeans/external"
+		dosymcompilejar ${target} xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
 	fi
 
 	if [ -e ${S}/mobility ] ; then
 		einfo "Symlinking jars for mobility"
 		target="mobility/ant-ext/external"
 		dosymcompilejar ${target} ant-contrib ant-contrib.jar ant-contrib-1.0b3.jar
-		target="mobility/cdcplugins/ricoh/release/external"
-		dosymcompilejar ${target} jcifs-1.1 jcifs.jar jcifs-1.2.13.jar
+		target="mobility/cdcplugins/ricoh/external"
+		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.3.jar
+		dosymcompilejar ${target} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
+		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.4.jar
+		dosymcompilejar ${target} jcifs-1.1 jcifs.jar jcifs-1.2.11.jar
 		target="mobility/deployment/ftpscp/external"
 		dosymcompilejar ${target} commons-net commons-net.jar commons-net-1.4.1.jar	fi
 		dosymcompilejar ${target} jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
 		target="mobility/deployment/webdav/external"
 		dosymcompilejar ${target} commons-httpclient-3
-		dosymcompilejar ${target} commons-logging
+		dosymcompilejar ${target} commons-logging commons-logging.jar
+		target="mobility/deployment/webdav/external"
 		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
 		target="mobility/proguard/external"
 		dosymcompilejar ${target} proguard proguard.jar proguard3.7.jar
 	fi
 
-	if [ -e ${S}/ruby ] ; then
-		einfo "Symlinking jars for ruby"
-		target="ruby/external"
-		dosymcompilejar ${target} kxml-2 kxml2.jar kxml2-2.3.0.jar
+	if [ -e ${S}/monitor ] ; then
+		einfo "Symlinking jars for monitor"
 	fi
 
-	if [ -e ${S}/scripting ] ; then
-		einfo "Symlinking jars for scripting"
+	if [ -e ${S}/performance ] ; then
+		einfo "Symlinking jars for performance"
+	fi
+
+	if [ -e ${S}/ruby ] ; then
+		einfo "Symlinking jars for ruby"
+		target="ruby/kxml2/external"
+		dosymcompilejar ${target} kxml-2 kxml2.jar kxml2-2.3.0.jar
 	fi
 
 	if [ -e ${S}/serverplugins ] ; then
@@ -720,69 +778,58 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/tasklist ] ; then
 		einfo "Symlinking jars for tasklist"
-		target="tasklist/external"
+		target="tasklist/html/external"
+		dosymcompilejar ${target} jtidy Tidy.jar Tidy-r7.jar
+		target="tasklist/checkstyle/external"
 		dosymcompilejar ${target} antlr antlr.jar
 		dosymcompilejar ${target} commons-beanutils-1.7 commons-beanutils-core.jar
 		dosymcompilejar ${target} commons-cli-1
 		dosymcompilejar ${target} commons-collections commons-collections.jar
 		dosymcompilejar ${target} checkstyle
-		dosymcompilejar ${target} ical4j ical4j.jar ical4j-0.9.20.jar
-		dosymcompilejar ${target} jcalendar-1.2 jcalendar.jar jcalendar-1.3.0.jar
-		dosymcompilejar ${target} jtidy Tidy.jar Tidy-r7.jar
 	fi
 
 	if [ -e ${S}/uml ] ; then
 		einfo "Symlinking jars for uml"
-		target="uml/external"
+		target="uml/antlr-2-7-2/external"
 		#dosymcompilejar ${target} antlr antlr.jar antlr-2.7.2.jar
 	fi
 
 	if [ -e ${S}/visualweb ] ; then
 		einfo "Symlinking jars for visualweb"
-		target="visualweb/ejb/support/release/modules/ext"
-		dosymcompilejar ${target} sun-ejb-spec ejb-api.jar ejb20.jar
-		target="visualweb/ravehelp/external"
-		dosymcompilejar ${target} javahelp jhall.jar jhall-2.0_02.jar
 		target="visualweb/ravelibs/commons-beanutils/release/modules/ext"
 		dosymcompilejar ${target} commons-beanutils-1.7 commons-beanutils.jar
-		target="visualweb/ravelibs/commons-collections/release/modules/ext"
+		target="/visualweb/ravelibs/commons-collections/release/modules/ext"
 		dosymcompilejar ${target} commons-collections
 		target="visualweb/ravelibs/commons-digester/release/modules/ext"
 		dosymcompilejar ${target} commons-digester
-		target="visualweb/ravelibs/commons-fileupload/release/modules/ext"
-		dosymcompilejar ${target} commons-fileupload
+		target="visualweb/ravelibs/commons-fileupload/external"
+		dosymcompilejar ${target} commons-fileupload commons-fileupload.jar commons-fileupload-1.0.jar
 		target="visualweb/ravelibs/commons-logging/release/modules/ext"
 		dosymcompilejar ${target} commons-logging commons-logging.jar
-		target="visualweb/ravelibs/external"
-		dosymcompilejar ${target} jakarta-jstl standard.jar
-		target="visualweb/ravelibs/javaee-5/release/modules/ext"
-		dosymcompilejar ${target} sun-jaf
-		dosymcompilejar ${target} sun-javamail
-		target="visualweb/ravelibs/jstl/release/modules/ext"
-		dosymcompilejar ${target} jakarta-jstl jstl.jar
 		target="visualweb/ravelibs/portlet-api/external"
 		dosymcompilejar ${target} portletapi-1 portletapi.jar portlet.jar
 		target="visualweb/ravelibs/rowset/release/modules/ext"
 		dosymcompilejar ${target} sun-jdbc-rowset-bin
+		target="/visualweb/woodstock/components/external"
+		dosymcompilejar ${target} json
 	fi
 
 	if [ -e ${S}/web ] ; then
 		einfo "Symlinking jars for web"
-		target="web/external"
-		dosymcompilejar ${target} commons-el
+		target="/web/css/external"
 		dosymcompilejar ${target} flute
-		dosymcompilejar ${target} jakarta-jstl jstl.jar jstl-1.1.2.jar
 		dosymcompilejar ${target} sac
+		target="/web/libs/jstl11/external"
+		dosymcompilejar ${target} jakarta-jstl jstl.jar jstl-1.1.2.jar
 		dosymcompilejar ${target} jakarta-jstl standard.jar standard-1.1.2.jar
 	fi
 
 	if [ -e ${S}/xml ] ; then
 		einfo "Symlinking jars for xml"
-		target="xml/external"
-		dosymcompilejar ${target} flute
+		target="xml/jxpath/external"
 		#dosymcompilejar ${target} commons-jxpath commons-jxpath.jar jxpath1.1.jar
+		target="xml/prefuse/external"
 		dosymcompilejar ${target} prefuse-2006 prefuse.jar
-		dosymcompilejar ${target} sac
 	fi
 
 	if [ -e ${S}/xtest ] ; then

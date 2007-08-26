@@ -2,6 +2,13 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 Aug 2007; Miroslav Šulc <fordfrog@gentoo.org> ++,
+  -files/5.5.1/jdbcstorage-build.xml-comments.patch,
+  -files/5.5.1/jspparser-build.xml.patch,
+  -files/5.5.1/mdrant-build.xml-comments.patch, -files/5.5.1/startscript.sh,
+  -netbeans-6.0_pre20070720164821.ebuild, -netbeans-5.5.1.ebuild:
+  Version bump
+
   21 Jul 2007; Miroslav Šulc <fordfrog@gentoo.org> ++,
   -netbeans-6.0_pre20070714111440.ebuild:
   Version bump
