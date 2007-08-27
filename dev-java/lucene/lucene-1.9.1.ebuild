@@ -16,7 +16,8 @@ IUSE=""
 DEPEND=">=virtual/jdk-1.4
 	>=dev-java/ant-core-1.5
 	test? ( dev-java/junit dev-java/ant-tasks )"
-RDEPEND=">=virtual/jdk-1.2"
+# anyone know why a jdk?
+RDEPEND=">=virtual/jdk-1.4"
 
 src_unpack() {
 	unpack ${A}
