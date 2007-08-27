@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  27 Aug 2007; Jean-Noël Rivasseau <elvanor@gmail.com> +metadata.xml,
+  sitemesh-2.3.ebuild:
+  Cleaned up ebuild even more. Now source USE flag is implemented.
+
   23 Jul 2007; Jean-Noël Rivasseau <elvanor@gmail.com>
   files/sitemesh-2.3-lexer.flex.patch, sitemesh-2.3.ebuild:
   Added ChangeLog. Cleaned up ebuild wrt bug #184742.

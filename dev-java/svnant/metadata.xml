@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>java</herd>
+<longdescription>
+SvnAnt is an ant task that provides an interface to Subversion revision control system that is a compelling replacement for CVS in the open source community.
+
+With the help of the underlying svnClientAdapter, svn task uses javahl - a native (JNI) java interface for the subversion api if it can find the corresponding library.
+(See the subclipse FAQ for hints how to get it for your operating system).
+Otherwise it uses the svn(.exe) command line interface (which must be present on your OS' path).
+
+SvnAnt supports most of the major Subversion commands.
+</longdescription>
+</pkgmetadata>

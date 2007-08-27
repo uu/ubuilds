@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>java</herd>
+<longdescription>
+Gant is a build tool for scripting Ant tasks using Groovy instead of XML to specify the build logic.
+
+A Gant build specification is just a Groovy script and so can bring all the power of Groovy to bear directly, 
+something not possible with Ant scripts. Whilst it might be seen as a competitor to Ant, Gant relies on all
+the Ant tasks for actually doing things, so it is really an alternative way of doing builds using Ant, but 
+using a programming language rather than XML to specify the build rules.
+</longdescription>
+</pkgmetadata>

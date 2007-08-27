@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
-JAVA_PKG_IUSE="source"
+JAVA_PKG_IUSE=""
 
 inherit java-pkg-2 java-ant-2
 
@@ -14,25 +14,23 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
-RDEPEND=">=virtual/jre-1.4
-	>=dev-java/groovy-1.0
+CDEPEND=">=dev-java/groovy-1.0
 	=dev-java/asm-2.2*
-	dev-java/antlr	
-	"
+	dev-java/antlr"
 
-DEPEND=">=virtual/jdk-1.4
-	>=dev-java/groovy-1.0
-	>=dev-java/junit-3.8
-	=dev-java/asm-2.2*
-	dev-java/antlr
-	"
+RDEPEND="${CDEPEND}
+	>=virtual/jre-1.4"
 
-IUSE="doc"
+DEPEND="${CDEPEND}
+	>=virtual/jdk-1.4
+	>=dev-java/junit-3.8"
+
+IUSE=""
 
 src_unpack() {
 	unpack "${A}"
 	cd "${S}"
-	
+
 	epatch "${FILESDIR}/${P}-build.xml.patch"
 	cp "${FILESDIR}/LICENSE.txt" LICENSE.txt
 	rm -rf lib/
@@ -40,16 +38,12 @@ src_unpack() {
 }
 
 src_compile() {
+	gentoo_jars="$(java-pkg_getjars asm-2.2,groovy-1,antlr)"
 
-	cd "${S}"
-
-	gentoo_jars="$(java-pkg_getjars --build-only asm-2.2,groovy-1,antlr)"
-	
 	eant -Dgentoo.classpath=`java-pkg_getjars --build-only junit` "-Dgentoo.jars=${gentoo_jars//:/,}"
 }
 
 src_install() {
-
-	java-pkg_newjar build/lib/gant-0.3.0.jar
-	dodoc releaseNotes.txt
+	java-pkg_newjar "build/lib/${P}.jar"
+	dodoc releaseNotes.txt || die
 }

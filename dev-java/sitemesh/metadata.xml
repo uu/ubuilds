@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>java</herd>
+<longdescription>
+	* SiteMesh is a web-page layout and decoration framework and web- application integration framework to aid in creating large sites consisting of many pages for which a consistent look/feel, navigation and layout scheme is required.
+	
+	* SiteMesh intercepts requests to any static or dynamically generated HTML page requested through the web-server, parses the page, obtains properties and data from the content and generates an appropriate final page with modifications to the original. This is based upon the well-known GangOfFour Decorator design pattern.
+
+	* SiteMesh can also include entire HTML pages as a Panel within another page. This is similar to a Server-Side Include, except that the HTML document will be modified to create a visual window (using the document's Meta-data as an aid) within a page. Using this feature, Portal type web sites can be built very quickly and effectively. This is based upon the well-known GangOfFour Composite design pattern.
+
+	* SiteMesh is built using Java 2 with Servlet, JSP and XML technologies. This makes it ideal for use with J2EE applications, however it can be integrated with server-side web architectures that are not Java based such as CGI (Perl/Python/C/C++/etc), PHP, Cold Fusion, etc...
+    
+	* SiteMesh is very extensible and is designed in a way in which it is easy to extend for custom needs.
+</longdescription>
+</pkgmetadata>

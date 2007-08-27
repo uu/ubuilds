@@ -30,7 +30,7 @@ DEPEND="${CDEPEND}
 	>=dev-java/jflex-1.4.1
 	dev-java/junit"
 
-IUSE="doc source"
+IUSE=""
 
 S="${WORKDIR}"
 
@@ -39,7 +39,7 @@ src_unpack() {
 	cd "${S}"
 
 	java-ant_rewrite-classpath
-	sitemesh_classpath="$(java-pkg_getjars --build-only --with-dependencies jflex)"
+	local sitemesh_classpath="$(java-pkg_getjars --build-only --with-dependencies jflex)"
 	java-ant_xml-rewrite -f build.xml --change -e java -a classpath -v "${sitemesh_classpath}" || die
 
 	EPATCH_OPTS="-d ${S}" epatch "${FILESDIR}/${P}-lexer.flex.patch"
@@ -50,19 +50,18 @@ src_unpack() {
 }
 
 src_compile() {
-	cd "${S}"
-
-	sitemesh_classpath="$(java-pkg_getjars --build-only --with-dependencies jflex)"
-	gentoo_classpath="$(java-pkg_getjars servletapi-2.4,freemarker-2.3,tapestry-3.0,velocity,velocity-tools)"
+	local gentoo_classpath="$(java-pkg_getjars servletapi-2.4,freemarker-2.3,tapestry-3.0,velocity,velocity-tools)"
 
 	ANT_TASKS="javacup" eant -Dgentoo.classpath="${gentoo_classpath}"
 	#eant javadocs
 }
 
 src_install() {
-	java-pkg_newjar dist/sitemesh-2.3.jar
+	java-pkg_newjar "dist/${P}.jar"
 
-	dodoc README.txt CHANGES.txt
+	dodoc README.txt CHANGES.txt || die
+
+	use source && java-pkg_dosrc src/java/*
 
 	#src/etc/dtd/sitemesh_1_0_decorators.dtd src/etc/dtd/sitemesh_1_5_decorators.dtd
 	#dodoc -r src/etc/dtd/

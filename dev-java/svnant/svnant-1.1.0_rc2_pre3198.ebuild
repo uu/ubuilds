@@ -13,19 +13,24 @@ DESCRIPTION="SvnAnt is an ant task that provides an interface to Subversion revi
 # 1. svn export http://subclipse.tigris.org/svn/subclipse/trunk/svnant/ 
 # 2. Rename the directory svnant to svnant-1.1.0_rc2_pre3198, and tar & bzip2
 #
+# For convenience I am also supplying a tarball on my personal server.
 
-SRC_URI="${P}.tar.bz2"
+SRC_URI="http://www.elvanor.net/gentoo/${P}.tar.bz2"
+
 
 HOMEPAGE="http://subclipse.tigris.org/svnant.html"
 LICENSE="Apache-1.1"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-RDEPEND=">=virtual/jre-1.4
-		>=dev-java/ant-core-1.7.0
-		dev-util/svnclientadapter"
 
-DEPEND=">=virtual/jdk-1.4
-	dev-util/svnclientadapter"
+CDEPEND="dev-util/svnclientadapter"
+
+RDEPEND="${CDEPEND}
+	>=virtual/jre-1.4
+	>=dev-java/ant-core-1.7.0"
+
+DEPEND="${CDEPEND}
+	>=virtual/jdk-1.4"
 
 IUSE=""
 
@@ -41,15 +46,13 @@ src_unpack() {
 }
 
 src_compile() {
+	ANT_TASKS="ant-nodeps"
 
-	ANT_TASKS="ant-tasks"
-
-	cd "${S}"
-	
 	eant -Dgentoo.classpath="$(java-pkg_getjars ant-core,svnclientadapter)"
 }
 
 src_install() {
-	java-pkg_newjar build/lib/svnant.jar
+	use source && java-pkg_dosrc src/main/org
+	java-pkg_newjar "build/lib/${PN}.jar"
 	java-pkg_register-ant-task
 }
