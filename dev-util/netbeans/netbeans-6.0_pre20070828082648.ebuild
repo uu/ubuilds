@@ -584,9 +584,9 @@ place_unpack_symlinks() {
 		einfo "Symlinking jars for contrib"
 		target="contrib/jalopy/external"
 		dosymcompilejar ${target} log4j log4j.jar log4j-1.2.6.jar
-		target="/contrib/pmd-nb-wrapper/external"
+		target="contrib/pmd-nb-wrapper/external"
 		dosymcompilejar ${target} pmd pmd.jar pmd-1.3.jar
-		target="/contrib/projectpackager/external"
+		target="contrib/projectpackager/external"
 		dosymcompilejar ${target} sun-jaf activation.jar activation-1.0.2.jar
 		dosymcompilejar ${target} sun-javamail mail.jar mail-1.3.2.jar
 		target="contrib/tasklist/checkstyle/external"
@@ -597,7 +597,7 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/core ] ; then
 		einfo "Symlinking jars for core"
-		target="/core/javahelp/external"
+		target="core/javahelp/external"
 		dosymcompilejar ${target} javahelp jh.jar jh-2.0_04.jar
 	fi
 
@@ -628,7 +628,7 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} httpunit httpunit.jar httpunit-1.6.2.jar
 		target="enterprise/libs/xmlunit/external"
 		dosymcompilejar ${target} xmlunit-1 xmlunit.jar xmlunit-1.0.jar
-		target="/enterprise/openesbaddons/aspect/external"
+		target="enterprise/openesbaddons/aspect/external"
 		dosymcompilejar ${target} sun-jaf
 		dosymcompilejar ${target} jaxb-2 jaxb-api.jar
 		dosymcompilejar ${target} jaxb-2 jaxb-impl.jar
@@ -709,7 +709,7 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
 		target="libs/commons_logging/external"
 		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.4.jar
-		target="/libs/freemarker/external"
+		target="libs/freemarker/external"
 		dosymcompilejar ${target} freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
 		target="libs/ical4j/external"
 		dosymcompilejar ${target} commons-logging commons-logging-api.jar commons-logging-api-1.1.jar
@@ -803,10 +803,10 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/web ] ; then
 		einfo "Symlinking jars for web"
-		target="/web/css/external"
+		target="web/css/external"
 		dosymcompilejar ${target} flute
 		dosymcompilejar ${target} sac
-		target="/web/libs/jstl11/external"
+		target="web/libs/jstl11/external"
 		dosymcompilejar ${target} jakarta-jstl jstl.jar jstl-1.1.2.jar
 		dosymcompilejar ${target} jakarta-jstl standard.jar standard-1.1.2.jar
 	fi
