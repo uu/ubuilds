@@ -337,7 +337,7 @@ pkg_setup() {
 	fi
 
 	if use stableuc && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use uml && use visualweb && use xml ) ; then
-		eerror "'experimental' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'uml', 'visualweb' and 'xml' USE flags"
+		eerror "'stableuc' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'uml', 'visualweb' and 'xml' USE flags"
 		exit 1
 	fi
 
