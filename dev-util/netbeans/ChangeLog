@@ -2,6 +2,9 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  31 Aug 2007; Miroslav Šulc <fordfrog@gentoo.org> ++:
+  Version bump
+
   30 Aug 2007; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.0_pre20070828082648.ebuild:
   Fixed message
