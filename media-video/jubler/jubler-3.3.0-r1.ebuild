@@ -16,7 +16,7 @@ IUSE="nls spell kde"
 
 RDEPEND=">=virtual/jre-1.5
 	media-video/ffmpeg
-	media-video/mplayer
+	mplayer? ( media-video/mplayer )
 	spell?
 	(
 		app-text/aspell
