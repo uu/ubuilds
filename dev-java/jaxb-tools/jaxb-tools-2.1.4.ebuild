@@ -14,7 +14,7 @@ SRC_URI="https://jaxb.dev.java.net/${PV}/${MY_P}.jar"
 
 LICENSE="CDDL"
 SLOT="2"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="=dev-java/codemodel-2*
