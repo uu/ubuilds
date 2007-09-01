@@ -1,0 +1,9 @@
+# ChangeLog for dev-java/istack-commons-tools
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  01 Sep 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
+  +metadata.xml, +istack-commons-tools-20070711.ebuild:
+  Initial commit to java-experimental overlay. Updated sources to CVS checkout
+  from 20070711
+
