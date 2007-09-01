@@ -13,7 +13,7 @@ SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/istack-commons-20070711.tar.b
 
 LICENSE="CDDL"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~x86 ~amd64 ~ppc ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="dev-java/sun-jaf
