@@ -1,0 +1,8 @@
+# ChangeLog for media-sound/jmtpsynchronizer
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  01 Sep 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  jmtpsynchronizer-1.0_beta3.ebuild:
+  Added ~x86
+
