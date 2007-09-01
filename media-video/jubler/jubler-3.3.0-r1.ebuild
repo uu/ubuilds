@@ -50,7 +50,7 @@ src_compile() {
 	eant ${anttasks_opt} jar faq || die "eant failed"
 	cp -v dist/help/jubler-faq.html build/classes/help || die "cp failed"
 	cd resources/ffdecode || die
-	CC=$(tc-getCC) emake linuxdyn || "make failed"
+	CC=$(tc-getCC) emake linuxdyn || die "make failed"
 }
 
 src_install() {
