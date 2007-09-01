@@ -10,7 +10,7 @@ SRC_URI="http://jmtpsynchronizer.googlecode.com/files/jmtpsynchronizer-1.0-r58-b
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 
 S="${WORKDIR}/${PN}"
 
