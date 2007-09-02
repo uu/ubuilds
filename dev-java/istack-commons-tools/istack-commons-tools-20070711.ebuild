@@ -16,7 +16,8 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64 ~ppc ~x86-fbsd"
 IUSE=""
 
-COMMON_DEP="dev-java/sun-jaf
+COMMON_DEP="dev-java/apt-mirror
+	dev-java/sun-jaf
 	=dev-java/istack-commons-runtime-${PV}
 	dev-java/ant-core"
 
@@ -36,8 +37,9 @@ src_unpack() {
 	cd "${S}/tools"
 	mkdir -p lib || die
 	cd "${S}/tools/lib"
-	java-pkg_jarfrom istack-commons-runtime
 	java-pkg_jarfrom ant-core ant.jar
+	java-pkg_jarfrom apt-mirror
+	java-pkg_jarfrom istack-commons-runtime
 
 	#ln -s $(java-config --tools) || die
 

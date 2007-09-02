@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  02 Sep 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  istack-commons-tools-20070711.ebuild:
+  Added missing dep
+
   01 Sep 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
   +metadata.xml, +istack-commons-tools-20070711.ebuild:
   Initial commit to java-experimental overlay. Updated sources to CVS checkout
