@@ -4,6 +4,8 @@
 
 # NOTE:
 # - for debug purposes you can set JAVA_PKG_NB_BUNDLED="true" if you want to disable unbundling
+# - for unbundling purposes you can set JAVA_PKG_NB_REMOVE_JARS="true" if you want to remove
+#   all but symlinked jars in src_unpack()
 # - though no part of 'ide' module is built when building just platform, it is needed because
 #   some files are copied from 'ide' module in 'build-nozip' target
 
@@ -229,7 +231,6 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/jaxb-tools-2
 	>=dev-java/jaxen-1.1
 	>=dev-java/jcalendar-1.3.2
-	>=dev-java/jcifs-1.2.13
 	>=dev-java/jdom-1.0
 	>=dev-java/jexcelapi-2.5
 	>=dev-java/jsch-0.1.24
@@ -394,6 +395,11 @@ src_unpack () {
 	#fi
 
 	place_unpack_symlinks
+
+	if [[ -n "${JAVA_PKG_NB_REMOVE_JARS}" ]] ; then
+		einfo "Removing rest of the bundled jars as requested by JAVA_PKG_NB_REMOVE_JARS..."
+		find ${S} -type f -name "*.jar" | xargs rm -v
+	fi
 }
 
 src_compile() {
@@ -582,6 +588,10 @@ place_unpack_symlinks() {
 
 	if [ -e ${S}/contrib ] ; then
 		einfo "Symlinking jars for contrib"
+		target="contrib/doap/external"
+		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.2.jar
+		dosymcompilejar ${target} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
+		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.3.jar
 		target="contrib/jalopy/external"
 		dosymcompilejar ${target} log4j log4j.jar log4j-1.2.6.jar
 		target="contrib/pmd-nb-wrapper/external"
@@ -621,9 +631,6 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar
 		target="enterprise/dcom/external"
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.5.2.jar
-		target="enterprise/dcom/external/wsdl4j-1_5_2"
-		dosymcompilejar ${target} wsdl4j wsdl4j.jar
-		dosymcompilejar ${target} wsdl4j qname.jar
 		target="enterprise/libs/httpunit/external"
 		dosymcompilejar ${target} httpunit httpunit.jar httpunit-1.6.2.jar
 		target="enterprise/libs/xmlunit/external"
@@ -736,14 +743,12 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.3.jar
 		dosymcompilejar ${target} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
 		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.4.jar
-		dosymcompilejar ${target} jcifs-1.1 jcifs.jar jcifs-1.2.11.jar
 		target="mobility/deployment/ftpscp/external"
 		dosymcompilejar ${target} commons-net commons-net.jar commons-net-1.4.1.jar	fi
 		dosymcompilejar ${target} jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
 		target="mobility/deployment/webdav/external"
 		dosymcompilejar ${target} commons-httpclient-3
 		dosymcompilejar ${target} commons-logging commons-logging.jar
-		target="mobility/deployment/webdav/external"
 		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
 		target="mobility/proguard/external"
 		dosymcompilejar ${target} proguard proguard.jar proguard3.7.jar
@@ -798,7 +803,10 @@ place_unpack_symlinks() {
 		target="visualweb/ravelibs/portlet-api/external"
 		dosymcompilejar ${target} portletapi-1 portletapi.jar portlet.jar
 		target="visualweb/ravelibs/rowset/external"
-		dosymcompilejar ${target} sun-jdbc-rowset-bin
+		dosymcompilejar ${target} sun-jdbc-rowset-bin rowset.jar rowset-1.0.1.jar
+		target="visualweb/woodstock/components/external"
+		dosymcompilejar ${target} json
+		dosymcompilejar ${target} json json.jar json-2.jar
 	fi
 
 	if [ -e ${S}/web ] ; then
