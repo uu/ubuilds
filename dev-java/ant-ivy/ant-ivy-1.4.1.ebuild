@@ -15,14 +15,12 @@ MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Ivy is a free java based dependency manager"
 HOMEPAGE="http://jayasoft.org/ivy"
-SRC_URI="http://jayasoft.org/downloads/ivy/1.4.1/${MY_P}-src.zip"
+SRC_URI="http://jayasoft.org/downloads/ivy/${PV}/${MY_P}-src.zip"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~x86" #~ppc missing deps
 IUSE=""
-# many tests fail (but there's no failonerror)
-RESTRICT="test"
 
 COMMON_DEP="
 	dev-java/ant-core
@@ -46,32 +44,35 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 
+	epatch "${FILESDIR}/1.4.1-javadoc.patch"
+
 	# init-ivy expects existing ivy.jar, but we don't need actually it
 	sed -i -e 's/depends="init-ivy, prepare"/depends="prepare"/' build.xml \
 		|| die
 
 	rm -v src/java/fr/jayasoft/ivy/repository/vfs/IvyWebdav* || die
-
-	mkdir lib && cd lib
-	java-pkg_jar-from ant-core,commons-cli-1,commons-httpclient-3,commons-vfs
-	java-pkg_jar-from jakarta-oro-2.0,jsch
+	java-ant_rewrite-classpath
+	mkdir lib
 }
 
-src_compile() {
-	eant offline jar $(use_doc)
+EANT_GENTOO_CLASSPATH="
+	ant-core,commons-cli-1,commons-httpclient-3
+	commons-vfs,jakarta-oro-2.0,jsch"
+
+EANT_BUILD_TARGET="offline jar"
+
+src_test() {
+	# TODO: find out why a couple of these fail
+	java-pkg_jar-from --into lib junit
+	ANT_TASKS="ant-junit" eant offline test
 }
 
 src_install() {
 	java-pkg_dojar build/artifact/${MY_PN}.jar
 
-	use doc && java-pkg_dojavadoc doc/build/api
-	use examples && java-pkg_doexamples
+	use doc && java-pkg_dojavadoc doc/ivy/api
+	use examples && java-pkg_doexamples src/example
 	use source && java-pkg_dosrc src/java/*
 
 	java-pkg_register-ant-task
-}
-
-src_test() {
-	java-pkg_jar-from --into lib junit
-	ANT_TASKS="ant-junit" eant offline test
 }
