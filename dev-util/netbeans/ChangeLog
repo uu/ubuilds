@@ -2,6 +2,10 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 Sep 2007; Miroslav Šulc <fordfrog@gentoo.org> ++,
+  -netbeans-6.0_pre20070902001709.ebuild:
+  Version bump
+
   02 Sep 2007; Miroslav Šulc <fordfrog@gentoo.org> ++:
   Version bump + added JAVA_PKG_NB_REMOVE_JARS variable to control removal of
   bundled jars

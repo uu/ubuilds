@@ -234,7 +234,6 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/jdom-1.0
 	>=dev-java/jexcelapi-2.5
 	>=dev-java/jsch-0.1.24
-	dev-java/json
 	dev-java/jsr173
 	dev-java/jtidy
 	=dev-java/junit-3.8*
@@ -742,7 +741,6 @@ place_unpack_symlinks() {
 		target="mobility/cdcplugins/ricoh/external"
 		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.3.jar
 		dosymcompilejar ${target} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
-		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.4.jar
 		target="mobility/deployment/ftpscp/external"
 		dosymcompilejar ${target} commons-net commons-net.jar commons-net-1.4.1.jar	fi
 		dosymcompilejar ${target} jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
@@ -804,9 +802,6 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} portletapi-1 portletapi.jar portlet.jar
 		target="visualweb/ravelibs/rowset/external"
 		dosymcompilejar ${target} sun-jdbc-rowset-bin rowset.jar rowset-1.0.1.jar
-		target="visualweb/woodstock/components/external"
-		dosymcompilejar ${target} json
-		dosymcompilejar ${target} json json.jar json-2.jar
 	fi
 
 	if [ -e ${S}/web ] ; then
