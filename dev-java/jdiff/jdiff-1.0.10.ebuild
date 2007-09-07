@@ -14,11 +14,13 @@ SRC_URI="mirror://sourceforge/javadiff/${P}.tar.gz"
 HOMEPAGE="http://www.jdiff.org/"
 
 CDEPEND=">=dev-java/xerces-2.8"
-	
+
 DEPEND=">=virtual/jdk-1.4
+	java-virtuals/javadoc
 	${CDEPEND}"
-	
+
 RDEPEND=">=virtual/jre-1.4
+	java-virtuals/javadoc
 	dev-java/ant-core
 	${CDEPEND}"
 
@@ -41,8 +43,8 @@ src_unpack() {
 src_compile() {
 	# Note that build fails if build.compiler="modern" is not specified
 
-	gentoo_jars="$(java-config --tools):$(java-pkg_getjars xerces-2,ant-core)"
-
+	gentoo_jars="$(java-pkg_getjars xerces-2,ant-core,javadoc)"
+	echo ${gentoo_jars}
 	eant -Dgentoo.classpath="${gentoo_jars}" -Dbuild.compiler="modern"
 }
 
@@ -50,7 +52,7 @@ src_install() {
 	java-pkg_dojar "lib/${PN}.jar"
 	java-pkg_dojar "lib/ant${PN}.jar"
 	java-pkg_register-ant-task
-		
+
 	dodoc README.txt CHANGES.txt KNOWN_LIMITATIONS.txt || die
 	dohtml "${PN}.html" stylesheet.css || die
 }

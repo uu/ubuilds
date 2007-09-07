@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 Sep 2007; Jean-Noël Rivasseau <elvanor@gmail.com> jdiff-1.0.10.ebuild:
+  Small modification to use a virtual instead of an ugly javadoc hack.
+
   12 Jul 2007; Jean-Noël Rivasseau <elvanor@gmail.com>
   +jdiff-1.0.10.ebuild:
   Initial jdiff ebuild. Not ready yet for inclusion because of a big problem
