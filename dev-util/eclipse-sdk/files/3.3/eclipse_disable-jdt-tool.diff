@@ -1,0 +1,113 @@
+--- features/org.eclipse.jdt/build.xml.orig	2007-04-07 15:57:39.000000000 +0200
++++ features/org.eclipse.jdt/build.xml	2007-04-07 15:59:29.000000000 +0200
+@@ -37,11 +37,6 @@
+ 			<property name="os" value="win32"/>
+ 			<property name="ws" value="win32"/>
+ 		</ant>
+-		<ant antfile="build.xml" dir="../../plugins/org.eclipse.jdt.compiler.tool" target="${target}">
+-			<property name="arch" value="x86"/>
+-			<property name="os" value="win32"/>
+-			<property name="ws" value="win32"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="../../plugins/org.eclipse.jdt.compiler.apt" target="${target}">
+ 			<property name="arch" value="x86"/>
+ 			<property name="os" value="win32"/>
+--- features/org.eclipse.jdt/feature.xml.orig	2007-04-07 15:57:39.000000000 +0200
++++ features/org.eclipse.jdt/feature.xml	2007-04-07 15:59:47.000000000 +0200
+@@ -67,14 +67,6 @@
+          unpack="false"/>
+          
+    <plugin
+-         id="org.eclipse.jdt.compiler.tool"
+-         download-size="0"
+-         install-size="0"
+-         version="0.0.0"
+-         fragment="true"
+-         unpack="false"/> 
+-
+-   <plugin
+          id="org.eclipse.jdt.core"
+          download-size="0"
+          install-size="0"
+--- plugins/org.eclipse.jdt.source/build.xml.orig	2007-07-03 13:22:14.000000000 +0200
++++ plugins/org.eclipse.jdt.source/build.xml	2007-07-03 13:23:20.000000000 +0200
+@@ -59,10 +59,6 @@
+ 		<delete dir="${temp.folder}"/>
+ 	</target>
+ 	<target name="build.jars">
+-		<ant antfile="build.xml" dir="../org.eclipse.jdt.compiler.tool" target="build.sources"/>
+-		<ant antfile="build.xml" dir="../org.eclipse.jdt.compiler.tool" target="gather.sources">
+-			<property name="destination.temp.folder" value="${basedir}/src"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="../org.eclipse.jdt.debug" target="build.sources"/>
+ 		<ant antfile="build.xml" dir="../org.eclipse.jdt.debug" target="gather.sources">
+ 			<property name="destination.temp.folder" value="${basedir}/src"/>
+--- assemble.org.eclipse.sdk.linux.gtk.ppc.xml.orig	2007-07-03 13:22:23.000000000 +0200
++++ assemble.org.eclipse.sdk.linux.gtk.ppc.xml	2007-07-03 13:23:37.000000000 +0200
+@@ -44,9 +44,6 @@
+ 		<mkdir dir="${archiveParentFolder}"/>
+ 		<mkdir dir="${assemblyTempDir}"/>
+ 		<mkdir dir="${buildLabel}"/>
+-		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.compiler.tool" target="gather.bin.parts">
+-			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.osgi" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -463,10 +460,6 @@
+ 		</ant>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
+-			<param name="elementName" value="org.eclipse.jdt.compiler.tool_1.0.0.v_771"/>
+-		</antcall>
+-		<antcall target="jarUp">
+-			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.osgi_3.3.0.v20070530"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
+--- assemble.org.eclipse.sdk.linux.gtk.x86_64.xml.orig	2007-07-03 13:22:29.000000000 +0200
++++ assemble.org.eclipse.sdk.linux.gtk.x86_64.xml	2007-07-03 13:23:46.000000000 +0200
+@@ -44,9 +44,6 @@
+ 		<mkdir dir="${archiveParentFolder}"/>
+ 		<mkdir dir="${assemblyTempDir}"/>
+ 		<mkdir dir="${buildLabel}"/>
+-		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.compiler.tool" target="gather.bin.parts">
+-			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.osgi" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -463,10 +460,6 @@
+ 		</ant>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
+-			<param name="elementName" value="org.eclipse.jdt.compiler.tool_1.0.0.v_771"/>
+-		</antcall>
+-		<antcall target="jarUp">
+-			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.osgi_3.3.0.v20070530"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
+--- assemble.org.eclipse.sdk.linux.gtk.x86.xml.orig	2007-07-03 13:22:34.000000000 +0200
++++ assemble.org.eclipse.sdk.linux.gtk.x86.xml	2007-07-03 13:23:54.000000000 +0200
+@@ -44,9 +44,6 @@
+ 		<mkdir dir="${archiveParentFolder}"/>
+ 		<mkdir dir="${assemblyTempDir}"/>
+ 		<mkdir dir="${buildLabel}"/>
+-		<ant antfile="build.xml" dir="plugins/org.eclipse.jdt.compiler.tool" target="gather.bin.parts">
+-			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+-		</ant>
+ 		<ant antfile="build.xml" dir="plugins/org.eclipse.osgi" target="gather.bin.parts">
+ 			<property name="destination.temp.folder" value="${eclipse.plugins}"/>
+ 		</ant>
+@@ -463,10 +460,6 @@
+ 		</ant>
+ 		<antcall target="jarUp">
+ 			<param name="source" value="${eclipse.plugins}"/>
+-			<param name="elementName" value="org.eclipse.jdt.compiler.tool_1.0.0.v_771"/>
+-		</antcall>
+-		<antcall target="jarUp">
+-			<param name="source" value="${eclipse.plugins}"/>
+ 			<param name="elementName" value="org.eclipse.osgi_3.3.0.v20070530"/>
+ 		</antcall>
+ 		<antcall target="jarUp">
