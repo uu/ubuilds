@@ -247,7 +247,6 @@ DEPEND="=virtual/jdk-1.5*
 	dev-java/sac
 	dev-java/saxpath
 	dev-java/sjsxp
-	dev-java/sun-ejb-spec
 	>=dev-java/sun-j2ee-deployment-bin-1.1
 	>=dev-java/sun-jaf-1.1
 	dev-java/sun-javamail
