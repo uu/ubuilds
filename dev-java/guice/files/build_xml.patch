@@ -1,0 +1,16 @@
+diff -Naur guice-1.0-src_orig/build.xml guice-1.0-src/build.xml
+--- guice-1.0-src_orig/build.xml	2007-09-08 23:43:34.000000000 -0400
++++ guice-1.0-src/build.xml	2007-09-08 23:44:09.000000000 -0400
+@@ -16,10 +16,12 @@
+     <mkdir dir="${build.dir}/dist"/>
+     <jarjar jarfile="${build.dir}/dist/guice-${version}.jar">
+       <fileset dir="${build.dir}/classes"/>
++<!--
+       <zipfileset src="lib/build/cglib-nodep-2.2_beta1.jar"/>
+       <zipfileset src="lib/build/asm-3.0.jar"/>
+       <rule pattern="net.sf.cglib.**" result="com.google.inject.cglib.@1"/>
+       <rule pattern="org.objectweb.asm.**" result="com.google.inject.asm.@1"/>
++-->
+     </jarjar>
+   </target>
+ 
