@@ -22,11 +22,9 @@ COMMON_DEPEND="dev-java/aopalliance
 		=dev-java/cglib-2.2_beta1
 		>=dev-java/jarjar-0.9
 		=dev-java/tomcat-servlet-api-6.0*"
-RDEPEND=">=virtual/jre-1.5
+RDEPEND="=virtual/jre-1.5.0
 	${COMMON_DEPEND}"
-DEPEND=">=virtual/jdk-1.5
-	dev-java/ant-core
-	source? ( app-arch/zip )
+DEPEND="=virtual/jdk-1.5.0
 	test? ( dev-java/junit )
 	${COMMON_DEPEND}"
 
@@ -37,25 +35,25 @@ src_unpack() {
 	cd "${S}"
 	epatch "${FILESDIR}/build_xml.patch"
 
-#	find . -name "*.jar" | xargs rm -frv
-	find "${S}/struts2/" -name "*.jar" | xargs rm -frv
-	find . -name "*.class" | xargs rm -frv
+#	find . -name "*.jar" -print -delete
+	find "${S}/servlet/" -name "*.jar" -print -delete
+	find "${S}/spring/" -name "*.jar" -print -delete
+	find "${S}/struts2/" -name "*.jar" -print -delete
+	find . -name "*.class" -print -delete
 
 	cd "${S}/lib/build/"
 	rm -f asm-3.0.jar cglib*.jar commons-logging-1.0.4.jar jarjar-0.9.jar junit.jar
 	java-pkg_jar-from asm-3 asm.jar asm-3.0.jar
 	java-pkg_jar-from cglib-2.2 cglib-nodep.jar cglib-nodep-2.2.jar
 	java-pkg_jar-from commons-logging commons-logging.jar commons-logging-1.0.4.jar
-	java-pkg_jar-from jarjar-1 jarjar.jar jarjar-0.9.jar
 
 	cd ../
 	rm -f aopalliance.jar
 	java-pkg_jar-from aopalliance-1 aopalliance.jar
 
+# Not presently used, but we can look toward the future :)
 	cd "${S}/servlet/lib/build/"
-	rm -f servlet-api-2.5.jar
 	java-pkg_jar-from tomcat-servlet-api-2.5 servlet-api.jar servlet-api-2.5.jar
-
 }
 
 # dist target will build all jars, otherwise jar will build only guice.jar
@@ -69,4 +67,11 @@ src_install() {
 
 	use doc && java-pkg_dojavadoc javadoc/
 	use source && java-pkg_dosrc src/com
+}
+src_test() {
+	cd "${S}/lib/build/"
+	java-pkg_jar-from junit
+
+	cd "${S}"
+	ANT_TASKS="" eant test
 }
