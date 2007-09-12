@@ -1,0 +1,10 @@
+# ChangeLog for net-p2p/limewire
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  12 Sep 2007; William L. Thomson Jr. <wltjr@gentoo.org>
+  +files/build_xml.patch, +files/limewire.sh, +files/main-icon.png,
+  +metadata.xml, +limewire-4.14.8.ebuild:
+  Initial from source version of limewire. Should compile install and run.
+  Currently a runtime problem with asm?
+
