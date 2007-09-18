@@ -36,8 +36,7 @@ src_unpack() {
 	epatch "${FILESDIR}/build_xml.patch"
 
 	einfo "Removing bundled jars and classes"
-	find "${S}" -name "*.jar" -print -delete
-	find "${S}" -name "*.class" -print -delete
+	find "${S}" '(' -name '*.class' -o -name '*.jar' ')' -print -delete
 
 	java-ant_rewrite-classpath common.xml
 }
