@@ -53,11 +53,13 @@ src_unpack() {
 
 	epatch "${FILESDIR}/build_xml.patch"
 
-	find . -name "*.bat" -or -name "*.exe" -delete
+#Todo
+#	java-ant_rewrite-classpath
 
-#	find . -name "*.jar" -print -delete
+	find . '(' -name '*.bat' -o -name '*.exe' ')' -delete
+
+#	find ${S} '(' -name '*.class' -o -name '*.jar' ')' -print -delete
 	find -path lib/sources -or -path tests -name "*.jar" -print -delete
-#	find tests -name "*.jar" -print -delete
 
 # Tried to remove but seem to be required :(
 #	rm -fR lib/jars/osx lib/jars/windows
@@ -90,6 +92,7 @@ src_unpack() {
 }
 
 #EANT_BUILD_TARGET="compile-src"
+#EANT_GENTOO_CLASSPATH=""
 
 src_install() {
 	java-pkg_dojar "${S}/lw-core.jar"
