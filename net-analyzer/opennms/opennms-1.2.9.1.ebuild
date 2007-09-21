@@ -2,9 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/commons-logging/commons-logging-1.1-r2.ebuild,v 1.9 2007/04/07 04:28:54 wltjr Exp $
 
-ANT_TASKS="castor-1.0,sablecc"
-
 JAVA_PKG_IUSE="doc source test"
+#WANT_ANT_TASKS="castor-1.0,sablecc"
+#WANT_ANT_TASKS="sablecc-anttask"
+
 
 inherit java-pkg-2 java-ant-2
 
@@ -40,6 +41,7 @@ COMMON_DEPEND="=dev-java/avalon-framework-4.2*
 		=dev-java/mx4j-core-3.0*
 		=dev-java/mx4j-tools-3.0*
 		dev-java/sablecc
+		dev-java/sablecc-anttask
 		=dev-java/smack-2.2*
 		dev-java/sun-jaf
 		dev-java/sun-javamail
@@ -63,8 +65,7 @@ src_unpack() {
 	cd "${S}"
 
 	einfo "Removing bundled classes and jars"
-	find . -name "*.class" -print -delete
-	find . -name "*.jar" -print -delete
+	find "${S}" '(' -name '*.class' -o -name '*.jar' ')' -print -delete
 
 #	cd "${S}/servlet/lib/build/"
 #	java-pkg_jar-from tomcat-servlet-api-2.5 servlet-api.jar servlet-api-2.5.jar
@@ -75,15 +76,16 @@ src_unpack() {
 # catalina.jar jdhcp.jar jmta.jar jradius-client.jar ldap.jar mailapi.jar
 # pylib152e.jar w3c.jar 
 
+EANT_ANT_TASKS="sablecc-anttask"
+#EANT_ANT_TASKS="castor-1.0 sablecc-anttask"
 EANT_BUILD_TARGET="dist"
 EANT_DOC_TARGET="docs"
-EGC="sun-jaf,avalon-framework-4.2,batik-1.6,bsf-2.3,bsh,c3p0,castor-1.0"
-EGC="${EGC},commons-jxpath,fop,java-getopt-1,hsqldb,sun-javamail,jakarta-regexp-1.3"
-EGC="${EGC},jcifs-1.1,sun-jimi,jrobin,jta,log4j,avalon-logkit-1.2"
-EGC="${EGC},mx4j-core-3.0,mx4j-tools-3.0,jakarta-oro-2.0"
-EGC="${EGC},jdbc-postgresql,sablecc,tomcat-servlet-api-2.5,smack-2.2,xalan"
-EGC="${EGC},xerces-2,xml-commons,xmlrpc"
-EANT_GENTOO_CLASSPATH="${EGC}"
+EANT_GENTOO_CLASSPATH="sun-jaf,avalon-framework-4.2,batik-1.6,bsf-2.3,bsh,c3p0,castor-1.0, \
+	commons-jxpath,fop,java-getopt-1,hsqldb,sun-javamail,jakarta-regexp-1.3, \
+	jcifs-1.1,sun-jimi,jrobin,jta,log4j,avalon-logkit-1.2, \
+	mx4j-core-3.0,mx4j-tools-3.0,jakarta-oro-2.0, \
+	jdbc-postgresql,sablecc,tomcat-servlet-api-2.5,smack-2.2,xalan, \
+	xerces-2,xml-commons,xmlrpc"
 
 src_test() {
 	java-pkg_jar-from --into lib/build junit
