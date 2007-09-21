@@ -76,15 +76,15 @@ src_unpack() {
 # catalina.jar jdhcp.jar jmta.jar jradius-client.jar ldap.jar mailapi.jar
 # pylib152e.jar w3c.jar 
 
-EANT_ANT_TASKS="sablecc-anttask"
+EANT_ANT_TASKS="castor-1.0"
 #EANT_ANT_TASKS="castor-1.0 sablecc-anttask"
 EANT_BUILD_TARGET="dist"
 EANT_DOC_TARGET="docs"
-EANT_GENTOO_CLASSPATH="sun-jaf,avalon-framework-4.2,batik-1.6,bsf-2.3,bsh,c3p0,castor-1.0, \
-	commons-jxpath,fop,java-getopt-1,hsqldb,sun-javamail,jakarta-regexp-1.3, \
-	jcifs-1.1,sun-jimi,jrobin,jta,log4j,avalon-logkit-1.2, \
-	mx4j-core-3.0,mx4j-tools-3.0,jakarta-oro-2.0, \
-	jdbc-postgresql,sablecc,tomcat-servlet-api-2.5,smack-2.2,xalan, \
+EANT_GENTOO_CLASSPATH="sun-jaf,avalon-framework-4.2,batik-1.6,bsf-2.3,bsh,c3p0,castor-1.0
+	commons-jxpath,fop,java-getopt-1,hsqldb,sun-javamail,jakarta-regexp-1.3
+	jcifs-1.1,sun-jimi,jrobin,jta,log4j,avalon-logkit-1.2
+	mx4j-core-3.0,mx4j-tools-3.0,jakarta-oro-2.0
+	jdbc-postgresql,sablecc,tomcat-servlet-api-2.5,smack-2.2,xalan
 	xerces-2,xml-commons,xmlrpc"
 
 src_test() {

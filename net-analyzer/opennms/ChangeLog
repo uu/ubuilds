@@ -4,6 +4,10 @@
 
   21 Sep 2007; William L. Thomson Jr. <wltjr@gentoo.org>
   opennms-1.2.9.1.ebuild:
+  Fixed EANT_GENTOO_CLASSPATH multiline literals
+
+  21 Sep 2007; William L. Thomson Jr. <wltjr@gentoo.org>
+  opennms-1.2.9.1.ebuild:
   Some refinements, and still trying to get ant tasks pulled in/available
   during build
 
