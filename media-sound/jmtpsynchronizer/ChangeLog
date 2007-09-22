@@ -9,4 +9,8 @@
   22 Sep 2007; Serkan Kaba <serkan_kaba@yahoo.com>
   -jmtpsynchronizer-1.0_beta3.ebuild +jmtpsynchronizer-1.0_beta4.ebuild:
   Version bump
+  
+  22 Sep 2007; Serkan Kaba <serkan_kaba@yahoo.com>
+  jmtpsynchronizer-1.0_beta4.ebuild:
+  Removed unneeded chmod call
 

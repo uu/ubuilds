@@ -33,7 +33,6 @@ src_unpack() {
 
 src_compile() {
 	cd "${S}/mtpSync" || die
-	chmod +x configure
 	econf
 	cd "${S}/JMtpSynchronizer" || die
 	eant build
