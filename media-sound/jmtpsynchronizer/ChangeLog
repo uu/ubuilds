@@ -5,4 +5,8 @@
   01 Sep 2007; Miroslav Šulc <fordfrog@gentoo.org>
   jmtpsynchronizer-1.0_beta3.ebuild:
   Added ~x86
+  
+  22 Sep 2007; Serkan Kaba <serkan_kaba@yahoo.com>
+  -jmtpsynchronizer-1.0_beta3.ebuild +jmtpsynchronizer-1.0_beta4.ebuild:
+  Version bump
 
