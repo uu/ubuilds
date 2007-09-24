@@ -2,6 +2,12 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  24 Sep 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  -antlr-netbeans-cnd-2.7.7_p20070825092557.ebuild,
+  -antlr-netbeans-cnd-2.7.7_p20070828082648.ebuild,
+  +antlr-netbeans-cnd-2.7.7_p20070920070410.ebuild:
+  Version bump
+
   28 Aug 2007; Miroslav Šulc <fordfrog@gentoo.org> ++:
   Version bump.
 
