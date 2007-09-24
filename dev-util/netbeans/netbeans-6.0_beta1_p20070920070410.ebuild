@@ -42,16 +42,11 @@ SRC_URI="
 	experimental? (
 		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-collab-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-contrib-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-j2ee-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-jackpot-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-languages-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-libs-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-management-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-monitor-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-performance-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-ruby-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-scripting-${MY_PV}.tar.bz2
@@ -247,7 +242,6 @@ DEPEND="=virtual/jdk-1.5*
 	dev-java/sac
 	dev-java/saxpath
 	dev-java/sjsxp
-	>=dev-java/sun-j2ee-deployment-bin-1.1
 	>=dev-java/sun-jaf-1.1
 	dev-java/sun-javamail
 	dev-java/sun-jdbc-rowset-bin
@@ -290,8 +284,8 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use experimental && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use testtools && use uml && use visualweb && use xml ) ; then
-		eerror "'experimental' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'testtools', 'uml', 'visualweb' and 'xml' USE flags"
+	if use experimental && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use stableuc && use testtools && use uml && use visualweb && use xml ) ; then
+		eerror "'experimental' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'stableuc', 'testtools', 'uml', 'visualweb' and 'xml' USE flags"
 		exit 1
 	fi
 
@@ -387,10 +381,12 @@ src_unpack () {
 	fi
 
 	# Disable extra stuff that doesn't build
-	#if use experimental ; then
-	#	grep -v "apisupport/apidocs," ${S}/nbbuild/cluster.properties > ${S}/nbbuild/cluster.properties.new || die "Cannot remove failing extra module"
-	#	mv ${S}/nbbuild/cluster.properties.new ${S}/nbbuild/cluster.properties || die "Cannot update cluster.properties"
-	#fi
+	if use experimental ; then
+		grep -v "scripting/php/rtexplorer," ${S}/nbbuild/cluster.properties \
+			> ${S}/nbbuild/cluster.properties.new || die "Cannot remove failing extra module"
+		mv ${S}/nbbuild/cluster.properties.new ${S}/nbbuild/cluster.properties \
+			|| die "Cannot update cluster.properties"
+	fi
 
 	place_unpack_symlinks
 
@@ -699,7 +695,8 @@ place_unpack_symlinks() {
 	if [ -e ${S}/j2eeserver ] ; then
 		einfo "Symlinking jars for j2eeserver"
 		target="j2eeserver/external"
-		dosymcompilejar ${target} sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
+		# sun-j2ee-deployment-bin is not compatible with glassfish deployment library anymore
+		#dosymcompilejar ${target} sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
 	fi
 
 	if [ -e ${S}/lexer ] ; then
