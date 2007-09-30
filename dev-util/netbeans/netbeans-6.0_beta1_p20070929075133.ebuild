@@ -381,12 +381,12 @@ src_unpack () {
 	fi
 
 	# Disable extra stuff that doesn't build
-	if use experimental ; then
-		grep -v "scripting/php/rtexplorer," ${S}/nbbuild/cluster.properties \
-			> ${S}/nbbuild/cluster.properties.new || die "Cannot remove failing extra module"
-		mv ${S}/nbbuild/cluster.properties.new ${S}/nbbuild/cluster.properties \
-			|| die "Cannot update cluster.properties"
-	fi
+	#if use experimental ; then
+	#	grep -v "scripting/php/rtexplorer," ${S}/nbbuild/cluster.properties \
+	#		> ${S}/nbbuild/cluster.properties.new || die "Cannot remove failing extra module"
+	#	mv ${S}/nbbuild/cluster.properties.new ${S}/nbbuild/cluster.properties \
+	#		|| die "Cannot update cluster.properties"
+	#fi
 
 	place_unpack_symlinks
 
@@ -794,8 +794,6 @@ place_unpack_symlinks() {
 		einfo "Symlinking jars for visualweb"
 		target="visualweb/ravelibs/commons-fileupload/external"
 		dosymcompilejar ${target} commons-fileupload commons-fileupload.jar commons-fileupload-1.0.jar
-		target="visualweb/ravelibs/portlet-api/external"
-		dosymcompilejar ${target} portletapi-1 portletapi.jar portlet.jar
 		target="visualweb/ravelibs/rowset/external"
 		dosymcompilejar ${target} sun-jdbc-rowset-bin rowset.jar rowset-1.0.1.jar
 	fi
