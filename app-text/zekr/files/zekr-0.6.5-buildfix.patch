@@ -1,0 +1,11 @@
+diff -Nur zekr/build.xml zekr_fixed/build.xml
+--- zekr/build.xml	2007-09-11 22:45:34.000000000 +0300
++++ zekr_fixed/build.xml	2007-09-30 07:32:50.000000000 +0300
+@@ -60,7 +60,6 @@
+ 
+ 	<target name="compile">
+ 		<mkdir dir="${build_classdir}" />
+-		<unjar src="${src_dist.jar}" dest="${src_dir}" />
+ 		<javac srcdir="${src_dir}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="${debug}" verbose="${verbose}">
+ 			<classpath refid="buildlibs" />
+ 		</javac>
