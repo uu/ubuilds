@@ -2,6 +2,13 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  02 Oct 2007; William L. Thomson Jr. <wltjr@gentoo.org>
+  limewire-4.14.8.ebuild:
+  Additional refinements, mostly switched to java-pkg_dolauncher vs
+  limewire.sh. Doing some horrible things atm to get it somewhat working.
+  Compiles, runs, but pukes errors all over the place. Not usable yet, nor
+  acceptable.
+
   18 Sep 2007; William L. Thomson Jr. <wltjr@gentoo.org>
   limewire-4.14.8.ebuild:
   Find commands fix. A few commented code additions.
