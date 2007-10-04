@@ -40,7 +40,7 @@ src_unpack() {
 src_compile() {
 	gentoo_jars="$(java-pkg_getjars asm-2.2,groovy-1,antlr)"
 
-	eant -Dgentoo.classpath=`java-pkg_getjars --build-only junit` "-Dgentoo.jars=${gentoo_jars//:/,}"
+	ANT_TASKS="none" eant -Dgentoo.classpath=`java-pkg_getjars --build-only junit` "-Dgentoo.jars=${gentoo_jars//:/,}"
 }
 
 src_install() {

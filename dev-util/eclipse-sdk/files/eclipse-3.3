@@ -33,4 +33,4 @@ if [[ -d /usr/lib/gecko-sdk/lib/ ]] && [[ -f /usr/lib/gecko-sdk/lib/libgtkembedm
     export MOZILLA_FIVE_HOME="/usr/lib/gecko-sdk/lib/"
 fi
 
-exec ${ECLIPSE_BIN} "$@"
+exec ${ECLIPSE_BIN} -vm $(java-config --java) -vmargs -Djava.library.path="/usr/lib" "$@"

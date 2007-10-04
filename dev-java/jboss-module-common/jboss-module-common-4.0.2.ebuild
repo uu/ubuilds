@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header:  $
 
-inherit jboss-4
+inherit jboss-4 java-pkg-2
 
 DESCRIPTION="Common module of JBoss Application Server"
 SRC_URI="${BASE_URL}/${P}-gentoo-r1.tar.bz2 ${ECLASS_URI}"

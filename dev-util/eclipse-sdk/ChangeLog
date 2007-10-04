@@ -2,6 +2,12 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  04 Oct 2007; Jean-Noël Rivasseau <elvanor@gmail.com> files/eclipse-3.3,
+  metadata.xml, eclipse-sdk-3.3-r1.ebuild, +eclipse-sdk-3.3-r2.ebuild:
+  Initial working ebuild based on geki's work. It uses new ebuilds of swt,
+  ant-core and jsch that have specially packaged jars (compatible with the
+  OSGi system).
+
   04 May 2007; Vlastimil Babka <caster@gentoo.org>
   eclipse-sdk-3.2.1-r3.ebuild:
   Micromanage ant-tasks dep to prevent bug #177079.
