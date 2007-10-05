@@ -28,7 +28,7 @@ src_compile() {
 src_install() {
 	local export_header="com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true, com.jcraft.jsch.jcraft;x-internal:=true"
 	
-	java-pkg_doosgijar "${S}/dist/lib/jsch*.jar" "com.jcraft.jsch" "${export_header}" "JSch" "JCraft, Inc."
+	java-pkg_newosgijar "${S}/dist/lib/jsch*.jar" "com.jcraft.jsch" "${export_header}" "JSch" "JCraft, Inc."
 
 	dodoc README ChangeLog || die
 	use doc && java-pkg_dojavadoc javadoc
