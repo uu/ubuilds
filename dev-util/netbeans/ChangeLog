@@ -2,6 +2,9 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  08 Oct 2007; Miroslav Šulc <fordfrog@gentoo.org> ++:
+  Version bump
+
   02 Oct 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
   Re-digesting
 
