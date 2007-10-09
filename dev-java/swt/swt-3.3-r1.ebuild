@@ -200,7 +200,7 @@ src_compile() {
 
 src_install() {	
 	swt_arch=${ARCH}
-	use amd64 && eclipsearch=x86_64
+	use amd64 && swt_arch=x86_64
 	
 	local export_header='org.eclipse.swt.internal.accessibility.gtk; x-internal:=true,
  org.eclipse.swt.internal.cairo; x-internal:=true,
@@ -210,7 +210,10 @@ src_install() {
  org.eclipse.swt.internal.mozilla; x-internal:=true,
  org.eclipse.swt.internal.opengl.glx; x-internal:=true'
 	
-	java-pkg_doosgijar swt.jar "org.eclipse.swt.gtk.linux.${swt_arch}; singleton:=true" "${export_header}" "Standard Widget Toolkit for GTK 2.0" "Gentoo" "Eclipse-PlatformFilter: (& (osgi.ws=gtk) (osgi.os=linux) (osgi.arch=${swt_arch}))"
+	sed "s/SWT_ARCH/${swt_arch}/" "${FILESDIR}/${P}-manifest" > MANIFEST_TMP.MF
+	
+	java-pkg_newosgijar-fromfile swt.jar MANIFEST_TMP.MF "Standard Widget Toolkit for GTK 2.0"
+	#java-pkg_doosgijar swt.jar "org.eclipse.swt.gtk.linux.${swt_arch}; singleton:=true" "${export_header}" "Standard Widget Toolkit for GTK 2.0" "Gentoo" "Eclipse-PlatformFilter: (& (osgi.ws=gtk) (osgi.os=linux) (osgi.arch=${swt_arch}))"
 	#java-pkg_dojar swt.jar
 
 	java-pkg_sointo /usr/$(get_libdir)
