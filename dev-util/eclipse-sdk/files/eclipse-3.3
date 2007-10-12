@@ -1,9 +1,10 @@
 #! /bin/bash
 #
-# Tiny startup wrapper for the Eclipse 3.2.x series
+# Tiny startup wrapper for Eclipse
 #
 # Copyright (c) 2004, Karl Trygve Kalleberg <karltk@gentoo.org>
-# Copyright (c) 2004, Gentoo Foundation
+# Copyright (c) 2007, Jean-Noël Rivasseau <elvanor@gmail.com>
+# Copyright (c) 2004-2007, Gentoo Foundation
 #
 # Licensed under the GNU General Public License, version 2
 #
@@ -33,4 +34,4 @@ if [[ -d /usr/lib/gecko-sdk/lib/ ]] && [[ -f /usr/lib/gecko-sdk/lib/libgtkembedm
     export MOZILLA_FIVE_HOME="/usr/lib/gecko-sdk/lib/"
 fi
 
-exec ${ECLIPSE_BIN} -vm $(java-config --java) "$@" -vmargs -Djava.library.path="/usr/lib" 
+exec ${ECLIPSE_BIN} -vm `java-config --java` "$@"  

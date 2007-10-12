@@ -22,9 +22,11 @@ SLOT="0"
 KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE=""
 
-DEPEND=">=virtual/jdk-1.4"
+DEPEND=">=virtual/jdk-1.4
+	java-virtuals/javadoc"
 RDEPEND=">=virtual/jre-1.4
-	>=dev-java/ant-core-1.7.0"
+	>=dev-java/ant-core-1.7.0
+	java-virtuals/javadoc"
 
 src_unpack() {
 	unpack ${A}
@@ -34,13 +36,13 @@ src_unpack() {
 }
 
 src_compile() {
-	ANT_TASKS="none"
-	eant -Dgentoo.classpath="$(java-pkg_getjars ant-core)"
+	local gentoo_jars="$(java-pkg_getjars ant-core,javadoc)"
+	eant -Dgentoo.classpath="${gentoo_jars}"
 	rm bin/java-cup-11.jar
 	cp dist/java-cup-11a.jar bin/java-cup-11.jar
 	eant clean
 	einfo "Recompiling with newly generated javacup"
-	eant -Dgentoo.classpath="$(java-pkg_getjars ant-core)"
+	eant -Dgentoo.classpath="${gentoo_jars}"
 	use doc && javadoc -sourcepath src/ java_cup -d javadoc
 }
 

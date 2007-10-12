@@ -135,21 +135,6 @@ src_install() {
 
 	cd ${D}/${ECLIPSE_DIR}
 	install-link-system-jars
-
-	# gcj magic
-	#if use gcj ; then
-	#	einfo "Check RAM for GCJ native build"
-	#	CHECKREQS_MEMORY="1000"
-	#	if ! check_reqs_conditional ; then
-	#		einfo "This makes just no sense with less than 1GB RAM."
-	#	else
-	#		java-pkg_skip-cachejar 1500 org.eclipse.jdt.core_
-	#		java-pkg_skip-cachejar 2000 org.eclipse.jdt.ui_
-
-			# create Java native libraries
-	#		java-pkg_cachejar
-	#	fi
-	#fi
 }
 
 pkg_postinst() {

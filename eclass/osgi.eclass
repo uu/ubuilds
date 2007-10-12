@@ -13,7 +13,7 @@
 # @param $2 - bundle symbolic name
 # @param $3 - export-package-header
 # @param $4 - bundle name
-# @param $5 - vender name (this could always be set to 'Gentoo')
+# @param $5 - vendor name (this could always be set to 'Gentoo')
 # ------------------------------------------------------------------------------
 java-pkg_osgi() {
 	
@@ -31,17 +31,17 @@ java-pkg_osgi() {
 cat > "${T}/tmp_jar/META-INF/MANIFEST.MF" <<-EOF
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
-Bundle-Vendor: %providerName
+Bundle-Name: %bundleName
+Bundle-Vendor: %vendorName
 Bundle-Localization: plugin
+Bundle-SymbolicName: ${2}
 Bundle-Version: ${PV}
-Bundle-SymbolicName: "${2}"
-Export-Package: "${3}"
+Export-Package: ${3}
 EOF
 
 cat > "${T}/tmp_jar/plugin.properties" <<-EOF
-bundleName="${4}"
-venderName="${5}"
+bundleName=${4}
+vendorName=${5}
 EOF
 
 	if [[ -n ${6} ]]; then
@@ -83,7 +83,7 @@ java-pkg_doosgijar() {
 # @param $2 - bundle symbolic name
 # @param $3 - export-package-header
 # @param $4 - bundle name
-# @param $5 - vender name
+# @param $5 - vendor name
 # ------------------------------------------------------------------------------
 java-pkg_newosgijar() {
 	local jar_name="$(basename $1)"	
@@ -122,17 +122,11 @@ java-pkg_newosgijar-fromfile() {
 	# We hardcode Gentoo as the vendor name
 
 	cat > "${T}/tmp_jar/plugin.properties" <<-EOF
-bundleName="${3}"
-venderName="Gentoo"
+bundleName=${3}
+vendorName=Gentoo
 EOF
 
-
-	einfo "jar cvfm ${T}/${jar_name} ${T}/tmp_jar/META-INF/MANIFEST.MF -C ${T}/tmp_jar/ . > /dev/null"
-
 	jar cvfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
-	
-	einfo "Here with OSGi"
-	ls "${T}/"
-	
+
 	java-pkg_newjar "${T}/osgi/${jar_name}"
 }
