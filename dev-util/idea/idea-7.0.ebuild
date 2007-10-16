@@ -5,13 +5,13 @@
 inherit eutils
 
 #Change next lines when updating version
-BUILD="7126"
+BUILD="7361"
 #Change slot number between incompatible IDEA versions
 SLOT="7"
 #Change JDK version if required
 RDEPEND=">=virtual/jdk-1.5"
 
-MY_PV="7.0.M2"
+MY_PV="7.0"
 MY_P="${PN}-${MY_PV}"
 
 DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
