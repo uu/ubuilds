@@ -9,7 +9,7 @@ BUILD="7361"
 #Change slot number between incompatible IDEA versions
 SLOT="7"
 #Change JDK version if required
-RDEPEND=">=virtual/jdk-1.5"
+RDEPEND=">=virtual/jdk-1.6"
 
 MY_PV="7.0"
 MY_P="${PN}-${MY_PV}"
