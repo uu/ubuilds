@@ -8,7 +8,7 @@ DESCRIPTION="Plugin Development Kit for IntelliJ IDEA"
 HOMEPAGE="http://www.jetbrains.com/idea/"
 SRC_URI="http://download.jetbrains.com/idea/idea-${PV}-dev.zip"
 LICENSE="IntelliJ-IDEA"
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 
 #Change slot number between incompatible IDEA versions
 SLOT="6"

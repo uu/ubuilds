@@ -5,7 +5,7 @@
 inherit eutils
 
 #Change next lines when updating version
-BUILD="6180"
+BUILD="6197"
 #Change slot number between incompatible IDEA versions
 SLOT="6"
 #Change JDK version if required
