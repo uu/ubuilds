@@ -9,6 +9,11 @@ inherit java-pkg-2 java-ant-2 check-reqs
 # Many things also still probably do not work in the IDE, but at least it loads.
 # It was based on the initial ebuild in the gcj-overlay, so much of the credit goes out to geki.
 
+# To unbundle a jar, do the following:
+# 1) Rewrite the ebuild so it uses OSGi packaging
+# 2) Add the dependency and add it to gentoo_jars/system_jars
+# 3) Remove it from the build directory, and don't forget to modify the Ant file
+# so that it does *NOT* copy the file at the end
 
 
 DMF="R-${PV/.0}-200706251500"
@@ -29,12 +34,15 @@ FEDORA=${PATCHDIR}/fedora
 ECLIPSE_DIR="/usr/lib/eclipse-${SLOT}"
 
 CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
-	>=dev-java/ant-core-1.7.0-r1
+	dev-java/ant-core
+	dev-java/ant-nodeps
 	>=dev-java/swt-${SLOT}-r1
 	=dev-java/junit-3*
 	=dev-java/junit-4*
 	>=dev-java/jsch-0.1.34-r1
 	>=dev-java/icu4j-3.6.1
+	dev-java/commons-el
+	dev-java/commons-logging
 	tomcat? (
 		dev-java/commons-digester-rss
 		=dev-java/mx4j-core-3*
@@ -47,8 +55,8 @@ RDEPEND=">=virtual/jre-1.5
 	${CDEPEND}"
 	
 DEPEND="=virtual/jdk-1.5*
-	dev-java/ant-nodeps
 	>=sys-apps/findutils-4.1.7
+	dev-java/sun-j2me-bin
 	app-arch/unzip
 	app-arch/zip
 	${CDEPEND}"
@@ -66,8 +74,6 @@ pkg_setup() {
 
 	eclipse_arch=${ARCH}
 	use amd64 && eclipse_arch="x86_64"
-	javadoc="false"
-	use doc && javadoc="true"
 }
 
 src_unpack() {
@@ -77,15 +83,13 @@ src_unpack() {
 
 	# No warnings / java5 / all output should be directed to stdout
 	find ${S} -type f -name '*.xml' -exec \
-		sed -r -e "s:(-encoding ISO-8859-1):\1 -nowarn:g" \
-			-e "s:(\"compilerArg\" value=\"):\1-nowarn :g" \
+		sed -r -e "s:(-encoding ISO-8859-1):\1 -nowarn:g" -e "s:(\"compilerArg\" value=\"):\1-nowarn :g" \
 			-e "s:(<property name=\"javacSource\" value=)\".*\":\1\"1.5\":g" \
 			-e "s:(<property name=\"javacTarget\" value=)\".*\":\1\"1.5\":g" \
 			-e "s:output=\".*(txt|log).*\"::g" -i {} \;
 
 	# JDK home
-	sed -r -e "s:^(JAVA_HOME =) .*:\1 $(java-config --jdk-home):" \
-		-e "s:gcc :gcc ${CFLAGS} :" \
+	sed -r -e "s:^(JAVA_HOME =) .*:\1 $(java-config --jdk-home):" -e "s:gcc :gcc ${CFLAGS} :" \
 		-i plugins/org.eclipse.core.filesystem/natives/unix/linux/Makefile \
 		|| die "sed Makefile failed"
 
@@ -93,7 +97,7 @@ src_unpack() {
 
 	while read line; do
 		java-ant_rewrite-classpath "$line" > /dev/null
-    done < <(find ${S} -type f -name 'build.xml' )
+    done < <(find ${S} -type f -name "build.xml" )
 }
 
 src_compile() {
@@ -103,12 +107,17 @@ src_compile() {
 
 	java-pkg_force-compiler ecj-3.3
 	
-	local system_jars="$(java-pkg_getjars swt-3,icu4j-3.6,ant-core,jsch):$(java-pkg_getjars --build-only ant-nodeps)"
-	local gentoo_jars="$(java-pkg_getjars ant-core,icu4j-3.6,jsch)"
-		
-	ANT_OPTS=-Xmx1024M ANT_TASKS="ant-nodeps" eant -q -Dnobootstrap=true -Dlibsconfig=true -Dbootclasspath=${bootclasspath} \
-		-DinstallOs=linux -DinstallWs=gtk -DinstallArch=${eclipse_arch} -Djavadoc="${javadoc}"\
-		-Djava5.home=$(java-config --jdk-home) -Dgentoo.classpath="${system_jars}" -Dgentoo.jars="${gentoo_jars//:/,}"
+	# system_jars will be used when compiling (javac)
+	# gentoo_jars will be used when building JSPs and other ant tasks (not javac)
+	
+	local system_jars="$(java-pkg_getjars swt-3,icu4j-3.6,ant-core,jsch,ant-nodeps):$(java-pkg_getjars --build-only sun-j2me-bin)"
+	local gentoo_jars="$(java-pkg_getjars ant-core,icu4j-3.6,jsch,commons-logging,commons-el)"
+	local options="-q -Dnobootstrap=true -Dlibsconfig=true -Dbootclasspath=${bootclasspath} -DinstallOs=linux \
+	-DinstallWs=gtk -DinstallArch=${eclipse_arch} -Djava5.home=$(java-config --jdk-home)"
+	
+	use doc && options="${options} -Dgentoo.javadoc=true"
+	
+	ANT_OPTS=-Xmx1024M ANT_TASKS="ant-nodeps" eant ${options} -Dgentoo.classpath="${system_jars}" -Dgentoo.jars="${gentoo_jars//:/,}"
 }
 
 src_install() {
@@ -155,12 +164,6 @@ pkg_postinst() {
 	einfo "read (especially if you are on amd64 or use a lot of plugins):"
 	einfo "file://${ECLIPSE_DIR}/readme/readme_eclipse.html#Running%20Eclipse"
 	einfo "about memory issues (modify ${ECLIPSE_DIR}/eclipse.ini)"
-	
-
-	if use gcj ; then
-		rm -f /usr/lib/eclipse-${ECLIPSE_VER}/eclipse.gcjdb
-		${FILESDIR}/build-eclipse-classmap ${SLOT}
-	fi
 }
 
 # -----------------------------------------------------------------------------
@@ -169,12 +172,26 @@ pkg_postinst() {
 
 install-link-system-jars() {
 
-	pushd plugins/	
+	pushd plugins/ > /dev/null
 	java-pkg_jarfrom swt-3
+	
+	mkdir "org.apache.ant"
+	mkdir "org.apache.ant/META-INF/"
+	mkdir "org.apache.ant/lib"
+	cp "${FILESDIR}/${SLOT}/ant-manifest" "org.apache.ant/META-INF/MANIFEST.MF"
+	pushd org.apache.ant/lib > /dev/null
 	java-pkg_jarfrom ant-core
+	java-pkg_jarfrom ant-nodeps	
+	popd > /dev/null
+	
 	java-pkg_jarfrom icu4j-3.6
 	java-pkg_jarfrom jsch
-	popd
+	
+	# Below only needed with Tomcat (?)
+	
+	java-pkg_jarfrom commons-el
+	java-pkg_jarfrom commons-logging		
+	popd > /dev/null
 
 	symlink-junit
 	use tomcat && symlink-tomcat
@@ -208,38 +225,38 @@ symlink-tomcat() {
 }
 
 symlink-lucene() {
-	pushd plugins/
+	pushd plugins/ > /dev/null
 	local lucene_jar="$(basename org.apache.lucene_*.jar)"
 	local lucene_analysis_jar="$(basename org.apache.lucene.analysis_*.jar)"
 	rm ${lucene_jar} ${lucene_analysis_jar}
 	java-pkg_jar-from lucene-2 lucene.jar ${lucene_jar}
 	java-pkg_jar-from lucene-analyzers-2 lucene-analyzers.jar ${lucene_analysis_jar}
-	popd
+	popd > /dev/null
 }
 
 symlink-junit() {
-	pushd plugins/org.junit_*/
+	pushd plugins/org.junit_*/ > /dev/null
 	rm *.jar
 	java-pkg_jarfrom junit
-	popd
+	popd > /dev/null
 
-	pushd plugins/org.junit4*/
+	pushd plugins/org.junit4*/ > /dev/null
 	rm *.jar
 	java-pkg_jarfrom junit-4
-	popd
+	popd > /dev/null
 }
 
 patch-apply() {
 	# Patch launcher source
 	mkdir launchertmp
 	unzip -qq -d launchertmp plugins/org.eclipse.platform/launchersrc.zip > /dev/null || die "unzip failed"
-	pushd launchertmp/
+	pushd launchertmp/ > /dev/null
 	epatch ${PATCHDIR}/launcher_double-free.diff
 	sed -i "s/CFLAGS\ =\ -O\ -s\ -Wall/CFLAGS = ${CFLAGS}\ -Wall/" \
 		library/gtk/make_linux.mak \
 		|| die "Failed to tweak make_linux.mak"
 	zip -q -6 -r ../launchersrc.zip * >/dev/null || die "zip failed"
-	popd
+	popd > /dev/null
 	mv launchersrc.zip plugins/org.eclipse.platform/launchersrc.zip
 	rm -rf launchertmp
 
@@ -258,36 +275,37 @@ patch-apply() {
 	# org.eclipse.equinox.initializer project from cvs. 'till a fix, we'll
 	# keep the old patch
 	pushd plugins/org.eclipse.core.runtime >/dev/null
-	epatch ${FEDORA}/eclipse-fileinitializer.patch
+	epatch "${FEDORA}/eclipse-fileinitializer.patch"
 	popd >/dev/null
 
 	# TOMCAT
 	if use tomcat; then
-		pushd plugins/org.eclipse.tomcat >/dev/null || die "pushd failed"
+		pushd plugins/org.eclipse.tomcat > /dev/null || die "pushd failed"
 		# %patch28 -p0
-		epatch ${FEDORA}/eclipse-tomcat55.patch
+		epatch "${FEDORA}/eclipse-tomcat55.patch"
 		# %patch29 -p0
-		epatch ${FEDORA}/eclipse-tomcat55-build.patch
-		popd >/dev/null
+		epatch "${FEDORA}/eclipse-tomcat55-build.patch"
+		popd > /dev/null
 
-		sed -e "s/4.1.130/5.5.17/g" \
-			-i features/org.eclipse.platform/build.xml \
-			-i plugins/org.eclipse.tomcat/build.xml    \
-			-i assemble.*.xml
+		sed -e "s/4.1.130/5.5.17/g" -i features/org.eclipse.platform/build.xml \
+			-i plugins/org.eclipse.tomcat/build.xml -i assemble.*.xml
 	fi
 
 	# Generic releng plugins that can be used to build plugins
 	# https://www.redhat.com/archives/fedora-devel-java-list/2006-April/msg00048.html
-	pushd plugins/org.eclipse.pde.build >/dev/null
-	# %patch53
-	epatch ${FEDORA}/eclipse-pde.build-add-package-build.patch
-	sed -e "s:@eclipse_base@:${ECLIPSE_DIR}:g" \
-		-i templates/package-build/build.properties
-	popd >/dev/null
+	pushd plugins/org.eclipse.pde.build > /dev/null
+	# Patch 53
+	epatch "${FEDORA}/eclipse-pde.build-add-package-build.patch"
+	sed -e "s:@eclipse_base@:${ECLIPSE_DIR}:g" -i templates/package-build/build.properties
+	popd > /dev/null
+
+	# Later we could produce a patch out of these
 
 	sed -i "s/<copy.*com\.jcraft\.jsch.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
 	sed -i "s/<copy.*com\.ibm\.icu.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
-	
+	sed -i "s/<copy.*org\.apache\.commons\.el_.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"	
+	sed -i "s/<copy.*org\.apache\.commons\.logging_.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"	
+		
 	#epatch "${FILESDIR}/${SLOT}/${P}-buildJSPs.patch"
 	#cp "${FILESDIR}/${SLOT}/buildJSPs.xml" "plugins/org.eclipse.help.webapp/buildJSPs.xml"
 	cp "${FILESDIR}/${SLOT}/isv-build.xml" "plugins/org.eclipse.help.webapp/build.xml"
@@ -307,6 +325,12 @@ remove-bundled-stuff() {
 		
 	rm -rf plugins/org.eclipse.swt.*
 	rm -rf plugins/org.apache.ant_*
+	rm plugins/org.apache.commons.*.jar
 	rm plugins/com.jcraft.jsch*
 	rm plugins/com.ibm.icu*
+	
+	rm -rf "plugins/org.eclipse.osgi.services/org"
+	unzip -q "plugins/org.eclipse.osgi.services/src.zip" -d "plugins/org.eclipse.osgi.services/"
+	rm -rf "plugins/org.eclipse.osgi.util/org"
+	unzip -q "plugins/org.eclipse.osgi.util/src.zip" -d "plugins/org.eclipse.osgi.util/"	
 }

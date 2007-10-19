@@ -4,7 +4,6 @@
 #
 # Rewrites a jar, and produce an OSGi compliant jar.
 # Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
-# It will call java-pkg_dojar at the end.
 #
 # @example
 #	java-pkg_osgi dist/${PN}.jar "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch" "JCraft, Inc."
@@ -20,9 +19,10 @@ java-pkg_osgi() {
 	[[ ${#} -lt 5 ]] && die "At least five arguments needed"	
 
 	# Do with jar instead of unzip later
-
+	
 	mkdir "${T}/tmp_jar"
-	mkdir "${T}/osgi"	
+	[[ -d "${T}/osgi" ]] || mkdir "${T}/osgi"
+	
 	unzip -q "$1" -d "${T}/tmp_jar"
 	local jar_name="$(basename $1)"
 	
@@ -49,6 +49,7 @@ EOF
 	fi
 
 	jar cvfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
+	rm -rf "${T}/tmp_jar"
 }
 
 # -----------------------------------------------------------------------------
@@ -74,10 +75,10 @@ java-pkg_doosgijar() {
 #
 # Rewrites a jar, and produce an OSGi compliant jar.
 # Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
-# It will call java-pkg_dojar at the end.
+# It will call java-pkg_newjar at the end.
 #
 # @example
-#	java-pkg_doosgijar dist/${PN}.jar "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch" "JCraft, Inc."
+#	java-pkg_newosgijar dist/${PN}.jar "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch" "JCraft, Inc."
 #
 # @param $1 - name of jar to repackage with OSGi
 # @param $2 - bundle symbolic name
@@ -92,28 +93,28 @@ java-pkg_newosgijar() {
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function java-pkg_newosgijar-fromfile()
+# @ebuild-function java-pkg_osgi-fromfile
 #
-# This function produces an OSGi compliant jar from a given MANIFEST.MF file
+# Rewrites a jar, and produce an OSGi compliant jar.
 # Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
-# It will call java-pkg_newjar at the end.
 #
 # @example
-#	java-pkg_doosgijar dist/${PN}.jar "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
+#	java-pkg_osgi dist/${PN}.jar "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch" "JCraft, Inc."
 #
 # @param $1 - name of jar to repackage with OSGi
-# @param $1 - path to Manifest file
-# @param $2 - bundle name
-#
+# @param $2 - path to the Manifest file
+# @param $3 - bundle name
 # ------------------------------------------------------------------------------
-java-pkg_newosgijar-fromfile() {
+
+java-pkg_osgijar-fromfile() {
 	
 	[[ ${#} -lt 3 ]] && die "At least three arguments needed for java-pkg_newosgijar-fromfile()"	
 
 	# Do with jar instead of unzip later
 
 	mkdir "${T}/tmp_jar"
-	mkdir "${T}/osgi"	
+	[[ -d "${T}/osgi" ]] || mkdir "${T}/osgi"
+
 	unzip -q "$1" -d "${T}/tmp_jar"
 	local jar_name="$(basename $1)"
 
@@ -127,6 +128,49 @@ vendorName=Gentoo
 EOF
 
 	jar cvfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
+	rm -rf "${T}/tmp_jar"
+}
 
+
+# -----------------------------------------------------------------------------
+# @ebuild-function java-pkg_newosgijar-fromfile()
+#
+# This function produces an OSGi compliant jar from a given MANIFEST.MF file
+# Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
+# It will call java-pkg_newjar at the end.
+#
+# @example
+#	java-pkg_newosgijar dist/${PN}.jar "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
+#
+# @param $1 - name of jar to repackage with OSGi
+# @param $2 - path to Manifest file
+# @param $3 - bundle name
+#
+# ------------------------------------------------------------------------------
+java-pkg_newosgijar-fromfile() {
+	local jar_name="$(basename $1)"	
+	java-pkg_osgijar-fromfile "$@"
 	java-pkg_newjar "${T}/osgi/${jar_name}"
+}
+
+# -----------------------------------------------------------------------------
+# @ebuild-function java-pkg_doosgijar-fromfile()
+#
+# This function produces an OSGi compliant jar from a given MANIFEST.MF file
+# Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
+# It will call java-pkg_dojar at the end.
+#
+# @example
+#	java-pkg_doosgijar dist/${PN}.jar "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
+#
+# @param $1 - name of jar to repackage with OSGi
+# @param $2 - path to Manifest file
+# @param $3 - bundle name
+#
+# ------------------------------------------------------------------------------
+
+java-pkg_doosgijar-fromfile() {
+	local jar_name="$(basename $1)"	
+	java-pkg_osgijar-fromfile "$@"
+	java-pkg_dojar "${T}/osgi/${jar_name}"
 }

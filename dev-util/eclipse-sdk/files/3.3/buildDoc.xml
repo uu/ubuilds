@@ -96,8 +96,7 @@
 		<available file="${java.home}/../bin/javadoc" property="javadoc" value="${java.home}/../bin/javadoc" />
 	</target>
 
-	<target name="generateJavadoc" depends="getJavadocPath" if="javadoc">
-
+	<target name="generateJavadoc" depends="getJavadocPath" if="gentoo.javadoc">
 		<property name="optionsFile" value="platformOptions.tmp.txt" />
 		<copy file="platformOptions.txt" tofile="${optionsFile}" overwrite="true" />
 		
