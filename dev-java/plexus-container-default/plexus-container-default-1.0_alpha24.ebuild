@@ -14,12 +14,18 @@ LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DEP="=dev-java/plexus-classworlds-1.2*
-dev-java/plexus-utils
-dev-java/plexus-component-api
+DEP="
+=dev-java/plexus-classworlds-1.2*
+>=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/junit
 "
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="plexus-classworlds plexus-utils junit plexus-component-api"
+JAVA_MAVEN_CLASSPATH="
+plexus-classworlds
+plexus-utils-1.4.7
+junit
+plexus-component-api-1.0_alpha33
+"
 
