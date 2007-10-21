@@ -18,8 +18,8 @@ IUSE=""
 DEP="
 =dev-java/jdom-1.0*
 dev-java/maven-model
-dev-java/plexus-container-default
-dev-java/plexus-component-api
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 >=dev-java/plexus-utils-1.4.7_pre20071021
 "
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
@@ -27,8 +27,8 @@ RDEPEND=">=virtual/jre-1.4 ${DEP}"
 JAVA_MAVEN_CLASSPATH="
 jdom-1.0
 maven-model
-plexus-container-default
-plexus-component-api
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
 plexus-utils-1.4.7
 "
 
