@@ -23,10 +23,10 @@ dev-java/maven-plugin-descriptor
 dev-java/maven-project
 dev-java/plexus-archiver
 dev-java/plexus-classworlds
-dev-java/plexus-component-api
+>=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/plexus-component-factories
-dev-java/plexus-container-default
-dev-java/plexus-utils
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
@@ -41,9 +41,9 @@ maven-plugin-descriptor
 maven-project
 plexus-archiver
 plexus-classworlds
-plexus-component-api
-plexus-container-default
-plexus-utils
+plexus-utils-1.4.7
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
 plexus-component-factories
 "
 JAVA_MAVEN_PROJECTS="
