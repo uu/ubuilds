@@ -19,9 +19,9 @@ DEP="
 =dev-java/classworlds-1*
 dev-java/plexus-classworlds
 dev-java/plexus-active-collections
->=dev-java/plexus-component-api-1.0.33
->=dev-java/plexus-container-default-1.0.33
-=dev-java/plexus-utils-1.4.7*
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-utils-1.4.7_pre20071021
 dev-java/wagon-provider-api
 dev-java/wagon-file
 dev-java/junit
@@ -33,8 +33,8 @@ JAVA_MAVEN_CLASSPATH="
 classworlds-1
 plexus-classworlds
 plexus-active-collections
-plexus-component-api-1.0.33
-plexus-container-default-1.0.33
+plexus-component-api-1.0_alpha33
+plexus-container-default-1.0_alpha33
 plexus-utils-1.4.7
 wagon-provider-api
 wagon-file

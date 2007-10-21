@@ -4,6 +4,10 @@
 
   21 Oct 2007; kiorky <kiorky@cryptelium.net>
   maven-artifact-2.1_pre20071021.ebuild:
+  fix DEPENDS
+
+  21 Oct 2007; kiorky <kiorky@cryptelium.net>
+  maven-artifact-2.1_pre20071021.ebuild:
   update to use lastest deps
 
   21 Oct 2007; kiorky <kiorky@cryptelium.net>
