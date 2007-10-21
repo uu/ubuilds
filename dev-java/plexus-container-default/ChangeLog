@@ -1,5 +1,9 @@
 
 
+  21 Oct 2007; kiorky <kiorky@cryptelium.net> ++:
+  -m bumped but i keep last version to be sure, waiting for the whole beast to
+  be recompiled one time entirely
+
   13 Jun 2007; kiorky <kiorky@cryptelium.net>
   -plexus-container-default-1.0_alpha14.ebuild:
   cleanup / not used
