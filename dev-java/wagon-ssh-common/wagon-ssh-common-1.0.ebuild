@@ -12,11 +12,15 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="source doc"
 DEP="
->=dev-java/plexus-utils-1.4.7
+>=dev-java/plexus-utils-1.4.7_pre20071021
 dev-java/plexus-interactivity-api
 dev-java/wagon-provider-api
 "
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="plexus-utils-1.4.7 plexus-interactivity-api wagon-provider-api"
+JAVA_MAVEN_CLASSPATH="
+plexus-utils-1.4.7
+plexus-interactivity-api
+wagon-provider-api
+"
 
