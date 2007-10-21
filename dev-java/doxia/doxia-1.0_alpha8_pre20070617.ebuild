@@ -16,10 +16,10 @@ IUSE="source doc"
 COMMON_DEPS="
 =dev-java/jakarta-oro-2.0*
 dev-java/junit
-dev-java/plexus-component-api
-dev-java/plexus-container-default
+>=dev-java/plexus-component-api-1.0.33
+>=dev-java/plexus-container-default-1.0.33
 dev-java/plexus-i18n
-dev-java/plexus-utils
+>=dev-java/plexus-utils-1.4.7
 dev-java/plexus-velocity
 dev-java/velocity
 "
@@ -29,10 +29,10 @@ RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 JAVA_MAVEN_CLASSPATH="
 jakarta-oro-2.0
 junit
-plexus-component-api
-plexus-container-default
+plexus-component-api-1.0.33
+plexus-container-default-1.0.33
 plexus-i18n
-plexus-utils
+plexus-utils-1.4.7
 plexus-velocity
 velocity
 "
