@@ -15,9 +15,9 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="source doc"
 COMMON_DEPS="
-dev-java/plexus-component-api
-dev-java/plexus-container-default
-dev-java/plexus-utils
+>=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/plexus-io
 dev-java/plexus-classworlds
 "
@@ -26,10 +26,10 @@ RDEPEND=">=virtual/jre-1.4	${COMMON_DEPS}"
 
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 JAVA_MAVEN_CLASSPATH="
-plexus-component-api
-plexus-container-default
 plexus-io
+plexus-utils-1.4.7
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
 plexus-classworlds
-plexus-utils
 "
 
