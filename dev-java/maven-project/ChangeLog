@@ -6,6 +6,10 @@
   maven-project-2.1_pre20071021.ebuild:
   fix DEPENDS
 
+  21 Oct 2007; kiorky <kiorky@cryptelium.net>
+  maven-project-2.1_pre20071021.ebuild:
+  fix DEPENDS
+
   21 Oct 2007; kiorky <kiorky@cryptelium.net> ++:
   -m bumped but i keep last version to be sure, waiting for the whole beast to
   be recompiled one time entirely

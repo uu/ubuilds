@@ -19,9 +19,9 @@ dev-java/maven-artifact
 dev-java/maven-build-context
 dev-java/maven-profile
 dev-java/maven-settings
-dev-java/plexus-container-default
-dev-java/plexus-component-api
 >=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/maven-model
 dev-java/wagon-provider-api
 dev-java/plexus-classworlds
@@ -34,10 +34,10 @@ maven-artifact
 maven-build-context
 maven-profile
 maven-settings
-plexus-component-api
-plexus-classworlds
-plexus-container-default
 plexus-utils-1.4.7
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
+plexus-classworlds
 wagon-provider-api
 "
 
