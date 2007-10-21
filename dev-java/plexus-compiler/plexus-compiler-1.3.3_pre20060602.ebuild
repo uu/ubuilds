@@ -15,12 +15,12 @@ IUSE="source doc"
 COMMON_DEPS="
 dev-java/ant-core
 dev-java/ant-nodeps
+>=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/maven-artifact
 dev-java/commons-lang
 dev-java/junit
-dev-java/plexus-component-api
-dev-java/plexus-container-default
-=dev-java/plexus-utils-1.0.4*
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
@@ -30,16 +30,16 @@ ant-core
 ant-nodeps
 commons-lang
 junit
+plexus-container-default-1.0_alpha33
+plexus-utils-1.4.7
+plexus-component-api-1.0_alpha33
 maven-artifact
-plexus-component-api
-plexus-container-default
-plexus-utils-1.0.4
 "
 JAVA_MAVEN_PROJECTS="
 plexus-compiler-api
 plexus-compiler-manager
-plexus-compilers/plexus-compiler-csharp
 plexus-compilers/plexus-compiler-javac
+plexus-compilers/plexus-compiler-csharp
 plexus-compilers/plexus-compiler-jikes
 plexus-compilers
 "
@@ -48,5 +48,7 @@ plexus-compilers
 
 # NOTE: module plexus-compiler-test is just here for unit tests, it depends on old
 # libs so if there is no deps belonging on it , we should just not include it :p
+
+JAVA_MAVEN_PATCHES="${FILESDIR}/shell.patch"
 
 
