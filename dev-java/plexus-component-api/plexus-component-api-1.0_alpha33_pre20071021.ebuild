@@ -11,7 +11,7 @@ DESCRIPTION="The Plexus project provides a full software stack for creating and 
 HOMEPAGE="http://plexus.codehaus.org/"
 SRC_URI="http://dev.gentooexperimental.org/~kiorky/${P}.tar.bz2"
 LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
-SLOT="1.0.33"
+SLOT="1.0_alpha33"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 DEP="=dev-java/plexus-classworlds-1.2*"
