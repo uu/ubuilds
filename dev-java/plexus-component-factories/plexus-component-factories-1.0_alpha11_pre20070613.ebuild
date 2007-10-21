@@ -15,21 +15,19 @@ IUSE="source"
 #=dev-java/plexus-container-default-1.0_alpha14
 #=dev-java/plexus-component-api-1.0_alpha14
 DEP="
-dev-java/plexus-container-default
-dev-java/plexus-component-api
+>=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/ant-core
-dev-java/plexus-utils
 dev-java/bsh
 dev-java/plexus-classworlds"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-#plexus-container-default-1.0_alpha14
-#plexus-component-api-1.0_alpha14
 JAVA_MAVEN_CLASSPATH="
-plexus-container-default
-plexus-component-api
+plexus-utils-1.4.7
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
 ant-core
-plexus-utils
 bsh
 plexus-classworlds
 "
