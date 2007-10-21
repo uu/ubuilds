@@ -18,9 +18,9 @@ DEP="
 dev-java/maven-artifact
 dev-java/maven-plugin-api
 dev-java/plexus-classworlds
-dev-java/plexus-component-api
-dev-java/plexus-container-default
-dev-java/plexus-utils
+>=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/xpp3
 "
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
@@ -30,9 +30,9 @@ classworlds-1.1
 maven-artifact
 maven-plugin-api
 plexus-classworlds
-plexus-component-api
-plexus-container-default
-plexus-utils
+plexus-utils-1.4.7
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
 xpp3
 "
 
