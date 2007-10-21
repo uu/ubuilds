@@ -15,15 +15,15 @@ IUSE="source doc"
 COMMON_DEPS="
 dev-java/velocity
 =dev-java/dnsjava-1.3.2*
-dev-java/plexus-container-default
-dev-java/plexus-component-api
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 "
 DEPEND=">=virtual/jdk-1.4 	${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4	${COMMON_DEPS}"
 EANT_EXTRA_FLAGS="-Dproject.name=${PN}"
 JAVA_MAVEN_CLASSPATH="
-plexus-component-api
-plexus-container-default
+plexus-component-api-1.0_alpha33
+plexus-container-default-1.0_alpha33
 dnsjava-1.3.2
 velocity
 "
