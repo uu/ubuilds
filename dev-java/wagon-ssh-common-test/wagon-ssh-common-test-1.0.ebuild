@@ -14,18 +14,18 @@ IUSE="source doc"
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
 COMMON_DEPS="
-dev-java/plexus-utils
-dev-java/plexus-container-default
-dev-java/plexus-component-api
+>=dev-java/plexus-utils-1.4.7_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/wagon-provider-api
 dev-java/wagon-ssh-common
 dev-java/junit"
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 JAVA_MAVEN_CLASSPATH="
-plexus-utils
-plexus-container-default
-plexus-component-api
+plexus-utils-1.4.7
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
 wagon-provider-api
 wagon-ssh-common
 junit
