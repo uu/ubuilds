@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  21 Oct 2007; kiorky <kiorky@cryptelium.net>
+  maven-plugin-api-2.1_pre20071021.ebuild:
+  fix DEPENDS
+
   21 Oct 2007; kiorky <kiorky@cryptelium.net> ++:
   -m bumped but i keep last version to be sure, waiting for the whole beast to
   be recompiled one time entirely

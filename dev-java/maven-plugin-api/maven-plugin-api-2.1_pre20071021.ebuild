@@ -15,10 +15,10 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 COMMON_DEPS="
-=dev-java/plexus-utils-1.4.7*
 dev-java/plexus-container-default
 dev-java/plexus-component-api
 dev-java/plexus-classworlds
+>=dev-java/plexus-utils-1.4.7_pre20071021
 dev-java/maven-artifact
 dev-java/junit
 dev-java/maven-lifecycle
