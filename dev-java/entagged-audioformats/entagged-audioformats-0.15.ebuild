@@ -19,8 +19,7 @@ S="${WORKDIR}/entagged/audioformats"
 
 RDEPEND=">=virtual/jre-1.4"
 
-DEPEND=">=virtual/jdk-1.4
-	app-arch/unzip"
+DEPEND=">=virtual/jdk-1.4"
 
 src_compile() {
 	cd "${S}" || die "cd failed"
