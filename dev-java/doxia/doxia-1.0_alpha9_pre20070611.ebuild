@@ -15,8 +15,8 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="source doc"
 COMMON_DEPS="
->=dev-java/plexus-container-default-1.0.33
->=dev-java/plexus-utils-1.4.7
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-utils-1.4.7_pre20071021
 =dev-java/jakarta-oro-2.0*
 dev-java/junit
 dev-java/plexus-i18n
@@ -27,7 +27,7 @@ DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 
 JAVA_MAVEN_CLASSPATH="
-plexus-container-default-1.0.33
+plexus-container-default-1.0_alpha33
 plexus-utils-1.4.7
 jakarta-oro-2.0
 junit
