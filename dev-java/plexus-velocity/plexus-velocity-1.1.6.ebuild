@@ -13,13 +13,14 @@ SLOT="0"
 KEYWORDS="~x86"
 IUSE="source"
 DEP="dev-java/velocity
-dev-java/plexus-container-default
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 dev-java/commons-collections
-dev-java/plexus-component-api"
+"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
 JAVA_MAVEN_CLASSPATH="velocity
-plexus-container-default
-plexus-component-api
+plexus-container-default-1.0_alpha33
+plexus-component-api-1.0_alpha33
 commons-collections"
 
