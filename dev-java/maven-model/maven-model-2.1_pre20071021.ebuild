@@ -5,6 +5,7 @@
 JAVA_PKG_IUSE="source" #No javadoc target
 JAVA_MAVEN_ADD_GENERATED_STUFF="y"
 JAVA_MAVEN_BOOTSTRAP="Y"
+JAVA_MAVEN_GENERATED_STUFF_UNPACK_DIR="${S}"
 inherit java-maven-2
 
 DESCRIPTION="Maven is a software project management and comprehension tool."
@@ -15,14 +16,13 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 COMMON_DEPS="
 =dev-java/jdom-1.0*
-dev-java/plexus-utils
+>=dev-java/plexus-utils-1.4.7
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 JAVA_MAVEN_CLASSPATH="
-plexus-utils
+plexus-utils-1.4.7
 jdom-1.0
 "
 
 RESTRICT=test
-JAVA_PKG_SRC_DIRS="src/main/java/*"
