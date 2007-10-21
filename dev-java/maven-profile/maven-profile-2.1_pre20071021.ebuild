@@ -20,7 +20,7 @@ DEP="
 dev-java/maven-model
 dev-java/plexus-container-default
 dev-java/plexus-component-api
->=dev-java/plexus-utils-1.4.7
+>=dev-java/plexus-utils-1.4.7_pre20071021
 "
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
