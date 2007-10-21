@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 COMMON_DEPS="
 =dev-java/jdom-1.0*
->=dev-java/plexus-utils-1.4.7
+>=dev-java/plexus-utils-1.4.7_pre20071021
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
