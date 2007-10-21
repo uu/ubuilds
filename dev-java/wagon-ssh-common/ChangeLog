@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  21 Oct 2007; kiorky <kiorky@cryptelium.net> wagon-ssh-common-1.0.ebuild:
+  update to use lastest deps
+
   02 Jun 2007; kiorky <kiorky@cryptelium.net> wagon-ssh-common-1.0.ebuild:
   moving to JAVA_MAVEN_CLASSPATH
 
