@@ -4,10 +4,16 @@
 
 inherit java-pkg-2 java-ant-2 check-reqs
 
-# Notes: This is a preliminary *working* ebuild of Eclipse-3.3
+# Notes: This is a preliminary ebuild of Eclipse-3.3
 # It still has many QA problems (namely, we are still using a lot of bundled jars).
 # Many things also still probably do not work in the IDE, but at least it loads.
 # It was based on the initial ebuild in the gcj-overlay, so much of the credit goes out to geki.
+
+# Tomcat is almost no longer needed in 3.3 and removed in 3.4.
+# See bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=173692
+# Currently we remove the Tomcat stuff entirely - potentially this can still break things.
+# We'll put it back if there is any bug report, which is unlikely.
+#
 
 # To unbundle a jar, do the following:
 # 1) Rewrite the ebuild so it uses OSGi packaging
@@ -25,12 +31,12 @@ SRC_URI="http://download.eclipse.org/eclipse/downloads/drops/${DMF}/${MY_A}"
 
 SLOT="3.3"
 LICENSE="EPL-1.0"
-IUSE="doc tomcat"
+IUSE="doc"
 KEYWORDS="~amd64 ~x86"
 
 S=${WORKDIR}
-PATCHDIR=${FILESDIR}/${SLOT}
-FEDORA=${PATCHDIR}/fedora
+PATCHDIR="${FILESDIR}/${SLOT}"
+FEDORA="${PATCHDIR}/fedora"
 ECLIPSE_DIR="/usr/lib/eclipse-${SLOT}"
 
 CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
@@ -41,21 +47,15 @@ CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
 	=dev-java/junit-4*
 	>=dev-java/jsch-0.1.34-r1
 	>=dev-java/icu4j-3.6.1
-	dev-java/commons-el
-	dev-java/commons-logging
-	tomcat? (
-		dev-java/commons-digester-rss
-		=dev-java/mx4j-core-3*
-		=dev-java/jakarta-regexp-1.4*
-		=dev-java/servletapi-2.4*
-		>=www-servers/tomcat-5.5.17
-	)"
+	>=dev-java/commons-el-1.0-r2
+	>=dev-java/commons-logging-1.1-r3"
+#	>=www-servers/jetty-5.1"
 	
 RDEPEND=">=virtual/jre-1.5
 	${CDEPEND}"
 	
 DEPEND="=virtual/jdk-1.5*
-	>=sys-apps/findutils-4.1.7
+	sys-apps/findutils
 	dev-java/sun-j2me-bin
 	app-arch/unzip
 	app-arch/zip
@@ -93,7 +93,7 @@ src_unpack() {
 		-i plugins/org.eclipse.core.filesystem/natives/unix/linux/Makefile \
 		|| die "sed Makefile failed"
 
-	install-link-system-jars
+	#install-link-system-jars
 
 	while read line; do
 		java-ant_rewrite-classpath "$line" > /dev/null
@@ -110,7 +110,7 @@ src_compile() {
 	# system_jars will be used when compiling (javac)
 	# gentoo_jars will be used when building JSPs and other ant tasks (not javac)
 	
-	local system_jars="$(java-pkg_getjars swt-3,icu4j-3.6,ant-core,jsch,ant-nodeps):$(java-pkg_getjars --build-only sun-j2me-bin)"
+	local system_jars="$(java-pkg_getjars swt-3,icu4j-3.6,ant-core,jsch,ant-nodeps,junit-4):$(java-pkg_getjars --build-only sun-j2me-bin)"
 	local gentoo_jars="$(java-pkg_getjars ant-core,icu4j-3.6,jsch,commons-logging,commons-el)"
 	local options="-q -Dnobootstrap=true -Dlibsconfig=true -Dbootclasspath=${bootclasspath} -DinstallOs=linux \
 	-DinstallWs=gtk -DinstallArch=${eclipse_arch} -Djava5.home=$(java-config --jdk-home)"
@@ -135,8 +135,9 @@ src_install() {
 
 	# Install startup script
 	exeinto /usr/bin
-	doexe "${FILESDIR}/eclipse-${SLOT}"
+	doexe "${FILESDIR}/${SLOT}/eclipse-${SLOT}"
 	
+	# Install eclipse configuration file.	
 	cat > "${D}/${ECLIPSE_DIR}/eclipse.ini" <<-EOF
 -showsplash
 org.eclipse.platform
@@ -178,7 +179,7 @@ install-link-system-jars() {
 	mkdir "org.apache.ant"
 	mkdir "org.apache.ant/META-INF/"
 	mkdir "org.apache.ant/lib"
-	cp "${FILESDIR}/${SLOT}/ant-manifest" "org.apache.ant/META-INF/MANIFEST.MF"
+	cp "${FILESDIR}/${SLOT}/ant-osgi-manifest.mf" "org.apache.ant/META-INF/MANIFEST.MF"
 	pushd org.apache.ant/lib > /dev/null
 	java-pkg_jarfrom ant-core
 	java-pkg_jarfrom ant-nodeps	
@@ -186,43 +187,22 @@ install-link-system-jars() {
 	
 	java-pkg_jarfrom icu4j-3.6
 	java-pkg_jarfrom jsch
-	
-	# Below only needed with Tomcat (?)
-	
 	java-pkg_jarfrom commons-el
-	java-pkg_jarfrom commons-logging		
+	java-pkg_jarfrom commons-logging
+		
 	popd > /dev/null
 
-	symlink-junit
-	use tomcat && symlink-tomcat
+	# We should OSGi these Jars, and then we can remove them entirely
+
+	pushd plugins/org.junit_*/ > /dev/null
+	java-pkg_jarfrom junit
+	popd > /dev/null
+
+	pushd plugins/org.junit4*/ > /dev/null
+	java-pkg_jarfrom junit-4
+	popd > /dev/null
 }
 
-symlink-tomcat() {
-	pushd plugins/org.eclipse.tomcat*/
-	rm *.jar
-	mkdir lib
-	pushd lib/
-
-	java-pkg_jarfrom tomcat-5.5
-	java-pkg_jarfrom mx4j-core-3.0
-	java-pkg_jarfrom commons-beanutils-1.7
-	java-pkg_jarfrom commons-collections
-	java-pkg_jarfrom commons-dbcp
-	java-pkg_jarfrom commons-digester
-	java-pkg_jarfrom commons-digester-rss
-	java-pkg_jarfrom commons-el
-	java-pkg_jarfrom commons-fileupload
-	java-pkg_jarfrom commons-launcher
-	java-pkg_jarfrom commons-logging
-	java-pkg_jarfrom commons-modeler
-	java-pkg_jarfrom commons-pool
-	java-pkg_jarfrom servletapi-2.4 servlet-api.jar servletapi5.jar
-	java-pkg_jarfrom servletapi-2.4 jsp-api.jar jspapi.jar
-	java-pkg_jarfrom jakarta-regexp-1.4
-	ln -s /usr/share/tomcat-5.5/bin/bootstrap.jar bootstrap.jar
-	popd
-	popd
-}
 
 symlink-lucene() {
 	pushd plugins/ > /dev/null
@@ -234,62 +214,42 @@ symlink-lucene() {
 	popd > /dev/null
 }
 
-symlink-junit() {
-	pushd plugins/org.junit_*/ > /dev/null
-	rm *.jar
-	java-pkg_jarfrom junit
-	popd > /dev/null
-
-	pushd plugins/org.junit4*/ > /dev/null
-	rm *.jar
-	java-pkg_jarfrom junit-4
-	popd > /dev/null
-}
-
 patch-apply() {
 	# Patch launcher source
 	mkdir launchertmp
 	unzip -qq -d launchertmp plugins/org.eclipse.platform/launchersrc.zip > /dev/null || die "unzip failed"
 	pushd launchertmp/ > /dev/null
-	epatch ${PATCHDIR}/launcher_double-free.diff
-	sed -i "s/CFLAGS\ =\ -O\ -s\ -Wall/CFLAGS = ${CFLAGS}\ -Wall/" \
-		library/gtk/make_linux.mak \
+	epatch "${PATCHDIR}/launcher_double-free.diff"
+	sed -i "s/CFLAGS\ =\ -O\ -s\ -Wall/CFLAGS = ${CFLAGS}\ -Wall/" library/gtk/make_linux.mak \
 		|| die "Failed to tweak make_linux.mak"
 	zip -q -6 -r ../launchersrc.zip * >/dev/null || die "zip failed"
 	popd > /dev/null
 	mv launchersrc.zip plugins/org.eclipse.platform/launchersrc.zip
 	rm -rf launchertmp
 
-	# Disable swt, jdk6
-	epatch "${PATCHDIR}/eclipse_disable-swt.diff"
-	epatch "${PATCHDIR}/eclipse_disable-jdt-tool.diff"
-	epatch "${PATCHDIR}/eclipse_disable-jdk6.diff"
+	# Disable SWT, jdk6 eclipse-3.3-features-platform-build.xml.diff
+	epatch "${PATCHDIR}/disable-swt.diff" # this patch disables SWT
+	epatch "${PATCHDIR}/disable-jdt-tool.diff"
+	epatch "${PATCHDIR}/disable-jdk6.diff"
+	epatch "${PATCHDIR}/set-java-home.diff" # this setups the java5 home variable
 
-	# What does this do?
-	epatch "${PATCHDIR}/eclipse-${SLOT}-main-build.xml.diff"
-
+	#epatch "${FILESDIR}/${SLOT}/${P}-buildJSPs.patch"
+	#cp "${FILESDIR}/${SLOT}/buildJSPs.xml" "plugins/org.eclipse.help.webapp/buildJSPs.xml"
+	#cp "${FILESDIR}/${SLOT}/build-isv.xml" "plugins/org.eclipse.platform.doc.isv/build.xml"
+		
+	cp "${FILESDIR}/${SLOT}/isv-build.xml" "plugins/org.eclipse.help.webapp/build.xml" # this adds a path for building
+	cp "${FILESDIR}/${SLOT}/buildDoc.xml" "plugins/org.eclipse.platform.doc.isv/buildDoc.xml" # this adds a path for building
+	cp "${FILESDIR}/${SLOT}/build-platform.xml" "features/org.eclipse.platform/build.xml" # this essentially disables Tomcat
+	cp "${FILESDIR}/${SLOT}/build-platform-source.xml" "plugins/org.eclipse.platform.source/build.xml" # this essentially disables Tomcat
 	# JNI
 	epatch "${FEDORA}/eclipse-libupdatebuild2.patch"
 
 	# Fedora does not apply this anymore because they checkout
-	# org.eclipse.equinox.initializer project from cvs. 'till a fix, we'll
+	# org.eclipse.equinox.initializer project from cvs. Untill a fix, we'll
 	# keep the old patch
 	pushd plugins/org.eclipse.core.runtime >/dev/null
 	epatch "${FEDORA}/eclipse-fileinitializer.patch"
 	popd >/dev/null
-
-	# TOMCAT
-	if use tomcat; then
-		pushd plugins/org.eclipse.tomcat > /dev/null || die "pushd failed"
-		# %patch28 -p0
-		epatch "${FEDORA}/eclipse-tomcat55.patch"
-		# %patch29 -p0
-		epatch "${FEDORA}/eclipse-tomcat55-build.patch"
-		popd > /dev/null
-
-		sed -e "s/4.1.130/5.5.17/g" -i features/org.eclipse.platform/build.xml \
-			-i plugins/org.eclipse.tomcat/build.xml -i assemble.*.xml
-	fi
 
 	# Generic releng plugins that can be used to build plugins
 	# https://www.redhat.com/archives/fedora-devel-java-list/2006-April/msg00048.html
@@ -299,18 +259,15 @@ patch-apply() {
 	sed -e "s:@eclipse_base@:${ECLIPSE_DIR}:g" -i templates/package-build/build.properties
 	popd > /dev/null
 
-	# Later we could produce a patch out of these
+	# Later we could produce a patch out of these, but this is not the best solution
+	# since this would make a lot of patches (x86, x86_64...)
 
 	sed -i "s/<copy.*com\.jcraft\.jsch.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
 	sed -i "s/<copy.*com\.ibm\.icu.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
 	sed -i "s/<copy.*org\.apache\.commons\.el_.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"	
 	sed -i "s/<copy.*org\.apache\.commons\.logging_.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"	
-		
-	#epatch "${FILESDIR}/${SLOT}/${P}-buildJSPs.patch"
-	#cp "${FILESDIR}/${SLOT}/buildJSPs.xml" "plugins/org.eclipse.help.webapp/buildJSPs.xml"
-	cp "${FILESDIR}/${SLOT}/isv-build.xml" "plugins/org.eclipse.help.webapp/build.xml"
-	#cp "${FILESDIR}/${SLOT}/build-isv.xml" "plugins/org.eclipse.platform.doc.isv/build.xml"
-	cp "${FILESDIR}/${SLOT}/buildDoc.xml" "plugins/org.eclipse.platform.doc.isv/buildDoc.xml"	
+	
+	sed -i "/^.*<ant.*org\.eclipse\.tomcat.*/{N;N;d;}" "assemble.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
 }
 
 remove-bundled-stuff() {
@@ -328,9 +285,71 @@ remove-bundled-stuff() {
 	rm plugins/org.apache.commons.*.jar
 	rm plugins/com.jcraft.jsch*
 	rm plugins/com.ibm.icu*
+	rm plugins/org.junit_*/*.jar
+	rm plugins/org.junit4*/*.jar
+	
+	# mv junit* junit3 -> do this
 	
 	rm -rf "plugins/org.eclipse.osgi.services/org"
 	unzip -q "plugins/org.eclipse.osgi.services/src.zip" -d "plugins/org.eclipse.osgi.services/"
 	rm -rf "plugins/org.eclipse.osgi.util/org"
-	unzip -q "plugins/org.eclipse.osgi.util/src.zip" -d "plugins/org.eclipse.osgi.util/"	
+	unzip -q "plugins/org.eclipse.osgi.util/src.zip" -d "plugins/org.eclipse.osgi.util/"
+	
+	# Removing Tomcat stuff
+	
+	rm -rf "plugins/org.eclipse.tomcat/"
 }
+
+# Deprecated stuff below
+#
+#
+
+#	tomcat? (
+#		dev-java/commons-digester-rss
+#		=dev-java/mx4j-core-3*
+#		=dev-java/jakarta-regexp-1.4*
+#		=dev-java/servletapi-2.4*
+#		>=www-servers/tomcat-5.5.17
+#	)
+#
+#	# TOMCAT
+#	if use tomcat; then
+#		pushd plugins/org.eclipse.tomcat > /dev/null || die "pushd failed"
+#		# %patch28 -p0
+#		epatch "${FEDORA}/eclipse-tomcat55.patch"
+#		# %patch29 -p0
+#		epatch "${FEDORA}/eclipse-tomcat55-build.patch"
+#		popd > /dev/null
+#
+#		sed -e "s/4.1.130/5.5.17/g" -i features/org.eclipse.platform/build.xml \
+#			-i plugins/org.eclipse.tomcat/build.xml -i assemble.*.xml
+#	fi
+#
+#
+#OLD_symlink-tomcat() {
+#	pushd plugins/org.eclipse.tomcat*/
+#	rm *.jar
+#	mkdir lib
+#	pushd lib/
+#
+#	java-pkg_jarfrom tomcat-5.5
+#	java-pkg_jarfrom mx4j-core-3.0
+#	java-pkg_jarfrom commons-beanutils-1.7
+#	java-pkg_jarfrom commons-collections
+#	java-pkg_jarfrom commons-dbcp
+#	java-pkg_jarfrom commons-digester
+#	java-pkg_jarfrom commons-digester-rss
+#	java-pkg_jarfrom commons-el
+#	java-pkg_jarfrom commons-fileupload
+#	java-pkg_jarfrom commons-launcher
+#	java-pkg_jarfrom commons-logging
+#	java-pkg_jarfrom commons-modeler
+#	java-pkg_jarfrom commons-pool
+#	java-pkg_jarfrom servletapi-2.4 servlet-api.jar servletapi5.jar
+#	java-pkg_jarfrom servletapi-2.4 jsp-api.jar jspapi.jar
+#	java-pkg_jarfrom jakarta-regexp-1.4
+#	ln -s /usr/share/tomcat-5.5/bin/bootstrap.jar bootstrap.jar
+#	popd
+#	popd
+#}
+#
