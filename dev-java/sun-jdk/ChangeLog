@@ -2,6 +2,14 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*sun-jdk-1.7.0.0_alpha22 (24 Oct 2007)
+
+  24 Oct 2007; Petteri Räty <betelgeuse@gentoo.org>
+  +sun-jdk-1.7.0.0_alpha22.ebuild:
+  Version bump.
+
+*sun-jdk-1.7.0.0_alpha21 (01 Oct 2007)
+
   01 Oct 2007; William L. Thomson Jr. <wltjr@gentoo.org>
   +sun-jdk-1.7.0.0_alpha21.ebuild:
   Version bump
