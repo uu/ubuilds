@@ -237,7 +237,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/lucene-2.1.0
 	>=dev-java/portletapi-1
 	>=dev-java/prefuse-20060715_beta
-	>=dev-java/proguard-3.7
+	>=dev-java/proguard-4
 	dev-java/sac
 	dev-java/saxpath
 	dev-java/sjsxp
@@ -568,7 +568,7 @@ place_unpack_symlinks() {
 	if [ -e ${S}/apisupport ] ; then
 		einfo "Symlinking jars for apisupport"
 		target="apisupport/harness/external"
-		dosymcompilejar ${target} javahelp jhall.jar jsearch-2.0_04.jar
+		dosymcompilejar ${target} javahelp jhall.jar jsearch-2.0_05.jar
 	fi
 
 	if [ -e ${S}/collab ] ; then
@@ -601,7 +601,7 @@ place_unpack_symlinks() {
 	if [ -e ${S}/core ] ; then
 		einfo "Symlinking jars for core"
 		target="core/javahelp/external"
-		dosymcompilejar ${target} javahelp jh.jar jh-2.0_04.jar
+		dosymcompilejar ${target} javahelp jh.jar jh-2.0_05.jar
 	fi
 
 	if [ -e ${S}/db ] ; then
@@ -744,7 +744,7 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} commons-logging commons-logging.jar
 		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
 		target="mobility/proguard/external"
-		dosymcompilejar ${target} proguard proguard.jar proguard3.7.jar
+		dosymcompilejar ${target} proguard proguard.jar proguard4.0.1.jar
 	fi
 
 	if [ -e ${S}/monitor ] ; then
@@ -853,7 +853,7 @@ symlink_extjars() {
 	if use harness ; then
 		einfo "Symlinking harness jars"
 		targetdir="harness"
-		dosyminstjar ${targetdir} javahelp jhall.jar jsearch-2.0_04.jar
+		dosyminstjar ${targetdir} javahelp jhall.jar jsearch-2.0_05.jar
 	fi
 
 
@@ -904,7 +904,7 @@ symlink_extjars() {
 	einfo "Symlinking platform jars"
 
 	targetdir="platform${PLATFORM}/modules/ext"
-	dosyminstjar ${targetdir} javahelp jh.jar jh-2.0_04.jar
+	dosyminstjar ${targetdir} javahelp jh.jar jh-2.0_05.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 
 	#if use mobility ; then
