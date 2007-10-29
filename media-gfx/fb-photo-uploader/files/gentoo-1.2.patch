@@ -1,0 +1,113 @@
+diff -Nur fb-photo-uploader-1.2/build.xml fb-photo-uploader-1.2_fixed/build.xml
+--- fb-photo-uploader-1.2/build.xml	2007-06-28 19:10:03.000000000 +0300
++++ fb-photo-uploader-1.2_fixed/build.xml	2007-10-29 11:48:54.000000000 +0200
+@@ -70,7 +70,7 @@
+ 		</copy>
+ 	</target>
+ 
+-	<target name="test" depends="compile, test-init" description="Test the project">
++	<target name="test" depends="test-init" description="Test the project">
+ 		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" classpathref="test.classpath" debug="true" />
+ 
+ 		<junit printsummary="on">
+@@ -89,7 +89,7 @@
+ 		</junitreport>
+ 	</target>
+ 
+-	<target name="package" depends="compile, test" description="Packages the project into a JAR file">
++	<target name="package" depends="compile" description="Packages the project into a JAR file">
+ 		<jar destfile="${package.dir}/bin/fb-uploader.jar" basedir="${build.dir}" />
+ 	</target>
+ 
+@@ -113,4 +113,4 @@
+ 		<zip basedir="${package.dir}" destfile="${dist.dir}/fb-uploader.zip" />
+ 	</target>
+ 
+-</project>
+\ Dosya sonunda yenisatır yok.
++</project>
+diff -Nur fb-photo-uploader-1.2/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java fb-photo-uploader-1.2_fixed/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java
+--- fb-photo-uploader-1.2/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2007-07-09 17:40:49.000000000 +0300
++++ fb-photo-uploader-1.2_fixed/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2007-10-29 11:30:46.000000000 +0200
+@@ -99,7 +99,6 @@
+ 			_instance.initFacebook();
+ 			_instance.refreshAlbumList();
+ 
+-			_instance.checkForUpdates();
+ 		}
+ 
+ 		return _instance;
+@@ -151,15 +150,6 @@
+ 	 */
+ 	private void initComponents()
+ 	{
+-		try
+-		{
+-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+-		}
+-		catch (Exception e)
+-		{
+-			throw new UploaderException(MessageSource
+-					.getMessage("error.couldNotSetLookAndFeel"), e);
+-		}
+ 
+ 		MainWindowActionListener actionListener = new MainWindowActionListener();
+ 
+@@ -423,18 +413,6 @@
+ 		menu.add(menuItem);
+ 		menu.addSeparator();
+ 
+-		boolean enableUpdates = _props.getProperty(
+-				"uploader.enable-update-check", "true")
+-				.equalsIgnoreCase("true");
+-
+-		menuItem = new JCheckBoxMenuItem(MessageSource
+-				.getMessage("mainwindow.menu.enableCheckForUpdates"),
+-				enableUpdates);
+-		menuItem.setToolTipText(MessageSource
+-				.getMessage("mainwindow.menu.enableCheckForUpdates.tooltip"));
+-		menuItem.addActionListener(actionListener);
+-		menu.add(menuItem);
+-
+ 		menu.addSeparator();
+ 
+ 		menu.add(createImportSubmenu());
+diff -Nur fb-photo-uploader-1.2/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java fb-photo-uploader-1.2_fixed/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java
+--- fb-photo-uploader-1.2/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2007-06-21 12:58:50.000000000 +0300
++++ fb-photo-uploader-1.2_fixed/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2007-10-29 11:33:06.000000000 +0200
+@@ -27,13 +27,32 @@
+ 
+ 		try
+ 		{
+-			_configFile = new File(ClassLoader.getSystemClassLoader().getResource(
+-					"uploader.properties").toURI());
++			_configFile = new File(System.getProperty("user.home")+"/.fb-photo-uploader.properties");
+ 			_configuration.load(_configFile);
+ 		}
+ 		catch (Exception e)
+ 		{
+-			throw new UploaderException("Could not load properties", e);
++			_configuration.addProperty("uploader.resize.1","800 x 600");
++			_configuration.addProperty("uploader.resize.1","1024 x 768");
++			_configuration.addProperty("uploader.resize.1","1280 x 960");
++			_configuration.addProperty("facebook.api-key","99e18912a9ad6e2333146e0bd231425f");
++			_configuration.addProperty("facebook.secret","9a50e37e7eba996fac297689251e177c");
++			_configuration.addProperty("facebook.login-url","http://www.facebook.com/login.php?v=1.0");
++			_configuration.addProperty("session.persistent-key","");
++			_configuration.addProperty("session.secret-key","");
++			_configuration.addProperty("session.user-id","");
++			_configuration.addProperty("uploader.use-mock-dao","false");
++			_configuration.addProperty("uploader.editor.use-scaling","true");
++			_configuration.addProperty("uploader.last-directory","");
++			_configuration.addProperty("app.build-number","287");
++			try
++			{
++				_configuration.save(_configFile);
++			}
++			catch (Exception ex)
++			{
++				throw new UploaderException("Could not save properties", ex);
++			}
+ 		}
+ 	}
+ 
