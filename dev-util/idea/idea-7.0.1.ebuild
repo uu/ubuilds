@@ -5,18 +5,15 @@
 inherit eutils
 
 #Change next lines when updating version
-BUILD="7361"
+BUILD="7364"
 #Change slot number between incompatible IDEA versions
 SLOT="7"
 #Change JDK version if required
 RDEPEND=">=virtual/jdk-1.6"
 
-MY_PV="7.0"
-MY_P="${PN}-${MY_PV}"
-
 DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
 HOMEPAGE="http://jetbrains.com/idea/"
-SRC_URI="http://download.jetbrains.com/${PN}/${MY_P}.tar.gz"
+SRC_URI="http://download.jetbrains.com/${PN}/${P}.tar.gz"
 LICENSE="IntelliJ-IDEA"
 KEYWORDS="~x86 ~amd64"
 S="${WORKDIR}/${PN}-${BUILD}"

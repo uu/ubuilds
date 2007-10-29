@@ -6,8 +6,7 @@ inherit eutils
 
 DESCRIPTION="Plugin Development Kit for IntelliJ IDEA"
 HOMEPAGE="http://www.jetbrains.com/idea/"
-MY_PV="7.0"
-SRC_URI="http://download.jetbrains.com/idea/idea-${MY_PV}-dev.zip"
+SRC_URI="http://download.jetbrains.com/idea/idea-${PV}-dev.zip"
 LICENSE="IntelliJ-IDEA"
 KEYWORDS="~x86 ~amd64"
 
