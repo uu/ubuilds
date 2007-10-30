@@ -20,14 +20,16 @@ COMMON_DEPEND="dev-java/commons-logging
 	>=dev-java/tablelayout-0.1"
 DEPEND="app-arch/p7zip
 	>=virtual/jdk-${JAVA_VERSION}
-	${COMMONT_DEPEND}"
+	${COMMON_DEPEND}"
 RDEPEND=">=virtual/jre-${JAVA_VERSION}
 	${COMMON_DEPEND}"
 
 S="${WORKDIR}/${P}-src/"
 
 src_unpack() {
-	unpack ${A}
+	unpack "${A}"
+	#somehow unpack "${A}" doesn't work in paludis. uncomment next line instead.
+	#7z x -o"${WORKDIR}" "${DISTDIR}/${A}"
 	rm -rv "${S}"/lib/* "${S}"/lib.test/* || die
 	cd "${S}/lib"
 	java-pkg_jar-from commons-logging
