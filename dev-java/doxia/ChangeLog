@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  01 Nov 2007; kiorky <kiorky@cryptelium.net>
+  +doxia-1.0_beta1_pre20071024.ebuild,
+  +files/doxia-sitetools_DefaultSiteRenderer.java.diff:
+  new version for doxia
+
   21 Oct 2007; kiorky <kiorky@cryptelium.net>
   doxia-1.0_alpha8_pre20070617.ebuild, doxia-1.0_alpha9_pre20070611.ebuild:
   fix DEPENDS
