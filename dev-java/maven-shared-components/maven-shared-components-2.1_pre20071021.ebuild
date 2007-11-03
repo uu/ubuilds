@@ -35,7 +35,6 @@ dev-java/maven-settings
 dev-java/plexus-archiver
 dev-java/plexus-classworlds
 dev-java/plexus-compiler
-dev-java/plexus-component-api
 dev-java/maven-model-v3
 =dev-java/dom4j-1.4*
 >=dev-java/plexus-utils-1.4.7_pre20071021
