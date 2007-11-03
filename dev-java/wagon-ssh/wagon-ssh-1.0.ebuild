@@ -13,13 +13,22 @@ KEYWORDS="~x86"
 IUSE="source doc"
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
-DEP="dev-java/plexus-utils
-	dev-java/wagon-ssh-common
-	dev-java/wagon-provider-api
-	dev-java/plexus-interactivity-api
-	dev-java/jsch
-	dev-java/wagon-ssh-common-test"
+DEP="
+>=dev-java/plexus-utils-1.4.7
+dev-java/wagon-ssh-common
+dev-java/wagon-provider-api
+dev-java/plexus-interactivity-api
+dev-java/jsch
+dev-java/wagon-ssh-common-test
+"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="jsch plexus-utils plexus-interactivity-api wagon-ssh-common wagon-ssh-common-test wagon-provider-api"
+JAVA_MAVEN_CLASSPATH="
+jsch 
+plexus-utils-1.4.7
+plexus-interactivity-api 
+wagon-ssh-common 
+wagon-ssh-common-test
+wagon-provider-api
+"
 
