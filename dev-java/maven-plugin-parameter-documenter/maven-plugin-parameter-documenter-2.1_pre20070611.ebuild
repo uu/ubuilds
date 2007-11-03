@@ -15,14 +15,16 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="source doc"
 COMMON_DEPS="
-dev-java/plexus-container-default
-dev-java/plexus-utils
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-utils-1.4.7_pre20071021
 "
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
 JAVA_MAVEN_CLASSPATH="
-plexus-container-default
-plexus-utils
+plexus-component-api-1.0_alpha33
+plexus-container-default-1.0_alpha33
+plexus-utils-1.4.7
 "
 
 JAVA_PKG_SRC_DIRS="src/main/java/*"
