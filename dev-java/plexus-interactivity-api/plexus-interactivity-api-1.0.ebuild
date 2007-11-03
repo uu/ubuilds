@@ -12,10 +12,18 @@ LICENSE="as-is" # http://plexus.codehaus.org/plexus-utils/license.html
 SLOT="0"
 KEYWORDS="~x86"
 IUSE="source"
-DEP="dev-java/plexus-component-api
-	dev-java/plexus-utils
-	dev-java/plexus-velocity"
-DEPEND=">=virtual/jdk-1.4 ${DEP}"
-RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="plexus-utils plexus-velocity plexus-component-api"
+COMMON_DEPS="
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-utils-1.4.7_pre20071021
+dev-java/plexus-velocity
+"
+DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS}"
+RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPS}"
+JAVA_MAVEN_CLASSPATH="
+plexus-component-api-1.0_alpha33
+plexus-container-default-1.0_alpha33
+plexus-utils-1.4.7
+plexus-velocity
+"
 
