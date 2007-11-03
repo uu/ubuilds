@@ -14,7 +14,7 @@ COMMON_DEPS="
 =dev-java/classworlds-1.1*
 =dev-java/commons-cli-1*
 dev-java/commons-lang
-=dev-java/commons-lang-2.1*
+=dev-java/commons-lang-2.3*
 dev-java/commons-logging
 dev-java/doxia
 dev-java/maven-artifact
@@ -33,7 +33,6 @@ dev-java/maven-reporting
 dev-java/maven-settings
 dev-java/plexus-classworlds
 dev-java/plexus-active-collections
-dev-java/plexus-component-api
 >=dev-java/plexus-container-default-1.0_alpha33_pre20071021
 >=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 >=dev-java/plexus-utils-1.4.7_pre20071021
