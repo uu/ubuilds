@@ -1,9 +1,0 @@
-# ChangeLog for dev-java/maven-assembly-plugin
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  13 Jun 2007; kiorky <kiorky@cryptelium.net>
-  +maven-assembly-plugin-2.1_pre20070602.ebuild, +files/maven.patch,
-  +metadata.xml:
-  added as a maven dependency. See #181898
-
