@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 Nov 2007; kiorky <kiorky@cryptelium.net>
+  maven-shared-components-2.1_pre20071021.ebuild,
+  +files/maven-artifact.patch:
+  fix to use current maven-artifact (a patch was needed)
+
   21 Oct 2007; kiorky <kiorky@cryptelium.net>
   maven-shared-components-2.1_pre20071021.ebuild:
   fix DEPENDS

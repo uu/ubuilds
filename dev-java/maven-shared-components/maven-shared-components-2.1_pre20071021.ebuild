@@ -25,7 +25,7 @@ dev-java/bsh
 >dev-java/doxia-1.0_alpha8
 =dev-java/easymock-1*
 dev-java/junit
-=dev-java/maven-artifact-2.1_pre20070614*
+>dev-java/maven-artifact-2.1_pre20070614
 dev-java/maven-core
 dev-java/maven-model
 dev-java/maven-plugin-api
@@ -68,7 +68,6 @@ plexus-digest
 easymock-1
 junit
 dom4j-1.4
-maven-artifact-2.1_pre
 bcel
 maven-build-context
 maven-core
@@ -90,6 +89,7 @@ xalan
 xml-commons
 maven-reporting
 asm-3
+maven-artifact
 "
 # PLEASE KEEP  THE ORDER !
 JAVA_MAVEN_PROJECTS="
@@ -121,10 +121,11 @@ maven-shared-jar
 maven-test-tools
 maven-toolchain
 "
+
 # maven-web-ui-tests
 
 JAVA_MAVEN_GENERATED_STUFF_UNPACK_DIR="${S}"
-#JAVA_MAVEN_PATCHES="${FILESDIR}/plugin-testing-tools.patch"
+JAVA_MAVEN_PATCHES="${FILESDIR}/maven-artifact.patch"
 # NOTE:
 # * Be carefull, top pom.xml modules  were broken, i updated it by  hand before tarballing it ...
 # for maven parent pom, just kick off the parent node from the pom.xml file!
