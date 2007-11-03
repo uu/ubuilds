@@ -20,15 +20,18 @@ dev-java/maven-monitor
 dev-java/maven-plugin-api
 dev-java/maven-plugin-descriptor
 dev-java/maven-plugin-parameter-documenter
+dev-java/maven-plugins
 dev-java/maven-profile
 dev-java/maven-project
 dev-java/maven-reporting
 dev-java/maven-script
 dev-java/maven-settings
+dev-java/maven-shared-components
+
+dev-java/doxia
 
 dev-java/wagon-file
 dev-java/wagon-ftp
-dev-java/wagon-http
 dev-java/wagon-http-lightweight
 dev-java/wagon-http-shared
 dev-java/wagon-provider-api
@@ -42,21 +45,14 @@ dev-java/wagon-ssh-external
 dev-java/jsch
 dev-java/jtidy
 
+>=dev-java/plexus-component-api-1.0_alpha33_pre20071021
+>=dev-java/plexus-container-default-1.0_alpha33_pre20071021
+>=dev-java/plexus-utils-1.4.7_pre20071021
 dev-java/plexus-active-collections
 dev-java/plexus-classworlds
-dev-java/plexus-component-api
-dev-java/plexus-container-default
 dev-java/plexus-interactivity-api
-dev-java/plexus-utils
 "
 
-MAVEN_PLUGINS_DEPS="
-dev-java/maven-ant-plugin
-dev-java/maven-assembly-plugin
-dev-java/maven-compiler-plugin
-dev-java/maven-jar-plugin
-dev-java/maven-resources-plugin
-"
 
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPS} ${MAVEN_PLUGINS_DEPS}
 source? ( app-arch/zip )"
@@ -67,6 +63,7 @@ SLOT="2"
 
 # maven-repository-metadata
 MAVEN_UBERJAR_FAKE="
+doxia
 maven-artifact
 maven-build-context
 maven-core
@@ -78,11 +75,13 @@ maven-monitor
 maven-plugin-api
 maven-plugin-descriptor
 maven-plugin-parameter-documenter
+maven-plugins
 maven-profile
 maven-project
 maven-reporting
 maven-script
 maven-settings
+maven-shared-components
 
 wagon-file
 wagon-ftp
@@ -102,10 +101,10 @@ jtidy
 
 plexus-active-collections
 plexus-classworlds
-plexus-component-api
-plexus-container-default
+plexus-utils-1.4.7
+plexus-component-api-1.0_alpha33
+plexus-container-default-1.0_alpha33
 plexus-interactivity-api
-plexus-utils
 "
 
 src_unpack() {
@@ -114,6 +113,13 @@ src_unpack() {
 	cd "${S}/gentoo_maven_jars" || die
 	for i in ${MAVEN_UBERJAR_FAKE};do
 		java-pkg_jar-from ${i}
+	done
+
+	# maven settings needs to be first
+	inc=0
+	for i in $(ls -1 *maven-settings*jar );do
+		inc=$((inc+1))
+		mv "$i" "0${inc}_${i}"
 	done
 
 	# copy our pom
@@ -158,4 +164,9 @@ src_install() {
 	exeinto /usr/bin
 	doexe  "${S}/mvn"
 }
+
+
+# NOTES: PLEASE DO NOT ADD WAGON-HTTP. THIS WILL CONFLICT AND PREVENT MAVEN TO
+# DOWNLOAD ANYTHING
+
 

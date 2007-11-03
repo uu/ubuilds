@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 Nov 2007; kiorky <kiorky@cryptelium.net> maven-2.1.ebuild:
+  First release of maven 2.1, see #175034.
+
   11 Jun 2007; kiorky <kiorky@cryptelium.net> -files/maven-2.0.pom,
   +maven-2.1.ebuild, +files/maven-2.1.pom:
   Maven 2.1 Bump
