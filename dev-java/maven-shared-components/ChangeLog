@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 Nov 2007; kiorky <kiorky@cryptelium.net> ChangeLog:
+  deps cleanup
+
   03 Nov 2007; kiorky <kiorky@cryptelium.net>
   maven-shared-components-2.1_pre20071021.ebuild:
   deps cleanup
