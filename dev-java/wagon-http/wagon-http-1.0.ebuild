@@ -22,7 +22,6 @@ dev-java/commons-logging
 dev-java/jtidy
 >=dev-java/plexus-component-api-1.0_alpha33_pre20071021
 >=dev-java/plexus-container-default-1.0_alpha33_pre20071021
-dev-java/plexus-jetty-httpd
 >=dev-java/plexus-utils-1.4.7_pre20071021
 dev-java/wagon-http-shared
 dev-java/wagon-provider-api
@@ -36,7 +35,6 @@ commons-logging
 jtidy
 plexus-component-api-1.0_alpha33
 plexus-container-default-1.0_alpha33
-plexus-jetty-httpd
 plexus-utils-1.4.7
 wagon-http-shared
 wagon-provider-api
