@@ -15,13 +15,13 @@ IUSE="doc source examples"
 
 
 #JCup.jar
-#midpapi.jar     
-#kxml.jar  		
-#osgi.jar        
+#midpapi.jar
+#kxml.jar
+#osgi.jar
 #soap.war
-#connector-1_5.jar      
+#connector-1_5.jar
 #jndi.jar
-#ow_monolog.jar  
+#ow_monolog.jar
 #JCup.jar                ?
 #connector-1_5.jar       1.5
 #jndi.jar                1.2.1
@@ -32,7 +32,7 @@ IUSE="doc source examples"
 
 JDOM_SLOT="1.0_beta9"
 DEPEND=">=virtual/jdk-1.4
-		|| ( dev-java/sun-jaf-bin  dev-java/sun-jaf )
+		dev-java/sun-jaf
 		>=dev-java/sun-jmx-1.2.1-r1
 		>=dev-java/jta-1.0.1
 		>=dev-db/hsqldb-1.8.0.4
@@ -62,8 +62,7 @@ src_unpack(){
 	cd "${S}/lib" || die "cd failed"
 	pwd
 	# getting  Dependencies
-	has_version sun-jaf && java-pkg_jar-from sun-jaf \
-						|| java-pkg_jar-from sun-jaf-bin
+	java-pkg_jar-from sun-jaf
 	java-pkg_jar-from sun-jmx
 	java-pkg_jar-from jta
 	java-pkg_jar-from hsqldb
