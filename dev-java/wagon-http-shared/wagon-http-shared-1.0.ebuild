@@ -14,10 +14,10 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 LICENSE="Apache-2.0"
 HOMEPAGE="http://maven.apache.org"
-DEP="dev-java/jtidy dev-java/wagon-provider-api dev-java/plexus-utils"
+DEP="dev-java/jtidy dev-java/wagon-provider-api >=dev-java/plexus-utils-1.4.7"
 DEPEND=">=virtual/jdk-1.4 ${DEP}"
 RDEPEND=">=virtual/jre-1.4 ${DEP}"
-JAVA_MAVEN_CLASSPATH="jtidy wagon-provider-api plexus-utils"
+JAVA_MAVEN_CLASSPATH="jtidy wagon-provider-api plexus-utils-1.4.7"
 
 RESTRICT=test
 JAVA_PKG_SRC_DIRS="src/main/java/*"
