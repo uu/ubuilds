@@ -122,6 +122,12 @@ JAVA_MAVEN_PATCHES=""
 # same construction as ANT 's one
 JAVA_MAVEN_CLASSPATH=""
 
+# Filename where to store original poms for history
+JAVA_MAVEN_POMS_TARBALL="${WORKDIR}/poms.tbz2"
+JAVA_MAVEN_ORIGINAL_POMS_DIR="${WORKDIR}/${PN}_poms"
+
+#shortcut variable
+JAVA_MAVEN_PN_SLOT="${PN}"
 
 # maven launcher function
 # first, we rewrite pom.xml release-pom.xml in the current dir
@@ -138,6 +144,16 @@ emaven() {
 	# finnaly launch maven
 	${JAVA_MAVEN_EXEC} ${maven_flags} "${@}" || die "maven failed"
 }
+
+
+# calculate pn_slot
+java-maven-2_get_pn_slot() {
+	if [[ ! "${SLOT}" == "0" ]] && [[ ! -z "${SLOT}" ]]; then
+		JAVA_MAVEN_PN_SLOT="${PN}-${SLOT}"
+	fi
+	echo ${JAVA_MAVEN_PN_SLOT}
+}
+
 
 # rewrite poms to be portage friendly :p
 # take poms as args
@@ -157,21 +173,42 @@ java-maven-2_rewrite_poms() {
 		gcp="${gcp}:$(java-pkg_getjars ${atom})"
 	done
 
-
+	local rewritten_poms=""
+	local current_poms=""
 	# rewrite current and parent if any
-	for i in . ..; do
-		for pom in ${poms};do
-			local current_pom="${i}/${pom}"
-			if [[ -f "${current_pom}" ]];then
-				cp -f "${current_pom}" "${current_pom}.sav" || die
-				einfo "Rewriting ${current_pom}"
-				${JAVA_MAVEN_POM_HELPER} -r \
-				-c "${gcp}" \
-				-s "${want_source}" \
-				-t "${want_target}" \
-				-f "${current_pom}" || die "failed rewriting ${current_pom}"
+	for pom in ${poms};do
+		current_poms="${pom}"
+		# adding parent pom
+		for pomname in "pom.xml" "release-pom.xml";do
+			if [[ -f "$(dirname ${pom})/../${pomname}" ]];then
+				# getting an absolute path !
+				pushd "$(dirname ${pom})/.."  >> /dev/null || die
+				current_poms="${current_poms} $(pwd)/${pomname}"
+				popd >> /dev/null || die
 			fi
 		done
+		# removing allready rewritten stuff
+		#einfo $rewritten_poms
+		for i in $rewritten_poms;do
+			local rewritten_pom=${i//\//\\\/}
+			current_poms="${current_poms//$rewritten_pom/}"
+		done
+		#einfo $current_poms
+		rewritten_poms="${rewritten_poms} ${current_poms}"
+	done
+	# finnaly that we have got all poms, eliminated doublons, we can rewrite the
+	# whole just once :)
+	#einfo $rewritten_poms
+	for current_pom  in $rewritten_poms; do
+		if [[ -f "${current_pom}" ]];then
+			cp -f "${current_pom}" "${current_pom}.sav" || die
+			einfo "Rewriting ${current_pom//${WORKDIR}\//}"
+			${JAVA_MAVEN_POM_HELPER} -r \
+			-c "${gcp}" \
+			-s "${want_source}" \
+			-t "${want_target}" \
+			-f "${current_pom}" || die "failed rewriting ${current_pom}"
+		fi
 	done
 }
 
@@ -264,7 +301,8 @@ java-maven-2_src_unpack() {
 			if [[ -f "${localpom}" ]]; then
 				# backup the original before rewritting !
 				cp "${localpom}" "${localpom}.sav"
-				java-maven-2_rewrite_poms ${localpom}
+				# java-maven-2_rewrite_poms ${localpom}
+				localregisteredpom="${localregisteredpom} $(pwd)/${localpom}"
 			fi
 		done
 		popd >> /dev/null || die
@@ -278,6 +316,8 @@ java-maven-2_src_unpack() {
 	if hasq doc ${IUSE} && use doc; then
 		JAVA_ANT_JAVADOC_INPUT_DIRS="${JAVA_ANT_JAVADOC_INPUT_DIRS} ${JAVA_MAVEN_SRC_DIRS}"
 	fi
+	# now rewriting all the poms
+	java-maven-2_rewrite_poms ${localregisteredpom}
 
 	# create temporary class output for classpath and interdeps
 	# for multi project based maven ebuilds.
@@ -360,16 +400,26 @@ java-maven-2_do_sig() {
 # it must be created before calling this funcion.
 # second argument is the file itself
 java-maven-2_install_file_into_repo() {
-	local rep_dir="${1}" input_file="${2}"
-	[[ ! -d "${D}${rep_dir}" ]] && die "Directory in repository doesn't exist"
-	[[ ! -f "${input_file}" ]] && die "Input file doesn't exists"
+	local rep_dir="${1//\/\//\/}" \
+	input_file="${2}" \
+	dest_dir="${D}${rep_dir}"
+	# remove double slash
+	dest_dir=${dest_dir//\/\//\/}
+	[[ ! -d "${dest_dir}" ]] && die "Directory in repository doesn't exist"
+	[[ ! -e "${input_file}" ]] && die "Input file doesn't exists"
 	java-maven-2_do_sig  "${input_file}"
 	insinto "${rep_dir}"
 	# in case of jar, do not try to install them as the symlink to the real jar
 	# is allready done
-	[[ ! -f "${D}${rep_dir}/${input_file}" ]] && doins "${input_file}"
-	doins "${input_file}.md5"
-	doins "${input_file}.sha1"
+	if [[ ! -e "${dest_dir}/${input_file}" ]] ;then
+		doins "${input_file}"
+	fi
+	if [[ ! -e "${dest_dir}/${input_file}.md5" ]] ;then
+		doins "${input_file}.md5"
+	fi
+	if [[ ! -e "${dest_dir}/${input_file}.sha1" ]] ;then
+		doins "${input_file}.sha1"
+	fi
 }
 
 # if repositories are not created yet, create them
@@ -429,8 +479,7 @@ java-maven-2_install_one() {
 	local myname="$(java-maven-2_get_name ${pom})"
 	local myjar="${myname}.jar"
 	local maven_pom="${myname}.pom" maven_artifact=""
-
-
+	local poms_tarball="poms.tbz2"
 
 	if [[ -f "${pom}" ]]; then
 		if [[ -n "${rep_dir}" ]]; then
@@ -443,30 +492,25 @@ java-maven-2_install_one() {
 				java-pkg_newjar "target/${myjar}" "${maven_artifact}.jar"
 			fi
 			if [[ -n "${maven_artifact}" ]]; then
-				local pn_slot="${PN}"
-				if [[ ! "${SLOT}" == "0" ]] && [[ ! -z "${SLOT}" ]]; then
-					pn_slot="${PN}-${SLOT}"
-				fi
-				if [[ -f "${D}usr/share/${pn_slot}/lib/${maven_artifact}.jar" ]] \
-				   && [[ -f "target/${myjar}" ]]; then
-					# symlink our jar in the maven repo
+				# if it is not allready done ...
+				if [[ ! -e "${D}${rep_dir}/${maven_artifact}.jar" ]] \
+					&& [[ -f "target/${myjar}" ]]; then
+					# ... symlink our jar in the maven repo
 					dosym \
-					"/usr/share/${pn_slot}/lib/${maven_artifact}.jar" \
+					"/usr/share/${JAVA_MAVEN_PN_SLOT}/lib/${maven_artifact}.jar" \
 					"${rep_dir}/${myjar}"
 					# install jar in repo
 					# use the target jar instead one in /usr/share/pnslot/lib
 					# to allow dosig to generate the right name and version
 					pushd target >> /dev/null || die
-					java-maven-2_install_file_into_repo ${rep_dir} ${myjar}
+					java-maven-2_install_file_into_repo "${rep_dir}" "${myjar}"
 					popd >> /dev/null || die
 				fi
 			fi
 			# install REWRITTEN pom in repo
 			cp "${pom}" "${maven_pom}" || die
 			java-maven-2_install_file_into_repo ${rep_dir} ${maven_pom}
-
 			# install originals pom in packages dir for history
-			local poms_tarball="poms.tbz2"
 			local pomstosave=""
 			for localpom in "${pom}" "release-pom.xml"; do
 				if [[ -f "${localpom}.sav" ]];then
@@ -475,18 +519,15 @@ java-maven-2_install_one() {
 			done
 			if [[ -n ${pomstosave} ]]; then
 				# in case there are multiple poms
-				if [[ ! -d "${PN}_poms"  ]]; then
-					mkdir "${PN}_poms" || die
+				if [[ ! -d "${JAVA_MAVEN_ORIGINAL_POMS_DIR}"  ]]; then
+					mkdir "${JAVA_MAVEN_ORIGINAL_POMS_DIR}" || die
 				fi
 				for localpom in ${pomstosave};do
-					cp -f "${localpom}.sav"	"${PN}_poms/${localpom}" || die
+					dir="$(pwd)"
+					mkdir -p "${JAVA_MAVEN_ORIGINAL_POMS_DIR}/${myname}" || die
+					cp -f "${localpom}.sav"	\
+					"${JAVA_MAVEN_ORIGINAL_POMS_DIR}/${myname}/${localpom}" || die
 				done
-				tar cjf "${poms_tarball}" "${PN}_poms"
-				if [[ -f "${poms_tarball}" ]]; then
-					dodir "/usr/share/${pn_slot}/poms"
-					insinto "/usr/share/${pn_slot}/poms"
-					doins "${poms_tarball}"
-				fi
 			fi
 		fi
 	fi
@@ -507,13 +548,27 @@ java-maven-2_src_install() {
 	# install all subprojects
 	# then  either install parent pom in multi-projects mode
 	# or just install in single project mode
-	# ensure to be in ${S}
+	# ensure to be in ${S} if ${S} is not workdir for some ebuilds (example
+	# doxia)
 	cd "${S}" || die
-	for module in ${JAVA_MAVEN_PROJECTS} "${S}";do
-		pushd "${module}" >> /dev/null || die
+	for module in ${JAVA_MAVEN_PROJECTS} $([[ "${S}" != "$WORKDIR" ]] && echo "${S}");do
+		pushd "${module}" >> /dev/null || die "pushd into $module failed"
 		java-maven-2_install_one
-		popd >> /dev/null || die
+		popd >> /dev/null || die "popd out of  $module failed"
 	done
+
+	# if we have some orginal poms, save them
+	if [[ -d "${JAVA_MAVEN_ORIGINAL_POMS_DIR}"  ]]; then
+		cd  "${JAVA_MAVEN_ORIGINAL_POMS_DIR}/.." || die
+		# getin' relative path to not have crappy path in the tar file!
+		tar cjf "${JAVA_MAVEN_POMS_TARBALL}" \
+		"${JAVA_MAVEN_ORIGINAL_POMS_DIR//*\//}"
+		if [[ -f "${JAVA_MAVEN_POMS_TARBALL}" ]]; then
+			dodir "/usr/share/$(java-maven-2_get_pn_slot)/poms"
+			insinto "/usr/share/$(java-maven-2_get_pn_slot)/poms"
+			doins "${JAVA_MAVEN_POMS_TARBALL}"
+		fi
+	fi
 }
 
 EXPORT_FUNCTIONS src_unpack src_compile src_install
