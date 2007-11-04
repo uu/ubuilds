@@ -1,0 +1,13 @@
+# ChangeLog for dev-java/glazedlists
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  04 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
+  +files/glazedlists-1.7.0-build.xml.patch, +metadata.xml,
+  +glazedlists-1.7.0.ebuild:
+  Initial commit of glazedlists-1.7.0 to java-experimental overlay. So far, it
+  supports the extensions jfreechart, jgoodiesforms, nachocalendar and swingx
+  (their deps might need some updates so they are available on all platforms).
+  The ebuild supports the Java1.4 and Java5 version of glazedlists, Java1.4
+  residing in an extra glazedlists-comapt ebuild directory.
+
