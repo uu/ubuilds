@@ -19,7 +19,7 @@ IUSE="examples"
 
 RESTRICT="fetch"
 
-COMMON_DEPS="dev-java/json"
+COMMON_DEPS="dev-java/json-simple"
 
 DEPEND=">=virtual/jdk-1.5
 	app-arch/unzip
@@ -55,7 +55,7 @@ src_unpack() {
 src_compile() {
 	cd src
 	find . -name '*.java' -print > sources.list
-	ejavac -cp .:$(java-pkg_getjars json) @sources.list
+	ejavac -cp .:$(java-pkg_getjars json-simple) @sources.list
 	find . -name '*.class' -print > classes.list
 	touch myManifest
   	jar cmf myManifest ${PN}.jar @classes.list
