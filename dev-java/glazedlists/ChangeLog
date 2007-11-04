@@ -3,6 +3,11 @@
 # $Header: $
 
   04 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
+  files/glazedlists-1.7.0-build.xml.patch, glazedlists-1.7.0.ebuild:
+  After thinking it over, I decided that a java5 use flag (as normally used)
+  would be the better solution after all. There we go.
+
+  04 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
   +files/glazedlists-1.7.0-build.xml.patch, +metadata.xml,
   +glazedlists-1.7.0.ebuild:
   Initial commit of glazedlists-1.7.0 to java-experimental overlay. So far, it

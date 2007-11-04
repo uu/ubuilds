@@ -6,30 +6,18 @@ JAVA_PKG_IUSE="doc source test"
 
 inherit java-pkg-2 eutils java-ant-2
 
-# NOTE:
-# There are two versions of glazedlists, the default for >= Java 5, using generics and stuff, 
-# and a compatibility version for Java 1.4. The ebuild figures out itself which version to 
-# install (based on whether it's named glazedlists or glazedlists-compat)
-MY_PN=${PN//-compat}
-MY_P="${MY_PN}-${PV}"
-if [[ "${MY_PN}" == "${PN}" ]]; then
-	MY_JV='5'
-	DESCRIPTION="A toolkit for list transformations"
-	SRC_DOCUMENT_ID="1073/38679"
-else
-	MY_JV='4'
-	DESCRIPTION="A toolkit for list transformations (Java 1.4 compatibility version)"
-	SRC_DOCUMENT_ID="1073/38683"
-fi
 
 HOMEPAGE="http://publicobject.com/glazedlists/"
-SRC_URI="https://${MY_PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID}/${MY_P}-source_java1${MY_JV}.zip"
+SRC_DOCUMENT_ID_JAVA5="1073/38679"
+SRC_DOCUMENT_ID_JAVA4="1073/38683"
+SRC_URI="java5? ( https://${PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID_JAVA5}/${P}-source_java15.zip )
+	!java5? ( https://${PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID_JAVA4}/${P}-source_java14.zip )"
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
 # TODO: there are some more extensions which have deps not in the portage tree, which ant-target names are:
 # japex, ktable
-IUSE="jfreechart jgoodiesforms nachocalendar swingx"
+IUSE="java5 jfreechart jgoodiesforms nachocalendar swingx"
 
 DEPEND_COMMON="
 	jgoodiesforms? ( dev-java/jgoodies-forms )
@@ -45,9 +33,11 @@ DEPEND_COMMON="
 #	)
 #"
 
-RDEPEND=">=virtual/jre-1.${MY_JV}
+RDEPEND="java5? ( >=virtual/jre-1.5 )
+	!java5? ( >=virtual/jre-1.4 )
 	${DEPEND_COMMON}"
-DEPEND=">=virtual/jdk-1.${MY_JV}
+DEPEND="java5? ( >=virtual/jdk-1.5 )
+	!java5? ( >=virtual/jdk-1.4 )
 	test? ( dev-java/ant-junit )
 	app-arch/unzip
 	${DEPEND_COMMON}"
@@ -76,7 +66,7 @@ src_unpack() {
 
 	# disable autodownloading of dependencies
 	# sort out test targets
-	epatch "${FILESDIR}/${MY_P}-build.xml.patch"
+	epatch "${FILESDIR}/${P}-build.xml.patch"
 	
 	# link system jars for extensions
 	use jgoodiesforms && link_system_jars jgoodiesforms jgoodies-forms
@@ -119,7 +109,11 @@ src_test() {
 }
 
 src_install() {
-	java-pkg_newjar "target/${MY_PN}_java1${MY_JV}.jar"
+	if use java5; then
+		java-pkg_newjar "target/${PN}_java15.jar"
+	else
+		java-pkg_newjar "target/${PN}_java14.jar"
+	fi
 	if use doc; then
 		dohtml readme.html || die
 		java-pkg_dojavadoc "target/docs/api"

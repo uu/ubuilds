@@ -1,5 +1,14 @@
---- build.xml.orig	2007-11-04 16:47:06.000000000 +0100
-+++ build.xml	2007-11-04 19:38:00.000000000 +0100
+--- build.xml.orig	2007-11-04 23:22:54.000000000 +0100
++++ build.xml	2007-11-04 23:23:58.000000000 +0100
+@@ -84,7 +84,7 @@
+             <link href="http://help.eclipse.org/help31/nftopic/org.eclipse.platform.doc.isv/reference/api/"/>
+             <link href="http://www.jdocs.com/formlayout/1.0.4/api/" packagelistloc="extensions/jgoodiesforms/lib"/>
+             <link href="http://nachocalendar.sourceforge.net/doc/"/>
+-            <link href="http://www.jfree.org/jfreechart/javadoc/"/>
++            <link href="http://www.jfree.org/jfreechart/api/javadoc/"/>
+             <link href="http://download.java.net/javadesktop/swinglabs/releases/0.8/docs/api/"/>
+ 
+             <doctitle><![CDATA[<h1>Glazed Lists 1.7.0</h1>]]></doctitle>
 @@ -130,7 +130,7 @@
  		description="Compile the default components of the source.">
  	</target>
