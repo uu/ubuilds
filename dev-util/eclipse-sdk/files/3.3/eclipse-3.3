@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 #
 # Tiny startup wrapper for Eclipse
 #
@@ -25,13 +25,15 @@ if [ $(whoami) == "root" ] ; then
 	echo "!!! upgrading to later 3.3 revisions."
 	echo
 	echo "!!! To ensure correct behavior on your next upgrade, do:"
-	echo "!!!  1) 'emerge unmerge \"=eclipse-sdk-3.3\"'"
+	echo "!!!  1) 'emerge unmerge \"=eclipse-sdk-3.3*\"'"
 	echo "!!!  2) 'rm -rf /usr/lib/eclipse-3.3'"
 	echo "!!!  3) 'emerge eclipse-sdk'"
 fi
 
-if [[ -d /usr/lib/gecko-sdk/lib/ ]] && [[ -f /usr/lib/gecko-sdk/lib/libgtkembedmoz.so ]] ; then
-    export MOZILLA_FIVE_HOME="/usr/lib/gecko-sdk/lib/"
-fi
+# The following is currently broken and needs to be fixed. This is for internal browser support.
+#
+#if [[ -d /usr/lib/gecko-sdk/lib/ ]] && [[ -f /usr/lib/gecko-sdk/lib/libgtkembedmoz.so ]] ; then
+#    export MOZILLA_FIVE_HOME="/usr/lib/gecko-sdk/lib/"
+#fi
 
 exec ${ECLIPSE_BIN} -vm `java-config --java` "$@"  

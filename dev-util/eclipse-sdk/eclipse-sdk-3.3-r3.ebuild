@@ -20,6 +20,9 @@ inherit java-pkg-2 java-ant-2 check-reqs
 # 3) Remove it from the build directory, and don't forget to modify the Ant file
 # so that it does *NOT* copy the file at the end
 
+# Jetty and Tomcat-jasper jars have to stay bundled for now, until someone does some work on them.
+# Hopefully, wltjr will soon package tomcat-jasper
+
 DMF="R-${PV/.0}-200706251500"
 MY_A="eclipse-sourceBuild-srcIncluded-${PV/.0}.zip"
 
@@ -84,15 +87,12 @@ src_unpack() {
 	find ${S} -type f -name '*.xml' -exec \
 		sed -r -e "s:(-encoding ISO-8859-1):\1 -nowarn:g" -e "s:(\"compilerArg\" value=\"):\1-nowarn :g" \
 			-e "s:(<property name=\"javacSource\" value=)\".*\":\1\"1.5\":g" \
-			-e "s:(<property name=\"javacTarget\" value=)\".*\":\1\"1.5\":g" \
-			-e "s:output=\".*(txt|log).*\"::g" -i {} \;
+			-e "s:(<property name=\"javacTarget\" value=)\".*\":\1\"1.5\":g" -e "s:output=\".*(txt|log).*\"::g" -i {} \;
 
 	# JDK home
 	sed -r -e "s:^(JAVA_HOME =) .*:\1 $(java-config --jdk-home):" -e "s:gcc :gcc ${CFLAGS} :" \
 		-i plugins/org.eclipse.core.filesystem/natives/unix/linux/Makefile \
 		|| die "sed Makefile failed"
-
-	#install-link-system-jars
 
 	while read line; do
 		java-ant_rewrite-classpath "$line" > /dev/null
@@ -182,15 +182,13 @@ install-link-system-jars() {
 	java-pkg_jarfrom ant-core
 	java-pkg_jarfrom ant-nodeps	
 	popd > /dev/null
-	
+
 	java-pkg_jarfrom icu4j-3.6
 	java-pkg_jarfrom jsch
 	java-pkg_jarfrom commons-el
 	java-pkg_jarfrom commons-logging
-		
-	popd > /dev/null
 
-	# We should OSGi these Jars, and then we can remove them entirely
+	popd > /dev/null
 
 	pushd plugins/org.junit_*/ > /dev/null
 	java-pkg_jarfrom junit
@@ -304,57 +302,3 @@ remove-bundled-stuff() {
 	
 	rm -rf "plugins/org.eclipse.tomcat/"
 }
-
-# Deprecated stuff below
-#
-#
-
-#	tomcat? (
-#		dev-java/commons-digester-rss
-#		=dev-java/mx4j-core-3*
-#		=dev-java/jakarta-regexp-1.4*
-#		=dev-java/servletapi-2.4*
-#		>=www-servers/tomcat-5.5.17
-#	)
-#
-#	# TOMCAT
-#	if use tomcat; then
-#		pushd plugins/org.eclipse.tomcat > /dev/null || die "pushd failed"
-#		# %patch28 -p0
-#		epatch "${FEDORA}/eclipse-tomcat55.patch"
-#		# %patch29 -p0
-#		epatch "${FEDORA}/eclipse-tomcat55-build.patch"
-#		popd > /dev/null
-#
-#		sed -e "s/4.1.130/5.5.17/g" -i features/org.eclipse.platform/build.xml \
-#			-i plugins/org.eclipse.tomcat/build.xml -i assemble.*.xml
-#	fi
-#
-#
-#OLD_symlink-tomcat() {
-#	pushd plugins/org.eclipse.tomcat*/
-#	rm *.jar
-#	mkdir lib
-#	pushd lib/
-#
-#	java-pkg_jarfrom tomcat-5.5
-#	java-pkg_jarfrom mx4j-core-3.0
-#	java-pkg_jarfrom commons-beanutils-1.7
-#	java-pkg_jarfrom commons-collections
-#	java-pkg_jarfrom commons-dbcp
-#	java-pkg_jarfrom commons-digester
-#	java-pkg_jarfrom commons-digester-rss
-#	java-pkg_jarfrom commons-el
-#	java-pkg_jarfrom commons-fileupload
-#	java-pkg_jarfrom commons-launcher
-#	java-pkg_jarfrom commons-logging
-#	java-pkg_jarfrom commons-modeler
-#	java-pkg_jarfrom commons-pool
-#	java-pkg_jarfrom servletapi-2.4 servlet-api.jar servletapi5.jar
-#	java-pkg_jarfrom servletapi-2.4 jsp-api.jar jspapi.jar
-#	java-pkg_jarfrom jakarta-regexp-1.4
-#	ln -s /usr/share/tomcat-5.5/bin/bootstrap.jar bootstrap.jar
-#	popd
-#	popd
-#}
-#
