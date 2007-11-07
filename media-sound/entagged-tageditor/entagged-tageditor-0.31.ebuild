@@ -54,5 +54,5 @@ src_test() {
 	cp="${cp}:$(java-pkg_getjars --build-only junit)"
 	find . -name '*.java'  -print > sources.list
 	ejavac -cp ${cp} @sources.list
-	ejunit -cp ${cp} -Djunit.format.directory=${T} entagged.junit.WholeApplication
+	ejunit -cp ${cp} entagged.junit.WholeApplication
 }
