@@ -43,7 +43,7 @@ bundleName=${4}
 vendorName=Gentoo
 EOF
 
-	jar cvfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
+	jar cfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
 	rm -rf "${T}/tmp_jar"
 }
 
@@ -123,10 +123,10 @@ java-pkg_osgijar-fromfile() {
 
 	# We automatically change the version unless --noversion is present
 
-	if [[ noversion ]]; then
+	if [[ noversion == 1 ]]; then
 		cat "${arguments[1]}" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
 	else
-		cat "${arguments[1]}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
+		cat "${arguments[1]}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}/" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
 	fi
 	
 	# We hardcode Gentoo as the vendor name
@@ -136,7 +136,7 @@ bundleName="${arguments[2]}"
 vendorName=Gentoo
 EOF
 
-	jar cvfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
+	jar cfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
 	rm -rf "${T}/tmp_jar"
 }
 
@@ -155,8 +155,16 @@ EOF
 # ------------------------------------------------------------------------------
 java-pkg_newosgijar-fromfile() {
 	local jar_name="$(basename $1)"	
-	java-pkg_osgijar-fromfile "$@"
-	java-pkg_newjar "${T}/osgi/${jar_name}"
+	if [[ ${#} > 3 ]]; then
+		local newName="$2"
+		local arguments=("$@")
+		unset arguments[1]
+		java-pkg_osgijar-fromfile "${arguments[@]}"
+		java-pkg_newjar "${T}/osgi/${jar_name}"	"${newName}"	
+	else
+		java-pkg_osgijar-fromfile "$@"
+		java-pkg_newjar "${T}/osgi/${jar_name}"		
+	fi
 }
 
 # -----------------------------------------------------------------------------
