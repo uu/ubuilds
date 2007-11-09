@@ -187,7 +187,8 @@ install-link-system-jars() {
 	java-pkg_jarfrom commons-el
 	java-pkg_jarfrom commons-logging
 	java-pkg_jarfrom lucene-1.9
-	
+	java-pkg_jarfrom tomcat-servlet-api-2.4
+		
 	popd > /dev/null
 
 	pushd plugins/org.junit_*/ > /dev/null
@@ -259,10 +260,26 @@ patch-apply() {
 	sed -i '/org\.eclipse\.tomcat/{N;N;N;d;}' "plugins/org.eclipse.platform.source/build.xml"
 	sed -i '/<ant.*org\.eclipse\.tomcat/{N;N;d;}' "assemble.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
 		
-	# This allows to compile osgi.util and osgi.service, and fixes for IPluginDescriptor.class which is present compiled
+	# This allows to compile osgi.util and osgi.service, and fixes IPluginDescriptor.class which is present compiled
 	
-	sed -i -e 's/<src path="\."/<src path="org"/' -e '/<include name="org\/"\/>/ d' "plugins/org.eclipse.osgi.services/build.xml"
-	sed -i -e 's/<src path="\."/<src path="org"/' -e '/<include name="org\/"\/>/ d' "plugins/org.eclipse.osgi.util/build.xml"
+	sed -i -e 's/<src path="\."/<src path="org"/' -e '/<include name="org\/"\/>/ d' \
+	-e '/<subant antfile="\${customBuildCallbacks}" target="pre\.gather\.bin\.parts" failonerror="false" buildpath="\.">/ { n;n;n; a\
+		<copy todir="${destination.temp.folder}/org.eclipse.osgi.services_3.1.200.v20070605" failonerror="true" overwrite="false"> \
+			<fileset dir="${build.result.folder}/@dot"> \
+				<include name="**"/> \
+			/fileset> \
+		</copy>
+}' "plugins/org.eclipse.osgi.services/build.xml"
+
+	sed -i -e 's/<src path="\."/<src path="org"/' -e '/<include name="org\/"\/>/ d' \
+	-e '/<subant antfile="\${customBuildCallbacks}" target="pre\.gather\.bin\.parts" failonerror="false" buildpath="\.">/ { n;n;n; a\
+		<copy todir="${destination.temp.folder}/org.eclipse.osgi.util_3.1.200.v20070605" failonerror="true" overwrite="false"> \
+			<fileset dir="${build.result.folder}/@dot"> \
+				<include name="**"/> \
+			/fileset> \
+		</copy>	
+}' 	"plugins/org.eclipse.osgi.util/build.xml"
+	
 	sed -i 	'/<mkdir dir="${temp\.folder}\/runtime_registry_compatibility\.jar\.bin"\/>/ a\
 		<mkdir dir="classes"/> \
 		<copy todir="classes" failonerror="true" overwrite="false"> \
