@@ -7,5 +7,5 @@ inherit eclipse-rcp
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RCP_ROOT="org.eclipse.rcp.source_3.2.2.r322_v20070104-8pcviKVqd8J7C1U"
-RCP_PACKAGE_DIR="org.eclipse.osgi_3.2.2.R32x_v20070118"
+RCP_ROOT="org.eclipse.rcp.source_3.3.2.R33x_r20071022-8y8eE9CEV3FspP8HJrY1M2dS"
+RCP_PACKAGE_DIR="org.eclipse.osgi_3.3.1.R33x_v20070828"

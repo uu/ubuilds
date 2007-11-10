@@ -4,12 +4,12 @@
 
 inherit eclipse-rcp
 
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 DEPEND="=dev-java/eclipse-osgi-3* =dev-java/eclipse-equinox-common-3*"
 RDEPEND="${DEPEND}"
 
-RCP_ROOT="org.eclipse.rcp.source_3.2.2.r322_v20070104-8pcviKVqd8J7C1U"
-RCP_PACKAGE_DIR="org.eclipse.core.jobs_3.2.0.v20060603"
+RCP_ROOT="org.eclipse.rcp.source_3.3.2.R33x_r20071022-8y8eE9CEV3FspP8HJrY1M2dS"
+RCP_PACKAGE_DIR="org.eclipse.core.jobs_3.3.1.R33x_v20070709"
 RCP_EXTRA_DEPS="eclipse-osgi-3,eclipse-equinox-common-3"
