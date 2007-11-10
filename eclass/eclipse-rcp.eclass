@@ -7,9 +7,9 @@ JAVA_PKG_IUSE="source"
 inherit java-pkg-2
 
 HOMEPAGE="http://www.eclipse.org/"
-SRC_URI="http://download.eclipse.org/eclipse/downloads/drops/R-3.2.2-200702121330/eclipse-RCP-SDK-${PV}-linux-gtk.tar.gz"
+SRC_URI="http://download.eclipse.org/eclipse/downloads/drops/R-3.3.1.1-200710231652/eclipse-RCP-SDK-3.3.1.1-linux-gtk.tar.gz"
 LICENSE="EPL-1.0"
-SLOT="3"
+SLOT="3.3"
 DESCRIPTION="Eclipse Rich Client Platform"
 
 DEPEND=">=virtual/jdk-1.4
