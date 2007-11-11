@@ -1,0 +1,11 @@
+# ChangeLog for dev-java/filters
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  11 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
+  +metadata.xml, +filters-2.1.2.ebuild:
+  Changed SRC_URI to versioned files from dev.java.net, which is also the
+  reason for the huge version jump (see bug #198153 and filters-1.0.ebuild in
+  java-overlay). Since those archives don't contain a build.xml, target files
+  are now created by hand (ejavac, javadoc, etcetera).
+
