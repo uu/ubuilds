@@ -17,21 +17,19 @@ SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
 # TODO: there are some more extensions which have deps not in the portage tree, which ant-target names are:
 # japex, ktable
-IUSE="java5 jfreechart jgoodiesforms nachocalendar swingx"
+IUSE="java5 jfreechart jgoodiesforms nachocalendar swingx swt"
 
 DEPEND_COMMON="
 	jgoodiesforms? ( dev-java/jgoodies-forms )
 	nachocalendar? ( dev-java/nachocalendar )
 	swingx? ( dev-java/swingx )
 	jfreechart? ( =dev-java/jfreechart-1* )
+	swt? ( 
+		=dev-java/swt-3* 
+		=dev-java/eclipse-core-commands-3.3*
+		=dev-java/eclipse-jface-3.3*
+	)
 "
-# TODO: swt support needs some additional packages which only exist in java-exp and are currently being updated
-#	swt? ( 
-#		=dev-java/swt-3* 
-#		dev-java/eclipse-jface
-#		dev-java/eclipse-ui
-#	)
-#"
 
 RDEPEND="java5? ( >=virtual/jre-1.5 )
 	!java5? ( >=virtual/jre-1.4 )
@@ -78,8 +76,7 @@ src_unpack() {
 		rm extensions/swinglabs/source/ca/odell/glazedlists/swing/JXTableTest.java &>/dev/null
 	fi
 	use jfreechart && link_system_jars jfreechart jfreechart-1.0
-	# TODO: see notes about swt support above
-	#use swt && link_system_jars swt swt-3 eclipse-jface
+	use swt && link_system_jars swt swt-3 eclipse-core-commands-3.3 eclipse-jface-3.3
 
 	if use test; then
 		# figure out which junit slot to use
@@ -97,7 +94,7 @@ src_compile() {
 	# so now we have to collect them and call them individually
 	EANT_BUILD_TARGET="jar"
 	use swingx && EANT_BUILD_TARGET="swinglabs ${EANT_BUILD_TARGET}"
-	for target in nachocalendar jgoodiesforms jfreechart # swt TODO: see notes about swt support above
+	for target in nachocalendar jgoodiesforms jfreechart swt 
 	do
 		use ${target} && EANT_BUILD_TARGET="${target} ${EANT_BUILD_TARGET}"
 	done

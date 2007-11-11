@@ -2,6 +2,11 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de> ++,
+  -glazedlists-1.7.0.ebuild:
+  Now that eclipse-jface etc. are updated (thanks to Serkan), swt support was
+  added to glazedlists.
+
   04 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
   files/glazedlists-1.7.0-build.xml.patch, glazedlists-1.7.0.ebuild:
   After thinking it over, I decided that a java5 use flag (as normally used)
