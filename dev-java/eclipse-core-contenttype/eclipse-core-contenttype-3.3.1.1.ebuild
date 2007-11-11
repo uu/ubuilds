@@ -7,12 +7,12 @@ inherit eclipse-rcp
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-DEPEND="=dev-java/eclipse-osgi-3*
-	=dev-java/eclipse-equinox-common-3*
-	=dev-java/eclipse-equinox-preferences-3*
-	=dev-java/eclipse-equinox-registry-3*"
+DEPEND="=dev-java/eclipse-osgi-${SLOT}*
+	=dev-java/eclipse-equinox-common-${SLOT}*
+	=dev-java/eclipse-equinox-preferences-${SLOT}*
+	=dev-java/eclipse-equinox-registry-${SLOT}*"
 RDEPEND="${DEPEND}"
 
 RCP_ROOT="org.eclipse.rcp.source_3.3.2.R33x_r20071022-8y8eE9CEV3FspP8HJrY1M2dS"
 RCP_PACKAGE_DIR="org.eclipse.core.contenttype_3.2.100.v20070319"
-RCP_EXTRA_DEPS="eclipse-osgi-3,eclipse-equinox-common-3,eclipse-equinox-preferences-3,eclipse-equinox-registry-3"
+RCP_EXTRA_DEPS="eclipse-osgi-${SLOT},eclipse-equinox-common-${SLOT},eclipse-equinox-preferences-${SLOT},eclipse-equinox-registry-${SLOT}"

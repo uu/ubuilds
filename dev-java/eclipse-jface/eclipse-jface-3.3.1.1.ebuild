@@ -8,11 +8,11 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="=dev-java/swt-3*
-	=dev-java/eclipse-equinox-common-3*
-	=dev-java/eclipse-core-commands-3*
-	=dev-java/eclipse-osgi-3*"
+	=dev-java/eclipse-equinox-common-${SLOT}*
+	=dev-java/eclipse-core-commands-${SLOT}*
+	=dev-java/eclipse-osgi-${SLOT}*"
 RDEPEND="${DEPEND}"
 
 RCP_ROOT="org.eclipse.rcp.source_3.3.2.R33x_r20071022-8y8eE9CEV3FspP8HJrY1M2dS"
 RCP_PACKAGE_DIR="org.eclipse.jface_3.3.1.M20070910-0800b"
-RCP_EXTRA_DEPS="swt-3,eclipse-equinox-common-3,eclipse-core-commands-3,eclipse-osgi-3"
+RCP_EXTRA_DEPS="swt-3,eclipse-equinox-common-${SLOT},eclipse-core-commands-${SLOT},eclipse-osgi-${SLOT}"
