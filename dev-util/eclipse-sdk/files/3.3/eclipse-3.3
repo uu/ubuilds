@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Tiny startup wrapper for Eclipse
+# Tiny startup wrapper for Eclipse-3.3
 #
 # Copyright (c) 2004, Karl Trygve Kalleberg <karltk@gentoo.org>
 # Copyright (c) 2007, Jean-Noël Rivasseau <elvanor@gmail.com>
@@ -30,10 +30,8 @@ if [ $(whoami) == "root" ] ; then
 	echo "!!!  3) 'emerge eclipse-sdk'"
 fi
 
-# The following is currently broken and needs to be fixed. This is for internal browser support.
-#
-#if [[ -d /usr/lib/gecko-sdk/lib/ ]] && [[ -f /usr/lib/gecko-sdk/lib/libgtkembedmoz.so ]] ; then
-#    export MOZILLA_FIVE_HOME="/usr/lib/gecko-sdk/lib/"
-#fi
+if [[ -d /usr/lib/mozilla-firefox/ ]]; then
+	export MOZILLA_FIVE_HOME="/usr/lib/mozilla-firefox/"
+fi
 
 exec ${ECLIPSE_BIN} -vm `java-config --java` "$@"  

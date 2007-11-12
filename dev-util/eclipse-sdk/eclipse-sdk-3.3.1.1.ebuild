@@ -267,7 +267,7 @@ patch-apply() {
 		<copy todir="${destination.temp.folder}/org.eclipse.osgi.services_3.1.200.v20070605" failonerror="true" overwrite="false"> \
 			<fileset dir="${build.result.folder}/@dot"> \
 				<include name="**"/> \
-			/fileset> \
+			</fileset> \
 		</copy>
 }' "plugins/org.eclipse.osgi.services/build.xml"
 
@@ -276,10 +276,10 @@ patch-apply() {
 		<copy todir="${destination.temp.folder}/org.eclipse.osgi.util_3.1.200.v20070605" failonerror="true" overwrite="false"> \
 			<fileset dir="${build.result.folder}/@dot"> \
 				<include name="**"/> \
-			/fileset> \
+			</fileset> \
 		</copy>	
 }' 	"plugins/org.eclipse.osgi.util/build.xml"
-	
+
 	sed -i 	'/<mkdir dir="${temp\.folder}\/runtime_registry_compatibility\.jar\.bin"\/>/ a\
 		<mkdir dir="classes"/> \
 		<copy todir="classes" failonerror="true" overwrite="false"> \
