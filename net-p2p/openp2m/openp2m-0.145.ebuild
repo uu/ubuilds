@@ -38,15 +38,6 @@ src_unpack() {
 	rm -rf src-systray-*
 }
 
-compile_into_jar() {
-	cd $1
-	find . -name '*.java' -print > sources.list
-	ejavac -cp .:$3 @sources.list
-	find . -name '*' -not -name '*.java' -type f -not -name 'classes.list' -print > classes.list
-  	touch myManifest
-  	jar cmf myManifest ../dist/$2.jar @classes.list
-}
-
 src_compile() {
 	cd src
 	! use java6 && classpath=$(java-pkg_getjars jdictrayapi)
