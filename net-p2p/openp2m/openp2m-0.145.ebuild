@@ -4,7 +4,7 @@
 
 inherit eutils java-pkg-2
 
-DESCRIPTION="Facebook photo uploader."
+DESCRIPTION="OpenSource software for share file through e-mail"
 HOMEPAGE="http://openp2m.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/OpenP2M-src.v${PV}.zip"
 LICENSE="MPL-1.0"
