@@ -123,7 +123,7 @@ java-pkg_osgijar-fromfile() {
 
 	# We automatically change the version unless --noversion is present
 
-	if [[ noversion == 1 ]]; then
+	if [[ "${noversion}" == 1 ]]; then
 		cat "${arguments[1]}" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
 	else
 		cat "${arguments[1]}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}/" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
