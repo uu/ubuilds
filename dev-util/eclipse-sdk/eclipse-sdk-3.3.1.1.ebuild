@@ -2,11 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit java-pkg-2 java-ant-2 check-reqs
-
 # Notes: This is a preliminary ebuild of Eclipse-3.3
 # It was based on the initial ebuild in the gcj-overlay, so much of the credit goes out to geki.
-# Some stuff do not work yet, and it still has QA problems (bundled jars).
 
 # Tomcat is almost no longer needed in 3.3 and removed in 3.4.
 # See bug: https://bugs.eclipse.org/bugs/show_bug.cgi?id=173692
@@ -27,6 +24,9 @@ inherit java-pkg-2 java-ant-2 check-reqs
 # Two solutions:
 # 1) Split patches so that there is one per file
 # 2) Use sed, better solution I would say.
+
+
+inherit java-pkg-2 java-ant-2 check-reqs
 
 DMF="R-${PV}-200710231652"
 MY_A="eclipse-sourceBuild-srcIncluded-${PV/.0}.zip"
@@ -59,10 +59,9 @@ CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
 	=dev-java/lucene-1.9.1-r1"
 #	=dev-java/lucene-analyzers-1.9.1"
 
-	
 RDEPEND=">=virtual/jre-1.5
 	${CDEPEND}"
-	
+
 DEPEND="=virtual/jdk-1.5*
 	sys-apps/findutils
 	dev-java/sun-j2me-bin
@@ -83,12 +82,12 @@ pkg_setup() {
 }
 
 src_unpack() {
-	unpack ${A}
+	unpack "${A}"
 	patch-apply
 	remove-bundled-stuff
 
 	# No warnings / Java 5 / all output should be directed to stdout
-	find ${S} -type f -name '*.xml' -exec \
+	find "${S}" -type f -name '*.xml' -exec \
 		sed -r -e "s:(-encoding ISO-8859-1):\1 -nowarn:g" -e "s:(\"compilerArg\" value=\"):\1-nowarn :g" \
 		-e "s:(<property name=\"javacSource\" value=)\".*\":\1\"1.5\":g" \
 		-e "s:(<property name=\"javacTarget\" value=)\".*\":\1\"1.5\":g" -e "s:output=\".*(txt|log).*\"::g" -i {} \;
@@ -99,7 +98,7 @@ src_unpack() {
 
 	while read line; do
 		java-ant_rewrite-classpath "$line" > /dev/null
-    done < <(find ${S} -type f -name "build.xml" )
+	done < <(find "${S}" -type f -name "build.xml" )
 }
 
 src_compile() {
@@ -108,17 +107,17 @@ src_compile() {
 	einfo "Using bootclasspath ${bootclasspath}"
 
 	java-pkg_force-compiler ecj-3.3
-	
+
 	# system_jars will be used when compiling (javac)
 	# gentoo_jars will be used when building JSPs and other ant tasks (not javac)
-	
+
 	local system_jars="$(java-pkg_getjars swt-3,icu4j-3.6,ant-core,jsch,ant-nodeps,junit-4,tomcat-servlet-api-2.4,lucene-1.9):$(java-pkg_getjars --build-only sun-j2me-bin)"
 	local gentoo_jars="$(java-pkg_getjars ant-core,icu4j-3.6,jsch,commons-logging,commons-el,tomcat-servlet-api-2.4)"
 	local options="-q -Dnobootstrap=true -Dlibsconfig=true -Dbootclasspath=${bootclasspath} -DinstallOs=linux \
 		-DinstallWs=gtk -DinstallArch=${eclipse_arch} -Djava5.home=$(java-config --jdk-home)"
-	
+
 	use doc && options="${options} -Dgentoo.javadoc=true"
-	
+
 	ANT_OPTS=-Xmx1024M ANT_TASKS="ant-nodeps" eant ${options} -Dgentoo.classpath="${system_jars}" -Dgentoo.jars="${gentoo_jars//:/,}"
 }
 
@@ -134,7 +133,7 @@ src_install() {
 	exeinto /usr/bin
 	doexe "${FILESDIR}/${SLOT}/eclipse-${SLOT}"
 	chmod +x "${D}/${ECLIPSE_DIR}/eclipse"
-	
+
 	# Install eclipse configuration file.	
 	cat > "${D}/${ECLIPSE_DIR}/eclipse.ini" <<-EOF
 -showsplash
@@ -172,14 +171,14 @@ install-link-system-jars() {
 
 	pushd plugins/ > /dev/null
 	java-pkg_jarfrom swt-3
-	
+
 	mkdir "org.apache.ant"
 	mkdir "org.apache.ant/META-INF/"
 	mkdir "org.apache.ant/lib"
 	cp "${FILESDIR}/${SLOT}/ant-osgi-manifest.mf" "org.apache.ant/META-INF/MANIFEST.MF"
 	pushd org.apache.ant/lib > /dev/null
 	java-pkg_jarfrom ant-core
-	java-pkg_jarfrom ant-nodeps	
+	java-pkg_jarfrom ant-nodeps
 	popd > /dev/null
 
 	java-pkg_jarfrom icu4j-3.6
@@ -188,7 +187,7 @@ install-link-system-jars() {
 	java-pkg_jarfrom commons-logging
 	java-pkg_jarfrom lucene-1.9
 	java-pkg_jarfrom tomcat-servlet-api-2.4
-		
+
 	popd > /dev/null
 
 	pushd plugins/org.junit_*/ > /dev/null
@@ -218,11 +217,11 @@ patch-apply() {
 	epatch "${PATCHDIR}/disable-jdt-tool.diff"
 	epatch "${PATCHDIR}/disable-jdk6.diff"
 	epatch "${PATCHDIR}/set-java-home.diff" # this setups the java5 home variable
-	
+
 	# Following are patches from Fedora - I did not investigate this yet
-	
+
 	epatch "${FEDORA}/eclipse-libupdatebuild2.patch"
-	
+
 	# Fedora does not apply this anymore because they checkout
 	# org.eclipse.equinox.initializer project from cvs. Untill a fix, we'll
 	# keep the old patch
@@ -237,12 +236,12 @@ patch-apply() {
 	epatch "${FEDORA}/eclipse-pde.build-add-package-build.patch"
 	sed -e "s:@eclipse_base@:${ECLIPSE_DIR}:g" -i templates/package-build/build.properties
 	popd > /dev/null
-		
+
 	# Later we could produce a patch out of all these sed, but this is not the best solution
 	# since this would make a lot of patches (x86, x86_64...) and would be hard to revbump
-	
+
 	# Following adds an additional classpath when building JSPs
-	
+
 	sed -i '/<path id="@dot\.classpath">/ a\
 			<filelist dir="" files="${gentoo.jars}" />'  "plugins/org.eclipse.help.webapp/build.xml"
 
@@ -259,9 +258,9 @@ patch-apply() {
 	sed -i '/plugins\/org\.eclipse\.tomcat"/{N;N;N;N;d;}' "features/org.eclipse.platform/build.xml"
 	sed -i '/org\.eclipse\.tomcat/{N;N;N;d;}' "plugins/org.eclipse.platform.source/build.xml"
 	sed -i '/<ant.*org\.eclipse\.tomcat/{N;N;d;}' "assemble.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
-		
+
 	# This allows to compile osgi.util and osgi.service, and fixes IPluginDescriptor.class which is present compiled
-	
+
 	sed -i -e 's/<src path="\."/<src path="org"/' -e '/<include name="org\/"\/>/ d' \
 	-e '/<subant antfile="\${customBuildCallbacks}" target="pre\.gather\.bin\.parts" failonerror="false" buildpath="\.">/ { n;n;n; a\
 		<copy todir="${destination.temp.folder}/org.eclipse.osgi.services_3.1.200.v20070605" failonerror="true" overwrite="false"> \
@@ -277,7 +276,7 @@ patch-apply() {
 			<fileset dir="${build.result.folder}/@dot"> \
 				<include name="**"/> \
 			</fileset> \
-		</copy>	
+		</copy>
 }' 	"plugins/org.eclipse.osgi.util/build.xml"
 
 	sed -i 	'/<mkdir dir="${temp\.folder}\/runtime_registry_compatibility\.jar\.bin"\/>/ a\
@@ -292,19 +291,19 @@ patch-apply() {
 	sed -i -e "s/<copy.*com\.jcraft\.jsch.*\/>//" -e "s/<copy.*com\.ibm\.icu.*\/>//" -e "s/<copy.*org\.apache\.commons\.el_.*\/>//" \
 		-e "s/<copy.*org\.apache\.commons\.logging_.*\/>//" -e "s/<copy.*javax\.servlet\.jsp_.*\/>//" -e "s/<copy.*javax\.servlet_.*\/>//" \
 		-e "s/<copy.*org\.apache\.lucene_.*\/>//" "package.org.eclipse.sdk.linux.gtk.${eclipse_arch}.xml"
-	
+
 	#  -e "s/<copy.*org\.apache\.lucene\.analysis_.*\/>//"
 }
 
 remove-bundled-stuff() {
 	# Remove pre-built eclipse binaries
-	find ${S} -type f -name eclipse | xargs rm
+	find "${S}" -type f -name eclipse | xargs rm
 	# ...  .so libraries
-	find ${S} -type f -name '*.so' | xargs rm
+	find "${S}" -type f -name '*.so' | xargs rm
 	# ... .jar files
 	rm plugins/org.eclipse.swt/extra_jars/exceptions.jar plugins/org.eclipse.osgi/osgi/osgi*.jar \
 		plugins/org.eclipse.osgi/supplement/osgi/osgi.jar
-		
+
 	rm -rf plugins/org.eclipse.swt.*
 	rm -rf plugins/org.apache.ant_*
 	rm plugins/org.apache.commons.*.jar
@@ -314,18 +313,18 @@ remove-bundled-stuff() {
 	rm plugins/org.junit4*/*.jar
 	rm plugins/javax.*.jar
 	rm plugins/org.apache.lucene_*.jar
-	
+
 	# Removing Tomcat stuff
-	
+
 	rm -rf "plugins/org.eclipse.tomcat/"
-	
+
 	# Remove bundled classes
-	
+
 	rm -rf "plugins/org.eclipse.osgi.services/org"
 	unzip -q "plugins/org.eclipse.osgi.services/src.zip" -d "plugins/org.eclipse.osgi.services/"
 	rm -rf "plugins/org.eclipse.osgi.util/org"
 	unzip -q "plugins/org.eclipse.osgi.util/src.zip" -d "plugins/org.eclipse.osgi.util/"
-	
+
 	rm -rf plugins/org.eclipse.jdt.core/scripts/*.class
 	rm -rf plugins/org.eclipse.core.runtime.compatibility.registry/classes
 }

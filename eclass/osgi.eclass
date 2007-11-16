@@ -12,20 +12,22 @@
 # @param $4 - bundle name
 # ------------------------------------------------------------------------------
 java-pkg_osgi() {
+
+	local myT="${T/%\//}"
 	
 	[[ ${#} -lt 4 ]] && die "At least four arguments needed"	
 
 	# We could replace unzip with jar
 	
-	mkdir "${T}/tmp_jar"
-	[[ -d "${T}/osgi" ]] || mkdir "${T}/osgi"
+	mkdir "${myT}/tmp_jar"
+	[[ -d "${myT}/osgi" ]] || mkdir "${myT}/osgi"
 	
-	unzip -q "$1" -d "${T}/tmp_jar"
+	unzip -q "$1" -d "${myT}/tmp_jar"
 	local jar_name="$(basename $1)"
 	
 	# Required arguments: symbolicName	
 
-	cat > "${T}/tmp_jar/META-INF/MANIFEST.MF" <<-EOF
+	cat > "${myT}/tmp_jar/META-INF/MANIFEST.MF" <<-EOF
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %bundleName
@@ -38,13 +40,13 @@ EOF
 
 	# We hardcode Gentoo as the vendor name
 
-	cat > "${T}/tmp_jar/plugin.properties" <<-EOF
+	cat > "${myT}/tmp_jar/plugin.properties" <<-EOF
 bundleName=${4}
 vendorName=Gentoo
 EOF
 
-	jar cfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
-	rm -rf "${T}/tmp_jar"
+	jar cfm "${myT}/osgi/${jar_name}" "${myT}/tmp_jar/META-INF/MANIFEST.MF" -C "${myT}/tmp_jar/" . > /dev/null
+	rm -rf "${myT}/tmp_jar"
 }
 
 # -----------------------------------------------------------------------------
@@ -63,7 +65,6 @@ java-pkg_doosgijar() {
 	java-pkg_osgi "$@"
 	java-pkg_dojar "${T}/osgi/${jar_name}"
 }
-
 
 # -----------------------------------------------------------------------------
 # @ebuild-function java-pkg_newosgijar
@@ -100,7 +101,7 @@ java-pkg_newosgijar() {
 java-pkg_osgijar-fromfile() {
 	local counter=0
 	local noversion=0	
-	
+
 	while [[ -n "${1}" ]]; do
 		if [[ "${1}" == "--noversion" ]]; then
 			noversion=1
@@ -110,9 +111,9 @@ java-pkg_osgijar-fromfile() {
 		fi
 		shift 1
 	done
-	
+
 	((${#arguments[@]} < 3)) && die "At least three arguments (not counting --noversion) are needed for java-pkg_osgijar-fromfile()"
-	
+
 	# We could replace unzip with jar
 
 	mkdir "${T}/tmp_jar"
@@ -128,7 +129,7 @@ java-pkg_osgijar-fromfile() {
 	else
 		cat "${arguments[1]}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}/" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
 	fi
-	
+
 	# We hardcode Gentoo as the vendor name
 
 	cat > "${T}/tmp_jar/plugin.properties" <<-EOF
@@ -154,16 +155,16 @@ EOF
 #
 # ------------------------------------------------------------------------------
 java-pkg_newosgijar-fromfile() {
-	local jar_name="$(basename $1)"	
+	local jar_name="$(basename $1)"
 	if [[ ${#} > 3 ]]; then
 		local newName="$2"
 		local arguments=("$@")
 		unset arguments[1]
 		java-pkg_osgijar-fromfile "${arguments[@]}"
-		java-pkg_newjar "${T}/osgi/${jar_name}"	"${newName}"	
+		java-pkg_newjar "${T}/osgi/${jar_name}"	"${newName}"
 	else
 		java-pkg_osgijar-fromfile "$@"
-		java-pkg_newjar "${T}/osgi/${jar_name}"		
+		java-pkg_newjar "${T}/osgi/${jar_name}"
 	fi
 }
 
@@ -181,7 +182,7 @@ java-pkg_newosgijar-fromfile() {
 # ------------------------------------------------------------------------------
 
 java-pkg_doosgijar-fromfile() {
-	local jar_name="$(basename $1)"	
+	local jar_name="$(basename $1)"
 	java-pkg_osgijar-fromfile "$@"
 	java-pkg_dojar "${T}/osgi/${jar_name}"
 }
