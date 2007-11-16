@@ -8,3 +8,4 @@ DESCRIPTION="Surround addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
 DOCS="surround.txt"
+SLOT=2

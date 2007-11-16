@@ -19,3 +19,4 @@ src_unpack() {
 	unpack ${A}
 	mkdir -p ${S}/contrib/${LUCENE_MODULE}/lib
 }
+SLOT=2

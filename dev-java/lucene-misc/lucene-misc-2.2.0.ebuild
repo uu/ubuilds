@@ -12,3 +12,4 @@ src_unpack() {
 	unpack ${A}
 	mv ${S}/contrib/miscellaneous ${S}/contrib/misc
 }
+SLOT=2

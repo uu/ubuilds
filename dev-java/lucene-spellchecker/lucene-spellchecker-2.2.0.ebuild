@@ -16,3 +16,4 @@ src_unpack() {
 	cp src/test/org/apache/lucene/util/English.java \
 	contrib/${LUCENE_MODULE}/src/test/org/apache/lucene/util/English.java
 }
+SLOT=2

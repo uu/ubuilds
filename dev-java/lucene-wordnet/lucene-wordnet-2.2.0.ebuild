@@ -8,3 +8,4 @@ DESCRIPTION="WordNet addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
 DOCS="README.txt"
+SLOT=2

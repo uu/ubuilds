@@ -11,17 +11,16 @@ inherit java-pkg-2 java-ant-2
 HOMEPAGE="http://jakarta.apache.org/lucene"
 SRC_URI="mirror://apache/lucene/java/lucene-${PV}-src.tar.gz"
 LICENSE="Apache-2.0"
-SLOT="2"
 
 DEPEND=">=virtual/jdk-1.4
-	>=dev-java/lucene-2.0
+	=dev-java/lucene-${SLOT}*
 	test? ( dev-java/ant-junit =dev-java/junit-3* )"
 RDEPEND=">=virtual/jdk-1.4
-	 >=dev-java/lucene-2.0"
+	 =dev-java/lucene-${SLOT}*"
 
 for dep in ${LUCENE_MODULE_DEPS}; do
-	DEPEND="${DEPEND} >=dev-java/lucene-${dep}-2.0"
-	RDEPEND="${RDEPEND} >=dev-java/lucene-${dep}-2.0"
+	DEPEND="${DEPEND} =dev-java/lucene-${dep}-${SLOT}*"
+	RDEPEND="${RDEPEND} >=dev-java/lucene-${dep}-${SLOT}*"
 done
 S="${WORKDIR}/lucene-${PV}"
 
@@ -29,7 +28,7 @@ lucene-contrib_src_compile() {
 	local gcp=$(java-pkg_getjar lucene-2 lucene-core.jar)
 	cd contrib/${LUCENE_MODULE}
 	for dep in ${LUCENE_MODULE_DEPS}; do
-		local pdep=$(java-pkg_getjars lucene-${dep}-2 )
+		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
 		gcp="${gcp}:${pdep}"
 	done
 	

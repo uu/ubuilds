@@ -9,3 +9,4 @@ inherit lucene-contrib
 DESCRIPTION="XML Query Parser addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
+SLOT=2

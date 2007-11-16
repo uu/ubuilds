@@ -7,3 +7,4 @@ inherit lucene-contrib
 DESCRIPTION="Memory index addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
+SLOT=2

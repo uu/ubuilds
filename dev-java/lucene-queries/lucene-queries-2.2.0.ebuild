@@ -8,3 +8,4 @@ DESCRIPTION="Queries addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
 DOCS="readme.txt"
+SLOT=2
