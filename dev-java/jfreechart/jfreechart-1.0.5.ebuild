@@ -19,9 +19,7 @@ COMMON_DEPEND="
 	=dev-java/servletapi-2.3*"
 DEPEND=">=virtual/jdk-1.4
 	${COMMON_DEPEND}
-	!test? ( dev-java/ant-core )
-	test? ( dev-java/ant
-		=dev-java/junit-3.8* )"
+	test? ( dev-java/ant-junit )"
 RDEPEND=">=virtual/jdk-1.4
 	${COMMON_DEPEND}"
 

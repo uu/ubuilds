@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  17 Nov 2007; Petteri Räty <betelgeuse@gentoo.org>
+  jfreechart-1.0.5.ebuild:
+  Depend on ant-junit instead of full ant.
+
   19 May 2007; Vlastimil Babka <caster@gentoo.org> jfreechart-1.0.5.ebuild:
   Get iText.jar via java-pkg_getjar to prevent problems with newly added itext
   jars.
