@@ -10,8 +10,7 @@ SRC_URI="mirror://sourceforge/${PN}/OpenP2M-src.v${PV}.zip"
 LICENSE="MPL-1.0"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="java6"
-#TODO: package comons-email as a dep
+
 CDEPEND="=dev-java/commons-httpclient-3*
 	dev-java/swing-layout
 	dev-java/sun-javamail
@@ -19,13 +18,11 @@ CDEPEND="=dev-java/commons-httpclient-3*
 	dev-java/commons-net
 	=dev-java/dnsjava-1.3.2
 	dev-java/javahelp
-	!java6? ( dev-java/jdictrayapi )"
-RDEPEND="!java6? ( >=virtual/jre-1.4 )
-	java6? ( >=virtual/jre-1.6 )
+	dev-java/commons-email"
+RDEPEND=">=virtual/jre-1.6
 	${CDEPEND}"
 
-DEPEND="!java6? ( >=virtual/jdk-1.4 )
-	java6? ( >=virtual/jdk-1.6 )
+DEPEND=">=virtual/jdk-1.6
 	${CDEPEND}"
 
 S=${WORKDIR}
@@ -33,24 +30,26 @@ S=${WORKDIR}
 src_unpack() {
 	unpack ${A}
 	mv src-core src
-	use java6 && cp -Rf src-systray-6/* src
-	! use java6 && cp -Rf src-systray-5/* src
+	cp -Rf src-systray-6/* src
 	rm -rf src-systray-*
 }
 
 src_compile() {
 	cd src
-	! use java6 && classpath=$(java-pkg_getjars jdictrayapi)
-	classpath=${classpath}:$(java-pkg_getjars commons-httpclient-3,swing-layout-1,sun-javamail,commons-codec,commons-net,dnsjava-1.3.2):$(java-pkg_getjar javahelp jh.jar)
+	classpath=${classpath}:$(java-pkg_getjars commons-httpclient-3,swing-layout-1,sun-javamail,commons-codec,commons-net,commons-email,dnsjava-1.3.2):$(java-pkg_getjar javahelp jh.jar)
 	find . -name '*.java' -print > sources.list
-	ejavac -cp .:${classpath} @sources.list
+	#Replaces Key with 34567. What else can be done? (maybe generate random et build time)
+	#Don't know how its exactly used but seems encryption related
+	find . -name '*.java' -exec sed -i -e "s:CHAVE:34567:g" '{}' \;
+	ejavac -encoding ISO-8859-1 -classpath .:${classpath} @sources.list
 	find . -name '*' -not -name '*.java' -type f -not -name 'classes.list' -print > classes.list
   	touch myManifest
   	jar cmf myManifest ../${PN}.jar @classes.list
 }
 
 src_install() {
-	java-pkg_dojar dist/${PN}-core.jar
-	java-pkg_dojar dist/${PN}-tray.jar
-	#java-pkg_dolauncher fb-photo-uploader --main uk.me.phillsacre.uploader.FacebookUploader
+	java-pkg_dojar ${PN}.jar
+	java-pkg_dolauncher ${PN} --main gui.MainSystray
+	doicon ${FILESDIR}/${PN}.png
+	make_desktop_entry ${PN} "OpenP2M" ${PN}.png
 }
