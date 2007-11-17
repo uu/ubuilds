@@ -46,7 +46,11 @@ src_unpack() {
 
 src_install() {
 	java-pkg_dojar package/zip/bin/fb-uploader.jar
-	java-pkg_dolauncher fb-photo-uploader --main uk.me.phillsacre.uploader.FacebookUploader
+	java-pkg_dolauncher fb-photo-uploader \
+		--main uk.me.phillsacre.uploader.FacebookUploader \
+		--pwd /usr/share/fb-photo-uploader
+	insinto /usr/share/fb-photo-uploader
+	doins src/main/resources/uploader.properties
 }
 
 src_test() {
