@@ -13,6 +13,9 @@
 # ------------------------------------------------------------------------------
 java-pkg_osgi() {
 
+	# We define myT so that it does not contain a slash at the end.
+	# According to Paludis guys, there is currently a proposal for EAPIs that would require all variables to end with a slash.
+
 	local myT="${T/%\//}"
 	
 	[[ ${#} -lt 4 ]] && die "At least four arguments needed"	
@@ -61,9 +64,10 @@ EOF
 #
 # ------------------------------------------------------------------------------
 java-pkg_doosgijar() {
+	local myT="${T/%\//}"	
 	local jar_name="$(basename $1)"	
 	java-pkg_osgi "$@"
-	java-pkg_dojar "${T}/osgi/${jar_name}"
+	java-pkg_dojar "${myT}/osgi/${jar_name}"
 }
 
 # -----------------------------------------------------------------------------
@@ -78,9 +82,10 @@ java-pkg_doosgijar() {
 #
 # ------------------------------------------------------------------------------
 java-pkg_newosgijar() {
+	local myT="${T/%\//}"
 	local jar_name="$(basename $1)"	
 	java-pkg_osgi "$@"
-	java-pkg_newjar "${T}/osgi/${jar_name}"
+	java-pkg_newjar "${myT}/osgi/${jar_name}"
 }
 
 # -----------------------------------------------------------------------------
@@ -100,7 +105,8 @@ java-pkg_newosgijar() {
 
 java-pkg_osgijar-fromfile() {
 	local counter=0
-	local noversion=0	
+	local noversion=0
+	local myT="${T/%\//}"
 
 	while [[ -n "${1}" ]]; do
 		if [[ "${1}" == "--noversion" ]]; then
@@ -116,29 +122,29 @@ java-pkg_osgijar-fromfile() {
 
 	# We could replace unzip with jar
 
-	mkdir "${T}/tmp_jar"
-	[[ -d "${T}/osgi" ]] || mkdir "${T}/osgi"
+	mkdir "${myT}/tmp_jar"
+	[[ -d "${myT}/osgi" ]] || mkdir "${myT}/osgi"
 
-	unzip -q "${arguments[0]}" -d "${T}/tmp_jar"
+	unzip -q "${arguments[0]}" -d "${myT}/tmp_jar"
 	local jar_name="$(basename ${arguments[0]})"
 
 	# We automatically change the version unless --noversion is present
 
 	if [[ "${noversion}" == 1 ]]; then
-		cat "${arguments[1]}" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
+		cat "${arguments[1]}" > "${myT}/tmp_jar/META-INF/MANIFEST.MF"
 	else
-		cat "${arguments[1]}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}/" > "${T}/tmp_jar/META-INF/MANIFEST.MF"
+		cat "${arguments[1]}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}/" > "${myT}/tmp_jar/META-INF/MANIFEST.MF"
 	fi
 
 	# We hardcode Gentoo as the vendor name
 
-	cat > "${T}/tmp_jar/plugin.properties" <<-EOF
+	cat > "${myT}/tmp_jar/plugin.properties" <<-EOF
 bundleName="${arguments[2]}"
 vendorName=Gentoo
 EOF
 
-	jar cfm "${T}/osgi/${jar_name}" "${T}/tmp_jar/META-INF/MANIFEST.MF" -C "${T}/tmp_jar/" . > /dev/null
-	rm -rf "${T}/tmp_jar"
+	jar cfm "${myT}/osgi/${jar_name}" "${myT}/tmp_jar/META-INF/MANIFEST.MF" -C "${myT}/tmp_jar/" . > /dev/null
+	rm -rf "${myT}/tmp_jar"
 }
 
 
@@ -155,16 +161,17 @@ EOF
 #
 # ------------------------------------------------------------------------------
 java-pkg_newosgijar-fromfile() {
+	local myT="${T/%\//}"
 	local jar_name="$(basename $1)"
 	if [[ ${#} > 3 ]]; then
 		local newName="$2"
 		local arguments=("$@")
 		unset arguments[1]
 		java-pkg_osgijar-fromfile "${arguments[@]}"
-		java-pkg_newjar "${T}/osgi/${jar_name}"	"${newName}"
+		java-pkg_newjar "${myT}/osgi/${jar_name}"	"${newName}"
 	else
 		java-pkg_osgijar-fromfile "$@"
-		java-pkg_newjar "${T}/osgi/${jar_name}"
+		java-pkg_newjar "${myT}/osgi/${jar_name}"
 	fi
 }
 
@@ -184,5 +191,5 @@ java-pkg_newosgijar-fromfile() {
 java-pkg_doosgijar-fromfile() {
 	local jar_name="$(basename $1)"
 	java-pkg_osgijar-fromfile "$@"
-	java-pkg_dojar "${T}/osgi/${jar_name}"
+	java-pkg_dojar "${myT}/osgi/${jar_name}"
 }
