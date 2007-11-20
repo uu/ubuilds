@@ -70,7 +70,7 @@ src_install() {
 		insinto ${mimedir}
 		newins resources/installers/linux/subtitle-${size}.png subtitle.png
 		for type in sub ssa srt ass; do
-			dosym subtitle.png ${mimedir}/mime_application_sub-${type}.png
+			dosym subtitle.png ${mimedir}/application-sub-${type}.png
 		done
 	done
 
