@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils java-pkg-2 java-utils-2 java-ant-2 toolchain-funcs
+inherit gnome2 eutils java-pkg-2 java-utils-2 java-ant-2 toolchain-funcs
 
 MY_PN=${PN/#j/J}
 DESCRIPTION="Java subtitle editor"
@@ -42,6 +42,7 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 	epatch "${FILESDIR}/${P}.patch"
+	epatch "${FILESDIR}/${P}-freedesktop.patch"
 }
 
 src_compile() {
@@ -59,12 +60,22 @@ src_install() {
 	use spell && java-pkg_register-dependency zemberek zemberek2-tr.jar
 	java-pkg_doso resources/ffdecode/libffdecode.so
 	doicon resources/installers/linux/jubler.png
-	newicon resources/installers/linux/subtitle-32.png subtitle.png
+	domenu resources/installers/linux/jubler.desktop
+
+	insinto /usr/share/mime/packages
+	doins resources/installers/linux/jubler.xml
+
+	for size in 32 128; do
+		local mimedir=/usr/share/icons/hicolor/${size}x${size}/mimetypes
+		insinto ${mimedir}
+		newins resources/installers/linux/subtitle-${size}.png subtitle.png
+		for type in sub ssa srt ass; do
+			dosym subtitle.png ${mimedir}/mime_application_sub-${type}.png
+		done
+	done
+
 	java-pkg_dolauncher jubler --main com.panayotis.jubler.Main
-	make_desktop_entry ${PN} "Jubler" ${PN}.png
 	doman resources/installers/linux/jubler.1
 	insinto /usr/share/jubler/help
 	doins dist/help/*
-	insinto /usr/share/mimelnk/application
-	use kde && doins resources/installers/linux/sub-*.desktop
 }
