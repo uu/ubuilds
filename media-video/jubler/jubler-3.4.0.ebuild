@@ -43,12 +43,11 @@ src_unpack() {
 	cd "${S}"
 	epatch "${FILESDIR}/${P}.patch"
 	epatch "${FILESDIR}/${P}-freedesktop.patch"
+	chmod +x resources/installers/linux/iconinstall
 }
 
 src_compile() {
-	local anttasks_opt
-	use nls && anttasks_opt="i18n"
-	eant ${anttasks_opt} jar faq || die "eant failed"
+	eant $(use nls && echo i18n) jar faq || die "eant failed"
 	cp -v dist/help/jubler-faq.html build/classes/help || die "cp failed"
 	cd resources/ffdecode || die
 	CC=$(tc-getCC) emake linuxdyn || die "make failed"
@@ -62,17 +61,8 @@ src_install() {
 	doicon resources/installers/linux/jubler.png
 	domenu resources/installers/linux/jubler.desktop
 
-	insinto /usr/share/mime/packages
-	doins resources/installers/linux/jubler.xml
-
-	for size in 32 128; do
-		local mimedir=/usr/share/icons/gnome/${size}x${size}/mimetypes
-		insinto ${mimedir}
-		newins resources/installers/linux/subtitle-${size}.png subtitle.png
-		for type in sub ssa srt ass; do
-			dosym subtitle.png ${mimedir}/application-x-${type}.png
-		done
-	done
+	DESTDIR="${D}" eant linuxdesktopintegration
+	rm -vr "${D}/usr/share/menu" || die
 
 	java-pkg_dolauncher jubler --main com.panayotis.jubler.Main
 	doman resources/installers/linux/jubler.1
