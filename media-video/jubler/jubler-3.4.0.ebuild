@@ -66,7 +66,7 @@ src_install() {
 	doins resources/installers/linux/jubler.xml
 
 	for size in 32 128; do
-		local mimedir=/usr/share/icons/hicolor/${size}x${size}/mimetypes
+		local mimedir=/usr/share/icons/gnome/${size}x${size}/mimetypes
 		insinto ${mimedir}
 		newins resources/installers/linux/subtitle-${size}.png subtitle.png
 		for type in sub ssa srt ass; do

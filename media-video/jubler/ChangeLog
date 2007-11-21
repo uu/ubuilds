@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  21 Nov 2007; Serkan Kaba <serkan_kaba@yahoo.com>
+  jubler-3.4.0.ebuild:
+  Fix icon installation dir.
+
   21 Nov 2007; Petteri Räty <betelgeuse@gentoo.org>
   files/jubler-3.4.0-freedesktop.patch:
   Make the mimetype a subclass of text/plain because otherwise GNOME gets
