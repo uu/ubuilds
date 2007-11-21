@@ -1,3 +1,15 @@
+# Base eclass for Java packages that needs to be OSGi compliant
+# 
+# Note that the main goal of this eclass was to make jars that would work with Eclipse-3.3.
+# In the future however, we could imagine that a lot of packages would use this class, so that the Gentoo Java system would work very well with OSGi.
+#
+# Copyright (c) 2007, Jean-Noël Rivasseau <elvanor@gmail.com>
+# Copyright (c) 2007, Gentoo Foundation
+#
+# Licensed under the GNU General Public License, v2
+#
+# $Header: /var/cvsroot/gentoo-x86/eclass/java-utils-2.eclass,v 1.92 2007/08/05 08:17:05 betelgeuse Exp $
+
 # -----------------------------------------------------------------------------
 # @ebuild-function java-pkg_osgi
 #
@@ -10,6 +22,7 @@
 # @param $2 - bundle symbolic name
 # @param $3 - export-package-header
 # @param $4 - bundle name
+#
 # ------------------------------------------------------------------------------
 java-pkg_osgi() {
 
@@ -27,8 +40,6 @@ java-pkg_osgi() {
 	
 	unzip -q "$1" -d "${myT}/tmp_jar"
 	local jar_name="$(basename $1)"
-	
-	# Required arguments: symbolicName	
 
 	cat > "${myT}/tmp_jar/META-INF/MANIFEST.MF" <<-EOF
 Manifest-Version: 1.0
@@ -55,12 +66,18 @@ EOF
 # -----------------------------------------------------------------------------
 # @ebuild-function java-pkg_doosgijar
 #
-# Rewrites a jar, and produce an OSGi compliant jar.
-# Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
+# Rewrites a jar, and produce an OSGi compliant jar from arguments given on the command line.
+# The arguments given correspond to the minimal set of headers that must be present on a Manifest file of an OSGi package.
+# If you need more headers, you should use the *-fromfile functions below, that create the Manifest from a file.
 # It will call java-pkg_dojar at the end.
 #
 # @example
-#	java-pkg_doosgijar dist/${PN}.jar "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
+#	java-pkg_doosgijar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
+#
+# @param $1 - name of jar to repackage with OSGi
+# @param $2 - bundle symbolic name
+# @param $3 - export-package-header
+# @param $4 - bundle name
 #
 # ------------------------------------------------------------------------------
 java-pkg_doosgijar() {
@@ -74,11 +91,17 @@ java-pkg_doosgijar() {
 # @ebuild-function java-pkg_newosgijar
 #
 # Rewrites a jar, and produce an OSGi compliant jar.
-# Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
+# The arguments given correspond to the minimal set of headers that must be present on a Manifest file of an OSGi package.
+# If you need more headers, you should use the *-fromfile functions below, that create the Manifest from a file.
 # It will call java-pkg_newjar at the end.
 #
 # @example
-#	java-pkg_newosgijar dist/${PN}.jar "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
+#	java-pkg_newosgijar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
+#
+# @param $1 - name of jar to repackage with OSGi
+# @param $2 - bundle symbolic name
+# @param $3 - export-package-header
+# @param $4 - bundle name
 #
 # ------------------------------------------------------------------------------
 java-pkg_newosgijar() {
@@ -94,13 +117,13 @@ java-pkg_newosgijar() {
 # This is an internal function, not to be called directly.
 #
 # @example
-#	java-pkg_osgijar-fromfile dist/${PN}.jar "${FILESDIR}/MANIFEST.MF" "JSch"
+#	java-pkg_osgijar-fromfile "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "JSch" --noversion
 #
 # @param $1 - name of jar to repackage with OSGi
 # @param $2 - path to the Manifest file
 # @param $3 - bundle name
+# --noversion This option disables automatic rewriting of the version in the Manifest file
 #
-# It can accept an additional option, --noversion
 # ------------------------------------------------------------------------------
 
 java-pkg_osgijar-fromfile() {
@@ -151,13 +174,18 @@ EOF
 # -----------------------------------------------------------------------------
 # @ebuild-function java-pkg_newosgijar-fromfile()
 #
-# This function produces an OSGi compliant jar from a given MANIFEST.MF file
-# Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
+# This function produces an OSGi compliant jar from a given manifest file.
+# The Manifest Bundle-Version header will be replaced by the current version of the package, unless the --noversion argument is given.
 # It will call java-pkg_newjar at the end.
 #
 # @example
-#	java-pkg_newosgijar dist/${PN}.jar "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
+#	java-pkg_newosgijar "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
 #
+# @param $1 - name of jar to repackage with OSGi
+# @param $2 (optional) - name of the target jar. It will default to package name if not specified.
+# @param $3 - path to the Manifest file
+# @param $4 - bundle name
+# --noversion This option disables automatic rewriting of the version in the Manifest file
 #
 # ------------------------------------------------------------------------------
 java-pkg_newosgijar-fromfile() {
@@ -178,17 +206,22 @@ java-pkg_newosgijar-fromfile() {
 # -----------------------------------------------------------------------------
 # @ebuild-function java-pkg_doosgijar-fromfile()
 #
-# This function produces an OSGi compliant jar from a given MANIFEST.MF file
-# Note that currently the main goal of this eclass was to make jars that would work with Eclipse-3.3.
+# This function produces an OSGi compliant jar from a given manifestfile.
+# The Manifest Bundle-Version header will be replaced by the current version of the package, unless the --noversion argument is given.
 # It will call java-pkg_dojar at the end.
 #
 # @example
-#	java-pkg_doosgijar dist/${PN}.jar "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
+#	java-pkg_doosgijar "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
 #
+# @param $1 - name of jar to repackage with OSGi
+# @param $2 - path to the Manifest file
+# @param $3 - bundle name
+# --noversion This option disables automatic rewriting of the version in the Manifest file
 #
 # ------------------------------------------------------------------------------
 
 java-pkg_doosgijar-fromfile() {
+	local myT="${T/%\//}"
 	local jar_name="$(basename $1)"
 	java-pkg_osgijar-fromfile "$@"
 	java-pkg_dojar "${myT}/osgi/${jar_name}"
