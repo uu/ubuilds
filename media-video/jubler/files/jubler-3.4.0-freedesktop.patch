@@ -2,25 +2,21 @@ Index: resources/installers/linux/jubler.xml
 ===================================================================
 --- resources/installers/linux/jubler.xml	(revision 0)
 +++ resources/installers/linux/jubler.xml	(revision 0)
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,19 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-+	<mime-type type="application/sub-ass">
++	<mime-type type="application/x-ass">
 +		<comment xml:lang="en">ASS subtitle</comment>
 +		<glob pattern="*.ass"/>
 +		<sub-class-of type="text/plain" />
 +	</mime-type>
-+	<mime-type type="application/sub-srt">
-+		<comment xml:lang="en">SRT subtitle</comment>
-+		<glob pattern="*.srt"/>
-+		<sub-class-of type="text/plain" />
 +	</mime-type>
-+	<mime-type type="application/sub-ssa">
++	<mime-type type="application/x-ssa">
 +		<comment xml:lang="en">SSA subtitle</comment>
 +		<glob pattern="*.ssa"/>
 +		<sub-class-of type="text/plain" />
 +	</mime-type>
-+	<mime-type type="application/sub-sub">
++	<mime-type type="application/x-sub">
 +		<comment xml:lang="en">SUB subtitle</comment>
 +		<glob pattern="*.sub"/>
 +		<sub-class-of type="text/plain" />
@@ -40,7 +36,7 @@ Index: resources/installers/linux/jubler.desktop
  GenericName=Jubler subtitle editor
  Icon=jubler
 -MimeType=application/sub-srt;application/sub-sub;application/sub-ssa;application/sub-ass
-+MimeType=application/sub-srt;application/sub-sub;application/sub-ssa;application/sub-ass;
++MimeType=application/x-srt;application/x-sub;application/x-ssa;application/x-ass;
  Name=Jubler
  Terminal=false
  Type=Application

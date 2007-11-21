@@ -3,6 +3,11 @@
 # $Header: $
 
   21 Nov 2007; Serkan Kaba <serkan_kaba@yahoo.com>
+  files/jubler-3.4.0-freedesktop.patch, jubler-3.4.0.ebuild:
+  Removed srt from jubler.xml since it comes with shared-mime-info-0.22-r1.
+  Renamed all other mimetypes to application/x-{type}.
+
+  21 Nov 2007; Serkan Kaba <serkan_kaba@yahoo.com>
   jubler-3.4.0.ebuild:
   Fix icon installation dir.
 
