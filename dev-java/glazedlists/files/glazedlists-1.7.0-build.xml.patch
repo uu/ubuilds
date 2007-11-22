@@ -14,7 +14,7 @@
  	</target>
  
 -	<target name="compileall" depends="core,migrationkit,swing,io,swt,ktable,jfreechart,issuesbrowser,swinglabs,treetable"
-+	<target name="compileall" depends="core,migrationkit,swing,io"
++	<target name="compileall" depends="core,migrationkit,swing,io,treetable"
  		description="Compile all components of the source.">
  	</target>
  

@@ -2,6 +2,12 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  22 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
+  files/glazedlists-1.7.0-build.xml.patch, ++, -glazedlists-1.7.0-r1.ebuild:
+  Treetable support was removed by the build.xml patch even though it doesn't
+  have any extra deps. It's back in there now. Also, source files for the used
+  extensions are packed if USE=source
+
   11 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de> ++,
   -glazedlists-1.7.0.ebuild:
   Now that eclipse-jface etc. are updated (thanks to Serkan), swt support was

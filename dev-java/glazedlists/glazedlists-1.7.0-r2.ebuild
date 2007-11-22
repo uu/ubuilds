@@ -115,5 +115,16 @@ src_install() {
 		dohtml readme.html || die
 		java-pkg_dojavadoc "target/docs/api"
 	fi
-	use source && java-pkg_dosrc "source/ca"
+	if use source; then
+		# collect source folders for all the used extensions
+		local source_folders="source/ca extensions/treetable/source/*"
+		
+		use swingx && source_folders="${source_folders} extensions/swinglabs/source/*"
+		for extension in nachocalendar jgoodiesforms jfreechart swt 
+		do
+			use ${extension} && source_folders="${source_folders} extensions/${extension}/source/*"
+		done
+		
+		java-pkg_dosrc ${source_folders}
+	fi
 }
