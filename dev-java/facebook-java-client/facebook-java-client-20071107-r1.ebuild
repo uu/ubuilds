@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-JAVA_PKG_IUSE="source"
+JAVA_PKG_IUSE="source doc"
 
 inherit java-pkg-2 java-ant-2
 
@@ -59,11 +59,18 @@ src_compile() {
 	find . -name '*.class' -print > classes.list
 	touch myManifest
   	jar cmf myManifest ${PN}.jar @classes.list
+  	cd ..
+  	if use doc; then
+  		mkdir docs || die
+  		cd docs || die
+  		javadoc -classpath .:$(java-pkg_getjars json-simple) -sourcepath ${S}/src com.facebook.api
+  	fi
 }
 
 src_install() {
 	java-pkg_dojar src/${PN}.jar
 	use source && java-pkg_dosrc src/*
 	use examples && java-pkg_doexamples examples/*
+	use doc && java-pkg_dojavadoc docs
 	dodoc README CHANGELOG
 }
