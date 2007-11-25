@@ -25,7 +25,7 @@ S=${WORKDIR}/${MY_P}
 
 src_unpack() {
 	unpack ${A}
-	find ${S} -name "*.jar" | xargs rm -v
+	find "${S}" -name "*.jar" | xargs rm -v
 }
 
 src_compile() {
@@ -35,30 +35,30 @@ src_compile() {
 	einfo "Compiling ${PN}.jar"
 	mkdir -p build/proguard/classes
 	ejavac -sourcepath src -d build/proguard/classes src/proguard/ProGuard.java || die "Cannot compile 'proguard'"
-	jar -cf ${S}/dist/${PN}.jar -C build/proguard/classes proguard || die "Cannot create ${PN}.jar"
+	jar -cf "${S}"/dist/${PN}.jar -C build/proguard/classes proguard || die "Cannot create ${PN}.jar"
 
 	einfo "Compiling ${PN}gui.jar"
 	mkdir -p build/proguardgui/classes
 	ejavac -sourcepath src -d build/proguardgui/classes src/proguard/gui/ProGuardGUI.java || "Cannot compile 'proguardgui'"
-	jar -cf ${S}/dist/${PN}gui.jar -C build/proguardgui/classes proguard || die "Cannot create ${PN}gui.jar"
+	jar -cf "${S}"/dist/${PN}gui.jar -C build/proguardgui/classes proguard || die "Cannot create ${PN}gui.jar"
 
 	einfo "Compiling retrace.jar"
 	mkdir -p build/retrace/classes
 	ejavac -sourcepath src -d build/retrace/classes src/proguard/retrace/ReTrace.java || die "Cannot compile 'retrace'"
-	jar -cf ${S}/dist/retrace.jar -C build/retrace/classes proguard || die "Cannot create retrace.jar"
+	jar -cf "${S}"/dist/retrace.jar -C build/retrace/classes proguard || die "Cannot create retrace.jar"
 
 	einfo "Compiling ${PN}-ant.jar"
 	mkdir -p build/ant/classes
 	ejavac -sourcepath src -classpath $(java-pkg_getjars --build-only ant-core) \
 		-d build/ant/classes src/proguard/ant/ProGuardTask.java || die "Cannot compile 'proguard-ant'"
-	jar -cf ${S}/dist/${PN}-ant.jar -C build/ant/classes proguard || die "Cannot create ${PN}-ant.jar"
+	jar -cf "${S}"/dist/${PN}-ant.jar -C build/ant/classes proguard || die "Cannot create ${PN}-ant.jar"
 
 	if use j2me ; then
 		einfo "Compiling ${PN}-wtk.jar"
 		mkdir -p build/wtk/classes
 		ejavac -sourcepath src -classpath $(java-pkg_getjars sun-j2me-bin) \
 			-d build/wtk/classes src/proguard/wtk/ProGuardObfuscator.java || die "Cannot compile 'proguard-wtk'"
-		jar -cf ${S}/dist/${PN}-wtk.jar -C build/wtk/classes proguard || die "Cannot create ${PN}-wtk.jar"
+		jar -cf "${S}"/dist/${PN}-wtk.jar -C build/wtk/classes proguard || die "Cannot create ${PN}-wtk.jar"
 	fi
 
 	# generate javadoc
@@ -71,7 +71,6 @@ src_compile() {
 }
 
 src_install() {
-	cd "${S}"
 	java-pkg_dojar dist/*
 	java-pkg_dolauncher ${PN} --main proguard.ProGuard
 	java-pkg_dolauncher ${PN}gui --main proguard.gui.ProGuardGUI
