@@ -1,0 +1,7 @@
+# ChangeLog for dev-java/java-config
+# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  26 Nov 2007; <alistair@gentoo.org> +java-config-2.1.9999.ebuild:
+  Revbump java-config svn ebuild to support new install locations.
+
