@@ -20,7 +20,7 @@ inherit eutils java-pkg-2 java-ant-2
 DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
 
-SLOT="6.0"
+SLOT="6.1"
 MY_PV=${PV}
 SOURCE_SITE="http://dev.gentoo.org/~fordfrog/distfiles/"
 SRC_URI="
@@ -108,6 +108,7 @@ SRC_URI="
 	)
 	java? (
 		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
+		${SOURCE_SITE}/${PN}-beans-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-db-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-form-${MY_PV}.tar.bz2
@@ -143,6 +144,7 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2
 	)
 	stableuc? (
+		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-collab-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
@@ -237,7 +239,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/lucene-2.1.0
 	>=dev-java/portletapi-1
 	>=dev-java/prefuse-20060715_beta
-	>=dev-java/proguard-4
+	dev-java/proguard
 	dev-java/sac
 	dev-java/saxpath
 	dev-java/sjsxp
@@ -273,8 +275,8 @@ pkg_setup() {
 		ewarn "Currently building with 'doc' USE flag fails, see bugs http://www.netbeans.org/issues/show_bug.cgi?id=109722 http://www.netbeans.org/issues/show_bug.cgi?id=107510"
 	fi
 
-	if use apisupport && ! ( use ide && use java ) ; then
-		eerror "'apisupport' USE flag requires 'ide' and 'java' USE flags"
+	if use apisupport && ! ( use harness && use ide && use java ) ; then
+		eerror "'apisupport' USE flag requires 'harness', 'ide' and 'java' USE flags"
 		exit 1
 	fi
 
@@ -360,30 +362,30 @@ src_unpack () {
 	unpack ${A}
 
 	if use visualweb && [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
-		cd ${S}/visualweb/insync/src/org/netbeans/modules/visualweb/insync/markup
+		cd "${S}"/visualweb/insync/src/org/netbeans/modules/visualweb/insync/markup
 		epatch ${MY_FDIR}/visualweb-JxpsSerializer.java-xerces-2.8.1.patch
 	fi
 
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
-	find ${S}/nbbuild -name "*.class" -delete
+	find "${S}"/nbbuild -name "*.class" -delete
 
 	# Remove JARs that are not needed
 	if [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
 		einfo "Removing not needed JARs"
-		for FILE in `find ${S} -name "*.jar" | grep "/test/"`; do
+		for FILE in `find "${S}" -name "*.jar" | grep "/test/"`; do
 			rm -v ${FILE} || die "Cannot remove ${FILE}"
 		done
-		for FILE in `find ${S} -name "*.jar" | grep "/qa/"`; do
+		for FILE in `find "${S}" -name "*.jar" | grep "/qa/"`; do
 			rm -v ${FILE} || die "Cannot remove ${FILE}"
 		done
 	fi
 
 	# Disable extra stuff that doesn't build
 	#if use experimental ; then
-	#	grep -v "scripting/php/rtexplorer," ${S}/nbbuild/cluster.properties \
-	#		> ${S}/nbbuild/cluster.properties.new || die "Cannot remove failing extra module"
-	#	mv ${S}/nbbuild/cluster.properties.new ${S}/nbbuild/cluster.properties \
+	#	grep -v "scripting/php/rtexplorer," "${S}"/nbbuild/cluster.properties \
+	#		> "${S}"/nbbuild/cluster.properties.new || die "Cannot remove failing extra module"
+	#	mv "${S}"/nbbuild/cluster.properties.new "${S}"/nbbuild/cluster.properties \
 	#		|| die "Cannot update cluster.properties"
 	#fi
 
@@ -391,7 +393,7 @@ src_unpack () {
 
 	if [[ -n "${JAVA_PKG_NB_REMOVE_JARS}" ]] ; then
 		einfo "Removing rest of the bundled jars as requested by JAVA_PKG_NB_REMOVE_JARS..."
-		find ${S} -type f -name "*.jar" | xargs rm -v
+		find "${S}" -type f -name "*.jar" | xargs rm -v
 	fi
 }
 
@@ -471,8 +473,8 @@ src_compile() {
 
 	# fix paths per bug# 163483
 	if [[ -e ${BUILDDESTINATION}/bin/netbeans ]]; then
-		sed -i -e 's:"$progdir"/../etc/:/etc/netbeans-6.0/:' ${BUILDDESTINATION}/bin/netbeans
-		sed -i -e 's:"${userdir}"/etc/:/etc/netbeans-6.0/:' ${BUILDDESTINATION}/bin/netbeans
+		sed -i -e 's:"$progdir"/../etc/:/etc/netbeans-6.1/:' ${BUILDDESTINATION}/bin/netbeans
+		sed -i -e 's:"${userdir}"/etc/:/etc/netbeans-6.1/:' ${BUILDDESTINATION}/bin/netbeans
 	fi
 }
 
@@ -484,17 +486,17 @@ src_install() {
 	doins -r *
 
 	# Remove the build helper files
-	rm -f ${D}/${DESTINATION}/nb.cluster.*
-	rm -f ${D}/${DESTINATION}/*.built
-	rm -f ${D}/${DESTINATION}/moduleCluster.properties
-	rm -f ${D}/${DESTINATION}/module_tracking.xml
-	rm -f ${D}/${DESTINATION}/build_info
+	rm -f "${D}"/${DESTINATION}/nb.cluster.*
+	rm -f "${D}"/${DESTINATION}/*.built
+	rm -f "${D}"/${DESTINATION}/moduleCluster.properties
+	rm -f "${D}"/${DESTINATION}/module_tracking.xml
+	rm -f "${D}"/${DESTINATION}/build_info
 
 	# Change location of etc files
 	if [[ -e ${BUILDDESTINATION}/etc ]]; then
 		insinto /etc/${PN}-${SLOT}
 		doins ${BUILDDESTINATION}/etc/*
-		rm -fr ${D}/${DESTINATION}/etc
+		rm -fr "${D}"/${DESTINATION}/etc
 		dosym /etc/${PN}-${SLOT} ${DESTINATION}/etc
 	fi
 
@@ -504,20 +506,20 @@ src_install() {
 	# Correct permissions on executables
 	local nbexec_exe="${DESTINATION}/platform${PLATFORM}/lib/nbexec"
 	fperms 775 ${nbexec_exe} || die "Cannot update perms on ${nbexec_exe}"
-	if [[ -e ${D}/${DESTINATION}/bin/netbeans ]] ; then
+	if [[ -e "${D}"/${DESTINATION}/bin/netbeans ]] ; then
 		local netbeans_exe="${DESTINATION}/bin/netbeans"
 		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
 	fi
 	if use ruby ; then
-		local ruby_path="${DESTINATION}/ruby1/jruby-1.0.1/bin"
-		cd ${D}/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
+		local ruby_path="${DESTINATION}/ruby1/jruby-1.0.2/bin"
+		cd "${D}"/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
 		for file in * ; do
 			fperms 755 ${ruby_path}/${file} || die "Cannot update perms on ${ruby_path}/${file}"
 		done
 	fi
 
 	# Link netbeans executable from bin
-	if [[ -f ${D}/${DESTINATION}/bin/netbeans ]]; then
+	if [[ -f "${D}"/${DESTINATION}/bin/netbeans ]]; then
 		dosym ${DESTINATION}/bin/netbeans /usr/bin/${PN}-${SLOT}
 	else
 		dosym ${DESTINATION}/platform7/lib/nbexec /usr/bin/${PN}-${SLOT}
@@ -533,17 +535,17 @@ src_install() {
 	# Documentation
 	einfo "Installing Documentation..."
 
-	cd ${D}/${DESTINATION}
+	cd "${D}"/${DESTINATION}
 	dohtml CREDITS.html README.html netbeans.css
 	rm -f build_info CREDITS.html README.html netbeans.css
 
-	use doc && java-pkg_dojavadoc ${S}/nbbuild/build/javadoc
+	use doc && java-pkg_dojavadoc "${S}"/nbbuild/build/javadoc
 
 	# Icons and shortcuts
 	if use nb ; then
 		einfo "Installing icon..."
 		dodir /usr/share/icons/hicolor/32x32/apps
-		dosym ${DESTINATION}/nb6.0/netbeans.png /usr/share/icons/hicolor/32x32/apps/netbeans-${SLOT}.png
+		dosym ${DESTINATION}/nb${SLOT}/netbeans.png /usr/share/icons/hicolor/32x32/apps/netbeans-${SLOT}.png
 
 	fi
 
@@ -565,13 +567,13 @@ pkg_postrm() {
 place_unpack_symlinks() {
 	local target=""
 
-	if [ -e ${S}/apisupport ] ; then
+	if [ -e "${S}"/apisupport ] ; then
 		einfo "Symlinking jars for apisupport"
 		target="apisupport/harness/external"
 		dosymcompilejar ${target} javahelp jhall.jar jsearch-2.0_05.jar
 	fi
 
-	if [ -e ${S}/collab ] ; then
+	if [ -e "${S}"/collab ] ; then
 		einfo "Symlinking jars for collab"
 		target="collab/im/external"
 		dosymcompilejar ${target} jaxen-1.1 jaxen.jar jaxen-core-1.0.jar
@@ -579,7 +581,7 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} saxpath
 	fi
 
-	if [ -e ${S}/contrib ] ; then
+	if [ -e "${S}"/contrib ] ; then
 		einfo "Symlinking jars for contrib"
 		target="contrib/doap/external"
 		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.2.jar
@@ -598,24 +600,23 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} portletapi-1 portletapi.jar portlet.jar
 	fi
 
-	if [ -e ${S}/core ] ; then
+	if [ -e "${S}"/core ] ; then
 		einfo "Symlinking jars for core"
 		target="core/javahelp/external"
 		dosymcompilejar ${target} javahelp jh.jar jh-2.0_05.jar
 	fi
 
-	if [ -e ${S}/db ] ; then
+	if [ -e "${S}"/db ] ; then
 		einfo "Symlinking jars for db"
 	fi
 
-	if [ -e ${S}/enterprise ] ; then
+	if [ -e "${S}"/enterprise ] ; then
 		einfo "Symlinking jars for enterprise"
 		target="enterprise/dataintegrator/external"
 		dosymcompilejar ${target} avalon-logkit-2.0 avalon-logkit.jar avalon-logkit-current.jar
 		dosymcompilejar ${target} axion axion.jar axiondb.jar
 		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.3.jar
 		dosymcompilejar ${target} commons-collections commons-collections.jar commons-collections-3.0.jar
-		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.1.jar
 		dosymcompilejar ${target} commons-primitives commons-primitives.jar commons-primitives-1.0.jar
 		dosymcompilejar ${target} jexcelapi-2.5 jexcelapi.jar jxl.jar
 		dosymcompilejar ${target} jsr173 jsr173.jar jsr173_api.jar
@@ -666,45 +667,45 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} log4j log4j.jar log4j-1.2.13.jar
 	fi
 
-	if [ -e ${S}/form ] ; then
+	if [ -e "${S}"/form ] ; then
 		einfo "Symlinking jars for forms"
 	fi
 
-	if [ -e ${S}/httpserver ] ; then
+	if [ -e "${S}"/httpserver ] ; then
 		einfo "Symlinking jars for httpserver"
 	fi
 
-	if [ -e ${S}/java ] ; then
+	if [ -e "${S}"/java ] ; then
 		einfo "Symlinking jars for java"
 	fi
 
-	if [ -e ${S}/junit ] ; then
+	if [ -e "${S}"/junit ] ; then
 		einfo "Symlinking jars for junit"
 		target="junit/external"
 		dosymcompilejar ${target} junit junit.jar junit-3.8.2.jar
 		dosymcompilejar ${target} junit-4 junit.jar junit-4.1.jar
 	fi
 
-	if [ -e ${S}/j2ee ] ; then
+	if [ -e "${S}"/j2ee ] ; then
 		einfo "Symlinking jars for j2ee"
 		target="j2ee/external"
 		dosymcompilejar ${target} glassfish-persistence
 	fi
 
-	if [ -e ${S}/j2eeserver ] ; then
+	if [ -e "${S}"/j2eeserver ] ; then
 		einfo "Symlinking jars for j2eeserver"
 		target="j2eeserver/external"
 		# sun-j2ee-deployment-bin is not compatible with glassfish deployment library anymore
 		#dosymcompilejar ${target} sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
 	fi
 
-	if [ -e ${S}/lexer ] ; then
+	if [ -e "${S}"/lexer ] ; then
 		einfo "Symlinking jars for lexer"
 		target="lexer/external"
 		dosymcompilejar ${target} antlr antlr.jar antlr-2.7.1.jar
 	fi
 
-	if [ -e ${S}/libs ] ; then
+	if [ -e "${S}"/libs ] ; then
 		einfo "Symlinking jars for libs"
 		target="libs/commons_lang/external"
 		dosymcompilejar ${target} commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
@@ -720,7 +721,7 @@ place_unpack_symlinks() {
 		target="libs/jsch/external"
 		dosymcompilejar ${target} jsch jsch.jar jsch-0.1.24.jar
 		target="libs/lucene/external"
-		dosymcompilejar ${target} lucene-2 lucene-core.jar lucene-core-2.1.0.jar
+		dosymcompilejar ${target} lucene-2 lucene-core.jar lucene-core-2.2.0.jar
 		target="libs/swing-layout/external"
 		dosymcompilejar ${target} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 		target="libs/xerces/external"
@@ -729,13 +730,13 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} xml-xmlbeans-1 xbean.jar xbean-1.0.4.jar
 	fi
 
-	if [ -e ${S}/mobility ] ; then
+	if [ -e "${S}"/mobility ] ; then
 		einfo "Symlinking jars for mobility"
 		target="mobility/ant-ext/external"
 		dosymcompilejar ${target} ant-contrib ant-contrib.jar ant-contrib-1.0b3.jar
 		target="mobility/cdcplugins/ricoh/external"
 		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.3.jar
-		dosymcompilejar ${target} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
+		dosymcompilejar ${target} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.jar
 		target="mobility/deployment/ftpscp/external"
 		dosymcompilejar ${target} commons-net commons-net.jar commons-net-1.4.1.jar	fi
 		dosymcompilejar ${target} jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
@@ -744,34 +745,34 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} commons-logging commons-logging.jar
 		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
 		target="mobility/proguard/external"
-		dosymcompilejar ${target} proguard proguard.jar proguard4.0.1.jar
+		dosymcompilejar ${target} proguard proguard.jar proguard3.7.jar
 	fi
 
-	if [ -e ${S}/monitor ] ; then
+	if [ -e "${S}"/monitor ] ; then
 		einfo "Symlinking jars for monitor"
 	fi
 
-	if [ -e ${S}/performance ] ; then
+	if [ -e "${S}"/performance ] ; then
 		einfo "Symlinking jars for performance"
 	fi
 
-	if [ -e ${S}/ruby ] ; then
+	if [ -e "${S}"/ruby ] ; then
 		einfo "Symlinking jars for ruby"
 		target="ruby/kxml2/external"
 		dosymcompilejar ${target} kxml-2 kxml2.jar kxml2-2.3.0.jar
 	fi
 
-	if [ -e ${S}/serverplugins ] ; then
+	if [ -e "${S}"/serverplugins ] ; then
 		einfo "Symlinking jars for serverplugins"
 		target="serverplugins/external"
 		dosymcompilejar ${target} sun-jmx jmxri.jar jmxremote.jar
 	fi
 
-	if [ -e ${S}/subversion ] ; then
+	if [ -e "${S}"/subversion ] ; then
 		einfo "Symlinking jars for subversion"
 	fi
 
-	if [ -e ${S}/tasklist ] ; then
+	if [ -e "${S}"/tasklist ] ; then
 		einfo "Symlinking jars for tasklist"
 		target="tasklist/html/external"
 		dosymcompilejar ${target} jtidy Tidy.jar Tidy-r7.jar
@@ -783,19 +784,19 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} checkstyle
 	fi
 
-	if [ -e ${S}/uml ] ; then
+	if [ -e "${S}"/uml ] ; then
 		einfo "Symlinking jars for uml"
 		target="uml/antlr-2-7-2/external"
 		#dosymcompilejar ${target} antlr antlr.jar antlr-2.7.2.jar
 	fi
 
-	if [ -e ${S}/visualweb ] ; then
+	if [ -e "${S}"/visualweb ] ; then
 		einfo "Symlinking jars for visualweb"
 		target="visualweb/ravelibs/rowset/external"
 		dosymcompilejar ${target} sun-jdbc-rowset-bin rowset.jar rowset-1.0.1.jar
 	fi
 
-	if [ -e ${S}/web ] ; then
+	if [ -e "${S}"/web ] ; then
 		einfo "Symlinking jars for web"
 		target="web/css/external"
 		dosymcompilejar ${target} flute
@@ -805,7 +806,7 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} jakarta-jstl standard.jar standard-1.1.2.jar
 	fi
 
-	if [ -e ${S}/xml ] ; then
+	if [ -e "${S}"/xml ] ; then
 		einfo "Symlinking jars for xml"
 		target="xml/jxpath/external"
 		#dosymcompilejar ${target} commons-jxpath commons-jxpath.jar jxpath1.1.jar
@@ -813,7 +814,7 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} prefuse-2006 prefuse.jar
 	fi
 
-	if [ -e ${S}/xtest ] ; then
+	if [ -e "${S}"/xtest ] ; then
 		einfo "Symlinking jars for xtest"
 	fi
 }
@@ -935,7 +936,7 @@ dosymcompilejar() {
 		# something is wrong
 		local target="${S}/${dest}/${target_file}"
 		[ ! -e "${target}" ] && die "Target jar does not exist so will not create link: ${target}"
-		java-pkg_jar-from --build-only --into ${S}/${dest} ${package} ${jar_file} ${target_file}
+		java-pkg_jar-from --build-only --into "${S}"/${dest} ${package} ${jar_file} ${target_file}
 	fi
 }
 

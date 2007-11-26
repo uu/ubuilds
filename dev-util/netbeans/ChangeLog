@@ -2,6 +2,15 @@
 # Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 Nov 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  +files/6.1/visualweb-JxpsSerializer.java-xerces-2.8.1.patch, ++, ++,
+  +files/6.1/config.sh, +files/6.1/startscript.sh,
+  -netbeans-6.0_beta1_p20071016040557.ebuild,
+  -netbeans-6.0_beta2_p20071024005630.ebuild,
+  -netbeans-6.0_beta2_p20071105091953.ebuild,
+  -netbeans-6.0_rc1_p20071119081056.ebuild:
+  nb 6.0 version bump and added nb 6.1 ebuild in separate slot
+
   19 Nov 2007; Miroslav Šulc <fordfrog@gentoo.org> ++:
   Version bump
 
