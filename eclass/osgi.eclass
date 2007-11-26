@@ -1,8 +1,4 @@
 # Base eclass for Java packages that needs to be OSGi compliant
-# 
-# Note that the main goal of this eclass was to make jars that would work with Eclipse-3.3.
-# In the future however, we could imagine that a lot of packages would use this class,
-# so that the Gentoo Java system would work very well with OSGi.
 #
 # Copyright (c) 2007, Jean-Noël Rivasseau <elvanor@gmail.com>
 # Copyright (c) 2007, Gentoo Foundation
@@ -11,10 +7,26 @@
 #
 # $Header: /var/cvsroot/gentoo-x86/eclass/java-utils-2.eclass,v 1.92 2007/08/05 08:17:05 betelgeuse Exp $
 
+# -----------------------------------------------------------------------------
+# @eclass-begin
+# @eclass-shortdesc Java OSGi eclass
+# @eclass-maintainer java@gentoo.org
+#
+# This eclass provides functionality which is used by
+# packages that need to be OSGi compliant. This means
+# that the generated jars will have special headers in their manifests.
+# Currently this is used only by Eclipse-3.3 - later
+# we could extend this so that Gentoo Java system would be
+# fully OSGi compliant.
+#
+# -----------------------------------------------------------------------------
+
+inherit java-utils-2
+
 # We define _OSGI_T so that it does not contain a slash at the end.
-# According to Paludis guys, there is currently a proposal for EAPIs that 
+# According to Paludis guys, there is currently a proposal for EAPIs that
 # would require all variables to end with a slash.
-	
+
 _OSGI_T="${T/%\//}"
 
 # -----------------------------------------------------------------------------
@@ -39,12 +51,12 @@ _java-pkg_osgi-plugin() {
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function _java-pkg_osgi
+# @ebuild-function _java-pkg_osgijar
 #
 # This is an internal function, not to be called directly.
 #
 # @example
-#	_java-pkg_osgi "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
+#	_java-pkg_osgijar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
 #
 # @param $1 - name of jar to repackage with OSGi
 # @param $2 - bundle symbolic name
@@ -53,15 +65,16 @@ _java-pkg_osgi-plugin() {
 #
 # ------------------------------------------------------------------------------
 
-_java-pkg_osgi() {
-	[[ ${#} -lt 4 ]] && die "At least four arguments needed"	
+_java-pkg_osgijar() {
+	debug-print-function ${FUNCNAME} $*
+	[[ ${#} -lt 4 ]] && die "At least four arguments needed"
 
-	mkdir "${_OSGI_T}/tmp_jar"
-	[[ -d "${_OSGI_T}/osgi" ]] || mkdir "${_OSGI_T}/osgi"
+	mkdir "${_OSGI_T}/tmp_jar" || die "Unable to create directory ${_OSGI_T}/tmp_jar"
+	[[ -d "${_OSGI_T}/osgi" ]] || mkdir "${_OSGI_T}/osgi" || die "Unable to create directory ${_OSGI_T}/osgi"
 
-	local jar_name="$(basename $1)"	
+	local jar_name="$(basename $1)"
 	cp "$1" "${_OSGI_T}/tmp_jar" && pushd "${_OSGI_T}/tmp_jar" > /dev/null
-	jar xf "${jar_name}" && rm "${jar_name}" && popd > /dev/null
+	jar xf "${jar_name}" && rm "${jar_name}" && popd > /dev/null || die "Unable to uncompress correctly the original jar"
 
 	cat > "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" <<-EOF
 	Manifest-Version: 1.0
@@ -73,11 +86,11 @@ _java-pkg_osgi() {
 	Bundle-Version: ${PV}
 	Export-Package: ${3}
 	EOF
-	
+
 	_java-pkg_osgi-plugin ${4}
 
 	jar cfm "${_OSGI_T}/osgi/${jar_name}" "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" \
-		-C "${_OSGI_T}/tmp_jar/" . > /dev/null
+		-C "${_OSGI_T}/tmp_jar/" . > /dev/null || die "Unable to recreate the OSGi compliant jar"
 	rm -rf "${_OSGI_T}/tmp_jar"
 }
 
@@ -85,7 +98,7 @@ _java-pkg_osgi() {
 # @ebuild-function java-pkg_doosgijar
 #
 # Rewrites a jar, and produce an OSGi compliant jar from arguments given on the command line.
-# The arguments given correspond to the minimal set of headers 
+# The arguments given correspond to the minimal set of headers
 # that must be present on a Manifest file of an OSGi package.
 # If you need more headers, you should use the *-fromfile functions below,
 # that create the Manifest from a file.
@@ -101,9 +114,10 @@ _java-pkg_osgi() {
 #
 # ------------------------------------------------------------------------------
 
-java-pkg_doosgijar() {	
+java-pkg_doosgijar() {
+	debug-print-function ${FUNCNAME} $*
 	local jar_name="$(basename $1)"
-	_java-pkg_osgi "$@"
+	_java-pkg_osgijar "$@"
 	java-pkg_dojar "${_OSGI_T}/osgi/${jar_name}"
 }
 
@@ -121,16 +135,27 @@ java-pkg_doosgijar() {
 #	java-pkg_newosgijar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
 #
 # @param $1 - name of jar to repackage with OSGi
-# @param $2 - bundle symbolic name
-# @param $3 - export-package-header
-# @param $4 - bundle name
+# @param $2 (optional) - name of the target jar. It will default to package name if not specified.
+# @param $3 - bundle symbolic name
+# @param $4 - export-package-header
+# @param $5 - bundle name
 #
 # ------------------------------------------------------------------------------
 
 java-pkg_newosgijar() {
+	debug-print-function ${FUNCNAME} $*
 	local jar_name="$(basename $1)"
-	_java-pkg_osgi "$@"
-	java-pkg_newjar "${_OSGI_T}/osgi/${jar_name}"
+	
+	if [[ ${#} > 4 ]]; then
+		local newName="$2"
+		local arguments=("$@")
+		unset arguments[1]
+		_java-pkg_osgijar "${arguments[@]}"
+		java-pkg_newjar "${_OSGI_T}/osgi/${jar_name}" "${newName}"
+	else
+		_java-pkg_osgijar "$@"
+		java-pkg_newjar "${_OSGI_T}/osgi/${jar_name}"
+	fi
 }
 
 # -----------------------------------------------------------------------------
@@ -149,6 +174,7 @@ java-pkg_newosgijar() {
 # ------------------------------------------------------------------------------
 
 _java-pkg_osgijar-fromfile() {
+	debug-print-function ${FUNCNAME} $*	
 	local counter=0
 	local noversion=0
 
@@ -164,12 +190,12 @@ _java-pkg_osgijar-fromfile() {
 
 	((${#arguments[@]} < 3)) && die "At least three arguments (not counting --noversion) are needed for java-pkg_osgijar-fromfile()"
 
-	mkdir "${_OSGI_T}/tmp_jar"
-	[[ -d "${_OSGI_T}/osgi" ]] || mkdir "${_OSGI_T}/osgi"
+	mkdir "${_OSGI_T}/tmp_jar" || die "Unable to create directory ${_OSGI_T}/tmp_jar"
+	[[ -d "${_OSGI_T}/osgi" ]] || mkdir "${_OSGI_T}/osgi" || die "Unable to create directory ${_OSGI_T}/osgi"
 
 	local jar_name="$(basename ${arguments[0]})"
 	cp "${arguments[0]}" "${_OSGI_T}/tmp_jar" && pushd "${_OSGI_T}/tmp_jar" > /dev/null
-	jar xf "${jar_name}" && rm "${jar_name}" && popd > /dev/null
+	jar xf "${jar_name}" && rm "${jar_name}" && popd > /dev/null || die "Unable to uncompress correctly the original jar"
 
 	# We automatically change the version unless --noversion is present
 
@@ -183,7 +209,7 @@ _java-pkg_osgijar-fromfile() {
 	_java-pkg_osgi-plugin "${arguments[2]}"
 
 	jar cfm "${_OSGI_T}/osgi/${jar_name}" "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" \
-		-C "${_OSGI_T}/tmp_jar/" . > /dev/null
+		-C "${_OSGI_T}/tmp_jar/" . > /dev/null || die "Unable to recreate the OSGi compliant jar"
 	rm -rf "${_OSGI_T}/tmp_jar"
 }
 
@@ -207,13 +233,14 @@ _java-pkg_osgijar-fromfile() {
 # ------------------------------------------------------------------------------
 
 java-pkg_newosgijar-fromfile() {
+	debug-print-function ${FUNCNAME} $*	
 	local jar_name="$(basename $1)"
 	if [[ ${#} > 3 ]]; then
 		local newName="$2"
 		local arguments=("$@")
 		unset arguments[1]
 		_java-pkg_osgijar-fromfile "${arguments[@]}"
-		java-pkg_newjar "${_OSGI_T}/osgi/${jar_name}"	"${newName}"
+		java-pkg_newjar "${_OSGI_T}/osgi/${jar_name}" "${newName}"
 	else
 		_java-pkg_osgijar-fromfile "$@"
 		java-pkg_newjar "${_OSGI_T}/osgi/${jar_name}"
@@ -239,6 +266,7 @@ java-pkg_newosgijar-fromfile() {
 # ------------------------------------------------------------------------------
 
 java-pkg_doosgijar-fromfile() {
+	debug-print-function ${FUNCNAME} $*
 	local jar_name="$(basename $1)"
 	_java-pkg_osgijar-fromfile "$@"
 	java-pkg_dojar "${_OSGI_T}/osgi/${jar_name}"
