@@ -199,6 +199,8 @@ _java-pkg_osgijar-fromfile() {
 
 	# We automatically change the version unless --noversion is present
 
+	[[ -e "${arguments[1]}" ]] || die "Manifest file ${arguments[1]} not found"
+				
 	if [[ "${noversion}" == 1 ]]; then
 		cat "${arguments[1]}" > "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF"
 	else

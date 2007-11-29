@@ -50,7 +50,7 @@ CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
 	dev-java/ant-nodeps
 	=dev-java/junit-3*
 	=dev-java/junit-4*
-	=dev-java/swt-${SLOT}-r1
+	>=dev-java/swt-${PV}
 	=dev-java/jsch-0.1.34-r1
 	=dev-java/icu4j-3.6.1
 	=dev-java/commons-el-1.0-r2
