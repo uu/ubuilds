@@ -10,7 +10,7 @@ HOMEPAGE="https://jain-sip.dev.java.net/"
 SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2"
 LICENSE="as-is"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="examples test"
 
 COMMON_DEPEND="dev-java/log4j
