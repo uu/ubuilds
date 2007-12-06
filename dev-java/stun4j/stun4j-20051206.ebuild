@@ -10,7 +10,7 @@ HOMEPAGE="https://stun4j.dev.java.net/"
 SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2"
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE="source test"
 DEPEND=">=virtual/jdk-1.4
 	test? ( =dev-java/junit-3.8* )"
