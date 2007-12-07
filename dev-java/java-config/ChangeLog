@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 Dec 2007; Petteri Räty <betelgeuse@gentoo.org>
+  -java-config-2.0.9999.ebuild:
+  Delete old ebuild.
+
   26 Nov 2007; <alistair@gentoo.org> +java-config-2.1.9999.ebuild:
   Revbump java-config svn ebuild to support new install locations.
 
