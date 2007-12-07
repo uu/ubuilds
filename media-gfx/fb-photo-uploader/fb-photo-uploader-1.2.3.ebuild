@@ -22,7 +22,7 @@ RDEPEND=">=virtual/jre-1.5
 	 dev-java/commons-logging
 	 >=dev-java/ehcache-1.2
 	 dev-java/log4j
-	 dev-java/json"
+	 dev-java/json-simple"
 
 DEPEND=">=virtual/jdk-1.5
 	test?
@@ -39,7 +39,7 @@ src_unpack() {
 	unpack ${A}
 	epatch ${FILESDIR}/gentoo-${PV}.patch
 	cd ${S}/lib
-	java-pkg_jarfrom browserlauncher2-1.0,commons-collections,commons-configuration,commons-lang-2.1,ehcache-1.2,json,log4j
+	java-pkg_jarfrom browserlauncher2-1.0,commons-collections,commons-configuration,commons-lang-2.1,ehcache-1.2,json-simple,log4j
 	java-pkg_jarfrom commons-logging commons-logging.jar
 	use test && java-pkg_jarfrom --build-only junit
 }

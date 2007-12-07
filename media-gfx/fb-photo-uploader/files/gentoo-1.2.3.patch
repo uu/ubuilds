@@ -1,6 +1,6 @@
-diff -Nur fb-photo-uploader-1.2.2/build.xml fb-photo-uploader-1.2.2_patched/build.xml
---- fb-photo-uploader-1.2.2/build.xml	2007-06-28 19:10:03.000000000 +0300
-+++ fb-photo-uploader-1.2.2_patched/build.xml	2007-11-17 15:57:52.000000000 +0200
+diff -Nur fb-photo-uploader-1.2.3/build.xml fb-photo-uploader-1.2.3_patched/build.xml
+--- fb-photo-uploader-1.2.3/build.xml	2007-06-28 19:10:03.000000000 +0300
++++ fb-photo-uploader-1.2.3_patched/build.xml	2007-12-07 06:03:32.000000000 +0200
 @@ -40,7 +40,8 @@
  		<mkdir dir="${build.dir}" />
  		<mkdir dir="${package.dir}" />
@@ -36,10 +36,10 @@ diff -Nur fb-photo-uploader-1.2.2/build.xml fb-photo-uploader-1.2.2_patched/buil
 -</project>
 \ Dosya sonunda yenisatır yok.
 +</project>
-diff -Nur fb-photo-uploader-1.2.2/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java fb-photo-uploader-1.2.2_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java
---- fb-photo-uploader-1.2.2/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2007-11-15 16:59:29.000000000 +0200
-+++ fb-photo-uploader-1.2.2_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2007-11-17 15:31:57.000000000 +0200
-@@ -149,7 +149,6 @@
+diff -Nur fb-photo-uploader-1.2.3/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java fb-photo-uploader-1.2.3_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java
+--- fb-photo-uploader-1.2.3/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2007-11-16 11:58:58.000000000 +0200
++++ fb-photo-uploader-1.2.3_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2007-12-07 06:05:01.000000000 +0200
+@@ -141,7 +141,6 @@
  
  		_controller.initFacebook();
  		_controller.refreshAlbumList();
@@ -47,7 +47,7 @@ diff -Nur fb-photo-uploader-1.2.2/src/main/java/uk/me/phillsacre/uploader/gui/Ma
  
  		_log.debug("Main window initialised");
  	}
-@@ -160,16 +159,6 @@
+@@ -152,16 +151,6 @@
  	 */
  	private void initComponents()
  	{
@@ -64,7 +64,7 @@ diff -Nur fb-photo-uploader-1.2.2/src/main/java/uk/me/phillsacre/uploader/gui/Ma
  		MainWindowActionListener actionListener = new MainWindowActionListener(
  				_controller);
  
-@@ -409,20 +398,6 @@
+@@ -401,20 +390,6 @@
  		menu.add(menuItem);
  		menu.addSeparator();
  
@@ -82,12 +82,12 @@ diff -Nur fb-photo-uploader-1.2.2/src/main/java/uk/me/phillsacre/uploader/gui/Ma
 -
 -		menu.addSeparator();
 -
- 		menu.add(createImportSubmenu());
- 
- 		menu.addSeparator();
-diff -Nur fb-photo-uploader-1.2.2/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java fb-photo-uploader-1.2.2_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java
---- fb-photo-uploader-1.2.2/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2007-11-14 17:33:56.000000000 +0200
-+++ fb-photo-uploader-1.2.2_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2007-11-17 15:53:02.000000000 +0200
+ 		menuItem = new JMenuItem(MessageSource
+ 				.getMessage("mainwindow.menu.exit"));
+ 		menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
+diff -Nur fb-photo-uploader-1.2.3/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java fb-photo-uploader-1.2.3_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java
+--- fb-photo-uploader-1.2.3/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2007-11-14 17:33:56.000000000 +0200
++++ fb-photo-uploader-1.2.3_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2007-12-07 06:06:08.000000000 +0200
 @@ -30,8 +30,7 @@
  		try
  		{
