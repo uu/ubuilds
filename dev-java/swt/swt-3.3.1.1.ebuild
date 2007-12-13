@@ -197,7 +197,7 @@ src_install() {
 	use x86-fbsd && swt_arch=x86
 	
 	sed "s/SWT_ARCH/${swt_arch}/" "${FILESDIR}/${PN}-3.3-manifest" > MANIFEST_TMP.MF
-	java-pkg_newosgijar-fromfile swt.jar MANIFEST_TMP.MF "Standard Widget Toolkit for GTK 2.0"
+	java-pkg_newosgijar-fromfile "swt.jar" "MANIFEST_TMP.MF" "Standard Widget Toolkit for GTK 2.0"
 
 	java-pkg_sointo /usr/$(get_libdir)
 	java-pkg_doso *.so

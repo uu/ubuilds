@@ -72,9 +72,6 @@ src_install() {
 	echo "ANT_HOME=\"/usr/share/${PN}\"" > ${T}/20ant
 	doenvd ${T}/20ant || die "failed to install env.d file"
 	
-	#java-pkg_doosgijar-fromfile build/lib/ant-launcher.jar "${FILESDIR}/${PN}-launcher-${PV}-manifest" "Apache Ant Launcher"
-	#java-pkg_doosgijar-fromfile build/lib/ant.jar "${FILESDIR}/${P}-manifest" "Apache Ant"
-
 	java-pkg_dojar build/lib/ant-bootstrap.jar
 	java-pkg_dojar build/lib/ant-launcher.jar
 	java-pkg_dojar build/lib/ant.jar	

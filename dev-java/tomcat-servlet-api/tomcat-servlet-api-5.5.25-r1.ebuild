@@ -43,9 +43,8 @@ src_install() {
 	fi
 
 	cd ${S}
-	#java-pkg_dojar *.jar
-	java-pkg_doosgijar-fromfile jsp-api.jar --noversion "${FILESDIR}/jsp-api-2.0-manifest" "Java Server Pages API Bundle"
-	java-pkg_doosgijar-fromfile	servlet-api.jar --noversion "${FILESDIR}/servlet-api-2.4-manifest" "Servlet API Bundle"
+	java-pkg_doosgijar-fromfile --no-auto-version "jsp-api.jar" "${FILESDIR}/jsp-api-2.0-manifest" "Java Server Pages API Bundle"
+	java-pkg_doosgijar-fromfile	--no-auto-version "servlet-api.jar" "${FILESDIR}/servlet-api-2.4-manifest" "Servlet API Bundle"
 	use doc && java-pkg_dohtml -r docs/*
 	use source && java-pkg_dosrc jsr{152,154}/src/share/javax
 }
