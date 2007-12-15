@@ -42,4 +42,5 @@ src_install() {
 	java-pkg_dojar drop/*.jar
 	use doc && java-pkg_dojavadoc docs
 	use source && java-pkg_dosrc src/org src/contrib/com src/test
+	java-pkg_register-ant-task
 }
