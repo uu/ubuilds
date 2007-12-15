@@ -1,8 +1,0 @@
-# ChangeLog for dev-java/jcommon
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  18 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> +jcommon-1.0.9.ebuild,
-  +metadata.xml:
-  Version bump. Two tests fail.
-
