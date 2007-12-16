@@ -28,8 +28,10 @@ DEPEND=">=virtual/jdk-1.4
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEPEND}"
 
+IUSE="examples"
+
 # tests fail
-#IUSE="test"
+#IUSE="examples test"
 RESTRICT="test"
 
 # build.xml already contains source and target
@@ -40,9 +42,6 @@ S="${WORKDIR}/${MY_P}"
 src_unpack() {
 	unpack "${A}"
 	cd "${S}"
-
-	# We do not fork junit tests because we need to disable X11 support for all tests
-	#use test && epatch ${FILESDIR}/${P}-build.xml.patch
 
 	# Use system jars
 	cd lib
@@ -66,6 +65,7 @@ src_install() {
 	java-pkg_dojar build/${PN}.jar
 	java-pkg_dojar build/${PN}-light.jar
 	dodoc README.txt
+	use examples && java-pkg_doexamples examples
 	# docs fail
 	#use doc && java-pkg_dojavadoc build/javadocs
 	use source && java-pkg_dosrc src/{java,java-1.4}/org
