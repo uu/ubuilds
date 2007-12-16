@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  16 Dec 2007; <alistair@gentoo.org>
+  +files/3.3/eclipse-jsch-api-update.patch, +eclipse-sdk-3.3.1.1-r1.ebuild:
+  Bump eclipse-sdk to support newer version of jsch
+
   04 Oct 2007; Jean-Noël Rivasseau <elvanor@gmail.com> files/eclipse-3.3,
   metadata.xml, eclipse-sdk-3.3-r1.ebuild, +eclipse-sdk-3.3-r2.ebuild:
   Initial working ebuild based on geki's work. It uses new ebuilds of swt,
