@@ -2,6 +2,9 @@
 # Copyright 2000-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/jsch/ChangeLog,v 1.50 2007/09/01 15:09:44 betelgeuse Exp $
 
+  16 Dec 2007; <alistair@gentoo.org> +jsch-0.1.36-r1.ebuild:
+  Bump jsch-0.1.36 to support osgi
+
 *jsch-0.1.34 (01 Sep 2007)
 
   01 Sep 2007; Petteri Räty <betelgeuse@gentoo.org> +jsch-0.1.34.ebuild:
