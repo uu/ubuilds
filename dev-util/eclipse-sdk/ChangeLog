@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  16 Dec 2007; <alistair@gentoo.org> -eclipse-sdk-3.2.1-r3.ebuild,
+  -eclipse-sdk-3.3-r3.ebuild:
+  Cleaning up outdated eclipse-sdk ebuilds.
+
   16 Dec 2007; <alistair@gentoo.org>
   +files/3.3/eclipse-jsch-api-update.patch, +eclipse-sdk-3.3.1.1-r1.ebuild:
   Bump eclipse-sdk to support newer version of jsch
