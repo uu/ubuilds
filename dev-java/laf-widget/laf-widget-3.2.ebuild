@@ -7,7 +7,6 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="support for common feel widgets in look-and-feel libraries"
 HOMEPAGE="http://${PN}.dev.java.net/"
-# repackaged from zip and renamed to contain PV
 SRC_URI="https://laf-widget.dev.java.net/files/documents/5097/70070/laf-widget-all.zip"
 LICENSE="BSD"
 SLOT="0"
@@ -27,9 +26,6 @@ src_unpack() {
 	rm -rf lib/*.jar drop/*.jar || die
 	java-ant_rewrite-classpath
 }
-
-EANT_BUILD_TARGET="all"
-EANT_EXTRA_ARGS="-Djdk.home.java_version_1.5.0=${JAVA_HOME}"
 
 src_compile() {
 	eant \
