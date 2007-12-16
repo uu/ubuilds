@@ -113,21 +113,24 @@ src_compile() {
 	# Drop jikes support as it seems to be unfriendly with SWT
 	java-pkg_filter-compiler jikes
 
-	# Identify the AWT path
-	# The IBM VMs and the GNU GCC implementations do not store the AWT libraries
-	# in the same location as the rest of the binary VMs.
-	if [[ ! -z "$(java-config --java-version | grep 'IBM')" ]] ; then
-		export AWT_LIB_PATH=$JAVA_HOME/jre/bin
-	elif [[ ! -z "$(java-config --java-version | grep 'GNU libgcj')" ]] ; then
-		export AWT_LIB_PATH=$JAVA_HOME/$(get_libdir)
+	local AWT_ARCH
+	local JAWTSO="libjawt.so"
+	if [[ $(tc-arch) == 'x86' ]] ; then
+		AWT_ARCH="i386"
+	elif [[ $(tc-arch) == 'ppc' ]] ; then
+		AWT_ARCH="ppc"
 	else
-		if [[ $(tc-arch) == 'x86' ]] ; then
-			export AWT_LIB_PATH=$JAVA_HOME/jre/lib/i386
-		elif [[ $(tc-arch) == 'ppc' ]] ; then
-			export AWT_LIB_PATH=$JAVA_HOME/jre/lib/ppc
-		else
-			export AWT_LIB_PATH=$JAVA_HOME/jre/lib/amd64
-		fi
+		AWT_ARCH="amd64"
+	fi
+	if [[ -f "${JAVA_HOME}/jre/lib/${AWT_ARCH}/${JAWTSO}" ]]; then
+		export AWT_LIB_PATH="${JAVA_HOME}/jre/lib/${AWT_ARCH}"
+	elif [[ -f "${JAVA_HOME}/jre/bin/${JAWTSO}" ]]; then
+		export AWT_LIB_PATH="${JAVA_HOME}/jre/bin"
+	elif [[ -f "${JAVA_HOME}/$(get_libdir)/${JAWTSO}" ]] ; then
+		export AWT_LIB_PATH="${JAVA_HOME}/$(get_libdir)"
+	else
+		eerror "${JAWTSO} not found in the JDK being used for compilation!"
+		die "cannot build AWT library"
 	fi
 
 	# Fix the pointer size for AMD64
