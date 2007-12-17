@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+SLOT=2
 inherit lucene-contrib
 
 DESCRIPTION="Misc addon for lucene"
@@ -12,4 +13,3 @@ src_unpack() {
 	unpack ${A}
 	mv ${S}/contrib/miscellaneous ${S}/contrib/misc
 }
-SLOT=2

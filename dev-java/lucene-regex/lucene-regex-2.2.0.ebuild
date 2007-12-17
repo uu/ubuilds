@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+SLOT=2
 inherit lucene-contrib
 
 DESCRIPTION="Regex addon for lucene"
@@ -19,4 +20,3 @@ src_unpack() {
 	unpack ${A}
 	mkdir -p ${S}/contrib/${LUCENE_MODULE}/lib
 }
-SLOT=2

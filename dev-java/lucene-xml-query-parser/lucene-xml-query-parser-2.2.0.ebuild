@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+SLOT=2
 LUCENE_MODULE_DEPS="queries"
 
 inherit lucene-contrib
@@ -9,4 +10,3 @@ inherit lucene-contrib
 DESCRIPTION="XML Query Parser addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
-SLOT=2

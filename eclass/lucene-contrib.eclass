@@ -20,7 +20,7 @@ RDEPEND=">=virtual/jdk-1.4
 
 for dep in ${LUCENE_MODULE_DEPS}; do
 	DEPEND="${DEPEND} =dev-java/lucene-${dep}-${SLOT}*"
-	RDEPEND="${RDEPEND} >=dev-java/lucene-${dep}-${SLOT}*"
+	RDEPEND="${RDEPEND} =dev-java/lucene-${dep}-${SLOT}*"
 done
 S="${WORKDIR}/lucene-${PV}"
 

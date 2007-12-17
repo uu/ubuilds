@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+SLOT=2
 inherit lucene-contrib
 
 DESCRIPTION="Spellchecker addon for lucene"
@@ -16,4 +17,3 @@ src_unpack() {
 	cp src/test/org/apache/lucene/util/English.java \
 	contrib/${LUCENE_MODULE}/src/test/org/apache/lucene/util/English.java
 }
-SLOT=2
