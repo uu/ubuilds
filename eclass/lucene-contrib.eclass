@@ -25,7 +25,7 @@ done
 S="${WORKDIR}/lucene-${PV}"
 
 lucene-contrib_src_compile() {
-	local gcp=$(java-pkg_getjar lucene-2 lucene-core.jar)
+	local gcp=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
 	cd contrib/${LUCENE_MODULE}
 	for dep in ${LUCENE_MODULE_DEPS}; do
 		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
@@ -39,7 +39,7 @@ lucene-contrib_src_compile() {
 	
 	eant -Dversion=${PV} \
 		-Dproject.classpath="${gcp}" \
-		-Dlucene.jar=$(java-pkg_getjar lucene-2 lucene-core.jar) \
+		-Dlucene.jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar) \
 	jar-core
 }
 
@@ -61,7 +61,7 @@ lucene-contrib_src_test() {
 	done
 	
 	ANT_TASKS="ant-junit" eant -Dproject.classpath="${gcp}" \
-		-Dlucene.jar=$(java-pkg_getjar lucene-2 lucene-core.jar) test
+		-Dlucene.jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar) test
 }
 
 lucene-contrib_src_install() {
