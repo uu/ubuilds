@@ -2,6 +2,9 @@
 # Copyright 2000-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/aspectj/ChangeLog,v 1.22 2007/04/22 14:04:39 caster Exp $
 
+  19 Dec 2007; Petteri Räty <betelgeuse@gentoo.org> aspectj-1.5.3.ebuild:
+  Remove trailing white space.
+
   19 Jul 2007; Jean-Noël Rivasseau <elvanor@gmail.com>
   +files/aspectj-1.5.3-local.properties, +metadata.xml,
   +aspectj-1.5.3.ebuild:

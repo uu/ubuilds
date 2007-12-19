@@ -42,15 +42,15 @@ CDEPEND="dev-java/bcel
 	=dev-java/saxon-6.5*
 	dev-java/commons-logging
 	dev-java/jdiff"
-	
+
 DEPEND=">=virtual/jdk-1.5
 	sys-apps/findutils
 	=app-text/docbook-xml-dtd-4.1.2*
 	app-text/docbook-xsl-stylesheets
-	>=dev-java/xml-commons-external-1.3		
-	>=dev-java/xerces-2.8.1		
+	>=dev-java/xml-commons-external-1.3
+	>=dev-java/xerces-2.8.1
 	${CDEPEND}"
-	
+
 RDEPEND=">=virtual/jre-1.5
 	${CDEPEND}"
 
@@ -64,35 +64,35 @@ S="${WORKDIR}/${P}/modules"
 src_unpack() {
 	unpack ${A}
 	cd ${S}
-		
+
 	cd build
 	java-ant_rewrite-classpath
 	cp "${FILESDIR}/${P}-local.properties" local.properties
-	
+
 	cd "${S}/lib" && mkdir junit && cd junit
 	java-pkg_jar-from junit
-	
+
 	cd "${S}/lib" && mkdir ant && mkdir ant/lib && cd ant/lib
 	java-pkg_jar-from --build-only ant-core
 	java-pkg_jar-from --build-only xml-commons-external-1.3
 	java-pkg_jar-from --build-only xerces-2
-		
+
 	cd "${S}/lib" && mkdir commons && cd commons
 	java-pkg_jarfrom commons-logging commons-logging.jar commons.jar
-	
+
 	cd "${S}/lib" && mkdir regexp && cd regexp
-	java-pkg_jarfrom jakarta-regexp-1.4	
-	
+	java-pkg_jarfrom jakarta-regexp-1.4
+
 	cd "${S}/lib" && mkdir jdiff && cd jdiff
 	java-pkg_jarfrom jdiff
-	
+
 	cd "${S}/lib" && mkdir saxon && cd saxon
 	java-pkg_jarfrom saxon-6.5
-	
+
 	cd "${S}/lib" && mkdir docbook && cd docbook
 
 	# Here we hardcode the location of docbook-xml-dtd and semi hardcode the location of docbook-xsl-stylesheets
-		
+
 	docbookXslLocation="$(best_version app-text/docbook-xsl-stylesheets | sed 's,app-text/docbook-,,')"
 	einfo "${docbookXslLocation}"
 	ln -s "/usr/share/sgml/docbook/${docbookXslLocation}" docbook-xsl
@@ -110,7 +110,7 @@ src_install() {
 
 	java-pkg_dolauncher ajc --main org.aspectj.tools.ajc.Main
 	java-pkg_dolauncher ajbrowser --main org.aspectj.tools.ajbrowser.Main
-		
+
 	dohtml aj-build/dist/docs/doc/*.html
 	dohtml aj-build/dist/docs/README-AspectJ.html
 	if use doc; then
