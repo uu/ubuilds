@@ -48,10 +48,10 @@ lucene-contrib_src_test() {
 	java-ant_rewrite-classpath build.xml
 	cd contrib && java-ant_rewrite-classpath contrib-build.xml
 	cd ${LUCENE_MODULE} && java-ant_rewrite-classpath build.xml
-	local gcp=$(java-pkg_getjar lucene-2 lucene-core.jar)
+	local gcp=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
 	gcp="${gcp}:$(java-pkg_getjars junit)"
 	for dep in ${LUCENE_MODULE_DEPS}; do
-		local pdep=$(java-pkg_getjars lucene-${dep}-2 )
+		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
 		gcp="${gcp}:${pdep}"
 	done
 	
