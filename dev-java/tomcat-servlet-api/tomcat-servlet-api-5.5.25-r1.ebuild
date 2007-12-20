@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/tomcat-servlet-api/tomcat-servlet-api-5.5.25.ebuild,v 1.2 2007/10/27 09:01:22 nelchael Exp $
 
-inherit eutils java-pkg-2 java-ant-2 osgi
+inherit eutils java-pkg-2 java-ant-2 java-osgi
 
 MY_P="apache-${P/-servlet-api/}-src"
 DESCRIPTION="Tomcat's Servlet API 2.4/JSP API 2.0 implementation"
@@ -43,8 +43,8 @@ src_install() {
 	fi
 
 	cd ${S}
-	java-pkg_doosgijar-fromfile --no-auto-version "jsp-api.jar" "${FILESDIR}/jsp-api-2.0-manifest" "Java Server Pages API Bundle"
-	java-pkg_doosgijar-fromfile	--no-auto-version "servlet-api.jar" "${FILESDIR}/servlet-api-2.4-manifest" "Servlet API Bundle"
+	java-osgi_dojar-fromfile --no-auto-version "jsp-api.jar" "${FILESDIR}/jsp-api-2.0-manifest" "Java Server Pages API Bundle"
+	java-osgi_dojar-fromfile --no-auto-version "servlet-api.jar" "${FILESDIR}/servlet-api-2.4-manifest" "Servlet API Bundle"
 	use doc && java-pkg_dohtml -r docs/*
 	use source && java-pkg_dosrc jsr{152,154}/src/share/javax
 }

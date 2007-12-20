@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/commons-logging/commons-logging-1.1-r2.ebuild,v 1.9 2007/04/07 04:28:54 wltjr Exp $
 
-inherit java-pkg-2 java-ant-2 osgi
+inherit java-pkg-2 java-ant-2 java-osgi
 
 DESCRIPTION="The Jakarta-Commons Logging package is an ultra-thin bridge between different logging libraries."
 HOMEPAGE="http://jakarta.apache.org/commons/logging/"
@@ -46,8 +46,7 @@ src_unpack() {
 EANT_BUILD_TARGET="compile"
 
 src_install() {
-	java-pkg_newosgijar-fromfile "target/${P}.jar" "${FILESDIR}/${P}-manifest" "Apache Commons Logging"
-	#java-pkg_newjar target/${P}.jar ${PN}.jar
+	java-osgi_newjar-fromfile "target/${P}.jar" "${FILESDIR}/${P}-manifest" "Apache Commons Logging"
 	java-pkg_newjar target/${PN}-api-${PV}.jar ${PN}-api.jar
 	java-pkg_newjar target/${PN}-adapters-${PV}.jar ${PN}-adapters.jar
 

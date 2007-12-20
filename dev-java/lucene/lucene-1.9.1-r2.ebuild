@@ -4,7 +4,7 @@
 
 JAVA_PKG_IUSE="test source doc"
 
-inherit java-pkg-2 java-ant-2 osgi
+inherit java-pkg-2 java-ant-2 java-osgi
 
 DESCRIPTION="High-performance, full-featured text search engine written entirely in Java"
 HOMEPAGE="http://jakarta.apache.org/lucene"
@@ -41,7 +41,7 @@ src_test() {
 src_install() {
 	dodoc CHANGES.txt README.txt
 	# WTF is with the jar version below
-	java-pkg_newosgijar-fromfile "build/lucene-core-1.9.2-dev.jar" "lucene-core.jar" "${FILESDIR}/lucene-manifest" "Apache Lucene"
+	java-osgi_newjar-fromfile "build/lucene-core-1.9.2-dev.jar" "${FILESDIR}/lucene-manifest" "Apache Lucene"
 
 	use doc && java-pkg_dojavadoc build/docs/api
 	use source && java-pkg_dosrc src/java/org

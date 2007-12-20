@@ -30,18 +30,18 @@ inherit java-utils-2
 _OSGI_T="${T/%\//}"
 
 # -----------------------------------------------------------------------------
-# @ebuild-function _java-pkg_osgi-plugin
+# @ebuild-function _java-osgi_plugin
 #
 # This is an internal function, not to be called directly.
 #
 # @example
-#	_java-pkg_osgi-plugin "JSch"
+#	_java-osgi_plugin "JSch"
 #
 # @param $1 - bundle name
 #
 # ------------------------------------------------------------------------------
 
-_java-pkg_osgi-plugin() {
+_java-osgi_plugin() {
 	# We hardcode Gentoo as the vendor name
 
 	cat > "${_OSGI_T}/tmp_jar/plugin.properties" <<-EOF
@@ -51,12 +51,12 @@ _java-pkg_osgi-plugin() {
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function _java-pkg_osgijar
+# @ebuild-function _java-osgi_makejar
 #
 # This is an internal function, not to be called directly.
 #
 # @example
-#	_java-pkg_osgijar "dist/${PN}.jar" "com.jcraft.jsch" "JSch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" 
+#	_java-osgi_makejar "dist/${PN}.jar" "com.jcraft.jsch" "JSch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" 
 #
 # @param $1 - name of jar to repackage with OSGi
 # @param $2 - bundle symbolic name
@@ -65,10 +65,10 @@ _java-pkg_osgi-plugin() {
 #
 # ------------------------------------------------------------------------------
 
-_java-pkg_osgijar() {
+_java-osgi_makejar() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	(( ${#} < 4 )) && die "Four arguments are needed for java-pkg_osgijar()"
+	(( ${#} < 4 )) && die "Four arguments are needed for java-osgi_dojar-fromfile()"
 
 	local absoluteJarPath="$(readlink -f ${1})"
 	local jarName="$(basename $1)"
@@ -90,7 +90,7 @@ _java-pkg_osgijar() {
 	Export-Package: ${4}
 	EOF
 
-	_java-pkg_osgi-plugin "${3}"
+	_java-osgi_plugin "${3}"
 
 	jar cfm "${_OSGI_T}/osgi/${jarName}" "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" \
 		-C "${_OSGI_T}/tmp_jar/" . > /dev/null || die "Unable to recreate the OSGi compliant jar"
@@ -98,7 +98,7 @@ _java-pkg_osgijar() {
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function java-pkg_doosgijar
+# @ebuild-function java-osgi_dojar
 #
 # Rewrites a jar, and produce an OSGi compliant jar from arguments given on the command line.
 # The arguments given correspond to the minimal set of headers
@@ -108,7 +108,7 @@ _java-pkg_osgijar() {
 # It will call java-pkg_dojar at the end.
 #
 # @example
-#	java-pkg_doosgijar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
+#	java-osgi_dojar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
 #
 # @param $1 - name of jar to repackage with OSGi
 # @param $2 - bundle symbolic name
@@ -117,15 +117,15 @@ _java-pkg_osgijar() {
 #
 # ------------------------------------------------------------------------------
 
-java-pkg_doosgijar() {
+java-osgi_dojar() {
 	debug-print-function ${FUNCNAME} "$@"
 	local jarName="$(basename ${1})"
-	_java-pkg_osgijar "$@"
+	_java-osgi_makejar "$@"
 	java-pkg_dojar "${_OSGI_T}/osgi/${jarName}"
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function java-pkg_newosgijar
+# @ebuild-function java-osgi_newjar
 #
 # Rewrites a jar, and produce an OSGi compliant jar.
 # The arguments given correspond to the minimal set of headers
@@ -135,7 +135,7 @@ java-pkg_doosgijar() {
 # It will call java-pkg_newjar at the end.
 #
 # @example
-#	java-pkg_newosgijar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
+#	java-osgi_newjar "dist/${PN}.jar" "com.jcraft.jsch" "com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true" "JSch"
 #
 # @param $1 - name of jar to repackage with OSGi
 # @param $2 (optional) - name of the target jar. It will default to package name if not specified.
@@ -145,26 +145,26 @@ java-pkg_doosgijar() {
 #
 # ------------------------------------------------------------------------------
 
-java-pkg_newosgijar() {
+java-osgi_newjar() {
 	debug-print-function ${FUNCNAME} "$@"
 	local jarName="$(basename $1)"
 
 	if (( ${#} > 4 )); then
-		_java-pkg_osgijar "${1}" "${3}" "${4}"
+		_java-osgi_makejar "${1}" "${3}" "${4}"
 		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}" "${2}"
 	else
-		_java-pkg_osgijar "$@"
+		_java-osgi_makejar "$@"
 		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}"
 	fi
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function _java-pkg_osgijar-fromfile
+# @ebuild-function _java-osgi_makejar-fromfile
 #
 # This is an internal function, not to be called directly.
 #
 # @example
-#	_java-pkg_osgijar-fromfile "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "JSch" 1
+#	_java-osgi_makejar-fromfile "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "JSch" 1
 #
 # @param $1 - name of jar to repackage with OSGi
 # @param $2 - path to the Manifest file
@@ -173,10 +173,10 @@ java-pkg_newosgijar() {
 #
 # ------------------------------------------------------------------------------
 
-_java-pkg_osgijar-fromfile() {
+_java-osgi_makejar-fromfile() {
 	debug-print-function ${FUNCNAME} "$@"
 
-	((${#} < 4)) && die "Four arguments are needed for java-pkg_osgijar-fromfile()"
+	((${#} < 4)) && die "Four arguments are needed for _java-osgi_makejar-fromfile()"
 
 	local absoluteJarPath="$(readlink -f ${1})"
 	local jarName="$(basename ${1})"
@@ -192,13 +192,13 @@ _java-pkg_osgijar-fromfile() {
 	# We automatically change the version if automatic version rewriting is on
 					
 	if (( ${4} )); then
-		cat "${2}" > "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF"
-	else
 		cat "${2}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}/" > \
 			"${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF"
+	else
+		cat "${2}" > "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF"
 	fi
 
-	_java-pkg_osgi-plugin "${3}"
+	_java-osgi_plugin "${3}"
 
 	jar cfm "${_OSGI_T}/osgi/${jarName}" "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" \
 		-C "${_OSGI_T}/tmp_jar/" . > /dev/null || die "Unable to recreate the OSGi compliant jar"
@@ -206,7 +206,7 @@ _java-pkg_osgijar-fromfile() {
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function java-pkg_newosgijar-fromfile()
+# @ebuild-function java-osgi_newjar-fromfile()
 #
 # This function produces an OSGi compliant jar from a given manifest file.
 # The Manifest Bundle-Version header will be replaced by the current version
@@ -214,7 +214,7 @@ _java-pkg_osgijar-fromfile() {
 # It will call java-pkg_newjar at the end.
 #
 # @example
-#	java-pkg_newosgijar "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
+#	java-osgi_newjar-fromfile "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
 #
 # @param $opt
 #	--no-auto-version - This option disables automatic rewriting of the 
@@ -226,7 +226,7 @@ _java-pkg_osgijar-fromfile() {
 #
 # ------------------------------------------------------------------------------
 
-java-pkg_newosgijar-fromfile() {
+java-osgi_newjar-fromfile() {
 	debug-print-function ${FUNCNAME} "$@"
 	local versionRewriting=1
 
@@ -237,16 +237,16 @@ java-pkg_newosgijar-fromfile() {
 	local jarName="$(basename ${1})"
 	
 	if (( ${#} > 3 )); then
-		_java-pkg_osgijar-fromfile "${1}" "${3}" "${4}" "${versionRewriting}"
+		_java-osgi_makejar-fromfile "${1}" "${3}" "${4}" "${versionRewriting}"
 		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}" "${2}"
 	else
-		_java-pkg_osgijar-fromfile "$@" "${versionRewriting}"
+		_java-osgi_makejar-fromfile "$@" "${versionRewriting}"
 		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}"
 	fi
 }
 
 # -----------------------------------------------------------------------------
-# @ebuild-function java-pkg_doosgijar-fromfile()
+# @ebuild-function java-osgi_dojar-fromfile()
 #
 # This function produces an OSGi compliant jar from a given manifestfile.
 # The Manifest Bundle-Version header will be replaced by the current version
@@ -254,7 +254,7 @@ java-pkg_newosgijar-fromfile() {
 # It will call java-pkg_dojar at the end.
 #
 # @example
-#	java-pkg_doosgijar "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
+#	java-osgi_dojar-fromfile "dist/${PN}.jar" "${FILESDIR}/MANIFEST.MF" "Standard Widget Toolkit for GTK 2.0"
 #
 # @param $opt
 #	--no-auto-version - This option disables automatic rewriting of the 
@@ -265,7 +265,7 @@ java-pkg_newosgijar-fromfile() {
 #
 # ------------------------------------------------------------------------------
 
-java-pkg_doosgijar-fromfile() {
+java-osgi_dojar-fromfile() {
 	debug-print-function ${FUNCNAME} "$@"
 	local versionRewriting=1
 
@@ -275,6 +275,6 @@ java-pkg_doosgijar-fromfile() {
 	fi
 	local jarName="$(basename ${1})"
 	
-	_java-pkg_osgijar-fromfile "$@" "${versionRewriting}"
+	_java-osgi_makejar-fromfile "$@" "${versionRewriting}"
 	java-pkg_dojar "${_OSGI_T}/osgi/${jarName}"
 }

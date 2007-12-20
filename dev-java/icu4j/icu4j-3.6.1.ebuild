@@ -4,7 +4,7 @@
 
 JAVA_PKG_IUSE=""
 
-inherit java-pkg-2 java-ant-2 osgi
+inherit java-pkg-2 java-ant-2 java-osgi
 
 DESCRIPTION="ICU4J is a mature, widely used set of Java libraries providing Unicode and Globalization support for software applications."
 MY_PV=${PV//./_}
@@ -42,7 +42,7 @@ src_compile() {
 }
 
 src_install() {
-	java-pkg_newosgijar-fromfile "${PN}.jar" "${FILESDIR}/icu4j-${PV}-manifest" "International Components for Unicode for Java (ICU4J)"
+	java-osgi_newjar-fromfile "${PN}.jar" "${FILESDIR}/icu4j-${PV}-manifest" "International Components for Unicode for Java (ICU4J)"
 	java-pkg_dojar "${PN}-charsets.jar"
 	
 	use doc && java-pkg_dohtml -r readme.html docs/*

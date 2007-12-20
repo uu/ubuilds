@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/swt/swt-3.3.ebuild,v 1.2 2007/08/22 16:46:07 mr_bones_ Exp $
 
-inherit eutils java-pkg-2 java-ant-2 toolchain-funcs osgi
+inherit eutils java-pkg-2 java-ant-2 toolchain-funcs java-osgi
 
 MY_PV="${PV}"
 MY_DMF="download.eclipse.org/eclipse/downloads/drops/R-${MY_PV}-200710231652"
@@ -200,7 +200,7 @@ src_install() {
 	use x86-fbsd && swt_arch=x86
 	
 	sed "s/SWT_ARCH/${swt_arch}/" "${FILESDIR}/${PN}-3.3-manifest" > MANIFEST_TMP.MF
-	java-pkg_newosgijar-fromfile "swt.jar" "MANIFEST_TMP.MF" "Standard Widget Toolkit for GTK 2.0"
+	java-osgi_newjar-fromfile "swt.jar" "MANIFEST_TMP.MF" "Standard Widget Toolkit for GTK 2.0"
 
 	java-pkg_sointo /usr/$(get_libdir)
 	java-pkg_doso *.so

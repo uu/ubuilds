@@ -4,7 +4,7 @@
 
 JAVA_PKG_IUSE="source"
 
-inherit java-pkg-2 java-ant-2 osgi
+inherit java-pkg-2 java-ant-2 java-osgi
 
 DESCRIPTION="EL is the JSP 2.0 Expression Language Interpreter from Apache."
 HOMEPAGE="http://jakarta.apache.org/commons/el/"
@@ -36,8 +36,7 @@ src_unpack() {
 }
 
 src_install() {
-	#java-pkg_dojar dist/${PN}.jar || die "Unable to install"
-	java-pkg_doosgijar-fromfile "dist/${PN}.jar" "${FILESDIR}/${P}-manifest" "Apache Commons EL" || die "Unable to install"
+	java-osgi_dojar-fromfile "dist/${PN}.jar" "${FILESDIR}/${P}-manifest" "Apache Commons EL" || die "Unable to install"
 	
 	dodoc LICENSE.txt RELEASE-NOTES.txt || die
 	dohtml STATUS.html PROPOSAL.html || die

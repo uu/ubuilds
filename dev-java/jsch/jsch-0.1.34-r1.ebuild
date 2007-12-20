@@ -4,7 +4,7 @@
 
 JAVA_PKG_IUSE="doc source examples"
 
-inherit java-pkg-2 java-ant-2 osgi
+inherit java-pkg-2 java-ant-2 java-osgi
 
 DESCRIPTION="JSch is a pure Java implementation of SSH2."
 HOMEPAGE="http://www.jcraft.com/jsch/"
@@ -28,7 +28,7 @@ src_compile() {
 src_install() {
 	local export_header="com.jcraft.jsch, com.jcraft.jsch.jce;x-internal:=true, com.jcraft.jsch.jcraft;x-internal:=true"
 	
-	java-pkg_newosgijar ${S}/dist/lib/jsch*.jar "com.jcraft.jsch" "JSch" "${export_header}" 
+	java-osgi_newjar ${S}/dist/lib/jsch*.jar "com.jcraft.jsch" "JSch" "${export_header}" 
 
 	dodoc README ChangeLog || die
 	use doc && java-pkg_dojavadoc javadoc
