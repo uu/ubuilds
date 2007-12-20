@@ -132,7 +132,7 @@ src_install() {
 	sizes="16x16 32x32 48x48 64x64"
 	for size in ${sizes} ; do
 		insinto /usr/share/icons/hicolor/${size}/apps
-		newins "${S}/lib/icons/hicolor/${size}/apps/${PN}.png"
+		doins "${S}/lib/icons/hicolor/${size}/apps/${PN}.png"
 	done
 
 	make_desktop_entry frostwire FrostWire
