@@ -2,6 +2,10 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  28 Dec 2007; <alistair@gentoo.org> +files/taskdef.properties,
+  bnd-0.0.223.ebuild:
+  Adding taskdef.properties file which is missing from src zip
+
   28 Dec 2007; <alistair@gentoo.org> +files/build.xml, +metadata.xml,
   +bnd-0.0.223.ebuild:
   Adding bnd package

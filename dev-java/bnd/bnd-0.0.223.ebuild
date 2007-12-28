@@ -37,20 +37,22 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 	cp "${FILESDIR}/build.xml" build.xml
+	cp "${FILESDIR}/taskdef.properties" \
+		OSGI-OPT/src/aQute/bnd/ant/taskdef.properties
 	mkdir lib || die
 	rm -R aQute
 
-	local jars="org.eclipse.osgi.jar 
-		org.eclipse.core.resources.jar 
-		org.eclipse.jface.jar 
-		org.eclipse.core.commands.jar 
-		org.eclipse.ui.workbench.jar 
-		org.eclipse.jdt.jar 
-		org.eclipse.core.jobs.jar 
-		org.eclipse.core.runtime.compatibility.jar 
-		org.eclipse.core.runtime.jar 
-		org.eclipse.equinox.common.jar 
-		org.eclipse.equinox.registry.jar 
+	local jars="org.eclipse.osgi.jar
+		org.eclipse.core.resources.jar
+		org.eclipse.jface.jar
+		org.eclipse.core.commands.jar
+		org.eclipse.ui.workbench.jar
+		org.eclipse.jdt.jar
+		org.eclipse.core.jobs.jar
+		org.eclipse.core.runtime.compatibility.jar
+		org.eclipse.core.runtime.jar
+		org.eclipse.equinox.common.jar
+		org.eclipse.equinox.registry.jar
 		org.eclipse.jdt.core.jar"
 
 	for jar in ${jars}; do
