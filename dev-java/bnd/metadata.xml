@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>java</herd>
+<longdescription lang="en">
+The bnd tool helps you create and diagnose OSGi R4 bundles. The key functions
+are:  Show the manifest and JAR contents of a bundle, Wrap a JAR so that it
+becomes a bundle, Create a Bundle from a specification and a class path, Verify
+the validity of the manifest entries.
+</longdescription>
+</pkgmetadata>
+
