@@ -2,6 +2,9 @@
 # Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  28 Dec 2007; <alistair@gentoo.org> +eclipse-sdk-3.3.1.1-r2.ebuild:
+  Bumping eclipse-sdk to record its jar files
+
   16 Dec 2007; <alistair@gentoo.org> -eclipse-sdk-3.2.1-r3.ebuild,
   -eclipse-sdk-3.3-r3.ebuild:
   Cleaning up outdated eclipse-sdk ebuilds.
