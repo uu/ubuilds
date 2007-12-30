@@ -1,0 +1,29 @@
+--- build.xml	2007-11-13 14:51:48.000000000 +0200
++++ build.xml.fixed	2007-12-30 07:53:43.000000000 +0200
+@@ -144,10 +144,6 @@
+ 	<target name="jar-bin" description="create runtime jar">
+ 		<delete file="${substance.drop.dir}/substance.jar" />
+ 
+-		<!-- Explode laf-plugin and laf-widget -->
+-		<unjar src="${substance.lib.dir}/laf-plugin-50.jar" dest="${substance.output.dir}/" />
+-		<unjar src="${substance.lib.dir}/laf-widget.jar" dest="${substance.output.dir}/" />
+-
+ 		<!-- LAF augmentation -->
+ 		<laf-augment verbose="true" mainlafclassname="org.jvnet.substance.SubstanceLookAndFeel">
+ 			<delegate name="ToolTipUI" />
+@@ -193,8 +189,6 @@
+ 	<target name="jar-bin-lite" description="create runtime jar with no custom color choosers">
+ 		<mkdir dir="${substance.drop.dir}" />
+ 		<delete file="${substance.drop.dir}/substance-lite.jar" />
+-		<unjar src="${substance.lib.dir}/laf-plugin-50.jar" dest="${substance.output.dir}/" />
+-		<unjar src="${substance.lib.dir}/laf-widget.jar" dest="${substance.output.dir}/" />
+ 
+ 		<jar compress="true" destfile="${substance.drop.dir}/substance-lite.jar">
+ 			<fileset dir="${substance.output.dir}/" excludes="docrobot/** test/** contrib/com/blogofbug/** contrib/ch/** contrib/net/xoetrope/** org/jvnet/substance/SubstanceColorChooserUI* org/jvnet/lafwidget/** org/jvnet/substance/Labels_*" />
+@@ -298,4 +292,4 @@
+ 	</target>
+ 
+ 	<target name="all" depends="timestamp, init, clean, compile.module.substance, jar" description="build all" />
+-</project>
+\ Dosya sonunda yenisatır yok.
++</project>

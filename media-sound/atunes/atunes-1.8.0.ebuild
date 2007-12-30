@@ -2,10 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-# TODO
-# Package substance L&F
-# Add tools to RDEPEND
-
 inherit eutils java-pkg-2
 
 DESCRIPTION="GPL audio player and manager"
@@ -24,9 +20,16 @@ CDEPEND="dev-java/htmlparser
 	dev-java/swingx
 	dev-java/jdictrayapi
 	dev-java/commons-io
-	dev-java/filters"
+	dev-java/filters
+	dev-java/substance
+	dev-java/laf-widget"
 
 RDEPEND="=virtual/jre-1.6*
+	media-sound/vorbis-tools
+	media-libs/flac
+	media-sound/lame
+	media-video/mplayer
+	|| ( app-cdr/cdrtools app-cdr/cdrkit )
 	${CDEPEND}"
 
 DEPEND="=virtual/jdk-1.6*
@@ -36,15 +39,16 @@ S=${WORKDIR}/aTunes
 
 src_unpack() {
 	unpack ${A}
-	mv ${S}/lib/{antBuildNumber,substance}.jar -v ${S}
+	mv ${S}/lib/antBuildNumber.jar -v ${S}
 	rm -rfv ${S}/{lib,win_tools,aTunes.jar}
 }
 
 src_compile() {
 	cd src
 	classpath=$(java-pkg_getjars htmlparser,entagged-audioformats,log4j,jakarta-oro-2.0,jfreechart-1.0,jcommon-1.0,swingx,jdictrayapi,commons-io-1,filters)
+	classpath=${classpath}:$(java-pkg_getjar substance substance.jar):$(java-pkg_getjar laf-widget laf-widget.jar)
 	find . -name '*.java' -print > sources.list
-	ejavac -encoding ISO-8859-1 -classpath .:${classpath}:../antBuildNumber.jar:../substance.jar @sources.list
+	ejavac -encoding ISO-8859-1 -classpath .:${classpath}:../antBuildNumber.jar @sources.list
 	find . -name '*' -not -name '*.java' -type f -not -name 'classes.list' -print > classes.list
 	touch myManifest
 	jar cmf myManifest ../${PN}.jar @classes.list
