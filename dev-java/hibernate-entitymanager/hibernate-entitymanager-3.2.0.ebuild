@@ -19,6 +19,7 @@ IUSE="doc source"
 DEPEND=">=virtual/jdk-1.5"
 RDEPEND=">=virtual/jre-1.5
 	dev-java/antlr
+	dev-java/ant-antlr
 	=dev-java/asm-1.5*
 	dev-java/c3p0
 	=dev-java/cglib-2.1*
@@ -56,7 +57,7 @@ src_unpack() {
 	done
 	java-pkg_jar-from ehcache-1.2 ehcache.jar
 	java-pkg_jar-from cglib-2.1 cglib.jar
-	java-pkg_jar-from ant-tasks ant-antlr.jar
+	java-pkg_jar-from ant-antlr ant-antlr.jar
 	java-pkg_jar-from antlr
 	java-pkg_jar-from ant-core ant.jar
 	java-pkg_jar-from asm-1.5 asm.jar
