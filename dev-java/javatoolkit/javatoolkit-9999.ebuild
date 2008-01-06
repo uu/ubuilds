@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit distutils eutils subversion
+inherit distutils eutils subversion multilib
 
 ESVN_REPO_URI="http://overlays.gentoo.org/svn/proj/java/projects/javatoolkit/branches/layout_refactor_branch"
 
@@ -14,6 +14,10 @@ KEYWORDS=""
 IUSE=""
 
 PYTHON_MODNAME="javatoolkit"
+
+src_install() {
+	distutils_src_install --install-scripts="/usr/$(get_libdir)/${PN}/bin"
+}
 
 pkg_postrm() {
 	distutils_python_version
