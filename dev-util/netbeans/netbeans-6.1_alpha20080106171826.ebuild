@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/netbeans/netbeans-5.5-r4.ebuild,v 1.1 2007/01/28 19:40:16 fordfrog Exp $
 
@@ -33,6 +33,7 @@ SRC_URI="
 	${SOURCE_SITE}/${PN}-nbbuild-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-openide-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-projects-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-translatedfiles-${MY_PV}.tar.bz2
 	apisupport? (
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 	)
@@ -132,6 +133,9 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-ide-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-logger-${MY_PV}.tar.bz2
 	)
+	php? (
+		${SOURCE_SITE}/${PN}-php-${MY_PV}.tar.bz2
+	)
 	profiler? (
 		${SOURCE_SITE}/${PN}-debuggerjpda-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-profiler-${MY_PV}.tar.bz2
@@ -143,8 +147,6 @@ SRC_URI="
 	)
 	soa? (
 		${SOURCE_SITE}/${PN}-enterprise-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-print-${MY_PV}.tar.bz2
-		${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2
 	)
 	stableuc? (
 		${SOURCE_SITE}/${PN}-ant-${MY_PV}.tar.bz2
@@ -170,12 +172,13 @@ SRC_URI="
 		${SOURCE_SITE}/${PN}-visualweb-${MY_PV}.tar.bz2
 	)
 	xml? (
+		${SOURCE_SITE}/${PN}-print-${MY_PV}.tar.bz2
 		${SOURCE_SITE}/${PN}-xml-${MY_PV}.tar.bz2
 	)"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="apisupport cnd debug doc experimental harness ide identity j2ee java javafx mobility nb profiler ruby soa stableuc testtools uml visualweb xml"
+IUSE="apisupport cnd debug doc experimental harness ide identity j2ee java javafx mobility nb php profiler ruby soa stableuc testtools uml visualweb xml linguas_de linguas_es linguas_ja linguas_pt_BR linguas_sq linguas_zh_CN"
 
 #RDEPEND=">=virtual/jre-1.5
 #	>=dev-java/commons-io-1.2
@@ -324,8 +327,13 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use profiler && ! ( use ide && use java && use xml ) ; then
-		eerror "'profiler' USE flag requires 'ide', 'java' and 'xml' USE flags"
+	if use php && ! ( use ide && use ruby ) ; then
+		eerror "'php' USE flag requires 'ide' and 'ruby' USE flags"
+		exit 1
+	fi
+
+	if use profiler && ! ( use ide && use j2ee && use java ) ; then
+		eerror "'profiler' USE flag requires 'ide', 'j2ee' and 'java' USE flags"
 		exit 1
 	fi
 
@@ -428,6 +436,7 @@ src_compile() {
 	use javafx && clusters="${clusters},nb.cluster.javafx"
 	use mobility && clusters="${clusters},nb.cluster.mobility"
 	use nb && clusters="${clusters},nb.cluster.nb"
+	use php && clusters="${clusters},nb.cluster.php"
 	use profiler && clusters="${clusters},nb.cluster.profiler"
 	use ruby && clusters="${clusters},nb.cluster.ruby"
 	use soa && clusters="${clusters},nb.cluster.soa"
@@ -445,8 +454,14 @@ src_compile() {
 	ANT_TASKS="ant-nodeps"
 	use cnd && ANT_TASKS="${ANT_TASKS} antlr-netbeans-cnd"
 	use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
-		-Dbuildnum="${PV}" build-nozip
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml build-nozip
+
+	use linguas_de && compile_locale_support "${antflags}" "${clusters}" de
+	use linguas_es && compile_locale_support "${antflags}" "${clusters}" es
+	use linguas_ja && compile_locale_support "${antflags}" "${clusters}" ja
+	use linguas_pt_BR && compile_locale_support "${antflags}" "${clusters}" pt_BR
+	use linguas_sq && compile_locale_support "${antflags}" "${clusters}" sq
+	use linguas_zh_CN && compile_locale_support "${antflags}" "${clusters}" zh_CN
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
@@ -521,7 +536,7 @@ src_install() {
 		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
 	fi
 	if use ruby ; then
-		local ruby_path="${DESTINATION}/ruby1/jruby-1.0.2/bin"
+		local ruby_path="${DESTINATION}/ruby1/jruby-1.0.3/bin"
 		cd "${D}"/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
 		for file in * ; do
 			fperms 755 ${ruby_path}/${file} || die "Cannot update perms on ${ruby_path}/${file}"
@@ -560,6 +575,12 @@ src_install() {
 	fi
 
 	make_desktop_entry netbeans-${SLOT} "Netbeans ${SLOT}" netbeans-${SLOT}.png Development
+}
+
+pkg_postinst() {
+	einfo "If you want to use specific locale of netbeans, use --locale argument, for example:"
+	einfo "${PN}-${SLOT} --locale de"
+	einfo "${PN}-${SLOT} --locale pt:BR"
 }
 
 pkg_postrm() {
@@ -622,18 +643,13 @@ place_unpack_symlinks() {
 
 	if [ -e "${S}"/enterprise ] ; then
 		einfo "Symlinking jars for enterprise"
-		target="enterprise/dataintegrator/external"
+		target="enterprise/dataintegrator/eTLEditor/external"
 		dosymcompilejar ${target} avalon-logkit-2.0 avalon-logkit.jar avalon-logkit-current.jar
-		dosymcompilejar ${target} axion axion.jar axiondb.jar
-		dosymcompilejar ${target} commons-codec commons-codec.jar commons-codec-1.3.jar
+		# commented out - missing some classes
+		#dosymcompilejar ${target} axion axion.jar axiondb.jar
 		dosymcompilejar ${target} commons-collections commons-collections.jar commons-collections-3.0.jar
-		dosymcompilejar ${target} commons-primitives commons-primitives.jar commons-primitives-1.0.jar
-		dosymcompilejar ${target} jexcelapi-2.5 jexcelapi.jar jxl.jar
-		dosymcompilejar ${target} jsr173 jsr173.jar jsr173_api.jar
-		dosymcompilejar ${target} sjsxp
 		dosymcompilejar ${target} velocity velocity.jar velocity-1.4.jar
-		dosymcompilejar ${target} wsdl4j wsdl4j.jar
-		target="enterprise/dcom/external"
+		target="enterprise/dcom/dcomwizard/external"
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.5.2.jar
 		target="enterprise/libs/httpunit/external"
 		dosymcompilejar ${target} httpunit httpunit.jar httpunit-1.6.2.jar
@@ -646,33 +662,6 @@ place_unpack_symlinks() {
 		dosymcompilejar ${target} jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
 		dosymcompilejar ${target} jsr173 jsr173.jar jsr173_api.jar
 		dosymcompilejar ${target} wsdl4j wsdl4j.jar
-		target="enterprise/openesbaddons/contrib-imola/cics-bc/netbeansplugin/libraries/release/modules/ext"
-		dosymcompilejar ${target} sun-jaf activation.jar activation-1.1.jar
-		dosymcompilejar ${target} antlr antlr.jar antlr-2.7.7.jar
-		dosymcompilejar ${target} asm-2.2 asm.jar asm-all-2.2.3.jar
-		dosymcompilejar ${target} commons-collections commons-collections.jar commons-collections-3.2.jar
-		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
-		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.5.2.jar
-		target="enterprise/openesbaddons/contrib-imola/corba-bc/netbeansplugin/libraries/release/modules/ext"
-		dosymcompilejar ${target} sun-jaf activation.jar activation-1.1.jar
-		dosymcompilejar ${target} antlr antlr.jar antlr-2.7.6.jar
-		dosymcompilejar ${target} asm-2.2 asm.jar asm-all-2.2.3.jar
-		dosymcompilejar ${target} commons-beanutils-1.7 commons-beanutils-core.jar commons-beanutils-core-1.7.0.jar
-		dosymcompilejar ${target} commons-beanutils-1.7 commons-beanutils.jar commons-beanutils-1.7.0.jar
-		dosymcompilejar ${target} commons-lang-2.1 commons-lang.jar commons-lang-2.3.jar
-		dosymcompilejar ${target} checkstyle checkstyle.jar checkstyle-4.3.jar
-		dosymcompilejar ${target} jaxb-2 jaxb-api.jar jaxb-api-2.1.jar
-		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
-		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.6.1.jar
-		target="enterprise/openesbaddons/contrib-imola/ejb-bc/netbeansplugin/libraries/release/modules/ext"
-		dosymcompilejar ${target} sun-jaf activation.jar activation-1.1.jar
-		dosymcompilejar ${target} asm-2.2 asm.jar asm-all-2.2.3.jar
-		dosymcompilejar ${target} commons-lang-2.1 commons-lang.jar commons-lang-2.1.jar
-		dosymcompilejar ${target} jdom-1.0 jdom.jar jdom-1.0.jar
-		dosymcompilejar ${target} jsr173 jsr173.jar jsr173_api-1.0.jar
-		dosymcompilejar ${target} wsdl4j wsdl4j.jar wsdl4j-1.5.2.jar
-		target="enterprise/openesbaddons/smtpmail/release/modules/ext"
-		dosymcompilejar ${target} sun-javamail
 		target="enterprise/openesbaddons/workflow/project/external"
 		dosymcompilejar ${target} log4j log4j.jar log4j-1.2.13.jar
 	fi
@@ -968,4 +957,14 @@ dosyminstjar() {
 		[ ! -e "${D}/${target}" ] && die "Target jar does not exist so will not create link: ${D}/${target}"
 		dosym /usr/share/${package}/lib/${jar_file} ${target}
 	fi
+}
+
+# Compiles locale support
+# Arguments
+# 1 - ant flags
+# 2 - clusters
+# 3 - locale
+compile_locale_support() {
+	einfo "Compiling support for '${3}' locale"
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${1} ${2} -f nbbuild/build.xml -Dlocales=${3} build-nozip-ml
 }

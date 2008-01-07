@@ -1,6 +1,11 @@
 # ChangeLog for dev-util/netbeans
-# Copyright 2002-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  07 Jan 2008; Miroslav Šulc <fordfrog@gentoo.org> ++, netbeans-6.0.ebuild,
+  -netbeans-6.1_alpha20071124024617.ebuild,
+  -netbeans-6.1_alpha20071216221838.ebuild:
+  Version bump + added support for locales
 
   17 Dec 2007; Miroslav Šulc <fordfrog@gentoo.org> ++:
   Version bump

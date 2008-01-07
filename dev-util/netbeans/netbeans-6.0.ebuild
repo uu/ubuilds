@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/netbeans/netbeans-5.5-r4.ebuild,v 1.1 2007/01/28 19:40:16 fordfrog Exp $
 
@@ -33,6 +33,7 @@ SRC_URI="
 	${SOURCE_SITE}/${PN}-nbbuild-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-openide-${MY_PV}.tar.bz2
 	${SOURCE_SITE}/${PN}-projects-${MY_PV}.tar.bz2
+	${SOURCE_SITE}/${PN}-translatedfiles-${MY_PV}.tar.bz2
 	apisupport? (
 		${SOURCE_SITE}/${PN}-apisupport-${MY_PV}.tar.bz2
 	)
@@ -142,7 +143,7 @@ SRC_URI="
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="apisupport cnd debug doc harness ide identity j2ee java mobility nb profiler ruby soa stableuc uml visualweb xml"
+IUSE="apisupport cnd debug doc harness ide identity j2ee java mobility nb profiler ruby soa stableuc uml visualweb xml linguas_de linguas_es linguas_ja linguas_pl linguas_pt_BR linguas_sq linguas_zh_CN"
 
 #RDEPEND=">=virtual/jre-1.5
 #	>=dev-java/commons-io-1.2
@@ -383,8 +384,15 @@ src_compile() {
 	ANT_TASKS="ant-nodeps"
 	use cnd && ANT_TASKS="${ANT_TASKS} antlr-netbeans-cnd"
 	use apisupport && ANT_TASKS="${ANT_TASKS} ant-trax"
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml \
-		-Dbuildnum="${PV}" build-nozip
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml build-nozip
+
+	use linguas_de && compile_locale_support "${antflags}" "${clusters}" de
+	use linguas_es && compile_locale_support "${antflags}" "${clusters}" es
+	use linguas_ja && compile_locale_support "${antflags}" "${clusters}" ja
+	use linguas_pl && compile_locale_support "${antflags}" "${clusters}" pl
+	use linguas_pt_BR && compile_locale_support "${antflags}" "${clusters}" pt_BR
+	use linguas_sq && compile_locale_support "${antflags}" "${clusters}" sq
+	use linguas_zh_CN && compile_locale_support "${antflags}" "${clusters}" zh_CN
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
@@ -498,6 +506,12 @@ src_install() {
 	fi
 
 	make_desktop_entry netbeans-${SLOT} "Netbeans ${SLOT}" netbeans-${SLOT}.png Development
+}
+
+pkg_postinst() {
+	einfo "If you want to use specific locale of netbeans, use --locale argument, for example:"
+	einfo "${PN}-${SLOT} --locale de"
+	einfo "${PN}-${SLOT} --locale pt:BR"
 }
 
 pkg_postrm() {
@@ -898,4 +912,14 @@ dosyminstjar() {
 		[ ! -e "${D}/${target}" ] && die "Target jar does not exist so will not create link: ${D}/${target}"
 		dosym /usr/share/${package}/lib/${jar_file} ${target}
 	fi
+}
+
+# Compiles locale support
+# Arguments
+# 1 - ant flags
+# 2 - clusters
+# 3 - locale
+compile_locale_support() {
+	einfo "Compiling support for '${3}' locale"
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${1} ${2} -f nbbuild/build.xml -Dlocales=${3} build-nozip-ml
 }
