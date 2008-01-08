@@ -1,0 +1,7 @@
+# ChangeLog for dev-java/beansbinding
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  08 Jan 2008; <alistair@gentoo.org> +beansbinding-1.2.1.ebuild:
+  Bump beansbinding to latest version
+
