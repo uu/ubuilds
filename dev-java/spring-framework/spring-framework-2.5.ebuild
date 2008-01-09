@@ -3,7 +3,7 @@
 # $Header: $
 
 WANT_ANT_TASKS="ant-trax" #TODO Figure out what,where,how,why
-JAVA_PKG_IUSE="source doc java5"
+JAVA_PKG_IUSE="source doc"
 inherit java-pkg-2 java-ant-2
 
 MY_PV="${PV/_rc/-rc}"
@@ -57,33 +57,39 @@ CDEPEND="=dev-java/asm-2.2*
 		>=dev-java/junit-4.4
 		dev-java/log4j
 		dev-java/poi
-		>=dev-java/portletapi-1
-		dev-java/jruby
-		>=dev-java/qdox-1.6
-		=dev-java/struts-1.2*
-		dev-java/testng
-		dev-java/glassfish-persistence
-		dev-java/toplink-essentials
 		"
 
 #?? aspectj runtime?
 
+#Optional packages ( still required for build )
+BLAH="~java-virtuals/servlet-api-2.4
+	dev-java/glassfish-persistence
+	java-virtuals/javamail
+	dev-java/jsfapi
+	dev-java/saaj
+	~dev-java/jax-ws-api-2
+	dev-java/glassfish-persistence
+	=dev-java/struts-1.2*
+	dev-java/jruby
+	>=dev-java/portletapi-1"
+
 # ARGH! 1.6 breaks it already!
 DEPEND="
 	>=virtual/jdk-1.5
-	!java5? ( =virtual/jdk-1.4* )
 	>=dev-java/antlr-2.7.6
 	dev-java/aspectj
 	app-arch/zip
+	~dev-java/bnd-0.0.208
+	~dev-java/easymock-1.2
+	dev-java/testng
+	~dev-java/easymockclassextension-1.2
+	>=dev-java/qdox-1.6
+	${BLAH}
 	${ANT_DEPEND}
 	${CDEPEND}"
 # TODO replace sun-jdbc-rowset-bin with free implementation?
 RDEPEND="
-	java5? ( 
-		=virtual/jre-1.5*
-		=dev-java/hibernate-annotations-3.0*
-	)
-	!java5? ( || ( =virtual/jre-1.4* =virtual/jre-1.5* ) )
+	>=virtual/jre-1.5
 	${CDEPEND}"
 S=${WORKDIR}/${MY_P}
 
@@ -115,7 +121,8 @@ src_unpack() {
 # http://opensource.atlassian.com/projects/spring/browse/SPR-1097
 src_compile() {
 	#Use bundled documentation for now.  Some issues with building docs
-	local antflags="clean alljars"
+	#local antflags="clean alljars"
+	local antflags="clean modulejars"
 	#use java5 && antflags="${antflags} ajdoc"
 
 	eant ${antflags} || die "Compilation failed"
@@ -132,21 +139,19 @@ src_install() {
 
 #TODO the following deps
 #aspectj
-#bnd
 #jcommon
 #concurrent-backport
 #jaxen-1.1[_beta9]
-#easymock[-1|-2], easymock-classextension
 #glassfish-clapi
 #hibernate3
 #ibatis
 #j2ee (includes servletapi etc)
-#jarjar
+#>=jarjar-1.0rc4
 #jaxes (saaj jws-api etc)
-#jmx
-#jotm
-#oc4j
-#openjpa
+#jmx (only for 1.4, which I don't plan on supporting )
+#jotm (Dead upstream?)
+#oc4j  #Oracle Container 4 Java (Build Only)
+#openjpa ( Build Time/ Optional Runtime )
 #jdox
 #quartz
 #tiles
@@ -181,6 +186,7 @@ replace_deps() {
 	popd > /dev/null
 	pushd lib/bnd > /dev/null
 		#TODO bnd ali_bush started
+		java-pkg_jar-from --build-only bnd-0.0.208
 	popd > /dev/null
 	pushd lib/bsh > /dev/null
 		rm *.jar || die "Unable to remove jars"
@@ -212,7 +218,7 @@ replace_deps() {
 	popd > /dev/null
 	pushd lib/easymock > /dev/null
 		#TODO Easymock-1 or Easymock2
-		#easymock-classextension
+		java-pkg_jarfrom --build-only "easymock-1,easymockclassextension-1"
 	popd > /dev/null
 	pushd lib/ehcache > /dev/null
 		java-pkg_jar-from ehcache-1.2 ehcache.jar ehcache-1.2.4.jar
@@ -261,7 +267,12 @@ replace_deps() {
 		#TODO Look that the dir name, fool!
 		# Includes servlet-api, so not that bad
 		#rm *.jar || die "Unable to remove jars"
-		#java-pkg_jar-from 
+		#java-pkg_jar-from
+		java-pkg_jar-from --build-only --virtual servlet-api-2.4
+		rm rowset.jar #Not supporting 1.4
+		java-pkg_jar-from --build-only glassfish-persistence
+		java-pkg_jar-from --build-only --virtual javamail
+		java-pkg_jar-from --build-only jsfapi-1
 	popd > /dev/null
 	pushd lib/jakarta-commons > /dev/null
 		#rm *.jar || die "Unable to remove jars"
@@ -287,7 +298,7 @@ replace_deps() {
 	pushd lib/jarjar > /dev/null
 		#TODO jarjar
 		#rm *.jar || die "Unable to remove jars"
-		#java-pkg_jar-from 
+		#java-pkg_jar-from --build-only jarjar-1
 	popd > /dev/null
 	pushd lib/jasperreports > /dev/null
 		#TODO jasperreports :(
@@ -297,18 +308,19 @@ replace_deps() {
 	popd > /dev/null
 	pushd lib/jaxws > /dev/null
 		#rm *.jar || die "Unable to remove jars"
-		#TODO saaj-api.jar
+		java-pkg_jar-from --build-only saaj saaj.jar saaj-api.jar
 		#TODO jws-api.jar
 		#TODO jaxws-api.jar
+		java-pkg_jar-from --build-only jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
 		
-		java-pkg_jar-from jaxb-2 jaxb-api.jar
+		java-pkg_jar-from --build-only jaxb-2 jaxb-api.jar
 	popd > /dev/null
 	pushd lib/jexcelapi > /dev/null
 		rm *.jar || die "Unable to remove jars"
 		java-pkg_jar-from jexcelapi-2.5
 	popd > /dev/null
 	pushd lib/jmx > /dev/null
-		#rm *.jar || die "Unable to remove jars"
+		rm *.jar || die "Unable to remove jars"
 		#java-pkg_jar-from 
 		#TODO jmx
 	popd > /dev/null
@@ -319,7 +331,7 @@ replace_deps() {
 	popd > /dev/null
 	pushd lib/jruby > /dev/null
 		rm *.jar || die "Unable to remove jars"
-		java-pkg_jar-from jruby
+		java-pkg_jar-from --build-only jruby
 	popd > /dev/null
 	pushd lib/junit > /dev/null
 		rm *.jar || die "Unable to remove jars"
@@ -352,7 +364,7 @@ replace_deps() {
 	popd > /dev/null
 	pushd lib/portlet > /dev/null
 		rm *.jar || die "Unable to remove jars"
-		java-pkg_jar-from portletapi-1
+		java-pkg_jar-from --build-only portletapi-1
 	popd > /dev/null
 	pushd lib/qdox > /dev/null
 		#rm *.jar || die "Unable to remove jars"
@@ -370,11 +382,11 @@ replace_deps() {
 	popd > /dev/null
 	pushd lib/struts > /dev/null
 		rm *.jar || die "Unable to remove jars"
-		java-pkg_jar-from struts-1.2
+		java-pkg_jar-from --build-only struts-1.2
 	popd > /dev/null
 	pushd lib/testng > /dev/null
 		rm *.jar || die "Unable to remove jars"
-		java-pkg_jar-from testng
+		java-pkg_jar-from --build-only testng
 	popd > /dev/null
 	pushd lib/tiles > /dev/null
 		#TODO tiles 
