@@ -16,7 +16,7 @@ IUSE="avalon-logkit log4j servletapi avalon-framework doc source"
 RDEPEND=">=virtual/jre-1.3
 	avalon-logkit? ( =dev-java/avalon-logkit-1.2* )
 	log4j? ( =dev-java/log4j-1.2* )
-	servletapi? ( =dev-java/servletapi-2.3* )
+	servletapi? ( ~java-virtuals/servlet-api-2.3 )
 	avalon-framework? ( =dev-java/avalon-framework-4.2* )"
 # ATTENTION: Add this when log4j-1.3 is out
 #	=dev-java/log4j-1.3*
@@ -41,7 +41,7 @@ src_unpack() {
 	# ATTENTION: Add this when log4j-1.3 is out (check the SLOT)
 	#echo "log4j13.jar=$(java-pkg_getjars log4j-1.3)" > build.properties
 	use avalon-logkit && echo "logkit.jar=$(java-pkg_getjars avalon-logkit-1.2)" >> build.properties
-	use servletapi && echo "servletapi.jar=$(java-pkg_getjars servletapi-2.3)" >> build.properties
+	use servletapi && echo "servletapi.jar=$(java-pkg_getjar --virtual servlet-api-2.3 servlet.jar)" >> build.properties
 	use avalon-framework && echo "avalon-framework.jar=$(java-pkg_getjars avalon-framework-4.2)" >> build.properties
 	java-pkg_filter-compiler jikes ecj-3.2
 }
