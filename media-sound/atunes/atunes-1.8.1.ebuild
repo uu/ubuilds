@@ -6,13 +6,13 @@ inherit eutils java-pkg-2
 
 DESCRIPTION="GPL audio player and manager"
 HOMEPAGE="http://www.atunes.org/"
-SRC_URI="mirror://sourceforge/${PN}/aTunes_${PV}.tgz"
+SRC_URI="mirror://sourceforge/${PN}/aTunes_${PV}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 
 CDEPEND="dev-java/htmlparser
-	dev-java/entagged-audioformats
+	dev-java/jaudiotagger
 	dev-java/log4j
 	=dev-java/jakarta-oro-2.0*
 	=dev-java/jfreechart-1.0*
@@ -45,7 +45,7 @@ src_unpack() {
 
 src_compile() {
 	cd src
-	classpath=$(java-pkg_getjars htmlparser,entagged-audioformats,log4j,jakarta-oro-2.0,jfreechart-1.0,jcommon-1.0,swingx,jdictrayapi,commons-io-1,filters)
+	classpath=$(java-pkg_getjars htmlparser,jaudiotagger,log4j,jakarta-oro-2.0,jfreechart-1.0,jcommon-1.0,swingx,jdictrayapi,commons-io-1,filters)
 	classpath=${classpath}:$(java-pkg_getjar substance substance.jar):$(java-pkg_getjar laf-widget laf-widget.jar)
 	find . -name '*.java' -print > sources.list
 	ejavac -encoding ISO-8859-1 -classpath .:${classpath}:../antBuildNumber.jar @sources.list
