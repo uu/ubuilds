@@ -1,6 +1,19 @@
 # ChangeLog for dev-java/openjdk
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  13 Jan 2008; William L. Thomson Jr. <wltjr@gentoo.org>
+  +files/cpuid-fomit-frame-pointer-b23.patch,
+  +files/external-giflib-b23.patch, +files/external-jpeg-splash-b23.patch,
+  +files/external-libpng-b23.patch, +files/external-zlib-b23.patch,
+  +files/external-zlib-splash-b23.patch,
+  +files/fontconfig-directlink-b23.patch,
+  +files/gettimeofday-declaration-b23.patch, +files/jdk-cxxflags-b23.patch,
+  +files/tempname-free-b23.patch, +openjdk-1.7.0.0_alpha23.ebuild:
+  Bumped to b23, couldn't find b24 source. Migrated all patches, dropped a few
+  that no longer apply. Dropped all keywords since it does not merge. Needs
+  work on binary plugins, etc so it will merge. Will resume work later, or
+  anyone else can resume in the mean time
 
 *openjdk-1.7.0.0_alpha18 (18 Aug 2007)
 

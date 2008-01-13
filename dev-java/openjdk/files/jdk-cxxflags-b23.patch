@@ -1,0 +1,12 @@
+diff -Naur work_orig/o/jdk/make/com/sun/java/pack/Makefile work/o/jdk/make/com/sun/java/pack/Makefile
+--- work_orig/o/jdk/make/com/sun/java/pack/Makefile	2008-01-12 20:27:04.000000000 -0500
++++ work/o/jdk/make/com/sun/java/pack/Makefile	2008-01-12 20:28:33.000000000 -0500
+@@ -84,7 +84,7 @@
+   OTHER_CXXFLAGS += $(ZINCLUDE)
+   LDDFLAGS += $(ZIPOBJS)
+ else
+-  OTHER_CXXFLAGS += -DNO_ZLIB -DUNPACK_JNI
++  CXXFLAGS_COMMON += -DNO_ZLIB -DUNPACK_JNI
+   OTHER_LDLIBS += $(JVMLIB)
+ endif
+ 

@@ -1,0 +1,47 @@
+diff -Naur work_orig/o/jdk/make/sun/splashscreen/FILES_c.gmk work/o/jdk/make/sun/splashscreen/FILES_c.gmk
+--- work_orig/o/jdk/make/sun/splashscreen/FILES_c.gmk	2008-01-12 20:08:33.000000000 -0500
++++ work/o/jdk/make/sun/splashscreen/FILES_c.gmk	2008-01-12 20:10:08.000000000 -0500
+@@ -45,10 +45,13 @@
+ 	pngwio.c \
+ 	pngwrite.c \
+ 	pngwtran.c \
+-	pngwutil.c \
+-	dgif_lib.c \
++	pngwutil.c
++
++ifneq ($(EXTERNAL_GIFLIB), true)
++FILES_c = dgif_lib.c \
+ 	gif_err.c \
+ 	gifalloc.c 
++endif
+ 
+ ifneq ($(EXTERNAL_JPEG), true)
+ FILES_c += jcomapi.c \
+diff -Naur work_orig/o/jdk/make/sun/splashscreen/Makefile work/o/jdk/make/sun/splashscreen/Makefile
+--- work_orig/o/jdk/make/sun/splashscreen/Makefile	2008-01-12 20:08:33.000000000 -0500
++++ work/o/jdk/make/sun/splashscreen/Makefile	2008-01-12 20:10:59.000000000 -0500
+@@ -76,7 +76,11 @@
+ #
+ vpath %.c   $(SHARE_SRC)/native/$(PKGDIR)/splashscreen
+ vpath %.c   $(SHARE_SRC)/native/$(PKGDIR)
+-vpath %.c   $(SHARE_SRC)/native/$(PKGDIR)/giflib
++ifeq ($(EXTERNAL_GIFLIB), true)
++  OTHER_LDLIBS += -lgif
++else
++  vpath %.c   $(SHARE_SRC)/native/$(PKGDIR)/giflib
++endif
+ vpath %.c   $(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
+ vpath %.c   $(SHARE_SRC)/native/$(PKGDIR)/libpng
+ vpath %.c   $(SHARE_SRC)/native/$(PKGDIR)/image/jpeg
+diff -Naur work_orig/o/jdk/src/share/native/sun/awt/splashscreen/splashscreen_gif.c work/o/jdk/src/share/native/sun/awt/splashscreen/splashscreen_gif.c
+--- work_orig/o/jdk/src/share/native/sun/awt/splashscreen/splashscreen_gif.c	2008-01-12 20:08:30.000000000 -0500
++++ work/o/jdk/src/share/native/sun/awt/splashscreen/splashscreen_gif.c	2008-01-12 20:11:24.000000000 -0500
+@@ -26,7 +26,7 @@
+ #include "splashscreen_impl.h"
+ #include "splashscreen_gfx.h"
+ 
+-#include "../giflib/gif_lib.h"
++#include "gif_lib.h"
+ 
+ #define GIF_TRANSPARENT     0x01
+ #define GIF_USER_INPUT      0x02

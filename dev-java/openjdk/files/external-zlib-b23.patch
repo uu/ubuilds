@@ -1,0 +1,152 @@
+diff -Naur work_orig/o/jdk/make/com/sun/java/pack/Makefile work/o/jdk/make/com/sun/java/pack/Makefile
+--- work_orig/o/jdk/make/com/sun/java/pack/Makefile	2008-01-12 00:16:25.000000000 -0500
++++ work/o/jdk/make/com/sun/java/pack/Makefile	2008-01-12 00:17:38.000000000 -0500
+@@ -61,6 +61,10 @@
+ 
+ 
+ ifeq ($(STANDALONE),true)
++ ifeq ($(EXTERNAL_ZLIB),true)
++  ZIPOBJS = -lz
++  ZINCLUDE = -DEXTERNAL_ZLIB
++ else
+   ZIPOBJDIR = $(OUTPUTDIR)/tmp/sun/java.util.zip/zip/$(OBJDIRNAME)
+ 
+   ZIPOBJS =  $(ZIPOBJDIR)/zcrc32.$(OBJECT_SUFFIX) \
+@@ -76,6 +80,7 @@
+ 	     $(ZIPOBJDIR)/inffast.$(OBJECT_SUFFIX)
+ 
+   ZINCLUDE=-I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
++ endif
+   OTHER_CXXFLAGS += $(ZINCLUDE)
+   LDDFLAGS += $(ZIPOBJS)
+ else
+diff -Naur work_orig/o/jdk/make/java/jli/Makefile work/o/jdk/make/java/jli/Makefile
+--- work_orig/o/jdk/make/java/jli/Makefile	2008-01-12 00:16:26.000000000 -0500
++++ work/o/jdk/make/java/jli/Makefile	2008-01-12 00:19:43.000000000 -0500
+@@ -66,15 +66,7 @@
+ 	parse_manifest.c \
+ 	version_comp.c \
+ 	wildcard.c \
+-	jli_util.c \
+-	inflate.c \
+-	infblock.c \
+-	inftrees.c \
+-	infcodes.c \
+-	inffast.c \
+-	infutil.c \
+-	zadler32.c \
+-	zutil.c
++	jli_util.c
+ 
+ ifneq ($(PLATFORM), windows)
+ 
+@@ -105,6 +97,20 @@
+ endif # USE_PTHREADS 
+ endif # PLATFORM
+ 
++ifeq ($(EXTERNAL_ZLIB), true)
++  LDLIBS += -lz
++else
++  OTHER_INCLUDES += -I$(ZIP_SRC)
++  FILES_C += inflate.c \
++       infblock.c \
++       inftrees.c \
++       infcodes.c \
++       inffast.c \
++       infutil.c \
++       zadler32.c \
++       zutil.c
++endif
++
+ ifeq ($(PLATFORM), windows)
+ 	EXTRA_LIBS = advapi32.lib \
+ 		     user32.lib
+@@ -121,7 +127,6 @@
+ 
+ OTHER_INCLUDES += -I$(LAUNCHER_SHARE_SRC)
+ OTHER_INCLUDES += -I$(LAUNCHER_PLATFORM_SRC)
+-OTHER_INCLUDES += -I$(ZIP_SRC)
+ 
+ #
+ # Library to compile.
+diff -Naur work_orig/o/jdk/make/java/zip/FILES_c.gmk work/o/jdk/make/java/zip/FILES_c.gmk
+--- work_orig/o/jdk/make/java/zip/FILES_c.gmk	2008-01-12 00:16:26.000000000 -0500
++++ work/o/jdk/make/java/zip/FILES_c.gmk	2008-01-12 00:20:48.000000000 -0500
+@@ -30,7 +30,10 @@
+ 	Inflater.c \
+ 	ZipFile.c \
+ 	ZipEntry.c \
+-	zadler32.c \
++	zip_util.c
++
++ifneq ($(EXTERNAL_ZLIB), true)
++FILES_c += zadler32.c \
+ 	zcrc32.c \
+ 	deflate.c \
+ 	trees.c \
+@@ -40,5 +43,6 @@
+ 	inftrees.c \
+ 	infcodes.c \
+ 	infutil.c \
+-	inffast.c \
+-	zip_util.c
++        inffast.c
++endif
++
+diff -Naur work_orig/o/jdk/make/java/zip/Makefile work/o/jdk/make/java/zip/Makefile
+--- work_orig/o/jdk/make/java/zip/Makefile	2008-01-12 00:16:26.000000000 -0500
++++ work/o/jdk/make/java/zip/Makefile	2008-01-12 00:21:48.000000000 -0500
+@@ -72,16 +72,20 @@
+ CPPFLAGS += -UDEBUG 
+ endif
+ 
+-CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-$(ZLIB_VERSION)
++ifeq ($(EXTERNAL_ZLIB), true)
++  OTHER_LDLIBS += -lz
++else
++  CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-$(ZLIB_VERSION)
++  #
++  # Add to ambient vpath so we pick up the library files
++  #
++  vpath %.c $(SHARE_SRC)/native/$(PKGDIR)/zlib-$(ZLIB_VERSION)
++endif
++
+ CPPFLAGS += -I$(SHARE_SRC)/native/java/io
+ CPPFLAGS += -I$(PLATFORM_SRC)/native/java/io
+ 
+ #
+-# Add to ambient vpath so we pick up the library files
+-#
+-vpath %.c $(SHARE_SRC)/native/$(PKGDIR)/zlib-$(ZLIB_VERSION)
+-
+-#
+ # Link to JVM library for JVM_Zip* functions
+ #
+-OTHER_LDLIBS = $(JVMLIB)
++OTHER_LDLIBS += $(JVMLIB)
+diff -Naur work_orig/o/jdk/src/share/native/com/sun/java/util/jar/pack/defines.h work/o/jdk/src/share/native/com/sun/java/util/jar/pack/defines.h
+--- work_orig/o/jdk/src/share/native/com/sun/java/util/jar/pack/defines.h	2008-01-12 00:16:23.000000000 -0500
++++ work/o/jdk/src/share/native/com/sun/java/util/jar/pack/defines.h	2008-01-12 00:22:48.000000000 -0500
+@@ -87,11 +87,13 @@
+ // bytes and byte arrays
+ 
+ typedef unsigned int uint;
++#ifndef EXTERNAL_ZLIB
+ #ifdef _LP64
+ typedef unsigned int uLong; // Historical zlib, should be 32-bit.
+ #else
+ typedef unsigned long uLong;
+ #endif
++#endif
+ #ifdef _MSC_VER
+ typedef LONGLONG        jlong;
+ typedef DWORDLONG       julong;
+@@ -160,3 +162,8 @@
+ #define BOOL_TF(x) (((x) != null && strcmp((x),STR_TRUE) == 0) ? true : false)
+ 
+ #define DEFAULT_ARCHIVE_MODTIME 1060000000 // Aug 04, 2003 5:26 PM PDT
++
++#ifdef EXTERNAL_ZLIB
++# include <zconf.h>
++#endif
++

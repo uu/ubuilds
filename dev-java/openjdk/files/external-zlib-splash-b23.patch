@@ -1,0 +1,60 @@
+diff -Naur work_orig/o/jdk/make/sun/splashscreen/FILES_c.gmk work/o/jdk/make/sun/splashscreen/FILES_c.gmk
+--- work_orig/o/jdk/make/sun/splashscreen/FILES_c.gmk	2008-01-12 00:16:26.000000000 -0500
++++ work/o/jdk/make/sun/splashscreen/FILES_c.gmk	2008-01-12 00:29:20.000000000 -0500
+@@ -49,20 +49,6 @@
+ 	dgif_lib.c \
+ 	gif_err.c \
+ 	gifalloc.c \
+-	compress.c \
+-	deflate.c \
+-	gzio.c \
+-	infblock.c \
+-	infcodes.c \
+-	inffast.c \
+-	inflate.c \
+-	inftrees.c \
+-	infutil.c \
+-	trees.c \
+-	uncompr.c \
+-	zadler32.c \
+-	zcrc32.c \
+-	zutil.c \
+ 	jcomapi.c \
+ 	jdapimin.c \
+ 	jdapistd.c \
+@@ -108,3 +94,20 @@
+ 	jfdctfst.c \
+ 	jfdctint.c
+ 
++ifneq ($(EXTERNAL_ZLIB),true)
++FILES_c += compress.c \
++       deflate.c \
++       gzio.c \
++       infblock.c \
++       infcodes.c \
++       inffast.c \
++       inflate.c \
++       inftrees.c \
++       infutil.c \
++       trees.c \
++       uncompr.c \
++       zadler32.c \
++       zcrc32.c \
++       zutil.c
++endif
++
+diff -Naur work_orig/o/jdk/make/sun/splashscreen/Makefile work/o/jdk/make/sun/splashscreen/Makefile
+--- work_orig/o/jdk/make/sun/splashscreen/Makefile	2008-01-12 00:16:26.000000000 -0500
++++ work/o/jdk/make/sun/splashscreen/Makefile	2008-01-12 00:30:43.000000000 -0500
+@@ -83,5 +83,10 @@
+ vpath %.c   $(PLATFORM_SRC)/native/$(PKGDIR)/splashscreen
+ 
+ CPPFLAGS += -I$(PLATFORM_SRC)/native/$(PKGDIR)/splashscreen -I$(SHARE_SRC)/native/$(PKGDIR)/splashscreen
+-CPPFLAGS += -I$(SHARE_SRC)/native/$(PKGDIR)/image/jpeg -I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
++CPPFLAGS += -I$(SHARE_SRC)/native/$(PKGDIR)/image/jpeg
+ 
++ifeq ($(EXTERNAL_ZLIB), true)
++  OTHER_LDLIBS += -lz
++else
++  CPPFLAGS += -I$(SHARE_SRC)/native/java/util/zip/zlib-1.1.3
++endif

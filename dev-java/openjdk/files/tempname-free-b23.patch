@@ -1,0 +1,11 @@
+diff -Naur work_orig/o/jdk/src/share/native/com/sun/java/util/jar/pack/unpack.cpp work/o/jdk/src/share/native/com/sun/java/util/jar/pack/unpack.cpp
+--- work_orig/o/jdk/src/share/native/com/sun/java/util/jar/pack/unpack.cpp	2008-01-12 20:51:23.000000000 -0500
++++ work/o/jdk/src/share/native/com/sun/java/util/jar/pack/unpack.cpp	2008-01-12 20:52:16.000000000 -0500
+@@ -4664,6 +4664,7 @@
+ 
+     char *tname = tempnam(tmpdir,"#upkg");
+     sprintf(log_file_name, "%s", tname);
++    ::free(tname);
+     if ((errstrm = fopen(log_file_name, "a+")) != NULL) {
+       log_file = errstrm_name = saveStr(log_file_name);
+       return ;
