@@ -53,7 +53,7 @@ CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
 	>=dev-java/swt-${PV}
 	>=dev-java/jsch-0.1.36-r1
 	>=dev-java/icu4j-3.6.1
-	=dev-java/commons-el-1.0-r2
+	>=dev-java/commons-el-1.0-r2
 	=dev-java/commons-logging-1.1-r3
 	=dev-java/tomcat-servlet-api-5.5.25-r1
 	dev-java/lucene:1.9"
