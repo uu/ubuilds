@@ -1,4 +1,4 @@
-# Copyright 2007-2007 Gentoo Foundation
+# Copyright 2007-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -56,7 +56,7 @@ CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
 	=dev-java/commons-el-1.0-r2
 	=dev-java/commons-logging-1.1-r3
 	=dev-java/tomcat-servlet-api-5.5.25-r1
-	=dev-java/lucene-1.9.1-r1"
+	=dev-java/lucene-1.9.1-r2"
 #	=dev-java/lucene-analyzers-1.9.1"
 
 RDEPEND=">=virtual/jre-1.5
@@ -208,7 +208,7 @@ register_eclipse_jars() {
 		local newfile="$(basename "$line")"
 		local file="/usr/share/${PN}-${SLOT}/lib/${newfile/_*/.jar}"
 		dosym "${line/./}" "${file}"
-		java-pkg_regjar "${file}"
+		#java-pkg_regjar "${D}/${file}"
 	done < <(find . -type f -name '*.jar')
 	popd > /dev/null
 }

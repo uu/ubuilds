@@ -1,6 +1,10 @@
 # ChangeLog for dev-util/eclipse-sdk
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  16 Jan 2008; Alistair Bush <ali_bush@gentoo.org>
+  eclipse-sdk-3.3.1.1-r2.ebuild:
+  Commenting out line causing error till im able to fix it properly.
 
   28 Dec 2007; <alistair@gentoo.org> +eclipse-sdk-3.3.1.1-r2.ebuild:
   Bumping eclipse-sdk to record its jar files
