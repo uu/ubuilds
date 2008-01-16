@@ -3,35 +3,32 @@
 # Tiny startup wrapper for Eclipse-3.3
 #
 # Copyright (c) 2004, Karl Trygve Kalleberg <karltk@gentoo.org>
-# Copyright (c) 2007, Jean-Noël Rivasseau <elvanor@gmail.com>
-# Copyright (c) 2004-2007, Gentoo Foundation
+# Copyright (c) 2007-2008, Jean-Noël Rivasseau <elvanor@gentoo.org>
+# Copyright (c) 2004-2008, Gentoo Foundation
 #
 # Licensed under the GNU General Public License, version 2
 #
 
-[[ -f $HOME/.eclipserc ]] && source $HOME/.eclipserc
+ECLIPSE_XMS="128m"
+ECLIPSE_XMX="256m"
+
+[[ -f "$HOME/.eclipserc" ]] && source "$HOME/.eclipserc"
 
 ECLIPSE_HOME=${ECLIPSE_HOME:="/usr/lib/eclipse-3.3"}
 ECLIPSE_BIN="${ECLIPSE_HOME}/eclipse"
 
-if [ ! -x ${ECLIPSE_BIN} ] ; then
+if [ ! -x "${ECLIPSE_BIN}" ] ; then
 	echo "Failed to find executable '${ECLIPSE_BIN}'" > /dev/stderr
 	exit -1
 fi
 
 if [ $(whoami) == "root" ] ; then
 	echo "!!! You are running Eclipse as root. Be advised that this will modify the contents of"
-	echo "!!! /usr/lib/eclipse-3.3, and that such a modification may prevent you from safely"
-	echo "!!! upgrading to later 3.3 revisions."
-	echo
-	echo "!!! To ensure correct behavior on your next upgrade, do:"
-	echo "!!!  1) 'emerge unmerge \"=eclipse-sdk-3.3*\"'"
-	echo "!!!  2) 'rm -rf /usr/lib/eclipse-3.3'"
-	echo "!!!  3) 'emerge eclipse-sdk'"
+	echo "!!! This is not recommended."
 fi
 
 if [[ -d /usr/lib/mozilla-firefox/ ]]; then
 	export MOZILLA_FIVE_HOME="/usr/lib/mozilla-firefox/"
 fi
 
-exec ${ECLIPSE_BIN} -vm `java-config --java` "$@"  
+exec ${ECLIPSE_BIN} "$@"  
