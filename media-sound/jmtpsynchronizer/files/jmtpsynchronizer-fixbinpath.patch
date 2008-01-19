@@ -1,0 +1,12 @@
+diff -Nur jmtpsynchronizer/JMtpSynchronizer/src/com/mtpsynchronizer/MainFrame.java jmtpsynchronizer_patched/JMtpSynchronizer/src/com/mtpsynchronizer/MainFrame.java
+--- jmtpsynchronizer/JMtpSynchronizer/src/com/mtpsynchronizer/MainFrame.java	2007-12-09 06:24:30.000000000 +0200
++++ jmtpsynchronizer_patched/JMtpSynchronizer/src/com/mtpsynchronizer/MainFrame.java	2008-01-19 18:30:14.000000000 +0200
+@@ -34,7 +34,7 @@
+ 
+ public class MainFrame {
+ 
+-	public static final String MTP_SYNC_XML_COMMAND = "mtpSync/src/mtpsyncxml";
++	public static final String MTP_SYNC_XML_COMMAND = "mtpsyncxml";
+ 
+ 	private static String MTP_TRACKS_XML_FILENAME = "/tmp/mtpTracks.xml";
+ 
