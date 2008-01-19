@@ -6,6 +6,10 @@
 # NOTE: Please add your entry at the top!
 #
 
+~dev-java/java-config-2.1.9999
+#Alistair Bush <ali_bush@gentoo.org> (19 Jan 2008)
+#SVN version of java-config, use at your own risk.
+
 =dev-util/eclipse-sdk-3.2.1-r3
 # Alistair Bush. ali_bush@gentoo.org (27 Aug 2007)
 # Masked as fridrik's patch set is no longer availble
