@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -30,7 +30,7 @@ src_unpack() {
 	cd "${S}/JMtpSynchronizer" || die
 	rm -f lib/entagged-audioformats-0.15.jar dist/*.jar || die
 	java-pkg_jarfrom entagged-audioformats entagged-audioformats.jar lib/entagged-audioformats-0.15.jar
-	epatch ${FILESDIR}/${PN}-fixbinpath.patch
+	epatch "${FILESDIR}/${PN}"-fixbinpath.patch
 }
 
 src_compile() {
