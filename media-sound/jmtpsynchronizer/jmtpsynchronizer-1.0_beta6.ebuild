@@ -15,12 +15,14 @@ KEYWORDS="~amd64"
 S="${WORKDIR}/${PN}"
 
 CDEPEND="dev-java/entagged-audioformats
-	>=media-libs/libmtp-0.2.1"
+	>=media-libs/libmtp-0.2.1
+	>=dev-libs/libxml2-2.6.30"
 
 RDEPEND=">=virtual/jre-1.5
 	${CDEPEND}"
 
 DEPEND=">=virtual/jdk-1.5
+	dev-util/pkgconfig
 	${CDEPEND}"
 
 src_unpack() {
