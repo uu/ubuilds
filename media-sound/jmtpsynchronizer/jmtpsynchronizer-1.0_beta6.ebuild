@@ -6,21 +6,21 @@ inherit eutils java-pkg-2 java-ant-2 autotools
 
 DESCRIPTION="MTPSynchronizer is a very simple interface for adding, deleting and retrieving content from your MTP device, with a Linux desktop"
 HOMEPAGE="http://code.google.com/p/jmtpsynchronizer/"
-SRC_URI="http://jmtpsynchronizer.googlecode.com/files/jmtpsynchronizer-1.0-r79-beta5.tar.gz"
+SRC_URI="http://jmtpsynchronizer.googlecode.com/files/jmtpsynchronizer-1.0-r107-beta6.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 
-S="${WORKDIR}/${PN}/${PN}"
+S="${WORKDIR}/${PN}"
 
 CDEPEND="dev-java/entagged-audioformats
-	media-libs/libmtp" #Instructions say >=0.2.1 needs testing
+	>=media-libs/libmtp-0.2.1"
 
-RDEPEND=">=virtual/jre-1.4
+RDEPEND=">=virtual/jre-1.5
 	${CDEPEND}"
 
-DEPEND=">=virtual/jdk-1.4
+DEPEND=">=virtual/jdk-1.5
 	${CDEPEND}"
 
 src_unpack() {
@@ -28,7 +28,7 @@ src_unpack() {
 	cd "${S}/JMtpSynchronizer" || die
 	rm -f lib/entagged-audioformats-0.15.jar dist/*.jar || die
 	java-pkg_jarfrom entagged-audioformats entagged-audioformats.jar lib/entagged-audioformats-0.15.jar
-	sed -i -e 's:EXIT_ON_CLOSE:DISPOSE_ON_CLOSE:g' src/com/mtpsynchronizer/ChooseFolderDialog.java || die
+	epatch ${FILESDIR}/${PN}-fixbinpath.patch
 }
 
 src_compile() {
