@@ -38,7 +38,8 @@ SRC_URI="http://download.eclipse.org/eclipse/downloads/drops/${DMF}/${MY_A}"
 SLOT="3.3"
 LICENSE="EPL-1.0"
 IUSE="doc"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
+#KEYWORDS="~amd64 ~x86"
 
 S=${WORKDIR}
 PATCHDIR="${FILESDIR}/${SLOT}"
