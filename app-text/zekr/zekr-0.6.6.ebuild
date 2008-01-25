@@ -1,8 +1,8 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-S=${WORKDIR}/${PN}
+EAPI=1
 JAVA_PKG_IUSE="doc source"
 
 inherit eutils font java-pkg-2 java-ant-2 java-utils-2
@@ -26,16 +26,16 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE="linguas_bs linguas_en linguas_fa linguas_fr linguas_id linguas_nl linguas_pt linguas_ru linguas_tr linguas_ur"
 
-COMMON_DEPS="dev-java/commons-collections
-	 dev-java/commons-configuration
-	 =dev-java/commons-io-1*
-	 >=dev-java/commons-lang-2.1
-	 dev-java/commons-logging
-	 dev-java/log4j
-	 >=dev-java/swt-3.3
-	 dev-java/velocity
-	 =dev-java/lucene-2*
-	 =dev-java/lucene-highlighter-2*"
+COMMON_DEPS="dev-java/commons-collections:0
+	 dev-java/commons-configuration:0
+	 dev-java/commons-io:1
+	 dev-java/commons-lang:2.1
+	 dev-java/commons-logging:0
+	 dev-java/log4j:0
+	 dev-java/swt:3
+	 dev-java/velocity:0
+	 dev-java/lucene:2
+	 dev-java/lucene-highlighter:2"
 
 RDEPEND=">=virtual/jre-1.4
 	 ${COMMON_DEPS}"
@@ -46,6 +46,7 @@ DEPEND=">=virtual/jdk-1.4
 	${COMMON_DEPS}"
 
 FONT_SUFFIX="ttf"
+S=${WORKDIR}/${PN}
 
 pkg_setup() {
 	if ! built_with_use -o swt firefox seamonkey xulrunner ; then

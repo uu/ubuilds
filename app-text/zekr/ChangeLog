@@ -1,6 +1,9 @@
 # ChangeLog for app-text/zekr
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  25 Jan 2008; Petteri Räty <betelgeuse@gentoo.org> zekr-0.6.6.ebuild:
+  Migrate to SLOT deps.
 
   30 Sep 2007; <serkan_kaba@yahoo.com>
   Version bump. Add support for extra translations.
