@@ -25,6 +25,7 @@
 # 1) Split patches so that there is one per file
 # 2) Use sed, better solution I would say.
 
+EAPI=1
 
 inherit java-pkg-2 java-ant-2 check-reqs
 
@@ -57,7 +58,7 @@ CDEPEND=">=dev-java/ant-eclipse-ecj-3.3
 	=dev-java/commons-el-1.0-r2
 	=dev-java/commons-logging-1.1-r3
 	=dev-java/tomcat-servlet-api-5.5.25-r1
-	=dev-java/lucene-1.9.1-r2"
+	dev-java/lucene:1.9"
 #	=dev-java/lucene-analyzers-1.9.1"
 
 RDEPEND=">=virtual/jre-1.5
@@ -135,7 +136,7 @@ src_install() {
 	doexe "${FILESDIR}/${SLOT}/eclipse-${SLOT}"
 	chmod +x "${D}/${ECLIPSE_DIR}/eclipse"
 
-	# Install eclipse configuration file.	
+	# Install eclipse configuration file.
 	cat > "${D}/${ECLIPSE_DIR}/eclipse.ini" <<-EOF
 -showsplash
 org.eclipse.platform
