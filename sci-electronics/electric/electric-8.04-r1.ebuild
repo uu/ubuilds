@@ -1,7 +1,8 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sci-electronics/electric/electric-8.04.ebuild,v 1.3 2007/02/18 14:04:35 nixnut Exp $
 
+EAPI=1
 JAVA_PKG_IUSE="doc gnu jmf no3d source"
 
 inherit base eutils java-pkg-2 java-ant-2
@@ -18,7 +19,7 @@ KEYWORDS="~amd64 ~ppc ~x86"
 COMMON_DEPEND="dev-java/ant-core
 	dev-java/apple-java-extensions-bin
 	=dev-java/bsh-2*
-	=dev-java/lucene-1.4*
+	dev-java/lucene:1
 	=dev-java/prefuse-2006*"
 
 DEPEND=">=virtual/jdk-1.5
