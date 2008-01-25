@@ -1,35 +1,40 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-JAVA_PKG_IUSE="readline source doc servlet mysql postgresql"
-#jdnc,  mysql oracle, postgresql
+JAVA_PKG_IUSE="readline source doc servletapi mysql postgres examples oracle"
+#jdnc 
+
+EAPI=1
 
 inherit base java-pkg-2 java-ant-2
 
 DESCRIPTION="An implementation of Python written in Java"
 HOMEPAGE="http://www.jython.org"
 
-MY_PV="installer-2.2b1"
+MY_PV="installer-2.2.1"
 PYVER="2.2.3"
+HT2HTML="ht2html-2.0"
+
 SRC_URI="http://www.python.org/ftp/python/${PYVER%_*}/Python-${PYVER}.tgz
-	  mirror://sourceforge/${PN}/${PN}_${MY_PV}.jar"
+mirror://sourceforge/${PN}/${PN}_${MY_PV}.jar
+mirror://sourceforge/ht2html/${HT2HTML}.tar.gz"
 
 LICENSE="JPython"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64"
 IUSE=""
 
 CDEPEND="=dev-java/jakarta-oro-2.0*
 	readline? ( >=dev-java/libreadline-java-0.8.0 )
-	servlet? ( ~dev-java/servletapi-2.4 )
 	mysql? ( >=dev-java/jdbc-mysql-3.1 )
-	oracle? ( dev-java/jdbc3-oracle )
-	postgresql? ( dev-java/jdbc-postgresql )"
+	postgres? ( dev-java/jdbc-postgresql )
+	oracle? ( dev-java/jdbc-oracle-bin:10.2 )"
 RDEPEND=">=virtual/jre-1.4
 	${CDEPEND}"
 DEPEND=">=virtual/jdk-1.4
 		dev-java/javacc
+		servlet? ( java-virtuals/servlet-api:2.5 )
 		${CDEPEND}"
 
 S="${WORKDIR}"
@@ -38,9 +43,10 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 
-	mv build.xml build.xml.orig
-	sed 's/name="javadoc" if="full-build"/name="javadoc"/' \
-	build.xml.orig > build.xml
+	epatch "${FILESDIR}/test.patch"
+	#mv build.xml build.xml.orig
+	#sed 's/if="full-build"//' \
+	#build.xml.orig > build.xml
 
 	echo javacc.jar="$(java-pkg_getjars --build-only javacc)" > ant.properties
 
@@ -49,7 +55,7 @@ src_unpack() {
 		ant.properties
 	fi
 	if use servlet; then
-		echo "servlet.jar=$(java-pkg_getjar servlet-2.4 servlet.jar)" \
+		echo "servlet.jar=$(java-pkg_getjar --build-only servlet-api-2.5 servlet.jar)" \
 		>> ant.properties
 	fi
 	if use mysql; then
@@ -57,26 +63,36 @@ src_unpack() {
 		>> ant.properties
 	fi
 
-	if postgresql; then
+	if use postgres; then
 		echo \
 		"postgresql.jar=$(java-pkg_getjar jdbc-postgresql jdbc-postgresql.jar)"\
 		 >> ant.properties
 	fi
 
-	#if use oracle; then
-		#something here
-	#fi
+	if use oracle; then
+		echo \
+		"oracle.jar=$(java-pkg-getjar jdbc-oracle-bin-10.2 ojdbc14.jar)" \
+		>> ant.properties
+	fi
 }
 
 
 src_compile() {
-
 	local antflags="-Dbase.path=src/java -Dsource.dir=src/java/src"
+	antflags="${antflags} -Dht2html.dir=${HT2HTML}"
+	local pylib="Python-${PYVER}/Lib"
+	antflags="${antflags} -Dpython.lib=${pylib} -Dsvn.checkout.dir=."
+	LC_ALL=C eant ${antflags} developer-build $(use_doc javadoc)
+}
+
+src_test() {
+	local antflags="-Dbase.path=src/java -Dsource.dir=src/java/src"
+	antflags="${antflags} -Dpython.home=dist"
 	local pylib="Python-${PYVER}/Lib"
 	antflags="${antflags} -Dpython.lib=${pylib}"
-	LC_ALL=C eant ${antflags} developer-build $(use_doc javadoc)
-	#LC_ALL=C eant ${antflags} -Ddo.checkout=false full-build
+	eant ${antflags} regrtest
 }
+
 
 src_install() {
 	java-pkg_dojar "dist/${PN}.jar"
@@ -84,19 +100,21 @@ src_install() {
 	dodoc README.txt NEWS ACKNOWLEDGMENTS
 	use doc && dohtml -A .css .jpg .gif -r Doc/*
 
+	local java_args="-Dpython.home=/usr/share/jython"
+	java_args="${java_args} -Dpython.cachedir=\${HOME}/.jythoncachedir"
+
 	java-pkg_dolauncher jythonc \
 						--main "org.python.util.jython" \
-						--java_args "-Dpython.home=/usr/share/jython "\
-						"-Dpython.cachedir=\${HOME}/.jython/cachedir" \
-						--pkg_args "/usr/share/jython/tools/jythonc/jythonc.py"
+						--java_args "${java_args}" \
+						--pkg_args "${java_args} /usr/share/jython/tools/jythonc/jythonc.py"
 
 	java-pkg_dolauncher jython \
 						--main "org.python.util.jython" \
-						--java_args "-Dpython.home=/usr/share/jython  \
-						-Dpython.cachedir=\${HOME}/.jython/cachedir"
+						--pkg_args "${java_args}"
 
-	dodir /usr/share/jython/cachedir
-	chmod a+rw ${D}/usr/share/jython/cachedir
+	#Need to finallise cacheing and the like.
+	#dodir /var/cache/jython
+	#chmod a+rw ${D}/var/cache/jython
 
 	#rm Demo/jreload/example.jar
 	insinto /usr/share/${PN}
@@ -105,7 +123,9 @@ src_install() {
 	insinto /usr/share/${PN}/tools
 	doins -r dist/Tools/*
 
+	use doc && java-pkg_dojavadoc dist/Doc/javadoc
 	use source && java-pkg_dosrc src
+	use examples && java-pkg_doexamples dist/Demo/*
 }
 
 pkg_postinst() {
@@ -120,9 +140,4 @@ pkg_postinst() {
 		elog "See http://www.jython.org/docs/registry.html for more information"
 		elog ""
 	fi
-
-	elog "This revision renames org.python.core.Py.assert to assert_."
-	elog "This is the solution that upstream will use in the next release."
-	elog "Just note that this revision is not API compatible with vanilla 2.1."
-	elog "https://bugs.gentoo.org/show_bug.cgi?id=142099"
 }
