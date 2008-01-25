@@ -31,12 +31,12 @@ lucene-contrib_src_compile() {
 		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
 		gcp="${gcp}:${pdep}"
 	done
-	
+
 	for dep in ${LUCENE_EXTRA_DEPS}; do
 		local pdep=$(java-pkg_getjars ${dep} )
 		gcp="${gcp}:${pdep}"
 	done
-	
+
 	eant -Dversion=${PV} \
 		-Dproject.classpath="${gcp}" \
 		-Dlucene.jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar) \
@@ -54,12 +54,12 @@ lucene-contrib_src_test() {
 		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
 		gcp="${gcp}:${pdep}"
 	done
-	
+
 	for dep in ${LUCENE_EXTRA_DEPS}; do
 		local pdep=$(java-pkg_getjars ${dep} )
 		gcp="${gcp}:${pdep}"
 	done
-	
+
 	ANT_TASKS="ant-junit" eant -Dproject.classpath="${gcp}" \
 		-Dlucene.jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar) test
 }
