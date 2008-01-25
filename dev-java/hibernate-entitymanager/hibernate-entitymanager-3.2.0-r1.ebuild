@@ -2,6 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=1
+JAVA_PKG_IUSE="doc source"
+
 inherit java-pkg-2 java-ant-2
 
 MY_PV="${PV}.GA"
@@ -14,9 +17,8 @@ SRC_URI="mirror://sourceforge/hibernate/${MY_P}.tar.gz mirror://sourceforge/hibe
 LICENSE="LGPL-2.1"
 SLOT="3.2"
 KEYWORDS="~x86"
-IUSE="doc source"
+IUSE=""
 
-DEPEND=">=virtual/jdk-1.5"
 RDEPEND=">=virtual/jre-1.5
 	dev-java/antlr
 	dev-java/ant-antlr
@@ -30,16 +32,17 @@ RDEPEND=">=virtual/jre-1.5
 	=dev-java/hibernate-${SLOT}*
 	=dev-java/javassist-3*
 	=dev-java/jaxen-1.1*
-	dev-java/jdbc2-stdext
 	dev-java/jgroups
 	dev-java/log4j
-	=dev-java/lucene-1*
 	dev-java/oscache
 	dev-java/proxool
 	=dev-java/swarmcache-1*
 	=dev-java/xerces-2*
 	=dev-java/hibernate-annotations-${SLOT}*
+	>=dev-java/commons-collections-3.2
 	"
+DEPEND=">=virtual/jdk-1.5
+	${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 HIBERNATE_S="${WORKDIR}/hibernate-${SLOT}"
@@ -50,7 +53,7 @@ src_unpack() {
 	cd ${HIBERNATE_S}/lib || die "cd failed"
 	# start: pulled from hibernate ebuild
 	local JAR_PACKAGES="c3p0 commons-collections javassist-3
-		commons-logging dom4j-1 jaxen-1.1 jdbc2-stdext jta
+		commons-logging dom4j-1 jaxen-1.1 jta
 		log4j oscache proxool swarmcache-1.0 xerces-2 jgroups"
 	for PACKAGE in ${JAR_PACKAGES}; do
 		java-pkg_jar-from ${PACKAGE}
@@ -64,10 +67,6 @@ src_unpack() {
 	java-pkg_jar-from asm-1.5 asm-attrs.jar
 	java-pkg_jar-from hibernate-${SLOT}
 	java-pkg_jar-from hibernate-annotations-${SLOT}
-}
-
-src_compile() {
-	eant jar $(use_doc)
 }
 
 src_install() {

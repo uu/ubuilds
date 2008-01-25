@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/hibernate-entitymanager
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  25 Jan 2008; Petteri Räty <betelgeuse@gentoo.org> ++,
+  -hibernate-entitymanager-3.2.0.ebuild:
+  Dep fixes.
 
   20 Mar 2007; William L. Thomson Jr. <wltjr@gentoo.org> ChangeLog:
   Updated dep on javassist to reflect it's new slot
