@@ -14,6 +14,7 @@
 # - commons-jxpath seems to be patched
 # - antlr in uml module seems to be patched
 
+EAPI=1
 WANT_SPLIT_ANT="true"
 inherit eutils java-pkg-2 java-ant-2
 
@@ -207,7 +208,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/junit-4
 	>=dev-java/kxml-2
 	>=dev-java/log4j-1.2.8
-	>=dev-java/lucene-2.1.0
+	dev-java/lucene:2
 	>=dev-java/portletapi-1
 	>=dev-java/prefuse-20060715_beta
 	dev-java/proguard

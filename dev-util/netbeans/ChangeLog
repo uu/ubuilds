@@ -2,6 +2,11 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 Jan 2008; Petteri Räty <betelgeuse@gentoo.org> netbeans-6.0.ebuild,
+  netbeans-6.1_alpha20080106171826.ebuild,
+  netbeans-6.1_alpha20080118072101.ebuild:
+  Use slot deps for lucene.
+
   19 Jan 2008; Miroslav Šulc <fordfrog@gentoo.org> ++:
   Version bump
 
