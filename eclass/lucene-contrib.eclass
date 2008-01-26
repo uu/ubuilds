@@ -68,7 +68,7 @@ lucene-contrib_src_install() {
 	java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
 	cd contrib/${LUCENE_MODULE}
 	[[ -n "${DOCS}" ]] && dodoc ${DOCS}
-	use source && java-pkg_dosrc src/java/org
+	use source && java-pkg_dosrc src/java/*
 }
 
 EXPORT_FUNCTIONS src_compile src_test src_install
