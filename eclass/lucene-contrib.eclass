@@ -1,7 +1,8 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI="1"
 if ! [[ -n "${LUCENE_MODULE}" ]]; then LUCENE_MODULE=${PN/lucene-/}; fi
 JAVA_PKG_IUSE="source test"
 JAVA_PKG_BSFIX_ALL="no"
@@ -13,14 +14,14 @@ SRC_URI="mirror://apache/lucene/java/lucene-${PV}-src.tar.gz"
 LICENSE="Apache-2.0"
 
 DEPEND=">=virtual/jdk-1.4
-	=dev-java/lucene-${SLOT}*
+	dev-java/lucene:${SLOT}
 	test? ( dev-java/ant-junit =dev-java/junit-3* )"
 RDEPEND=">=virtual/jdk-1.4
 	 =dev-java/lucene-${SLOT}*"
 
 for dep in ${LUCENE_MODULE_DEPS}; do
-	DEPEND="${DEPEND} =dev-java/lucene-${dep}-${SLOT}*"
-	RDEPEND="${RDEPEND} =dev-java/lucene-${dep}-${SLOT}*"
+	DEPEND="${DEPEND} dev-java/lucene-${dep}:${SLOT}"
+	RDEPEND="${RDEPEND} dev-java/lucene-${dep}:${SLOT}"
 done
 S="${WORKDIR}/lucene-${PV}"
 
