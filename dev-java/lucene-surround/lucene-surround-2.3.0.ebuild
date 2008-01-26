@@ -1,12 +1,11 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-SLOT=2
-LUCENE_MODULE_DEPS="queries"
-
+SLOT=2.3
 inherit lucene-contrib
 
-DESCRIPTION="XML Query Parser addon for lucene"
+DESCRIPTION="Surround addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
+DOCS="surround.txt"

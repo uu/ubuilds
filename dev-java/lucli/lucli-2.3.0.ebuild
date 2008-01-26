@@ -1,8 +1,8 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-SLOT=2
+SLOT=2.3
 inherit java-pkg-2 lucene-contrib
 
 DESCRIPTION="lucli (pronounced Luckily) is the Lucene Command Line Interface."
