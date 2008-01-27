@@ -11,7 +11,7 @@ SRC_URI="mirror://sourceforge/htmlparser/htmlparser1_6_20060610.zip"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 
 S="${WORKDIR}/htmlparser1_6/"
 

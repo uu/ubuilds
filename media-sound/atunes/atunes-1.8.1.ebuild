@@ -9,7 +9,7 @@ HOMEPAGE="http://www.atunes.org/"
 SRC_URI="mirror://sourceforge/${PN}/aTunes_${PV}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64"
 
 CDEPEND="dev-java/htmlparser
 	dev-java/jaudiotagger
@@ -39,9 +39,9 @@ S=${WORKDIR}/aTunes
 
 src_unpack() {
 	unpack ${A}
-	mv ${S}/lib/antBuildNumber.jar -v ${S}
-	rm -rfv ${S}/{lib,win_tools,aTunes.jar}
-	sed -i -e 's:aTunes.log:${user.home}/.aTunes/aTunes.log:g' ${S}/log4j.properties
+	mv "${S}"/lib/antBuildNumber.jar -v "${S}"
+	rm -rfv "${S}"/{lib,win_tools,aTunes.jar}
+	sed -i -e 's:aTunes.log:${user.home}/.aTunes/aTunes.log:g' "${S}"/log4j.properties
 }
 
 src_compile() {

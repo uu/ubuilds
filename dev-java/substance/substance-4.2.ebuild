@@ -10,7 +10,7 @@ HOMEPAGE="http://${PN}.dev.java.net/"
 SRC_URI="https://substance.dev.java.net/files/documents/3294/67346/substance-all.zip"
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 IUSE=""
 DEPEND=">=virtual/jdk-1.5
 	dev-java/laf-widget

@@ -10,7 +10,7 @@ HOMEPAGE="http://${PN}.dev.java.net/"
 SRC_URI="https://laf-widget.dev.java.net/files/documents/5097/70070/laf-widget-all.zip"
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 IUSE=""
 DEPEND=">=virtual/jdk-1.5
 	=dev-java/asm-2.2*
