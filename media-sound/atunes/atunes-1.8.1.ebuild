@@ -1,4 +1,4 @@
-# Copyright 1999-2005 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -41,6 +41,7 @@ src_unpack() {
 	unpack ${A}
 	mv ${S}/lib/antBuildNumber.jar -v ${S}
 	rm -rfv ${S}/{lib,win_tools,aTunes.jar}
+	sed -i -e 's:aTunes.log:${user.home}/.aTunes/aTunes.log:g' ${S}/log4j.properties
 }
 
 src_compile() {

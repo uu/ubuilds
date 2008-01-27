@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/laf-plugin/laf-plugin-0.2.ebuild,v 1.1 2007/04/28 22:08:06 caster Exp $
 
@@ -28,7 +28,7 @@ S="${WORKDIR}/"
 src_unpack() {
 	unpack ${A}
 	rm -rf lib/*.jar || die
-	epatch ${FILESDIR}/${P}-unjar.patch
+	epatch "${FILESDIR}"/"${P}"-unjar.patch
 	java-ant_rewrite-classpath
 }
 
