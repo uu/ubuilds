@@ -6,6 +6,11 @@
 # NOTE: Please add your entry at the top!
 #
 
+>=dev-util/netbeans-6.1_alpha20080127134700
+# Miroslav Šulc <fordfrog@gentoo.org> (27 Jan 2008)
+# As netbeans upstream moved from CVS to Mercurial, the build system changed
+# wrt bundled jars so it will take some time till these ebuilds will be usable
+
 ~dev-java/java-config-2.1.9999
 #Alistair Bush <ali_bush@gentoo.org> (19 Jan 2008)
 #SVN version of java-config, use at your own risk.
