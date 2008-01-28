@@ -2,6 +2,11 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  28 Jan 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.1_alpha20080127134700.ebuild:
+  now 'harness' cluster compiles too, work on 'ide' cluster in progress, now
+  need dev-java/ini4j library to be packaged
+
   28 Jan 2008; Miroslav Šulc <fordfrog@gentoo.org> ++:
   Added new ebuild, but not usable atm, only netbeans platform compiles atm.
 

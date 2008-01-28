@@ -17,7 +17,7 @@ HOMEPAGE="http://www.netbeans.org"
 SLOT="6.1"
 MY_PV=${PV}
 SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/sjp-1_0-fr-ri.zip"
+	http://dev.gentoo.org/~fordfrog/distfiles/tomcat-webserver-3.2.jar.bz2"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
@@ -25,12 +25,23 @@ IUSE="apisupport cnd debug doc experimental harness ide identity j2ee java javaf
 
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/javahelp-2.0.02
+	dev-java/jsr223
 	=dev-java/swing-layout-1*"
 
 DEPEND="=virtual/jdk-1.5*
 	>=dev-java/ant-nodeps-1.7.0
 	>=dev-java/javahelp-2.0.02
-	=dev-java/swing-layout-1*"
+	dev-java/jsr223
+	=dev-java/swing-layout-1*
+	ide? (
+		>=dev-java/commons-logging-1.0.4
+		>=dev-java/flute-1.3
+		>=dev-java/flyingsaucer-7
+		>=dev-java/freemarker-2.3.8
+		>=dev-java/javacc-3.2
+		>=dev-java/sac-1.3
+		=dev-java/tomcat-servlet-api-3*
+	)"
 
 S="${WORKDIR}/netbeans-src"
 BUILDDESTINATION="${S}/nbbuild/netbeans"
@@ -353,7 +364,33 @@ place_unpack_symlinks() {
 	dosymcompilejar ${target} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 
 	target="libs.jsr223/external"
-	cp ${WORKDIR}/script-api.jar ${S}/${target}/jsr223-api.jar || die "Cannot copy jsr223-api.jar"
+	dosymcompilejar ${target} jsr223 script-api.jar jsr223-api.jar
+
+	if use ide ; then
+		target="web.flyingsaucer/external"
+		dosymcompilejar ${target} flyingsaucer core-renderer.jar core-renderer-R7final.jar
+
+		target="css.visual/external"
+		dosymcompilejar ${target} flute flute.jar flute-1.3.jar
+
+		target="css.visual/external"
+		dosymcompilejar ${target} sac sac.jar sac-1.3.jar
+
+		target="db.sql.visualeditor/external"
+		dosymcompilejar ${target} javacc javacc.jar javacc-3.2.jar
+
+		target="servletapi/external"
+		dosymcompilejar ${target} tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
+
+		target="httpserver/external"
+		cp "${WORKDIR}/tomcat-webserver-3.2.jar" "${S}/${target}/tomcat-webserver-3.2.jar" || die "Cannot copy file"
+
+		target="libs.commons_logging/external"
+		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.4.jar
+
+		target="libs.freemarker/external"
+		dosymcompilejar ${target} freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
+	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
 		die "Some compilation-time jars could not be symlinked"
@@ -365,7 +402,8 @@ symlink_extjars() {
 
 	einfo "Symlinking runtime jars"
 
-	cp ${WORKDIR}/script-api.jar ${BUILDDESTINATION}/netbeans/platform7/modules/ext/script-api.jar
+	cd  ${BUILDDESTINATION}/netbeans/platform7/modules/ext
+	java-pkg_jar-from jsr223
 
 	cd ${BUILDDESTINATION}/platform7/modules/ext
 	java-pkg_jar-from javahelp jh.jar jh-2.0_05.jar
