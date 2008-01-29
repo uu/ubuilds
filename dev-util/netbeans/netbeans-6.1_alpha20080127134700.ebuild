@@ -21,26 +21,29 @@ SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="apisupport cnd debug doc experimental harness ide identity j2ee java javafx mobility nb php profiler ruby soa stableuc testtools uml visualweb xml linguas_de linguas_es linguas_ja linguas_pt_BR linguas_sq linguas_zh_CN"
+IUSE="apisupport cnd debug doc experimental +harness +ide identity j2ee java javafx mobility nb php profiler ruby soa stableuc testtools uml visualweb xml linguas_de linguas_es linguas_ja linguas_pt_BR linguas_sq linguas_zh_CN"
 
 RDEPEND=">=virtual/jdk-1.5
-	>=dev-java/javahelp-2.0.02
-	dev-java/jsr223
-	=dev-java/swing-layout-1*"
+	>=dev-java/javahelp-2.0.02:0
+	dev-java/jsr223:0
+	>=dev-java/swing-layout-1:1"
 
 DEPEND="=virtual/jdk-1.5*
-	>=dev-java/ant-nodeps-1.7.0
-	>=dev-java/javahelp-2.0.02
-	dev-java/jsr223
-	=dev-java/swing-layout-1*
+	>=dev-java/ant-nodeps-1.7.0:0
+	>=dev-java/javahelp-2.0.02:0
+	dev-java/jsr223:0
+	>=dev-java/swing-layout-1:1
 	ide? (
-		>=dev-java/commons-logging-1.0.4
-		>=dev-java/flute-1.3
-		>=dev-java/flyingsaucer-7
-		>=dev-java/freemarker-2.3.8
-		>=dev-java/javacc-3.2
-		>=dev-java/sac-1.3
-		=dev-java/tomcat-servlet-api-3*
+		>=dev-java/commons-logging-1.0.4:0
+		>=dev-java/flute-1.3:0
+		>=dev-java/flyingsaucer-7:0
+		>=dev-java/freemarker-2.3.8:2.3
+		>=dev-java/ini4j-0.2.6:0
+		>=dev-java/javacc-3.2:0
+		>=dev-java/jsch-0.1.24:0
+		>=dev-java/lucene-2.2.0:2
+		>=dev-java/sac-1.3:0
+		>=dev-java/tomcat-servlet-api-3:2.2
 	)"
 
 S="${WORKDIR}/netbeans-src"
@@ -390,6 +393,15 @@ place_unpack_symlinks() {
 
 		target="libs.freemarker/external"
 		dosymcompilejar ${target} freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
+
+		target="libs.ini4j/external"
+		dosymcompilejar ${target} ini4j ini4j.jar ini4j-0.2.6.jar
+
+		target="libs.jsch/external"
+		dosymcompilejar ${target} jsch jsch.jar jsch-0.1.24.jar
+
+		target="libs.lucene/external"
+		dosymcompilejar ${target} lucene-2 lucene-core.jar lucene-core-2.2.0.jar
 	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
