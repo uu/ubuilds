@@ -1,0 +1,38 @@
+--- build.xml	2007-07-22 16:32:28.000000000 +0300
++++ build.xml.fixed	2008-02-02 09:24:59.000000000 +0200
+@@ -97,11 +97,12 @@
+ 	</checkstyle>    
+     </target>
+ 
+-    <target name="compile" depends="init, checkstyle" description="Compile the source">
++    <target name="compile" depends="init" description="Compile the source">
+         <mkdir dir="${build}" />
+ 
+         <!-- Compile the java code from ${src} into ${build} -->
+-        <javac srcdir="${src}" destdir="${build}" target="1.4" source="1.4" deprecation="true" debug="true">
++        <javac srcdir="${src}" destdir="${build}" deprecation="true" debug="true">
++            <exclude name="jmemorize/core/test/**"/>
+             <classpath refid="project.class.path" />
+         </javac>
+ 
+@@ -159,20 +160,6 @@
+             </fileset>
+         </copy>
+ 
+-        <!-- Unjar all libraries (besides junit) to be included into dist jar -->
+-        <unjar dest="${dist.bin.temp}">
+-            <fileset dir="${lib}">
+-                <include name="*.jar" />
+-                <exclude name="junit.jar" />
+-                <exclude name="svn*.jar" />
+-            </fileset>
+-        </unjar>
+-
+-        <!-- Delete META-INF folder that was created by other packages -->
+-        <delete includeemptydirs="true">
+-            <fileset dir="${dist.bin.temp}/META-INF" />
+-        </delete>
+-
+         <manifest file="MANIFEST.MF">
+             <attribute name="Main-Class" value="jmemorize.core.Main" />
+         </manifest>

@@ -1,0 +1,63 @@
+--- CsvBuilder.java	2007-07-22 16:32:28.000000000 +0300
++++ CsvBuilder.java.fixed	2008-02-02 08:05:15.000000000 +0200
+@@ -34,8 +34,6 @@
+ 
+ import com.csvreader.CsvReader;
+ import com.csvreader.CsvWriter;
+-import com.csvreader.CsvReader.CatastrophicException;
+-import com.csvreader.CsvReader.FinalizedException;
+ 
+ /**
+  * A class for importing and exporting character-separated-values (CSV).
+@@ -67,8 +65,6 @@
+     public static void exportLesson(OutputStream out, Lesson lesson, 
+         char delimiter, Charset charset) throws IOException
+     {
+-        try
+-        {
+             CsvWriter writer = new CsvWriter(out, delimiter, charset);
+             writeHeader(writer);
+             
+@@ -90,11 +86,6 @@
+             }
+             
+             writer.close();
+-        }
+-        catch (com.csvreader.CsvWriter.FinalizedException e)
+-        {
+-            throw new IOException(e.getMessage());
+-        }
+     }
+     
+     
+@@ -127,8 +118,6 @@
+             categories.put(category.getName(), category);
+         }
+         
+-        try
+-        {
+             reader.readHeaders();
+             
+             String[] headers = reader.getHeaders();
+@@ -178,20 +167,10 @@
+             }
+ 
+             reader.close();
+-        } 
+-        catch (FinalizedException e)
+-        {
+-            throw new IOException(e.toString());
+-        } 
+-        catch (CatastrophicException e)
+-        {
+-            throw new IOException(e.toString());
+-        }
+     }
+ 
+ 
+-    private static void writeHeader(CsvWriter writer) throws IOException, 
+-        com.csvreader.CsvWriter.FinalizedException
++    private static void writeHeader(CsvWriter writer) throws IOException
+     {
+         writer.write(FRONTSIDE_COL);
+         writer.write(FLISIDE_COL);
