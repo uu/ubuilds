@@ -42,6 +42,7 @@ src_unpack() {
 	epatch ${FILESDIR}/loggingfix-"${PV}".patch
 	cd io || die
 	epatch ${FILESDIR}/javacvsfix-"${PV}".patch
+	#Upstream bug: http://sourceforge.net/tracker/index.php?func=detail&aid=1885123&group_id=121967&atid=691938
 	cd "${S}"
 	java-ant_rewrite-classpath
 }
