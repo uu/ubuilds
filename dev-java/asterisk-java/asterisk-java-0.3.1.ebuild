@@ -1,11 +1,12 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/poi/poi-2.5.1.ebuild,v 1.4 2005/12/16 14:08:33 betelgeuse Exp $
 
+EAPI=1
 JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-ant-2
 
-DESCRIPTION="Set of Java classes that allow you to easily build Java applications that interact with an Asterisk PBX Server. It supports the FastAGI protocol and the Manager API."
+DESCRIPTION="Java classes for interaction with an Asterisk PBX Server with support for FastAGI and Manager API."
 HOMEPAGE="http://asterisk-java.org/"
 SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2"
 
@@ -20,8 +21,8 @@ RDEPEND=">=virtual/jre-1.5
 DEPEND=">=virtual/jdk-1.5
 	dev-java/ant-core
 	test? (
-		>=dev-java/easymock-2
-		>=dev-java/junit-4
+		>=dev-java/easymock-2:2
+		>=dev-java/junit-4:4
 	)
 	${COMMON_DEPEND}"
 
@@ -32,11 +33,11 @@ src_compile() {
 		`find src/main/java -name "*.java"` || die "Cannot compile sources"
 	mkdir dist
 	cd build/classes
-	jar -cvf ${S}/dist/${PN}.jar org || die "Cannot create JAR"
+	jar -cvf "${S}/dist/${PN}.jar" org || die "Cannot create JAR"
 
 	# generate javadoc
 	if use doc ; then
-		cd ${S}
+		cd "${S}"
 		mkdir javadoc
 		javadoc -d javadoc -sourcepath src/main/java -subpackages org
 	fi
@@ -47,7 +48,7 @@ src_test() {
 		-cp build/classes:$(java-pkg_getjars easymock-2,junit-4) \
 		-d build/classes `find src/test/java/org -name "*.java"`
 	cd build/classes
-	cp ${S}/src/test/resources/* .
+	cp "${S}"/src/test/resources/* .
 	for FILE in `find -name "*Test\.class"`; do
 		CLASS=`echo ${FILE} | sed -e "s/\.class//" | sed -e "s%/%.%g" | sed -e "s/\.\.//"`
 		java -cp .:$(java-pkg_getjars easymock-2,junit-4) org.junit.runner.JUnitCore ${CLASS} || die "Test failed"
