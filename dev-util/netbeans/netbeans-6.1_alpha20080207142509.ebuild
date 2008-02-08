@@ -17,7 +17,10 @@ HOMEPAGE="http://www.netbeans.org"
 SLOT="6.1"
 MY_PV=${PV}
 SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/tomcat-webserver-3.2.jar.bz2"
+	http://dev.gentoo.org/~fordfrog/distfiles/javac-api-nb-7.0-b07.tar.bz2
+	http://dev.gentoo.org/~fordfrog/distfiles/javac-impl-nb-7.0-b07.tar.bz2
+	http://dev.gentoo.org/~fordfrog/distfiles/resolver-1.2.tar.bz2
+	http://dev.gentoo.org/~fordfrog/distfiles/tomcat-webserver-3.2.tar.bz2"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
@@ -42,8 +45,10 @@ DEPEND="=virtual/jdk-1.5*
 		>=dev-java/javacc-3.2:0
 		>=dev-java/jsch-0.1.24:0
 		>=dev-java/lucene-2.2.0:2
+		dev-java/netbeans-svnclientadapter
 		>=dev-java/sac-1.3:0
 		>=dev-java/tomcat-servlet-api-3:2.2
+		>=dev-java/xerces-2.8.1:2
 	)"
 
 S="${WORKDIR}/netbeans-src"
@@ -156,7 +161,14 @@ pkg_setup() {
 src_unpack () {
 	unpack ${A}
 
-	if use visualweb && [ -z "${JAVA_PKG_NB_BUNDLED}" ] ; then
+	if use ide ; then
+		cd "${S}"
+		epatch ${MY_FDIR}/o.apache.tools.ant.module-external-build.xml.patch
+		mkdir -p o.apache.tools.ant.module/external/lib
+		epatch ${MY_FDIR}//o.apache.tools.ant.module-build.xml.patch
+	fi
+
+	if use visualweb ; then
 		cd "${S}"/visualweb.insync/src/org/netbeans/modules/visualweb/insync/markup
 		epatch ${MY_FDIR}/visualweb-JxpsSerializer.java-xerces-2.8.1.patch
 	fi
@@ -242,7 +254,7 @@ src_compile() {
 	rm -f ${BUILDDESTINATION}/javadoc/*.zip
 
 	# Use the system ant
-	if use java ; then
+	if use ide ; then
 		cd ${BUILDDESTINATION}/java1/ant || die "Cannot cd to ${BUILDDESTINATION}/ide${IDE_VERSION}/ant"
 		rm -fr lib
 		rm -fr bin
@@ -357,51 +369,28 @@ place_unpack_symlinks() {
 
 	einfo "Symlinking compilation-time jars"
 
-	target="apisupport.harness/external"
-	dosymcompilejar ${target} javahelp jhall.jar jsearch-2.0_05.jar
-
-	target="javahelp/external"
-	dosymcompilejar ${target} javahelp jh.jar jh-2.0_05.jar
-
-	target="o.jdesktop.layout/external"
-	dosymcompilejar ${target} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
-
-	target="libs.jsr223/external"
-	dosymcompilejar ${target} jsr223 script-api.jar jsr223-api.jar
+	dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
+	dosymcompilejar "javahelp/external" javahelp jh.jar jh-2.0_05.jar
+	dosymcompilejar "o.jdesktop.layout/external" swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
+	dosymcompilejar "libs.jsr223/external" jsr223 script-api.jar jsr223-api.jar
 
 	if use ide ; then
-		target="web.flyingsaucer/external"
-		dosymcompilejar ${target} flyingsaucer core-renderer.jar core-renderer-R7final.jar
-
-		target="css.visual/external"
-		dosymcompilejar ${target} flute flute.jar flute-1.3.jar
-
-		target="css.visual/external"
-		dosymcompilejar ${target} sac sac.jar sac-1.3.jar
-
-		target="db.sql.visualeditor/external"
-		dosymcompilejar ${target} javacc javacc.jar javacc-3.2.jar
-
-		target="servletapi/external"
-		dosymcompilejar ${target} tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
-
-		target="httpserver/external"
-		cp "${WORKDIR}/tomcat-webserver-3.2.jar" "${S}/${target}/tomcat-webserver-3.2.jar" || die "Cannot copy file"
-
-		target="libs.commons_logging/external"
-		dosymcompilejar ${target} commons-logging commons-logging.jar commons-logging-1.0.4.jar
-
-		target="libs.freemarker/external"
-		dosymcompilejar ${target} freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
-
-		target="libs.ini4j/external"
-		dosymcompilejar ${target} ini4j ini4j.jar ini4j-0.2.6.jar
-
-		target="libs.jsch/external"
-		dosymcompilejar ${target} jsch jsch.jar jsch-0.1.24.jar
-
-		target="libs.lucene/external"
-		dosymcompilejar ${target} lucene-2 lucene-core.jar lucene-core-2.2.0.jar
+		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
+		dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
+		dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
+		dosymcompilejar "db.sql.visualeditor/external" javacc javacc.jar javacc-3.2.jar
+		dosymcompilejar "servletapi/external" tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
+		cp "${WORKDIR}/tomcat-webserver-3.2.jar" "${S}/httpserver/external/tomcat-webserver-3.2.jar" || die "Cannot copy file"
+		dosymcompilejar "libs.commons_logging/external" commons-logging commons-logging.jar commons-logging-1.0.4.jar
+		dosymcompilejar "libs.freemarker/external" freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
+		dosymcompilejar "libs.ini4j/external" ini4j ini4j.jar ini4j-0.2.6.jar
+		dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.24.jar
+		dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.2.0.jar
+		dosymcompilejar "libs.svnClientAdapter/external" netbeans-svnclientadapter svnClientAdapter.jar svnClientAdapter-0.9.23.jar
+		dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
+		cp "${WORKDIR}/resolver-1.2.jar" "${S}/o.apache.xml.resolver/external/resolver-1.2.jar" || die "Cannot copy file"
+		cp "${WORKDIR}/javac-api-nb-7.0-b07.jar" "${S}/libs.javacapi/external/javac-api-nb-7.0-b07.jar" || die "Cannot copy file"
+		cp "${WORKDIR}/javac-impl-nb-7.0-b07.jar" "${S}/libs.javacimpl/external/javac-impl-nb-7.0-b07.jar" || die "Cannot copy file"
 	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
