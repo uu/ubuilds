@@ -1,13 +1,14 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit distutils eutils subversion
+inherit fdo-mime gnome2-utils distutils eutils subversion
 
 ESVN_REPO_URI="http://overlays.gentoo.org/svn/proj/java/projects/java-config-2/trunk/"
 
 DESCRIPTION="Java environment configuration tool"
 HOMEPAGE="http://www.gentoo.org/proj/en/java/"
+SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="2"
@@ -25,20 +26,19 @@ src_install() {
 
 	insinto /usr/share/java-config-2/config/
 	newins config/jdk-defaults-${ARCH}.conf jdk-defaults.conf || die "arch config not found"
-
-	# TODO move this into a script, like java-symlink-tools
-	#for tool in $(< config/symlink-tools); do
-	#	dosym /usr/bin/run-java-tool /usr/bin/${tool}
-	#done
 }
 
 pkg_postrm() {
 	distutils_python_version
 	distutils_pkg_postrm
+	fdo-mime_desktop_database_update
+	gnome2_icon_cache_update
 }
 
 pkg_postinst() {
 	distutils_pkg_postinst
+	fdo-mime_desktop_database_update
+	gnome2_icon_cache_update
 
 	elog "The way Java is handled on Gentoo has been recently updated."
 	elog "If you have not done so already, you should follow the"
