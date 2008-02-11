@@ -2,6 +2,13 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Feb 2008; Miroslav Šulc <fordfrog@gentoo.org> ++,
+  +files/6.1/websvc.jaxws21-build.xml.patch,
+  -files/6.1/websvc.jaxws21.api-build.xml.patch,
+  netbeans-6.1_alpha20080207142509.ebuild:
+  Little progress with 'ide' cluster, current stopper is probably patched
+  jxpath library
+
   10 Feb 2008; Miroslav Šulc <fordfrog@gentoo.org>
   +files/6.1/websvc.jaxws21.api-build.xml.patch,
   netbeans-6.1_alpha20080207142509.ebuild:

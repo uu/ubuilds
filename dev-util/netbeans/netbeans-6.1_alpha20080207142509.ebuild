@@ -30,7 +30,26 @@ IUSE="apisupport cnd debug doc experimental +harness +ide identity j2ee java jav
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/javahelp-2.0.02:0
 	dev-java/jsr223:0
-	>=dev-java/swing-layout-1:1"
+	>=dev-java/swing-layout-1:1
+	ide? (
+		dev-java/fastinfoset:0
+		>=dev-java/jax-ws-2.0:2
+		>=dev-java/jax-ws-api-2.0:2
+		>=dev-java/jax-ws-tools-2.0:2
+		>=dev-java/jaxb-2.0:2
+		>=dev-java/jaxb-tools-2.0:2
+		dev-java/jsr67:0
+		dev-java/jsr173:0
+		dev-java/jsr181:0
+		dev-java/jsr250:0
+		dev-java/saaj:0
+		dev-java/sjsxp:0
+		dev-java/stax-ex:0
+		>=dev-java/sun-httpserver-bin-2:2
+		>=dev-java/sun-jaf-1.1:0
+		dev-java/xml-commons:0
+		dev-java/xmlstreambuffer:0
+	)"
 
 DEPEND="=virtual/jdk-1.5*
 	>=dev-java/ant-nodeps-1.7.0:0
@@ -39,15 +58,20 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/swing-layout-1:1
 	ide? (
 		>=dev-java/beansbinding-1.2.1:0
+		>=dev-java/commons-jxpath-1.1:0
 		>=dev-java/commons-logging-1.0.4:0
+		dev-java/fastinfoset:0
 		>=dev-java/flute-1.3:0
 		>=dev-java/flyingsaucer-7:0
 		>=dev-java/freemarker-2.3.8:2.3
 		dev-java/glassfish-persistence:0
 		>=dev-java/ini4j-0.2.6:0
 		>=dev-java/javacc-3.2:0
+		>=dev-java/jax-ws-2.0:2
 		>=dev-java/jax-ws-api-2.0:2
+		>=dev-java/jax-ws-tools-2.0:2
 		>=dev-java/jaxb-2.0:2
+		>=dev-java/jaxb-tools-2.0:2
 		>=dev-java/jsch-0.1.24:0
 		dev-java/jsr67:0
 		dev-java/jsr173:0
@@ -55,10 +79,18 @@ DEPEND="=virtual/jdk-1.5*
 		dev-java/jsr250:0
 		>=dev-java/lucene-2.2.0:2
 		dev-java/netbeans-svnclientadapter:0
+		dev-java/prefuse:2006
+		dev-java/saaj:0
 		>=dev-java/sac-1.3:0
+		dev-java/sjsxp:0
+		dev-java/stax-ex:0
+		>=dev-java/sun-httpserver-bin-2:2
+		>=dev-java/sun-jaf-1.1:0
 		>=dev-java/swing-worker-1.1:0
 		>=dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
+		dev-java/xml-commons:0
+		dev-java/xmlstreambuffer:0
 	)"
 
 S="${WORKDIR}/netbeans-src"
@@ -176,7 +208,8 @@ src_unpack () {
 		epatch ${MY_FDIR}/o.apache.tools.ant.module-external-build.xml.patch
 		mkdir -p o.apache.tools.ant.module/external/lib
 		epatch ${MY_FDIR}/o.apache.tools.ant.module-build.xml.patch
-		epatch ${MY_FDIR}/websvc.jaxws21.api-build.xml.patch
+		epatch ${MY_FDIR}/websvc.jaxws21api-build.xml.patch
+		epatch ${MY_FDIR}/websvc.jaxws21-build.xml.patch
 	fi
 
 	if use visualweb ; then
@@ -407,12 +440,28 @@ place_unpack_symlinks() {
 		cp "${WORKDIR}/appframework-1.0.3.jar" "${S}/swingapp/external/appframework-1.0.3.jar" || die "Cannot copy file"
 		dosymcompilejar "swingapp/external" swing-worker swing-worker.jar swing-worker-1.1.jar
 		mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api"
-		java-pkg_jar-from --build-only --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
-		java-pkg_jar-from --build-only --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jaxb-2 jaxb-api.jar
-		java-pkg_jar-from --build-only --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr173 jsr173.jar jsr173_api.jar
-		java-pkg_jar-from --build-only --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr181 jsr181.jar jsr181-api.jar
-		java-pkg_jar-from --build-only --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr250 jsr250.jar jsr250-api.jar
-		java-pkg_jar-from --build-only --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr67 jsr67.jar saaj-api.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jaxb-2 jaxb-api.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr173 jsr173.jar jsr173_api.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr181 jsr181.jar jsr181-api.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr250 jsr250.jar jsr250-api.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr67 jsr67.jar saaj-api.jar
+		mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21"
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-tools-2 jax-ws-tools.jar jaxws-tools.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-2 jax-ws.jar jaxws-rt.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-2 jaxb-impl.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-jaf
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sjsxp
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xmlstreambuffer
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" stax-ex
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" saaj saaj.jar saaj-impl.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" fastinfoset fastinfoset.jar FastInfoset.jar
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-httpserver-bin-2
+		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xml-commons
+		dosymcompilejar "libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath1.1.jar
+		dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar
+		dosymcompilejar "visdev.prefuse/external" prefuse-2006 prefuse.jar prefuse-beta.jar
 	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
