@@ -20,6 +20,7 @@ SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2
 	http://dev.gentoo.org/~fordfrog/distfiles/appframework-1.0.3.tar.bz2
 	http://dev.gentoo.org/~fordfrog/distfiles/javac-api-nb-7.0-b07.tar.bz2
 	http://dev.gentoo.org/~fordfrog/distfiles/javac-impl-nb-7.0-b07.tar.bz2
+	http://dev.gentoo.org/~fordfrog/distfiles/jxpath1.1.tar.bz2
 	http://dev.gentoo.org/~fordfrog/distfiles/resolver-1.2.tar.bz2
 	http://dev.gentoo.org/~fordfrog/distfiles/tomcat-webserver-3.2.tar.bz2"
 
@@ -58,7 +59,7 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/swing-layout-1:1
 	ide? (
 		>=dev-java/beansbinding-1.2.1:0
-		>=dev-java/commons-jxpath-1.1:0
+		>=dev-java/commons-jxpath-1.2:0
 		>=dev-java/commons-logging-1.0.4:0
 		dev-java/fastinfoset:0
 		>=dev-java/flute-1.3:0
@@ -85,6 +86,7 @@ DEPEND="=virtual/jdk-1.5*
 		dev-java/sjsxp:0
 		dev-java/stax-ex:0
 		>=dev-java/sun-httpserver-bin-2:2
+		dev-java/sun-j2ee-deployment-bin:1.1
 		>=dev-java/sun-jaf-1.1:0
 		>=dev-java/swing-worker-1.1:0
 		>=dev-java/tomcat-servlet-api-3:2.2
@@ -459,9 +461,10 @@ place_unpack_symlinks() {
 		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" fastinfoset fastinfoset.jar FastInfoset.jar
 		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-httpserver-bin-2
 		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xml-commons
-		dosymcompilejar "libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath1.1.jar
-		dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar
+		cp "${WORKDIR}/jxpath1.1.jar" "${S}/libs.jxpath/external/jxpath1.1.jar" || die "Cannot copy file"
+		dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar || die "Cannot copy file"
 		dosymcompilejar "visdev.prefuse/external" prefuse-2006 prefuse.jar prefuse-beta.jar
+		dosymcompilejar "j2eeapis/external" sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
 	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then

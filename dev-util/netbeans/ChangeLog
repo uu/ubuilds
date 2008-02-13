@@ -2,6 +2,11 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  13 Feb 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.1_alpha20080207142509.ebuild:
+  Little progress with 'ide' cluster, stopped at compilation problem where
+  some jax-ws jar is not on the classpath
+
   11 Feb 2008; Miroslav Šulc <fordfrog@gentoo.org> ++,
   +files/6.1/websvc.jaxws21-build.xml.patch,
   -files/6.1/websvc.jaxws21.api-build.xml.patch,
