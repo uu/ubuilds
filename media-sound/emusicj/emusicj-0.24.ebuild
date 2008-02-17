@@ -30,6 +30,7 @@ src_unpack() {
 	cd "${S}" || die
 	rm -r lib/* || die
 	epatch "${FILESDIR}"/remove-launch4j-dep.patch
+	#upstream bug: https://www.kallisti.net.nz/trac/emusicj/ticket/51
 	java-ant_rewrite-classpath
 }
 
