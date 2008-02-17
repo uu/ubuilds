@@ -1,0 +1,36 @@
+--- build.xml	2008-02-13 13:07:34.000000000 +0200
++++ build.xml.fixed	2008-02-17 08:24:36.000000000 +0200
+@@ -193,33 +193,7 @@
+                                 line="${app.name}_64.png ${dist.dir}/ppc_linux/${app.name}-linux/${app.name}.xpm"/>
+                 </exec>
+         </target>
+-	
+-	<taskdef name="launch4j" classname="net.sf.launch4j.ant.Launch4jTask"
+-		classpath="lib/buildonly/launch4j.jar
+-        :lib/buildonly/xstream.jar"/>
+ 
+-	<target name="dist-win32" description="Copy the stuff for Windows to the dist dir">
+-		<delete dir="${dist.dir}/win32/${app.name}-win32/"/>
+-		<copy todir="${dist.dir}/win32/${app.name}-win32/lib">
+-			<fileset file="${lib.dir}/*.jar"/>
+-			<fileset file="${lib.dir}/win32/*"/>
+-			<fileset file="${jar.name}" />
+-			<fileset file="${lib.dir}/${app.name}.properties" />
+-		</copy>
+-		<copy todir="${dist.dir}/win32/${app.name}-win32">
+-			<fileset file="${basedir}/doc/COPYING"/>
+-			<fileset file="${basedir}/doc/README-${app.name}.txt"/>
+-		</copy>
+-		<launch4j configFile="${basedir}/windows_launch4j_${app.name}.xml"/>
+-		<copy file="${basedir}/${exe.name}"
+-			todir="${dist.dir}/win32/${app.name}-win32/"/>
+-		<copy file="${basedir}/${app.name}.nsi"
+-			todir="${dist.dir}/win32/${app.name}-win32/"/>
+-		<exec executable="makensis" dir="${dist.dir}/win32/${app.name}-win32">
+-			<arg line="${app.name}.nsi" />
+-		</exec>
+-	</target>
+-	
+ 	<target name="compile-osx" description="Does a compile including the mac stuff">
+ 		<mkdir dir="${osx.build.dir}"/>
+ 		

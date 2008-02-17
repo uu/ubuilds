@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/guice
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  17 Feb 2008; <serkan_kaba@yahoo.com> guice-1.0.ebuild:
+  Fixed dependency
 
   18 Sep 2007; William L. Thomson Jr. <wltjr@gentoo.org> guice-1.0.ebuild:
   Combined two find commands into one, no real functional change.

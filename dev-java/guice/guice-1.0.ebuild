@@ -1,6 +1,6 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/commons-logging/commons-logging-1.1-r2.ebuild,v 1.9 2007/04/07 04:28:54 wltjr Exp $
+# $Header: $
 
 JAVA_PKG_IUSE="doc source test"
 
@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86"
 
 COMMON_DEPEND="dev-java/aopalliance
 		=dev-java/asm-3*
-		=dev-java/cglib-2.2_beta1"
+		=dev-java/cglib-2.2_beta1*"
 RDEPEND=">=virtual/jre-1.5
 	${COMMON_DEPEND}"
 DEPEND=">=virtual/jdk-1.5
