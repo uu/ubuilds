@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-JAVA_PKG_IUSE="readline source doc servletapi mysql postgres examples oracle"
+JAVA_PKG_IUSE="readline source doc servlet mysql postgres examples oracle"
 #jdnc 
 
 EAPI=1
@@ -14,11 +14,9 @@ HOMEPAGE="http://www.jython.org"
 
 MY_PV="installer-2.2.1"
 PYVER="2.2.3"
-HT2HTML="ht2html-2.0"
 
 SRC_URI="http://www.python.org/ftp/python/${PYVER%_*}/Python-${PYVER}.tgz
-mirror://sourceforge/${PN}/${PN}_${MY_PV}.jar
-mirror://sourceforge/ht2html/${HT2HTML}.tar.gz"
+mirror://sourceforge/${PN}/${PN}_${MY_PV}.jar"
 
 LICENSE="JPython"
 SLOT="0"
@@ -44,9 +42,9 @@ src_unpack() {
 	cd "${S}"
 
 	epatch "${FILESDIR}/test.patch"
-	#mv build.xml build.xml.orig
-	#sed 's/if="full-build"//' \
-	#build.xml.orig > build.xml
+
+	rm -Rfv org || die "Unable to remove class files."
+	find . -iname '*.jar' | xargs rm -fv || die "Unable to remove bundled jars"
 
 	echo javacc.jar="$(java-pkg_getjars --build-only javacc)" > ant.properties
 
@@ -79,7 +77,6 @@ src_unpack() {
 
 src_compile() {
 	local antflags="-Dbase.path=src/java -Dsource.dir=src/java/src"
-	antflags="${antflags} -Dht2html.dir=${HT2HTML}"
 	local pylib="Python-${PYVER}/Lib"
 	antflags="${antflags} -Dpython.lib=${pylib} -Dsvn.checkout.dir=."
 	LC_ALL=C eant ${antflags} developer-build $(use_doc javadoc)
@@ -90,7 +87,7 @@ src_test() {
 	antflags="${antflags} -Dpython.home=dist"
 	local pylib="Python-${PYVER}/Lib"
 	antflags="${antflags} -Dpython.lib=${pylib}"
-	eant ${antflags} regrtest
+	eant ${antflags} bugtest
 }
 
 
@@ -112,11 +109,6 @@ src_install() {
 						--main "org.python.util.jython" \
 						--pkg_args "${java_args}"
 
-	#Need to finallise cacheing and the like.
-	#dodir /var/cache/jython
-	#chmod a+rw ${D}/var/cache/jython
-
-	#rm Demo/jreload/example.jar
 	insinto /usr/share/${PN}
 	doins -r dist/Lib registry
 

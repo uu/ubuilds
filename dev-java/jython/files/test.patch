@@ -1,5 +1,5 @@
---- build.xml	2007-10-13 12:06:02.000000000 +1300
-+++ build.xml	2008-01-25 19:13:02.000000000 +1300
+--- build.xml.org	2008-02-26 22:35:07.000000000 +1300
++++ build.xml	2008-02-26 22:35:48.000000000 +1300
 @@ -373,21 +373,13 @@
  
      <!-- create checkout directory if necessary -->
@@ -24,16 +24,30 @@
      </target>
  
  	
-@@ -551,7 +543,7 @@
+@@ -551,28 +543,13 @@
  
  
      <!-- build the .html files using the ht2html tool -->
 -    <target name="doc" depends="compile" if="full-build">
+-        <fail unless="ht2html.dir" message="ht2html.dir is not set" />
+-        <copy todir="${dist.dir}/Doc" preservelastmodified="true">
+-            <fileset dir="Doc" includes="*.ht, **/*.gif" />
+-        </copy>
+-        <!-- Create .html files in Doc -->
+-        <apply executable="${python.exe}" dir="Doc">
+-            <env key="PYTHONPATH" path="${jython.base.dir}/Misc/htgen" />
+-            <arg line="${ht2html.dir}/ht2html.py" />
+-            <arg line="-s JyLocalGenerator" />
+-            <fileset dir="${dist.dir}/Doc">
+-                <include name="*.ht" />
+-            </fileset>
+-        </apply>
+-        <delete>
+-            <fileset dir="${dist.dir}/Doc" includes="*.ht" />
+-        </delete>
 +    <target name="doc" depends="compile">
-         <fail unless="ht2html.dir" message="ht2html.dir is not set" />
-         <copy todir="${dist.dir}/Doc" preservelastmodified="true">
-             <fileset dir="Doc" includes="*.ht, **/*.gif" />
-@@ -572,7 +564,7 @@
++    	<echo message="Functionality removed by gentoo patch" />
+     </target>
  
  
      <!-- javadoc -->
@@ -42,7 +56,7 @@
          <javadoc sourcepath="${source.dir}"
                   destdir="${apidoc.dir}"
                   source="${jdk.source.version}"
-@@ -588,7 +580,7 @@
+@@ -588,7 +565,7 @@
  
  
      <!-- copy for full distribution -->
@@ -51,7 +65,7 @@
          <!-- Misc files -->
          <echo>copy misc files from ${jython.base.dir}</echo>
          <copy todir="${dist.dir}" preservelastmodified="true">
-@@ -599,7 +591,7 @@
+@@ -599,7 +576,7 @@
  
          <!-- copy the CPython license -->
          <echo>copy CPython LICENSE from ${svn.checkout.dir}/python</echo>
