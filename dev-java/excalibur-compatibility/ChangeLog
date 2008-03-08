@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/excalibur-compatibility
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  08 Mar 2008; Alistair Bush <ali_bush@gentoo.org> +metadata.xml,
+  +excalibur-compatibility-1.1.ebuild:
+  Adding excalibur-compatibility.
+
