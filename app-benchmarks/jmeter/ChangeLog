@@ -1,6 +1,13 @@
 # ChangeLog for app-benchmarks/jmeter
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  11 Mar 2008; Alistair Bush <ali_bush@gentoo.org> +files/build.properties,
+  +files/log4j.conf, +files/logkit.xml, +files/properties/jmeter.properties,
+  +files/properties/saveservice.properties,
+  +files/properties/system.properties, +files/properties/upgrade.properties,
+  +files/properties/user.properties, +jmeter-2.3.1.ebuild:
+  Bumping to jmeter-3.2.1.  Adding files required to run.  More work required.
 
   08 May 2007; Vlastimil Babka <caster@gentoo.org> jmeter-2.2.ebuild:
   Update bsf dep.
