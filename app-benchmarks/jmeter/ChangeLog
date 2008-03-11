@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Mar 2008; Alistair Bush <ali_bush@gentoo.org> jmeter-2.3.1.ebuild,
+  +jmeter-2.3.1-r1.ebuild:
+  Add extra target to compile to produce help files.
+
   11 Mar 2008; Alistair Bush <ali_bush@gentoo.org> +files/build.properties,
   +files/log4j.conf, +files/logkit.xml, +files/properties/jmeter.properties,
   +files/properties/saveservice.properties,
