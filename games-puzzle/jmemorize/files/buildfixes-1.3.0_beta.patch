@@ -1,6 +1,6 @@
---- build.xml	2007-07-22 16:32:28.000000000 +0300
-+++ build.xml.fixed	2008-02-02 09:24:59.000000000 +0200
-@@ -97,11 +97,12 @@
+--- build.xml	2008-02-12 21:19:40.000000000 +0200
++++ build.xml.fixed	2008-03-11 20:47:30.000000000 +0200
+@@ -98,11 +98,11 @@
  	</checkstyle>    
      </target>
  
@@ -9,13 +9,12 @@
          <mkdir dir="${build}" />
  
          <!-- Compile the java code from ${src} into ${build} -->
--        <javac srcdir="${src}" destdir="${build}" target="1.4" source="1.4" deprecation="true" debug="true">
-+        <javac srcdir="${src}" destdir="${build}" deprecation="true" debug="true">
-+            <exclude name="jmemorize/core/test/**"/>
+-        <javac srcdir="${src}" destdir="${build}" target="5" source="5" deprecation="true">
++        <javac srcdir="${src}" destdir="${build}" deprecation="true">
              <classpath refid="project.class.path" />
          </javac>
  
-@@ -159,20 +160,6 @@
+@@ -161,20 +161,6 @@
              </fileset>
          </copy>
  

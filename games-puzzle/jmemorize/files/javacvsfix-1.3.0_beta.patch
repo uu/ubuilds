@@ -1,15 +1,16 @@
---- CsvBuilder.java	2007-07-22 16:32:28.000000000 +0300
-+++ CsvBuilder.java.fixed	2008-02-02 08:05:15.000000000 +0200
-@@ -34,8 +34,6 @@
+--- CsvBuilder.java	2008-02-12 21:19:40.000000000 +0200
++++ CsvBuilder.java.fixed	2008-03-11 20:51:32.000000000 +0200
+@@ -33,9 +33,6 @@
  
  import com.csvreader.CsvReader;
  import com.csvreader.CsvWriter;
 -import com.csvreader.CsvReader.CatastrophicException;
 -import com.csvreader.CsvReader.FinalizedException;
- 
+-
  /**
   * A class for importing and exporting character-separated-values (CSV).
-@@ -67,8 +65,6 @@
+  * 
+@@ -66,8 +63,6 @@
      public static void exportLesson(OutputStream out, Lesson lesson, 
          char delimiter, Charset charset) throws IOException
      {
@@ -18,7 +19,7 @@
              CsvWriter writer = new CsvWriter(out, delimiter, charset);
              writeHeader(writer);
              
-@@ -90,11 +86,6 @@
+@@ -87,11 +82,6 @@
              }
              
              writer.close();
@@ -30,7 +31,7 @@
      }
      
      
-@@ -127,8 +118,6 @@
+@@ -123,8 +113,6 @@
              categories.put(category.getName(), category);
          }
          
@@ -39,7 +40,7 @@
              reader.readHeaders();
              
              String[] headers = reader.getHeaders();
-@@ -178,20 +167,10 @@
+@@ -174,19 +162,9 @@
              }
  
              reader.close();
@@ -53,7 +54,6 @@
 -            throw new IOException(e.toString());
 -        }
      }
- 
  
 -    private static void writeHeader(CsvWriter writer) throws IOException, 
 -        com.csvreader.CsvWriter.FinalizedException
