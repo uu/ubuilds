@@ -54,7 +54,7 @@ src_unpack() {
 }
 
 src_install() {
-	newicon resource/icons/main.png {P}.png
+	newicon resource/icons/main.png ${PN}.png
 	java-pkg_newjar dist/${MY_PV}/${MY_P}.jar ${PN}.jar
 	java-pkg_dolauncher ${PN} --main jmemorize.core.Main
 	make_desktop_entry ${PN} "jMemorize" ${PN}.png
