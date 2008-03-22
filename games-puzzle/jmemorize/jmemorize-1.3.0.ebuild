@@ -63,7 +63,7 @@ src_install() {
 src_test() {
 	cd "${S}"/src-test
 	find . -name '*.java' -print > sources.list
-	local cp=../dist/${MY_PV}/${MY_P}.jar:$(java-pkg_getjars --build-only junit):$(java-pkg_getjars jfreechart-1.0,jgoodies-forms,jcommon-1.0,javacsv,itext-1.4,checkstyle)
+	local cp=../dist/${MY_PV}/${MY_P}.jar:$(java-pkg_getjars --build-only junit):$(java-pkg_getjars jfreechart-1.0,jgoodies-forms,jcommon-1.0,javacsv,itext-1.4)
 	ejavac -cp ${cp} @sources.list
 	ejunit -cp .:${cp}.jar jmemorize.core.test.AllTests
 }
