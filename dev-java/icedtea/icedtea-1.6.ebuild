@@ -1,6 +1,7 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/sun-jdk/sun-jdk-1.5.0.05.ebuild,v 1.2 2005/10/10 16:23:12 betelgeuse Exp $
+# 1.2 2005/10/10 16:23:12 b33fc0d3 Exp $
+# $Header: $
 
 inherit pax-utils eutils java-pkg-2 java-vm-2 mercurial autotools
 
