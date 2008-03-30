@@ -65,7 +65,7 @@ pkg_setup() {
 		einfo "gcc compiled with gcj-support =)"
 	fi
 	
-	if [[ `hg -v help fclones 2>&1> /dev/null` ]]; then
+	if [[ `hg -v help fclone 2>&1> /dev/null` ]]; then
 		eerror "You need to have the ForsetExtension for mercurial."
 		die "mercurial w/o fclone support."
 	else
