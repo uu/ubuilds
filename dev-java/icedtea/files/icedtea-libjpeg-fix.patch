@@ -1,0 +1,11 @@
+--- ./patches/icedtea-libraries.patch.orig	2008-03-28 15:37:18.000000000 +0000
++++ ./patches/icedtea-libraries.patch	2008-03-28 15:37:30.000000000 +0000
+@@ -4,7 +4,7 @@
+  include $(BUILDDIR)/common/Mapfile-vers.gmk
+  include $(BUILDDIR)/common/Library.gmk
+  
+-+LDLIBS += -ljpeg -ldl 
+++LDLIBS += -ldl 
+ +
+  #
+  # Add to ambient vpath to get files in a subdirectory
