@@ -19,6 +19,7 @@ COMMON_DEP="
 	dev-java/xalan
 	media-libs/alsa-lib
 	media-libs/libpng
+	media-libs/giflib
 	x11-libs/libX11
 	x11-libs/libXext
 	x11-libs/libXi
