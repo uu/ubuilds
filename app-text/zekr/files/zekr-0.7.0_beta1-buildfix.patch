@@ -1,0 +1,12 @@
+--- build.xml	2008-03-26 21:25:18.000000000 +0200
++++ build.xml.fixed	2008-04-01 21:33:32.000000000 +0300
+@@ -55,7 +55,8 @@
+ 		</unjar>
+ 		<javac srcdir="${src_dir}" source="1.4" target="1.4" destdir="${build_classdir}" includes="${packagedir}/**" debug="true" verbose="${verbose}">
+ 			<classpath refid="buildlibs" />
+-		</javac>
++		</javac>
++		<copy file="${src_dir}/net/sf/zekr/common/config/version.properties" tofile="${build_classdir}/net/sf/zekr/common/config/version.properties"/>
+ 	</target>
+ 
+ 	<target name="dist" depends="compile">
