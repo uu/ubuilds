@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 Apr 2008; Vlastimil Babka <caster@gentoo.org> ++,
+  -zekr-0.7.0_beta1.ebuild:
+  Revbump to use new swt slot.
+
   01 Apr 2008; Serkan Kaba <serkan_kaba@yahoo.com> -zekr-0.6.6.ebuild, -files/zekr-0.6.6-buildfix.patch,
   +zekr-0.7.0_beta1.ebuild, +files/zekr-0.7.0_beta1-buildfix.patch:
   Version bump

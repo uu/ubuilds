@@ -34,7 +34,7 @@ COMMON_DEPS="dev-java/commons-collections:0
 	 dev-java/commons-lang:2.1
 	 dev-java/commons-logging:0
 	 dev-java/log4j:0
-	 >=dev-java/swt-3.4_pre6
+	 >=dev-java/swt-3.4_pre6-r1:3.4
 	 dev-java/velocity:0
 	 dev-java/lucene:2.3
 	 dev-java/lucene-highlighter:2.3"
@@ -84,7 +84,7 @@ src_unpack() {
 }
 
 src_compile() {
-	local classpath=$(java-pkg_getjars commons-collections,commons-configuration,commons-io:1,commons-lang:2.1,commons-logging,log4j,swt:3,velocity,lucene-highlighter:2.3)
+	local classpath=$(java-pkg_getjars commons-collections,commons-configuration,commons-io:1,commons-lang:2.1,commons-logging,log4j,swt:3.4,velocity,lucene-highlighter:2.3)
 	classpath="${classpath}:$(java-pkg_getjar lucene:2.3 lucene-core.jar)"
 	eant -Dgentoo.classpath=${classpath} dist $(use_doc)
 }
