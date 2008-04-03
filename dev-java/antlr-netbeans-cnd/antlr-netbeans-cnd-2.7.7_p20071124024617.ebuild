@@ -13,7 +13,7 @@ SRC_URI="
 LICENSE="CDDL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-DEPEND="=virtual/jdk-1.5*
+DEPEND=">=virtual/jdk-1.5
 	>=dev-java/ant-nodeps-1.7.0"
 RDEPEND=">=virtual/jre-1.5
 	dev-java/ant-antlr"
@@ -21,8 +21,9 @@ S="${WORKDIR}/netbeans-src"
 JAVA_PKG_BSFIX="off"
 
 src_compile() {
+	local antflags=" -Dpermit.jdk6.builds=true"
 	eant -f nbbuild/build.xml bootstrap
-	ANT_TASKS="ant-nodeps" eant -f cnd/antlr/build.xml
+	ANT_TASKS="ant-nodeps" eant ${antflags} -f cnd/antlr/build.xml
 }
 
 src_install() {
