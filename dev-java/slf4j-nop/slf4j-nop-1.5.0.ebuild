@@ -11,7 +11,7 @@ DESCRIPTION="Simple Logging Facade for Java"
 HOMEPAGE="http://www.slf4j.org/"
 SRC_URI="http://ebuild.linux-sevenler.org/distfiles/${P}-sources.jar
 	http://ebuild.linux-sevenler.org/distfiles/apache-build.xml.bz2"
-LICENSE="Apache-2.0"
+LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""

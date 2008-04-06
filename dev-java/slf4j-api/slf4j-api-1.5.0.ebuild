@@ -10,7 +10,7 @@ inherit eutils java-pkg-2 java-ant-2
 DESCRIPTION="Simple Logging Facade for Java"
 HOMEPAGE="http://www.slf4j.org/"
 SRC_URI="http://ebuild.linux-sevenler.org/distfiles/${P}-sources.jar"
-LICENSE="Apache-2.0"
+LICENSE="as-is"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
