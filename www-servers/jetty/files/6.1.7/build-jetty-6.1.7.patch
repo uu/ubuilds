@@ -6902,8 +6902,8 @@ diff -ruN jetty-6.1.7/extras/xbean/maven-build.xml jetty-6.1.7-codestrom/extras/
 +</project>
 diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 --- jetty-6.1.7/maven-build.xml	1970-01-01 01:00:00.000000000 +0100
-+++ jetty-6.1.7-codestrom/maven-build.xml	2008-04-02 17:30:04.000000000 +0200
-@@ -0,0 +1,235 @@
++++ jetty-6.1.7-codestrom/maven-build.xml	2008-04-06 19:32:53.000000000 +0200
+@@ -0,0 +1,179 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +
 +<!-- ====================================================================== -->
@@ -6931,8 +6931,8 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/util" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="clean"/>
-+    <ant antfile="build.xml" dir="modules/jsp-api-2.0" target="clean"/>
-+    <ant antfile="build.xml" dir="modules/jsp-2.0" target="clean"/>
++    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="clean"/>
++    <ant antfile="build.xml" dir="modules/jsp-2.1" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/management" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/start" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/maven-plugin" target="clean"/>
@@ -6945,7 +6945,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="extras/xbean" target="clean"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="clean"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="clean"/>
-+    <ant antfile="build.xml" dir="extras/win32service" target="clean"/>
 +    <ant antfile="build.xml" dir="extras/threadpool" target="clean"/>
 +    <ant antfile="build.xml" dir="extras/client" target="clean"/>
 +    <ant antfile="build.xml" dir="examples/test-webapp" target="clean"/>
@@ -6953,10 +6952,7 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="examples/test-jndi-webapp" target="clean"/>
 +    <ant antfile="build.xml" dir="examples/embedded" target="clean"/>
 +    <ant antfile="build.xml" dir="examples/tests" target="clean"/>
-+    <ant antfile="build.xml" dir="contrib/cometd" target="clean"/>
 +    <ant antfile="build.xml" dir="contrib/jetty-ant" target="clean"/>
-+    <ant antfile="build.xml" dir="contrib/grizzly" target="clean"/>
-+    <ant antfile="build.xml" dir="contrib/wadi" target="clean"/>
 +  </target>
 +
 +  <!-- ====================================================================== -->
@@ -6967,8 +6963,8 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/util" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="compile"/>
-+    <ant antfile="build.xml" dir="modules/jsp-api-2.0" target="compile"/>
-+    <ant antfile="build.xml" dir="modules/jsp-2.0" target="compile"/>
++    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="compile"/>
++    <ant antfile="build.xml" dir="modules/jsp-2.1" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/management" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/start" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/maven-plugin" target="compile"/>
@@ -6981,7 +6977,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="extras/xbean" target="compile"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="compile"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="compile"/>
-+    <ant antfile="build.xml" dir="extras/win32service" target="compile"/>
 +    <ant antfile="build.xml" dir="extras/threadpool" target="compile"/>
 +    <ant antfile="build.xml" dir="extras/client" target="compile"/>
 +    <ant antfile="build.xml" dir="examples/test-webapp" target="compile"/>
@@ -6989,46 +6984,7 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="examples/test-jndi-webapp" target="compile"/>
 +    <ant antfile="build.xml" dir="examples/embedded" target="compile"/>
 +    <ant antfile="build.xml" dir="examples/tests" target="compile"/>
-+    <ant antfile="build.xml" dir="contrib/cometd" target="compile"/>
 +    <ant antfile="build.xml" dir="contrib/jetty-ant" target="compile"/>
-+    <ant antfile="build.xml" dir="contrib/grizzly" target="compile"/>
-+    <ant antfile="build.xml" dir="contrib/wadi" target="compile"/>
-+  </target>
-+
-+  <!-- ====================================================================== -->
-+  <!-- Test-compilation target                                                -->
-+  <!-- ====================================================================== -->
-+
-+  <target name="compile-tests" description="Compile the test code">
-+    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/util" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/jetty" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/jsp-api-2.0" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/jsp-2.0" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/management" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/start" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/maven-plugin" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/jspc-maven-plugin" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/naming" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/plus" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/html" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="modules/annotations" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="extras/servlet-tester" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="extras/xbean" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="extras/sslengine" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="extras/ajp" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="extras/win32service" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="extras/threadpool" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="extras/client" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="examples/test-webapp" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="examples/test-jaas-webapp" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="examples/test-jndi-webapp" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="examples/embedded" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="examples/tests" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="contrib/cometd" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="contrib/jetty-ant" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="contrib/grizzly" target="compile-tests"/>
-+    <ant antfile="build.xml" dir="contrib/wadi" target="compile-tests"/>
 +  </target>
 +
 +  <!-- ====================================================================== -->
@@ -7039,8 +6995,8 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="test"/>
 +    <ant antfile="build.xml" dir="modules/util" target="test"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="test"/>
-+    <ant antfile="build.xml" dir="modules/jsp-api-2.0" target="test"/>
-+    <ant antfile="build.xml" dir="modules/jsp-2.0" target="test"/>
++    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="test"/>
++    <ant antfile="build.xml" dir="modules/jsp-2.1" target="test"/>
 +    <ant antfile="build.xml" dir="modules/management" target="test"/>
 +    <ant antfile="build.xml" dir="modules/start" target="test"/>
 +    <ant antfile="build.xml" dir="modules/maven-plugin" target="test"/>
@@ -7053,7 +7009,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="extras/xbean" target="test"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="test"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="test"/>
-+    <ant antfile="build.xml" dir="extras/win32service" target="test"/>
 +    <ant antfile="build.xml" dir="extras/threadpool" target="test"/>
 +    <ant antfile="build.xml" dir="extras/client" target="test"/>
 +    <ant antfile="build.xml" dir="examples/test-webapp" target="test"/>
@@ -7061,10 +7016,7 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="examples/test-jndi-webapp" target="test"/>
 +    <ant antfile="build.xml" dir="examples/embedded" target="test"/>
 +    <ant antfile="build.xml" dir="examples/tests" target="test"/>
-+    <ant antfile="build.xml" dir="contrib/cometd" target="test"/>
 +    <ant antfile="build.xml" dir="contrib/jetty-ant" target="test"/>
-+    <ant antfile="build.xml" dir="contrib/grizzly" target="test"/>
-+    <ant antfile="build.xml" dir="contrib/wadi" target="test"/>
 +  </target>
 +
 +  <!-- ====================================================================== -->
@@ -7075,8 +7027,8 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/util" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="javadoc"/>
-+    <ant antfile="build.xml" dir="modules/jsp-api-2.0" target="javadoc"/>
-+    <ant antfile="build.xml" dir="modules/jsp-2.0" target="javadoc"/>
++    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="javadoc"/>
++    <ant antfile="build.xml" dir="modules/jsp-2.1" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/management" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/start" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/maven-plugin" target="javadoc"/>
@@ -7089,7 +7041,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="extras/xbean" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="javadoc"/>
-+    <ant antfile="build.xml" dir="extras/win32service" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/threadpool" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/client" target="javadoc"/>
 +    <ant antfile="build.xml" dir="examples/test-webapp" target="javadoc"/>
@@ -7097,10 +7048,7 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="examples/test-jndi-webapp" target="javadoc"/>
 +    <ant antfile="build.xml" dir="examples/embedded" target="javadoc"/>
 +    <ant antfile="build.xml" dir="examples/tests" target="javadoc"/>
-+    <ant antfile="build.xml" dir="contrib/cometd" target="javadoc"/>
 +    <ant antfile="build.xml" dir="contrib/jetty-ant" target="javadoc"/>
-+    <ant antfile="build.xml" dir="contrib/grizzly" target="javadoc"/>
-+    <ant antfile="build.xml" dir="contrib/wadi" target="javadoc"/>
 +  </target>
 +
 +  <!-- ====================================================================== -->
@@ -7111,8 +7059,8 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="package"/>
 +    <ant antfile="build.xml" dir="modules/util" target="package"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="package"/>
-+    <ant antfile="build.xml" dir="modules/jsp-api-2.0" target="package"/>
-+    <ant antfile="build.xml" dir="modules/jsp-2.0" target="package"/>
++    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="package"/>
++    <ant antfile="build.xml" dir="modules/jsp-2.1" target="package"/>
 +    <ant antfile="build.xml" dir="modules/management" target="package"/>
 +    <ant antfile="build.xml" dir="modules/start" target="package"/>
 +    <ant antfile="build.xml" dir="modules/maven-plugin" target="package"/>
@@ -7125,7 +7073,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="extras/xbean" target="package"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="package"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="package"/>
-+    <ant antfile="build.xml" dir="extras/win32service" target="package"/>
 +    <ant antfile="build.xml" dir="extras/threadpool" target="package"/>
 +    <ant antfile="build.xml" dir="extras/client" target="package"/>
 +    <ant antfile="build.xml" dir="examples/test-webapp" target="package"/>
@@ -7133,10 +7080,7 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="examples/test-jndi-webapp" target="package"/>
 +    <ant antfile="build.xml" dir="examples/embedded" target="package"/>
 +    <ant antfile="build.xml" dir="examples/tests" target="package"/>
-+    <ant antfile="build.xml" dir="contrib/cometd" target="package"/>
 +    <ant antfile="build.xml" dir="contrib/jetty-ant" target="package"/>
-+    <ant antfile="build.xml" dir="contrib/grizzly" target="package"/>
-+    <ant antfile="build.xml" dir="contrib/wadi" target="package"/>
 +  </target>
 +</project>
 diff -ruN jetty-6.1.7/modules/annotations/build.xml jetty-6.1.7-codestrom/modules/annotations/build.xml

@@ -43,10 +43,10 @@ IUSE="wadi demo"
 
 COMMON_DEP=""
 
-RDEPEND=">=virtual/jre-1.4
+RDEPEND=">=virtual/jre-1.6
 	wadi? ( dev-java/wadi )
     ${COMMON_DEP}"
-DEPEND=">=virtual/jdk-1.4 
+DEPEND=">=virtual/jdk-1.6
     app-arch/unzip
     ${COMMON_DEP}"
 
@@ -85,9 +85,9 @@ src_install() {
 	dodir ${JETTY_HOME}/lib/wadi
 	dodir ${JETTY_HOME}/lib/xbean
 	dodir ${JETTY_HOME}/lib/management
-	dodir ${JETTY_HOME}/lib/cometd
+#	dodir ${JETTY_HOME}/lib/cometd
 	dodir ${JETTY_HOME}/lib/naming
-	dodir ${JETTY_HOME}/lib/grizzly
+#	dodir ${JETTY_HOME}/lib/grizzly
 	dodir ${JETTY_HOME}/lib/jsp-2.1
 
 	keepdir ${JETTY_HOME}/tmp
@@ -99,42 +99,42 @@ src_install() {
 	java-pkg_newjar "modules/start/target/start-${PV}.jar" start.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/"
-	java-pkg_dojar "modules/jetty/target/jetty-${PV}.jar"
-	java-pkg_dojar "modules/util/target/jetty-util-${PV}.jar"
-	java-pkg_dojar "modules/servlet-api-2.5/target/servlet-api-2.5-6.1.7.jar"
-	java-pkg_dojar "modules/annotations/target/jetty-annotations-${PV}.jar"
+	java-pkg_newjar "modules/jetty/target/jetty-${PV}.jar" jetty.jar
+	java-pkg_newjar "modules/util/target/jetty-util-${PV}.jar" jetty-util.jar
+	java-pkg_newjar "modules/servlet-api-2.5/target/servlet-api-2.5-${PV}.jar"	servlet-api-2.5.jar
+	java-pkg_newjar "modules/annotations/target/jetty-annotations-${PV}.jar" jetty-annotations.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/ext/"
-	java-pkg_dojar "extras/client/target/jetty-client-${PV}.jar"
-	java-pkg_dojar "extras/ajp/target/jetty-ajp-${PV}.jar"
-	java-pkg_dojar "modules/html/target/jetty-html-${PV}.jar"
-	java-pkg_dojar "extras/sslengine/target/jetty-sslengine-${PV}.jar"
-	java-pkg_dojar "extras/threadpool/target/jetty-java5-threadpool-${PV}.jar"
-	java-pkg_dojar "extras/servlet-tester/target/jetty-servlet-tester-${PV}.jar"
+	java-pkg_newjar "extras/client/target/jetty-client-${PV}.jar" jetty-client.jar
+	java-pkg_newjar "extras/ajp/target/jetty-ajp-${PV}.jar" jetty-ajp.jar
+	java-pkg_newjar "modules/html/target/jetty-html-${PV}.jar" jetty-html.jar
+	java-pkg_newjar "extras/sslengine/target/jetty-sslengine-${PV}.jar" jetty-sslengine.jar
+	java-pkg_newjar "extras/threadpool/target/jetty-java5-threadpool-${PV}.jar" jetty-java5-threadpool.jar
+	java-pkg_newjar "extras/servlet-tester/target/jetty-servlet-tester-${PV}.jar" jetty-servlet-tester.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/plus/"
-	java-pkg_dojar "modules/plus/target/jetty-plus-${PV}.jar"
+	java-pkg_newjar "modules/plus/target/jetty-plus-${PV}.jar" jetty-plus.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/xbean/"
-	java-pkg_dojar "extras/xbean/target/jetty-xbean-${PV}.jar"
+	java-pkg_newjar "extras/xbean/target/jetty-xbean-${PV}.jar" jetty-xbean.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/management/"
-	java-pkg_dojar "modules/management/target/jetty-management-${PV}.jar"
+	java-pkg_newjar "modules/management/target/jetty-management-${PV}.jar" jetty-management.jar
 
-	java-pkg_jarinto "${JETTY_HOME}/lib/cometd/"
+#	java-pkg_jarinto "${JETTY_HOME}/lib/cometd/"
 	# Probably not needed, but being built
-	java-pkg_dojar "contrib/cometd/api/target/cometd-api-0.9.20071211.jar"
+#	java-pkg_newjar "contrib/cometd/api/target/cometd-api-0.9.20071211.jar" cometd-api-0.9.20071211.jar
 
 	# Appears to be for a demo.. maybe in the future..
-	#java-pkg_dojar "contrib/cometd/demo/target/cometd-demo-${PV}/WEB-INF/lib/cometd-bayeux-${PV}.jar"
-	java-pkg_dojar "contrib/cometd/bayeux/target/cometd-bayeux-${PV}.jar"
-	java-pkg_dojar "contrib/cometd/client/target/bayeux-client-${PV}.jar"
+	#java-pkg_newjar "contrib/cometd/demo/target/cometd-demo-${PV}/WEB-INF/lib/cometd-bayeux-${PV}.jar" cometd-bayeux.jar
+#	java-pkg_newjar "contrib/cometd/bayeux/target/cometd-bayeux-${PV}.jar" cometd-bayeux.jar
+#	java-pkg_newjar "contrib/cometd/client/target/bayeux-client-${PV}.jar" bayeux-client.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/naming/"
-	java-pkg_dojar "modules/naming/target/jetty-naming-${PV}.jar"
+	java-pkg_newjar "modules/naming/target/jetty-naming-${PV}.jar" jetty-naming.jar
 
-	java-pkg_jarinto "${JETTY_HOME}/lib/grizzly/"
-	java-pkg_dojar "contrib/grizzly/target/jetty-grizzly-${PV}.jar"
+#	java-pkg_jarinto "${JETTY_HOME}/lib/grizzly/"
+#	java-pkg_newjar "contrib/grizzly/target/jetty-grizzly-${PV}.jar" jetty-grizzly.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/jsp-2.1/"
 	java-pkg_newjar "modules/jsp-2.1/target/jsp-2.1-${PV}.jar" jsp-2.1.jar
@@ -142,7 +142,7 @@ src_install() {
 
 	if use wadi; then
 		java-pkg_jarinto "${JETTY_HOME}/lib/wadi/"
-		java-pkg_dojar "contrib/wadi/target/jetty-wadi-session-manager-${PV}.jar"
+		java-pkg_newjar "contrib/wadi/target/jetty-wadi-session-manager-${PV}.jar" jetty-wadi-session-manager.jar
 	fi
 
 	# Needed or jetty won't start
@@ -179,7 +179,7 @@ src_install() {
 	dodir /etc/jetty
 	dosym /etc/jetty/ ${JETTY_HOME}/etc
 	insinto /etc/jetty/
-	doins etc/jetty-grizzly.xml
+#	doins etc/jetty-grizzly.xml
 	doins etc/jetty-ajp.xml
 	doins etc/jetty-setuid.xml
 	doins etc/jetty-bio.xml
