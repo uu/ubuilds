@@ -29,7 +29,7 @@ EANT_GENTOO_CLASSPATH="slf4j-api"
 
 src_unpack() {
 	unpack ${A}
-	cp -v ${FILESDIR}/build.xml . || die
+	cp -v "${FILESDIR}"/build.xml . || die
 }
 
 src_install() {

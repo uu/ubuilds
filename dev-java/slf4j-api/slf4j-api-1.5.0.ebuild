@@ -23,7 +23,7 @@ S="${WORKDIR}"
 
 src_unpack() {
 	unpack ${A}
-	cp -v ${FILESDIR}/build.xml . || die
+	cp -v "${FILESDIR}"/build.xml . || die
 }
 
 src_install() {
