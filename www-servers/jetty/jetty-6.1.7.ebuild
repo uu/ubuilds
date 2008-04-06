@@ -3,8 +3,6 @@
 # $Header: $ 
 
 ## TODO :
-# 1) Create optional demo apps.. Jetty currently starts, but won't serve much more
-# than a 404
 # 2) More testing/QA (Especially the WADI clustering bits)
 # 3) Package JSP related things
 # 4) In the original binary there's a million property files that should maybe
@@ -41,7 +39,7 @@ HOMEPAGE="http://www.mortbay.org/"
 KEYWORDS="~amd64 ~ppc ~x86"
 LICENSE="Apache-1.1"
 SLOT="0"
-IUSE="wadi"
+IUSE="wadi demo"
 
 COMMON_DEP=""
 
@@ -90,6 +88,7 @@ src_install() {
 	dodir ${JETTY_HOME}/lib/cometd
 	dodir ${JETTY_HOME}/lib/naming
 	dodir ${JETTY_HOME}/lib/grizzly
+	dodir ${JETTY_HOME}/lib/jsp-2.1
 
 	keepdir ${JETTY_HOME}/tmp
 	dodir /var/log/${PN}
@@ -137,11 +136,29 @@ src_install() {
 	java-pkg_jarinto "${JETTY_HOME}/lib/grizzly/"
 	java-pkg_dojar "contrib/grizzly/target/jetty-grizzly-${PV}.jar"
 
+	java-pkg_jarinto "${JETTY_HOME}/lib/jsp-2.1/"
+	java-pkg_newjar "modules/jsp-2.1/target/jsp-2.1-${PV}.jar" jsp-2.1.jar
+	java-pkg_newjar "modules/jsp-api-2.1/target/jsp-api-2.1-${PV}.jar" jsp-api-2.1.jar
+
 	if use wadi; then
 		java-pkg_jarinto "${JETTY_HOME}/lib/wadi/"
 		java-pkg_dojar "contrib/wadi/target/jetty-wadi-session-manager-${PV}.jar"
 	fi
 
+	# Needed or jetty won't start
+	dodir ${JETTY_HOME}/webapps
+	keepdir ${JETTY_HOME}/webapps
+
+	if use demo; then
+		cp -rf examples/test-webapp/src/main/webapp/ ${D}/${JETTY_HOME}/webapps/test
+		dodir ${JETTY_HOME}/webapps/test/WEB-INF
+		cp -rf examples/test-webapp/target/classes	${D}/${JETTY_HOME}/webapps/test/WEB-INF/
+
+		cp -rf examples/test-jaas-webapp/src/main/webapp/ ${D}/${JETTY_HOME}/webapps/test-jaas
+
+		# Missing some jars and won't deploy
+		# cp contrib/cometd/demo/target/cometd-demo-${PV}.war	${D}/${JETTY_HOME}/webapps/cometd.war
+	fi
 
 	#use doc && java-pkg_dojavadoc "${WORKDIR}/gentoo_javadoc"
 	#use source && java-pkg_dosrc src/main/java/*
@@ -158,10 +175,6 @@ src_install() {
 	dodir ${JETTY_HOME}/project-website
 	dodir ${JETTY_HOME}/resources
 	
-	# Needed or jetty won't start
-	dodir ${JETTY_HOME}/webapps
-	keepdir ${JETTY_HOME}/webapps
-
 	# Necessary Jetty configs
 	dodir /etc/jetty
 	dosym /etc/jetty/ ${JETTY_HOME}/etc
@@ -186,6 +199,9 @@ src_install() {
 
 	# INIT SCRIPTS AND ENV
 	newinitd ${FILESDIR}/${PV}/jetty.init jetty
+	insinto ${JETTY_HOME}/bin
+	doins bin/jetty.sh
+	
 
 	doenvd ${FILESDIR}/${PV}/21jetty
 
