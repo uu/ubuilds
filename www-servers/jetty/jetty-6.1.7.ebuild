@@ -45,18 +45,25 @@ KEYWORDS="~amd64 ~ppc ~x86"
 LICENSE="Apache-1.1"
 SLOT="0"
 IUSE="wadi demo"
-EANT_GENTOO_CLASSPATH="jetty-servlet-api"
+EANT_GENTOO_CLASSPATH="jetty-servlet-api jetty-util jetty-module jetty-naming jetty-plus javamail glassfish-transaction-api ant-core"
 EANT_BUILD_TARGET="clean compile package"
 JAVA_ANT_REWRITE_CLASSPATH="true"
 JAVA_ANT_IGNORE_SYSTEM_CLASSES="true"
 
 
-DEP="dev-java/jetty-servlet-api"
+DEP=">=dev-java/jetty-servlet-api-2.5
+		=dev-java/jetty-util-${PV}
+		=dev-java/jetty-module-${PV}
+		=dev-java/jetty-naming-${PV}
+		=dev-java/jetty-plus-${PV}
+		java-virtuals/javamail
+		dev-java/glassfish-transaction-api
+		dev-java/ant-core"
 
-RDEPEND=">=virtual/jre-1.5
+RDEPEND=">=virtual/jre-1.6
 	wadi? ( dev-java/wadi )
     ${DEP}"
-DEPEND=">=virtual/jdk-1.5
+DEPEND=">=virtual/jdk-1.6
     app-arch/unzip
     ${DEP}"
 
@@ -72,6 +79,48 @@ src_unpack() {
 	find . -name '*maven-build*' -exec sed -i \
 		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
 		{} \;
+	#mv maven-build.xml build.xml
+	java-ant_rewrite-classpath maven-build.xml
+	java-ant_rewrite-classpath contrib/wadi/maven-build.xml
+	java-ant_rewrite-classpath contrib/jetty-ant/maven-build.xml
+	java-ant_rewrite-classpath contrib/cometd/api/maven-build.xml
+	java-ant_rewrite-classpath contrib/cometd/demo/maven-build.xml
+	java-ant_rewrite-classpath contrib/cometd/bayeux/maven-build.xml
+	java-ant_rewrite-classpath contrib/cometd/client/maven-build.xml
+	java-ant_rewrite-classpath contrib/cometd/maven-build.xml
+	java-ant_rewrite-classpath contrib/grizzly/maven-build.xml
+	java-ant_rewrite-classpath modules/html/maven-build.xml
+#	java-ant_rewrite-classpath modules/plus/maven-build.xml
+#	java-ant_rewrite-classpath modules/util/maven-build.xml
+# TODO : Probably requires some maven bits.. Which are yet to be tested
+#	java-ant_rewrite-classpath modules/maven-plugin/maven-build.xml
+#	java-ant_rewrite-classpath modules/jsp-2.0/maven-build.xml
+	java-ant_rewrite-classpath modules/jsp-2.1/maven-build.xml
+#	java-ant_rewrite-classpath modules/jetty/maven-build.xml
+	java-ant_rewrite-classpath modules/start/maven-build.xml
+	java-ant_rewrite-classpath modules/management/maven-build.xml
+#	java-ant_rewrite-classpath modules/servlet-api-2.5/maven-build.xml
+	java-ant_rewrite-classpath modules/jspc-maven-plugin/maven-build.xml
+#	java-ant_rewrite-classpath modules/naming/maven-build.xml
+	java-ant_rewrite-classpath modules/jsp-api-2.0/maven-build.xml
+	java-ant_rewrite-classpath modules/jsp-api-2.1/maven-build.xml
+#	java-ant_rewrite-classpath modules/annotations/maven-build.xml
+	java-ant_rewrite-classpath extras/ajp/maven-build.xml
+	java-ant_rewrite-classpath extras/xbean/maven-build.xml
+	java-ant_rewrite-classpath extras/client/maven-build.xml
+	java-ant_rewrite-classpath extras/sslengine/maven-build.xml
+	java-ant_rewrite-classpath extras/spring/maven-build.xml
+	java-ant_rewrite-classpath extras/win32service/maven-build.xml
+	java-ant_rewrite-classpath extras/threadpool/maven-build.xml
+#	java-ant_rewrite-classpath extras/servlet-tester/maven-build.xml
+	java-ant_rewrite-classpath examples/test-jaas-webapp/maven-build.xml
+	java-ant_rewrite-classpath examples/tests/maven-build.xml
+	java-ant_rewrite-classpath examples/embedded/maven-build.xml
+	java-ant_rewrite-classpath examples/test-webapp/maven-build.xml
+	java-ant_rewrite-classpath examples/test-jndi-webapp/maven-build.xml
+
+
+
 }
 
 #src_compile() {
@@ -113,10 +162,10 @@ src_install() {
 	java-pkg_newjar "modules/start/target/start-${PV}.jar" start.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/"
-	java-pkg_newjar "modules/jetty/target/jetty-${PV}.jar" jetty.jar
-	java-pkg_newjar "modules/util/target/jetty-util-${PV}.jar" jetty-util.jar
-	java-pkg_newjar "modules/servlet-api-2.5/target/servlet-api-2.5-${PV}.jar"	servlet-api-2.5.jar
-	java-pkg_newjar "modules/annotations/target/jetty-annotations-${PV}.jar" jetty-annotations.jar
+#	java-pkg_newjar "modules/jetty/target/jetty-${PV}.jar" jetty.jar
+#	java-pkg_newjar "modules/util/target/jetty-util-${PV}.jar" jetty-util.jar
+#	java-pkg_newjar "modules/servlet-api-2.5/target/servlet-api-2.5-${PV}.jar"	servlet-api-2.5.jar
+#	java-pkg_newjar "modules/annotations/target/jetty-annotations-${PV}.jar" jetty-annotations.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/ext/"
 	java-pkg_newjar "extras/client/target/jetty-client-${PV}.jar" jetty-client.jar
@@ -124,10 +173,10 @@ src_install() {
 	java-pkg_newjar "modules/html/target/jetty-html-${PV}.jar" jetty-html.jar
 	java-pkg_newjar "extras/sslengine/target/jetty-sslengine-${PV}.jar" jetty-sslengine.jar
 	java-pkg_newjar "extras/threadpool/target/jetty-java5-threadpool-${PV}.jar" jetty-java5-threadpool.jar
-	java-pkg_newjar "extras/servlet-tester/target/jetty-servlet-tester-${PV}.jar" jetty-servlet-tester.jar
+#	java-pkg_newjar "extras/servlet-tester/target/jetty-servlet-tester-${PV}.jar" jetty-servlet-tester.jar
 
-	java-pkg_jarinto "${JETTY_HOME}/lib/plus/"
-	java-pkg_newjar "modules/plus/target/jetty-plus-${PV}.jar" jetty-plus.jar
+#	java-pkg_jarinto "${JETTY_HOME}/lib/plus/"
+#	java-pkg_newjar "modules/plus/target/jetty-plus-${PV}.jar" jetty-plus.jar
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/xbean/"
 	java-pkg_newjar "extras/xbean/target/jetty-xbean-${PV}.jar" jetty-xbean.jar
@@ -144,8 +193,8 @@ src_install() {
 #	java-pkg_newjar "contrib/cometd/bayeux/target/cometd-bayeux-${PV}.jar" cometd-bayeux.jar
 #	java-pkg_newjar "contrib/cometd/client/target/bayeux-client-${PV}.jar" bayeux-client.jar
 
-	java-pkg_jarinto "${JETTY_HOME}/lib/naming/"
-	java-pkg_newjar "modules/naming/target/jetty-naming-${PV}.jar" jetty-naming.jar
+#	java-pkg_jarinto "${JETTY_HOME}/lib/naming/"
+#	java-pkg_newjar "modules/naming/target/jetty-naming-${PV}.jar" jetty-naming.jar
 
 #	java-pkg_jarinto "${JETTY_HOME}/lib/grizzly/"
 #	java-pkg_newjar "contrib/grizzly/target/jetty-grizzly-${PV}.jar" jetty-grizzly.jar
@@ -213,8 +262,8 @@ src_install() {
 
 	# INIT SCRIPTS AND ENV
 	newinitd ${FILESDIR}/${PV}/jetty.init jetty
-	insinto ${JETTY_HOME}/bin
-	doins bin/jetty.sh
+	exeinto ${JETTY_HOME}/bin
+	doexe bin/jetty.sh
 	
 
 	doenvd ${FILESDIR}/${PV}/21jetty

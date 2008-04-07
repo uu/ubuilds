@@ -6,7 +6,8 @@ JAVA_PKG_IUSE="doc source"
 JAVA_MAVEN_BUILD_SYSTEM="eant"
 EAPI=1
 
-inherit subversion eutils java-pkg-2 java-maven-2 
+inherit subversion eutils java-pkg-2 java-ant-2
+#java-maven-2 
 
 DESCRIPTION="WADI started life as a solution to the problems surrounding the
 distribution of state in clustered web tiers. It has evolved into a more
@@ -22,23 +23,29 @@ IUSE=""
 
 COMMON_DEP=""
 
-RDEPEND=">=virtual/jre-1.4
+RDEPEND=">=virtual/jre-1.5
     ${COMMON_DEP}"
-DEPEND=">=virtual/jdk-1.4 
+DEPEND=">=virtual/jdk-1.5
     ${COMMON_DEP}"
 
 src_unpack() {
 	subversion_src_unpack
 	cd ${S}
 	epatch ${FILESDIR}/${MY_PV}/build-wadi-${MY_PV}.patch
+#	find . -name '*maven-build*' -exec sed -i \
+#		-e 's/jse.version=1.5/jse.version=1.6/g' \
+#		{} \;
+	java-ant_rewrite-classpath maven-build.xml
 }
 
 EANT_GENTOO_CLASSPATH=""
 EANT_BUILD_TARGET="clean compile package"
+JAVA_ANT_REWRITE_CLASSPATH="true"
+JAVA_ANT_IGNORE_SYSTEM_CLASSES="true"
 
-src_compile() {
-	eant package
-}
+#src_compile() {
+#	eant package
+#}
 
 src_install() {
 	java-pkg_dojar "wadi-group/target/wadi-group-${MY_PV}.jar"
