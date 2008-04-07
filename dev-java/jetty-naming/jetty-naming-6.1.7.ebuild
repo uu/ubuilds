@@ -13,13 +13,14 @@ KEYWORDS="~amd64 ~ppc ~x86"
 LICENSE="Apache-1.1"
 SLOT="0"
 
-COMMON_DEP=""
+DEP="=dev-java/jetty-module-${PV}
+		java-virtuals/javamail"
 
 RDEPEND=">=virtual/jre-1.6
-    ${COMMON_DEP}"
+    ${DEP}"
 DEPEND=">=virtual/jdk-1.6
     app-arch/unzip
-    ${COMMON_DEP}"
+    ${DEP}"
 S=jetty-${MY_PV}
 src_unpack() {
 	unpack ${A}
