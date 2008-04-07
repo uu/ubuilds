@@ -25,6 +25,10 @@ src_unpack() {
 	unpack ${A}
 	cd jetty-${PV} || die cd failed
 	epatch ${FILESDIR}/${PV}/build-jetty-util-${PV}.patch
+	# FIXME : sed the patch instead of before committed
+	find . -name '*maven-build*' -exec sed -i \
+		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
+		{} \;
 }
 
 

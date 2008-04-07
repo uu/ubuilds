@@ -5,7 +5,8 @@
 JAVA_MAVEN_BUILD_SYSTEM="eant"
 EAPI=1
 
-inherit eutils java-pkg-2 java-maven-2 
+inherit eutils java-pkg-2 
+#java-maven-2 
 #java-ant-2
 MY_PV=6.1.7
 DESCRIPTION="A Lightweight Servlet Engine API"
@@ -28,6 +29,10 @@ src_unpack() {
 #	cd jetty-${MY_PV}
 	cd jetty-${S}
 	epatch ${FILESDIR}/${PV}/build-jetty-servlet-api-${MY_PV}.patch
+	# FIXME : sed the patch instead of before committed
+	find . -name '*maven-build*' -exec sed -i \
+		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
+		{} \;
 }
 
 
