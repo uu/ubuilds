@@ -41,7 +41,7 @@ LICENSE="Apache-1.1"
 SLOT="0"
 IUSE="wadi demo"
 
-COMMON_DEP=""
+COMMON_DEP="dev-java/jetty-servlet-api"
 
 RDEPEND=">=virtual/jre-1.6
 	wadi? ( dev-java/wadi )
