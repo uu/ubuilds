@@ -6902,8 +6902,8 @@ diff -ruN jetty-6.1.7/extras/xbean/maven-build.xml jetty-6.1.7-codestrom/extras/
 +</project>
 diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 --- jetty-6.1.7/maven-build.xml	1970-01-01 01:00:00.000000000 +0100
-+++ jetty-6.1.7-codestrom/maven-build.xml	2008-04-06 19:32:53.000000000 +0200
-@@ -0,0 +1,179 @@
++++ jetty-6.1.7-codestrom/maven-build.xml	2008-04-07 12:40:55.000000000 +0200
+@@ -0,0 +1,169 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +
 +<!-- ====================================================================== -->
@@ -6928,7 +6928,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +  <!-- ====================================================================== -->
 +
 +  <target name="clean" description="Clean the output directory">
-+    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/util" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="clean"/>
@@ -6941,7 +6940,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/plus" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/html" target="clean"/>
 +    <ant antfile="build.xml" dir="modules/annotations" target="clean"/>
-+    <ant antfile="build.xml" dir="extras/servlet-tester" target="clean"/>
 +    <ant antfile="build.xml" dir="extras/xbean" target="clean"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="clean"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="clean"/>
@@ -6960,7 +6958,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +  <!-- ====================================================================== -->
 +
 +  <target name="compile" description="Compile the code">
-+    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/util" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="compile"/>
@@ -6973,7 +6970,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/plus" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/html" target="compile"/>
 +    <ant antfile="build.xml" dir="modules/annotations" target="compile"/>
-+    <ant antfile="build.xml" dir="extras/servlet-tester" target="compile"/>
 +    <ant antfile="build.xml" dir="extras/xbean" target="compile"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="compile"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="compile"/>
@@ -6992,7 +6988,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +  <!-- ====================================================================== -->
 +
 +  <target name="test" description="Run the test cases">
-+    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="test"/>
 +    <ant antfile="build.xml" dir="modules/util" target="test"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="test"/>
 +    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="test"/>
@@ -7005,7 +7000,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/plus" target="test"/>
 +    <ant antfile="build.xml" dir="modules/html" target="test"/>
 +    <ant antfile="build.xml" dir="modules/annotations" target="test"/>
-+    <ant antfile="build.xml" dir="extras/servlet-tester" target="test"/>
 +    <ant antfile="build.xml" dir="extras/xbean" target="test"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="test"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="test"/>
@@ -7024,7 +7018,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +  <!-- ====================================================================== -->
 +
 +  <target name="javadoc" description="Generates the Javadoc of the application">
-+    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/util" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="javadoc"/>
@@ -7037,7 +7030,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/plus" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/html" target="javadoc"/>
 +    <ant antfile="build.xml" dir="modules/annotations" target="javadoc"/>
-+    <ant antfile="build.xml" dir="extras/servlet-tester" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/xbean" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="javadoc"/>
@@ -7056,7 +7048,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +  <!-- ====================================================================== -->
 +
 +  <target name="package" description="Package the application">
-+    <ant antfile="build.xml" dir="modules/servlet-api-2.5" target="package"/>
 +    <ant antfile="build.xml" dir="modules/util" target="package"/>
 +    <ant antfile="build.xml" dir="modules/jetty" target="package"/>
 +    <ant antfile="build.xml" dir="modules/jsp-api-2.1" target="package"/>
@@ -7069,7 +7060,6 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="modules/plus" target="package"/>
 +    <ant antfile="build.xml" dir="modules/html" target="package"/>
 +    <ant antfile="build.xml" dir="modules/annotations" target="package"/>
-+    <ant antfile="build.xml" dir="extras/servlet-tester" target="package"/>
 +    <ant antfile="build.xml" dir="extras/xbean" target="package"/>
 +    <ant antfile="build.xml" dir="extras/sslengine" target="package"/>
 +    <ant antfile="build.xml" dir="extras/ajp" target="package"/>

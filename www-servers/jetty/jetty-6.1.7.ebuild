@@ -26,11 +26,16 @@
 # 12) Suggestions or what else am I missing that people need?
 
 
-#JAVA_PKG_IUSE="doc source"
-JAVA_MAVEN_BUILD_SYSTEM="eant"
-EAPI=1
+JAVA_PKG_IUSE="doc source"
+#JAVA_MAVEN_BOOTSTRAP="Y"
+#JAVA_MAVEN_GENERATED_STUFF_UNPACK_DIR="${S}"
+#JAVA_MAVEN_ADD_GENERATED_STUFF="y"
+#JAVA_MAVEN_BUILD_SYSTEM="eant"
+#EAPI=1
 
-inherit eutils java-pkg-2 java-maven-2 
+inherit eutils java-pkg-2 java-ant-2
+# java-maven-2 
+# Removed java-pkg-2
 #java-ant-2
 
 DESCRIPTION="A Lightweight Servlet Engine"
@@ -40,29 +45,38 @@ KEYWORDS="~amd64 ~ppc ~x86"
 LICENSE="Apache-1.1"
 SLOT="0"
 IUSE="wadi demo"
+EANT_GENTOO_CLASSPATH="jetty-servlet-api"
+EANT_BUILD_TARGET="clean compile package"
+JAVA_ANT_REWRITE_CLASSPATH="true"
+JAVA_ANT_IGNORE_SYSTEM_CLASSES="true"
 
-COMMON_DEP="dev-java/jetty-servlet-api"
 
-RDEPEND=">=virtual/jre-1.6
+DEP="dev-java/jetty-servlet-api"
+
+RDEPEND=">=virtual/jre-1.5
 	wadi? ( dev-java/wadi )
-    ${COMMON_DEP}"
-DEPEND=">=virtual/jdk-1.6
+    ${DEP}"
+DEPEND=">=virtual/jdk-1.5
     app-arch/unzip
-    ${COMMON_DEP}"
+    ${DEP}"
+
+#JAVA_MAVEN_CLASSPATH="
+#jetty-servlet-api
+#"
 
 src_unpack() {
 	unpack ${A}
 	cd ${S}
 	epatch ${FILESDIR}/${PV}/build-jetty-${PV}.patch
+	# FIXME : sed the patch instead of before committed
+	find . -name '*maven-build*' -exec sed -i \
+		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
+		{} \;
 }
 
-
-EANT_GENTOO_CLASSPATH=""
-EANT_BUILD_TARGET="clean compile package"
-
-src_compile() {
-	eant package
-}
+#src_compile() {
+#	eant package -Dgentoo.classpath=$(java-pkg_getjars jetty-servlet-api)
+#}
 
 pkg_preinst() {
 	enewgroup jetty
