@@ -3,6 +3,7 @@
 # $Header: $ 
 
 ## TODO :
+# 1) Add some demos
 # 2) More testing/QA (Especially the WADI clustering bits)
 # 3) Package JSP related things
 # 4) In the original binary there's a million property files that should maybe
@@ -24,6 +25,7 @@
 # 10) j2se6 stuff?
 # 11) Terracotta?
 # 12) Suggestions or what else am I missing that people need?
+# 13) Change JETTY_HOME from /opt/jetty to /var/lib/jetty
 
 
 JAVA_PKG_IUSE="doc source wadi demo"
@@ -41,6 +43,7 @@ EANT_BUILD_TARGET="clean compile package"
 JAVA_ANT_REWRITE_CLASSPATH="true"
 JAVA_ANT_IGNORE_SYSTEM_CLASSES="true"
 
+JETTY_HOME="/opt/jetty"
 
 DEP=">=dev-java/jetty-servlet-api-2.5
 		=dev-java/jetty-util-${PV}
@@ -116,13 +119,11 @@ src_unpack() {
 
 pkg_preinst() {
 	enewgroup jetty
-	enewuser jetty -1 /bin/bash /opt/jetty jetty
+	enewuser jetty -1 /bin/bash $JETTY_HOME jetty
 	chown -R jetty:jetty "${D}"
 }
 
 src_install() {
-	JETTY_HOME="/opt/jetty"
-
 	INSTALLING="yes"
 	diropts -m0750
 
@@ -148,11 +149,17 @@ src_install() {
 	java-pkg_jarinto "${JETTY_HOME}/"
 	java-pkg_newjar "modules/start/target/start-${PV}.jar" start.jar
 
-	java-pkg_jarinto "${JETTY_HOME}/lib/"
+	#java-pkg_jarinto "${JETTY_HOME}/lib/"
 #	java-pkg_newjar "modules/jetty/target/jetty-${PV}.jar" jetty.jar
 #	java-pkg_newjar "modules/util/target/jetty-util-${PV}.jar" jetty-util.jar
 #	java-pkg_newjar "modules/servlet-api-2.5/target/servlet-api-2.5-${PV}.jar"	servlet-api-2.5.jar
 #	java-pkg_newjar "modules/annotations/target/jetty-annotations-${PV}.jar" jetty-annotations.jar
+
+	cd "${D}/${JETTY_HOME}/lib/"
+	java-pkg_jar-from	jetty-module		jetty.jar
+	java-pkg_jar-from	jetty-util			jetty-util.jar
+	java-pkg_jar-from	jetty-servlet-api	servlet-api.jar
+	cd "${S}"
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/ext/"
 	java-pkg_newjar "extras/client/target/jetty-client-${PV}.jar" jetty-client.jar
@@ -164,6 +171,10 @@ src_install() {
 
 #	java-pkg_jarinto "${JETTY_HOME}/lib/plus/"
 #	java-pkg_newjar "modules/plus/target/jetty-plus-${PV}.jar" jetty-plus.jar
+
+	cd "${D}/${JETTY_HOME}/lib/plus/"
+	java-pkg_jar-from	jetty-plus			jetty-plus.jar
+	cd "${S}"
 
 	java-pkg_jarinto "${JETTY_HOME}/lib/xbean/"
 	java-pkg_newjar "extras/xbean/target/jetty-xbean-${PV}.jar" jetty-xbean.jar
@@ -183,6 +194,10 @@ src_install() {
 #	java-pkg_jarinto "${JETTY_HOME}/lib/naming/"
 #	java-pkg_newjar "modules/naming/target/jetty-naming-${PV}.jar" jetty-naming.jar
 
+	cd "${D}/${JETTY_HOME}/lib/naming/"
+	java-pkg_jar-from	jetty-naming		jetty-naming.jar
+	cd "${S}"
+
 #	java-pkg_jarinto "${JETTY_HOME}/lib/grizzly/"
 #	java-pkg_newjar "contrib/grizzly/target/jetty-grizzly-${PV}.jar" jetty-grizzly.jar
 
@@ -199,15 +214,17 @@ src_install() {
 	dodir ${JETTY_HOME}/webapps
 	keepdir ${JETTY_HOME}/webapps
 
-	if use demo; then
-		cp -rf examples/test-webapp/src/main/webapp/ "${D}/${JETTY_HOME}/webapps/test"
-		dodir ${JETTY_HOME}/webapps/test/WEB-INF
-		cp -rf examples/test-webapp/target/classes "${D}/${JETTY_HOME}/webapps/test/WEB-INF/"
-		cp -rf examples/test-jaas-webapp/src/main/webapp/ "${D}/${JETTY_HOME}/webapps/test-jaas"
+#	if use demo; then
+		# FIXME : All demos broken.. Appear to depend on jsp-api-2.0 Which due
+		# to a long dependancy chain may not get packaged in the near future
+#		cp -rf examples/test-webapp/src/main/webapp/ "${D}/${JETTY_HOME}/webapps/test"
+#		dodir ${JETTY_HOME}/webapps/test/WEB-INF
+#		cp -rf examples/test-webapp/target/classes "${D}/${JETTY_HOME}/webapps/test/WEB-INF/"
+#		cp -rf examples/test-jaas-webapp/src/main/webapp/ "${D}/${JETTY_HOME}/webapps/test-jaas"
 
 		# Missing some jars and won't deploy
 		# cp contrib/cometd/demo/target/cometd-demo-${PV}.war	${D}/${JETTY_HOME}/webapps/cometd.war
-	fi
+#	fi
 
 	#use doc && java-pkg_dojavadoc "${WORKDIR}/gentoo_javadoc"
 	#use source && java-pkg_dosrc src/main/java/*

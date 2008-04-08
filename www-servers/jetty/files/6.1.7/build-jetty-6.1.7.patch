@@ -6902,7 +6902,7 @@ diff -ruN jetty-6.1.7/extras/xbean/maven-build.xml jetty-6.1.7-codestrom/extras/
 +</project>
 diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 --- jetty-6.1.7/maven-build.xml	1970-01-01 01:00:00.000000000 +0100
-+++ jetty-6.1.7-codestrom/maven-build.xml	2008-04-07 23:57:08.000000000 +0200
++++ jetty-6.1.7-codestrom/maven-build.xml	2008-04-08 11:38:22.000000000 +0200
 @@ -0,0 +1,149 @@
 +<?xml version="1.0" encoding="UTF-8"?>
 +
@@ -7019,7 +7019,7 @@ diff -ruN jetty-6.1.7/maven-build.xml jetty-6.1.7-codestrom/maven-build.xml
 +    <ant antfile="build.xml" dir="extras/ajp" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/threadpool" target="javadoc"/>
 +    <ant antfile="build.xml" dir="extras/client" target="javadoc"/>
-+    <!--ant antfile="build.xml" dir="examples/test-webapp" target="javadoc"/-->
++    <!--ant antfile="build.xml" dir="examples/test-webapp" target="javadoc"/ -->
 +    <ant antfile="build.xml" dir="examples/test-jaas-webapp" target="javadoc"/>
 +    <ant antfile="build.xml" dir="examples/test-jndi-webapp" target="javadoc"/>
 +    <ant antfile="build.xml" dir="examples/embedded" target="javadoc"/>
