@@ -13,31 +13,34 @@ KEYWORDS="~amd64 ~ppc ~x86"
 LICENSE="Apache-1.1"
 SLOT="0"
 
-DEP="=dev-java/jetty-module-${PV}
+DEP="java-virtuals/javamail
+		=dev-java/jetty-module-${PV}
+		=dev-java/jetty-util-${PV}
 		java-virtuals/javamail"
 
 RDEPEND=">=virtual/jre-1.6
-    ${DEP}"
+	${DEP}"
 DEPEND=">=virtual/jdk-1.6
-    app-arch/unzip
-    ${DEP}"
-S=jetty-${MY_PV}
+	app-arch/unzip
+	${DEP}"
+#S=jetty-${MY_PV}
 src_unpack() {
 	unpack ${A}
 	cd jetty-${PV} || die cd failed
-	epatch ${FILESDIR}/${PV}/build-jetty-naming-${PV}.patch
+	epatch "${FILESDIR}/${PV}/build-jetty-naming-${PV}.patch"
 	# FIXME : sed the patch instead of before committed
 	find . -name '*maven-build*' -exec sed -i \
 		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
 		{} \;
+	java-ant_rewrite-classpath modules/naming/maven-build.xml
 }
 
 
-EANT_GENTOO_CLASSPATH=""
+EANT_GENTOO_CLASSPATH="jetty-util jetty-module javamail"
 EANT_BUILD_TARGET="clean compile package"
 
 src_compile() {
-	cd jetty-${PV} 
+	cd jetty-${PV}
 	eant package
 }
 

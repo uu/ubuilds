@@ -26,25 +26,16 @@
 # 12) Suggestions or what else am I missing that people need?
 
 
-JAVA_PKG_IUSE="doc source"
-#JAVA_MAVEN_BOOTSTRAP="Y"
-#JAVA_MAVEN_GENERATED_STUFF_UNPACK_DIR="${S}"
-#JAVA_MAVEN_ADD_GENERATED_STUFF="y"
-#JAVA_MAVEN_BUILD_SYSTEM="eant"
-#EAPI=1
-
+JAVA_PKG_IUSE="doc source wadi demo"
 inherit eutils java-pkg-2 java-ant-2
-# java-maven-2 
-# Removed java-pkg-2
-#java-ant-2
 
 DESCRIPTION="A Lightweight Servlet Engine"
 SRC_URI="http://ftp.mortbay.org/pub/jetty-${PV}/jetty-${PV}-src.zip"
 HOMEPAGE="http://www.mortbay.org/"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="~amd64 ~x86"
 LICENSE="Apache-1.1"
 SLOT="0"
-IUSE="wadi demo"
+#IUSE="wadi demo"
 EANT_GENTOO_CLASSPATH="jetty-servlet-api jetty-util jetty-module jetty-naming jetty-plus javamail glassfish-transaction-api ant-core"
 EANT_BUILD_TARGET="clean compile package"
 JAVA_ANT_REWRITE_CLASSPATH="true"
@@ -62,19 +53,15 @@ DEP=">=dev-java/jetty-servlet-api-2.5
 
 RDEPEND=">=virtual/jre-1.6
 	wadi? ( dev-java/wadi )
-    ${DEP}"
+	${DEP}"
 DEPEND=">=virtual/jdk-1.6
-    app-arch/unzip
-    ${DEP}"
-
-#JAVA_MAVEN_CLASSPATH="
-#jetty-servlet-api
-#"
+	app-arch/unzip
+	${DEP}"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
-	epatch ${FILESDIR}/${PV}/build-jetty-${PV}.patch
+	cd "${S}"
+	epatch "${FILESDIR}/${PV}/build-jetty-${PV}.patch"
 	# FIXME : sed the patch instead of before committed
 	find . -name '*maven-build*' -exec sed -i \
 		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
@@ -130,7 +117,7 @@ src_unpack() {
 pkg_preinst() {
 	enewgroup jetty
 	enewuser jetty -1 /bin/bash /opt/jetty jetty
-	chown -R jetty:jetty ${D}
+	chown -R jetty:jetty "${D}"
 }
 
 src_install() {
@@ -138,7 +125,7 @@ src_install() {
 
 	INSTALLING="yes"
 	diropts -m0750
-	
+
 	# Create directories
 	dodir ${JETTY_HOME}
 	dodir ${JETTY_HOME}/tmp
@@ -213,11 +200,10 @@ src_install() {
 	keepdir ${JETTY_HOME}/webapps
 
 	if use demo; then
-		cp -rf examples/test-webapp/src/main/webapp/ ${D}/${JETTY_HOME}/webapps/test
+		cp -rf examples/test-webapp/src/main/webapp/ "${D}/${JETTY_HOME}/webapps/test"
 		dodir ${JETTY_HOME}/webapps/test/WEB-INF
-		cp -rf examples/test-webapp/target/classes	${D}/${JETTY_HOME}/webapps/test/WEB-INF/
-
-		cp -rf examples/test-jaas-webapp/src/main/webapp/ ${D}/${JETTY_HOME}/webapps/test-jaas
+		cp -rf examples/test-webapp/target/classes "${D}/${JETTY_HOME}/webapps/test/WEB-INF/"
+		cp -rf examples/test-jaas-webapp/src/main/webapp/ "${D}/${JETTY_HOME}/webapps/test-jaas"
 
 		# Missing some jars and won't deploy
 		# cp contrib/cometd/demo/target/cometd-demo-${PV}.war	${D}/${JETTY_HOME}/webapps/cometd.war
@@ -237,7 +223,7 @@ src_install() {
 	dodir ${JETTY_HOME}/patches
 	dodir ${JETTY_HOME}/project-website
 	dodir ${JETTY_HOME}/resources
-	
+
 	# Necessary Jetty configs
 	dodir /etc/jetty
 	dosym /etc/jetty/ ${JETTY_HOME}/etc
@@ -261,23 +247,22 @@ src_install() {
 	doins etc/realm.properties
 
 	# INIT SCRIPTS AND ENV
-	newinitd ${FILESDIR}/${PV}/jetty.init jetty
-	exeinto ${JETTY_HOME}/bin
+	newinitd "${FILESDIR}/${PV}/jetty.init" jetty
+	exeinto "${JETTY_HOME}/bin"
 	doexe bin/jetty.sh
-	
 
-	doenvd ${FILESDIR}/${PV}/21jetty
+	doenvd "${FILESDIR}/${PV}/21jetty"
 
 	insinto /etc/
 	insopts -m0644
-	doins ${FILESDIR}/${PV}/jetty.conf
+	doins "${FILESDIR}/${PV}/jetty.conf"
 
-	doconfd ${FILESDIR}/${PV}/jetty
+	doconfd "${FILESDIR}/${PV}/jetty"
 
 	dodoc *.TXT
 	dohtml *.html
-
-	chmod u+x ${S}/bin/jetty.sh
+	# Should be doexec?
+#	chmod u+x "${S}/bin/jetty.sh"
 
 }
 
