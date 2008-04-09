@@ -7,7 +7,6 @@ JAVA_MAVEN_BUILD_SYSTEM="eant"
 EAPI=1
 
 inherit subversion eutils java-pkg-2 java-ant-2
-#java-maven-2 
 
 DESCRIPTION="WADI started life as a solution to the problems surrounding the
 distribution of state in clustered web tiers. It has evolved into a more
@@ -32,9 +31,10 @@ src_unpack() {
 	subversion_src_unpack
 	cd "${S}"
 	epatch "${FILESDIR}/${MY_PV}/build-wadi-${MY_PV}.patch"
-#	find . -name '*maven-build*' -exec sed -i \
-#		-e 's/jse.version=1.5/jse.version=1.6/g' \
-#		{} \;
+	# FIXME : sed the patch instead of before committed
+	find . -name '*maven-build*' -exec sed -i \
+		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
+		{} \;
 	java-ant_rewrite-classpath maven-build.xml
 }
 
