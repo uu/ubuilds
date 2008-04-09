@@ -52,10 +52,10 @@ DEP=">=dev-java/jetty-servlet-api-2.5
 		=dev-java/jetty-plus-${PV}
 		java-virtuals/javamail
 		dev-java/glassfish-transaction-api
-		dev-java/ant-core"
+		dev-java/ant-core
+		wadi? ( =dev-java/jetty-wadi-session-manager-${PV} )"
 
 RDEPEND=">=virtual/jre-1.6
-	wadi? ( dev-java/wadi )
 	${DEP}"
 DEPEND=">=virtual/jdk-1.6
 	app-arch/unzip
@@ -71,7 +71,7 @@ src_unpack() {
 		{} \;
 	#mv maven-build.xml build.xml
 	java-ant_rewrite-classpath maven-build.xml
-	java-ant_rewrite-classpath contrib/wadi/maven-build.xml
+	#java-ant_rewrite-classpath contrib/wadi/maven-build.xml
 	java-ant_rewrite-classpath contrib/jetty-ant/maven-build.xml
 	java-ant_rewrite-classpath contrib/cometd/api/maven-build.xml
 	java-ant_rewrite-classpath contrib/cometd/demo/maven-build.xml
@@ -206,8 +206,17 @@ src_install() {
 	java-pkg_newjar "modules/jsp-api-2.1/target/jsp-api-2.1-${PV}.jar" jsp-api-2.1.jar
 
 	if use wadi; then
-		java-pkg_jarinto "${JETTY_HOME}/lib/wadi/"
-		java-pkg_newjar "contrib/wadi/target/jetty-wadi-session-manager-${PV}.jar" jetty-wadi-session-manager.jar
+#		java-pkg_jarinto "${JETTY_HOME}/lib/wadi/"
+#		java-pkg_newjar "contrib/wadi/target/jetty-wadi-session-manager-${PV}.jar" jetty-wadi-session-manager.jar
+
+		cd "${D}/${JETTY_HOME}/lib/wadi/"
+		java-pkg_jar-from		jetty-wadi-session-manager		jetty-wadi-session-manager.jar
+		java-pkg_jar-from		wadi							wadi-aop.jar
+		java-pkg_jar-from		wadi							wadi-core.jar
+		java-pkg_jar-from		wadi							wadi-group.jar
+		java-pkg_jar-from		wadi							wadi-jgroups.jar
+		java-pkg_jar-from		wadi							wadi-tribes.jar
+		cd "${S}"
 	fi
 
 	# Needed or jetty won't start
