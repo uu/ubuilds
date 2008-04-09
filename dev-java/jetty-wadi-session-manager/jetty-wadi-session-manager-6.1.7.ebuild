@@ -13,7 +13,10 @@ TRIBES_PV=6.0.16
 COMMON_DEP=">=dev-java/jetty-servlet-api-2.5
 		=dev-java/jetty-util-${PV}
 		=dev-java/jetty-module-${PV}
-		dev-java/wadi
+		dev-java/wadi-core
+		dev-java/wadi-group
+		dev-java/wadi-aop
+		dev-java/wadi-tribes
 		=dev-java/tribes-${TRIBES_PV}"
 
 RDEPEND=">=virtual/jre-1.6
@@ -33,7 +36,7 @@ src_unpack() {
 	java-ant_rewrite-classpath contrib/wadi/maven-build.xml
 }
 
-EANT_GENTOO_CLASSPATH="wadi jetty-servlet-api jetty-util jetty-module tribes"
+EANT_GENTOO_CLASSPATH="wadi-core wadi-group wadi-aop wadi-tribes jetty-servlet-api jetty-util jetty-module tribes"
 EANT_BUILD_TARGET="clean compile package"
 
 src_compile() {

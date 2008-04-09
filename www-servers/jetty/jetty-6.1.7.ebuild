@@ -53,7 +53,11 @@ DEP=">=dev-java/jetty-servlet-api-2.5
 		java-virtuals/javamail
 		dev-java/glassfish-transaction-api
 		dev-java/ant-core
-		wadi? ( =dev-java/jetty-wadi-session-manager-${PV} )"
+		wadi? ( =dev-java/jetty-wadi-session-manager-${PV}
+				dev-java/wadi-aop
+				dev-java/wadi-core
+				dev-java/wadi-group
+				dev-java/wadi-tribes )"
 
 RDEPEND=">=virtual/jre-1.6
 	${DEP}"
@@ -211,11 +215,11 @@ src_install() {
 
 		cd "${D}/${JETTY_HOME}/lib/wadi/"
 		java-pkg_jar-from		jetty-wadi-session-manager		jetty-wadi-session-manager.jar
-		java-pkg_jar-from		wadi							wadi-aop.jar
-		java-pkg_jar-from		wadi							wadi-core.jar
-		java-pkg_jar-from		wadi							wadi-group.jar
-		java-pkg_jar-from		wadi							wadi-jgroups.jar
-		java-pkg_jar-from		wadi							wadi-tribes.jar
+		java-pkg_jar-from		wadi-aop						wadi-aop.jar
+		java-pkg_jar-from		wadi-core						wadi-core.jar
+		java-pkg_jar-from		wadi-group						wadi-group.jar
+#		java-pkg_jar-from		wadi-jgroups					wadi-jgroups.jar
+		java-pkg_jar-from		wadi-tribes						wadi-tribes.jar
 		cd "${S}"
 	fi
 
