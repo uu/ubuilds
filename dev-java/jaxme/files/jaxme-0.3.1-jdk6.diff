@@ -1,0 +1,22 @@
+--- src/jaxme/org/apache/ws/jaxme/impl/JMUnmarshallerImpl.java.orig	2007-12-24 20:13:12.000000000 +0000
++++ src/jaxme/org/apache/ws/jaxme/impl/JMUnmarshallerImpl.java	2007-12-24 20:13:37.000000000 +0000
+@@ -46,7 +46,7 @@
+  * @author <a href="mailto:joe@ispsoft.de">Jochen Wiedmann</a>
+  * @version $Id: JMUnmarshallerImpl.java,v 1.2 2004/02/16 23:39:57 jochen Exp $
+  */
+-public class JMUnmarshallerImpl extends JMControllerImpl implements JMUnmarshaller {
++public abstract class JMUnmarshallerImpl extends JMControllerImpl implements JMUnmarshaller {
+   private static final SAXParserFactory spf;
+   static {
+     spf = SAXParserFactory.newInstance();
+--- src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java.orig	2007-12-24 20:37:39.000000000 +0000
++++ src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java	2007-12-24 20:38:15.000000000 +0000
+@@ -45,7 +45,7 @@
+  * @author <a href="mailto:joe@ispsoft.de">Jochen Wiedmann</a>
+  * @version $Id: JMMarshallerImpl.java,v 1.5.2.1 2004/08/16 08:29:17 jochen Exp $
+  */
+-public class JMMarshallerImpl extends JMControllerImpl implements JMMarshaller {
++public abstract class JMMarshallerImpl extends JMControllerImpl implements JMMarshaller {
+   /** <p>Default value for {@link Marshaller#JAXB_ENCODING}: UTF-8.</p>
+    */
+   public static final String DEFAULT_JAXB_ENCODING = "UTF-8";
