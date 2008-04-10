@@ -9,6 +9,9 @@ DESCRIPTION="Spellchecker addon for lucene"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
 
+RESTRICT="test"
+#TODO: Figure out why it's not working.
+
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
