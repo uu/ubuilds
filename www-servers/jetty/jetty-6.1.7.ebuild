@@ -64,7 +64,7 @@ DEP=">=dev-java/jetty-servlet-api-2.5
 				dev-java/commons-logging
 				dev-java/juli
 				dev-java/cglib
-				dev-java/aspectj )"
+				=dev-java/asm-1.5* )"
 
 RDEPEND=">=virtual/jre-1.6
 	${DEP}"
@@ -233,7 +233,7 @@ src_install() {
 		java-pkg_jar-from		commons-logging					commons-logging.jar
 		java-pkg_jar-from		juli							juli.jar
 		java-pkg_jar-from		cglib-2.1						cglib.jar
-		java-pkg_jar-from		aspectj-1.5						aspectjrt.jar
+		java-pkg_jar-from		asm-1.5							asm.jar
 		cd "${S}"
 	fi
 
