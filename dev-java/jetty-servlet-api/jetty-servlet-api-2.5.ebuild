@@ -27,6 +27,7 @@ src_unpack() {
 	find . -name '*maven-build*' -exec sed -i \
 		-e 's/home\/asura\/\.m2\/repository/usr\/share/g' \
 		{} \;
+#	java-ant_rewrite-classpath modules/servlet-api-${PV}/maven-build.xml
 }
 
 
@@ -34,9 +35,10 @@ EANT_GENTOO_CLASSPATH=""
 EANT_BUILD_TARGET="clean compile package"
 
 src_compile() {
+	cd jetty-${MY_PV} || die "cd failed"
 	eant package
 }
 
 src_install() {
-	java-pkg_newjar "modules/servlet-api-${PV}/target/servlet-api-${PV}-${MY_PV}.jar"	servlet-api.jar
+	java-pkg_newjar "jetty-${MY_PV}/modules/servlet-api-${PV}/target/servlet-api-${PV}-${MY_PV}.jar"	servlet-api.jar
 }
