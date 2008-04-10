@@ -57,7 +57,14 @@ DEP=">=dev-java/jetty-servlet-api-2.5
 				dev-java/wadi-aop
 				dev-java/wadi-core
 				dev-java/wadi-group
-				dev-java/wadi-tribes )"
+				dev-java/wadi-tribes
+				dev-java/tribes
+				dev-java/commons-codec
+				dev-java/commons-httpclient
+				dev-java/commons-logging
+				dev-java/juli
+				dev-java/cglib
+				dev-java/aspectj )"
 
 RDEPEND=">=virtual/jre-1.6
 	${DEP}"
@@ -220,6 +227,13 @@ src_install() {
 		java-pkg_jar-from		wadi-group						wadi-group.jar
 #		java-pkg_jar-from		wadi-jgroups					wadi-jgroups.jar
 		java-pkg_jar-from		wadi-tribes						wadi-tribes.jar
+		java-pkg_jar-from		tribes							tribes.jar
+		java-pkg_jar-from		commons-httpclient-3			commons-httpclient.jar
+		java-pkg_jar-from		commons-codec					commons-codec.jar
+		java-pkg_jar-from		commons-logging					commons-logging.jar
+		java-pkg_jar-from		juli							juli.jar
+		java-pkg_jar-from		cglib-2.1						cglib.jar
+		java-pkg_jar-from		aspectj-1.5						aspectjrt.jar
 		cd "${S}"
 	fi
 
