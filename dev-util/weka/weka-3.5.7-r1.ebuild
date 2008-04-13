@@ -28,6 +28,7 @@ src_unpack() {
 
 	rm -v *.jar || die
 	epatch "${FILESDIR}"/${P}-jdk7fix.patch
+	#Upstream bug: http://sourceforge.net/tracker/index.php?func=detail&aid=1941283&group_id=5091&atid=105091
 }
 
 src_compile() {
