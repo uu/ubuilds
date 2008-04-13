@@ -10,7 +10,7 @@ MY_PN="${PN/jm/jM}"
 MY_PV="${PV/_beta/-beta}"
 MY_P="${MY_PN}-${MY_PV}"
 
-DESCRIPTION="Java application that manages your learning processes by using flashcards and the famous Leitner system"
+DESCRIPTION="Java flashcard game"
 HOMEPAGE="http://jmemorize.org/"
 SRC_URI="mirror://sourceforge/${PN}/${MY_P}-source.zip"
 LICENSE="GPL-2"

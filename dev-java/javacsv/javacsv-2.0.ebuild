@@ -21,7 +21,7 @@ RDEPEND=">=virtual/jre-1.5"
 S="${WORKDIR}"
 
 src_unpack() {
-	unpack "${A}"
+	unpack ${A}
 	rm -rfv doc "${PN}".jar || die "error cleaning up"
 	mv -v src/AllTests.java . || die "error moving tests"
 }
