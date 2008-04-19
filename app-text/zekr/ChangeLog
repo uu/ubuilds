@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  19 Apr 2008; Serkan Kaba <serkan_kaba@yahoo.com> -zekr-0.7.0_beta1-r1.ebuild,
+  +zekr-0.7.0_beta1-r2.ebuild:
+  Revbump to add translations.
+
   03 Apr 2008; Vlastimil Babka <caster@gentoo.org> ++,
   -zekr-0.7.0_beta1.ebuild:
   Revbump to use new swt slot.
