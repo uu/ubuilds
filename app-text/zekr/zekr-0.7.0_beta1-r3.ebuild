@@ -2,6 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+# TODO:
+# Translation licenses
+# Support for installing recitations globally (maybe)
+
 EAPI=1
 JAVA_PKG_IUSE="doc source"
 
@@ -11,56 +15,57 @@ DESCRIPTION="An open platform for simply browsing and research on the Holy Quran
 HOMEPAGE="http://zekr.org/"
 TRANS="mirror://sourceforge/${PN}/${PN}-quran-translation"
 SRC_URI="mirror://sourceforge/${PN}/${P/_/}-linux.tar.gz
-	linguas_bs? ( ${TRANS}-korkut-bs_0.7.1-1-ppa1_all.deb )
+	linguas_bs? ( ${TRANS}-bs-korkut_0.7.1-1-ppa4_all.deb )
 	linguas_de?
 	(
-		${TRANS}-bubenheimelyas-de_0.7.1-1-ppa1_all.deb
-		${TRANS}-muhammadibnrassoul-de_0.7.1-1-ppa1_all.deb
-		${TRANS}-zaidan-de_0.7.1-1-ppa1_all.deb
+		${TRANS}-de-bubenheimelyas_0.7.1-1-ppa4_all.deb
+		${TRANS}-de-muhammadibnrassoul_0.7.1-1-ppa4_all.deb
+		${TRANS}-de-zaidan_0.7.1-1-ppa4_all.deb
 	)
-	linguas_es? ( ${TRANS}-cortes-es_0.7.1-1-ppa1_all.deb )
 	linguas_en?
 	(
-		${TRANS}-pickthall-en_0.7.1-1-ppa1_all.deb
-		${TRANS}-qaribullah-en_0.7.1-1-ppa1_all.deb
-		${TRANS}-shakir-en_0.7.1-1-ppa1_all.deb
-		${TRANS}-yusufali-en_0.7.1-1-ppa1_all.deb
+		${TRANS}-en-pickthall_0.7.1-1-ppa4_all.deb
+		${TRANS}-en-qaribullah_0.7.1-1-ppa4_all.deb
+		${TRANS}-en-shakir_0.7.1-1-ppa4_all.deb
+		${TRANS}-en-yusufali_0.7.1-1-ppa4_all.deb
 	)
+	linguas_es? ( ${TRANS}-es-cortes_0.7.1-1-ppa4_all.deb )
 	linguas_fa?
 	(
-		${TRANS}-ansarian-fa_0.7.1-1-ppa1_all.deb
-		${TRANS}-ghomshei-fa_0.7.1-1-ppa1_all.deb
-		${TRANS}-makarem-fa_0.7.1-1-ppa1_all.deb
+		${TRANS}-fa-ansarian_0.7.1-1-ppa4_all.deb
+		${TRANS}-fa-ghomshei_0.7.1-1-ppa4_all.deb
+		${TRANS}-fa-makarem_0.7.1-1-ppa4_all.deb
 	)
-	linguas_fr? ( ${TRANS}-hamidullah-fr_0.7.1-1-ppa1_all.deb )
-	linguas_id? ( ${TRANS}-indonesian-id_0.7.1-1-ppa1_all.deb )
-	linguas_it? ( ${TRANS}-piccardo-it_0.7.1-1-ppa1_all.deb )
-	linguas_nl? ( ${TRANS}-keyzer-nl_0.7.1-1-ppa1_all.deb )
-	linguas_pt? ( ${TRANS}-elhayek-pt_0.7.1-1-ppa1_all.deb )
+	linguas_fr? ( ${TRANS}-fr-hamidullah_0.7.1-1-ppa4_all.deb )
+	linguas_id? ( ${TRANS}-id-indonesian_0.7.1-1-ppa4_all.deb )
+	linguas_it? ( ${TRANS}-it-piccardo_0.7.1-1-ppa4_all.deb )
+	linguas_nl? ( ${TRANS}-nl-keyzer_0.7.1-1-ppa4_all.deb )
+	linguas_pt? ( ${TRANS}-pt-elhayek_0.7.1-1-ppa4_all.deb )
 	linguas_ru?
 	(
-		${TRANS}-kuliev-ru_0.7.1-1-ppa1_all.deb
-		${TRANS}-osmanov-ru_0.7.1-1-ppa1_all.deb
-		${TRANS}-porokhova-ru_0.7.1-1-ppa1_all.deb
+		${TRANS}-ru-kuliev_0.7.1-1-ppa4_all.deb
+		${TRANS}-ru-osmanov_0.7.1-1-ppa4_all.deb
+		${TRANS}-ru-porokhova_0.7.1-1-ppa4_all.deb
 		
 	)
 	linguas_tr?
 	(
-		${TRANS}-diyanet-tr_0.7.1-1-ppa1_all.deb
-		${TRANS}-ozturk-tr_0.7.1-1-ppa1_all.deb
+		${TRANS}-tr-diyanet_0.7.1-1-ppa4_all.deb
+		${TRANS}-tr-ozturk_0.7.1-1-ppa4_all.deb
 	)
-	linguas_tt? ( ${TRANS}-noghmani-tt_0.7.1-1-ppa1_all.deb )
+	linguas_tt? ( ${TRANS}-tt-noghmani_0.7.1-1-ppa4_all.deb )
 	linguas_ur?
 	(
-		${TRANS}-irfanulquran-ur_0.7.1-1-ppa1_all.deb
-		${TRANS}-jalandhry-ur_0.7.1-1-ppa1_all.deb
-		${TRANS}-kanzuliman-ur_0.7.1-1-ppa1_all.deb
+		${TRANS}-ur-irfanulquran_0.7.1-1-ppa4_all.deb
+		${TRANS}-ur-jalandhry_0.7.1-1-ppa4_all.deb
+		${TRANS}-ur-kanzuliman_0.7.1-1-ppa4_all.deb
 	)"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-LINGUAS="bs de es en fa fr id it nl pt ru tr tt ur"
+IUSE=""
+LINGUAS="bs de en es fa fr id it nl pt ru tr tt ur"
 
 COMMON_DEPS="dev-java/commons-collections:0
 	 dev-java/commons-configuration:0
@@ -132,4 +137,9 @@ src_install() {
         doins -r usr/share/zekr/res
         use doc && java-pkg_dojavadoc build/docs/javadocs
         use source && java-pkg_dosrc src/*
+}
+
+pkg_postinst() {
+	ewarn "You need to install a flash plugin to use recitations"
+	#Introdcude a flag?
 }
