@@ -46,7 +46,6 @@ SRC_URI="mirror://sourceforge/${PN}/${P/_/}-linux.tar.gz
 		${TRANS}-ru-kuliev_0.7.1-1-ppa4_all.deb
 		${TRANS}-ru-osmanov_0.7.1-1-ppa4_all.deb
 		${TRANS}-ru-porokhova_0.7.1-1-ppa4_all.deb
-		
 	)
 	linguas_tr?
 	(
@@ -98,9 +97,9 @@ pkg_setup() {
 
 unpack_translation() {
 	if [[ $1 = *".deb" ]]; then
-		deb2targz ${DISTDIR}/$1 || die
-		tar -zxf  ${DISTDIR}/${1/.deb/.tar.gz} ./usr/share/zekr -C ${S} || die
-		rm  ${DISTDIR}/${1/.deb/.tar.gz} || die
+		deb2targz "${DISTDIR}"/$1 || die
+		tar -zxf  "${DISTDIR}"/${1/.deb/.tar.gz} ./usr/share/zekr -C "${S}" || die
+		rm  "${DISTDIR}"/${1/.deb/.tar.gz} || die
 	fi
 }
 
@@ -113,8 +112,8 @@ src_unpack() {
 	done
 	rm lib/*.jar || die
 	rm dist/zekr.jar || die
-	epatch ${FILESDIR}/${P}-buildfix.patch
-	epatch ${FILESDIR}/${PN}-0.6.6-resource-fixes.patch
+	epatch "${FILESDIR}"/${P}-buildfix.patch
+	epatch "${FILESDIR}"/${PN}-0.6.6-resource-fixes.patch
 	java-ant_rewrite-classpath
 }
 
@@ -126,17 +125,17 @@ src_compile() {
 
 src_install() {
 	java-pkg_dojar dist/zekr.jar
-        doicon ${FILESDIR}/zekr.png
-        local use_flag=""
-        java-pkg_dolauncher zekr \
-        	--main net.sf.zekr.ZekrMain \
-        	--pwd /usr/share/zekr
-        make_desktop_entry zekr "Zekr" zekr.png
-        insinto /usr/share/zekr
-        doins -r res
-        doins -r usr/share/zekr/res
-        use doc && java-pkg_dojavadoc build/docs/javadocs
-        use source && java-pkg_dosrc src/*
+	doicon "${FILESDIR}"/zekr.png
+	local use_flag=""
+	java-pkg_dolauncher zekr \
+		--main net.sf.zekr.ZekrMain \
+		--pwd /usr/share/zekr
+	make_desktop_entry zekr "Zekr" zekr.png
+	insinto /usr/share/zekr
+	doins -r res
+	doins -r usr/share/zekr/res
+	use doc && java-pkg_dojavadoc build/docs/javadocs
+	use source && java-pkg_dosrc src/*
 }
 
 pkg_postinst() {
