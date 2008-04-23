@@ -15,7 +15,7 @@ LICENSE="Apache-2.0"
 
 DEPEND=">=virtual/jdk-1.4
 	dev-java/lucene:${SLOT}
-	test? ( dev-java/ant-junit =dev-java/junit-3* )"
+	test? ( dev-java/ant-junit dev-java/junit:0 )"
 RDEPEND=">=virtual/jdk-1.4
 	 =dev-java/lucene-${SLOT}*"
 
@@ -26,7 +26,12 @@ done
 S="${WORKDIR}/lucene-${PV}"
 
 lucene-contrib_src_compile() {
-	local gcp=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
+	local lucene_jar=""
+	if [[ "${SLOT}" < 2.0 ]] ; then
+		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene.jar)
+	else
+		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
+	fi
 	cd contrib/${LUCENE_MODULE}
 	for dep in ${LUCENE_MODULE_DEPS}; do
 		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
@@ -39,8 +44,8 @@ lucene-contrib_src_compile() {
 	done
 
 	eant -Dversion=${PV} \
-		-Dproject.classpath="${gcp}" \
-		-Dlucene.jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar) \
+		-Dproject.classpath="${gcp}:${lucene_jar}" \
+		-Dlucene.jar="${lucene_jar}" \
 	jar-core
 }
 
@@ -49,7 +54,13 @@ lucene-contrib_src_test() {
 	java-ant_rewrite-classpath build.xml
 	cd contrib && java-ant_rewrite-classpath contrib-build.xml
 	cd ${LUCENE_MODULE} && java-ant_rewrite-classpath build.xml
-	local gcp=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
+	local lucene_jar=""
+	if [[ "${SLOT}" < 2.0 ]] ; then
+		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene.jar)
+	else
+		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
+	fi
+	local gcp="${lucene_jar}"
 	gcp="${gcp}:$(java-pkg_getjars junit)"
 	for dep in ${LUCENE_MODULE_DEPS}; do
 		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
@@ -62,7 +73,7 @@ lucene-contrib_src_test() {
 	done
 
 	ANT_TASKS="ant-junit" eant -Dproject.classpath="${gcp}" \
-		-Dlucene.jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar) test
+		-Dlucene.jar="${lucene_jar}" test
 }
 
 lucene-contrib_src_install() {
