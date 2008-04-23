@@ -25,13 +25,16 @@ for dep in ${LUCENE_MODULE_DEPS}; do
 done
 S="${WORKDIR}/lucene-${PV}"
 
-lucene-contrib_src_compile() {
-	local lucene_jar=""
+lucene-contrib_getlucenejar_ () {
 	if [[ "${SLOT}" < 2.0 ]] ; then
-		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene.jar)
+		java-pkg_getjar lucene-${SLOT} lucene.jar
 	else
-		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
+		java-pkg_getjar lucene-${SLOT} lucene-core.jar
 	fi
+}
+
+lucene-contrib_src_compile() {
+	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	cd contrib/${LUCENE_MODULE}
 	for dep in ${LUCENE_MODULE_DEPS}; do
 		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
@@ -54,12 +57,7 @@ lucene-contrib_src_test() {
 	java-ant_rewrite-classpath build.xml
 	cd contrib && java-ant_rewrite-classpath contrib-build.xml
 	cd ${LUCENE_MODULE} && java-ant_rewrite-classpath build.xml
-	local lucene_jar=""
-	if [[ "${SLOT}" < 2.0 ]] ; then
-		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene.jar)
-	else
-		lucene_jar=$(java-pkg_getjar lucene-${SLOT} lucene-core.jar)
-	fi
+	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	local gcp="${lucene_jar}"
 	gcp="${gcp}:$(java-pkg_getjars junit)"
 	for dep in ${LUCENE_MODULE_DEPS}; do
