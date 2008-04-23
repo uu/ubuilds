@@ -26,7 +26,7 @@ done
 S="${WORKDIR}/lucene-${PV}"
 
 lucene-contrib_getlucenejar_ () {
-	if [[ "${SLOT}" < 2.0 ]] ; then
+	if [ "${SLOT}" = "1" -o "${SLOT}" = "1.9" ]; then
 		java-pkg_getjar lucene-${SLOT} lucene.jar
 	else
 		java-pkg_getjar lucene-${SLOT} lucene-core.jar
