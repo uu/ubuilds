@@ -9,5 +9,5 @@ RESTRICT="test"
 #No tests available.
 
 DESCRIPTION="Similarity addon for lucene"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""

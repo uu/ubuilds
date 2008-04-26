@@ -33,6 +33,11 @@ lucene-contrib_getlucenejar_ () {
 	fi
 }
 
+lucene-contrib_src_unpack() {
+	unpack ${A}
+	find "${S}" -name "*.jar" -delete
+}
+
 lucene-contrib_src_compile() {
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	cd contrib/${LUCENE_MODULE}
@@ -81,4 +86,4 @@ lucene-contrib_src_install() {
 	use source && java-pkg_dosrc src/java/*
 }
 
-EXPORT_FUNCTIONS src_compile src_test src_install
+EXPORT_FUNCTIONS src_unpack src_compile src_test src_install

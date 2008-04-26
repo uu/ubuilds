@@ -6,14 +6,14 @@ SLOT=2.3
 inherit lucene-contrib
 
 DESCRIPTION="Spellchecker addon for lucene"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RESTRICT="test"
 #TODO: Figure out why it's not working.
 
 src_unpack() {
-	unpack ${A}
+	lucene-contrib_src_unpack
 	cd "${S}"
 	#copy needed util class from lucene tests
 	mkdir -p contrib/${LUCENE_MODULE}/src/test/org/apache/lucene/util
