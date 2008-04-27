@@ -4,14 +4,14 @@
 
 EAPI=1
 
-ANT_TASK_DEPNAME="sun-javamail"
+ANT_TASK_DEPNAME="--virtual javamail"
 
 inherit ant-tasks
 
-KEYWORDS="~amd64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
 
-DEPEND=">=dev-java/sun-javamail-1.4:0
-	>=dev-java/sun-jaf-1.1:0"
+DEPEND="java-virtuals/javamail
+	dev-java/sun-jaf"
 RDEPEND="${DEPEND}"
 
 src_unpack() {
