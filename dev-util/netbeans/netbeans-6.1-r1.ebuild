@@ -260,7 +260,7 @@ src_install() {
 
 	# Ant installation
 	if use java ; then
-		local ANTDIR="${DESTINATION}/java1/ant"
+		local ANTDIR="${DESTINATION}/java2/ant"
 		dosym /usr/share/ant/lib ${ANTDIR}/lib
 		dosym /usr/share/ant-core/bin ${ANTDIR}/bin
 	fi
