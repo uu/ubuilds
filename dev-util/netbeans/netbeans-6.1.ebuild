@@ -2,11 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/netbeans/netbeans-5.5-r4.ebuild,v 1.1 2007/01/28 19:40:16 fordfrog Exp $
 
-# TODO:
-# - bind dependencies to USE flags
-# - commons-jxpath seems to be patched
-# - antlr in uml module seems to be patched
-
 EAPI=1
 WANT_SPLIT_ANT="true"
 inherit eutils java-pkg-2 java-ant-2
@@ -16,90 +11,21 @@ HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.1"
 MY_PV=${PV}
-SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/appframework-1.0.3.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/javac-api-nb-7.0-b07.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/javac-impl-nb-7.0-b07.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/jxpath1.1.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/resolver-1.2.tar.bz2
-	http://dev.gentoo.org/~fordfrog/distfiles/tomcat-webserver-3.2.tar.bz2"
+SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/${P}-bundled.tar.bz2"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE="apisupport cnd debug doc experimental +harness +ide identity j2ee java javafx mobility nb php profiler ruby soa stableuc testtools uml visualweb xml linguas_de linguas_es linguas_ja linguas_pt_BR linguas_sq linguas_zh_CN"
+IUSE_NETBEANS_MODULES="apisupport cnd gsf harness ide identity j2ee java mobility nb php profiler ruby soa uml visualweb xml"
+IUSE="+apisupport +cnd debug doc +gsf +harness +ide +identity +j2ee +java +mobility +nb +php +profiler +ruby +soa +uml +visualweb +xml linguas_de linguas_es linguas_ja linguas_pt_BR linguas_sq linguas_zh_CN"
 
-RDEPEND=">=virtual/jdk-1.5
-	>=dev-java/javahelp-2.0.02:0
-	dev-java/jsr223:0
-	>=dev-java/swing-layout-1:1
-	ide? (
-		dev-java/fastinfoset:0
-		>=dev-java/jax-ws-2.0:2
-		>=dev-java/jax-ws-api-2.0:2
-		>=dev-java/jax-ws-tools-2.0:2
-		>=dev-java/jaxb-2.0:2
-		>=dev-java/jaxb-tools-2.0:2
-		dev-java/jsr67:0
-		dev-java/jsr173:0
-		dev-java/jsr181:0
-		dev-java/jsr250:0
-		dev-java/saaj:0
-		dev-java/sjsxp:0
-		dev-java/stax-ex:0
-		>=dev-java/sun-httpserver-bin-2:2
-		>=dev-java/sun-jaf-1.1:0
-		dev-java/xml-commons:0
-		dev-java/xmlstreambuffer:0
-	)"
+RDEPEND=">=virtual/jdk-1.5"
 
-DEPEND="=virtual/jdk-1.5*
-	>=dev-java/ant-nodeps-1.7.0:0
-	>=dev-java/javahelp-2.0.02:0
-	dev-java/jsr223:0
-	>=dev-java/swing-layout-1:1
-	ide? (
-		>=dev-java/beansbinding-1.2.1:0
-		>=dev-java/commons-jxpath-1.2:0
-		>=dev-java/commons-logging-1.0.4:0
-		dev-java/fastinfoset:0
-		>=dev-java/flute-1.3:0
-		>=dev-java/flyingsaucer-7:0
-		>=dev-java/freemarker-2.3.8:2.3
-		dev-java/glassfish-persistence:0
-		>=dev-java/ini4j-0.2.6:0
-		>=dev-java/javacc-3.2:0
-		>=dev-java/jax-ws-2.0:2
-		>=dev-java/jax-ws-api-2.0:2
-		>=dev-java/jax-ws-tools-2.0:2
-		>=dev-java/jaxb-2.0:2
-		>=dev-java/jaxb-tools-2.0:2
-		>=dev-java/jsch-0.1.24:0
-		dev-java/jsr67:0
-		dev-java/jsr173:0
-		dev-java/jsr181:0
-		dev-java/jsr250:0
-		>=dev-java/lucene-2.2.0:2
-		dev-java/netbeans-svnclientadapter:0
-		dev-java/prefuse:2006
-		dev-java/saaj:0
-		>=dev-java/sac-1.3:0
-		dev-java/sjsxp:0
-		dev-java/stax-ex:0
-		>=dev-java/sun-httpserver-bin-2:2
-		dev-java/sun-j2ee-deployment-bin:1.1
-		>=dev-java/sun-jaf-1.1:0
-		>=dev-java/swing-worker-1.1:0
-		>=dev-java/tomcat-servlet-api-3:2.2
-		>=dev-java/xerces-2.8.1:2
-		dev-java/xml-commons:0
-		dev-java/xmlstreambuffer:0
-	)"
+DEPEND="=virtual/jdk-1.5*"
 
-S="${WORKDIR}/netbeans-src"
 BUILDDESTINATION="${S}/nbbuild/netbeans"
-ENTERPRISE="4"
-IDE_VERSION="8"
-PLATFORM="7"
+ENTERPRISE="5"
+IDE_VERSION="9"
+PLATFORM="8"
 MY_FDIR="${FILESDIR}/${SLOT}"
 DESTINATION="/usr/share/netbeans-${SLOT}"
 JAVA_PKG_BSFIX="off"
@@ -119,28 +45,23 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use experimental && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use stableuc && use testtools && use uml && use visualweb && use xml ) ; then
-		eerror "'experimental' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'stableuc', 'testtools', 'uml', 'visualweb' and 'xml' USE flags"
+	if use gsf && ! use ide ; then
+		eerror "'gsf' USE flag requires 'ide' USE flag"
 		exit 1
 	fi
 
-	if use identity && ! ( use ide && use j2ee && use java ) ; then
-		eerror "'identity' USE flag requires 'ide', 'j2ee' and 'java' USE flags"
+	if use identity && ! ( use gsf && use ide && use j2ee && use java ) ; then
+		eerror "'identity' USE flag requires 'gsf', 'ide', 'j2ee' and 'java' USE flags"
 		exit 1
 	fi
 
-	if use j2ee && ! ( use ide && use java ) ; then
-		eerror "'j2ee' USE flag requires 'ide' and 'java' USE flags"
+	if use j2ee && ! ( use gsf && use ide && use java ) ; then
+		eerror "'j2ee' USE flag requires 'gsf', 'ide' and 'java' USE flags"
 		exit 1
 	fi
 
 	if use java && ! use ide ; then
 		eerror "'java' USE flag requires 'ide' USE flag"
-		exit 1
-	fi
-
-	if use javafx && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use uml && use visualweb && use xml ) ; then
-		eerror "'javafx' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'uml', 'visualweb' and 'xml' USE flags"
 		exit 1
 	fi
 
@@ -154,43 +75,33 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use php && ! ( use ide && use ruby ) ; then
-		eerror "'php' USE flag requires 'ide' and 'ruby' USE flags"
+	if use php && ! ( use gsf && use ide ) ; then
+		eerror "'php' USE flag requires 'gsf' and 'ide' USE flags"
 		exit 1
 	fi
 
-	if use profiler && ! ( use ide && use j2ee && use java ) ; then
-		eerror "'profiler' USE flag requires 'ide', 'j2ee' and 'java' USE flags"
+	if use profiler && ! ( use gsf && use ide && use j2ee && use java ) ; then
+		eerror "'profiler' USE flag requires 'gsf', 'ide', 'j2ee' and 'java' USE flags"
 		exit 1
 	fi
 
-	if use ruby && ! use ide ; then
-		eerror "'ruby' USE flag requires 'ide' USE flag"
+	if use ruby && ! ( use gsf && use ide) ; then
+		eerror "'ruby' USE flag requires 'gsf' and 'ide' USE flag"
 		exit 1
 	fi
 
-	if use soa && ! ( use ide && use java ) ; then
-		eerror "'soa' USE flag requires 'ide' and 'java' USE flags"
+	if use soa && ! ( use gsf && use ide && use j2ee && use java && use xml ) ; then
+		eerror "'soa' USE flag requires 'gsf', 'ide', 'j2ee', 'java' and 'xml' USE flags"
 		exit 1
 	fi
 
-	if use stableuc && ! ( use apisupport && use cnd && use ide && use identity && use j2ee && use java && use mobility && use nb && use profiler && use ruby && use soa && use uml && use visualweb && use xml ) ; then
-		eerror "'stableuc' USE flag requires 'apisupport', 'cnd', 'ide', 'identity', 'j2ee', 'java', 'mobility', 'nb', 'profiler', 'ruby', 'soa', 'uml', 'visualweb' and 'xml' USE flags"
+	if use uml && ! ( use ide && use java ) ; then
+		eerror "'uml' USE flag requires 'ide' and 'java' USE flags"
 		exit 1
 	fi
 
-	if use testtools && ! use ide ; then
-		eerror "'testtools' USE flag requires 'ide' USE flag"
-		exit 1
-	fi
-
-	if use uml && ! ( use harness && use ide && use java && use nb ) ; then
-		eerror "'uml' USE flag requires 'harness', 'ide', 'java' and 'nb' USE flags"
-		exit 1
-	fi
-
-	if use visualweb && ! ( use ide && use j2ee && use java ) ; then
-		eerror "'visualweb' USE flag requires 'ide', 'j2ee' and 'java' USE flags"
+	if use visualweb && ! ( use gsf && use ide && use j2ee && use java ) ; then
+		eerror "'visualweb' USE flag requires 'gsf', 'ide', 'j2ee' and 'java' USE flags"
 		exit 1
 	fi
 
@@ -205,25 +116,11 @@ pkg_setup() {
 src_unpack () {
 	unpack ${A}
 
-	if use ide ; then
-		cd "${S}"
-		epatch ${MY_FDIR}/o.apache.tools.ant.module-external-build.xml.patch
-		mkdir -p o.apache.tools.ant.module/external/lib
-		epatch ${MY_FDIR}/o.apache.tools.ant.module-build.xml.patch
-		epatch ${MY_FDIR}/websvc.jaxws21api-build.xml.patch
-		epatch ${MY_FDIR}/websvc.jaxws21-build.xml.patch
-	fi
-
-	if use visualweb ; then
-		cd "${S}"/visualweb.insync/src/org/netbeans/modules/visualweb/insync/markup
-		epatch ${MY_FDIR}/visualweb-JxpsSerializer.java-xerces-2.8.1.patch
-	fi
-
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
 	find "${S}"/nbbuild -name "*.class" -delete
 
-	place_unpack_symlinks
+	#place_unpack_symlinks
 
 	#einfo "Removing rest of the bundled jars..."
 	#find "${S}" -type f -name "*.jar" | xargs rm -v
@@ -242,21 +139,18 @@ src_compile() {
 	local clusters="-Dnb.clusters.list=nb.cluster.platform"
 	use apisupport && clusters="${clusters},nb.cluster.apisupport"
 	use cnd && clusters="${clusters},nb.cluster.cnd"
-	use experimental && clusters="${clusters},nb.cluster.experimental"
+	use gsf && clusters="${clusters},nb.cluster.gsf"
 	use harness && clusters="${clusters},nb.cluster.harness"
 	use ide && clusters="${clusters},nb.cluster.ide"
 	use identity && clusters="${clusters},nb.cluster.identity"
 	use j2ee && clusters="${clusters},nb.cluster.j2ee"
 	use java && clusters="${clusters},nb.cluster.java"
-	use javafx && clusters="${clusters},nb.cluster.javafx"
 	use mobility && clusters="${clusters},nb.cluster.mobility"
 	use nb && clusters="${clusters},nb.cluster.nb"
 	use php && clusters="${clusters},nb.cluster.php"
 	use profiler && clusters="${clusters},nb.cluster.profiler"
 	use ruby && clusters="${clusters},nb.cluster.ruby"
 	use soa && clusters="${clusters},nb.cluster.soa"
-	use stableuc && clusters="${clusters},nb.cluster.stableuc"
-	use testtools && clusters="${clusters},nb.cluster.testtools"
 	use uml && clusters="${clusters},nb.cluster.uml"
 	use visualweb && clusters="${clusters},nb.cluster.visualweb"
 	use xml && clusters="${clusters},nb.cluster.xml"
@@ -264,11 +158,10 @@ src_compile() {
 	# Fails to compile
 	java-pkg_filter-compiler ecj-3.1 ecj-3.2
 
-	# Build the the clusters
+	# Build the clusters
 	use ruby && addpredict /root/.jruby
 	ANT_TASKS="ant-nodeps"
 	#use cnd && ANT_TASKS="${ANT_TASKS} antlr-netbeans-cnd"
-	#use testtools && ANT_TASKS="${ANT_TASKS} ant-trax"
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} build-nozip
 
 	use linguas_de && compile_locale_support "${antflags}" "${clusters}" de
@@ -301,7 +194,7 @@ src_compile() {
 
 	# Use the system ant
 	if use ide ; then
-		cd ${BUILDDESTINATION}/java1/ant || die "Cannot cd to ${BUILDDESTINATION}/ide${IDE_VERSION}/ant"
+		cd ${BUILDDESTINATION}/java2/ant || die "Cannot cd to ${BUILDDESTINATION}/ide${IDE_VERSION}/ant"
 		rm -fr lib
 		rm -fr bin
 	fi
@@ -341,7 +234,7 @@ src_install() {
 	fi
 
 	# Replace bundled jars with system jars
-	symlink_extjars
+	#symlink_extjars
 
 	# Correct permissions on executables
 	local nbexec_exe="${DESTINATION}/platform${PLATFORM}/lib/nbexec"
@@ -351,7 +244,7 @@ src_install() {
 		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
 	fi
 	if use ruby ; then
-		local ruby_path="${DESTINATION}/ruby1/jruby-1.1RC1/bin"
+		local ruby_path="${DESTINATION}/ruby2/jruby-1.1/bin"
 		cd "${D}"/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
 		for file in * ; do
 			fperms 755 ${ruby_path}/${file} || die "Cannot update perms on ${ruby_path}/${file}"
@@ -419,6 +312,7 @@ place_unpack_symlinks() {
 	dosymcompilejar "javahelp/external" javahelp jh.jar jh-2.0_05.jar
 	dosymcompilejar "o.jdesktop.layout/external" swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 	dosymcompilejar "libs.jsr223/external" jsr223 script-api.jar jsr223-api.jar
+	dosymcompilejar "libs.jna/external" jna jna.jar jna-3.0.2.jar
 
 	if use ide ; then
 		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar

@@ -2,6 +2,14 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  30 Apr 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  -netbeans-6.1_alpha20080118072101.ebuild,
+  -netbeans-6.1_alpha20080207142509.ebuild,
+  +files/6.1/nbbuild-build.xml.patch, +netbeans-6.1.ebuild,
+  +files/6.1/reference.txt, -netbeans-6.1_alpha20080106171826.ebuild:
+  Added netbeans-6.1 ebuild, this one uses everything bundled, work on
+  unbundling the jars is needed
+
   13 Feb 2008; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.1_alpha20080207142509.ebuild:
   Little progress with 'ide' cluster, stopped at compilation problem where
