@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/sun-jdk/sun-jdk-1.5.0.05.ebuild,v 1.2 2005/10/10 16:23:12 betelgeuse Exp $
 
@@ -8,13 +8,13 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="04_dec_2007"
+DATE="24_apr_2008"
 MY_RPV=${MY_PV%.*}
 
 
 BASE_URL="http://download.java.net/jdk7/binaries/"
 x86file="jdk-7-ea-bin-b${ALPHA}-linux-i586-${DATE}.bin"
-amd64file="jdk-7-ea-bin-b${ALPHA}-linux-amd64-${DATE}.bin"
+amd64file="jdk-7-ea-bin-b${ALPHA}-linux-x64-${DATE}.bin"
 
 S="${WORKDIR}/jdk${MY_RPV}"
 DESCRIPTION="Sun's Java Development Kit"
