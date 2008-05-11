@@ -1,0 +1,17 @@
+<project name="facebook-java-api" default="jar">
+	<target name="compile">
+		<mkdir dir="build"/>
+		<javac srcdir="src/java" destdir="build" classpath="${gentoo.classpath}">
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="facebook-java-api.jar" basedir="build"/>
+	</target>
+
+	<target name="javadoc" depends="compile">
+		<mkdir dir="docs"/>
+		<javadoc sourcepath="src/java" destdir="docs" classpath="${gentoo.classpath}"/>
+	</target>
+
+</project>

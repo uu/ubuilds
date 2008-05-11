@@ -1,0 +1,276 @@
+diff -Nur fb-photo-uploader-1.3.1/build.xml fb-photo-uploader-1.3.1_patched/build.xml
+--- fb-photo-uploader-1.3.1/build.xml	2008-05-07 12:47:09.000000000 +0300
++++ fb-photo-uploader-1.3.1_patched/build.xml	2008-05-11 11:20:35.000000000 +0300
+@@ -43,7 +43,8 @@
+ 		<mkdir dir="${build.dir}" />
+ 		<mkdir dir="${package.dir}" />
+ 		<mkdir dir="${package.dir}/resources" />
+-		<mkdir dir="${package.dir}/bin" />
++		<mkdir dir="${package.dir}/bin" />
++		<replaceregexp file="src/main/resources/user.properties" match="uploader.use-mock-dao[ ]*=[ ]*(.*)" replace="uploader.use-mock-dao = false"/>
+ 	</target>
+ 
+ 	<target name="test-init">
+@@ -61,7 +62,6 @@
+ 		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" debug="true" />
+ 
+ 		<!-- Generate a build number in the properties -->
+-		<buildnumber />
+ 		<propertyfile file="build.number" />
+ 		<filter token="buildNumber" value="${build.number}" />
+ 
+@@ -73,7 +73,7 @@
+ 		</copy>
+ 	</target>
+ 
+-	<target name="test" depends="compile, test-init" description="Test the project">
++	<target name="test" depends="test-init" description="Test the project">
+ 		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" classpathref="test.classpath" debug="true" />
+ 
+ 		<junit printsummary="on">
+@@ -93,7 +93,7 @@
+ 		</junitreport>
+ 	</target>
+ 
+-	<target name="package" depends="compile, test" description="Packages the project into a JAR file">
++	<target name="package" depends="compile" description="Packages the project into a JAR file">
+ 		<jar destfile="${package.dir}/bin/fb-uploader.jar" basedir="${build.dir}" />
+ 	</target>
+ 
+@@ -122,4 +122,4 @@
+ 		<zip basedir="${package.dir}" destfile="${dist.dir}/fb-uploader.zip" />
+ 	</target>
+ 
+-</project>
+\ Dosya sonunda yenisatır yok.
++</project>
+diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java
+--- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java	2008-05-08 15:11:02.000000000 +0300
++++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java	2008-05-11 12:07:09.000000000 +0300
+@@ -33,7 +33,7 @@
+ 	private static Logger _log = Logger
+ 			.getLogger(CustomFacebookRestClient.class);
+ 
+-	private String _sessionExpires;
++	private String _sessionExpires="0";
+ 	private Photo _uploadPhoto;
+ 	private UploadListener _uploadListener;
+ 
+diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java
+--- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-05-06 11:43:21.000000000 +0300
++++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-05-11 11:18:13.000000000 +0300
+@@ -17,7 +17,6 @@
+ import uk.me.phillsacre.uploader.util.Constants;
+ import uk.me.phillsacre.uploader.util.MessageSource;
+ import uk.me.phillsacre.uploader.util.PropertyUtils;
+-import uk.me.phillsacre.uploader.util.VersionChecker;
+ import uk.me.phillsacre.uploader.vo.AlbumVO;
+ 
+ /**
+@@ -54,24 +53,8 @@
+ 	 * 
+ 	 */
+ 	public void checkForUpdates()
+-	{
+-		if (_props.getProperty(Constants.Properties.ENABLE_UPDATE_CHECK, "true")
+-				.equalsIgnoreCase("false"))
+-		{
+-			_log.debug("Update check disabled -- skipping");
+-			return;
+-		}
+-
+-		VersionChecker checker = new VersionChecker();
+-		Map<String, Object> newVersion = checker.getNewVersionInfo();
+-
+-		if (null != newVersion)
+-		{
+-			Date releaseDate = (Date) newVersion
+-					.get(VersionChecker.RELEASE_DATE);
+-			_ui.showNewReleasePopup(releaseDate);
+-		}
+-	}
++	{
++		//Dummy method for Gentoo	}
+ 
+ 	/**
+ 	 * Adds a Photo to the list of photos being uploaded.
+diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java
+--- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2008-05-08 15:11:02.000000000 +0300
++++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2008-05-11 10:53:29.000000000 +0300
+@@ -434,18 +434,6 @@
+ 
+ 		menu.add(menuItem);
+ 		menu.addSeparator();
+-
+-		boolean enableUpdates = _props.getProperty(
+-				"uploader.enable-update-check", "true")
+-				.equalsIgnoreCase("true");
+-
+-		menuItem = new JCheckBoxMenuItem(MessageSource
+-				.getMessage("mainwindow.menu.enableCheckForUpdates"),
+-				enableUpdates);
+-		menuItem.setToolTipText(MessageSource
+-				.getMessage("mainwindow.menu.enableCheckForUpdates.tooltip"));
+-		menuItem.addActionListener(actionListener);
+-		menu.add(menuItem);
+ 		
+ 		boolean enableAutoResize = _props.getProperty(
+ 				Constants.Properties.AUTO_RESIZE, "false")
+diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java
+--- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2008-05-11 12:13:20.000000000 +0300
++++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2008-05-11 12:14:03.000000000 +0300
+@@ -47,6 +47,12 @@
+ 
+ 			_prefsConfigFile = getPropertiesFile("user.properties");
+ 			_userPrefs.load(_prefsConfigFile);
++			// Set the user preferences to home and hope that no new preferences are introduced.
++			File f = new File(System.getProperty("user.home") + File.separator + ".fb-uploader");
++			if(!f.exists())
++				if (!f.mkdirs())
++					throw new Exception("Could not create user preferences directory");
++			_prefsConfigFile=new File(System.getProperty("user.home") + File.separator + ".fb-uploader" + File.separator + "user.properties");
+ 
+ 			_staticConfigFile = getPropertiesFile("static.properties");
+ 			_staticPrefs.load(_staticConfigFile);
+@@ -68,7 +74,8 @@
+ 		{
+ 			_log.debug("Using properties file from user home: ["
+ 					+ f.getAbsolutePath() + "]");
+-			_prefsConfigFile = f;
++			//_prefsConfigFile = f;
++			//This ends up both properties refering to static.properties file
+ 		}
+ 		else
+ 		{
+diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java
+--- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java	2008-02-14 17:19:19.000000000 +0200
++++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java	1970-01-01 02:00:00.000000000 +0200
+@@ -1,128 +0,0 @@
+-package uk.me.phillsacre.uploader.util;
+-
+-import java.io.InputStream;
+-import java.net.URL;
+-import java.net.URLConnection;
+-import java.text.SimpleDateFormat;
+-import java.util.Date;
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-import org.apache.commons.lang.StringUtils;
+-import org.apache.log4j.Logger;
+-import org.w3c.dom.Document;
+-import org.w3c.dom.Node;
+-
+-/**
+- * Class to check the latest version of this application from the repository.
+- * 
+- * @author psacre
+- * 
+- */
+-public class VersionChecker
+-{
+-	private Logger _log = Logger.getLogger(getClass());
+-
+-	private PropertyUtils _props = new PropertyUtils();
+-
+-	public static final String BUILD_NUMBER = "build-number";
+-	public static final String RELEASE_DATE = "release-date";
+-
+-	/**
+-	 * Retrieves the version info. This will return null if there is no new
+-	 * version available, or the check has already been performed recently.
+-	 * 
+-	 * @return
+-	 */
+-	public Map<String, Object> getNewVersionInfo()
+-	{
+-		String versionCheckTimestamp = _props
+-				.getProperty(Constants.Properties.VERSION_CHECK_TIMESTAMP);
+-
+-		long currentTime = System.currentTimeMillis();
+-
+-		if (StringUtils.isNotBlank(versionCheckTimestamp))
+-		{
+-			long timestamp = Long.parseLong(versionCheckTimestamp);
+-
+-			if (currentTime - timestamp < Constants.General.MILLIS_BETWEEN_CHECKS)
+-			{
+-				_log
+-						.debug("Already checked new version recently -- skipping check!");
+-				return null;
+-			}
+-		}
+-
+-		int currentBuildNum = Integer.parseInt(_props
+-				.getProperty(Constants.Properties.BUILD_NUMBER));
+-
+-		try
+-		{
+-			Document doc = XMLUtils.getDocument(getVersionData());
+-
+-			_props.setProperty(Constants.Properties.VERSION_CHECK_TIMESTAMP,
+-					String.valueOf(currentTime));
+-
+-			Node node = doc.getChildNodes().item(0);
+-			Map<String, Object> versionInfo = null;
+-
+-			int versionBuildNum = Integer.parseInt(XMLUtils.getChildValue(node,
+-					BUILD_NUMBER));
+-
+-			if (versionBuildNum > currentBuildNum)
+-			{
+-				_log.debug("New version found with build number ["
+-						+ versionBuildNum + "]");
+-				_log.debug("Release date is: "
+-						+ XMLUtils.getChildValue(node, RELEASE_DATE));
+-
+-				String dt = XMLUtils.getChildValue(node, RELEASE_DATE);
+-				SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmm");
+-				Date releaseDate = format.parse(dt);
+-
+-				versionInfo = new HashMap<String, Object>();
+-				versionInfo.put(BUILD_NUMBER, versionBuildNum);
+-				versionInfo.put(RELEASE_DATE, releaseDate);
+-			}
+-			else
+-			{
+-				_log.debug("No new release found (local=" + currentBuildNum
+-						+ "; site=" + versionBuildNum + ")");
+-			}
+-
+-			return versionInfo;
+-		}
+-		catch (Exception e)
+-		{
+-			_log.error("Could not parse returned XML");
+-			_log.error(e);
+-			return null;
+-		}
+-	}
+-
+-	private InputStream getVersionData()
+-	{
+-		try
+-		{
+-			URL versionCheckURL = new URL(Constants.General.VERSION_CHECK_URL);
+-			URLConnection conn = versionCheckURL.openConnection();
+-
+-			_log.debug("Opening URL connection to: " + versionCheckURL);
+-
+-			conn.setDoInput(true);
+-			conn.setDoOutput(false);
+-
+-			conn.connect();
+-
+-			return conn.getInputStream();
+-		}
+-		catch (Exception e)
+-		{
+-			// Do not re-throw exception as it's not important enough to warn
+-			// the user about.
+-			_log.error("Could not load version check info");
+-			_log.error(e);
+-			return null;
+-		}
+-	}
+-}

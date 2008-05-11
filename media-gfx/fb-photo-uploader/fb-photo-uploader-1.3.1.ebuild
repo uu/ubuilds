@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+# TODO: Figure out why the two tests fail
+
 EAPI="1"
 
 JAVA_PKG_IUSE="test"
@@ -23,13 +25,13 @@ CDEPEND="dev-java/browserlauncher2:1.0
 	dev-java/commons-logging
 	dev-java/ehcache:1.2
 	dev-java/log4j
-	dev-java/json-simple"
+	dev-java/facebook-java-api"
 
-RDEPEND=">=virtual/jre-1.5
+RDEPEND=">=virtual/jre-1.6
 	${CDEPEND}
 	dev-java/jgoodies-looks:2.0"
 
-DEPEND=">=virtual/jdk-1.5
+DEPEND=">=virtual/jdk-1.6
 	test?
 	(
 		dev-java/junit
@@ -44,7 +46,7 @@ src_unpack() {
 	unpack ${A}
 	epatch "${FILESDIR}"/${P}-gentoo.patch
 	cd "${S}"/lib
-	java-pkg_jarfrom browserlauncher2:1.0,commons-collections,commons-configuration,commons-lang:2.1,ehcache:1.2,json-simple,log4j
+	java-pkg_jarfrom browserlauncher2:1.0,commons-collections,commons-configuration,commons-lang:2.1,ehcache:1.2,log4j,facebook-java-api
 	java-pkg_jarfrom commons-logging commons-logging.jar
 	use test && java-pkg_jarfrom --build-only junit
 }
@@ -56,13 +58,10 @@ src_install() {
 		--main uk.me.phillsacre.uploader.FacebookUploader \
 		--pwd /usr/share/fb-photo-uploader
 	insinto /usr/share/fb-photo-uploader
-	doins src/main/resources/uploader.properties
+	doins src/main/resources/{user,static}.properties
 }
 
 src_test() {
+	#Two of the tests fail but does not halt
 	ANT_TASKS="ant-junit ant-nodeps ant-trax" eant test
-}
-
-pkg_postinst() {
-	ewarn "Remove ~/.fb-photo-uploader.properties if you're upgrading from a previous version"
 }
