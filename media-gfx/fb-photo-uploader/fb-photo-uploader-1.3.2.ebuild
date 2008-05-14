@@ -2,8 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-# TODO: Figure out why the two tests fail
-
 EAPI="1"
 
 JAVA_PKG_IUSE="test"
@@ -15,7 +13,7 @@ HOMEPAGE="http://code.google.com/p/fb-photo-uploader/"
 SRC_URI="http://dev.gentooexperimental.org/~serkan/distfiles/${P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64"
 IUSE=""
 
 CDEPEND="dev-java/browserlauncher2:1.0
@@ -45,7 +43,9 @@ EANT_BUILD_TARGET="package"
 src_unpack() {
 	unpack ${A}
 	epatch "${FILESDIR}"/${P}-gentoo.patch
-	cd "${S}"/lib
+	cd "${S}" || die
+	mkdir package || die
+	cd lib || die
 	java-pkg_jarfrom browserlauncher2:1.0,commons-collections,commons-configuration,commons-lang:2.1,ehcache:1.2,log4j,facebook-java-api
 	java-pkg_jarfrom commons-logging commons-logging.jar
 	use test && java-pkg_jarfrom --build-only junit
@@ -58,10 +58,9 @@ src_install() {
 		--main uk.me.phillsacre.uploader.FacebookUploader \
 		--pwd /usr/share/fb-photo-uploader
 	insinto /usr/share/fb-photo-uploader
-	doins src/main/resources/{user,static}.properties
+	doins installed_properties/{user,static}.properties
 }
 
 src_test() {
-	#Two of the tests fail but does not halt
 	ANT_TASKS="ant-junit ant-nodeps ant-trax" eant test
 }

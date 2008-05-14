@@ -1,7 +1,7 @@
-diff -Nur fb-photo-uploader-1.3.1/build.xml fb-photo-uploader-1.3.1_patched/build.xml
---- fb-photo-uploader-1.3.1/build.xml	2008-05-07 12:47:09.000000000 +0300
-+++ fb-photo-uploader-1.3.1_patched/build.xml	2008-05-11 11:20:35.000000000 +0300
-@@ -43,7 +43,8 @@
+diff -Nur fb-photo-uploader-1.3.2/build.xml fb-photo-uploader-1.3.2_patched/build.xml
+--- fb-photo-uploader-1.3.2/build.xml	2008-05-12 12:28:31.000000000 +0300
++++ fb-photo-uploader-1.3.2_patched/build.xml	2008-05-14 06:26:45.000000000 +0300
+@@ -48,7 +48,8 @@
  		<mkdir dir="${build.dir}" />
  		<mkdir dir="${package.dir}" />
  		<mkdir dir="${package.dir}/resources" />
@@ -11,15 +11,21 @@ diff -Nur fb-photo-uploader-1.3.1/build.xml fb-photo-uploader-1.3.1_patched/buil
  	</target>
  
  	<target name="test-init">
-@@ -61,7 +62,6 @@
+@@ -66,9 +67,10 @@
  		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="classpath" debug="true" />
  
  		<!-- Generate a build number in the properties -->
 -		<buildnumber />
- 		<propertyfile file="build.number" />
- 		<filter token="buildNumber" value="${build.number}" />
+-		<propertyfile file="build.number" />
+-		<filter token="buildNumber" value="${build.number}" />
++		<property name="build.number" value="427"/>
++		<property name="build.version" value="1.3.2"/>
++		<filter token="buildNumber" value="${build.number}" />
++		<filter token="buildVersion" value="${build.version}" />
  
-@@ -73,7 +73,7 @@
+ 		<copy todir="${build.dir}" filtering="true">
+ 			<fileset dir="${resources.dir}" />
+@@ -78,7 +80,7 @@
  		</copy>
  	</target>
  
@@ -28,37 +34,34 @@ diff -Nur fb-photo-uploader-1.3.1/build.xml fb-photo-uploader-1.3.1_patched/buil
  		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" classpathref="test.classpath" debug="true" />
  
  		<junit printsummary="on">
-@@ -93,7 +93,7 @@
+@@ -98,8 +100,15 @@
  		</junitreport>
  	</target>
  
 -	<target name="package" depends="compile, test" description="Packages the project into a JAR file">
+-		<!-- user.properties and static.properties should not be in .jar -->
 +	<target name="package" depends="compile" description="Packages the project into a JAR file">
- 		<jar destfile="${package.dir}/bin/fb-uploader.jar" basedir="${build.dir}" />
- 	</target>
- 
-@@ -122,4 +122,4 @@
- 		<zip basedir="${package.dir}" destfile="${dist.dir}/fb-uploader.zip" />
++		<!-- user.properties and static.properties should not be in .jar -->
++		<mkdir dir="installed_properties"/>
++		<copy todir="installed_properties" filtering="true">
++			<fileset dir="${build.dir}">
++				<include name="user.properties" />
++				<include name="static.properties" />
++			</fileset>
++		</copy>
+ 		<delete>
+ 			<fileset dir="${build.dir}">
+ 				<include name="user.properties" />
+@@ -141,4 +150,4 @@
+ 		<zip basedir="${package.dir}" destfile="${dist.dir}/fb-uploader-${build.version}.zip" />
  	</target>
  
 -</project>
 \ Dosya sonunda yenisatır yok.
 +</project>
-diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java
---- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java	2008-05-08 15:11:02.000000000 +0300
-+++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/dao/util/CustomFacebookRestClient.java	2008-05-11 12:07:09.000000000 +0300
-@@ -33,7 +33,7 @@
- 	private static Logger _log = Logger
- 			.getLogger(CustomFacebookRestClient.class);
- 
--	private String _sessionExpires;
-+	private String _sessionExpires="0";
- 	private Photo _uploadPhoto;
- 	private UploadListener _uploadListener;
- 
-diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java
---- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-05-06 11:43:21.000000000 +0300
-+++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-05-11 11:18:13.000000000 +0300
+diff -Nur fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java
+--- fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-05-06 11:43:21.000000000 +0300
++++ fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-05-14 05:57:06.000000000 +0300
 @@ -17,7 +17,6 @@
  import uk.me.phillsacre.uploader.util.Constants;
  import uk.me.phillsacre.uploader.util.MessageSource;
@@ -67,11 +70,10 @@ diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/co
  import uk.me.phillsacre.uploader.vo.AlbumVO;
  
  /**
-@@ -54,24 +53,8 @@
- 	 * 
+@@ -55,22 +54,7 @@
  	 */
  	public void checkForUpdates()
--	{
+ 	{
 -		if (_props.getProperty(Constants.Properties.ENABLE_UPDATE_CHECK, "true")
 -				.equalsIgnoreCase("false"))
 -		{
@@ -88,15 +90,13 @@ diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/co
 -					.get(VersionChecker.RELEASE_DATE);
 -			_ui.showNewReleasePopup(releaseDate);
 -		}
--	}
-+	{
-+		//Dummy method for Gentoo	}
++		//Dummy method for Gentoo
+ 	}
  
  	/**
- 	 * Adds a Photo to the list of photos being uploaded.
-diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java
---- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2008-05-08 15:11:02.000000000 +0300
-+++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2008-05-11 10:53:29.000000000 +0300
+diff -Nur fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java
+--- fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2008-05-08 15:11:02.000000000 +0300
++++ fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/gui/MainWindow.java	2008-05-14 05:58:12.000000000 +0300
 @@ -434,18 +434,6 @@
  
  		menu.add(menuItem);
@@ -116,35 +116,21 @@ diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/gui/Ma
  		
  		boolean enableAutoResize = _props.getProperty(
  				Constants.Properties.AUTO_RESIZE, "false")
-diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java
---- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2008-05-11 12:13:20.000000000 +0300
-+++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/PropertyUtils.java	2008-05-11 12:14:03.000000000 +0300
-@@ -47,6 +47,12 @@
+diff -Nur fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/util/Constants.java fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/util/Constants.java
+--- fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/util/Constants.java	2008-05-12 12:08:04.000000000 +0300
++++ fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/util/Constants.java	2008-05-14 05:58:38.000000000 +0300
+@@ -44,7 +44,7 @@
+ 		/**
+ 		 * Whether to copy properties across to the user.home directory
+ 		 */
+-		public static final boolean COPY_PROPS_TO_USERHOME = false;
++		public static final boolean COPY_PROPS_TO_USERHOME = true;
+ 	}
  
- 			_prefsConfigFile = getPropertiesFile("user.properties");
- 			_userPrefs.load(_prefsConfigFile);
-+			// Set the user preferences to home and hope that no new preferences are introduced.
-+			File f = new File(System.getProperty("user.home") + File.separator + ".fb-uploader");
-+			if(!f.exists())
-+				if (!f.mkdirs())
-+					throw new Exception("Could not create user preferences directory");
-+			_prefsConfigFile=new File(System.getProperty("user.home") + File.separator + ".fb-uploader" + File.separator + "user.properties");
- 
- 			_staticConfigFile = getPropertiesFile("static.properties");
- 			_staticPrefs.load(_staticConfigFile);
-@@ -68,7 +74,8 @@
- 		{
- 			_log.debug("Using properties file from user home: ["
- 					+ f.getAbsolutePath() + "]");
--			_prefsConfigFile = f;
-+			//_prefsConfigFile = f;
-+			//This ends up both properties refering to static.properties file
- 		}
- 		else
- 		{
-diff -Nur fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java
---- fb-photo-uploader-1.3.1/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java	2008-02-14 17:19:19.000000000 +0200
-+++ fb-photo-uploader-1.3.1_patched/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java	1970-01-01 02:00:00.000000000 +0200
+ 	/**
+diff -Nur fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java
+--- fb-photo-uploader-1.3.2/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java	2008-02-14 17:19:19.000000000 +0200
++++ fb-photo-uploader-1.3.2_patched/src/main/java/uk/me/phillsacre/uploader/util/VersionChecker.java	1970-01-01 02:00:00.000000000 +0200
 @@ -1,128 +0,0 @@
 -package uk.me.phillsacre.uploader.util;
 -
