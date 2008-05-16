@@ -44,6 +44,7 @@ src_unpack() {
 	unpack ${A}
 	epatch "${FILESDIR}"/${P}-gentoo.patch
 	cd "${S}" || die
+	epatch "${FILESDIR}"/${P}-228-userprops.patch
 	mkdir package || die
 	cd lib || die
 	java-pkg_jarfrom browserlauncher2:1.0,commons-collections,commons-configuration,commons-lang:2.1,ehcache:1.2,log4j,facebook-java-api
