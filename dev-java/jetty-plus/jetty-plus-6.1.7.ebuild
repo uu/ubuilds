@@ -16,10 +16,10 @@ SLOT="0"
 COMMON_DEP=">=dev-java/jetty-servlet-api-2.5
 		=dev-java/jetty-module-${PV}
 		=dev-java/jetty-util-${PV}
-		=dev-java/jetty-naming-${PV}"
+		=dev-java/jetty-naming-${PV}
+		dev-java/glassfish-transaction-api"
 
 RDEPEND=">=virtual/jre-1.6
-	dev-java/glassfish-transaction-api
 	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.6
 	app-arch/unzip
