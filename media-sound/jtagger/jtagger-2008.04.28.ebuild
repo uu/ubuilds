@@ -19,7 +19,7 @@ SLOT="0"
 
 COMMON_DEP="
 	dev-java/jlayer
-	dev-java/jid3"
+	>=dev-java/jid3-0.46-r1"
 RDEPEND=">=virtual/jre-1.5
 	${COMMON_DEP}"
 
