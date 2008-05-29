@@ -38,13 +38,12 @@ DEPEND=">=virtual/jdk-1.6
 	)
 	${CDEPEND}"
 
-EANT_BUILD_TARGET="package"
+EANT_BUILD_TARGET="create-zip-files"
 
 src_unpack() {
 	unpack ${A}
 	epatch "${FILESDIR}"/${P}-gentoo.patch
 	cd "${S}" || die
-	epatch "${FILESDIR}"/${P}-228-userprops.patch
 	mkdir package || die
 	cd lib || die
 	java-pkg_jarfrom browserlauncher2:1.0,commons-collections,commons-configuration,commons-lang:2.1,ehcache:1.2,log4j,facebook-java-api
@@ -59,7 +58,7 @@ src_install() {
 		--main uk.me.phillsacre.uploader.FacebookUploader \
 		--pwd /usr/share/fb-photo-uploader
 	insinto /usr/share/fb-photo-uploader
-	doins installed_properties/{user,static}.properties
+	doins package/zip/resources/{user,static}.properties || die
 }
 
 src_test() {
