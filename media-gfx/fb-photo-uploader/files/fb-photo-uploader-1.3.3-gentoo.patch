@@ -88,6 +88,18 @@ diff -Nur fb-photo-uploader-1.3.3/src/main/java/uk/me/phillsacre/uploader/gui/Pr
                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                  .addComponent(_autoResize)
                  .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+diff -Nur fb-photo-uploader-1.3.3/src/main/java/uk/me/phillsacre/uploader/util/Constants.java fb-photo-uploader-1.3.3_patched/src/main/java/uk/me/phillsacre/uploader/util/Constants.java
+--- fb-photo-uploader-1.3.3/src/main/java/uk/me/phillsacre/uploader/util/Constants.java	2008-05-27 14:16:28.000000000 +0300
++++ fb-photo-uploader-1.3.3_patched/src/main/java/uk/me/phillsacre/uploader/util/Constants.java	2008-05-30 19:34:22.000000000 +0300
+@@ -44,7 +44,7 @@
+ 		/**
+ 		 * Whether to copy properties across to the user.home directory
+ 		 */
+-		public static final boolean COPY_PROPS_TO_USERHOME = false;
++		public static final boolean COPY_PROPS_TO_USERHOME = true;
+ 	}
+ 
+ 	/**
 diff -Nur fb-photo-uploader-1.3.3/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java fb-photo-uploader-1.3.3_patched/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java
 --- fb-photo-uploader-1.3.3/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java	2008-05-27 14:16:28.000000000 +0300
 +++ fb-photo-uploader-1.3.3_patched/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java	2008-05-29 22:48:13.000000000 +0300
