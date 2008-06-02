@@ -16,7 +16,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 
-CDEPEND="dev-java/jaxb:1
+CDEPEND="java-virtuals/jaxb:1
 	dev-java/msv
 	dev-java/relaxng-datatype
 	dev-java/iso-relax
