@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/facebook-java-api
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  02 Jun 2008; Petteri Räty <betelgeuse@gentoo.org>
+  facebook-java-api-1.7.4.ebuild:
+  Keyword ~x86.
+

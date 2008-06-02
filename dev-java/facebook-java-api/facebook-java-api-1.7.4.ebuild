@@ -12,7 +12,7 @@ HOMEPAGE="http://facebook-java-api.googlecode.com/"
 SRC_URI="http://facebook-java-api.googlecode.com/files/${PN}-source-${PV}.zip"
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 S="${WORKDIR}"
