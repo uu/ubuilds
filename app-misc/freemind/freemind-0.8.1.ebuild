@@ -16,16 +16,16 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 
-CDEPEND="dev-java/msv
+CDEPEND="dev-java/jaxb:1
+	dev-java/msv
 	dev-java/relaxng-datatype
+	dev-java/iso-relax
 	dev-java/jgoodies-forms
 	dev-java/commons-lang:2.1
 	dev-java/javahelp
-	=dev-java/batik-1.6*
+	dev-java/batik:1.6
 	dev-java/fop
-	dev-java/jcalendar
-	dev-java/iso-relax
-	dev-java/stax"
+	dev-java/jcalendar"
 
 DEPEND="${CDEPEND}
 	>=virtual/jdk-1.4
@@ -37,8 +37,7 @@ S="${WORKDIR}/${PN}"
 
 src_unpack() {
 	unpack ${A}
-	find -name "*.jar" -a -not -name "jaxb-impl.jar" -a -not -name "jaxb-api.jar" -delete
-	# Only Java >=1.6 has classes from bundled jaxbe so either should depend on that or use the bundled jars.
+	find -name "*.jar" -delete
 	epatch "${FILESDIR}/${P}.patch"
 	for xml in $(find . -name 'build*.xml'); do
 		java-ant_rewrite-classpath ${xml}
@@ -46,16 +45,13 @@ src_unpack() {
 	done
 }
 
-src_compile() {
-	eant \
-		-Dgentoo.classpath=$(java-pkg_getjars msv,relaxng-datatype,jgoodies-forms,commons-lang-2.1,javahelp,batik-1.6,fop,jcalendar-1.2,iso-relax,stax):lib/ant/lib/jaxb-api.jar:lib/ant/lib/jaxb-impl.jar \
-		dist browser $(use_doc doc)
-}
+EANT_BUILD_TARGET="dist browser"
+EANT_DOC_TARGET="doc"
+EANT_GENTOO_CLASSPATH="jaxb-1,msv,relaxng-datatype,iso-relax,jgoodies-forms,commons-lang-2.1,javahelp,batik-1.6,fop,jcalendar-1.2"
 
 src_install() {
 	local dest="/usr/share/${PN}/"
 	cd "${WORKDIR}/bin/dist" || die
-	java-pkg_dojar lib/ant/lib/*.jar
 	java-pkg_dojar lib/${PN}.jar
 	insinto "${dest}"
 	doins -r accessories/ browser/ plugins/ doc/ user.properties patterns.xml || die

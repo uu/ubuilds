@@ -1,6 +1,6 @@
 diff -Nur freemind/build.xml freemind_patched/build.xml
 --- freemind/build.xml	2008-01-02 22:51:36.000000000 +0200
-+++ freemind_patched/build.xml	2008-06-01 20:31:00.000000000 +0300
++++ freemind_patched/build.xml	2008-06-02 20:44:20.000000000 +0300
 @@ -16,23 +16,13 @@
  	<property name="java_target_version" value="1.2" />
  	<property name="build.compiler" value="modern" />
@@ -26,15 +26,7 @@ diff -Nur freemind/build.xml freemind_patched/build.xml
  
    <!-- uses property ${gen.file} as the directory name of the outputs. -->
    <target name="xmlbind.checkStatusOfGeneration">
-@@ -45,6 +35,7 @@
-   <target name="xmlbind" 
-           unless="xmlbind.isUpToDate" 
-           depends="xmlbind.checkStatusOfGeneration">
-+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask" classpath="${jaxb}" />
-     <mkdir dir="${gen.dir}/${gen.file}" />
-     <xjc schema="${xsd.dir}/${xsd.file}"
-          target="${gen.dir}/${gen.file}" 
-@@ -122,6 +113,7 @@
+@@ -122,6 +112,7 @@
  
  	<target name="dist" depends="jar">
  
@@ -42,7 +34,7 @@ diff -Nur freemind/build.xml freemind_patched/build.xml
  		<copy todir="${dist}"> 
  			<fileset dir="${src}"
  				includes="freemind.bat,freemind.sh,license,patterns.xml"
-@@ -161,6 +153,7 @@
+@@ -161,6 +152,7 @@
  	</target>
  
  	<target name="dist_macos" if="isMacOs">
@@ -50,7 +42,7 @@ diff -Nur freemind/build.xml freemind_patched/build.xml
  		<delete dir="${dist_macos}"/>
  		<mkdir dir="${dist_macos}"/>
  		<!-- change freemind.properties -->
-@@ -319,7 +312,6 @@
+@@ -319,7 +311,6 @@
  	<target name="doc">
  		<mkdir dir="${dist}/doc" />
  		<mkdir dir="${dist}/doc/javadoc" />
