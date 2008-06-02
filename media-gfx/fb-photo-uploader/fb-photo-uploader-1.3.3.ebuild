@@ -13,7 +13,7 @@ HOMEPAGE="http://code.google.com/p/fb-photo-uploader/"
 SRC_URI="http://dev.gentooexperimental.org/~serkan/distfiles/${P}.tar.bz2"
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 CDEPEND="dev-java/browserlauncher2:1.0

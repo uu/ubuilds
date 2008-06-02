@@ -1,0 +1,8 @@
+# ChangeLog for media-gfx/fb-photo-uploader
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  02 Jun 2008; Petteri Räty <betelgeuse@gentoo.org>
+  fb-photo-uploader-1.3.3.ebuild:
+  Keyword ~x86.
+
