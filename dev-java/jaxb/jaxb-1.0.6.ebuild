@@ -13,7 +13,7 @@ SRC_URI="http://dev.gentooexperimental.org/~serkan/distfiles/${PN}-src-${PV}.zip
 
 LICENSE="CDDL"
 SLOT="1"
-KEYWORDS="~amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 COMMON_DEP="dev-java/relaxng-datatype
