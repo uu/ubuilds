@@ -16,7 +16,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
 
-CDEPEND="java-virtuals/jaxb:1
+CDEPEND="java-virtuals/jaxb-virtual:1
 	dev-java/msv
 	dev-java/relaxng-datatype
 	dev-java/iso-relax
@@ -47,7 +47,7 @@ src_unpack() {
 
 EANT_BUILD_TARGET="dist browser"
 EANT_DOC_TARGET="doc"
-EANT_GENTOO_CLASSPATH="jaxb-1,msv,relaxng-datatype,iso-relax,jgoodies-forms,commons-lang-2.1,javahelp,batik-1.6,fop,jcalendar-1.2"
+EANT_GENTOO_CLASSPATH="jaxb-virtual-1,msv,relaxng-datatype,iso-relax,jgoodies-forms,commons-lang-2.1,javahelp,batik-1.6,fop,jcalendar-1.2"
 
 src_install() {
 	local dest="/usr/share/${PN}/"
