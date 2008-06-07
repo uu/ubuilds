@@ -18,7 +18,8 @@ IUSE=""
 S="${WORKDIR}"
 
 CDEPEND="dev-java/json
-	java-virtuals/jaxb:2"
+	java-virtuals/jaxb-virtual:2
+	java-virtuals/stax-virtual"
 RDEPEND=">=virtual/jre-1.5
 	${CDEPEND}"
 DEPEND=">=virtual/jdk-1.5
@@ -27,7 +28,7 @@ DEPEND=">=virtual/jdk-1.5
 
 S="${WORKDIR}"
 
-EANT_GENTOO_CLASSPATH="json,jaxb-2"
+EANT_GENTOO_CLASSPATH="json,jaxb-virtual-2,stax-virtual"
 
 src_unpack() {
 	unpack ${A}
