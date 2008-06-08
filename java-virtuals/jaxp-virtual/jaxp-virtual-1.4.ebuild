@@ -18,10 +18,9 @@ IUSE=""
 DEPEND=""
 RDEPEND="|| (
 			=virtual/jdk-1.6*
-			=dev-java/jaxp-1.4*
+			>=dev-java/jaxp-1.4-r1
 		)
-		>=dev-java/java-config-2.1.6
-		"
+		>=dev-java/java-config-2.1.6"
 
 JAVA_VIRTUAL_PROVIDES="jaxp"
 JAVA_VIRTUAL_VM="sun-jdk-1.6 ibm-jdk-bin-1.6"
