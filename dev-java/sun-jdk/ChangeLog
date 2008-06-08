@@ -2,6 +2,11 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  08 Jun 2008; Serkan Kaba <serkan@gentoo.org> -sun-jdk-1.7.0.0_alpha26.ebuild
+  +sun-jdk-1.7.0.0_alpha28.ebuild
+  Bump to latest alpha. Thanks to Fabian Fingerle <fabian@datensalat.eu> for
+  submitting the bump.
+
   02 May 2008; Serkan Kaba <serkan_kaba@yahoo.com>
   -sun-jdk-1.7.0.0_alpha18.ebuild, -sun-jdk-1.7.0.0_alpha21.ebuild,
   -sun-jdk-1.7.0.0_alpha22.ebuild, -sun-jdk-1.7.0.0_alpha23.ebuild,
