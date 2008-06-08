@@ -8,11 +8,10 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="24_apr_2008"
+DATE="05_jun_2008"
 MY_RPV=${MY_PV%.*}
 
-
-BASE_URL="http://download.java.net/jdk7/binaries/"
+BASE_URL="http://www.java.net/download/jdk7/binaries/"
 x86file="jdk-7-ea-bin-b${ALPHA}-linux-i586-${DATE}.bin"
 amd64file="jdk-7-ea-bin-b${ALPHA}-linux-x64-${DATE}.bin"
 
