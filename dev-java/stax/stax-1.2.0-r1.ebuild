@@ -29,7 +29,7 @@ DEPEND=">=virtual/jdk-1.4
 S="${WORKDIR}"
 
 EANT_BUILD_TARGET="ri_bin_dist"
-EANT_GENTOO_CLASSPATH="dtdparser-1.21,jaxp"
+EANT_GENTOO_CLASSPATH="dtdparser-1.21,jaxp-virtual"
 
 src_unpack() {
 	unpack ${A}
