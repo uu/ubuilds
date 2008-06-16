@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-JAVA_PKG_IUSE="doc source examples"
+EAPI=1
+JAVA_PKG_IUSE="doc examples source test"
 
 inherit java-pkg-2 java-ant-2
 
@@ -15,28 +16,37 @@ SRC_URI="https://appframework.dev.java.net/downloads/${MY_P}-src.zip"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64"
 
 IUSE=""
 
-COMMON_DEP="dev-java/swing-worker"
+COMMON_DEP="dev-java/swing-worker
+	dev-java/jnlp-bin"
 
 RDEPEND=">=virtual/jre-1.5
 	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.5
 	app-arch/unzip
-	${COMMON_DEP}"
+	${COMMON_DEP}
+	test?
+	(
+		dev-java/junit:0
+		dev-java/ant-junit
+	)"
 
 S="${WORKDIR}/${MY_P}"
+RESTRICT="test"
+
+EANT_GENTOO_CLASSPATH="jnlp-bin,swing-worker"
+JAVA_ANT_CLASSPATH_TAGS="${JAVA_ANT_CLASSPATH_TAGS} javadoc"
 
 src_unpack() {
 	unpack ${A}
-	cd "${S}"
-	java-pkg_jar-from --into lib swing-worker
+	cd "${S}" || die
+	rm -v lib/*.jar || die
+	java-ant_rewrite-classpath
+	java-ant_rewrite-classpath nbproject/build-impl.xml
 }
-
-#EANT_BUILD_TARGET=""
-#EANT_DOC_TARGET=""
 
 src_install() {
 	java-pkg_dojar "${PN}.jar"
@@ -45,3 +55,10 @@ src_install() {
 	use examples && java-pkg_doexamples src/examples/*
 }
 
+src_test() {
+	local cp=$(java-pkg_getjars --build-only junit):$(java-pkg_getjars swing-worker)
+	ANT_TASKS="ant-junit" eant \
+		-Duser.home="${T}" \
+		-Drun.test.classpath="${cp}:dist/${MY_PN}.jar:build/test/classes" \
+		-Dgentoo.classpath="${cp}" test
+}
