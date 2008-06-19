@@ -4,7 +4,7 @@
 
 inherit distutils eutils subversion multilib
 
-ESVN_REPO_URI="http://overlays.gentoo.org/svn/proj/java/projects/javatoolkit/branches/layout_refactor_branch"
+ESVN_REPO_URI="http://overlays.gentoo.org/svn/proj/java/projects/javatoolkit/trunk"
 
 DESCRIPTION="Collection of Gentoo-specific tools for Java"
 HOMEPAGE="http://www.gentoo.org/proj/en/java/"
