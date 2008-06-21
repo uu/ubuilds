@@ -33,6 +33,10 @@ src_unpack() {
 	eautoreconf || die "autoreconf failed!"
 }
 
+
+# I have been getting compile errors with sun-jdk-1.5 which I believe
+# are a result of the vm classes being used instead of the packages
+# implementation.  ali_bush
 src_compile() {
 	econf --disable-gcj --with-javac-flags="${JAVACFLAGS}" || die "configure failed!"
 	JAVACFLAGS="$(java-pkg_)" emake gnujaxp.jar $(use_doc) || die "compile failed!"
