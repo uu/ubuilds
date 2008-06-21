@@ -1,0 +1,11 @@
+--- build.xml.orig	2008-06-21 20:53:10.000000000 +0200
++++ build.xml	2008-06-21 20:53:36.000000000 +0200
+@@ -129,7 +129,7 @@
+ 
+   <target name="test" depends="compile"
+     description="runs the tests">
+-    <junit printsummary="yes" haltonfailure="no" fork="${junit.fork}"
++    <junit printsummary="yes" haltonfailure="yes" fork="${junit.fork}"
+       forkMode="perBatch" failureproperty="tests.failed">
+       <sysproperty key="basedir" value="${basedir}"/>
+       <sysproperty key="user.dir" value="${basedir}"/>
