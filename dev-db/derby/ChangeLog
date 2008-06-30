@@ -2,6 +2,11 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  30 Jun 2008; James Le Cuirot <chewi@aura-online.co.uk>
+  derby-10.4.1.3.ebuild:
+  Figured out that geronimo-specs is needed to build some classes but
+  tomcat-servlet-api works as a substitute and has much fewer dependencies.
+
   23 Jun 2008; James Le Cuirot <chewi@aura-online.co.uk>
   +derby-10.4.1.3.ebuild:
   Version bump and MAJOR cleanup. JDK/JRE versions handled much more

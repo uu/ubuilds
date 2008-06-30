@@ -21,7 +21,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="java5 jdbc4 test"
 
-CDEPEND="dev-java/xerces:2
+CDEPEND="dev-java/tomcat-servlet-api:2.4
+	dev-java/xerces:2
 	dev-java/xalan
 	dev-java/xalan-serializer
 	!java5? ( =virtual/jre-1.4* )"
@@ -43,7 +44,7 @@ JAVA_PKG_NV_DEPEND="=virtual/jdk-1.5*"
 EANT_GENTOO_CLASSPATH="xalan xalan-serializer xerces-2"
 S="${WORKDIR}/${MY_P}-src"
 
-src_unpack(){
+src_unpack() {
 	unpack ${A}
 	cd "${S}"
 
@@ -52,6 +53,9 @@ src_unpack(){
 
 	rm -vf tools/java/*.jar || die
 	java-pkg_jar-from --into tools/java --build-only javacc javacc.jar
+
+	# tomcat-servlet-api seems to work as a substitute for geronimo-spec and has much fewer dependencies.
+	java-pkg_jar-from --into tools/java tomcat-servlet-api:2.4 servlet-api.jar geronimo-spec-servlet-2.4-rc4.jar
 
 	# Attempts to override the compiler seem to be ignored.
 	java-pkg_force-compiler javac
