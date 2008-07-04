@@ -8,7 +8,7 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="05_jun_2008"
+DATE="03_jul_2008"
 MY_RPV=${MY_PV%.*}
 
 BASE_URL="http://www.java.net/download/jdk7/binaries/"
@@ -22,7 +22,7 @@ SRC_URI="x86? ( ${BASE_URL}/$x86file ) amd64? ( ${BASE_URL}/$amd64file )"
 SLOT="1.7"
 LICENSE="sun-prerelease-jdk7"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="nostrip fetch"
+RESTRICT="strip fetch"
 IUSE="X alsa doc nsplugin examples"
 
 DEPEND="sys-apps/sed"
@@ -63,7 +63,7 @@ src_unpack() {
 	testExp=$(echo -e '\0105\0114\0106')
 	startAt=$(grep -aonm 1 ${testExp}  ${DISTDIR}/${A} | cut -d: -f1)
 	# Extract and run it
-	tail -n +${startAt} ${DISTDIR}/${A} > install.sfx
+	tail -n +${startAt} "${DISTDIR}"/${A} > install.sfx
 	chmod +x install.sfx
 	./install.sfx >/dev/null || die
 	rm install.sfx
@@ -72,7 +72,7 @@ src_unpack() {
 		jre/lib/charsets.jar jre/lib/ext/localedata.jar jre/lib/plugin.jar \
 		jre/lib/javaws.jar jre/lib/deploy.jar"
 
-	if [ -f ${S}/bin/unpack200 ]; then
+	if [ -f "${S}"/bin/unpack200 ]; then
 		UNPACK_CMD=${S}/bin/unpack200
 		chmod +x $UNPACK_CMD
 		sed -i 's#/tmp/unpack.log#/dev/null\x00\x00\x00\x00\x00\x00#g' $UNPACK_CMD
@@ -80,7 +80,7 @@ src_unpack() {
 			PACK_FILE=${S}/$(dirname $i)/$(basename $i .jar).pack
 			if [ -f ${PACK_FILE} ]; then
 				echo "	unpacking: $i"
-				$UNPACK_CMD ${PACK_FILE} ${S}/$i
+				$UNPACK_CMD ${PACK_FILE} "${S}"/$i
 				rm -f ${PACK_FILE}
 			fi
 		done
@@ -88,7 +88,7 @@ src_unpack() {
 	else
 		die "unpack not found"
 	fi
-	${S}/bin/java -client -Xshare:dump
+	"${S}"/bin/java -client -Xshare:dump
 }
 
 src_install() {
@@ -96,19 +96,19 @@ src_install() {
 
 	# Set PaX markings on all JDK/JRE executables to allow code-generation on
 	# the heap by the JIT compiler.
-	pax-mark m $(list-paxables ${S}{,/jre}/bin/*)
+	pax-mark m $(list-paxables "${S}"{,/jre}/bin/*)
 
 	dodir /opt/${P}
 
 	cp -pPR ${dirs} "${D}/opt/${P}/" || die "failed to copy"
-	dodoc COPYRIGHT LICENSE README.html || die
+	dodoc COPYRIGHT README.html || die
 	dohtml README.html || die
 	dodir /opt/${P}/share/
 
 	if use examples; then
-		cp -pPR demo sample ${D}/opt/${P}/share/ || die
+		cp -pPR demo sample "${D}"/opt/${P}/share/ || die
 	fi
-	cp -pPR src.zip ${D}/opt/${P}/ || die
+	cp -pPR src.zip "${D}"/opt/${P}/ || die
 
 	if use nsplugin; then
 		local plugin_dir="ns7-gcc29"
@@ -126,18 +126,18 @@ src_install() {
 	# create dir for system preferences
 	dodir /opt/${P}/jre/.systemPrefs
 	# Create files used as storage for system preferences.
-	touch ${D}/opt/${P}/jre/.systemPrefs/.system.lock
-	chmod 644 ${D}/opt/${P}/jre/.systemPrefs/.system.lock
-	touch ${D}/opt/${P}/jre/.systemPrefs/.systemRootModFile
-	chmod 644 ${D}/opt/${P}/jre/.systemPrefs/.systemRootModFile
+	touch "${D}"/opt/${P}/jre/.systemPrefs/.system.lock
+	chmod 644 "${D}"/opt/${P}/jre/.systemPrefs/.system.lock
+	touch "${D}"/opt/${P}/jre/.systemPrefs/.systemRootModFile
+	chmod 644 "${D}"/opt/${P}/jre/.systemPrefs/.systemRootModFile
 
 	# install control panel for Gnome/KDE
 	sed -e "s/INSTALL_DIR\/JRE_NAME_VERSION/\/opt\/${P}\/jre/" \
 		-e "s/\(Name=Java\)/\1 Control Panel/" \
-		${D}/opt/${P}/jre/plugin/desktop/sun_java.desktop > \
-		${T}/sun_java-${SLOT}.desktop
+		"${D}"/opt/${P}/jre/plugin/desktop/sun_java.desktop > \
+		"${T}"/sun_java-${SLOT}.desktop
 
-	domenu ${T}/sun_java-${SLOT}.desktop
+	domenu "${T}"/sun_java-${SLOT}.desktop
 
 	set_java_env
 }
