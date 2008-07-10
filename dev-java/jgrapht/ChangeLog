@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/jgrapht
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  10 Jul 2008; Alistair Bush <ali_bush@gentoo.org> +metadata.xml,
+  +jgrapht-0.7.3.ebuild:
+  Add Package.
+
