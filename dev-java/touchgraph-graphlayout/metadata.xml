@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>java</herd>
+	<maintainer>
+		<email>ali_bush@gentoo.org</email>
+		<name>Alistair Bush</name>
+	</maintainer>
+	<longdescription lang="en">
+		TouchGraph provides a set of interfaces for graph visualization using force-based layout and focus+context techniques. For now only older code is available, but we are planning to release new versions as well.
+	</longdescription>
+</pkgmetadata>
+
