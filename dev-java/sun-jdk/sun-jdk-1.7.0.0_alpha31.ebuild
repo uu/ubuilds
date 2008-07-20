@@ -8,10 +8,10 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="03_jul_2008"
+DATE="17_jul_2008"
 MY_RPV=${MY_PV%.*}
 
-BASE_URL="http://www.java.net/download/jdk7/binaries/"
+BASE_URL="http://download.java.net/jdk7/binaries/"
 x86file="jdk-7-ea-bin-b${ALPHA}-linux-i586-${DATE}.bin"
 amd64file="jdk-7-ea-bin-b${ALPHA}-linux-x64-${DATE}.bin"
 
@@ -130,14 +130,6 @@ src_install() {
 	chmod 644 "${D}"/opt/${P}/jre/.systemPrefs/.system.lock
 	touch "${D}"/opt/${P}/jre/.systemPrefs/.systemRootModFile
 	chmod 644 "${D}"/opt/${P}/jre/.systemPrefs/.systemRootModFile
-
-	# install control panel for Gnome/KDE
-	sed -e "s/INSTALL_DIR\/JRE_NAME_VERSION/\/opt\/${P}\/jre/" \
-		-e "s/\(Name=Java\)/\1 Control Panel/" \
-		"${D}"/opt/${P}/jre/plugin/desktop/sun_java.desktop > \
-		"${T}"/sun_java-${SLOT}.desktop
-
-	domenu "${T}"/sun_java-${SLOT}.desktop
 
 	set_java_env
 }
