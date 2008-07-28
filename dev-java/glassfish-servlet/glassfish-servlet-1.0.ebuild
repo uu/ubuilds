@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -35,7 +35,7 @@ src_compile() {
 
 src_install() {
 	cd "${S}/${MODULE}"
-	java-pkg_dojar "src/jarkarta-servletapi-5/jsr154/dist/lib/servlet-api.jar"
+	java-pkg_dojar "src/jakarta-servletapi-5/jsr154/dist/lib/servlet-api.jar"
 	java-pkg_dojar "src/jsr245/dist/lib/jsp-api.jar"
 
 	#Need to install javadocs that are in 2 locations.
