@@ -17,7 +17,6 @@ IUSE=""
 CDEPEND="dev-java/slf4j-api dev-java/log4j"
 RDEPEND=">=virtual/jre-1.4 ${CDEPEND}"
 DEPEND=">=virtual/jdk-1.4 ${CDEPEND}"
-#S="${WORKDIR}"
 
 src_unpack() {
 	unpack ${A}
