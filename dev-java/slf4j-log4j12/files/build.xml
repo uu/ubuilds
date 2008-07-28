@@ -1,0 +1,19 @@
+<project name="slf4j-log4j12" default="jar">
+	<target name="compile">
+		<mkdir dir="build"/>
+		<javac srcdir="." destdir="build" classpath="${gentoo.classpath}:slf4j-api.jar:log4j.jar">
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="slf4j-log4j12.jar" basedir="build">
+			<exclude name="org/slf4j/impl/**"/>
+		</jar>
+	</target>
+
+	<target name="javadoc" depends="compile">
+		<mkdir dir="docs"/>
+		<javadoc sourcepath="." destdir="docs" classpath="${gentoo.classpath}"/>
+	</target>
+
+</project>
