@@ -30,8 +30,8 @@ RDEPEND=">=virtual/jre-1.5
 	>=dev-java/jdom-1.0
 	>=dev-java/jazzy-0.5.2
 	>=dev-java/jgoodies-forms-1.0.7
-	dev-java/sun-jaf
-	dev-java/sun-javamail
+	java-virtuals/jaf
+	java-virtuals/javamail
 	dev-java/soap
 	dev-java/xpp2"
 
@@ -61,7 +61,7 @@ src_install () {
 
 	java-pkg_jarinto ${dir}
 	java-pkg_dojar ${PN}.jar || die
-	java-pkg_register-dependency xpp2,jgoodies-forms,jazzy,picocontainer-1,jdom-1.0,commons-logging,commons-codec,nekohtml,javolution-4,xmlrpc,sun-jaf,sun-javamail,soap
+	java-pkg_register-dependency xpp2,jgoodies-forms,jazzy,picocontainer-1,jdom-1.0,commons-logging,commons-codec,nekohtml,javolution-4,xmlrpc,jaf,javamail,soap
 	java-pkg_dolauncher ${PN} --main "com.almworks.launcher.Launcher" --java_args "-Xmx256M" || die
 
 	newdoc README.txt README || die
