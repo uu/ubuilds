@@ -2,7 +2,7 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
-  29 Jul 2008; Jesse Farinacci <jlf@us.ibm.com> struts-1.3.8.ebuild:
+  29 Jul 2008; Jesse Farinacci <jieryn@gmail.com> struts-1.3.8.ebuild:
   temporarily hijacking the java-overlay:dev-java/struts-1.3.8.ebuild
   because of basic ebuild failures
 
