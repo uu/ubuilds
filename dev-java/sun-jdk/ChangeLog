@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  29 Jul 2008; Serkan Kaba <serkan@gentoo.org> -files/sun-jdk-1.6.0.02.env,
+  +sun-jdk-1.6.0.10_beta28.ebuild, +files/sun-jdk-1.6.env:
+  Add Java 6 u10 beta.
+
   20 Jul 2008; Serkan Kaba <serkan@gentoo.org>
   -sun-jdk-1.7.0.0_alpha30.ebuild, +sun-jdk-1.7.0.0_alpha31.ebuild:
   Bump to latest alpha. Thanks to Fabian Fingerle <fabian@datensalat.eu> for
