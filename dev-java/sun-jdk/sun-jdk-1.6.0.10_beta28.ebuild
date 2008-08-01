@@ -119,8 +119,10 @@ src_install() {
 		fi
 
 		if use x86 ; then
-			install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libnpjp2.so
+			#beta28 has no libjpjp2.so here?
+			#install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libnpjp2.so
 			#Do we need to install both plugins here?
+			install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libjavaplugin_oji.so
 		else
 			eerror "No plugin available for amd64 arch"
 		fi
