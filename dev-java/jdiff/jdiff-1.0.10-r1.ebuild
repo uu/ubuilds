@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -33,12 +33,12 @@ S="${WORKDIR}/${PN}/"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 	rm lib/*.jar
 	# FIXME : Make a patch instead of this work-around to failing build
-	dodir "test/olddocs"
-	dodir "test/newdocs"
-	dodir "test/newdocs2"
+	mkdir "test/olddocs"
+	mkdir "test/newdocs"
+	mkdir "test/newdocs2"
 	java-ant_rewrite-classpath build/build.xml
 	java-ant_rewrite-classpath
 }
