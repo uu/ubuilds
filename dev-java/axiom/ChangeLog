@@ -1,0 +1,19 @@
+# ChangeLog for dev-java/axiom
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  11 Aug 2008; Jesse Farinacci <jieryn@gmail.com> axiom-1.2.2.ebuild:
+  adding ~amd64 keyword, and tested
+
+  25 May 2007; Vlastimil Babka <caster@gentoo.org> -axiom-1.1.1.ebuild,
+  axiom-1.2.2.ebuild:
+  Update jaxen dep; remove unused version.
+
+  25 Feb 2007; kiorky <kiorky@cryptelium.net> +axiom-1.2.2.ebuild:
+  Bumped to 1.2.2
+
+  24 Feb 2007; kiorky <kiorky@cryptelium.net> +axiom-1.1.1.ebuild,
+  +files/StAXUtils.java.cast.patch, +files/build.xml, +metadata.xml:
+  Added as a dependency of neethy
+  See #168254
+
