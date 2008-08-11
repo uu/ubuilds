@@ -1,0 +1,17 @@
+# ChangeLog for dev-java/neethi
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  11 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +files/build.xml,
+  +metadata.xml, +neethi-1.0.1.ebuild, +neethi-2.0.ebuild:
+  adding ~amd64 keyword, and tested
+
+  24 Feb 2007; kiorky <kiorky@cryptelium.net> +neethi-2.0.ebuild:
+  Bumped / Slotted to 2.0 as it is the lastest version
+  But the twice are often used
+
+  24 Feb 2007; kiorky <kiorky@cryptelium.net> +neethy-1.0.1.ebuild,
+  +metadata.xml:
+  Added as a wss4j dependancy
+  See #168255
+
