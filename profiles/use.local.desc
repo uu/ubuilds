@@ -1,0 +1,13 @@
+# Copyright 1999-2007 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+# This file contains descriptions of local USE flags, and the ebuilds which
+# contain them.
+
+# Keep it sorted.
+
+dev-java/spring-framework:tomcat - Enable optional www-servers/tomcat-5.5.x support
+dev-java/spring-framework:velocity - Enable optional dev-java/velocity{,-tools} support
+www-servers/jetty:demo - Build the demonstration application
+www-servers/jetty:wadi - Enable WADI clustering support
