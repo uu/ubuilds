@@ -10,6 +10,7 @@ JETTY_ENV="${JETTY_ENV} CLASSPATH=${CLASSPATH}:${JETTY_ADD_CLASSPATH}"
 
 depend() {
 	need net
+	depend localmount
 	use dns logger postgresql mysql
 }
 

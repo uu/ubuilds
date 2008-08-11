@@ -1,6 +1,10 @@
 # ChangeLog for www-servers/jetty
-# Copyright 2000-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 2000-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/www-servers/jetty/ChangeLog,v 1.8 2007/04/09 11:54:34 betelgeuse Exp $
+
+  11 Aug 2008; Jesse Farinacci <jieryn@gmail.com> files/6.1.7/jetty.init:
+  if /usr is on a different partition then java-config is unavailable, add
+  need localmount to init script to wait for it - thank you selckin
 
   09 Apr 2007; Petteri Räty <betelgeuse@gentoo.org> jetty-4.2.19.ebuild:
   Use proper helper functions for bug #173884.
