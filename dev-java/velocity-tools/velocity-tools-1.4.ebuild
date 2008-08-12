@@ -19,7 +19,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-S="${P}-src"
+S="${WORKDIR}/${P}-src"
 
 CDEPEND="dev-java/antlr:0
 	dev-java/commons-beanutils:1.7
@@ -76,12 +76,6 @@ src_unpack() {
 #		fi
 
 	popd > /dev/null
-}
-
-# why do i have to do this? this seems br0ken
-src_compile() {
-	cd "${S}"
-	java-pkg-2_src_compile
 }
 
 src_install() {

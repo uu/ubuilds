@@ -2,6 +2,9 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  12 Aug 2008; Jesse Farinacci <jieryn@gmail.com> velocity-tools-1.4.ebuild:
+  minor fix to eliminate explicit src_compile()
+
   11 Aug 2008; Jesse Farinacci <jieryn@gmail.com>
   +files/velocity-tools-1.4_bypass-download-jars.patch, +metadata.xml,
   +velocity-tools-1.4.ebuild:
