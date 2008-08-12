@@ -1,0 +1,50 @@
+diff -Naur a/build.xml b/build.xml
+--- a/build.xml	2008-03-07 15:36:48.000000000 -0500
++++ b/build.xml	2008-08-11 20:41:45.000000000 -0400
+@@ -15,9 +15,9 @@
+     <property name="compile.optimize" value="false"/>
+ 
+     <property name="version" value="1.0rc7"/>
+-    <property name="jarfile" value="dist/jarjar-${version}.jar"/>
+-    <property name="jarfile.util" value="dist/jarjar-util-${version}.jar"/>
+-    <property name="jarfile.mojo" value="dist/jarjar-plugin-${version}.jar"/>
++    <property name="jarfile" value="dist/jarjar.jar"/>
++    <property name="jarfile.util" value="dist/jarjar-util.jar"/>
++    <property name="jarfile.mojo" value="dist/jarjar-plugin.jar"/>
+ 
+     <property name="test.jar" value="build/rejar.jar"/>
+ 
+@@ -57,7 +57,6 @@
+ 
+     <target name="compile" depends="init" description="Compile">
+         <compile module="main" refid="path.build" bootclasspath="${compile.bootclasspath}"/>
+-        <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpathref="path.run"/>
+     </target>
+ 
+     <target name="compile-test" depends="compile" description="Compile tests">
+@@ -72,23 +71,13 @@
+ 
+     <target name="jar" depends="compile" description="Create Jar">
+         <mkdir dir="dist"/>
+-        <jarjar jarfile="${jarfile}">
++        <jar jarfile="${jarfile}">
+             <fileset dir="build/main"/>
+-            <zipfileset src="lib/asm-3.1.jar"/>
+-            <zipfileset src="lib/asm-commons-3.1.jar">
+-                <include name="org/objectweb/asm/commons/EmptyVisitor.class"/>
+-                <include name="org/objectweb/asm/commons/Remap*.class"/>
+-                <include name="org/objectweb/asm/commons/LocalVariablesSorter.class"/>
+-            </zipfileset>
+-            <keep pattern="com.tonicsystems.jarjar.Main"/>
+-            <keep pattern="com.tonicsystems.jarjar.JarJarTask"/>
+-            <rule pattern="com.tonicsystems.jarjar.util.**" result="com.tonicsystems.jarjar.ext_util.@1"/>
+-            <rule pattern="org.objectweb.asm.**" result="com.tonicsystems.jarjar.asm.@1"/>
+             <manifest>
+                 <attribute name="Main-Class" value="com.tonicsystems.jarjar.Main"/>
+                 <attribute name="Implementation-Version" value="${version}"/>
+             </manifest>
+-        </jarjar>
++        </jar>
+     </target>
+ 
+     <target name="jar-util" depends="compile" description="Create utility Jar">
