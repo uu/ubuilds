@@ -11,12 +11,12 @@ HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.5"
 MY_PV=${PV}
-SRC_URI="http://bits.netbeans.org/download/6.5/m1/zip/netbeans-6.5_m1-200807040101-src.zip"
+SRC_URI="http://download.netbeans.org/netbeans/6.5/beta/zip/netbeans-6.5beta-200808111757-src.zip"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE_NETBEANS_MODULES="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa uml visualweb xml"
-IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa uml visualweb xml linguas_ja linguas_pt_BR linguas_zh_CN"
+IUSE_NETBEANS_MODULES="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa uml visualweb webcommon websvccommon xml"
+IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa uml visualweb webcommon websvccommon xml linguas_ja linguas_pt_BR linguas_zh_CN"
 
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/ant-core-1.7.1_beta2"
@@ -26,14 +26,14 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/ant-core-1.7.1_beta2
 	>=dev-java/ant-nodeps-1.7.1"
 
+S="${WORKDIR}"
 BUILDDESTINATION="${S}/nbbuild/netbeans"
 ENTERPRISE="5"
-IDE_VERSION="9"
-PLATFORM="8"
+IDE_VERSION="10"
+PLATFORM="9"
 MY_FDIR="${FILESDIR}/${SLOT}"
 DESTINATION="/usr/share/netbeans-${SLOT}"
 JAVA_PKG_BSFIX="off"
-S="${WORKDIR}"
 
 pkg_setup() {
 	if use doc ; then
@@ -70,8 +70,8 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use java && ! use ide ; then
-		eerror "'java' USE flag requires 'ide' USE flag"
+	if use java && ! ( use ide && use websvccommon ) ; then
+		eerror "'java' USE flag requires 'ide' and 'websvccommon' USE flag"
 		exit 1
 	fi
 
@@ -85,8 +85,8 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use php && ! ( use gsf && use ide ) ; then
-		eerror "'php' USE flag requires 'gsf' and 'ide' USE flags"
+	if use php && ! ( use gsf && use ide && use websvccommon ) ; then
+		eerror "'php' USE flag requires 'gsf', 'ide' and 'websvccommon' USE flags"
 		exit 1
 	fi
 
@@ -112,6 +112,16 @@ pkg_setup() {
 
 	if use visualweb && ! ( use gsf && use ide && use j2ee && use java ) ; then
 		eerror "'visualweb' USE flag requires 'gsf', 'ide', 'j2ee' and 'java' USE flags"
+		exit 1
+	fi
+
+	if use webcommon && ! ( use gsf && use ide ) ; then
+		eerror "'webcommon' USE flag requires 'gsf' and 'ide' USE flags"
+		exit 1
+	fi
+
+	if use websvccommon && ! use ide ; then
+		eerror "'websvccommon' USE flag requires 'ide' USE flag"
 		exit 1
 	fi
 
@@ -164,7 +174,8 @@ src_compile() {
 	use ruby && clusters="${clusters},nb.cluster.ruby"
 	use soa && clusters="${clusters},nb.cluster.soa"
 	use uml && clusters="${clusters},nb.cluster.uml"
-	use visualweb && clusters="${clusters},nb.cluster.visualweb"
+	use webcommon && clusters="${clusters},nb.cluster.webcommon"
+	use websvccommon && clusters="${clusters},nb.cluster.websvccommon"
 	use xml && clusters="${clusters},nb.cluster.xml"
 
 	# Fails to compile
