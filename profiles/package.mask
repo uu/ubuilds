@@ -6,9 +6,9 @@
 # NOTE: Please add your entry at the top!
 #
 
-~dev-java/java-config-2.1.9999
 #Alistair Bush <ali_bush@gentoo.org> (19 Jan 2008)
 #SVN version of java-config, use at your own risk.
+~dev-java/java-config-2.1.9999
 
 # Alistair Bush. alistair.bush@gmail.com (20 Mar 2007)
 # Masked so I can experiement with building testng with both the 1.4 and 1.5
