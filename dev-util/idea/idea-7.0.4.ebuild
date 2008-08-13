@@ -22,7 +22,7 @@ src_install() {
 	local dir="/opt/${P}"
 	insinto ${dir}
 	doins -r *
-	fperms 755 ${dir}/bin/*.sh || die
+	chmod 755 ${D}/${dir}/bin/*.sh || die
 	local exe=${PN}-${SLOT}
 	local icon=${exe}.png
 	newicon "bin/idea32.png" ${icon} || die
