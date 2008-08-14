@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,6 +12,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P}-src.7z"
 LICENSE="GPL-2"
 KEYWORDS="~x86"
 SLOT="0"
+IUSE=""
 
 JAVA_VERSION="1.5"
 COMMON_DEPEND="dev-java/commons-logging
