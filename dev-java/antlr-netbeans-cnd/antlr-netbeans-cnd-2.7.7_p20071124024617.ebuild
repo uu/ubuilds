@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,6 +12,7 @@ SRC_URI="
 	${SOURCE_SITE}/netbeans-cnd-${MY_PV}.tar.bz2"
 LICENSE="CDDL"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64 ~x86"
 DEPEND=">=virtual/jdk-1.5
 	>=dev-java/ant-nodeps-1.7.0"

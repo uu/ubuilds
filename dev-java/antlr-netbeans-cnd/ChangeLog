@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/antlr-netbeans-cnd
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com>
+  antlr-netbeans-cnd-2.7.7_p20071124024617.ebuild:
+  fixing IUSE repoman warnings
 
   03 Dec 2007; Miroslav Šulc <fordfrog@gentoo.org> ++,
   -antlr-netbeans-cnd-2.7.7_p20071016040557.ebuild,
