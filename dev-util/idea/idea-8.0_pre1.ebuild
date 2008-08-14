@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -15,6 +15,7 @@ DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
 HOMEPAGE="http://jetbrains.com/idea/"
 SRC_URI="http://download.jetbrains.com/${PN}/${PN}-8.0M1.tar.gz"
 LICENSE="IntelliJ-IDEA"
+IUSE=""
 KEYWORDS="~x86 ~amd64"
 S="${WORKDIR}/${PN}-${BUILD}"
 
