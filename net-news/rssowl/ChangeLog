@@ -1,6 +1,9 @@
 # ChangeLog for net-news/rssowl
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
+  creating metadata.xml to shut up repoman
 
   18 Jun 2007; Vlastimil Babka <caster@gentoo.org> rssowl-1.2.3.ebuild:
   Extend swt built-with-use check also to firefox flag.
