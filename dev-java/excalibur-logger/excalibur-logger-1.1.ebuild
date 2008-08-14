@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 JAVA_PKG_IUSE="doc source"
@@ -11,6 +11,7 @@ SRC_URI="mirror://apache/avalon/${PN}/source/${P}.zip"
 
 LICENSE="Apache-2.0"
 SLOT="1"
+IUSE=""
 KEYWORDS="~amd64 ~x86"
 
 JAVA_VERSION="1.4"
