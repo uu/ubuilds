@@ -13,6 +13,7 @@ HOMEPAGE="http://www.gnu.org/software/electric/electric.html"
 SRC_URI="mirror://gnu/electric/${P}.jar"
 LICENSE="GPL-2"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64 ~ppc ~x86"
 
 #	=dev-java/junit-4*
