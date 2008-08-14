@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com>
+  avalon-logkit-1.2.2.ebuild:
+  fixing IUSE repoman warnings
+
   08 Mar 2008; Alistair Bush <ali_bush@gentoo.org>
   avalon-logkit-1.2.2.ebuild:
   Fix src_compile(), Add src_test()

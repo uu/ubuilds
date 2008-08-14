@@ -29,6 +29,7 @@ DEPEND="|| (
 
 LICENSE="Apache-1.1"
 SLOT="1.2"
+IUSE=""
 KEYWORDS="~amd64 ~ia64 ~ppc64 ~x86"
 
 S="${WORKDIR}/logkit-${PV}-dev"
