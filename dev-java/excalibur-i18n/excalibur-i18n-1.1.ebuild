@@ -11,6 +11,7 @@ SRC_URI="mirror://apache/excalibur/${PN}/source/${P}-src.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64 ~x86"
 
 JAVA_VERSION="1.3"
