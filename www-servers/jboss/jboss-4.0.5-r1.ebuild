@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -11,7 +11,7 @@ MY_EJB3="jboss-EJB-3.0_RC9_Patch_1"
 
 DESCRIPTION="An open source, standards-compliant, J2EE-based application server implemented in 100% Pure Java."
 
-RESTRICT="nomirror"
+RESTRICT="mirror"
 HOMEPAGE="http://www.jboss.org"
 LICENSE="LGPL-2"
 IUSE="doc ejb3 srvdir"

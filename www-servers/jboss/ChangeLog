@@ -1,6 +1,10 @@
 # ChangeLog for www-servers/jboss
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> jboss-4.0.4.ebuild,
+  jboss-4.0.4-r1.ebuild, jboss-4.0.5.ebuild, jboss-4.0.5-r1.ebuild:
+  fixing RESTRICT repoman warnings
 
   30 Jan 2007; kiorky kiorky@cryptelium.net +jboss-4.0.5-r1.ebuild:
   www-servers/jboss backporting jboss-bin stuff and beginning writing
