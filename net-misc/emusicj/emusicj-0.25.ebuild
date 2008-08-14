@@ -11,6 +11,7 @@ SRC_URI="http://www.kallisti.net.nz/wikifiles/EMusicJ/emusicj-source-${PV}.tar.b
 
 LICENSE="GPL-2"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64"
 
 CDEPEND="dev-java/commons-codec:0
