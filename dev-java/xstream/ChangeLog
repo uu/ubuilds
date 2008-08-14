@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/xstream
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
+  creating metadata.xml to shut up repoman
 
   13 May 2007; Vlastimil Babka <caster@gentoo.org> xstream-1.2.1.ebuild:
   Remove KEYWORDS again till it compiles bytecode useable with all reverse

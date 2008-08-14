@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/ant-ivy
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
+  creating metadata.xml to shut up repoman
 
   03 Sep 2007; Petteri Räty <betelgeuse@gentoo.org>
   +files/1.4.1-javadoc.patch, ant-ivy-1.4.1.ebuild:

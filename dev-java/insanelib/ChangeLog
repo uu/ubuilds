@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/insanelib
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
+  creating metadata.xml to shut up repoman
 
   01 Jul 2007; William L. Thomson Jr. <wltjr@gentoo.org>
   insanelib-20061207.ebuild:

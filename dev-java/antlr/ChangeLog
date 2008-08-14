@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/antlr
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
+  creating metadata.xml to shut up repoman
 
   25 May 2007; Vlastimil Babka <caster@gentoo.org> -antlr-3.0_beta7.ebuild,
   antlr-3.0.ebuild:

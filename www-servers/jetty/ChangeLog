@@ -3,6 +3,9 @@
 # $Header: /var/cvsroot/gentoo-x86/www-servers/jetty/ChangeLog,v 1.8 2007/04/09 11:54:34 betelgeuse Exp $
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> jetty-6.1.7.ebuild:
+  creating metadata.xml to shut up repoman
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> jetty-6.1.7.ebuild:
   fixing IUSE repoman warnings
 
   11 Aug 2008; Jesse Farinacci <jieryn@gmail.com> files/6.1.7/jetty.init:
