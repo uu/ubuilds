@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/quartz
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> quartz-1.6.0.ebuild:
+  fixing IUSE repoman warnings
 
   09 Jun 2007; Vlastimil Babka <caster@gentoo.org> quartz-1.6.0.ebuild:
   Change to jdbc-oracle-bin

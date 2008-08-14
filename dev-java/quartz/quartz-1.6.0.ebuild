@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/quartz/quartz-1.4.5.ebuild,v 1.4 2005/10/15 11:41:22 axxo Exp $
 
@@ -12,6 +12,7 @@ SRC_URI="https://quartz.dev.java.net/files/documents/1267/43545/${P}.zip"
 
 LICENSE="Apache-2.0"
 SLOT="1.6"
+IUSE=""
 KEYWORDS="~amd64 ~ppc ~x86"
 
 # Still left
