@@ -9,6 +9,7 @@ HOMEPAGE="http://www.atunes.org/"
 SRC_URI="mirror://sourceforge/${PN}/aTunes_${PV}.tar.gz"
 LICENSE="GPL-2"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64"
 
 CDEPEND="dev-java/htmlparser
