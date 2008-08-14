@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,6 +12,7 @@ SRC_URI="https://tablelayout.dev.java.net/files/documents/3495/15739/TableLayout
 LICENSE="GPL-2"
 KEYWORDS="~x86"
 SLOT="0"
+IUSE=""
 
 JAVA_VERSION="1.4"
 DEPEND=">=virtual/jdk-${JAVA_VERSION}"
