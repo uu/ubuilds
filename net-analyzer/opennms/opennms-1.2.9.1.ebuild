@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/commons-logging/commons-logging-1.1-r2.ebuild,v 1.9 2007/04/07 04:28:54 wltjr Exp $
 
@@ -20,6 +20,7 @@ KEYWORDS="~amd64 ~x86"
 LICENSE="GPL-2"
 
 SLOT="0"
+IUSE=""
 
 COMMON_DEPEND="=dev-java/avalon-framework-4.2*
 		=dev-java/avalon-logkit-1.2*
