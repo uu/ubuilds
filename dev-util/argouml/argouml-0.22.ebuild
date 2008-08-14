@@ -1,4 +1,4 @@
-# Copyright 1999-2006 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/argouml/argouml-0.19.6.ebuild,v 1.3 2006/02/24 05:11:47 vapier Exp $
 
@@ -18,7 +18,7 @@ SLOT="0"
 #KEYWORDS="~amd64 ~ppc ~ppc-macos ~x86"
 KEYWORDS="-*"
 IUSE="doc"
-RESTRICT="nomirror"
+RESTRICT="mirror"
 
 RDEPEND=">=virtual/jre-1.3
 	dev-java/swidgets

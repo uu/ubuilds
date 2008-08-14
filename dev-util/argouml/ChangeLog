@@ -1,6 +1,9 @@
 # ChangeLog for dev-util/argo-uml
-# Copyright 1999-2006 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> argouml-0.22.ebuild:
+  fixing RESTRICT repoman warnings
 
   04 Dec 2006; Miroslav Šulc <miroslav.sulc@startnet.cz> +ChangeLog,
   Manifest:
