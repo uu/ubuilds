@@ -14,6 +14,7 @@ HOMEPAGE="http://freemind.sf.net"
 SRC_URI="mirror://sourceforge/freemind/${PN}-src-${MY_PV}.zip"
 LICENSE="GPL-2"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64"
 
 CDEPEND="java-virtuals/jaxb-virtual:1
