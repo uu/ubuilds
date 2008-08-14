@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,6 +12,7 @@ KEYWORDS="~x86 ~amd64"
 
 #Change slot number between incompatible IDEA versions
 SLOT="8"
+IUSE=""
 
 RDEPEND="~dev-util/idea-${PV}"
 S="${WORKDIR}"
