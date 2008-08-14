@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/deskzilla/deskzilla-1.3.ebuild,v 1.2 2007/04/30 20:39:41 genone Exp $
 
@@ -17,6 +17,7 @@ SRC_URI="http://d1.almworks.com/.files/${MY_P}_without_jre.tar.gz"
 LICENSE="ALMWorks-1.2"
 RESTRICT="mirror"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64 ~x86"
 
 DEPEND=""

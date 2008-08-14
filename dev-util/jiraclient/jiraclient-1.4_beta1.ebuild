@@ -17,6 +17,7 @@ SRC_URI="http://d1.almworks.com/.files/${MY_P}_without_jre.tar.gz"
 LICENSE="ALMWorks-1.2"
 RESTRICT="mirror"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64 ~x86"
 
 DEPEND=""
