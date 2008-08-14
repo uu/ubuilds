@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -13,6 +13,7 @@ HOMEPAGE="http://htmlunit.sourceforge.net/"
 SRC_URI="mirror://sourceforge/htmlunit/${MY_P}.zip"
 LICENSE="as-is"
 SLOT="0"
+IUSE=""
 KEYWORDS=""
 
 COMMON_DEP="
