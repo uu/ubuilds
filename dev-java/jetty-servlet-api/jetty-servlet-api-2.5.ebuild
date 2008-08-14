@@ -10,6 +10,7 @@ HOMEPAGE="http://www.mortbay.org/"
 KEYWORDS="~amd64 ~ppc ~x86"
 LICENSE="Apache-1.1"
 SLOT="0"
+IUSE=""
 
 COMMON_DEP=""
 
