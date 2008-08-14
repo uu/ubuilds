@@ -1,4 +1,4 @@
-# Copyright 1999-2006 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -11,6 +11,7 @@ HOMEPAGE="https://javaserverfaces.dev.java.net/"
 SRC_URI="https://javaserverfaces.dev.java.net/files/documents/1866/52043/jsf-${PV/.0/_0}-b07-FCS-src.zip"
 LICENSE="CDDL"
 SLOT="0"
+IUSE=""
 KEYWORDS="~amd64 ~x86"
 
 COMMON_DEP="
