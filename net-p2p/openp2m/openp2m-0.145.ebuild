@@ -1,4 +1,4 @@
-# Copyright 1999-2005 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -9,6 +9,7 @@ HOMEPAGE="http://openp2m.sourceforge.net/"
 SRC_URI="mirror://sourceforge/${PN}/OpenP2M-src.v${PV}.zip"
 LICENSE="MPL-1.0"
 SLOT="0"
+IUSE=""
 KEYWORDS="~x86 ~amd64"
 
 CDEPEND="=dev-java/commons-httpclient-3*
