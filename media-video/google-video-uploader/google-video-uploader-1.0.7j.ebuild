@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -13,6 +13,7 @@ KEYWORDS="~x86 ~amd64"
 DEPEND=""
 RDEPEND=">=virtual/jre-1.4.1"
 SLOT="0"
+IUSE=""
 
 src_unpack() {
 	mkdir -p ${S}
