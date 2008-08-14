@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/velocity/velocity-1.4-r4.ebuild,v 1.3 2007/02/08 14:03:57 opfer Exp $
 
