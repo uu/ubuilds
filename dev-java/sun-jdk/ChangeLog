@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 Aug 2008; Serkan Kaba <serkan@gentoo.org>
+  sun-jdk-1.6.0.10_beta28.ebuild:
+  Add plugin2 USE flag for Next-Generation Java™ Plug-In.
+
 *sun-jdk-1.7.0.0_alpha33 (15 Aug 2007)
 
   15 Aug 2008; Petteri Räty <betelgeuse@gentoo.org>

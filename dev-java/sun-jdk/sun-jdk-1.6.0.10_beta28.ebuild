@@ -20,7 +20,7 @@ SLOT="1.6"
 LICENSE="sun-prerelease-jdk6"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="strip fetch"
-IUSE="X alsa doc nsplugin examples"
+IUSE="X alsa doc nsplugin examples plugin2"
 
 DEPEND="sys-apps/sed"
 
@@ -119,10 +119,11 @@ src_install() {
 		fi
 
 		if use x86 ; then
-			#beta28 has no libjpjp2.so here?
-			#install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libnpjp2.so
-			#Do we need to install both plugins here?
-			install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libjavaplugin_oji.so
+			if use plugin2 ; then
+				install_mozilla_plugin /opt/${P}/jre/lib/i386/libnpjp2.so
+			else
+				install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libjavaplugin_oji.so
+			fi
 		else
 			eerror "No plugin available for amd64 arch"
 		fi
