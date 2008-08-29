@@ -2,6 +2,9 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  29 Aug 2008; Vlastimil Babka <caster@gentoo.org> -icedtea-1.6.ebuild:
+  Remove the old 1.6 version.
+
   15 Aug 2008; Petteri Räty <betelgeuse@gentoo.org> icedtea-9999.ebuild:
   Remove keywords so users don't get the live ebuild by default.
 
