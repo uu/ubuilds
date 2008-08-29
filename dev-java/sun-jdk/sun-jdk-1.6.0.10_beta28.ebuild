@@ -20,7 +20,7 @@ SLOT="1.6"
 LICENSE="sun-prerelease-jdk6"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="strip fetch"
-IUSE="X alsa doc nsplugin examples plugin2"
+IUSE="X alsa doc nsplugin examples"
 
 DEPEND="sys-apps/sed"
 
@@ -119,11 +119,8 @@ src_install() {
 		fi
 
 		if use x86 ; then
-			if use plugin2 ; then
-				install_mozilla_plugin /opt/${P}/jre/lib/i386/libnpjp2.so
-			else
-				install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libjavaplugin_oji.so
-			fi
+			install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libjavaplugin_oji.so
+			install_mozilla_plugin /opt/${P}/jre/lib/i386/libnpjp2.so plugin2
 		else
 			eerror "No plugin available for amd64 arch"
 		fi
@@ -144,6 +141,15 @@ pkg_postinst() {
 	# Set as default VM if none exists
 	java-vm-2_pkg_postinst
 
+	if use x86 && use nsplugin; then
+		elog
+		elog "Two variants of the nsplugin are available via eselect java-nsplugin:"
+		elog "${VMHANDLE} and ${VMHANDLE}-plugin2 (the Next-Generation Plug-In) "
+		ewarn "Note that the ${VMHANDLE}-plugin2 works only in Firefox 3!"
+		elog "For more info see https://jdk6.dev.java.net/plugin2/"
+		elog
+	fi
+
 	if ! use X; then
 		local xwarn="virtual/x11 and/or"
 	fi
@@ -154,7 +160,7 @@ pkg_postinst() {
 
 	echo
 	einfo " Be careful: ${P}'s Java compiler uses"
-	einfo " '-source 1.7' as default. This means that some keywords "
+	einfo " '-source 1.6' as default. This means that some keywords "
 	einfo " such as 'enum' are not valid identifiers any more in that mode,"
 	einfo " which can cause incompatibility with certain sources."
 	einfo " Additionally, some API changes may cause some breakages."
