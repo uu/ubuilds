@@ -2,6 +2,10 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  30 Aug 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.5_beta.ebuild:
+  Unbundled jars needed for netbeans platform
+
   13 Aug 2008; Miroslav Šulc <fordfrog@gentoo.org>
   -netbeans-6.5_alpha1.ebuild, +netbeans-6.5_beta.ebuild:
   netbeans bumped to 6.5 beta

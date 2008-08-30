@@ -15,7 +15,7 @@ SRC_URI="http://download.netbeans.org/netbeans/6.5/beta/zip/netbeans-6.5beta-200
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE_NETBEANS_MODULES="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa uml visualweb webcommon websvccommon xml"
+IUSE_NETBEANS="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa uml visualweb webcommon websvccommon xml"
 IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa uml visualweb webcommon websvccommon xml linguas_ja linguas_pt_BR linguas_zh_CN"
 
 RDEPEND=">=virtual/jdk-1.5
@@ -24,7 +24,12 @@ RDEPEND=">=virtual/jdk-1.5
 DEPEND="=virtual/jdk-1.5*
 	app-arch/unzip
 	>=dev-java/ant-core-1.7.1_beta2
-	>=dev-java/ant-nodeps-1.7.1"
+	>=dev-java/ant-nodeps-1.7.1
+	>=dev-java/javahelp-2:0
+	>=dev-java/jna-3:0
+	dev-java/jsr223:0
+	>=dev-java/junit-4:4
+	>=dev-java/swing-layout-1:1"
 
 S="${WORKDIR}"
 BUILDDESTINATION="${S}/nbbuild/netbeans"
@@ -138,12 +143,11 @@ src_unpack () {
 
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
-	find "${S}"/nbbuild -name "*.class" -delete
+	find "${S}" -name "*.class" -delete
 
-	# Commented for now
-	#place_unpack_symlinks
+	place_unpack_symlinks
 
-	#einfo "Removing rest of the bundled jars..."
+	einfo "Removing rest of the bundled jars..."
 	#find "${S}" -type f -name "*.jar" | xargs rm -v
 }
 
@@ -257,7 +261,7 @@ src_install() {
 	fi
 
 	# Replace bundled jars with system jars - currently commented out
-	#symlink_extjars
+	symlink_extjars
 
 	# Correct permissions on executables
 	local nbexec_exe="${DESTINATION}/platform${PLATFORM}/lib/nbexec"
@@ -331,58 +335,59 @@ place_unpack_symlinks() {
 
 	einfo "Symlinking compilation-time jars"
 
-	dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
+	#dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
 	dosymcompilejar "javahelp/external" javahelp jh.jar jh-2.0_05.jar
 	dosymcompilejar "o.jdesktop.layout/external" swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
-	dosymcompilejar "libs.jsr223/external" jsr223 script-api.jar jsr223-api.jar
 	dosymcompilejar "libs.jna/external" jna jna.jar jna-3.0.2.jar
+	dosymcompilejar "libs.jsr223/external" jsr223 script-api.jar jsr223-api.jar
+	dosymcompilejar "libs.junit4/external" junit-4 junit.jar junit-4.1.jar
 
-	if use ide ; then
-		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
-		dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
-		dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
-		dosymcompilejar "db.sql.visualeditor/external" javacc javacc.jar javacc-3.2.jar
-		dosymcompilejar "servletapi/external" tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
-		cp "${WORKDIR}/tomcat-webserver-3.2.jar" "${S}/httpserver/external/tomcat-webserver-3.2.jar" || die "Cannot copy file"
-		dosymcompilejar "libs.commons_logging/external" commons-logging commons-logging.jar commons-logging-1.0.4.jar
-		dosymcompilejar "libs.freemarker/external" freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
-		dosymcompilejar "libs.ini4j/external" ini4j ini4j.jar ini4j-0.2.6.jar
-		dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.24.jar
-		dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.2.0.jar
-		dosymcompilejar "libs.svnClientAdapter/external" netbeans-svnclientadapter svnClientAdapter.jar svnClientAdapter-0.9.23.jar
-		dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
-		cp "${WORKDIR}/resolver-1.2.jar" "${S}/o.apache.xml.resolver/external/resolver-1.2.jar" || die "Cannot copy file"
-		cp "${WORKDIR}/javac-api-nb-7.0-b07.jar" "${S}/libs.javacapi/external/javac-api-nb-7.0-b07.jar" || die "Cannot copy file"
-		cp "${WORKDIR}/javac-impl-nb-7.0-b07.jar" "${S}/libs.javacimpl/external/javac-impl-nb-7.0-b07.jar" || die "Cannot copy file"
-		dosymcompilejar "form/external" beansbinding beansbinding.jar beansbinding-1.2.1.jar
-		dosymcompilejar "j2ee.toplinklib/external" glassfish-persistence glassfish-persistence.jar glassfish-persistence-v2-build-58g.jar
-		cp "${WORKDIR}/appframework-1.0.3.jar" "${S}/swingapp/external/appframework-1.0.3.jar" || die "Cannot copy file"
-		dosymcompilejar "swingapp/external" swing-worker swing-worker.jar swing-worker-1.1.jar
-		mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api"
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jaxb-2 jaxb-api.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr173 jsr173.jar jsr173_api.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr181 jsr181.jar jsr181-api.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr250 jsr250.jar jsr250-api.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr67 jsr67.jar saaj-api.jar
-		mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21"
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-tools-2 jax-ws-tools.jar jaxws-tools.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-2 jax-ws.jar jaxws-rt.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-2 jaxb-impl.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-jaf
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sjsxp
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xmlstreambuffer
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" stax-ex
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" saaj saaj.jar saaj-impl.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" fastinfoset fastinfoset.jar FastInfoset.jar
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-httpserver-bin-2
-		java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xml-commons
-		cp "${WORKDIR}/jxpath1.1.jar" "${S}/libs.jxpath/external/jxpath1.1.jar" || die "Cannot copy file"
-		dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar || die "Cannot copy file"
-		dosymcompilejar "visdev.prefuse/external" prefuse-2006 prefuse.jar prefuse-beta.jar
-		dosymcompilejar "j2eeapis/external" sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
-	fi
+	#if use ide ; then
+		#dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
+		#dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
+		#dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
+		#dosymcompilejar "db.sql.visualeditor/external" javacc javacc.jar javacc-3.2.jar
+		#dosymcompilejar "servletapi/external" tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
+		#cp "${WORKDIR}/tomcat-webserver-3.2.jar" "${S}/httpserver/external/tomcat-webserver-3.2.jar" || die "Cannot copy file"
+		#dosymcompilejar "libs.commons_logging/external" commons-logging commons-logging.jar commons-logging-1.0.4.jar
+		#dosymcompilejar "libs.freemarker/external" freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
+		#dosymcompilejar "libs.ini4j/external" ini4j ini4j.jar ini4j-0.2.6.jar
+		#dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.24.jar
+		#dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.2.0.jar
+		#dosymcompilejar "libs.svnClientAdapter/external" netbeans-svnclientadapter svnClientAdapter.jar svnClientAdapter-0.9.23.jar
+		#dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
+		#cp "${WORKDIR}/resolver-1.2.jar" "${S}/o.apache.xml.resolver/external/resolver-1.2.jar" || die "Cannot copy file"
+		#cp "${WORKDIR}/javac-api-nb-7.0-b07.jar" "${S}/libs.javacapi/external/javac-api-nb-7.0-b07.jar" || die "Cannot copy file"
+		#cp "${WORKDIR}/javac-impl-nb-7.0-b07.jar" "${S}/libs.javacimpl/external/javac-impl-nb-7.0-b07.jar" || die "Cannot copy file"
+		#dosymcompilejar "form/external" beansbinding beansbinding.jar beansbinding-1.2.1.jar
+		#dosymcompilejar "j2ee.toplinklib/external" glassfish-persistence glassfish-persistence.jar glassfish-persistence-v2-build-58g.jar
+		#cp "${WORKDIR}/appframework-1.0.3.jar" "${S}/swingapp/external/appframework-1.0.3.jar" || die "Cannot copy file"
+		#dosymcompilejar "swingapp/external" swing-worker swing-worker.jar swing-worker-1.1.jar
+		#mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api"
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jaxb-2 jaxb-api.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr173 jsr173.jar jsr173_api.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr181 jsr181.jar jsr181-api.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr250 jsr250.jar jsr250-api.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr67 jsr67.jar saaj-api.jar
+		#mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21"
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-tools-2 jax-ws-tools.jar jaxws-tools.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-2 jax-ws.jar jaxws-rt.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-2 jaxb-impl.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-jaf
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sjsxp
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xmlstreambuffer
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" stax-ex
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" saaj saaj.jar saaj-impl.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" fastinfoset fastinfoset.jar FastInfoset.jar
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-httpserver-bin-2
+		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xml-commons
+		#cp "${WORKDIR}/jxpath1.1.jar" "${S}/libs.jxpath/external/jxpath1.1.jar" || die "Cannot copy file"
+		#dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar || die "Cannot copy file"
+		#dosymcompilejar "visdev.prefuse/external" prefuse-2006 prefuse.jar prefuse-beta.jar
+		#dosymcompilejar "j2eeapis/external" sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
+	#fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
 		die "Some compilation-time jars could not be symlinked"
@@ -394,14 +399,12 @@ symlink_extjars() {
 
 	einfo "Symlinking runtime jars"
 
-	cd  ${BUILDDESTINATION}/netbeans/platform7/modules/ext
-	java-pkg_jar-from jsr223
-
-	cd ${BUILDDESTINATION}/platform7/modules/ext
-	java-pkg_jar-from javahelp jh.jar jh-2.0_05.jar
-
-	cd ${BUILDDESTINATION}/platform7/modules/ext
-	java-pkg_jar-from swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
+	targetdir="platform${PLATFORM}/modules/ext"
+	dosyminstjar ${targetdir} javahelp jh.jar jh-2.0_05.jar
+	dosyminstjar ${targetdir} jna jna.jar jna-3.0.2.jar
+	dosyminstjar ${targetdir} jsr223 script-api.jar script-api.jar
+	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.1.jar
+	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 
 	if [ -n "${NB_DOSYMINSTJARFAILED}" ] ; then
 		die "Some runtime jars could not be symlinked"
