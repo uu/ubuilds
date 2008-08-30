@@ -29,7 +29,15 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/jna-3:0
 	dev-java/jsr223:0
 	>=dev-java/junit-4:4
-	>=dev-java/swing-layout-1:1"
+	>=dev-java/swing-layout-1:1
+	ide? (
+		>=dev-java/commons-logging-1.1:0
+		>=dev-java/jakarta-oro-2:2.0
+		>=dev-java/javacc-3.2:0
+		>=dev-java/jdbc-mysql-5.1:0
+		>=dev-java/jdbc-postgresql-8.3_p603:0
+		~dev-java/tomcat-servlet-api-3:2.2
+	)"
 
 S="${WORKDIR}"
 BUILDDESTINATION="${S}/nbbuild/netbeans"
@@ -147,8 +155,9 @@ src_unpack () {
 
 	place_unpack_symlinks
 
-	einfo "Removing rest of the bundled jars..."
-	#find "${S}" -type f -name "*.jar" | xargs rm -v
+	# We do not remove jars that we are not able to replace atm
+	#einfo "Removing rest of the bundled jars..."
+	#find "${S}" -type f -name "*.jar" | grep -v "tomcat-webserver-3.2.jar" | xargs rm -v
 }
 
 src_compile() {
@@ -335,21 +344,25 @@ place_unpack_symlinks() {
 
 	einfo "Symlinking compilation-time jars"
 
-	#dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
 	dosymcompilejar "javahelp/external" javahelp jh.jar jh-2.0_05.jar
 	dosymcompilejar "o.jdesktop.layout/external" swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 	dosymcompilejar "libs.jna/external" jna jna.jar jna-3.0.2.jar
 	dosymcompilejar "libs.jsr223/external" jsr223 script-api.jar jsr223-api.jar
 	dosymcompilejar "libs.junit4/external" junit-4 junit.jar junit-4.1.jar
 
-	#if use ide ; then
+	if use ide ; then
+		dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
+		dosymcompilejar "db.drivers/external" jdbc-postgresql jdbc-postgresql.jar postgresql-8.3-603.jdbc3.jar
+		dosymcompilejar "db.drivers/external" jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.5-bin.jar
+		dosymcompilejar "db.sql.visualeditor/external" javacc javacc.jar javacc-3.2.jar
+		dosymcompilejar "servletapi/external" tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
+		dosymcompilejar "libs.commons_logging/external" commons-logging commons-logging.jar commons-logging-1.1.jar
+		dosymcompilejar "libs.jakarta_oro/external" jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
+
 		#dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
 		#dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
 		#dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
-		#dosymcompilejar "db.sql.visualeditor/external" javacc javacc.jar javacc-3.2.jar
-		#dosymcompilejar "servletapi/external" tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
 		#cp "${WORKDIR}/tomcat-webserver-3.2.jar" "${S}/httpserver/external/tomcat-webserver-3.2.jar" || die "Cannot copy file"
-		#dosymcompilejar "libs.commons_logging/external" commons-logging commons-logging.jar commons-logging-1.0.4.jar
 		#dosymcompilejar "libs.freemarker/external" freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
 		#dosymcompilejar "libs.ini4j/external" ini4j ini4j.jar ini4j-0.2.6.jar
 		#dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.24.jar
@@ -387,7 +400,7 @@ place_unpack_symlinks() {
 		#dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar || die "Cannot copy file"
 		#dosymcompilejar "visdev.prefuse/external" prefuse-2006 prefuse.jar prefuse-beta.jar
 		#dosymcompilejar "j2eeapis/external" sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
-	#fi
+	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
 		die "Some compilation-time jars could not be symlinked"

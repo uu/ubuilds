@@ -4,6 +4,10 @@
 
   30 Aug 2008; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.5_beta.ebuild:
+  Partially unbundled jars needed for ide cluster
+
+  30 Aug 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.5_beta.ebuild:
   Unbundled jars needed for netbeans platform
 
   13 Aug 2008; Miroslav Šulc <fordfrog@gentoo.org>
