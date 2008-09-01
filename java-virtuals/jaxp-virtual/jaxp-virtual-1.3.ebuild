@@ -23,4 +23,4 @@ RDEPEND="|| (
 		>=dev-java/java-config-2.1.6"
 
 JAVA_VIRTUAL_PROVIDES="gnu-jaxp"
-JAVA_VIRTUAL_VM="sun-jdk-1.5 ibm-jdk-bin-1.5"
+JAVA_VIRTUAL_VM="icedtea6 gcj-jdk jamvm cacao sun-jdk-1.5 ibm-jdk-bin-1.5"
