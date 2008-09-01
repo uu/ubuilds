@@ -32,11 +32,22 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/swing-layout-1:1
 	ide? (
 		>=dev-java/commons-logging-1.1:0
+		>=dev-java/commons-net-1.4:0
+		>=dev-java/flyingsaucer-7:0
+		>=dev-java/freemarker-2.3.8:2.3
+		>=dev-java/ini4j-0.2.6:0
 		>=dev-java/jakarta-oro-2:2.0
 		>=dev-java/javacc-3.2:0
+		>=dev-java/jaxb-2:2
+		>=dev-java/jaxb-tools-2:2
 		>=dev-java/jdbc-mysql-5.1:0
 		>=dev-java/jdbc-postgresql-8.3_p603:0
+		>=dev-java/jsch-0.1.24:0
+		dev-java/jsr173:0
+		>=dev-java/lucene-2.2:2
+		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
+		>=dev-java/xerces-2.8.1:2
 	)"
 
 S="${WORKDIR}"
@@ -156,8 +167,13 @@ src_unpack () {
 	place_unpack_symlinks
 
 	# We do not remove jars that we are not able to replace atm
-	#einfo "Removing rest of the bundled jars..."
-	#find "${S}" -type f -name "*.jar" | grep -v "tomcat-webserver-3.2.jar" | xargs rm -v
+	if [ -n "${JAVA_PKG_NB_REMOVE_BUNDLED}" ] ; then
+		einfo "Removing rest of the bundled jars..."
+		find "${S}" -type f -name "*.jar" | grep -v "tomcat-webserver-3.2.jar" | \
+			grep -v "svnClientAdapter-1.4.0.jar" | grep -v "resolver-1.2.jar" | \
+			grep -v "svnjavahl-1.5.0.jar" | grep -v "jaxb-xjc.jar" | \
+			grep -v "jaxb-impl.jar" | grep -v "javac-api-nb-7.0-b07.jar" | xargs rm -v
+	fi
 }
 
 src_compile() {
@@ -239,6 +255,9 @@ src_compile() {
 	if [[ -e ${BUILDDESTINATION}/etc/netbeans.conf ]]; then
 		echo "netbeans_jdkhome=\"\$(java-config -O)\"" >> ${BUILDDESTINATION}/etc/netbeans.conf
 	fi
+
+	# Install Gentoo Netbeans ID
+	echo "NBGNT" > ${BUILDDESTINATION}/nb${SLOT}/config/productid || die "Could not set Gentoo Netbeans ID"
 
 	# fix paths per bug# 163483
 	if [[ -e ${BUILDDESTINATION}/bin/netbeans ]]; then
@@ -358,48 +377,21 @@ place_unpack_symlinks() {
 		dosymcompilejar "servletapi/external" tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
 		dosymcompilejar "libs.commons_logging/external" commons-logging commons-logging.jar commons-logging-1.1.jar
 		dosymcompilejar "libs.jakarta_oro/external" jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
-
-		#dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
-		#dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
-		#dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
-		#cp "${WORKDIR}/tomcat-webserver-3.2.jar" "${S}/httpserver/external/tomcat-webserver-3.2.jar" || die "Cannot copy file"
-		#dosymcompilejar "libs.freemarker/external" freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
-		#dosymcompilejar "libs.ini4j/external" ini4j ini4j.jar ini4j-0.2.6.jar
-		#dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.24.jar
-		#dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.2.0.jar
-		#dosymcompilejar "libs.svnClientAdapter/external" netbeans-svnclientadapter svnClientAdapter.jar svnClientAdapter-0.9.23.jar
-		#dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
-		#cp "${WORKDIR}/resolver-1.2.jar" "${S}/o.apache.xml.resolver/external/resolver-1.2.jar" || die "Cannot copy file"
-		#cp "${WORKDIR}/javac-api-nb-7.0-b07.jar" "${S}/libs.javacapi/external/javac-api-nb-7.0-b07.jar" || die "Cannot copy file"
-		#cp "${WORKDIR}/javac-impl-nb-7.0-b07.jar" "${S}/libs.javacimpl/external/javac-impl-nb-7.0-b07.jar" || die "Cannot copy file"
-		#dosymcompilejar "form/external" beansbinding beansbinding.jar beansbinding-1.2.1.jar
-		#dosymcompilejar "j2ee.toplinklib/external" glassfish-persistence glassfish-persistence.jar glassfish-persistence-v2-build-58g.jar
-		#cp "${WORKDIR}/appframework-1.0.3.jar" "${S}/swingapp/external/appframework-1.0.3.jar" || die "Cannot copy file"
-		#dosymcompilejar "swingapp/external" swing-worker swing-worker.jar swing-worker-1.1.jar
-		#mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api"
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jaxb-2 jaxb-api.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr173 jsr173.jar jsr173_api.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr181 jsr181.jar jsr181-api.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr250 jsr250.jar jsr250-api.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21/api" jsr67 jsr67.jar saaj-api.jar
-		#mkdir -p "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21"
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-tools-2 jax-ws-tools.jar jaxws-tools.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jax-ws-2 jax-ws.jar jaxws-rt.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" jaxb-2 jaxb-impl.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-jaf
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sjsxp
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xmlstreambuffer
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" stax-ex
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" saaj saaj.jar saaj-impl.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" fastinfoset fastinfoset.jar FastInfoset.jar
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" sun-httpserver-bin-2
-		#java-pkg_jar-from --into "${S}/nbbuild/netbeans/java2/modules/ext/jaxws21" xml-commons
-		#cp "${WORKDIR}/jxpath1.1.jar" "${S}/libs.jxpath/external/jxpath1.1.jar" || die "Cannot copy file"
-		#dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar || die "Cannot copy file"
-		#dosymcompilejar "visdev.prefuse/external" prefuse-2006 prefuse.jar prefuse-beta.jar
-		#dosymcompilejar "j2eeapis/external" sun-j2ee-deployment-bin-1.1 sun-j2ee-deployment-bin.jar jsr88javax.jar
+		dosymcompilejar "libs.commons_net/external" commons-net commons-net.jar commons-net-1.4.1.jar
+		dosymcompilejar "libs.freemarker/external" freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
+		dosymcompilejar "libs.ini4j/external" ini4j ini4j.jar ini4j-0.2.6.jar
+		dosymcompilejar "libs.jaxb/external" jsr173 jsr173.jar jsr173_api.jar
+		dosymcompilejar "libs.jaxb/external" jaxb-2 jaxb-api.jar jaxb-api.jar
+		dosymcompilejar "libs.jaxb/external" sun-jaf activation.jar activation.jar
+		#dosymcompilejar "libs.jaxb/external" jaxb-2 jaxb-impl.jar jaxb-impl.jar
+		#dosymcompilejar "libs.jaxb/external" jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
+		#dosymcompilejar "o.apache.xml.resolver/external" xml-commons resolver.jar resolver-1.2.jar
+		dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.24.jar
+		dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.2.0.jar
+		# svnClientAdapter
+		# svnjavahl
+		dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
+		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
 	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
@@ -418,6 +410,9 @@ symlink_extjars() {
 	dosyminstjar ${targetdir} jsr223 script-api.jar script-api.jar
 	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.1.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
+
+	#if use ide ; then
+	#fi
 
 	if [ -n "${NB_DOSYMINSTJARFAILED}" ] ; then
 		die "Some runtime jars could not be symlinked"
