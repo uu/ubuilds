@@ -103,7 +103,7 @@ src_compile() {
 
 	econf ${config} \
 		--with-openjdk-src-zip="${T}/openjdk-rezipped.zip" \
-		$(use_enable debug optimizations) \
+		$(use_enable !debug optimizations) \
 		$(use_enable doc docs) \
 		$(use_enable nsplugin gcjwebplugin) \
 		|| die "configure failed"

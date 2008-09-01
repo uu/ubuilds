@@ -2,6 +2,9 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  01 Sep 2008; Andrew John Hughes <gnu_andrew@member.fsf.org> icedtea-1.7.ebuild icedtea-9999.ebuild:
+	Merge changes from icedtea6 ebuilds and update to b33.
+	
   29 Aug 2008; Vlastimil Babka <caster@gentoo.org> -icedtea-1.6.ebuild:
   Remove the old 1.6 version.
 

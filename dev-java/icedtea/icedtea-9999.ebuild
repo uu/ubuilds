@@ -7,8 +7,8 @@ EAPI="1"
 inherit autotools pax-utils java-pkg-2 java-utils-2 java-vm-2 mercurial
 
 DESCRIPTION="A harness to build the OpenJDK using Free Software build tools and dependencies"
-OPENJDK_BUILD="31"
-OPENJDK_DATE="17_jul_2008"
+OPENJDK_BUILD="33"
+OPENJDK_DATE="14_aug_2008"
 OPENJDK_TARBALL="openjdk-7-ea-src-b${OPENJDK_BUILD}-${OPENJDK_DATE}.zip"
 SRC_URI="http://download.java.net/openjdk/jdk7/promoted/b${OPENJDK_BUILD}/${OPENJDK_TARBALL}"
 HOMEPAGE="http://icedtea.classpath.org"
@@ -26,6 +26,7 @@ RDEPEND=">=net-print/cups-1.2.12
 	 >=media-libs/alsa-lib-1.0
 	 >=x11-libs/gtk+-2.8
 	 >=x11-libs/libXinerama-1.0.2
+	 x11-proto/inputproto
 	 >=media-libs/jpeg-6b
 	 >=media-libs/libpng-1.2
 	 >=media-libs/giflib-4.1.6
@@ -46,7 +47,8 @@ DEPEND="${RDEPEND}
 	>=dev-java/xalan-2.7.0
 	>=dev-java/xerces-2.9.1
 	>=dev-java/ant-core-1.7.0-r3
-	>=dev-java/eclipse-ecj-3.2.1
+	|| (	>=dev-java/eclipse-ecj-3.2.1:3.2
+			dev-java/eclipse-ecj:3.3 )
 	javascript? ( dev-java/rhino:1.6 )"
 
 pkg_setup() {
@@ -61,7 +63,6 @@ pkg_setup() {
 }
 src_unpack() {
 	mercurial_src_unpack
-	einfo "Fixing naming of directory from ${PN} to ${PN}-${PV}..."
 	S="${WORKDIR}"/"${PN}"
 	cd "${S}"
 	eautoreconf || die "failed to regenerate autoconf infrastructure"
@@ -76,7 +77,7 @@ src_compile() {
 		config="${config} --with-icedtea-home=$(java-config -O)"
 	else
 		# For other 1.5 JDKs e.g. GCJ, CACAO, JamVM.
-		config="${config} --with-ecj-jar=$(ls -r /usr/share/eclipse-ecj-3.*/lib/ecj.jar|head -n 1)" \
+		config="${config} --with-ecj-jar=$(ls -1r /usr/share/eclipse-ecj-3.[23]/lib/ecj.jar|head -n 1)" \
 		config="${config} --with-libgcj-jar=$(java-config -O)/jre/lib/rt.jar"
 		config="${config} --with-gcj-home=$(java-config -O)"
 	fi
@@ -89,12 +90,12 @@ src_compile() {
 	fi
 
 	if use_zero ; then
-		zero="${config} --enable-zero"
+		config="${config} --enable-zero"
 	else
-		zero="${config} --disable-zero"
+		config="${config} --disable-zero"
 	fi
 
-	if use rhino ; then
+	if use javascript ; then
 		rhino_jar=$(java-pkg_getjar rhino:1.6 js.jar);
 	fi
 
@@ -102,7 +103,7 @@ src_compile() {
 
 	econf ${config} \
 		--with-openjdk-src-zip="${DISTDIR}/${OPENJDK_TARBALL}" \
-		$(use_enable debug optimizations) \
+		$(use_enable !debug optimizations) \
 		$(use_enable doc docs) \
 		$(use_enable nsplugin gcjwebplugin) \
 		$(use_with javascript rhino ${rhino_jar}) \
@@ -133,7 +134,6 @@ src_install() {
 	pax-mark m $(list-paxables "${ddest}"{,/jre}/bin/*)
 
 	dodoc ASSEMBLY_EXCEPTION THIRD_PARTY_README || die
-	dohtml README.html || die
 
 	if use examples; then
 		dodir "${dest}/share";
