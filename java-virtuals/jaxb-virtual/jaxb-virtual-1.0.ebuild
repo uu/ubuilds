@@ -23,5 +23,5 @@ RDEPEND="|| (
 		)
 		>=dev-java/java-config-2.1.6"
 
-JAVA_VIRTUAL_PROVIDES="jaxb-1"
+JAVA_VIRTUAL_PROVIDES="jaxb-1 jaxme"
 JAVA_VIRTUAL_VM="icedtea6 sun-jdk-1.6 ibm-jdk-bin-1.6"

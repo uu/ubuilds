@@ -19,7 +19,6 @@ DEPEND=""
 RDEPEND="|| (
 			=virtual/jdk-1.6*
 			>=dev-java/stax-1.2.1-r1
-			dev-java/jsr173
 		)
 		>=dev-java/java-config-2.1.6
 		"
