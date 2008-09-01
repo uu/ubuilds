@@ -19,7 +19,24 @@ IUSE_NETBEANS="apisupport cnd groovy gsf harness ide identity j2ee java mobility
 IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa uml visualweb webcommon websvccommon xml linguas_ja linguas_pt_BR linguas_zh_CN"
 
 RDEPEND=">=virtual/jdk-1.5
-	>=dev-java/ant-core-1.7.1_beta2"
+	>=dev-java/ant-core-1.7.1_beta2
+	ide? (
+		>=dev-java/commons-logging-1.1:0
+		>=dev-java/commons-net-1.4:0
+		>=dev-java/flyingsaucer-7:0
+		>=dev-java/freemarker-2.3.8:2.3
+		>=dev-java/ini4j-0.2.6:0
+		>=dev-java/jakarta-oro-2:2.0
+		>=dev-java/jaxb-2:2
+		>=dev-java/jdbc-mysql-5.1:0
+		>=dev-java/jdbc-postgresql-8.3_p603:0
+		>=dev-java/jsch-0.1.24:0
+		dev-java/jsr173:0
+		>=dev-java/lucene-2.2:2
+		dev-java/sun-jaf:0
+		~dev-java/tomcat-servlet-api-3:2.2
+		>=dev-java/xerces-2.8.1:2
+	)"
 
 DEPEND="=virtual/jdk-1.5*
 	app-arch/unzip
@@ -411,8 +428,33 @@ symlink_extjars() {
 	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.1.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 
-	#if use ide ; then
-	#fi
+	if use ide ; then
+		targetdir="ide${IDE_VERSION}/modules/ext"
+		dosyminstjar ${targetdir} commons-logging commons-logging.jar commons-logging-1.1.jar
+		dosyminstjar ${targetdir} commons-net commons-net.jar commons-net-1.4.1.jar
+		dosyminstjar ${targetdir} flyingsaucer core-renderer.jar core-renderer.jar
+		dosyminstjar ${targetdir} freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
+		dosyminstjar ${targetdir} ini4j ini4j.jar ini4j-0.2.6.jar
+		dosyminstjar ${targetdir} jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
+		dosyminstjar ${targetdir} jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.5-bin.jar
+		dosyminstjar ${targetdir} jdbc-postgresql jdbc-postgresql.jar postgresql-8.3-603.jdbc3.jar
+		dosyminstjar ${targetdir} jsch jsch.jar jsch-0.1.24.jar
+		dosyminstjar ${targetdir} lucene-2 lucene-core.jar lucene-core-2.2.0.jar
+		# resolver-1.2.jar
+		dosyminstjar ${targetdir} tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
+		# svnClientAdapter-1.4.0.jar
+		# svnjavahl-1.5.0.jar
+		# webserver.jar
+		dosyminstjar ${targetdir} xerces-2 xercesImpl.jar xerces-2.8.0.jar
+		targetdir="ide${IDE_VERSION}/modules/ext/jaxb"
+		dosyminstjar ${targetdir} sun-jaf activation.jar activation.jar
+		# jaxb-impl.jar
+		# jaxb-xjc.jar
+		targetdir="ide${IDE_VERSION}/modules/ext/jaxb/api"
+		dosyminstjar ${targetdir} jsr173 jsr173.jar jsr173_api.jar
+		dosyminstjar ${targetdir} jaxb-2 jaxb-api.jar jaxb-api.jar
+	fi
+
 
 	if [ -n "${NB_DOSYMINSTJARFAILED}" ] ; then
 		die "Some runtime jars could not be symlinked"

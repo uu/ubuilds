@@ -4,6 +4,10 @@
 
   01 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.5_beta.ebuild:
+  Unbundled jars for ide cluster needed for runtime
+
+  01 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.5_beta.ebuild:
   Unbundled ide cluster compile time jars, added Gentoo NetBeans ID
 
   30 Aug 2008; Miroslav Šulc <fordfrog@gentoo.org>
