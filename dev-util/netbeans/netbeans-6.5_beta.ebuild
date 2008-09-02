@@ -188,20 +188,24 @@ src_unpack () {
 
 	# We do not remove jars that we are not able to replace atm
 	if [ -n "${JAVA_PKG_NB_REMOVE_BUNDLED}" ] ; then
+		local tmpfile="${T}/bundled.txt"
+
 		einfo "Removing rest of the bundled jars..."
-		local list=`find "${S}" -type f -name "*.jar"`
+		find "${S}" -type f -name "*.jar" > ${tmpfile} || die "Cannot put jars in tmp file"
 
 		if use ide ; then
-			list=`echo ${list} | grep -v "libs.jaxb/external/jaxb-xjc.jar" | \
+			local tmpfileide="${T}/bundled-ide.txt"
+			cat ${tmpfile} | grep -v "libs.jaxb/external/jaxb-xjc.jar" | \
 				grep -v "libs.jaxb/external/jaxb-impl.jar" | \
 				grep -v "libs.svnClientAdapter/external/svnjavahl-1.5.0.jar" | \
 				grep -v "libs.svnClientAdapter/external/svnClientAdapter-1.4.0.jar" | \
 				grep -v "o.apache.xml.resolver/external/resolver-1.2.jar" | \
 				grep -v "libs.javacapi/external/javac-api-nb-7.0-b07.jar" | \
-				grep -v "httpserver/external/tomcat-webserver-3.2.jar"`
+				grep -v "httpserver/external/tomcat-webserver-3.2.jar" > ${tmpfileide}
+			mv ${tmpfileide} ${tmpfile}
 		fi
 
-		echo ${list} | xargs rm -v
+		cat ${tmpfile} | xargs rm -v
 	fi
 }
 
