@@ -20,6 +20,9 @@ IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mob
 
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/ant-core-1.7.1_beta2
+	harness? (
+		>=dev-java/javahelp-2:0
+	)
 	ide? (
 		>=dev-java/commons-logging-1.1:0
 		>=dev-java/commons-net-1.4:0
@@ -186,10 +189,19 @@ src_unpack () {
 	# We do not remove jars that we are not able to replace atm
 	if [ -n "${JAVA_PKG_NB_REMOVE_BUNDLED}" ] ; then
 		einfo "Removing rest of the bundled jars..."
-		find "${S}" -type f -name "*.jar" | grep -v "tomcat-webserver-3.2.jar" | \
-			grep -v "svnClientAdapter-1.4.0.jar" | grep -v "resolver-1.2.jar" | \
-			grep -v "svnjavahl-1.5.0.jar" | grep -v "jaxb-xjc.jar" | \
-			grep -v "jaxb-impl.jar" | grep -v "javac-api-nb-7.0-b07.jar" | xargs rm -v
+		local list=`find "${S}" -type f -name "*.jar"`
+
+		if use ide ; then
+			list=`echo ${list} | grep -v "libs.jaxb/external/jaxb-xjc.jar" | \
+				grep -v "libs.jaxb/external/jaxb-impl.jar" | \
+				grep -v "libs.svnClientAdapter/external/svnjavahl-1.5.0.jar" | \
+				grep -v "libs.svnClientAdapter/external/svnClientAdapter-1.4.0.jar" | \
+				grep -v "o.apache.xml.resolver/external/resolver-1.2.jar" | \
+				grep -v "libs.javacapi/external/javac-api-nb-7.0-b07.jar" | \
+				grep -v "httpserver/external/tomcat-webserver-3.2.jar"`
+		fi
+
+		echo ${list} | xargs rm -v
 	fi
 }
 
@@ -386,8 +398,11 @@ place_unpack_symlinks() {
 	dosymcompilejar "libs.jsr223/external" jsr223 script-api.jar jsr223-api.jar
 	dosymcompilejar "libs.junit4/external" junit-4 junit.jar junit-4.1.jar
 
-	if use ide ; then
+	if use harness || use ide ; then
 		dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
+	fi
+
+	if use ide ; then
 		dosymcompilejar "db.drivers/external" jdbc-postgresql jdbc-postgresql.jar postgresql-8.3-603.jdbc3.jar
 		dosymcompilejar "db.drivers/external" jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.5-bin.jar
 		dosymcompilejar "db.sql.visualeditor/external" javacc javacc.jar javacc-3.2.jar
@@ -407,6 +422,8 @@ place_unpack_symlinks() {
 		dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.2.0.jar
 		# svnClientAdapter
 		# svnjavahl
+		# javac-api-nb-7.0-b07.jar
+		# tomcat-webserver-3.2.jar
 		dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
 		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
 	fi
@@ -427,6 +444,11 @@ symlink_extjars() {
 	dosyminstjar ${targetdir} jsr223 script-api.jar script-api.jar
 	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.1.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
+
+	if use harness ; then
+		targetdir="harness"
+		dosyminstjar ${targetdir} javahelp jhall.jar jsearch-2.0_05.jar
+	fi
 
 	if use ide ; then
 		targetdir="ide${IDE_VERSION}/modules/ext"
