@@ -2,6 +2,15 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*sun-jdk-1.7.0.0_alpha34 (31 Aug 2008)
+
+  31 Aug 2008; Fabian Fingerle <fabian@datensalat.eu>
+  +sun-jdk-1.7.0.0_alpha34.ebuild:
+  Bump.
+  sun-jdk-1.7.0.0_alpha33.ebuild:
+  Update BASE_URL.
+  -sun-jdk-1.7.0.0_alpha31.ebuild -sun-jdk-1.7.0.0_alpha32.ebuild
+
   29 Aug 2008; Vlastimil Babka <caster@gentoo.org>
   sun-jdk-1.6.0.10_beta28.ebuild:
   Install both classic and next generation nsplugin (plugin2), bug #235869.
@@ -10,7 +19,7 @@
   sun-jdk-1.6.0.10_beta28.ebuild:
   Add plugin2 USE flag for Next-Generation Java™ Plug-In.
 
-*sun-jdk-1.7.0.0_alpha33 (15 Aug 2007)
+*sun-jdk-1.7.0.0_alpha33 (15 Aug 2008)
 
   15 Aug 2008; Petteri Räty <betelgeuse@gentoo.org>
   +sun-jdk-1.7.0.0_alpha33.ebuild:
