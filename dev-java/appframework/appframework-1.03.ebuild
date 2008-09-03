@@ -49,7 +49,7 @@ src_unpack() {
 }
 
 src_install() {
-	java-pkg_dojar "${PN}.jar"
+	java-pkg_newjar ${S}/dist/AppFramework.jar "${PN}.jar"
 	use doc && java-pkg_dojavadoc build/javadoc
 	use source && java-pkg_dosrc src/org
 	use examples && java-pkg_doexamples src/examples/*
