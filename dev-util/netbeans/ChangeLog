@@ -2,6 +2,10 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.5_beta.ebuild:
+  Unbundled compile time jars needed for java cluster
+
   02 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.5_beta.ebuild:
   Fixed removal of bundled jars

@@ -68,6 +68,12 @@ DEPEND="=virtual/jdk-1.5*
 		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
+	)
+	java? (
+		>=dev-java/appframework-1:0
+		>=dev-java/beansbinding-1.2.1:0
+		>=dev-java/cglib-2.1:2.1
+		>=dev-java/junit-3.8.2:0
 	)"
 
 S="${WORKDIR}"
@@ -203,6 +209,15 @@ src_unpack () {
 				grep -v "libs.javacapi/external/javac-api-nb-7.0-b07.jar" | \
 				grep -v "httpserver/external/tomcat-webserver-3.2.jar" > ${tmpfileide}
 			mv ${tmpfileide} ${tmpfile}
+		fi
+
+		if use java ; then
+			local tmpfilejava="${T}/bundled-java.txt"
+			cat ${tmpfile} | grep -v "libs.javacimpl/external/javac-impl-nb-7.0-b07.jar" | \
+				grep -v "j2ee.toplinklib/external/glassfish-persistence-v2ur1-build-09d.jar" | \
+				grep -v "junit/external/Ant-1.7.1-binary-patch-72080.jar" |
+				grep -v "libs.springframework/external/spring-2.5.jar" > ${tmpfilejava}
+			mv ${tmpfilejava} ${tmpfile}
 		fi
 
 		cat ${tmpfile} | xargs rm -v
@@ -430,6 +445,17 @@ place_unpack_symlinks() {
 		# tomcat-webserver-3.2.jar
 		dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
 		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
+	fi
+
+	if use java ; then
+		# javac-impl-nb-7.0-b07.jar
+		dosymcompilejar "o.jdesktop.beansbinding/external" beansbinding beansbinding.jar beansbinding-1.2.1.jar
+		# glassfish-persistence-v2ur1-build-09d.jar
+		# Ant-1.7.1-binary-patch-72080.jar
+		dosymcompilejar "junit/external" junit junit.jar junit-3.8.2.jar
+		dosymcompilejar "libs.cglib/external" cglib-2.1 cglib.jar cglib-2.2.jar
+		# spring-2.5.jar
+		dosymcompilejar "swingapp/external" appframework appframework.jar appframework-1.0.3.jar
 	fi
 
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
