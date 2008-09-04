@@ -16,7 +16,7 @@ HOMEPAGE="http://annotations.hibernate.org"
 SRC_URI="mirror://sourceforge/hibernate/${MY_P}.tar.gz mirror://sourceforge/hibernate/${HIBERNATE_P}.tar.gz"
 LICENSE="LGPL-2.1"
 SLOT="3.2"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
@@ -62,7 +62,7 @@ src_unpack() {
 	java-pkg_jar-from cglib-2.1 cglib.jar
 	java-pkg_jar-from ant-antlr ant-antlr.jar
 	java-pkg_jar-from antlr
-	java-pkg_jar-from ant-core ant.jar
+	java-pkg_jar-from --build-only ant-core ant.jar
 	java-pkg_jar-from asm-1.5 asm.jar
 	java-pkg_jar-from asm-1.5 asm-attrs.jar
 	java-pkg_jar-from hibernate-${SLOT}
