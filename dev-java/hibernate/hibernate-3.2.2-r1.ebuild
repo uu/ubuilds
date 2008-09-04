@@ -26,7 +26,7 @@ COMMON_DEPEND="
 	dev-java/commons-collections
 	dev-java/commons-logging
 	=dev-java/dom4j-1*
-	>=dev-java/ehcache-1.2.4
+	>=dev-java/ehcache-1.2.4:1.4
 	=dev-java/jaxen-1.1*
 	dev-java/log4j
 	dev-java/oscache
@@ -73,7 +73,7 @@ src_unpack() {
 	rm *.jar
 
 	local JAR_PACKAGES="c3p0 commons-collections javassist-3
-		commons-logging dom4j-1 ehcache-1.2 jaxen-1.1
+		commons-logging dom4j-1 ehcache-1.4 jaxen-1.1
 		log4j oscache proxool swarmcache-1.0 xerces-2 jgroups jta"
 	for PACKAGE in ${JAR_PACKAGES}; do
 		java-pkg_jar-from ${PACKAGE}

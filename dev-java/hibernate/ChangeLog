@@ -4,6 +4,10 @@
 
   04 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
   hibernate-3.2.2-r1.ebuild:
+  Fixed ehcache dependency
+
+  04 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  hibernate-3.2.2-r1.ebuild:
   Fixed ant-tasks dependency
 
   25 May 2007; Vlastimil Babka <caster@gentoo.org>
