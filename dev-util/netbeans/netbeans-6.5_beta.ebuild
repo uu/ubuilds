@@ -39,6 +39,38 @@ RDEPEND=">=virtual/jdk-1.5
 		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
+	)
+	java? (
+		>=dev-java/ant-1.7:0
+		>=dev-java/antlr-2.7.6:0
+		>=dev-java/appframework-1:0
+		dev-java/asm:2.2
+		>=dev-java/beansbinding-1.2.1:0
+		>=dev-java/cglib-2.1:2.1
+		dev-java/commons-collections:0
+		>=dev-java/dom4j-1.6:1
+		dev-java/ehcache:1.4
+		dev-java/fastinfoset:0
+		dev-java/glassfish-persistence:0
+		dev-java/glassfish-transaction-api:0
+		dev-java/hibernate:3.2
+		dev-java/hibernate-annotations:3.2
+		dev-java/hibernate-entitymanager:3.2
+		dev-java/javassist:3
+		dev-java/jax-ws:2
+		dev-java/jax-ws-api:2
+		dev-java/jax-ws-tools:2
+		dev-java/jdbc2-stdext:0
+		dev-java/jsr181:0
+		dev-java/jsr250:0
+		dev-java/jsr67:0
+		dev-java/jtidy:0
+		>=dev-java/junit-3.8.2:0
+		dev-java/saaj:0
+		dev-java/sjsxp:0
+		dev-java/stax-ex:0
+		dev-java/toplink-essentials:0
+		dev-java/xmlstreambuffer:0
 	)"
 
 DEPEND="=virtual/jdk-1.5*
@@ -507,6 +539,62 @@ symlink_extjars() {
 		dosyminstjar ${targetdir} jaxb-2 jaxb-api.jar jaxb-api.jar
 	fi
 
+	if use java ; then
+		targetdir="java2/ant/etc"
+		dosyminstjar ${targetdir} ant ant-bootstrap.jar ant-bootstrap.jar
+		targetdir="java2/ant/nblib"
+		# bridge.jar
+		targetdir="java2/ant/patches"
+		# 72080.jar
+		targetdir="java2/modules"
+		# org-apache-tools-ant-module.jar
+		targetdir="java2/modules/ext"
+		dosyminstjar ${targetdir} appframework appframework.jar appframework-1.0.3.jar
+		dosyminstjar ${targetdir} beansbinding beansbinding.jar beansbinding-1.2.1.jar
+		dosyminstjar ${targetdir} cglib-2.1 cglib.jar cglib-2.2.jar
+		# javac-impl-nb-7.0-b07.jar
+		# javac-api-nb-7.0-b07.jar
+		dosyminstjar ${targetdir} junit junit.jar junit-3.8.2.jar
+		targetdir="java2/modules/ext/jaxws21"
+		dosyminstjar ${targetdir} fastinfoset fastinfoset.jar FastInfoset.jar
+		# http.jar
+		dosyminstjar ${targetdir} jax-ws-2 jax-ws.jar jaxws-rt.jar
+		dosyminstjar ${targetdir} jaxb-tools-2 jaxb-tools.jar jaxws-tools.jar
+		# mimepull.jar
+		# resolver.jar
+		dosyminstjar ${targetdir} saaj saaj.jar saaj-impl.jar
+		dosyminstjar ${targetdir} sjsxp sjsxp.jar sjsxp.jar
+		dosyminstjar ${targetdir} stax-ex stax-ex.jar stax-ex.jar
+		dosyminstjar ${targetdir} xmlstreambuffer streambuffer.jar streambuffer.jar
+		targetdir="java2/modules/ext/jaxws21/api"
+		dosyminstjar ${targetdir} jax-ws-api-2 jax-ws-api.jar jaxws-api.jar
+		dosyminstjar ${targetdir} jsr181 jsr181.jar jsr181-api.jar
+		dosyminstjar ${targetdir} jsr250 jsr250.jar jsr250-api.jar
+		dosyminstjar ${targetdir} jsr67 jsr67.jar saaj-api.jar
+		targetdir="java2/modules/ext/hibernate"
+		dosyminstjar ${targetdir} antlr antlr.jar antlr-2.7.6.jar
+		dosyminstjar ${targetdir} asm-2.2 asm.jar asm.jar
+		dosyminstjar ${targetdir} asm-2.2 asm-attrs.jar asm-attrs.jar
+		dosyminstjar ${targetdir} cglib-2.1 cglib.jar cglib-2.1.3.jar
+		dosyminstjar ${targetdir} commons-collections commons-collections,jar commons-collections-2.1.1.jar
+		dosyminstjar ${targetdir} dom4j-1 dom4j.jar dom4j-1.6.1.jar
+		dosyminstjar ${targetdir} ehcache-1.4 ehcache.jar ehcache-1.2.3.jar
+		dosyminstjar ${targetdir} glassfish-persistence glassfish-persistence.jar ejb3-persistence.jar
+		dosyminstjar ${targetdir} hibernate-annotations-3.2 hibernate-annotations.jar hibernate-annotations.jar
+		# hibernate-commons-annotations.jar
+		dosyminstjar ${targetdir} hibernate-entitymanager hibernate-entitymanager.jar hibernate-entitymanager.jar
+		# hibernate-tools.jar
+		dosyminstjar ${targetdir} hibernate-3.2 hibernate3.jar hibernate3.jar
+		dosyminstjar ${targetdir} javassist-3 javassist.jar javassist.jar
+		dosyminstjar ${targetdir} jdbc2-stdext jdbc2-stdext.jar jdbc2_0-stdext.jar
+		dosyminstjar ${targetdir} glassfish-transaction-api jta.jar jta.jar
+		dosyminstjar ${targetdir} jtidy Tidy.jar jtidy-r8-20060801.jar
+		targetdir="java2/modules/ext/spring"
+		# spring-2.5.jar
+		targetdir="java2/modules/ext/toplink"
+		dosyminstjar ${targetdir} toplink-essentials toplink-essentials.jar toplink-essentials.jar
+		dosyminstjar ${targetdir} toplink-essentials toplink-essentials-agent.jar toplink-essentials-agent.jar
+	fi
 
 	if [ -n "${NB_DOSYMINSTJARFAILED}" ] ; then
 		die "Some runtime jars could not be symlinked"
