@@ -4,6 +4,10 @@
 
   04 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.5_beta.ebuild:
+  Unbundled gsf cluster jars
+
+  04 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.5_beta.ebuild:
   Unbundled java cluster runtime jars
 
   03 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>

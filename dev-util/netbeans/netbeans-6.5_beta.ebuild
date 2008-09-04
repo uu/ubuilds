@@ -82,6 +82,10 @@ DEPEND="=virtual/jdk-1.5*
 	dev-java/jsr223:0
 	>=dev-java/junit-4:4
 	>=dev-java/swing-layout-1:1
+	gsf? (
+		>=dev-java/flute-1.3:0
+		>=dev-java/sac-1.3:0
+	)
 	ide? (
 		>=dev-java/commons-logging-1.1:0
 		>=dev-java/commons-net-1.4:0
@@ -453,6 +457,11 @@ place_unpack_symlinks() {
 		dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
 	fi
 
+	if use gsf ; then
+		dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
+		dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
+	fi
+
 	if use ide ; then
 		dosymcompilejar "db.drivers/external" jdbc-postgresql jdbc-postgresql.jar postgresql-8.3-603.jdbc3.jar
 		dosymcompilejar "db.drivers/external" jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.5-bin.jar
@@ -506,6 +515,14 @@ symlink_extjars() {
 	dosyminstjar ${targetdir} jsr223 script-api.jar script-api.jar
 	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.1.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
+
+	if use gsf ; then
+		targetdir="gsf1/modules"
+		# org-mozilla-rhino-patched.jar
+		targetdir="gsf1/modules/ext"
+		dosyminstjar ${targetdir} flute flute.jar flute-1.3.jar
+		dosyminstjar ${targetdir} sac sac.jar sac-1.3.jar
+	fi
 
 	if use harness ; then
 		targetdir="harness"
