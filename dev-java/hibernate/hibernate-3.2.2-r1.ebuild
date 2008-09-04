@@ -18,7 +18,7 @@ SLOT="3.2"
 KEYWORDS="~x86 ~amd64"
 
 COMMON_DEPEND="
-	dev-java/ant-tasks
+	dev-java/ant-antlr
 	dev-java/antlr
 	=dev-java/asm-1.5*
 	dev-java/c3p0
@@ -93,7 +93,7 @@ src_unpack() {
 		java-pkg_jar-from sun-jacc-api
 	fi
 
-	java-pkg_jar-from ant-tasks ant-antlr.jar
+	java-pkg_jar-from ant-antlr ant-antlr.jar
 	java-pkg_jar-from antlr
 	java-pkg_jar-from --build-only ant-core ant.jar
 	java-pkg_jar-from asm-1.5 asm.jar
