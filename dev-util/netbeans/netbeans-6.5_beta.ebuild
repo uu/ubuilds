@@ -235,6 +235,12 @@ src_unpack () {
 		einfo "Removing rest of the bundled jars..."
 		find "${S}" -type f -name "*.jar" > ${tmpfile} || die "Cannot put jars in tmp file"
 
+		if use groovy ; then
+			local tmpfilegroovy="${T}/bundled-groovy.txt"
+			cat ${tmpfile} | grep -v "groovy.editor/external/groovy-all-1.5.6.jar" > ${tmpfilegroovy}
+			mv ${tmpfilegroovy} ${tmpfile}
+		fi
+
 		if use ide ; then
 			local tmpfileide="${T}/bundled-ide.txt"
 			cat ${tmpfile} | grep -v "libs.jaxb/external/jaxb-xjc.jar" | \
@@ -457,6 +463,10 @@ place_unpack_symlinks() {
 		dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
 	fi
 
+	#if use groovy ; then
+		#dosymcompilejar "groovy.editor/external" groovy-1 groovy.jar groovy-all-1.5.6.jar
+	#fi
+
 	if use gsf ; then
 		dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
 		dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
@@ -515,6 +525,11 @@ symlink_extjars() {
 	dosyminstjar ${targetdir} jsr223 script-api.jar script-api.jar
 	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.1.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
+
+	if use groovy ; then
+		targetdir="groovy1/modules/ext"
+		# groovy-all.jar
+	fi
 
 	if use gsf ; then
 		targetdir="gsf1/modules"
