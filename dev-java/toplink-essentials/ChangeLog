@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/toplink-essentuals
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  04 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  toplink-essentials-1.0.ebuild:
+  Fixed dependencies
 
   27 Jun 2007; Alistair John Bush <ali_bush@gentoo.org> ++,
   -toplink-essentuals-1.0.ebuild:

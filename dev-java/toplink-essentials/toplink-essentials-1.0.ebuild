@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -13,11 +13,15 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
 IUSE=""
 
+COMMON_DEPS="
+	dev-java/glassfish-persistence
+	dev-java/glassfish-transaction-api
+	"
 DEPEND="=virtual/jdk-1.5*
-		app-arch/unzip"
+	app-arch/unzip
+	${COMMON_DEPS}"
 RDEPEND="=virtual/jre-1.5*
-		dev-java/glassfish-persistence
-		dev-java/glassfish-transaction-api"
+	${COMMON_DEPS}"
 
 MODULE="entity-persistence"
 S="${WORKDIR}/glassfish"
