@@ -40,6 +40,21 @@ RDEPEND=">=virtual/jdk-1.5
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
 	)
+	j2ee? (
+		>=dev-java/antlr-2.7.6:0
+		>=dev-java/asm-3.1:3
+		dev-java/commons-beanutils:1.7
+		dev-java/commons-collections:0
+		dev-java/commons-digester:0
+		>=dev-java/commons-fileupload-1:0
+		>=dev-java/commons-logging-1.1:0
+		dev-java/commons-validator:0
+		>=dev-java/httpunit-1.6:0
+		dev-java/jakarta-jstl:0
+		>=dev-java/jakarta-oro-2:2.0
+		dev-java/jdom:1.0
+		dev-java/rome:0
+	)
 	java? (
 		>=dev-java/ant-1.7:0
 		>=dev-java/antlr-2.7.6:0
@@ -104,6 +119,12 @@ DEPEND="=virtual/jdk-1.5*
 		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
+	)
+	j2ee? (
+		>=dev-java/commons-fileupload-1:0
+		>=dev-java/httpunit-1.6:0
+		dev-java/jakarta-jstl:0
+		dev-java/tomcat-servlet-api:2.3
 	)
 	java? (
 		>=dev-java/appframework-1:0
@@ -251,6 +272,19 @@ src_unpack () {
 				grep -v "libs.javacapi/external/javac-api-nb-7.0-b07.jar" | \
 				grep -v "httpserver/external/tomcat-webserver-3.2.jar" > ${tmpfileide}
 			mv ${tmpfileide} ${tmpfile}
+		fi
+
+		if use j2ee ; then
+			local tmpfilej2ee="${T}/bundled-j2ee.txt"
+			cat ${tmpfile} | grep -v "j2eeapis/external/jsr88javax.jar" | \
+				grep -v "servletjspapi/external/servlet2.5-jsp2.1-api.jar" | \
+				grep -v "web.jspparser/external/glassfish-jspparser-2.0.jar" | \
+				grep -v "j2ee.sun.appsrv81/external/appservapis-2.0.58.3.jar" | \
+				grep -v "j2ee.sun.appsrv81/external/org-netbeans-modules-j2ee-sun-appsrv81.jar" | \
+				grep -v "libs.glassfish_logging/external/glassfish-logging-2.0.jar" | \
+				grep -v "spring.webmvc/external/spring-webmvc-2.5.jar" | \
+				grep -v "web.jsf/external/shale-remoting-1.0.4.jar" > ${tmpfilej2ee}
+			mv ${tmpfilej2ee} ${tmpfile}
 		fi
 
 		if use java ; then
@@ -498,6 +532,21 @@ place_unpack_symlinks() {
 		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
 	fi
 
+	if use j2ee ; then
+		# j2eeapis/external/jsr88javax.jar
+		# servlet2.5-jsp2.1-api.jar
+		# appservapis-2.0.58.3.jar
+		# org-netbeans-modules-j2ee-sun-appsrv81.jar
+		dosymcompilejar "libs.commons_fileupload/external" commons-fileupload commons-fileupload.jar commons-fileupload-1.0.jar
+		# glassfish-logging-2.0.jar
+		dosymcompilejar "libs.httpunit/external" httpunit httpunit.jar httpunit-1.6.2.jar
+		# spring-webmvc-2.5.jar
+		# shale-remoting-1.0.4.jar
+		dosymcompilejar "web.jstl11/external" jakarta-jstl jstl.jar jstl-1.1.2.jar
+		dosymcompilejar "web.jstl11/external" jakarta-jstl standard.jar standard-1.1.2.jar
+		dosymcompilejar "web.monitor/external" tomcat-servlet-api-2.3 servlet.jar servlet-2.3.jar
+	fi
+
 	if use java ; then
 		# javac-impl-nb-7.0-b07.jar
 		dosymcompilejar "o.jdesktop.beansbinding/external" beansbinding beansbinding.jar beansbinding-1.2.1.jar
@@ -569,6 +618,47 @@ symlink_extjars() {
 		targetdir="ide${IDE_VERSION}/modules/ext/jaxb/api"
 		dosyminstjar ${targetdir} jsr173 jsr173.jar jsr173_api.jar
 		dosyminstjar ${targetdir} jaxb-2 jaxb-api.jar jaxb-api.jar
+	fi
+
+	if use j2ee ; then
+		targetdir="/enterprise5/modules/ext"
+		dosyminstjar ${targetdir} commons-fileupload commons-fileupload commons-fileupload-1.0.jar
+		# glassfish-jspparser-2.0.jar
+		# glassfish-logging-2.0.jar
+		dosyminstjar ${targetdir} httpunit httpunit.jar httpunit-1.6.2.jar
+		dosyminstjar ${targetdir} jakarta-jstl jstl.jar jstl.jar
+		dosyminstjar ${targetdir} jakarta-jstl standard.jar standard.jar
+		# jsr88javax.jar
+		# servlet2.5-jsp2.1-api.jar
+		# shale-remoting-1.0.4.jar
+		targetdir="enterprise5/modules/ext/jsf-1_2"
+		dosyminstjar ${targetdir} commons-beanutils-1.7 commons-beanutils.jar commons-beanutils.jar
+		dosyminstjar ${targetdir} commons-collections commons-collections.jar commons-collections.jar
+		dosyminstjar ${targetdir} commons-digester commons-digester.jar commons-digester.jar
+		dosyminstjar ${targetdir} commons-logging commons-logging.jar commons-logging.jar
+		# jsf-impl.jar
+		# jsf-api.jar
+		targetdir="/enterprise5/modules/ext/rest"
+		dosyminstjar ${targetdir} asm-3 asm.jar asm-3.1.jar
+		# grizzly-servlet-webserver-1.7.3.2.jar
+		# http.jar
+		dosyminstjar ${targetdir} jdom-1.0 jdom.jar jdom-1.0.jar
+		# jersey.jar
+		# jersey-spring-0.9-ea-SNAPSHOT.jar
+		# jettison-1.0-RC1.jar
+		# jsr311-api.jar
+		dosyminstjar ${targetdir} rome rome.jar rome-0.9.jar
+		# wadl2java.jar
+		targetdir="enterprise5/modules/ext/spring"
+		# spring-webmvc-2.5.jar
+		targetdir="enterprise5/modules/ext/struts"
+		dosyminstjar ${targetdir} antlr antlr.jar antlr.jar
+		dosyminstjar ${targetdir} commons-beanutils-1.7 commons-beanutils.jar commons-beanutils.jar
+		dosyminstjar ${targetdir} commons-digester commons-digester.jar commons-digester.jar
+		dosyminstjar ${targetdir} commons-logging commons-logging.jar commons-logging.jar
+		dosyminstjar ${targetdir} commons-validator commons-validator.jar commons-validator.jar
+		dosyminstjar ${targetdir} jakarta-oro-2.0 jakarta-oro.jar jakarta-oro.jar
+		# struts.jar
 	fi
 
 	if use java ; then
