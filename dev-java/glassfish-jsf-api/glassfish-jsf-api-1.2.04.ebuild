@@ -50,7 +50,7 @@ src_unpack() {
 	java-pkg_jar-from commons-digester commons-digester.jar com-sun-commons-digester-1.5.jar
 	java-pkg_jar-from commons-logging commons-logging.jar com-sun-commons-logging-1.0.4.jar
 #	java-pkg_jar-from ? jstl.jar jstl-1.2.jar
-	java-pkg_jar-from jsr250 jsr250-api.jar jsr250-api-1.0.jar
+	java-pkg_jar-from jsr250 jsr250.jar jsr250-api-1.0.jar
 #	java-pkg_jar-from maven-repository-importer maven-repository-importer.jar maven-repository-importer-1.2.jar
 #	java-pkg_jar-from tlddoc tlddoc.jar tlddoc-1.3.jar
 	java-pkg_jar-from glassfish-servlet-api-2.5 servlet-api.jar servlet-api-2.5.jar

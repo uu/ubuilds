@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  05 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  glassfish-jsf-api-1.2.04.ebuild:
+  Partially fixed, still does not compile
+
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman
 
