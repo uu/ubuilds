@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>java</herd>
+	<maintainer>
+		<email>ali_bush@gentoo.org</email>
+		<name>Alistair Bush</name>
+	</maintainer>
+	<longdescription lang="en">
+This library is a collection of tools for parsing XML.  For better or worse,
+DOM and SAX are fairly heavy-weight and cumbersome parsing tools, which have
+lead others to create libraries such as JDOM and KXML (Enhydra).  For most
+of you, the Xerces library will be just fine, and I suggest you stick with
+that if performance is not a big problem.
+
+	</longdescription>
+</pkgmetadata>
+
