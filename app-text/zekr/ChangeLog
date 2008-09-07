@@ -2,6 +2,11 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 Sep 2008; Serkan Kaba <serkan@gentoo.org>
+  -files/zekr-0.6.6-resource-fixes.patch, -zekr-0.7.0_beta1-r3.ebuild,
+  -files/zekr-0.7.0_beta1-buildfix.patch, +zekr-0.7.1.ebuild:
+  Version bump.
+
   20 Apr 2008; Serkan Kaba <serkan_kaba@yahoo.com>
   zekr-0.7.0_beta1-r3.ebuild:
   Fix repoman warnings

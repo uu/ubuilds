@@ -15,56 +15,61 @@ DESCRIPTION="An open platform for simply browsing and research on the Holy Quran
 HOMEPAGE="http://zekr.org/"
 TRANS="mirror://sourceforge/${PN}/${PN}-quran-translation"
 SRC_URI="mirror://sourceforge/${PN}/${P/_/}-linux.tar.gz
-	linguas_bs? ( ${TRANS}-bs-korkut_0.7.1-1-ppa4_all.deb )
+	linguas_az? ( ${TRANS}-az-mammadaliyevbunyadov_0.7.3-1_all.deb )
+	linguas_bs? ( ${TRANS}-bs-korkut_0.7.3-1_all.deb )
 	linguas_de?
 	(
-		${TRANS}-de-bubenheimelyas_0.7.1-1-ppa4_all.deb
-		${TRANS}-de-muhammadibnrassoul_0.7.1-1-ppa4_all.deb
-		${TRANS}-de-zaidan_0.7.1-1-ppa4_all.deb
+		${TRANS}-de-bubenheimelyas_0.7.3-1_all.deb
+		${TRANS}-de-muhammadibnrassoul_0.7.3-1_all.deb
+		${TRANS}-de-zaidan_0.7.3-1_all.deb
 	)
 	linguas_en?
 	(
-		${TRANS}-en-pickthall_0.7.1-1-ppa4_all.deb
-		${TRANS}-en-qaribullah_0.7.1-1-ppa4_all.deb
-		${TRANS}-en-shakir_0.7.1-1-ppa4_all.deb
-		${TRANS}-en-yusufali_0.7.1-1-ppa4_all.deb
+		${TRANS}-en-arberry_0.7.3-1_all.deb
+		${TRANS}-en-pickthall_0.7.3-1_all.deb
+		${TRANS}-en-qaribullah_0.7.3-1_all.deb
+		${TRANS}-en-shakir_0.7.3-1_all.deb
+		${TRANS}-en-yusufali_0.7.3-1_all.deb
 	)
-	linguas_es? ( ${TRANS}-es-cortes_0.7.1-1-ppa4_all.deb )
+	linguas_es? ( ${TRANS}-es-cortes_0.7.3-1_all.deb )
 	linguas_fa?
 	(
-		${TRANS}-fa-ansarian_0.7.1-1-ppa4_all.deb
-		${TRANS}-fa-ghomshei_0.7.1-1-ppa4_all.deb
-		${TRANS}-fa-makarem_0.7.1-1-ppa4_all.deb
+		${TRANS}-fa-ansarian_0.7.3-1_all.deb
+		${TRANS}-fa-ghomshei_0.7.3-1_all.deb
+		${TRANS}-fa-makarem_0.7.3-1_all.deb
 	)
-	linguas_fr? ( ${TRANS}-fr-hamidullah_0.7.1-1-ppa4_all.deb )
-	linguas_id? ( ${TRANS}-id-indonesian_0.7.1-1-ppa4_all.deb )
-	linguas_it? ( ${TRANS}-it-piccardo_0.7.1-1-ppa4_all.deb )
-	linguas_nl? ( ${TRANS}-nl-keyzer_0.7.1-1-ppa4_all.deb )
-	linguas_pt? ( ${TRANS}-pt-elhayek_0.7.1-1-ppa4_all.deb )
+	linguas_fr? ( ${TRANS}-fr-hamidullah_0.7.3-1_all.deb )
+	linguas_id? ( ${TRANS}-id-indonesian_0.7.3-1_all.deb )
+	linguas_it? ( ${TRANS}-it-piccardo_0.7.3-1_all.deb )
+	linguas_nl? ( ${TRANS}-nl-keyzer_0.7.3-1_all.deb )
+	linguas_pt? ( ${TRANS}-pt-elhayek_0.7.3-1_all.deb )
 	linguas_ru?
 	(
-		${TRANS}-ru-kuliev_0.7.1-1-ppa4_all.deb
-		${TRANS}-ru-osmanov_0.7.1-1-ppa4_all.deb
-		${TRANS}-ru-porokhova_0.7.1-1-ppa4_all.deb
+		${TRANS}-ru-kuliev_0.7.3-1_all.deb
+		${TRANS}-ru-osmanov_0.7.3-1_all.deb
+		${TRANS}-ru-porokhova_0.7.3-1_all.deb
 	)
 	linguas_tr?
 	(
-		${TRANS}-tr-diyanet_0.7.1-1-ppa4_all.deb
-		${TRANS}-tr-ozturk_0.7.1-1-ppa4_all.deb
+		${TRANS}-tr-diyanet_0.7.3-1_all.deb
+		${TRANS}-tr-ozturk_0.7.3-1_all.deb
 	)
-	linguas_tt? ( ${TRANS}-tt-noghmani_0.7.1-1-ppa4_all.deb )
+	linguas_tt? ( ${TRANS}-tt-noghmani_0.7.3-1_all.deb )
 	linguas_ur?
 	(
-		${TRANS}-ur-irfanulquran_0.7.1-1-ppa4_all.deb
-		${TRANS}-ur-jalandhry_0.7.1-1-ppa4_all.deb
-		${TRANS}-ur-kanzuliman_0.7.1-1-ppa4_all.deb
+		${TRANS}-ur-irfanulquran_0.7.3-1_all.deb
+		${TRANS}-ur-jalandhry_0.7.3-1_all.deb
+		${TRANS}-ur-kanzuliman_0.7.3-1_all.deb
 	)"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
-LINGUAS="bs de en es fa fr id it nl pt ru tr tt ur"
+LANGS="az bs de en es fa fr id it nl pt ru tr tt ur"
+for l in ${LANGS}; do
+	IUSE+=" linguas_${l}"
+done
 
 COMMON_DEPS="dev-java/commons-collections:0
 	 dev-java/commons-configuration:0
@@ -75,7 +80,9 @@ COMMON_DEPS="dev-java/commons-collections:0
 	 >=dev-java/swt-3.4_pre6-r1:3.4
 	 dev-java/velocity:0
 	 dev-java/lucene:2.3
-	 dev-java/lucene-highlighter:2.3"
+	 dev-java/lucene-highlighter:2.3
+	 dev-java/lucene-snowball:2.3
+	 dev-java/commons-codec"
 
 RDEPEND=">=virtual/jre-1.4
 	 ${COMMON_DEPS}"
@@ -88,7 +95,7 @@ DEPEND=">=virtual/jdk-1.4
 S=${WORKDIR}/${PN}
 
 pkg_setup() {
-	if ! built_with_use -o swt firefox seamonkey xulrunner ; then
+	if ! built_with_use --missing true -o dev-java/swt firefox seamonkey xulrunner ; then
 		eerror "Re-emerge swt with the 'firefox', 'seamonkey' or 'xulrunner' USE flag"
 		die
 	fi
@@ -106,19 +113,17 @@ unpack_translation() {
 src_unpack() {
 	unpack ${P/_/}-linux.tar.gz
 	cd "${S}" || die
-	rm res/text/trans/shakir.trans.zip || die #this comes from English deb file also
+	rm res/text/trans/yusufali.trans.zip || die #this comes from English deb file also
 	for i in ${A}; do
 		unpack_translation $i
 	done
 	rm lib/*.jar || die
 	rm dist/zekr.jar || die
-	epatch "${FILESDIR}"/${P}-buildfix.patch
-	epatch "${FILESDIR}"/${PN}-0.6.6-resource-fixes.patch
 	java-ant_rewrite-classpath
 }
 
 src_compile() {
-	local classpath=$(java-pkg_getjars commons-collections,commons-configuration,commons-io:1,commons-lang:2.1,commons-logging,log4j,swt:3.4,velocity,lucene-highlighter:2.3)
+	local classpath=$(java-pkg_getjars commons-collections,commons-configuration,commons-io:1,commons-lang:2.1,commons-logging,log4j,swt:3.4,velocity,lucene-highlighter:2.3,lucene-snowball:2.3,commons-codec)
 	classpath="${classpath}:$(java-pkg_getjar lucene:2.3 lucene-core.jar)"
 	eant -Dgentoo.classpath=${classpath} dist $(use_doc)
 }
