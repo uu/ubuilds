@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>java</herd>
+	<maintainer>
+		<email>ali_bush@gentoo.org</email>
+		<name>Alistair Bush</name>
+	</maintainer>
+	<longdescription lang="en">
+		Refactored the Amazon S3 REST library to use the Apache HTTP client library and I cleaned up the methods and class names. I also created a very basic S3 emulated server for testing GET/PUT/DELETE requests.
+	</longdescription>
+</pkgmetadata>
+
