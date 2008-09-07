@@ -10,7 +10,7 @@ inherit java-pkg-2 java-ant-2
 DESCRIPTION="Refactored Amazon S3 REST library to use the Apache HTTP client
 library"
 HOMEPAGE="http://e-xml.sourceforge.net/"
-SRC_URI="${P}.tar.bz2"
+SRC_URI="http://dev.gentoo.org/~ali_bush/distfiles/${P}.tar.bz2"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
