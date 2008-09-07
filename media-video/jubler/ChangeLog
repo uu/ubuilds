@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  07 Sep 2008; Serkan Kaba <serkan@gentoo.org> +jubler-3.9.5.ebuild,
+  +files/jubler-3.9.5.patch:
+  Version bump. Ffmpeg preview doesn't work yet.
+
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman
 
