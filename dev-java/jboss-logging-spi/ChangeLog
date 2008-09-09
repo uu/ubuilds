@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/jboss-logging-spi
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  09 Sep 2008; Alistair Bush <ali_bush@gentoo.org> +metadata.xml,
+  +jboss-logging-spi-2.0.5.ebuild:
+  Adding package as dependency of jbosscache.
+
