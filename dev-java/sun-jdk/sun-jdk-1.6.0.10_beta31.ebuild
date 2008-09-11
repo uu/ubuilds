@@ -6,11 +6,11 @@ inherit versionator java-vm-2 eutils pax-utils
 
 MY_PV=${PV/_beta*/}
 BETA=${PV#*_beta}
-DATE="21_jul_2008"
+DATE="05_sep_2008"
 
 BASE_URL="http://www.java.net/download/jdk6/6u10/promoted/b${BETA}/binaries/"
-x86file="jdk-6u10-rc-bin-b${BETA}-linux-i586-${DATE}.bin"
-amd64file="jdk-6u10-rc-bin-b${BETA}-linux-amd64-${DATE}.bin"
+x86file="jdk-6u10-rc2-bin-b${BETA}-linux-i586-${DATE}.bin"
+amd64file="jdk-6u10-rc2-bin-b${BETA}-linux-amd64-${DATE}.bin"
 
 S="${WORKDIR}/jdk$(replace_version_separator 3 _ ${MY_PV})"
 DESCRIPTION="Sun's Java Development Kit"
