@@ -5,7 +5,7 @@
 EAPI=1
 JAVA_PKG_IUSE="doc source test"
 
-inherit java-pkg-2 java-ant-2 java-virtuals
+inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Java library for working with XML"
 HOMEPAGE="http://dom4j.sourceforge.net/"
@@ -13,7 +13,8 @@ SRC_URI="mirror://sourceforge/dom4j/${P}.tar.gz
 	mirror://gentoo/${P}-java5.patch.bz2"
 LICENSE="dom4j"
 SLOT="1"
-KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86"
+KEYWORDS="-*"
+#KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86"
 IUSE=""
 RDEPEND=">=virtual/jre-1.4
 	java-virtuals/jaxb-virtual:1
