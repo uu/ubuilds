@@ -86,6 +86,9 @@ RDEPEND=">=virtual/jdk-1.5
 		dev-java/stax-ex:0
 		dev-java/toplink-essentials:0
 		dev-java/xmlstreambuffer:0
+	)
+	php? (
+		>=dev-java/javacup-0.11a_beta20060608
 	)"
 
 DEPEND="=virtual/jdk-1.5*
@@ -131,6 +134,9 @@ DEPEND="=virtual/jdk-1.5*
 		>=dev-java/beansbinding-1.2.1:0
 		>=dev-java/cglib-2.1:2.1
 		>=dev-java/junit-3.8.2:0
+	)
+	php? (
+		>=dev-java/javacup-0.11a_beta20060608
 	)"
 
 S="${WORKDIR}"
@@ -558,6 +564,10 @@ place_unpack_symlinks() {
 		dosymcompilejar "swingapp/external" appframework appframework.jar appframework-1.0.3.jar
 	fi
 
+	if use php ; then
+		dosymcompilejar "libs.javacup/external" javacup javacup.jar java-cup-11a.jar
+	fi
+
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
 		die "Some compilation-time jars could not be symlinked"
 	fi
@@ -716,6 +726,11 @@ symlink_extjars() {
 		targetdir="java2/modules/ext/toplink"
 		dosyminstjar ${targetdir} toplink-essentials toplink-essentials.jar toplink-essentials.jar
 		dosyminstjar ${targetdir} toplink-essentials toplink-essentials-agent.jar toplink-essentials-agent.jar
+	fi
+
+	if use php ; then
+		targetdir="php1/modules/ext"
+		dosyminstjar ${targetdir} javacup javacup.jar java-cup-11a.jar
 	fi
 
 	if [ -n "${NB_DOSYMINSTJARFAILED}" ] ; then
