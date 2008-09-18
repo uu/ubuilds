@@ -89,6 +89,10 @@ RDEPEND=">=virtual/jdk-1.5
 	)
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
+	)
+	xml? (
+		>=dev-java/commons-jxpath-1.1:0
+		dev-java/prefuse:2006
 	)"
 
 DEPEND="=virtual/jdk-1.5*
@@ -137,6 +141,10 @@ DEPEND="=virtual/jdk-1.5*
 	)
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
+	)
+	xml? (
+		>=dev-java/commons-jxpath-1.1:0
+		dev-java/prefuse:2006
 	)"
 
 S="${WORKDIR}"
@@ -300,6 +308,12 @@ src_unpack () {
 				grep -v "junit/external/Ant-1.7.1-binary-patch-72080.jar" |
 				grep -v "libs.springframework/external/spring-2.5.jar" > ${tmpfilejava}
 			mv ${tmpfilejava} ${tmpfile}
+		fi
+
+		if use xml ; then
+			local tmpfilexml="${T}/bundled-xml.txt"
+			cat ${tmpfile} | grep -v "libs.jxpath/external/jxpath1.1.jar" > ${tmpfilexml}
+			mv ${tmpfilexml} ${tmpfile}
 		fi
 
 		cat ${tmpfile} | xargs rm -v
@@ -568,6 +582,12 @@ place_unpack_symlinks() {
 		dosymcompilejar "libs.javacup/external" javacup javacup.jar java-cup-11a.jar
 	fi
 
+	if use xml ; then
+		#dosymcompilejar "libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath1.1.jar
+		dosymcompilejar "o.n.xml.libs.jxpath/external" commons-jxpath commons-jxpath.jar jxpath-1.2.jar
+		dosymcompilejar "visdev.prefuse/external" prefuse-2006 prefuse.jar prefuse-beta.jar
+	fi
+
 	if [ -n "${NB_DOSYMCOMPILEJARFAILED}" ] ; then
 		die "Some compilation-time jars could not be symlinked"
 	fi
@@ -731,6 +751,14 @@ symlink_extjars() {
 	if use php ; then
 		targetdir="php1/modules/ext"
 		dosyminstjar ${targetdir} javacup javacup.jar java-cup-11a.jar
+	fi
+
+	if use php ; then
+		targetdir="xml2/modules/ext"
+		dosyminstjar ${targetdir} prefuse-2006 prefuse.jar prefuse-beta.jar
+		targetdir="xml2/modules/ext/xpath"
+		dosyminstjar ${targetdir} commons-jxpath commons-jxpath.jar jxpath-1.2.jar
+		# xml2/modules/ext/jxpath/jxpath1.1.jar
 	fi
 
 	if [ -n "${NB_DOSYMINSTJARFAILED}" ] ; then
