@@ -1,6 +1,6 @@
 diff -Nur Jubler-3.9.5/build.xml Jubler-3.9.5_patched/build.xml
 --- Jubler-3.9.5/build.xml	2008-09-07 02:05:23.000000000 +0300
-+++ Jubler-3.9.5_patched/build.xml	2008-09-07 15:15:06.000000000 +0300
++++ Jubler-3.9.5_patched/build.xml	2008-09-20 15:06:13.000000000 +0300
 @@ -69,23 +69,6 @@
  
  
@@ -37,7 +37,7 @@ diff -Nur Jubler-3.9.5/build.xml Jubler-3.9.5_patched/build.xml
  		<delete dir="src/com/apple" failonerror="false"/>
 diff -Nur Jubler-3.9.5/resources/ffdecode/Makefile Jubler-3.9.5_patched/resources/ffdecode/Makefile
 --- Jubler-3.9.5/resources/ffdecode/Makefile	2008-06-26 20:30:15.000000000 +0300
-+++ Jubler-3.9.5_patched/resources/ffdecode/Makefile	2008-09-07 15:16:27.000000000 +0300
++++ Jubler-3.9.5_patched/resources/ffdecode/Makefile	2008-09-20 15:06:13.000000000 +0300
 @@ -12,9 +12,6 @@
  # Name of the produced library
  PROJ=ffdecode
@@ -67,7 +67,7 @@ diff -Nur Jubler-3.9.5/resources/ffdecode/Makefile Jubler-3.9.5_patched/resource
  develop:javacheck
 diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/information/HelpBrowser.java Jubler-3.9.5_patched/src/com/panayotis/jubler/information/HelpBrowser.java
 --- Jubler-3.9.5/src/com/panayotis/jubler/information/HelpBrowser.java	2008-03-30 23:04:05.000000000 +0300
-+++ Jubler-3.9.5_patched/src/com/panayotis/jubler/information/HelpBrowser.java	2008-09-07 15:17:37.000000000 +0300
++++ Jubler-3.9.5_patched/src/com/panayotis/jubler/information/HelpBrowser.java	2008-09-20 15:06:13.000000000 +0300
 @@ -47,7 +47,7 @@
          
          history = new ArrayList<String>();
@@ -79,7 +79,7 @@ diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/information/HelpBrowser.java Jub
          
 diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/Main.java Jubler-3.9.5_patched/src/com/panayotis/jubler/Main.java
 --- Jubler-3.9.5/src/com/panayotis/jubler/Main.java	2008-08-27 11:51:52.000000000 +0300
-+++ Jubler-3.9.5_patched/src/com/panayotis/jubler/Main.java	2008-09-07 15:18:55.000000000 +0300
++++ Jubler-3.9.5_patched/src/com/panayotis/jubler/Main.java	2008-09-20 15:06:13.000000000 +0300
 @@ -105,17 +105,9 @@
          /* Load arguments, in a mac way */
          SystemDependent.initApplication();
@@ -100,7 +100,7 @@ diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/Main.java Jubler-3.9.5_patched/s
      static private MainSplash splash;
 diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3.9.5_patched/src/com/panayotis/jubler/os/SystemDependent.java
 --- Jubler-3.9.5/src/com/panayotis/jubler/os/SystemDependent.java	2008-08-27 02:07:17.000000000 +0300
-+++ Jubler-3.9.5_patched/src/com/panayotis/jubler/os/SystemDependent.java	2008-09-07 15:19:53.000000000 +0300
++++ Jubler-3.9.5_patched/src/com/panayotis/jubler/os/SystemDependent.java	2008-09-20 15:07:33.000000000 +0300
 @@ -25,10 +25,6 @@
  
  import static com.panayotis.jubler.i18n.I18N._;
@@ -112,6 +112,15 @@ diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3
  import com.panayotis.jubler.Jubler;
  import com.panayotis.jubler.Main;
  import com.panayotis.jubler.StaticJubler;
+@@ -87,7 +83,7 @@
+                 .replaceAll("\\.", "").replaceAll("_", "")
+                 .compareTo("16006")) >= 0;
+         try {
+-           if (newjava || isWindows() || isMacOSX()) {
++           if ( (newjava || isWindows() || isMacOSX()) && !isLinux() ) {
+                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            }
+         } catch ( ClassNotFoundException e ) {
 @@ -113,10 +109,6 @@
      
      
@@ -161,7 +170,7 @@ diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/os/SystemDependent.java Jubler-3
 -}
 diff -Nur Jubler-3.9.5/src/com/panayotis/jubler/os/SystemFileFinder.java Jubler-3.9.5_patched/src/com/panayotis/jubler/os/SystemFileFinder.java
 --- Jubler-3.9.5/src/com/panayotis/jubler/os/SystemFileFinder.java	2008-03-30 23:04:04.000000000 +0300
-+++ Jubler-3.9.5_patched/src/com/panayotis/jubler/os/SystemFileFinder.java	2008-09-07 15:20:44.000000000 +0300
++++ Jubler-3.9.5_patched/src/com/panayotis/jubler/os/SystemFileFinder.java	2008-09-20 15:06:13.000000000 +0300
 @@ -58,15 +58,12 @@
      }
      

@@ -47,6 +47,7 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 	epatch "${FILESDIR}/${P}.patch"
+	#epatch "${FILESDIR}/${P}-disable-resize.patch"
 	chmod +x resources/installers/linux/iconinstall
 }
 

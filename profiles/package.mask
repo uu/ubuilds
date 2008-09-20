@@ -6,6 +6,10 @@
 # NOTE: Please add your entry at the top!
 #
 
+# Serkan Kaba <serkan@gentoo.org> (20 Sep 2008)
+# Mask jubler SVN ebuild.
+=media-video/jubler-9999
+
 #Alistair Bush <ali_bush@gentoo.org> (19 Jan 2008)
 #SVN version of java-config, use at your own risk.
 ~dev-java/java-config-2.1.9999
