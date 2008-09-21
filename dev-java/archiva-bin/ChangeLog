@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/archiva-bin
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  21 Sep 2008; Jesse Farinacci <jieryn@gmail.com> +files/conf.d/archiva-bin,
+  +files/init.d/archiva-bin, +metadata.xml, +archiva-bin-1.1.2.ebuild:
+  initial import, thank you jieryn!
+
