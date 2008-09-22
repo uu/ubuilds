@@ -2,6 +2,11 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  22 Sep 2008; Serkan Kaba <serkan@gentoo.org> -jubler-3.9.5.ebuild,
+  -files/jubler-3.9.5.patch, +jubler-3.9.6.ebuild,
+  +files/jubler-3.9.6.patch:
+  Version bump.
+
   20 Sep 2008; Serkan Kaba <serkan@gentoo.org> jubler-3.9.5.ebuild,
   files/jubler-3.9.5.patch:
   Update patch to disable GTK L&F.
