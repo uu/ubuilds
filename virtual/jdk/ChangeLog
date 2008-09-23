@@ -1,0 +1,4 @@
+*jdk-1.7.0 (23 Sep 2008)
+
+  23 Sep 2008; Fabian Fingerle <fabian@datensalat.eu> +jdk-1.7.0.ebuild:
+  Add 1.7 JDK
