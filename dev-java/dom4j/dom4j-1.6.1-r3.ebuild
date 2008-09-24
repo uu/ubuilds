@@ -16,7 +16,7 @@ SLOT="1"
 KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86"
 IUSE=""
 RDEPEND=">=virtual/jre-1.4
-	java-virtuals/jaxb-virtual
+	java-virtuals/jaxb-virtual:1
 	java-virtuals/stax-virtual
 	>=dev-java/msv-20050627-r2:0
 	dev-java/xpp2:0
@@ -49,7 +49,7 @@ src_unpack() {
 	cd "${S}/lib"
 	#circular deps with jaxen
 	rm -f $(echo *.jar | sed 's/jaxen[^ ]\+//')
-	java-pkg_jar-from jaxb-virtual
+	java-pkg_jar-from jaxb-virtual-1
 	java-pkg_jar-from stax-virtual
 	java-pkg_jar-from msv
 	java-pkg_jar-from xpp2
