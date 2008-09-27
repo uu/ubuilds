@@ -16,11 +16,11 @@ IUSE="mplayer nls spell"
 
 RDEPEND=">=virtual/jre-1.5
 	>=media-video/ffmpeg-0.4.9_p20080326
-	mplayer? ( media-video/mplayer )
+	mplayer? ( media-video/mplayer[srt] )
 	spell?
 	(
 		app-text/aspell
-		>=dev-java/zemberek-2.0
+		>=dev-java/zemberek-2.0[linguas_tr]
 	)"
 
 DEPEND=">=virtual/jdk-1.5
@@ -30,18 +30,6 @@ DEPEND=">=virtual/jdk-1.5
 	nls? ( sys-devel/gettext )"
 
 S=${WORKDIR}/${MY_PN}-${PV}
-
-pkg_setup() {
-	if use spell && ! built_with_use dev-java/zemberek linguas_tr; then
-		die "Zemberek should be built with Turkish language support"
-	fi
-	if use mplayer && ! built_with_use media-video/mplayer srt; then
-		msg="media-video/mplayer needs to be built with the srt use flag"
-		eerror ${msg}
-		die ${msg}
-	fi
-	java-pkg-2_pkg_setup
-}
 
 src_unpack() {
 	unpack ${A}
