@@ -6,8 +6,7 @@ EAPI="1"
 if ! [[ -n "${LUCENE_MODULE}" ]]; then LUCENE_MODULE=${PN/lucene-/}; fi
 JAVA_PKG_IUSE="source test"
 JAVA_PKG_BSFIX_ALL="no"
-#WANT_SPLIT_ANT="true" ?
-inherit java-pkg-2 java-ant-2
+inherit java-pkg-2 java-ant-2 java-osgi
 
 HOMEPAGE="http://jakarta.apache.org/lucene"
 SRC_URI="mirror://apache/lucene/java/lucene-${PV}-src.tar.gz"
@@ -17,7 +16,7 @@ DEPEND=">=virtual/jdk-1.4
 	dev-java/lucene:${SLOT}
 	test? ( dev-java/ant-junit dev-java/junit:0 )"
 RDEPEND=">=virtual/jdk-1.4
-	 =dev-java/lucene-${SLOT}*"
+	 dev-java/lucene:${SLOT}"
 
 for dep in ${LUCENE_MODULE_DEPS}; do
 	DEPEND="${DEPEND} dev-java/lucene-${dep}:${SLOT}"
@@ -35,7 +34,8 @@ lucene-contrib_getlucenejar_ () {
 
 lucene-contrib_src_unpack() {
 	unpack ${A}
-	find "${S}" -name "*.jar" -delete
+	einfo "Removing bundled jars."
+	find "${S}" -name "*.jar" -delete -print
 }
 
 lucene-contrib_src_compile() {
@@ -80,7 +80,15 @@ lucene-contrib_src_test() {
 }
 
 lucene-contrib_src_install() {
-	java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
+	if [[ -f "${FILESDIR}/${P}.manifest" && -n "${LUCENE_OSGI_BUNDLENAME}" ]]; then
+		java-osgi_newjar-fromfile \
+			build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar \
+			${PN}.jar \
+			"${FILESDIR}/${P}.manifest" \
+			"${LUCENE_OSGI_BUNDLENAME}"
+	else
+		java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
+	fi
 	cd contrib/${LUCENE_MODULE}
 	[[ -n "${DOCS}" ]] && dodoc ${DOCS}
 	use source && java-pkg_dosrc src/java/*
