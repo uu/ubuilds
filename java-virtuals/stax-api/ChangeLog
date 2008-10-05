@@ -2,6 +2,9 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  05 Oct 2008; Serkan Kaba <serkan@gentoo.org> stax-api-1.ebuild:
+  Change JAVA_VIRTUAL_PROVIDES to jsr173.
+
   05 Oct 2008; Serkan Kaba <serkan@gentoo.org> -stax-virtual-1.ebuild,
   +stax-api-1.ebuild:
   Rename stax-virtual to stax-api. Make stax-api depend on jsr173.
