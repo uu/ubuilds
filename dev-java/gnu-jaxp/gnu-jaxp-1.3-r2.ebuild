@@ -43,7 +43,8 @@ src_compile() {
 }
 
 src_install() {
-	java-pkg_newjar gnujaxp.jar jaxp.jar
+	java-pkg_dojar gnujaxp.jar
+	dosym /usr/share/${PN}/gnujaxp.jar /usr/share/${PN}/jaxp.jar
 	dodoc README
 	use doc && java-pkg_dohtml -r apidoc/*
 	use source && java-pkg_dosrc source/*

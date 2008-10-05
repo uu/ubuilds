@@ -18,7 +18,7 @@ IUSE=""
 DEPEND=""
 RDEPEND="|| (
 			=virtual/jdk-1.5*
-			dev-java/gnu-jaxp
+			>=dev-java/gnu-jaxp-1.3-r2
 		)
 		>=dev-java/java-config-2.1.6"
 
