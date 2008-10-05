@@ -22,7 +22,7 @@ COMMON_DEP="java-virtuals/servlet-api:2.4
 	java-virtuals/jaxp-virtual
 	java-virtuals/saaj-api
 	dev-java/jsr101
-	java-virtuals/stax-virtual
+	java-virtuals/stax-api
 	dev-java/relaxng-datatype
 	dev-java/saaj
 	dev-java/sax
@@ -35,7 +35,7 @@ RDEPEND=">=virtual/jre-1.5
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEP}"
 
-#EANT_GENTOO_CLASSPATH="servlet-api-2.4,fastinfoset,jaxp-virtual,saaj-api,jsr101,stax-virtual,relaxng-datatype,saaj,sax,jaf,javamail,xsdlib,xerces-2"
+#EANT_GENTOO_CLASSPATH="servlet-api-2.4,fastinfoset,jaxp-virtual,saaj-api,jsr101,stax-api,relaxng-datatype,saaj,sax,jaf,javamail,xsdlib,xerces-2"
 EANT_BUILD_TARGET="image"
 EANT_DOC_TARGET="javadocs"
 EANT_EXTRA_ARGS="-Djava.mail=lib/mail.jar"
@@ -55,7 +55,7 @@ src_unpack() {
 	java-pkg_jar-from --virtual jaxp-virtual
 	java-pkg_jar-from --virtual saaj-api
 	java-pkg_jar-from jsr101
-	java-pkg_jar-from --virtual stax-virtual
+	java-pkg_jar-from --virtual stax-api
 	java-pkg_jar-from relaxng-datatype
 	java-pkg_jar-from saaj saaj.jar saaj-impl.jar
 	java-pkg_jar-from sax

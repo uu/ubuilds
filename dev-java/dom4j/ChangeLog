@@ -2,6 +2,9 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/dom4j/ChangeLog,v 1.46 2008/03/26 16:33:47 corsair Exp $
 
+  05 Oct 2008; Serkan Kaba <serkan@gentoo.org> dom4j-1.6.1-r3.ebuild:
+  Depend on stax-api.
+
   23 Sep 2008; Andrew John Hughes <gnu_andrew@member.fsf.org> dom4j-1.6.1-r3.ebuild:
   Use slot 1 for jaxb virtual.
 	
