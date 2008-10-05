@@ -35,7 +35,6 @@ RDEPEND=">=virtual/jre-1.5
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEP}"
 
-#EANT_GENTOO_CLASSPATH="servlet-api-2.4,fastinfoset,jaxp-virtual,saaj-api,jsr101,stax-api,relaxng-datatype,saaj,sax,jaf,javamail,xsdlib,xerces-2"
 EANT_BUILD_TARGET="image"
 EANT_DOC_TARGET="javadocs"
 EANT_EXTRA_ARGS="-Djava.mail=lib/mail.jar"
@@ -47,7 +46,6 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}" || die
 	epatch "${FILESDIR}/${P}-length.patch"
-	#java-ant_rewrite-classpath
 	cd lib || die
 
 	java-pkg_jar-from --build-only ant-core
