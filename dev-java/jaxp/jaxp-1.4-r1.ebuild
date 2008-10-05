@@ -28,7 +28,8 @@ EANT_DOC_TARGET=""
 src_install() {
 
 	java-pkg_dojar jaxp-ri.jar
-	dosym /usr/share/${PN}/jaxp-ri.jar /usr/share/${PN}/jaxp.jar
+	dosym /usr/share/${PN}/lib/jaxp-ri.jar /usr/share/${PN}/lib/jaxp.jar
+	java-pkg_regjar /usr/share/${PN}/lib/jaxp.jar
 
 	use source && java-pkg_dosrc jaxp-1_4-api/src/{javax,org}
 	java-pkg_dohtml \

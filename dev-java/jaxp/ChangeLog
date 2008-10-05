@@ -3,6 +3,9 @@
 # $Header: $
 
   05 Oct 2008; Serkan Kaba <serkan@gentoo.org> jaxp-1.4-r1.ebuild:
+  Fix jaxp.jar symlink. Register jaxp.jar.
+
+  05 Oct 2008; Serkan Kaba <serkan@gentoo.org> jaxp-1.4-r1.ebuild:
   Make jaxp-1.4.1-r1 compatible with the old version.
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
