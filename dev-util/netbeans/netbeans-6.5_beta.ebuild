@@ -139,6 +139,10 @@ DEPEND="=virtual/jdk-1.5*
 		>=dev-java/cglib-2.1:2.1
 		>=dev-java/junit-3.8.2:0
 	)
+	mobility? (
+		>=dev-java/ant-contrib-1.0_beta:0
+		dev-java/bcprov:0
+	)
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
 	)
@@ -308,6 +312,14 @@ src_unpack () {
 				grep -v "junit/external/Ant-1.7.1-binary-patch-72080.jar" |
 				grep -v "libs.springframework/external/spring-2.5.jar" > ${tmpfilejava}
 			mv ${tmpfilejava} ${tmpfile}
+		fi
+
+		if use mobility ; then
+			local tmpfilemobility="${T}/bundled-mobility.txt"
+			cat ${tmpfile} | grep -v "o.n.mobility.lib.activesync/external/nbactivesync-5.0.jar" | \
+				grep -v "j2me.cdc.project.bdj/external/security.jar" | \
+				grep -v "j2me.cdc.project.bdj/external/bdjo.jar" > ${tmpfilemobility}
+			mv ${tmpfilemobility} ${tmpfile}
 		fi
 
 		if use xml ; then
@@ -576,6 +588,14 @@ place_unpack_symlinks() {
 		dosymcompilejar "libs.cglib/external" cglib-2.1 cglib.jar cglib-2.2.jar
 		# spring-2.5.jar
 		dosymcompilejar "swingapp/external" appframework appframework.jar appframework-1.0.3.jar
+	fi
+
+	if use mobility ; then
+		dosymcompilejar "mobility.antext/external" ant-contrib ant-contrib.jar ant-contrib-1.0b3.jar
+		# nbactivesync-5.0.jar
+		# security.jar
+		# bdjo.jar
+		dosymcompilejar "j2me.cdc.project.bdj/external" bcprov bcprov.jar bcprov-jdk15-139.jar
 	fi
 
 	if use php ; then
