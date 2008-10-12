@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/istack-commons-tools/istack-commons-tools-20070122.ebuild,v 1.4 2007/08/19 17:59:00 wltjr Exp $
 
@@ -17,8 +17,7 @@ KEYWORDS="~x86 ~amd64 ~ppc ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="dev-java/apt-mirror
-	dev-java/sun-jaf
-	=dev-java/istack-commons-runtime-${PV}
+	java-virtuals/jaf
 	dev-java/ant-core"
 
 DEPEND=">=virtual/jdk-1.5
@@ -39,7 +38,6 @@ src_unpack() {
 	cd "${S}/tools/lib"
 	java-pkg_jarfrom ant-core ant.jar
 	java-pkg_jarfrom apt-mirror
-	java-pkg_jarfrom istack-commons-runtime
 
 	#ln -s $(java-config --tools) || die
 
