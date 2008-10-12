@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/istack-commons-runtime/istack-commons-runtime-20070122.ebuild,v 1.5 2007/08/19 17:57:24 wltjr Exp $
 
@@ -16,8 +16,8 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64 ~ppc ~x86-fbsd"
 IUSE=""
 
-COMMON_DEP="dev-java/sun-jaf
-	dev-java/jsr173"
+COMMON_DEP="java-virtuals/jaf
+	java-virtuals/stax-api"
 
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEP}"
@@ -31,8 +31,8 @@ src_unpack() {
 
 	java-ant_bsfix_one "${S}/build-common.xml"
 
-	java-pkg_jarfrom --into "${S}/runtime/lib" sun-jaf
-	java-pkg_jarfrom --into "${S}/runtime/lib" jsr173
+	java-pkg_jarfrom --into "${S}/runtime/lib" --virtual jaf
+	java-pkg_jarfrom --into "${S}/runtime/lib" --virtual stax-api
 }
 
 EANT_BUILD_XML="runtime/build.xml"
