@@ -2,6 +2,9 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/jaxme/ChangeLog,v 1.26 2007/10/22 10:13:21 betelgeuse Exp $
 
+  12 Oct 2008; Serkan Kaba <serkan@gentoo.org> jaxme-0.5.2.ebuild:
+  Register xs and js for the virtual. They're dependencies of rt.
+
   12 Oct 2008; Serkan Kaba <serkan@gentoo.org> -jaxme-0.3.1-r5.ebuild,
   -files/jaxme-0.3.1-base64.diff, -files/jaxme-0.3.1-gentoo.patch,
   -files/jaxme-0.3.1-jdk6.diff, +jaxme-0.5.2.ebuild,

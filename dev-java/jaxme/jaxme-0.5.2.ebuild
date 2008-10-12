@@ -71,8 +71,12 @@ EANT_EXTRA_ARGS="-Dbuild.apidocs=dist/doc/api"
 EANT_BUILD_TARGET="API.jar XS.jar JS.jar JM.compile PM.compile"
 
 src_install() {
-	for i in jaxmeapi jaxmexs jaxmejs jaxme2-rt jaxmepm; do
+	for i in jaxmeapi jaxme2-rt jaxmepm; do
 		java-pkg_newjar dist/${i}-${PV}.jar ${i}.jar
+	done
+	
+	for i in jaxmexs jaxmejs; do
+		java-pkg_newjar --virtual dist/${i}-${PV}.jar ${i}.jar
 	done
 	
 	#Compatibility symlink for jaxb
