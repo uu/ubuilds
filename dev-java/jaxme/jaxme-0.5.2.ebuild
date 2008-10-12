@@ -3,6 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-java/jaxme/jaxme-0.3.1-r4.ebuild,v 1.2 2007/10/22 10:13:21 betelgeuse Exp $
 
 JAVA_PKG_IUSE="doc source"
+#WANT_ANT_TASKS="ant-antlr"
 
 inherit java-pkg-2 java-ant-2 eutils
 
@@ -14,7 +15,7 @@ SRC_URI="mirror://apache/ws/${PN}/source/${MY_P}-src.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="amd64 ~ia64 ppc ppc64 x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="
@@ -23,14 +24,12 @@ COMMON_DEP="
 	dev-java/gnu-crypto
 	>=dev-java/log4j-1.2.8
 	dev-java/ant-core
-	dev-java/xmldb"
+	dev-java/xmldb
+	dev-java/antlr:0"
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEP}"
 # FIXME doesn't like to compile with Java 1.6
-DEPEND="|| (
-		=virtual/jdk-1.4*
-		>=virtual/jdk-1.5
-	)
+DEPEND=">=virtual/jdk-1.4
 	${COMMON_DEP}"
 
 S="${WORKDIR}/${MY_P}"
@@ -42,15 +41,12 @@ src_unpack() {
 	unpack ${A}
 
 	cd "${S}"
-	epatch "${FILESDIR}/${P}-jdk6.diff"
-	# Fix the build.xml so we can build jars and javadoc easily
-	epatch "${FILESDIR}/${P}-gentoo.patch"
-	# Use gnu-crypto instead of com.sun.* stuff
-	epatch "${FILESDIR}/${P}-base64.diff"
+	epatch "${FILESDIR}"/${P}.patch
 
 	java-pkg_filter-compiler jikes
+	rm -v src/documentation/lib/*.jar || die
 	cd "${S}/prerequisites"
-	rm *.jar
+	rm -v *.jar || die
 	java-pkg_jarfrom junit
 	java-pkg_jarfrom log4j log4j.jar log4j-1.2.8.jar
 	java-pkg_jarfrom gnu-crypto gnu-crypto.jar
@@ -61,6 +57,7 @@ src_unpack() {
 	# Bad build system, should be fixed to use properties
 	java-pkg_jarfrom ant-core ant.jar ant-1.5.4.jar
 	java-pkg_jarfrom ant-core ant.jar ant.jar
+	java-pkg_jarfrom antlr antlr.jar
 
 	# Special case: jaxme uses build<foo>.xml files, so rewriting them by hand
 	# is better:
@@ -70,12 +67,21 @@ src_unpack() {
 	done
 }
 
-src_compile() {
-	eant $(use_doc -Dbuild.apidocs=dist/doc/api javadoc) jar
-}
+EANT_EXTRA_ARGS="-Dbuild.apidocs=dist/doc/api"
+EANT_BUILD_TARGET="API.jar XS.jar JS.jar JM.compile PM.compile"
 
 src_install() {
-	java-pkg_dojar dist/*.jar
+	for i in jaxmeapi jaxmexs jaxmejs jaxme2-rt jaxmepm; do
+		java-pkg_newjar dist/${i}-${PV}.jar ${i}.jar
+	done
+	
+	#Compatibility symlink for jaxb
+	dosym /usr/share/${PN}/lib/jaxmeapi.jar /usr/share/${PN}/lib/jaxb-api.jar
+	java-pkg_regjar --virtual /usr/share/${PN}/lib/jaxb-api.jar
+	
+	dosym /usr/share/${PN}/lib/jaxme2-rt.jar /usr/share/${PN}/lib/jaxb-impl.jar
+	java-pkg_regjar --virtual /usr/share/${PN}/lib/jaxb-impl.jar
+
 
 	dodoc NOTICE || die
 

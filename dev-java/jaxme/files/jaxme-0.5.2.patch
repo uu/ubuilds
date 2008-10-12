@@ -1,0 +1,73 @@
+diff -Nur ws-jaxme-0.5.2/ant/jm.xml ws-jaxme-0.5.2_patched/ant/jm.xml
+--- ws-jaxme-0.5.2/ant/jm.xml	2006-07-28 11:08:43.000000000 +0300
++++ ws-jaxme-0.5.2_patched/ant/jm.xml	2008-10-12 08:25:56.000000000 +0300
+@@ -37,6 +37,7 @@
+       <pathelement location="${preqs}/xml-apis-1.3.02.jar"/>
+       <pathelement location="${preqs}/beaver.jar"/>
+       <pathelement location="${preqs}/antlr.jar"/>
++      <pathelement location="${preqs}/gnu-crypto.jar"/>
+     </path>
+ 
+     <path id="jaxme.test.path">
+@@ -56,7 +57,7 @@
+         <mkdir dir="${dist}"/>
+     </target>
+ 
+-    <target name="JM.precompile" depends="dirs,JS.all,XS.all,JS.taskdef">
++    <target name="JM.precompile" depends="dirs,JS.jar,XS.jar,JS.taskdef">
+         <chainGenerator destDir="${build.jm.src}">
+             <classpath>
+                 <pathelement location="${src.jm}"/>
+diff -Nur ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java
+--- ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java	2005-03-10 12:14:08.000000000 +0200
++++ ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java	2008-10-12 01:42:41.000000000 +0300
+@@ -45,7 +45,7 @@
+  * @author <a href="mailto:joe@ispsoft.de">Jochen Wiedmann</a>
+  * @version $Id: JMMarshallerImpl.java 232067 2005-03-10 11:14:08 +0100 (Thu, 10 Mar 2005) jochen $
+  */
+-public class JMMarshallerImpl extends JMControllerImpl implements JMMarshaller {
++public abstract class JMMarshallerImpl extends JMControllerImpl implements JMMarshaller {
+   /** Default value for {@link Marshaller#JAXB_ENCODING}.
+    * (UTF-8 encoding)
+    */
+diff -Nur ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/impl/JMUnmarshallerImpl.java ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/impl/JMUnmarshallerImpl.java
+--- ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/impl/JMUnmarshallerImpl.java	2005-03-04 12:41:53.000000000 +0200
++++ ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/impl/JMUnmarshallerImpl.java	2008-10-12 01:42:16.000000000 +0300
+@@ -44,7 +44,7 @@
+ 
+ /** JaxMe's {@link javax.xml.bind.Unmarshaller} implementation.
+  */
+-public class JMUnmarshallerImpl extends JMControllerImpl implements JMUnmarshaller {
++public abstract class JMUnmarshallerImpl extends JMControllerImpl implements JMUnmarshaller {
+     private static final SAXParserFactory spf;
+     static {
+         spf = SAXParserFactory.newInstance();
+diff -Nur ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/util/Base64Binary.java ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/util/Base64Binary.java
+--- ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/util/Base64Binary.java	2005-03-10 12:14:08.000000000 +0200
++++ ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/util/Base64Binary.java	2008-10-12 01:33:55.000000000 +0300
+@@ -18,8 +18,7 @@
+ 
+ import java.io.IOException;
+ 
+-import sun.misc.BASE64Decoder;
+-import sun.misc.BASE64Encoder;
++import gnu.crypto.util.Base64;
+ 
+ 
+ /** A utility class for working with base64 encoding.
+@@ -37,13 +36,13 @@
+ 	 * base64 encoded byte array.
+ 	 */
+ 	public static byte[] decode(String pValue) throws IOException {
+-		return (new BASE64Decoder()).decodeBuffer(pValue);
++		return Base64.decode(pValue);
+ 	}
+ 
+ 	/** Converts the base64 encoded byte array <code>pValue</code>
+ 	 * into a string.
+ 	 */
+ 	public static String encode(byte[] pValue) {
+-		return (new BASE64Encoder()).encode(pValue);
++		return Base64.encode(pValue);
+ 	}
+ }
