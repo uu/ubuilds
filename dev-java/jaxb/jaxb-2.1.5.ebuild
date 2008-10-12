@@ -8,7 +8,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Reference implementation of the JAXB specification."
 HOMEPAGE="http://jaxb.dev.java.net/"
-DATE="20070711"
+DATE="20070917"
 MY_P="JAXB2_src_${DATE}"
 SRC_URI="https://jaxb.dev.java.net/${PV}/${MY_P}.jar"
 
@@ -19,15 +19,9 @@ IUSE=""
 
 COMMON_DEP="dev-java/iso-relax
 	>=dev-java/istack-commons-runtime-20070711
-	dev-java/jsr173
-	dev-java/msv
-	dev-java/relaxng-datatype
-	dev-java/rngom
-	dev-java/sun-jaf
-	dev-java/txw2-runtime
-	dev-java/xml-commons-resolver
-	dev-java/xsdlib
-	dev-java/xsom"
+	java-virtuals/stax-api
+	java-virtuals/jaf
+	dev-java/txw2-runtime"
 DEPEND=">=virtual/jdk-1.5
 	app-arch/unzip
 	${COMMON_DEP}"
@@ -50,17 +44,10 @@ src_unpack() {
 	rm -v *.jar || die
 
 	java-pkg_jarfrom --build-only ant-core
-	java-pkg_jarfrom iso-relax
 	java-pkg_jarfrom istack-commons-runtime
-	java-pkg_jarfrom jsr173
-	java-pkg_jarfrom msv
-	java-pkg_jarfrom relaxng-datatype
-	java-pkg_jarfrom rngom
-	java-pkg_jarfrom sun-jaf
+	java-pkg_jarfrom --virtual stax-api
+	java-pkg_jarfrom --virtual jaf
 	java-pkg_jarfrom txw2-runtime
-	java-pkg_jarfrom xml-commons-resolver
-	java-pkg_jarfrom xsdlib
-	java-pkg_jarfrom xsom
 	ln -s $(java-config --tools) || die
 
 	cd "${S}/src/com/sun/"

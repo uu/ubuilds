@@ -18,19 +18,16 @@ KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="=dev-java/codemodel-2*
-	dev-java/iso-relax
 	>=dev-java/istack-commons-runtime-20070711
 	>=dev-java/istack-commons-tools-20070711
 	=dev-java/jaxb-${PV}
-	dev-java/jsr173
-	dev-java/msv
+	java-virtuals/stax-api
 	dev-java/relaxng-datatype
 	dev-java/rngom
 	dev-java/sun-dtdparser
-	dev-java/sun-jaf
+	java-virtuals/jaf
 	dev-java/txw2-runtime
 	dev-java/xml-commons-resolver
-	dev-java/xsdlib
 	dev-java/xsom"
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEP}"
@@ -49,19 +46,16 @@ src_unpack() {
 
 	java-pkg_jarfrom --build-only ant-core
 	java-pkg_jarfrom codemodel-2
-	java-pkg_jarfrom iso-relax
 	java-pkg_jarfrom istack-commons-runtime
 	java-pkg_jarfrom istack-commons-tools
 	java-pkg_jarfrom jaxb-2
-	java-pkg_jarfrom jsr173
-	java-pkg_jarfrom msv
-	java-pkg_jarfrom relaxng-datatype
+	java-pkg_jarfrom --virtual stax-api
+	java-pkg_jarfrom relaxng-datatype #Provided by tools.jar of JDK 1.6. Candidate for a virtual?
 	java-pkg_jarfrom rngom
 	java-pkg_jarfrom sun-dtdparser
-	java-pkg_jarfrom sun-jaf
+	java-pkg_jarfrom --virtual jaf
 	java-pkg_jarfrom txw2-runtime
 	java-pkg_jarfrom xml-commons-resolver
-	java-pkg_jarfrom xsdlib
 	java-pkg_jarfrom xsom
 	ln -s $(java-config --tools) || die
 
