@@ -24,7 +24,7 @@ IUSE="X alsa nsplugin"
 # therefore, we can actually piggy back on all their hard work and just subvert the
 # S= variable to gain access to the JDK.. only a couple of changes were made to
 # create this ebuild and it should be very easy to maintain as point releases come..
-S="sun-jdk-${PV}"
+S="${WORKDIR}/bundled-jdk/jdk$(replace_version_separator 3 _)"
 
 JAVA_VM_NO_GENERATION1=true
 
