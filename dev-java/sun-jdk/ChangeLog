@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  17 Oct 2008; Serkan Kaba <serkan@gentoo.org>
+  -sun-jdk-1.6.0.10_beta32.ebuild, -sun-jdk-1.6.0.10.ebuild:
+  In tree.
+
   17 Oct 2008; Serkan Kaba <serkan@gentoo.org> +sun-jdk-1.6.0.10.ebuild,
   +files/fontconfig.Gentoo.properties:
   Version bump.
