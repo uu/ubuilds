@@ -142,6 +142,10 @@ DEPEND="=virtual/jdk-1.5*
 	mobility? (
 		>=dev-java/ant-contrib-1.0_beta:0
 		dev-java/bcprov:0
+		>=dev-java/commons-codec-1.3:0
+		dev-java/commons-httpclient:3
+		>=dev-java/jakarta-slide-webdavclient-2.1:0
+		dev-java/jdom:1.0
 	)
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
@@ -318,7 +322,12 @@ src_unpack () {
 			local tmpfilemobility="${T}/bundled-mobility.txt"
 			cat ${tmpfile} | grep -v "o.n.mobility.lib.activesync/external/nbactivesync-5.0.jar" | \
 				grep -v "j2me.cdc.project.bdj/external/security.jar" | \
-				grep -v "j2me.cdc.project.bdj/external/bdjo.jar" > ${tmpfilemobility}
+				grep -v "j2me.cdc.project.bdj/external/bdjo.jar" | \
+				grep -v "j2me.cdc.project.ricoh/external/RicohAntTasks-2.0.jar" | \
+				grep -v "mobility.databindingme/lib/netbeans_databindingme.jar" | \
+				grep -v "mobility.databindingme/lib/netbeans_databindingme_pim.jar" | \
+				grep -v "mobility.databindingme/lib/netbeans_databindingme_svg.jar" | \
+				grep -v "mobility.deployment.webdav/external/jakarta-slide-ant-webdav-2.1.jar" > ${tmpfilemobility}
 			mv ${tmpfilemobility} ${tmpfile}
 		fi
 
@@ -586,6 +595,16 @@ place_unpack_symlinks() {
 		# security.jar
 		# bdjo.jar
 		dosymcompilejar "j2me.cdc.project.bdj/external" bcprov bcprov.jar bcprov-jdk15-139.jar
+		# RicohAntTasks-2.0.jar
+		dosymcompilejar "j2me.cdc.project.ricoh/external" commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.jar
+		dosymcompilejar "j2me.cdc.project.ricoh/external" commons-codec commons-codec.jar commons-codec-1.3.jar
+		# netbeans_databindingme.jar
+		# netbeans_databindingme_pim.jar
+		# netbeans_databindingme_svg.jar
+		dosymcompilejar "mobility.deployment.webdav/external" jakarta-slide-webdavclient jakarta-slide-webdavlib.jar jakarta-slide-webdavlib-2.1.jar
+		dosymcompilejar "mobility.deployment.webdav/external" commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
+		# jakarta-slide-ant-webdav-2.1.jar
+		dosymcompilejar "mobility.deployment.webdav/external" jdom-1.0 jdom.jar jdom-1.0.jar
 	fi
 
 	if use php ; then
