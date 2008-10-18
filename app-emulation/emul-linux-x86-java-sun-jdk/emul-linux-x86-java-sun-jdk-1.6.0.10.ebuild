@@ -1,21 +1,21 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/emul-linux-x86-java/emul-linux-x86-java-1.5.0.15.ebuild,v 1.8 2008/09/16 20:09:04 serkan Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/emul-linux-x86-java/emul-linux-x86-java-1.6.0.10.ebuild,v 1.1 2008/10/17 21:46:20 serkan Exp $
 
-inherit versionator pax-utils eutils java-vm-2
+inherit versionator pax-utils java-vm-2 eutils
 
 UPDATE="$(get_version_component_range 4)"
 UPDATE="${UPDATE#0}"
-MY_PV="$(get_version_component_range 2-3)u${UPDATE}"
+MY_PV="$(get_version_component_range 2)u${UPDATE}"
 
 At="jdk-${MY_PV}-dlj-linux-i586.bin"
 DESCRIPTION="32bit version Sun's J2SE Development Kit"
-HOMEPAGE="http://java.sun.com/j2se/1.5.0/"
-SRC_URI="http://download.java.net/dlj/binaries/${At}"
+HOMEPAGE="http://java.sun.com/javase/6/"
+SRC_URI="http://dlc.sun.com/dlj/binaries/${At}"
 
-SLOT="1.5"
+SLOT="1.6"
 LICENSE="dlj-1.1"
-KEYWORDS="-* amd64"
+KEYWORDS="-* ~amd64"
 RESTRICT="strip"
 IUSE="X alsa nsplugin"
 
@@ -35,7 +35,9 @@ RDEPEND="alsa? ( app-emulation/emul-linux-x86-soundlibs )
 JAVA_PROVIDE="jdbc-stdext jdbc-rowset"
 
 QA_TEXTRELS_amd64="opt/${P}/jre/lib/i386/motif21/libmawt.so
-	opt/${P}/jre/lib/i386/libdeploy.so"
+	opt/${P}/jre/lib/i386/libdeploy.so
+	opt/${P}/jre/lib/i386/client/libjvm.so
+	opt/${P}/jre/lib/i386/server/libjvm.so"
 
 src_unpack() {
 	mkdir bundled-jdk
@@ -43,7 +45,7 @@ src_unpack() {
 	sh "${DISTDIR}"/${At} --accept-license --unpack || die "Failed to unpack"
 
 	cd ..
-	bash "${FILESDIR}"/construct.sh  bundled-jdk sun-jdk-${PV} ${P} || die "construct.sh failed"
+	bash "${FILESDIR}"/construct-${SLOT}.sh  bundled-jdk sun-jdk-${PV} ${P} || die "construct-${SLOT}.sh failed"
 }
 
 src_compile() {
@@ -54,6 +56,7 @@ src_compile() {
 	# see bug #207282
 	einfo "Creating the Class Data Sharing archives"
 	"${S}"/bin/java -client -Xshare:dump || die
+	"${S}"/bin/java -server -Xshare:dump || die
 }
 
 src_install() {
@@ -70,6 +73,7 @@ src_install() {
 		fi
 
 		install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libjavaplugin_oji.so
+		install_mozilla_plugin /opt/${P}/jre/lib/i386/libnpjp2.so plugin2
 	fi
 
 	# FIXME figure out how to handle the control pannel conflict with
@@ -91,6 +95,13 @@ pkg_postinst() {
 	# Set as default VM if none exists
 	java-vm-2_pkg_postinst
 
+	elog
+	elog "Two variants of the nsplugin are available via eselect java-nsplugin:"
+	elog "${VMHANDLE} and ${VMHANDLE}-plugin2 (the Next-Generation Plug-In) "
+	ewarn "Note that the ${VMHANDLE}-plugin2 works only in Firefox 3!"
+	elog "For more info see https://jdk6.dev.java.net/plugin2/"
+	elog
+
 	if ! use X; then
 		local xwarn="X11 libraries and/or"
 	fi
@@ -98,10 +109,4 @@ pkg_postinst() {
 	echo
 	ewarn "Some parts of Sun's JDK require ${xwarn} virtual/lpr to be installed."
 	ewarn "Be careful which Java libraries you attempt to use."
-
-	echo
-	elog "Beginning with 1.5.0.10 the hotspot vm can use epoll"
-	elog "The epoll-based implementation of SelectorProvider is not selected by"
-	elog "default."
-	elog "Use java -Djava.nio.channels.spi.SelectorProvider=sun.nio.ch.EPollSelectorProvider"
 }
