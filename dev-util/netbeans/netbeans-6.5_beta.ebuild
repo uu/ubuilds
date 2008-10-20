@@ -87,6 +87,14 @@ RDEPEND=">=virtual/jdk-1.5
 		dev-java/toplink-essentials:0
 		dev-java/xmlstreambuffer:0
 	)
+	mobility? (
+		>=dev-java/ant-contrib-1.0_beta:0
+		dev-java/bcprov:0
+		>=dev-java/commons-codec-1.3:0
+		dev-java/commons-httpclient:3
+		dev-java/jdom:1.0
+		>=dev-java/proguard-4.2:0
+	)
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
 	)
@@ -146,6 +154,7 @@ DEPEND="=virtual/jdk-1.5*
 		dev-java/commons-httpclient:3
 		>=dev-java/jakarta-slide-webdavclient-2.1:0
 		dev-java/jdom:1.0
+		>=dev-java/proguard-4.2:0
 	)
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
@@ -204,8 +213,10 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use mobility && ! ( use ide && use java ) ; then
-		eerror "'mobility' USE flag requires 'ide' and 'java' USE flags"
+	# because of failure with "No dependent module org.netbeans.api.web.webmodule", it seems
+	# j2ee cluster is also needed to build mobility cluster
+	if use mobility && ! ( use ide && use j2ee && use java ) ; then
+		eerror "'mobility' USE flag requires 'ide', 'j2ee' and 'java' USE flags"
 		exit 1
 	fi
 
@@ -269,7 +280,9 @@ src_unpack () {
 	einfo "Removing prebuilt *.class files from nbbuild"
 	find "${S}" -name "*.class" -delete
 
-	place_unpack_symlinks
+	if [ -z "${JAVA_PKG_NB_USE_BUNDLED}" ] ; then
+		place_unpack_symlinks
+	fi
 
 	# We do not remove jars that we are not able to replace atm
 	if [ -n "${JAVA_PKG_NB_REMOVE_BUNDLED}" ] ; then
@@ -327,7 +340,14 @@ src_unpack () {
 				grep -v "mobility.databindingme/lib/netbeans_databindingme.jar" | \
 				grep -v "mobility.databindingme/lib/netbeans_databindingme_pim.jar" | \
 				grep -v "mobility.databindingme/lib/netbeans_databindingme_svg.jar" | \
-				grep -v "mobility.deployment.webdav/external/jakarta-slide-ant-webdav-2.1.jar" > ${tmpfilemobility}
+				grep -v "mobility.deployment.webdav/external/jakarta-slide-ant-webdav-2.1.jar" | \
+				grep -v "mobility.j2meunit/external/jmunit4cldc11-1.1.0.jar" | \
+				grep -v "mobility.j2meunit/external/jmunit4cldc10-1.1.0.jar" | \
+				grep -v "svg.perseus/external/perseus-nb-1.0.jar" | \
+				grep -v "vmd.components.midp/netbeans_midp_components_basic/dist/netbeans_midp_components_basic.jar" | \
+				grep -v "vmd.components.midp.pda/netbeans_midp_components_pda/dist/netbeans_midp_components_pda.jar" | \
+				grep -v "vmd.components.midp.wma/netbeans_midp_components_wma/dist/netbeans_midp_components_wma.jar" | \
+				grep -v "vmd.components.svg/nb_svg_midp_components/dist/nb_svg_midp_components.jar" > ${tmpfilemobility}
 			mv ${tmpfilemobility} ${tmpfile}
 		fi
 
@@ -605,6 +625,14 @@ place_unpack_symlinks() {
 		dosymcompilejar "mobility.deployment.webdav/external" commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
 		# jakarta-slide-ant-webdav-2.1.jar
 		dosymcompilejar "mobility.deployment.webdav/external" jdom-1.0 jdom.jar jdom-1.0.jar
+		# jmunit4cldc11-1.1.0.jar
+		# jmunit4cldc10-1.1.0.jar
+		dosymcompilejar "mobility.proguard/external" proguard proguard.jar proguard4.2.jar
+		# perseus-nb-1.0.jar
+		# netbeans_midp_components_basic.jar
+		# netbeans_midp_components_pda.jar
+		# netbeans_midp_components_wma.jar
+		# nb_svg_midp_components.jar
 	fi
 
 	if use php ; then
@@ -775,6 +803,28 @@ symlink_extjars() {
 		targetdir="java2/modules/ext/toplink"
 		dosyminstjar ${targetdir} toplink-essentials toplink-essentials.jar toplink-essentials.jar
 		dosyminstjar ${targetdir} toplink-essentials toplink-essentials-agent.jar toplink-essentials-agent.jar
+	fi
+
+	if use mobility ; then
+		targetdir="mobility8/external/proguard"
+		dosyminstjar ${targetdir} proguard proguard.jar proguard4.2.jar
+		targetdir="mobility8/modules/ext"
+		dosyminstjar ${targetdir} ant-contrib ant-contrib.jar ant-contrib-1.0b3.jar
+		dosyminstjar ${targetdir} bcprov bcprov.jar bcprov-jdk15-139.jar
+		# cdc-agui-swing-layout.jar
+		# cdc-pp-awt-layout.jar
+		dosyminstjar ${targetdir} commons-codec commons-codec.jar commons-codec-1.3.jar
+		dosyminstjar ${targetdir} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.jar
+		dosyminstjar ${targetdir} commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
+		# bdjo.jar
+		# jakarta-slide-ant-webdav-2.1.jar
+		dosyminstjar ${targetdir} jakarta-slide-webdavclient jakarta-slide-webdavlib.jar jakarta-slide-webdavlib-2.1.jar
+		dosyminstjar ${targetdir} jdom-1.0 jdom.jar jdom-1.0.jar
+		# jmunit4cldc11-1.1.0.jar
+		# jmunit4cldc10-1.1.0.jar
+		# perseus-nb-1.0.jar
+		# RicohAntTasks-2.0.jar
+		# security.jar
 	fi
 
 	if use php ; then
