@@ -159,6 +159,9 @@ DEPEND="=virtual/jdk-1.5*
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
 	)
+	soa? (
+		>=dev-java/itext-2:0
+	)
 	xml? (
 		>=dev-java/commons-jxpath-1.1:0
 		dev-java/prefuse:2006
@@ -351,9 +354,17 @@ src_unpack () {
 			mv ${tmpfilemobility} ${tmpfile}
 		fi
 
+		if use soa ; then
+			local tmpfilesoa="${T}/bundled-soa.txt"
+			cat ${tmpfile} | grep -v "bpel.debugger.bdi/external/bdi-1.0.0.jar" | \
+				grep -v "o.n.soa.libs.jgo/external/JGoLayout5.1.jar" > ${tmpfilesoa}
+			mv ${tmpfilesoa} ${tmpfile}
+		fi
+
 		if use xml ; then
 			local tmpfilexml="${T}/bundled-xml.txt"
-			cat ${tmpfile} | grep -v "libs.jxpath/external/jxpath1.1.jar" > ${tmpfilexml}
+			cat ${tmpfile} | grep -v "libs.jxpath/external/jxpath1.1.jar" | \
+				grep -v "o.n.soa.libs.jbiadmincommon/external/jbi-admin-common.jar" > ${tmpfilexml}
 			mv ${tmpfilexml} ${tmpfile}
 		fi
 
@@ -637,6 +648,13 @@ place_unpack_symlinks() {
 
 	if use php ; then
 		dosymcompilejar "libs.javacup/external" javacup javacup.jar java-cup-11a.jar
+	fi
+
+	if use soa ; then
+		# bdi-1.0.0.jar
+		dosymcompilejar "soa.reportgenerator/external" itext iText.jar itext-2.0.5.jar
+		# jbi-admin-common.jar
+		# JGoLayout5.1.jar
 	fi
 
 	if use xml ; then
