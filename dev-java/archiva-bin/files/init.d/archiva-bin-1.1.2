@@ -10,6 +10,10 @@ depend() {
 start()	{
 	ebegin "Starting Apache Archiva"
 
+	# why?
+	export ARCHIVA_HOME=$ARCHIVA_HOME
+	export ARCHIVA_BASE=$ARCHIVA_BASE
+
 	JAVA_HOME=`java-config --jre-home`
 	CLASSPATH="${CLASSPATH}:${ARCHIVA_HOME}/lib:${JAVA_HOME}/lib/tools.jar"
 

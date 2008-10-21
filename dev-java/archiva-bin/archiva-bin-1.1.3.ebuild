@@ -14,7 +14,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc"
 
 RDEPEND=">=virtual/jdk-1.5"
-RESTRICT="strip"
+RESTRICT="binchecks strip"
 
 S="${WORKDIR}/apache-${MY_P}"
 
