@@ -98,6 +98,11 @@ RDEPEND=">=virtual/jdk-1.5
 	php? (
 		>=dev-java/javacup-0.11a_beta20060608
 	)
+	soa? (
+		dev-java/jsr173:0
+		dev-java/wsdl4j:0
+		dev-java/xml-xbeans:1
+	)
 	xml? (
 		>=dev-java/commons-jxpath-1.1:0
 		dev-java/prefuse:2006
@@ -357,7 +362,9 @@ src_unpack () {
 		if use soa ; then
 			local tmpfilesoa="${T}/bundled-soa.txt"
 			cat ${tmpfile} | grep -v "bpel.debugger.bdi/external/bdi-1.0.0.jar" | \
-				grep -v "o.n.soa.libs.jgo/external/JGoLayout5.1.jar" > ${tmpfilesoa}
+				grep -v "o.n.soa.libs.jgo/external/JGoLayout5.1.jar" | \
+				grep -v "o.n.soa.libs.jgo/external/JGo5.1.jar" | \
+				grep -v "o.n.soa.libs.jgo/external/JGoInstruments5.1.jar" > ${tmpfilesoa}
 			mv ${tmpfilesoa} ${tmpfile}
 		fi
 
@@ -655,6 +662,8 @@ place_unpack_symlinks() {
 		dosymcompilejar "soa.reportgenerator/external" itext iText.jar itext-2.0.5.jar
 		# jbi-admin-common.jar
 		# JGoLayout5.1.jar
+		# JGo5.1.jar
+		# JGoInstruments5.1.jar
 	fi
 
 	if use xml ; then
@@ -850,12 +859,33 @@ symlink_extjars() {
 		dosyminstjar ${targetdir} javacup javacup.jar java-cup-11a.jar
 	fi
 
-	if use php ; then
+	if use soa ; then
+		targetdir="soa2/modules/ext/jbi"
+		# jbi-admin-common.jar
+		targetdir="soa2/modules/ext/jgo"
+		# JGo5.1.jar
+		# JGoInstruments5.1.jar
+		# JGoLayout5.1.jar
+		targetdir="soa2/modules/ext/reportgenerator"
+		dosyminstjar ${targetdir} itext iText.jar itext-2.0.5.jar
+		targetdir="soa2/modules/ext/wsdl4j-1.5.2"
+		dosyminstjar ${targetdir} wsdl4j wsdl4j.jar wsdl4j.jar
+		dosyminstjar ${targetdir} wsdl4j qname.jar qname.jar
+		targetdir="soa2/modules/ext/xmlbeans-2.1.0"
+		dosyminstjar ${targetdir} jsr173 jsr173.jar jsr173_1.0_api.jar
+		dosyminstjar ${targetdir} xml-xbeans-1 xbean.jar xbean.jar
+		dosyminstjar ${targetdir} xml-xbeans-1 xbean_xpath.jar xbean_xpath.jar
+		# resolver.jar
+		# xmlpublic.jar
+	fi
+
+	if use xml ; then
 		targetdir="xml2/modules/ext"
 		dosyminstjar ${targetdir} prefuse-2006 prefuse.jar prefuse-beta.jar
+		targetdir="xml2/modules/ext/jxpath"
+		dosyminstjar ${targetdir} commons-jxpath commons-jxpath.jar jxpath1.1.jar
 		targetdir="xml2/modules/ext/xpath"
-		dosyminstjar ${targetdir} commons-jxpath commons-jxpath.jar jxpath-1.2.jar
-		# xml2/modules/ext/jxpath/jxpath1.1.jar
+		# jxpath-1.2.jar
 	fi
 
 	if [ -n "${NB_DOSYMINSTJARFAILED}" ] ; then

@@ -2,6 +2,10 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  21 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  netbeans-6.5_beta.ebuild:
+  Unbundled rest of jars needed for 'soa' cluster
+
   20 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org>
   netbeans-6.5_beta.ebuild:
   partially unbundled jars needed for 'soa' cluster
