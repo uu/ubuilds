@@ -1,0 +1,12 @@
+--- nbbuild/cluster.properties.orig	2008-10-22 01:12:43.000000000 +0200
++++ nbbuild/cluster.properties	2008-10-22 01:13:10.000000000 +0200
+@@ -489,7 +489,8 @@
+         nb.cluster.java,\
+         nb.cluster.ide,\
+         nb.cluster.gsf,\
+-        nb.cluster.platform
++        nb.cluster.platform,\
++	nb.cluster.nb
+ nb.cluster.j2ee=\
+         api.web.webmodule,\
+         el.lexer,\

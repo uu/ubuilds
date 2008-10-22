@@ -10,13 +10,12 @@ DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.5"
-MY_PV=${PV}
-SRC_URI="http://download.netbeans.org/netbeans/6.5/beta/zip/netbeans-6.5beta-200808111757-src.zip"
+SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc1-200810171318-src.zip"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
-IUSE_NETBEANS="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa uml visualweb webcommon websvccommon xml"
-IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa uml visualweb webcommon websvccommon xml linguas_ja linguas_pt_BR linguas_zh_CN"
+IUSE_NETBEANS="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa visualweb webcommon websvccommon xml"
+IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa visualweb webcommon websvccommon xml linguas_ja linguas_pt_BR linguas_zh_CN"
 
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/ant-core-1.7.1_beta2
@@ -101,7 +100,7 @@ RDEPEND=">=virtual/jdk-1.5
 	soa? (
 		dev-java/jsr173:0
 		dev-java/wsdl4j:0
-		dev-java/xml-xbeans:1
+		dev-java/xml-xmlbeans:1
 	)
 	xml? (
 		>=dev-java/commons-jxpath-1.1:0
@@ -196,7 +195,7 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use groovy && ! (use gsf && use ide && use java) ; then
+	if use groovy && ! (use gsf && use ide && use java ) ; then
 		eerror "'groovy' USE flag requires 'gsf', 'ide' and 'java'"
 		exit 1
 	fi
@@ -228,8 +227,8 @@ pkg_setup() {
 		exit 1
 	fi
 
-	if use nb && ! use ide ; then
-		eerror "'nb' USE flag requires 'ide' USE flag"
+	if use nb && ! ( use harness && use ide ) ; then
+		eerror "'nb' USE flag requires 'harness' and 'ide' USE flag"
 		exit 1
 	fi
 
@@ -250,11 +249,6 @@ pkg_setup() {
 
 	if use soa && ! ( use gsf && use ide && use j2ee && use java && use xml ) ; then
 		eerror "'soa' USE flag requires 'gsf', 'ide', 'j2ee', 'java' and 'xml' USE flags"
-		exit 1
-	fi
-
-	if use uml && ! ( use ide && use java ) ; then
-		eerror "'uml' USE flag requires 'ide' and 'java' USE flags"
 		exit 1
 	fi
 
@@ -283,6 +277,10 @@ pkg_setup() {
 
 src_unpack () {
 	unpack ${A}
+
+	epatch ${FILESDIR}/${SLOT}/nbbuild_build.xml.patch \
+		${FILESDIR}/${SLOT}/nbbuild_templates_projectized.xml.patch \
+		${FILESDIR}/${SLOT}/nbbuild_cluster.properties.patch
 
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
@@ -405,7 +403,6 @@ src_compile() {
 	use profiler && clusters="${clusters},nb.cluster.profiler"
 	use ruby && clusters="${clusters},nb.cluster.ruby"
 	use soa && clusters="${clusters},nb.cluster.soa"
-	use uml && clusters="${clusters},nb.cluster.uml"
 	use webcommon && clusters="${clusters},nb.cluster.webcommon"
 	use websvccommon && clusters="${clusters},nb.cluster.websvccommon"
 	use xml && clusters="${clusters},nb.cluster.xml"
@@ -502,7 +499,7 @@ src_install() {
 		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
 	fi
 	if use ruby ; then
-		local ruby_path="${DESTINATION}/ruby2/jruby-1.1/bin"
+		local ruby_path="${DESTINATION}/ruby2/jruby-1.1.4/bin"
 		cd "${D}"/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
 		for file in * ; do
 			fperms 755 ${ruby_path}/${file} || die "Cannot update perms on ${ruby_path}/${file}"
@@ -560,7 +557,7 @@ place_unpack_symlinks() {
 	dosymcompilejar "o.jdesktop.layout/external" swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 	dosymcompilejar "libs.jna/external" jna jna.jar jna-3.0.2.jar
 	dosymcompilejar "libs.jsr223/external" jsr223 script-api.jar jsr223-api.jar
-	dosymcompilejar "libs.junit4/external" junit-4 junit.jar junit-4.1.jar
+	dosymcompilejar "libs.junit4/external" junit-4 junit.jar junit-4.5.jar
 
 	if use harness || use ide ; then
 		dosymcompilejar "apisupport.harness/external" javahelp jhall.jar jsearch-2.0_05.jar
@@ -577,7 +574,7 @@ place_unpack_symlinks() {
 
 	if use ide ; then
 		dosymcompilejar "db.drivers/external" jdbc-postgresql jdbc-postgresql.jar postgresql-8.3-603.jdbc3.jar
-		dosymcompilejar "db.drivers/external" jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.5-bin.jar
+		dosymcompilejar "db.drivers/external" jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.6-bin.jar
 		dosymcompilejar "db.sql.visualeditor/external" javacc javacc.jar javacc-3.2.jar
 		dosymcompilejar "servletapi/external" tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
 		dosymcompilejar "libs.commons_logging/external" commons-logging commons-logging.jar commons-logging-1.1.jar
@@ -591,8 +588,8 @@ place_unpack_symlinks() {
 		#dosymcompilejar "libs.jaxb/external" jaxb-2 jaxb-impl.jar jaxb-impl.jar
 		#dosymcompilejar "libs.jaxb/external" jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
 		#dosymcompilejar "o.apache.xml.resolver/external" xml-commons resolver.jar resolver-1.2.jar
-		dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.24.jar
-		dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.2.0.jar
+		dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.39.jar
+		dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.3.2.jar
 		# svnClientAdapter
 		# svnjavahl
 		# javac-api-nb-7.0-b07.jar
@@ -686,7 +683,7 @@ symlink_extjars() {
 	dosyminstjar ${targetdir} javahelp jh.jar jh-2.0_05.jar
 	dosyminstjar ${targetdir} jna jna.jar jna-3.0.2.jar
 	dosyminstjar ${targetdir} jsr223 script-api.jar script-api.jar
-	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.1.jar
+	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.5.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
 
 	if use groovy ; then
@@ -715,10 +712,10 @@ symlink_extjars() {
 		dosyminstjar ${targetdir} freemarker-2.3 freemarker.jar freemarker-2.3.8.jar
 		dosyminstjar ${targetdir} ini4j ini4j.jar ini4j-0.2.6.jar
 		dosyminstjar ${targetdir} jakarta-oro-2.0 jakarta-oro.jar jakarta-oro-2.0.8.jar
-		dosyminstjar ${targetdir} jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.5-bin.jar
+		dosyminstjar ${targetdir} jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.6-bin.jar
 		dosyminstjar ${targetdir} jdbc-postgresql jdbc-postgresql.jar postgresql-8.3-603.jdbc3.jar
-		dosyminstjar ${targetdir} jsch jsch.jar jsch-0.1.24.jar
-		dosyminstjar ${targetdir} lucene-2 lucene-core.jar lucene-core-2.2.0.jar
+		dosyminstjar ${targetdir} jsch jsch.jar jsch-0.1.39.jar
+		dosyminstjar ${targetdir} lucene-2 lucene-core.jar lucene-core-2.3.2.jar
 		# resolver-1.2.jar
 		dosyminstjar ${targetdir} tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
 		# svnClientAdapter-1.4.0.jar
@@ -873,8 +870,8 @@ symlink_extjars() {
 		dosyminstjar ${targetdir} wsdl4j qname.jar qname.jar
 		targetdir="soa2/modules/ext/xmlbeans-2.1.0"
 		dosyminstjar ${targetdir} jsr173 jsr173.jar jsr173_1.0_api.jar
-		dosyminstjar ${targetdir} xml-xbeans-1 xbean.jar xbean.jar
-		dosyminstjar ${targetdir} xml-xbeans-1 xbean_xpath.jar xbean_xpath.jar
+		dosyminstjar ${targetdir} xml-xmlbeans-1 xbean.jar xbean.jar
+		dosyminstjar ${targetdir} xml-xmlbeans-1 xbean_xpath.jar xbean_xpath.jar
 		# resolver.jar
 		# xmlpublic.jar
 	fi
