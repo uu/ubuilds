@@ -2344,7 +2344,7 @@ java-pkg_do_write_() {
 	java-pkg_init_paths_
 	# Create directory for package.env
 	dodir "${JAVA_PKG_SHAREPATH}"
-	if [[ -n "${JAVA_PKG_CLASSPATH}" || -n "${JAVA_PKG_LIBRARY}" || -n "${JAVA_PKG_VIRTUAL CLASSPATH}" || -f \
+	if [[ -n "${JAVA_PKG_CLASSPATH}" || -n "${JAVA_PKG_LIBRARY}" || -n "${JAVA_PKG_VIRTUAL_CLASSPATH}" || -f \
 			"${JAVA_PKG_DEPEND_FILE}" || -f \
 			"${JAVA_PKG_OPTIONAL_DEPEND_FILE}" ]]; then
 		# Create package.env
