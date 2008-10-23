@@ -34,7 +34,7 @@ RDEPEND=">=virtual/jdk-1.5
 		>=dev-java/jdbc-postgresql-8.3_p603:0
 		>=dev-java/jsch-0.1.24:0
 		dev-java/jsr173:0
-		>=dev-java/lucene-2.2:2
+		>=dev-java/lucene-2.3.2:2.3
 		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
@@ -134,7 +134,7 @@ DEPEND="=virtual/jdk-1.5*
 		>=dev-java/jdbc-postgresql-8.3_p603:0
 		>=dev-java/jsch-0.1.24:0
 		dev-java/jsr173:0
-		>=dev-java/lucene-2.2:2
+		>=dev-java/lucene-2.3.2:2.3
 		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
@@ -589,7 +589,7 @@ place_unpack_symlinks() {
 		#dosymcompilejar "libs.jaxb/external" jaxb-tools-2 jaxb-tools.jar jaxb-xjc.jar
 		#dosymcompilejar "o.apache.xml.resolver/external" xml-commons resolver.jar resolver-1.2.jar
 		dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.39.jar
-		dosymcompilejar "libs.lucene/external" lucene-2 lucene-core.jar lucene-core-2.3.2.jar
+		dosymcompilejar "libs.lucene/external" lucene-2.3 lucene-core.jar lucene-core-2.3.2.jar
 		# svnClientAdapter
 		# svnjavahl
 		# javac-api-nb-7.0-b07.jar
@@ -715,7 +715,7 @@ symlink_extjars() {
 		dosyminstjar ${targetdir} jdbc-mysql jdbc-mysql.jar mysql-connector-java-5.1.6-bin.jar
 		dosyminstjar ${targetdir} jdbc-postgresql jdbc-postgresql.jar postgresql-8.3-603.jdbc3.jar
 		dosyminstjar ${targetdir} jsch jsch.jar jsch-0.1.39.jar
-		dosyminstjar ${targetdir} lucene-2 lucene-core.jar lucene-core-2.3.2.jar
+		dosyminstjar ${targetdir} lucene-2.3 lucene-core.jar lucene-core-2.3.2.jar
 		# resolver-1.2.jar
 		dosyminstjar ${targetdir} tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
 		# svnClientAdapter-1.4.0.jar
