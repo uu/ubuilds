@@ -445,8 +445,8 @@ src_compile() {
 	rm -f ${BUILDDESTINATION}/javadoc/*.zip
 
 	# Use the system ant
-	if use ide ; then
-		cd ${BUILDDESTINATION}/java2/ant || die "Cannot cd to ${BUILDDESTINATION}/ide${IDE_VERSION}/ant"
+	if use java ; then
+		cd ${BUILDDESTINATION}/java2/ant || die "Cannot cd to ${BUILDDESTINATION}/java2/ant"
 		rm -fr lib
 		rm -fr bin
 	fi
@@ -491,18 +491,26 @@ src_install() {
 	# Replace bundled jars with system jars - currently commented out
 	symlink_extjars
 
-	# Correct permissions on executables
+	# Correct permissions on executables and possibly remove executables that are not needed on linux
 	local nbexec_exe="${DESTINATION}/platform${PLATFORM}/lib/nbexec"
 	fperms 775 ${nbexec_exe} || die "Cannot update perms on ${nbexec_exe}"
 	if [[ -e "${D}"/${DESTINATION}/bin/netbeans ]] ; then
-		local netbeans_exe="${DESTINATION}/bin/netbeans"
-		fperms 755 ${netbeans_exe} || die "Cannot update perms on ${netbeans_exe}"
+		fperms 755 "${DESTINATION}/bin/netbeans" || die
+	fi
+	if use cnd ; then
+		local cnd_path="${DESTINATION}/cnd2/bin"
+		cd "${D}"/${cnd_path} || die
+		rm -fv *-SunOS-*
+		rm -fv *-Mac_OS_X-*
+		for file in *.sh ; do
+			fperms 755 ${cnd_path}/${file} || die "Cannot update perms on ${cnd_path}/${file}"
+		done
 	fi
 	if use ruby ; then
 		local ruby_path="${DESTINATION}/ruby2/jruby-1.1.4/bin"
-		cd "${D}"/${ruby_path} || die "Cannot cd to ${D}/${ruby_path}"
+		cd "${D}"/${ruby_path} || die
 		for file in * ; do
-			fperms 755 ${ruby_path}/${file} || die "Cannot update perms on ${ruby_path}/${file}"
+			fperms 755 ${ruby_path}/${file} || die
 		done
 	fi
 

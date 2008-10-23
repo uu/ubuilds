@@ -3,6 +3,10 @@
 # $Header: $
 
   23 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc1.ebuild:
+  Fixed cnd executables (reported by Patrick Holthaus
+  <patrick.holthaus@uni-bielefeld.de>) and ant symlinking
+
+  23 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc1.ebuild:
   Fixed linking to lucene to correct slot 2.3
 
   22 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org> ++,
