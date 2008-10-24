@@ -279,8 +279,7 @@ src_unpack () {
 	unpack ${A}
 
 	epatch ${FILESDIR}/${SLOT}/nbbuild_build.xml.patch \
-		${FILESDIR}/${SLOT}/nbbuild_templates_projectized.xml.patch \
-		${FILESDIR}/${SLOT}/nbbuild_cluster.properties.patch
+		${FILESDIR}/${SLOT}/nbbuild_templates_projectized.xml.patch
 
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
@@ -387,7 +386,10 @@ src_compile() {
 		antflags="${antflags} -Dbuild.compiler.deprecation=false"
 	fi
 
+	# 'nb' cluster needs to be at the top because of bug
+	# http://www.netbeans.org/issues/show_bug.cgi?id=150953
 	local clusters="-Dnb.clusters.list=nb.cluster.platform"
+	use nb && clusters="${clusters},nb.cluster.nb"
 	use apisupport && clusters="${clusters},nb.cluster.apisupport"
 	use cnd && clusters="${clusters},nb.cluster.cnd"
 	use groovy && clusters="${clusters},nb.cluster.groovy"
@@ -398,7 +400,6 @@ src_compile() {
 	use j2ee && clusters="${clusters},nb.cluster.j2ee"
 	use java && clusters="${clusters},nb.cluster.java"
 	use mobility && clusters="${clusters},nb.cluster.mobility"
-	use nb && clusters="${clusters},nb.cluster.nb"
 	use php && clusters="${clusters},nb.cluster.php"
 	use profiler && clusters="${clusters},nb.cluster.profiler"
 	use ruby && clusters="${clusters},nb.cluster.ruby"
