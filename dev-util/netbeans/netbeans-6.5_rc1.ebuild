@@ -19,6 +19,10 @@ IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mob
 
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/ant-core-1.7.1_beta2
+	gsf? (
+		dev-java/bytelist:0
+		dev-java/jvyamlb:0
+	)
 	harness? (
 		>=dev-java/javahelp-2:0
 	)
@@ -117,7 +121,9 @@ DEPEND="=virtual/jdk-1.5*
 	>=dev-java/junit-4:4
 	>=dev-java/swing-layout-1:1
 	gsf? (
+		dev-java/bytelist:0
 		>=dev-java/flute-1.3:0
+		dev-java/jvyamlb:0
 		>=dev-java/sac-1.3:0
 	)
 	ide? (
@@ -331,8 +337,9 @@ src_unpack () {
 			local tmpfilejava="${T}/bundled-java.txt"
 			cat ${tmpfile} | grep -v "libs.javacimpl/external/javac-impl-nb-7.0-b07.jar" | \
 				grep -v "j2ee.toplinklib/external/glassfish-persistence-v2ur1-build-09d.jar" | \
-				grep -v "junit/external/Ant-1.7.1-binary-patch-72080.jar" |
-				grep -v "libs.springframework/external/spring-2.5.jar" > ${tmpfilejava}
+				grep -v "junit/external/Ant-1.7.1-binary-patch-72080.jar" | \
+				grep -v "libs.springframework/external/spring-2.5.jar" | \
+				grep -v "junit/external/junit-4.5-src.jar" > ${tmpfilejava}
 			mv ${tmpfilejava} ${tmpfile}
 		fi
 
@@ -579,6 +586,8 @@ place_unpack_symlinks() {
 	if use gsf ; then
 		dosymcompilejar "css.visual/external" sac sac.jar sac-1.3.jar
 		dosymcompilejar "css.visual/external" flute flute.jar flute-1.3.jar
+		dosymcompilejar "libs.bytelist/external" bytelist bytelist.jar bytelist-0.1.jar
+		dosymcompilejar "libs.jvyamlb/external" jvyamlb jvyamlb.jar jvyamlb-0.2.3.jar
 	fi
 
 	if use ide ; then
@@ -631,6 +640,7 @@ place_unpack_symlinks() {
 		dosymcompilejar "libs.cglib/external" cglib-2.1 cglib.jar cglib-2.2.jar
 		# spring-2.5.jar
 		dosymcompilejar "swingapp/external" appframework appframework.jar appframework-1.0.3.jar
+		# junit-4.5-src.jar
 	fi
 
 	if use mobility ; then
@@ -694,6 +704,12 @@ symlink_extjars() {
 	dosyminstjar ${targetdir} jsr223 script-api.jar script-api.jar
 	dosyminstjar ${targetdir} junit-4 junit.jar junit-4.5.jar
 	dosyminstjar ${targetdir} swing-layout-1 swing-layout.jar swing-layout-1.0.3.jar
+
+	if use gsf ; then
+		targetdir="gsf1/modules/ext"
+		dosyminstjar ${targetdir} bytelist bytelist.jar bytelist-0.1.jar
+		dosyminstjar ${targetdir} jvyamlb jvyamlb.jar jvyamlb-0.2.3.jar
+	fi
 
 	if use groovy ; then
 		targetdir="groovy1/modules/ext"
