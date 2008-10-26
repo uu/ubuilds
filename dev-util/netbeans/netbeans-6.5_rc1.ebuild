@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-util/netbeans/netbeans-5.5-r4.ebuild,v 1.1 2007/01/28 19:40:16 fordfrog Exp $
 
-EAPI=1
+EAPI="2"
 WANT_SPLIT_ANT="true"
 inherit eutils java-pkg-2 java-ant-2
 
@@ -42,6 +42,7 @@ RDEPEND=">=virtual/jdk-1.5
 		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
+		>=dev-util/subversion-1.5:0[java]
 	)
 	j2ee? (
 		>=dev-java/antlr-2.7.6:0
@@ -144,6 +145,7 @@ DEPEND="=virtual/jdk-1.5*
 		dev-java/sun-jaf:0
 		~dev-java/tomcat-servlet-api-3:2.2
 		>=dev-java/xerces-2.8.1:2
+		>=dev-util/subversion-1.5:0[java]
 	)
 	j2ee? (
 		>=dev-java/commons-fileupload-1:0
@@ -284,8 +286,8 @@ pkg_setup() {
 src_unpack () {
 	unpack ${A}
 
-	epatch ${FILESDIR}/${SLOT}/nbbuild_build.xml.patch \
-		${FILESDIR}/${SLOT}/nbbuild_templates_projectized.xml.patch
+	epatch "${FILESDIR}"/${SLOT}/nbbuild_build.xml.patch \
+		"${FILESDIR}"/${SLOT}/nbbuild_templates_projectized.xml.patch
 
 	# Clean up nbbuild
 	einfo "Removing prebuilt *.class files from nbbuild"
@@ -312,7 +314,6 @@ src_unpack () {
 			local tmpfileide="${T}/bundled-ide.txt"
 			cat ${tmpfile} | grep -v "libs.jaxb/external/jaxb-xjc.jar" | \
 				grep -v "libs.jaxb/external/jaxb-impl.jar" | \
-				grep -v "libs.svnClientAdapter/external/svnjavahl-1.5.0.jar" | \
 				grep -v "libs.svnClientAdapter/external/svnClientAdapter-1.4.0.jar" | \
 				grep -v "o.apache.xml.resolver/external/resolver-1.2.jar" | \
 				grep -v "libs.javacapi/external/javac-api-nb-7.0-b07.jar" | \
@@ -329,7 +330,8 @@ src_unpack () {
 				grep -v "j2ee.sun.appsrv81/external/org-netbeans-modules-j2ee-sun-appsrv81.jar" | \
 				grep -v "libs.glassfish_logging/external/glassfish-logging-2.0.jar" | \
 				grep -v "spring.webmvc/external/spring-webmvc-2.5.jar" | \
-				grep -v "web.jsf/external/shale-remoting-1.0.4.jar" > ${tmpfilej2ee}
+				grep -v "web.jsf/external/shale-remoting-1.0.4.jar" | \
+				grep -v "websvc.restlib/external/jsr311-api-doc.jar" > ${tmpfilej2ee}
 			mv ${tmpfilej2ee} ${tmpfile}
 		fi
 
@@ -609,7 +611,7 @@ place_unpack_symlinks() {
 		dosymcompilejar "libs.jsch/external" jsch jsch.jar jsch-0.1.39.jar
 		dosymcompilejar "libs.lucene/external" lucene-2.3 lucene-core.jar lucene-core-2.3.2.jar
 		# svnClientAdapter
-		# svnjavahl
+		dosymcompilejar "libs.svnClientAdapter/external" subversion svn-javahl.jar svnjavahl-1.5.0.jar
 		# javac-api-nb-7.0-b07.jar
 		# tomcat-webserver-3.2.jar
 		dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
@@ -629,6 +631,7 @@ place_unpack_symlinks() {
 		dosymcompilejar "web.jstl11/external" jakarta-jstl jstl.jar jstl-1.1.2.jar
 		dosymcompilejar "web.jstl11/external" jakarta-jstl standard.jar standard-1.1.2.jar
 		dosymcompilejar "web.monitor/external" tomcat-servlet-api-2.3 servlet.jar servlet-2.3.jar
+		# jsr311-api-doc.jar
 	fi
 
 	if use java ; then
@@ -744,7 +747,7 @@ symlink_extjars() {
 		# resolver-1.2.jar
 		dosyminstjar ${targetdir} tomcat-servlet-api-2.2 servlet.jar servlet-2.2.jar
 		# svnClientAdapter-1.4.0.jar
-		# svnjavahl-1.5.0.jar
+		dosyminstjar ${targetdir} subversion svn-javahl.jar svnjavahl-1.5.0.jar
 		# webserver.jar
 		dosyminstjar ${targetdir} xerces-2 xercesImpl.jar xerces-2.8.0.jar
 		targetdir="ide${IDE_VERSION}/modules/ext/jaxb"

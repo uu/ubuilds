@@ -2,6 +2,9 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc1.ebuild:
+  More clusters verified
+
   25 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc1.ebuild:
   Verified unbundling of some clusters
 
