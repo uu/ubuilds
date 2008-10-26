@@ -1,0 +1,11 @@
+--- build.xml	2008-10-26 05:28:56.000000000 +0200
++++ build.xml.fixed	2008-10-26 05:29:35.000000000 +0200
+@@ -75,7 +75,7 @@
+   <target name="tests" depends="rfc2445">
+     <mkdir dir="${testlib}"/>
+     <javac srcdir="${testsrc}" destdir="${testlib}" debug="true">
+-      <classpath refid="build.class.path"/>
++      <classpath refid="test.class.path"/>
+     </javac>
+   </target>
+ 
