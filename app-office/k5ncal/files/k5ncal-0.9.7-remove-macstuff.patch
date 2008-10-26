@@ -1,0 +1,14 @@
+diff -Nur k5nCal-src-0.9.7/src/us/k5n/k5ncal/Main.java k5nCal-src-0.9.7_patched2/src/us/k5n/k5ncal/Main.java
+--- k5nCal-src-0.9.7/src/us/k5n/k5ncal/Main.java	2008-01-18 19:50:46.000000000 +0200
++++ k5nCal-src-0.9.7_patched2/src/us/k5n/k5ncal/Main.java	2008-10-26 11:34:51.000000000 +0200
+@@ -1707,10 +1707,6 @@
+ 
+ 		}
+ 		Main app = new Main ();
+-		if ( System.getProperty ( "mrj.version" ) != null ) {
+-			MacStuff mac = new MacStuff ( app );
+-		}
+-		// Add calendars if not there...
+ 		for ( int i = 0; i < remoteURLs.size (); i++ ) {
+ 			String name = remoteNames.elementAt ( i );
+ 			String url = remoteURLs.elementAt ( i );
