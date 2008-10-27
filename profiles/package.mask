@@ -6,6 +6,11 @@
 # NOTE: Please add your entry at the top!
 #
 
+# Serkan Kaba <serkan@gentoo.org> (27 Oct 2008)
+# Mask languagetool,jwordsplitter CVS ebuild.
+=app-text/languagetool-9999
+=dev-java/jwordsplitter-9999
+
 # Serkan Kaba <serkan@gentoo.org> (20 Sep 2008)
 # Mask jubler SVN ebuild.
 =media-video/jubler-9999
