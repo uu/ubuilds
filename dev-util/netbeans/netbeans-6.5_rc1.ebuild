@@ -10,12 +10,13 @@ DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.5"
-SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc1-200810171318-src.zip"
+SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc1-200810171318-src.zip
+	http://dev.gentoo.org/~fordfrog/distfiles/netbeans-6.5-l10n-20081024141538.tar.bz2"
 
 LICENSE="CDDL"
 KEYWORDS="~amd64 ~x86 ~x86-fbsd"
 IUSE_NETBEANS="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa visualweb webcommon websvccommon xml"
-IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa visualweb webcommon websvccommon xml linguas_ja linguas_pt_BR linguas_zh_CN"
+IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa visualweb webcommon websvccommon xml linguas_de linguas_es linguas_fr linguas_it linguas_ja linguas_pl linguas_pt_BR linguas_ru linguas_sq linguas_zh_CN"
 
 RDEPEND=">=virtual/jdk-1.5
 	>=dev-java/ant-core-1.7.1_beta2
@@ -228,10 +229,12 @@ pkg_setup() {
 		exit 1
 	fi
 
-	# because of failure with "No dependent module org.netbeans.api.web.webmodule", it seems
-	# j2ee cluster is also needed to build mobility cluster
-	if use mobility && ! ( use ide && use j2ee && use java ) ; then
-		eerror "'mobility' USE flag requires 'ide', 'j2ee' and 'java' USE flags"
+	# because of bug http://www.netbeans.org/issues/show_bug.cgi?id=151535 'j2ee' cluster is also
+	# needed to build 'mobility' cluster
+	# because of bug http://www.netbeans.org/issues/show_bug.cgi?id=151538 'apisupport' cluster is also
+	# needed to build 'mobility' cluster
+	if use mobility && ! ( use apisupport && use ide && use j2ee && use java ) ; then
+		eerror "'mobility' USE flag requires 'apisupport', 'ide', 'j2ee' and 'java' USE flags"
 		exit 1
 	fi
 
@@ -331,7 +334,8 @@ src_unpack () {
 				grep -v "libs.glassfish_logging/external/glassfish-logging-2.0.jar" | \
 				grep -v "spring.webmvc/external/spring-webmvc-2.5.jar" | \
 				grep -v "web.jsf/external/shale-remoting-1.0.4.jar" | \
-				grep -v "websvc.restlib/external/jsr311-api-doc.jar" > ${tmpfilej2ee}
+				grep -v "websvc.restlib/external/jsr311-api-doc.jar" | \
+				grep -v "websvc.restlib/external/jersey-api-doc.jar" > ${tmpfilej2ee}
 			mv ${tmpfilej2ee} ${tmpfile}
 		fi
 
@@ -355,8 +359,8 @@ src_unpack () {
 				grep -v "mobility.databindingme/lib/netbeans_databindingme_pim.jar" | \
 				grep -v "mobility.databindingme/lib/netbeans_databindingme_svg.jar" | \
 				grep -v "mobility.deployment.webdav/external/jakarta-slide-ant-webdav-2.1.jar" | \
-				grep -v "mobility.j2meunit/external/jmunit4cldc11-1.1.0.jar" | \
-				grep -v "mobility.j2meunit/external/jmunit4cldc10-1.1.0.jar" | \
+				grep -v "mobility.j2meunit/external/jmunit4cldc11-1.2.1.jar" | \
+				grep -v "mobility.j2meunit/external/jmunit4cldc10-1.2.1.jar" | \
 				grep -v "svg.perseus/external/perseus-nb-1.0.jar" | \
 				grep -v "vmd.components.midp/netbeans_midp_components_basic/dist/netbeans_midp_components_basic.jar" | \
 				grep -v "vmd.components.midp.pda/netbeans_midp_components_pda/dist/netbeans_midp_components_pda.jar" | \
@@ -428,8 +432,12 @@ src_compile() {
 
 	use linguas_de && compile_locale_support "${antflags}" "${clusters}" de
 	use linguas_es && compile_locale_support "${antflags}" "${clusters}" es
+	use linguas_fr && compile_locale_support "${antflags}" "${clusters}" fr
+	use linguas_it && compile_locale_support "${antflags}" "${clusters}" it
 	use linguas_ja && compile_locale_support "${antflags}" "${clusters}" ja
+	use linguas_pl && compile_locale_support "${antflags}" "${clusters}" pl
 	use linguas_pt_BR && compile_locale_support "${antflags}" "${clusters}" pt_BR
+	use linguas_ru && compile_locale_support "${antflags}" "${clusters}" ru
 	use linguas_sq && compile_locale_support "${antflags}" "${clusters}" sq
 	use linguas_zh_CN && compile_locale_support "${antflags}" "${clusters}" zh_CN
 
@@ -616,6 +624,7 @@ place_unpack_symlinks() {
 		# tomcat-webserver-3.2.jar
 		dosymcompilejar "libs.xerces/external" xerces-2 xercesImpl.jar xerces-2.8.0.jar
 		dosymcompilejar "web.flyingsaucer/external" flyingsaucer core-renderer.jar core-renderer-R7final.jar
+		# jersey-api-doc.jar
 	fi
 
 	if use j2ee ; then
@@ -662,8 +671,8 @@ place_unpack_symlinks() {
 		dosymcompilejar "mobility.deployment.webdav/external" commons-httpclient-3 commons-httpclient.jar commons-httpclient-3.0.1.jar
 		# jakarta-slide-ant-webdav-2.1.jar
 		dosymcompilejar "mobility.deployment.webdav/external" jdom-1.0 jdom.jar jdom-1.0.jar
-		# jmunit4cldc11-1.1.0.jar
-		# jmunit4cldc10-1.1.0.jar
+		# jmunit4cldc11-1.2.1.jar
+		# jmunit4cldc10-1.2.1.jar
 		dosymcompilejar "mobility.proguard/external" proguard proguard.jar proguard4.2.jar
 		# perseus-nb-1.0.jar
 		# netbeans_midp_components_basic.jar
