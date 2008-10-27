@@ -112,7 +112,7 @@ src_compile() {
 }
 
 src_install() {
-	local dest="/usr/$(get_libdir)/${P}"
+	local dest="/usr/$(get_libdir)/icedtea7"
 	local ddest="${D}/${dest}"
 	dodir "${dest}" || die
 
