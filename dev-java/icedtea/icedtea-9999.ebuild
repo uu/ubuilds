@@ -82,7 +82,7 @@ pkg_setup() {
 }
 src_unpack() {
 	mercurial_src_unpack
-	S="${WORKDIR}"/"${PN}"
+	S="${WORKDIR}"/${PN}
 	cd "${S}"
 	eautoreconf || die "failed to regenerate autoconf infrastructure"
 }
