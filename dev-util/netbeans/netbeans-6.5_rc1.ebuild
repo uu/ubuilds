@@ -14,7 +14,7 @@ SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc1-200810
 	http://dev.gentoo.org/~fordfrog/distfiles/netbeans-6.5-l10n-20081024141538.tar.bz2"
 
 LICENSE="CDDL"
-KEYWORDS="~amd64 ~x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~x86"
 IUSE_NETBEANS="apisupport cnd groovy gsf harness ide identity j2ee java mobility nb php profiler ruby soa visualweb webcommon websvccommon xml"
 IUSE="+apisupport cnd debug doc groovy gsf +harness +ide identity j2ee +java mobility +nb php profiler ruby soa visualweb webcommon websvccommon xml linguas_de linguas_es linguas_fr linguas_it linguas_ja linguas_pl linguas_pt_BR linguas_ru linguas_sq linguas_zh_CN"
 

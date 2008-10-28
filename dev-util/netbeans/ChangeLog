@@ -3,6 +3,9 @@
 # $Header: $
 
   28 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc1.ebuild:
+  Dropping ~x86-fbsd keyword for now, can be added later
+
+  28 Oct 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc1.ebuild:
   Minor fix in linguas support, but linguas support does not work in
   netbeans yet for some reason
 
