@@ -301,7 +301,7 @@ src_unpack () {
 	fi
 
 	# We do not remove jars that we are not able to replace atm
-	if [ -n "${JAVA_PKG_NB_REMOVE_BUNDLED}" ] ; then
+	# if [ -n "${JAVA_PKG_NB_REMOVE_BUNDLED}" ] ; then
 		local tmpfile="${T}/bundled.txt"
 
 		einfo "Removing rest of the bundled jars..."
@@ -386,7 +386,7 @@ src_unpack () {
 		fi
 
 		cat ${tmpfile} | xargs rm -v
-	fi
+	# fi
 }
 
 src_compile() {
@@ -977,5 +977,5 @@ dosyminstjar() {
 # 3 - locale
 compile_locale_support() {
 	einfo "Compiling support for '${3}' locale"
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${1} ${2} -Dlocales=${3} build-nozip-ml
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${1} ${2} -Dlocales=${3} -f nbbuild/build.xml build-nozip-ml
 }
