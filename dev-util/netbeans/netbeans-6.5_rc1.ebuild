@@ -511,24 +511,29 @@ src_install() {
 
 	# Correct permissions on executables and possibly remove executables that are not needed on linux
 	local nbexec_exe="${DESTINATION}/platform${PLATFORM}/lib/nbexec"
-	fperms 775 ${nbexec_exe} || die "Cannot update perms on ${nbexec_exe}"
+	fperms 775 ${nbexec_exe} || die
 	if [[ -e "${D}"/${DESTINATION}/bin/netbeans ]] ; then
 		fperms 755 "${DESTINATION}/bin/netbeans" || die
 	fi
 	if use cnd ; then
-		local cnd_path="${DESTINATION}/cnd2/bin"
-		cd "${D}"/${cnd_path} || die
+		cd "${D}"/${DESTINATION}/cnd2/bin || die
 		rm -fv *-SunOS-*
 		rm -fv *-Mac_OS_X-*
 		for file in *.sh ; do
-			fperms 755 ${cnd_path}/${file} || die "Cannot update perms on ${cnd_path}/${file}"
+			fperms 755 ${file} || die
+		done
+	fi
+	if use profiler ; then
+		cd "${D}"/${DESTINATION}/usr/share/netbeans-6.5/profiler3/remote-pack-defs || die
+		for file in *.sh ; do
+			fperms 755 ${file} || die
 		done
 	fi
 	if use ruby ; then
 		local ruby_path="${DESTINATION}/ruby2/jruby-1.1.4/bin"
-		cd "${D}"/${ruby_path} || die
+		cd "${D}"/${DESTINATION}/ruby2/jruby-1.1.4/bin || die
 		for file in * ; do
-			fperms 755 ${ruby_path}/${file} || die
+			fperms 755 ${file} || die
 		done
 	fi
 
@@ -560,7 +565,6 @@ src_install() {
 		einfo "Installing icon..."
 		dodir /usr/share/icons/hicolor/32x32/apps
 		dosym ${DESTINATION}/nb${SLOT}/netbeans.png /usr/share/icons/hicolor/32x32/apps/netbeans-${SLOT}.png
-
 	fi
 
 	make_desktop_entry netbeans-${SLOT} "Netbeans ${SLOT}" netbeans-${SLOT}.png Development
