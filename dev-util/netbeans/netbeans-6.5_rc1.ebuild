@@ -430,16 +430,16 @@ src_compile() {
 	#use cnd && ANT_TASKS="${ANT_TASKS} antlr-netbeans-cnd"
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${antflags} ${clusters} -f nbbuild/build.xml build-nozip
 
-	use linguas_de && compile_locale_support "${antflags}" "${clusters}" de
-	use linguas_es && compile_locale_support "${antflags}" "${clusters}" es
-	use linguas_fr && compile_locale_support "${antflags}" "${clusters}" fr
-	use linguas_it && compile_locale_support "${antflags}" "${clusters}" it
-	use linguas_ja && compile_locale_support "${antflags}" "${clusters}" ja
-	use linguas_pl && compile_locale_support "${antflags}" "${clusters}" pl
-	use linguas_pt_BR && compile_locale_support "${antflags}" "${clusters}" pt_BR
-	use linguas_ru && compile_locale_support "${antflags}" "${clusters}" ru
-	use linguas_sq && compile_locale_support "${antflags}" "${clusters}" sq
-	use linguas_zh_CN && compile_locale_support "${antflags}" "${clusters}" zh_CN
+	use linguas_de && compile_locale_support "${antflags}" de
+	use linguas_es && compile_locale_support "${antflags}" es
+	use linguas_fr && compile_locale_support "${antflags}" fr
+	use linguas_it && compile_locale_support "${antflags}" it
+	use linguas_ja && compile_locale_support "${antflags}" ja
+	use linguas_pl && compile_locale_support "${antflags}" pl
+	use linguas_pt_BR && compile_locale_support "${antflags}" pt_BR
+	use linguas_ru && compile_locale_support "${antflags}" ru
+	use linguas_sq && compile_locale_support "${antflags}" sq
+	use linguas_zh_CN && compile_locale_support "${antflags}" zh_CN
 
 	# Running build-javadoc from the same command line as build-nozip doesn't work
 	# so we must run it separately
@@ -981,9 +981,9 @@ dosyminstjar() {
 # Compiles locale support
 # Arguments
 # 1 - ant flags
-# 2 - clusters
-# 3 - locale
+# 2 - locale
 compile_locale_support() {
-	einfo "Compiling support for '${3}' locale"
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${1} ${2} -Dlocales=${3} -f l10n/build.xml build
+	einfo "Compiling support for '${2}' locale"
+	eant ${1} -Dlocales=${2} -Ddist.dir=nbbuild/netbeans -Dnbms.dir="" -Dnbms.dist.dir="" \
+		-f l10n/build.xml build
 }
