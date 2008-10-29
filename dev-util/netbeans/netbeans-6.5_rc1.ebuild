@@ -449,12 +449,18 @@ src_compile() {
 	fi
 
 	# Remove non-Linux binaries
+	einfo "Removing libraries and scripts for different archs..."
 	find ${BUILDDESTINATION} -type f \
 		-name "*.exe" -o \
 		-name "*.cmd" -o \
 		-name "*.bat" -o \
 		-name "*.dll"	  \
-		| xargs rm -f
+		| grep -v "/profiler3/" | xargs rm -fv
+
+	if use cnd ; then
+		rm -fv ${BUILDDESTINATION}/netbeans/cnd2/bin/*-SunOS-*
+		rm -fv ${BUILDDESTINATION}/netbeans/cnd2/bin/*-Mac_OS_X-*
+	fi
 
 	# Removing external stuff. They are api docs from external libs.
 	rm -f ${BUILDDESTINATION}/ide${IDE_VERSION}/docs/*.zip
@@ -517,14 +523,12 @@ src_install() {
 	fi
 	if use cnd ; then
 		cd "${D}"/${DESTINATION}/cnd2/bin || die
-		rm -fv *-SunOS-*
-		rm -fv *-Mac_OS_X-*
 		for file in *.sh ; do
 			fperms 755 ${file} || die
 		done
 	fi
 	if use profiler ; then
-		cd "${D}"/${DESTINATION}/usr/share/netbeans-6.5/profiler3/remote-pack-defs || die
+		cd "${D}"/${DESTINATION}/profiler3/remote-pack-defs || die
 		for file in *.sh ; do
 			fperms 755 ${file} || die
 		done
@@ -981,5 +985,5 @@ dosyminstjar() {
 # 3 - locale
 compile_locale_support() {
 	einfo "Compiling support for '${3}' locale"
-	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${1} ${2} -Dlocales=${3} -f nbbuild/build.xml build-nozip-ml
+	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant ${1} ${2} -Dlocales=${3} -f l10n/build.xml build
 }
