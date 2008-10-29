@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/jaxme/ChangeLog,v 1.26 2007/10/22 10:13:21 betelgeuse Exp $
 
+  29 Oct 2008; Serkan Kaba <serkan@gentoo.org> jaxme-0.5.2.ebuild:
+  Fixed calls to dosym. Closes bug #244869. Thanks to Diego Pettenò
+  <flameeyes@gentoo.org for the report and help.
+
   12 Oct 2008; Serkan Kaba <serkan@gentoo.org> jaxme-0.5.2.ebuild:
   Register xs and js for the virtual. They're dependencies of rt.
 

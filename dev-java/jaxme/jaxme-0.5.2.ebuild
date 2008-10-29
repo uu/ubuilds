@@ -80,10 +80,10 @@ src_install() {
 	done
 	
 	#Compatibility symlink for jaxb
-	dosym /usr/share/${PN}/lib/jaxmeapi.jar /usr/share/${PN}/lib/jaxb-api.jar
+	dosym jaxmeapi.jar /usr/share/${PN}/lib/jaxb-api.jar || die "dosym jaxmeapi.jar failed"
 	java-pkg_regjar --virtual /usr/share/${PN}/lib/jaxb-api.jar
 	
-	dosym /usr/share/${PN}/lib/jaxme2-rt.jar /usr/share/${PN}/lib/jaxb-impl.jar
+	dosym jaxme2-rt.jar /usr/share/${PN}/lib/jaxb-impl.jar || die "dosym jaxme2-rt.jar failed"
 	java-pkg_regjar --virtual /usr/share/${PN}/lib/jaxb-impl.jar
 
 
