@@ -35,7 +35,7 @@ src_unpack() {
 	unpack ${A}
 	cd "${S}"
 	epatch "${FILESDIR}/${P}.patch"
-	#epatch "${FILESDIR}/${P}-disable-resize.patch"
+	epatch "${FILESDIR}/${P}-ffmpegfix.patch"
 	chmod +x resources/installers/linux/iconinstall
 }
 

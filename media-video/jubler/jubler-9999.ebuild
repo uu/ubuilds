@@ -54,7 +54,7 @@ src_unpack() {
 
 src_compile() {
 	java-pkg_filter-compiler ecj-3.2
-	eant version-update $(use nls && echo i18n) jar faq || die "eant failed"
+	eant $(use nls && echo i18n) jar faq || die "eant failed"
 	cp -v dist/help/jubler-faq.html build/classes/help || die "cp failed"
 	cd resources/ffdecode || die
 	NOSTRIP=true emake linuxdyn || die "make failed"
