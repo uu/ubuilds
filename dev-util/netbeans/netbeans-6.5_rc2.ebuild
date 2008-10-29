@@ -10,7 +10,7 @@ DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.5"
-SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc1-200810171318-src.zip
+SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc2-200810270001-src.zip
 	http://dev.gentoo.org/~fordfrog/distfiles/netbeans-6.5-l10n-20081024141538.tar.bz2"
 
 LICENSE="CDDL"
@@ -399,9 +399,9 @@ src_compile() {
 		antflags="${antflags} -Dbuild.compiler.deprecation=false"
 	fi
 
-	# 'nb' cluster needs to be at the top because of bug
-	# http://www.netbeans.org/issues/show_bug.cgi?id=150953
-	local clusters="-Dnb.clusters.list=nb.cluster.platform"
+        # 'nb' cluster needs to be at the top because of bug
+        # http://www.netbeans.org/issues/show_bug.cgi?id=150953
+ 	local clusters="-Dnb.clusters.list=nb.cluster.platform"
 	use nb && clusters="${clusters},nb.cluster.nb"
 	use apisupport && clusters="${clusters},nb.cluster.apisupport"
 	use cnd && clusters="${clusters},nb.cluster.cnd"
@@ -984,6 +984,6 @@ dosyminstjar() {
 # 2 - locale
 compile_locale_support() {
 	einfo "Compiling support for '${2}' locale"
-	eant ${1} -Dlocales=${2} -Ddist.dir=nbbuild/netbeans -Dnbms.dir="" -Dnbms.dist.dir="" \
+	eant ${1} -Dlocales=${2} -Ddist.dir=../nbbuild/netbeans -Dnbms.dir="" -Dnbms.dist.dir="" \
 		-f l10n/build.xml build
 }
