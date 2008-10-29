@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  29 Oct 2008; Serkan Kaba <serkan@gentoo.org> -jubler-3.9.6.ebuild,
+  -files/jubler-3.9.6-ffmpegfix.patch, -files/jubler-3.9.6.patch:
+  Remove jubler-3.9.6.
+
   27 Sep 2008; Serkan Kaba <serkan@gentoo.org> jubler-3.9.6.ebuild:
   Use EAPI 2 use dependencies.
 
