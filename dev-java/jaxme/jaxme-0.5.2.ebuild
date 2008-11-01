@@ -50,7 +50,6 @@ src_unpack() {
 	java-pkg_jarfrom junit
 	java-pkg_jarfrom log4j log4j.jar log4j-1.2.8.jar
 	java-pkg_jarfrom gnu-crypto gnu-crypto.jar
-	java-pkg_jarfrom xerces-2
 	java-pkg_jarfrom xmldb xmldb-api.jar xmldb-api-20021118.jar
 	java-pkg_jarfrom xmldb xmldb-api-sdk.jar xmldb-api-sdk-20021118.jar
 
@@ -71,7 +70,7 @@ EANT_EXTRA_ARGS="-Dbuild.apidocs=dist/doc/api"
 EANT_BUILD_TARGET="API.jar XS.jar JS.jar JM.compile PM.compile"
 
 src_install() {
-	for i in jaxmeapi jaxme2-rt jaxmepm; do
+	for i in jaxmeapi jaxme2 jaxme2-rt jaxmepm; do
 		java-pkg_newjar dist/${i}-${PV}.jar ${i}.jar
 	done
 	
