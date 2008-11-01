@@ -1,0 +1,43 @@
+=== modified file 'build/faster'
+--- build/faster	2008-10-13 09:14:44 +0000
++++ build/faster	2008-10-31 21:07:41 +0000
+@@ -491,6 +491,7 @@
+ 	cmd += config['CC'] + " "
+ 	cmd += "-Isrc/jni -Itmp/include "
+ 	cmd += config['GNOME_CCFLAGS'] + " "
++	cmd += os.getenv("CFLAGS") + " "
+ 	cmd += "-o " + target + " -c " + source
+ 
+ 	executeCommand(config['CC_CMD'], source, cmd)
+@@ -517,10 +518,15 @@
+ 		return
+ 
+ 	cmd = config['LINK'] + " "
++	cmd += os.getenv("LDFLAGS") + " "
+ 	cmd += "-shared "
++	cmd += "-o " + so + " "
++	cmd += " ".join(list) + " "
+ 	cmd += config['GNOME_LDFLAGS'] + " "
+-	cmd += "-o " + so + " "
+-	cmd += " ".join(list)
++	print config['LINK_CMD']
++	print " "
++	print cmd
++	print "\n"
+ 
+ 	executeCommand(config['LINK_CMD'], so, cmd)
+ 
+
+=== modified file 'configure'
+--- configure	2008-10-13 09:15:39 +0000
++++ configure	2008-10-31 19:25:01 +0000
+@@ -1856,7 +1856,7 @@
+ 
+ 	print CONFIG "CC=$cc -g -Wall -fPIC $jni_include -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast $deprecations -Werror-implicit-function-declaration -Wfatal-errors\n";
+ 	print CONFIG "CC_CMD=GCC      \n";
+-	print CONFIG "LINK=$cc -g -shared -Wall -fPIC\n";
++	print CONFIG "LINK=$cc -g -Wall -fPIC\n";
+ 	print CONFIG "LINK_CMD=LINK     \n";
+ } elsif (($cc) && ($os eq "solaris")) {
+ 	print CONFIG "CC=$cc -Kpic -I/usr/java/include -I/usr/java/include/solaris\n";
+
