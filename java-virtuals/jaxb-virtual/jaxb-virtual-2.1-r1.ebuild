@@ -19,9 +19,8 @@ DEPEND=""
 RDEPEND="|| (
 			=virtual/jdk-1.6*
 			dev-java/jaxb:2
-			dev-java/jaxme:0
 		)
 		>=dev-java/java-config-2.1.6"
 
-JAVA_VIRTUAL_PROVIDES="jaxb-2 jaxme"
+JAVA_VIRTUAL_PROVIDES="jaxb-2"
 JAVA_VIRTUAL_VM="icedtea6 sun-jdk-1.6 ibm-jdk-bin-1.6"

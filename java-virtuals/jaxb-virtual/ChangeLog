@@ -2,6 +2,9 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  01 Nov 2008; Serkan Kaba <serkan@gentoo.org> jaxb-virtual-2.1-r1.ebuild:
+  Remove jaxme from jaxb-virtual-2 provider list.
+
   01 Sep 2008; Serkan Kaba <serkan@gentoo.org> jaxb-virtual-1.0.ebuild:
   Add jaxme to JAVA_VIRTUAL_PROVIDES.
 
