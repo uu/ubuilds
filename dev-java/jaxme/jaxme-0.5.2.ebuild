@@ -19,7 +19,6 @@ KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="
-	>=dev-java/xerces-2.7
 	dev-java/junit
 	dev-java/gnu-crypto
 	>=dev-java/log4j-1.2.8

@@ -3,6 +3,9 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-java/jaxme/ChangeLog,v 1.26 2007/10/22 10:13:21 betelgeuse Exp $
 
   01 Nov 2008; Serkan Kaba <serkan@gentoo.org> jaxme-0.5.2.ebuild:
+  Remove unneeded dependency.
+
+  01 Nov 2008; Serkan Kaba <serkan@gentoo.org> jaxme-0.5.2.ebuild:
   Install jaxme2.jar. Remove unneeded dependency.
 
   29 Oct 2008; Serkan Kaba <serkan@gentoo.org> jaxme-0.5.2.ebuild:
