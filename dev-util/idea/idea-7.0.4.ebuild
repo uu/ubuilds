@@ -2,13 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils
+inherit eutils versionator
 
-#Change next lines when updating version
+#Change this line when updating version
 BUILD="7941"
-#Change slot number between incompatible IDEA versions
-SLOT="7"
-#Change JDK version if required
+
+SLOT="$(get_major_version)"
 RDEPEND=">=virtual/jdk-1.6"
 
 DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
@@ -21,17 +20,17 @@ S="${WORKDIR}/${PN}-${BUILD}"
 
 src_install() {
 	local dir="/opt/${P}"
-	insinto ${dir}
+	insinto "${dir}"
 	doins -r *
-	chmod 755 ${D}/${dir}/bin/*.sh || die
+	fperms 755 ${dir}/bin/${PN}.sh
 	local exe=${PN}-${SLOT}
 	local icon=${exe}.png
-	newicon "bin/idea32.png" ${icon} || die
+	newicon "bin/${PN}32.png" ${icon}
 	dodir /usr/bin
-	cat >${D}/usr/bin/${exe} <<-EOF
+	cat > "${D}/usr/bin/${exe}" <<-EOF
 #!/bin/sh
 /opt/${P}/bin/${PN}.sh \$@
 EOF
-	fperms 755 /usr/bin/${exe} || die
-	make_desktop_entry ${exe} "IntelliJ IDEA ${PV}" ${icon} "Development;IDE" || die
+	fperms 755 /usr/bin/${exe}
+	make_desktop_entry ${exe} "IntelliJ IDEA ${PV}" ${icon} "Development;IDE"
 }

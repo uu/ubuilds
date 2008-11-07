@@ -2,13 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils
+inherit eutils versionator
 
-#Change next lines when updating version
-BUILD="7364"
-#Change slot number between incompatible IDEA versions
-SLOT="7"
-#Change JDK version if required
+#Change this line when updating version
+BUILD="9013"
+
+SLOT="$(get_major_version)"
 RDEPEND=">=virtual/jdk-1.6"
 
 DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
@@ -21,14 +20,14 @@ S="${WORKDIR}/${PN}-${BUILD}"
 
 src_install() {
 	local dir="/opt/${P}"
-	insinto ${dir}
+	insinto "${dir}"
 	doins -r *
-	chmod 755 ${D}/${dir}/bin/*.sh
+	fperms 755 ${dir}/bin/${PN}.sh
 	local exe=${PN}-${SLOT}
 	local icon=${exe}.png
-	newicon "bin/idea32.png" ${icon}
+	newicon "bin/${PN}32.png" ${icon}
 	dodir /usr/bin
-	cat >${D}/usr/bin/${exe} <<-EOF
+	cat > "${D}/usr/bin/${exe}" <<-EOF
 #!/bin/sh
 /opt/${P}/bin/${PN}.sh \$@
 EOF
