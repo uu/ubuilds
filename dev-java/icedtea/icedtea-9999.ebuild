@@ -7,8 +7,8 @@ EAPI="1"
 inherit autotools pax-utils java-pkg-2 java-utils-2 java-vm-2 mercurial
 
 DESCRIPTION="A harness to build the OpenJDK using Free Software build tools and dependencies"
-OPENJDK_BUILD="38"
-OPENJDK_DATE="23_oct_2008"
+OPENJDK_BUILD="39"
+OPENJDK_DATE="06_nov_2008"
 OPENJDK_TARBALL="openjdk-7-ea-src-b${OPENJDK_BUILD}-${OPENJDK_DATE}.zip"
 CACAO_TARBALL="cacao-0.99.3.tar.gz"
 SRC_URI="http://download.java.net/openjdk/jdk7/promoted/b${OPENJDK_BUILD}/${OPENJDK_TARBALL}

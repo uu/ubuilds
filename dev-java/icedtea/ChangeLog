@@ -2,6 +2,9 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  10 Nov 2008; Andrew John Hughes <gnu_andrew@member.fsf.org> icedtea-9999.ebuild: 
+	Bump to b39.
+	
   27 Oct 2008; Andrew John Hughes <gnu_andrew@member.fsf.org> icedtea-9999.ebuild icedtea-1.7.ebuild: 
 	Rename back to IcedTea; can't handle difference between this and repository.
 	
