@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI="2"
 WANT_ANT_TASKS="ant-swing ant-junit ant-antlr"
 JAVA_PKG_IUSE="source doc jboss"
 
@@ -18,32 +19,32 @@ SLOT="3.2"
 KEYWORDS="~x86 ~amd64"
 
 COMMON_DEPEND="
-	dev-java/ant-antlr
-	dev-java/antlr
-	=dev-java/asm-1.5*
-	dev-java/c3p0
-	=dev-java/cglib-2.1*
-	dev-java/commons-collections
-	dev-java/commons-logging
-	=dev-java/dom4j-1*
+	dev-java/ant-antlr:0
+	dev-java/antlr:0
+	dev-java/asm:1.5
+	dev-java/c3p0:0
+	dev-java/cglib:2.1
+	dev-java/commons-collections:0
+	dev-java/commons-logging:0
+	dev-java/dom4j:1
 	>=dev-java/ehcache-1.2.4:1.4
-	=dev-java/jaxen-1.1*
-	dev-java/log4j
-	dev-java/oscache
-	dev-java/proxool
-	=dev-java/swarmcache-1*
+	dev-java/jaxen:1.1
+	dev-java/log4j:0
+	dev-java/oscache:0
+	dev-java/proxool:0
+	dev-java/swarmcache:1
 	jboss? (
-		dev-java/jboss-cache
+		dev-java/jboss-cache:0
 		=dev-java/jboss-module-common-4.0*
 		=dev-java/jboss-module-j2ee-4.0*
 		=dev-java/jboss-module-jmx-4.0*
 		=dev-java/jboss-module-system-4.0*
 	)
-	!jboss? ( dev-java/sun-jacc-api )
-	dev-java/jgroups
-	=dev-java/javassist-3*
-	>=dev-java/xerces-2.7
-	dev-java/jta"
+	!jboss? ( dev-java/sun-jacc-api:0 )
+	dev-java/jgroups:0
+	dev-java/javassist:3
+	dev-java/xerces:2
+	dev-java/jta:0"
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEPEND}"
 # FIXME doesn't like  Java 1.6's JDBC API
@@ -51,7 +52,7 @@ DEPEND="|| (
 		=virtual/jdk-1.4*
 		=virtual/jdk-1.5*
 	)
-	dev-java/ant-core
+	dev-java/ant-core:0
 	${COMMON_DEPEND}"
 
 S="${WORKDIR}/${PN}-${SLOT}"
@@ -70,11 +71,10 @@ src_unpack() {
 
 
 	cd "${S}/lib"
-	rm *.jar
+	rm -vf *.jar
 
-	local JAR_PACKAGES="c3p0 commons-collections javassist-3
-		commons-logging dom4j-1 ehcache-1.4 jaxen-1.1
-		log4j oscache proxool swarmcache-1.0 xerces-2 jgroups jta"
+	java-pkg_jar-from c3p0,commons-collections,javassist-3,commons-logging,dom4j-1,ehcache-1.4,jaxen-1.1
+	java-pkg_jar-from log4j,oscache,proxool,swarmcache-1.0,xerces-2,jgroups,jta
 	for PACKAGE in ${JAR_PACKAGES}; do
 		java-pkg_jar-from ${PACKAGE}
 	done
@@ -114,7 +114,7 @@ src_install() {
 	dodoc changelog.txt readme.txt
 	if use doc; then
 		java-pkg_dojavadoc doc/api
-		dohtml -r doc/other 
+		dohtml -r doc/other
 		dohtml -r doc/reference
 	fi
 	use source && java-pkg_dosrc src/*
