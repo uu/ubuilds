@@ -399,9 +399,9 @@ src_compile() {
 		antflags="${antflags} -Dbuild.compiler.deprecation=false"
 	fi
 
-        # 'nb' cluster needs to be at the top because of bug
-        # http://www.netbeans.org/issues/show_bug.cgi?id=150953
- 	local clusters="-Dnb.clusters.list=nb.cluster.platform"
+	# 'nb' cluster needs to be at the top because of bug
+	# http://www.netbeans.org/issues/show_bug.cgi?id=150953
+	local clusters="-Dnb.clusters.list=nb.cluster.platform"
 	use nb && clusters="${clusters},nb.cluster.nb"
 	use apisupport && clusters="${clusters},nb.cluster.apisupport"
 	use cnd && clusters="${clusters},nb.cluster.cnd"
