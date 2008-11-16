@@ -32,7 +32,7 @@ COMMON_DEPEND="
 	dev-java/log4j:0
 	dev-java/oscache:0
 	dev-java/proxool:0
-	dev-java/swarmcache:1
+	dev-java/swarmcache:1.0
 	jboss? (
 		dev-java/jboss-cache:0
 		=dev-java/jboss-module-common-4.0*

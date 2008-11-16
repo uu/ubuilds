@@ -4,6 +4,10 @@
 
   16 Nov 2008; Miroslav Šulc <fordfrog@gentoo.org>
   hibernate-3.2.2-r1.ebuild:
+  Fixed swarmcache dependency
+
+  16 Nov 2008; Miroslav Šulc <fordfrog@gentoo.org>
+  hibernate-3.2.2-r1.ebuild:
   Migrated to EAPI-2
 
   04 Sep 2008; Miroslav Šulc <fordfrog@gentoo.org>
