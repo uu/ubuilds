@@ -10,7 +10,7 @@ DESCRIPTION="NetBeans IDE for Java"
 HOMEPAGE="http://www.netbeans.org"
 
 SLOT="6.5"
-SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc2-200810270001-src.zip
+SRC_URI="http://download.netbeans.org/netbeans/6.5/rc/zip/netbeans-6.5rc2-200810270001-ml-src.zip
 	http://dev.gentoo.org/~fordfrog/distfiles/netbeans-6.5-l10n-20081024141538.tar.bz2"
 
 LICENSE="CDDL"

@@ -2,6 +2,10 @@
 # Copyright 2002-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  18 Nov 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc2.ebuild:
+  Fixed source file path, reported by Patrick Holthaus
+  <patrick.holthaus@uni-bielefeld.de>
+
   16 Nov 2008; Miroslav Šulc <fordfrog@gentoo.org> netbeans-6.5_rc2.ebuild:
   fixed some repoman complaints
 
