@@ -34,6 +34,8 @@ RDEPEND=">=virtual/jre-1.5
 
 S="${WORKDIR}/${MY_PN}-${PV}-src"
 
+EANT_BUILD_TARGET="build furniture textures help"
+
 src_unpack() {
 	unpack ${A}
 
@@ -58,12 +60,8 @@ src_unpack() {
 	fi
 }
 
-src_compile() {
-	eant build
-}
-
 src_install() {
-	java-pkg_dojar "${S}"/deploy/${MY_PN}.jar
+	java-pkg_dojar "${S}"/deploy/*.jar
 
 	# I don't know how to do it better
 	# (do not copy javaws.jar, use it from its original location)
