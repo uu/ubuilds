@@ -7,8 +7,8 @@ EAPI="1"
 inherit autotools pax-utils java-pkg-2 java-utils-2 java-vm-2 mercurial
 
 DESCRIPTION="A harness to build the OpenJDK using Free Software build tools and dependencies"
-OPENJDK_BUILD="39"
-OPENJDK_DATE="06_nov_2008"
+OPENJDK_BUILD="40"
+OPENJDK_DATE="20_nov_2008"
 OPENJDK_TARBALL="openjdk-7-ea-src-b${OPENJDK_BUILD}-${OPENJDK_DATE}.zip"
 CACAO_TARBALL="cacao-0.99.3.tar.gz"
 SRC_URI="http://download.java.net/openjdk/jdk7/promoted/b${OPENJDK_BUILD}/${OPENJDK_TARBALL}
@@ -16,9 +16,7 @@ SRC_URI="http://download.java.net/openjdk/jdk7/promoted/b${OPENJDK_BUILD}/${OPEN
 HOMEPAGE="http://icedtea.classpath.org"
 EHG_REPO_URI="http://icedtea.classpath.org/hg/icedtea"
 
-IUSE="cacao debug doc examples gcj javascript nsplugin pulseaudio shark zero"
-# JTReg doesn't pass at present
-RESTRICT="test"
+IUSE="cacao debug doc examples javascript nsplugin pulseaudio shark zero"
 
 LICENSE="GPL-2-with-linking-exception"
 SLOT="0"
@@ -30,34 +28,38 @@ RDEPEND=">=net-print/cups-1.2.12
 	 >=media-libs/alsa-lib-1.0
 	 >=x11-libs/gtk+-2.8
 	 >=x11-libs/libXinerama-1.0.2
+	 >=x11-libs/libXp-1.0.0
+	 >=x11-libs/libXt-1.0.5
+	 >=x11-libs/libXi-1.1.3
 	 x11-proto/inputproto
 	 x11-proto/xineramaproto
 	 >=media-libs/jpeg-6b
 	 >=media-libs/libpng-1.2
 	 >=media-libs/giflib-4.1.6
 	 >=sys-libs/zlib-1.2.3
-	 nsplugin? ( || (
-		>=www-client/mozilla-firefox-3.0.0
-		>=net-libs/xulrunner-1.9
-	 ) )
-	 pulseaudio?  ( >=media-sound/pulseaudio-0.9.11 )"
+	 nsplugin? ( >=net-libs/xulrunner-1.9 )
+	 pulseaudio?  ( >=media-sound/pulseaudio-0.9.11 )
+	 javascript? ( dev-java/rhino:1.6 )"
 
 # Additional dependencies for building:
 #   unzip: extract OpenJDK tarball
 #   xalan/xerces: automatic code generation
 #   ant, ecj, jdk: required to build Java code
+# Only ant-core-1.7.0-r3 in java-overlay contains
+# a version of Ant that properly respects environment
+# variables.  1.7.1-r2 and on will work if the build
+# sets some environment variables.
 DEPEND="${RDEPEND}
 	|| ( >=virtual/gnu-classpath-jdk-1.5
-		 >=virtual/icedtea-jdk-1.6 )
+		 dev-java/icedtea6 )
+	>=virtual/jdk-1.5
 	>=app-arch/unzip-5.52
 	>=dev-java/xalan-2.7.0
 	>=dev-java/xerces-2.9.1
-	>=dev-java/ant-core-1.7.0-r3
 	|| (
-		dev-java/eclipse-ecj:3.3
-		>=dev-java/eclipse-ecj-3.2.1:3.2
-	)
-	javascript? ( dev-java/rhino:1.6 )"
+	  =dev-java/ant-core-1.7.0-r3
+	  >=dev-java/ant-core-1.7.1-r2
+	)"
 
 pkg_setup() {
 	if use zero && ! built_with_use sys-devel/gcc libffi; then
@@ -78,6 +80,23 @@ pkg_setup() {
 	  fi
 	fi
 
+	# java-config is broken and does not provide a way for a package
+	# to limit supported VM's for building and their preferred order
+	if has_version dev-java/icedtea6; then
+		JAVA_PKG_FORCE_VM="icedtea6"
+	elif has_version dev-java/icedtea; then
+		JAVA_PKG_FORCE_VM="icedtea"
+	elif has_version dev-java/gcj-jdk; then
+		JAVA_PKG_FORCE_VM="gcj-jdk"
+	elif has_version dev-java/cacao; then
+		JAVA_PKG_FORCE_VM="cacao"
+	elif has_version dev-java/jamvm; then
+		JAVA_PKG_FORCE_VM="jamvm"
+	else
+		die "Unable to find supported VM for building"
+	fi
+
+	einfo "Forced vm ${JAVA_PKG_FORCE_VM}"
 	java-vm-2_pkg_setup
 	java-pkg-2_pkg_setup
 }
@@ -97,11 +116,11 @@ src_compile() {
 		# If we are upgrading icedtea, then we don't need to bootstrap.
 		config="${config} --with-icedtea"
 		config="${config} --with-icedtea-home=$(java-config -O)"
-	elif [[ "${vm}" == "gcj-jdk" || "${vm}" == "cacao" ]] ; then
+	elif [[ "${vm}" == "gcj-jdk" || "${vm}" == "cacao" || "${vm}" == "jamvm" ]] ; then
 		# For other 1.5 JDKs e.g. GCJ, CACAO, JamVM.
-		config="${config} --with-ecj-jar=$(ls -1r /usr/share/eclipse-ecj-3.[23]/lib/ecj.jar|head -n 1)" \
-		config="${config} --with-libgcj-jar=$(java-config -O)/jre/lib/rt.jar"
-		config="${config} --with-gcj-home=$(java-config -O)"
+		config="${config} --with-ecj-jar=$(java-pkg_getjar eclipse-ecj:3.3 ecj.jar)" \
+		config="${config} --with-libgcj-jar=${vmhome}/jre/lib/rt.jar"
+		config="${config} --with-gcj-home=${vmhome}"
 	else
 		eerror "IcedTea must be built with either a JDK based on GNU Classpath or an existing build of IcedTea."
 		die "Install a GNU Classpath JDK (gcj-jdk, cacao)"
@@ -140,8 +159,13 @@ src_compile() {
 		$(use_enable zero) \
 		$(use_enable shark) \
 		$(use_enable pulseaudio pulse-java) \
-		$(use_with gcj) \
 		|| die "configure failed"
+
+	# Newer versions of Gentoo's ant add
+	# an environment variable so it works properly...
+	export ANT_RESPECT_JAVA_HOME=TRUE
+	# Also make sure we don't bring in additional tasks
+	export ANT_TASKS=none
 
 	emake -j 1  || die "make failed"
 }
