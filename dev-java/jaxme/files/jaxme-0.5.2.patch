@@ -1,6 +1,6 @@
 diff -Nur ws-jaxme-0.5.2/ant/jm.xml ws-jaxme-0.5.2_patched/ant/jm.xml
 --- ws-jaxme-0.5.2/ant/jm.xml	2006-07-28 11:08:43.000000000 +0300
-+++ ws-jaxme-0.5.2_patched/ant/jm.xml	2008-10-12 08:25:56.000000000 +0300
++++ ws-jaxme-0.5.2_patched/ant/jm.xml	2008-11-30 18:29:27.000000000 +0200
 @@ -37,6 +37,7 @@
        <pathelement location="${preqs}/xml-apis-1.3.02.jar"/>
        <pathelement location="${preqs}/beaver.jar"/>
@@ -18,6 +18,26 @@ diff -Nur ws-jaxme-0.5.2/ant/jm.xml ws-jaxme-0.5.2_patched/ant/jm.xml
          <chainGenerator destDir="${build.jm.src}">
              <classpath>
                  <pathelement location="${src.jm}"/>
+@@ -138,6 +139,9 @@
+             <exclude name="org/apache/ws/jaxme/examples/misc/address/*.java"/>
+         </javac>
+         <jar destfile="${dist}/jaxme2-rt-${version}.jar">
++            <manifest>
++                <attribute name="Class-Path" value="jaxmexs.jar jaxmejs.jar"/>
++            </manifest>
+             <fileset dir="${build.jm.classes}">
+                 <exclude name="org/apache/ws/jaxme/generator/**/*"/>
+                 <exclude name="org/apache/ws/jaxme/examples/**/*"/>
+@@ -145,6 +149,9 @@
+             </fileset>
+         </jar>
+         <jar destfile="${dist}/jaxme2-${version}.jar">
++            <manifest>
++                <attribute name="Class-Path" value="jaxmexs.jar jaxmejs.jar"/>
++            </manifest>
+             <fileset dir="${build.jm.classes}">
+                 <exclude name="org/apache/ws/jaxme/examples/**/*"/>
+                 <exclude name="org/apache/ws/jaxme/junit/**/*"/>
 diff -Nur ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java
 --- ws-jaxme-0.5.2/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java	2005-03-10 12:14:08.000000000 +0200
 +++ ws-jaxme-0.5.2_patched/src/jaxme/org/apache/ws/jaxme/impl/JMMarshallerImpl.java	2008-10-12 01:42:41.000000000 +0300
