@@ -8,7 +8,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Reference implementation of the JAXB specification."
 HOMEPAGE="http://jaxb.dev.java.net/"
-DATE="20070711"
+DATE="20070917"
 MY_P="JAXB2_src_${DATE}"
 SRC_URI="https://jaxb.dev.java.net/${PV}/${MY_P}.jar"
 
