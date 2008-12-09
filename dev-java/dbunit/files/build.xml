@@ -1,0 +1,12 @@
+<project name="dbunit" default="jar" basedir=".">
+	<property name="src" location="org"/>
+
+	<target name="jar">
+		<jar destfile="dbunit.jar" basedir="${src}"/>
+	</target>
+
+	<target name="javadoc" depends="jar">
+		<mkdir dir="docs"/>
+		<javadoc sourcepath="${src}" destdir="docs"/>
+	</target>
+</project>
