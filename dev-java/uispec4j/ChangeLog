@@ -1,0 +1,7 @@
+# ChangeLog for dev-java/uispec4j
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  11 Dec 2008; Alistair Bush <ali_bush@gentoo.org> +uispec4j-1.5.ebuild:
+  Adding uispec4j
+
