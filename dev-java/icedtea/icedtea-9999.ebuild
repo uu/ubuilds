@@ -31,6 +31,7 @@ RDEPEND=">=net-print/cups-1.2.12
 	 >=x11-libs/libXp-1.0.0
 	 >=x11-libs/libXt-1.0.5
 	 >=x11-libs/libXi-1.1.3
+	 >=x11-libs/libXtst-1.0.3
 	 x11-proto/inputproto
 	 x11-proto/xineramaproto
 	 >=media-libs/jpeg-6b
