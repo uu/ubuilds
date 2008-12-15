@@ -1,0 +1,7 @@
+# ChangeLog for dev-java/jorbis
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  15 Dec 2008; Alistair Bush <ali_bush@gentoo.org> +jorbis-0.0.17.ebuild:
+  Adding jorbis.
+
