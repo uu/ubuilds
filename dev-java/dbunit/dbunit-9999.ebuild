@@ -5,7 +5,7 @@
 EAPI=1
 JAVA_PKG_IUSE="doc source"
 
-inherit java-pkg-2 subversion
+inherit java-pkg-2 java-utils-2 subversion 
 
 DESCRIPTION="DbUnit is a JUnit extension targeted for database-driven projects"
 HOMEPAGE="http://www.dbunit.org/"
@@ -21,7 +21,12 @@ IUSE=""
 COMMON_DEP="dev-java/slf4j-api
 			dev-java/slf4j-log4j12
 			dev-java/slf4j-nop
+			dev-java/ant-core
+			>=dev-java/poi-3.2
+			dev-java/commons-collections
+			dev-java/commons-logging
 			dev-java/maven-bin
+			dev-java/junit
 			"
 
 RDEPEND=">=virtual/jre-1.4
@@ -38,7 +43,15 @@ src_unpack(){
 		cd "${S}"
 		epatch "${FILESDIR}"/svnjarname.patch
 	fi
-	cd "${S}"
+	mkdir "${S}"/lib
+	java-pkg_jar-from --into lib poi-3.2
+	java-pkg_jar-from --into lib junit
+	java-pkg_jar-from --into lib slf4j-api
+	java-pkg_jar-from --into lib slf4j-log4j12
+	java-pkg_jar-from --into lib commons-collections
+	java-pkg_jar-from --into lib commons-logging
+	java-pkg_jar-from --into lib ant-core
+	java-pkg_jar-from --into lib log4j
 }
 
 src_compile(){
@@ -69,7 +82,6 @@ src_install() {
 }
 
 pkg_postinst(){
-	einfo "DbUnit requires slf4j jars to be in the same classpath as Project"
-	einfo
 	einfo "See: http://dbunit.wikidot.com/"
+	einfo "for More Info"
 }
