@@ -1,0 +1,120 @@
+diff -Nur fb-photo-uploader-1.4.1/build.xml fb-photo-uploader-1.4.1_patched/build.xml
+--- fb-photo-uploader-1.4.1/build.xml	2008-07-18 16:31:19.000000000 +0300
++++ fb-photo-uploader-1.4.1_patched/build.xml	2008-12-21 11:11:42.000000000 +0200
+@@ -94,13 +94,13 @@
+ 		</cobertura-instrument>
+ 	</target>
+ 
+-	<target name="test" depends="compile, test-init, instrument" description="Test the project">
++	<target name="test" depends="test-init" description="Test the project">
+ 		<javac srcdir="${test.src.dir}" destdir="${test.build.dir}" classpathref="test.classpath" debug="true" />
+ 		<copy todir="${test.build.dir}/uk/me/phillsacre/uploader/test/resources">
+ 			<fileset dir="${test.src.dir}/uk/me/phillsacre/uploader/test/resources" />
+ 		</copy>
+ 
+-		<junit printsummary="on" fork="true" forkmode="once">
++		<junit printsummary="on" fork="true" forkmode="once" haltonfailure="true">
+ 			<formatter type="xml" />
+ 			<sysproperty key="base.dir" value="${base.dir}" />
+ 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${build.instrumented.dir}/cobertura.ser" />
+@@ -120,7 +120,7 @@
+ 		<cobertura-report format="html" destdir="${test.coverage.report.dir}" srcdir="${src.dir}" datafile="${build.instrumented.dir}/cobertura.ser" />
+ 	</target>
+ 
+-	<target name="package" depends="compile, test" description="Packages the project into a JAR file">
++	<target name="package" depends="compile" description="Packages the project into a JAR file">
+ 		<!-- user.properties and static.properties should not be in .jar -->
+ 		<delete>
+ 			<fileset dir="${build.classes.dir}">
+@@ -170,4 +170,4 @@
+ 	<!-- Cobertura Taskdef -->
+ 	<taskdef classpathref="classpath" resource="tasks.properties" />
+ 
+-</project>
+\ Dosya sonunda yenisatır yok.
++</project>
+diff -Nur fb-photo-uploader-1.4.1/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java fb-photo-uploader-1.4.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java
+--- fb-photo-uploader-1.4.1/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-11-29 15:36:36.000000000 +0200
++++ fb-photo-uploader-1.4.1_patched/src/main/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowController.java	2008-12-21 11:12:36.000000000 +0200
+@@ -16,7 +16,6 @@
+ import uk.me.phillsacre.uploader.util.Constants;
+ import uk.me.phillsacre.uploader.util.MessageSource;
+ import uk.me.phillsacre.uploader.util.PropertyUtils;
+-import uk.me.phillsacre.uploader.util.VersionChecker;
+ import uk.me.phillsacre.uploader.vo.AlbumVO;
+ 
+ /**
+@@ -54,23 +53,7 @@
+ 	 */
+ 	public void checkForUpdates()
+ 	{
+-		if (_props
+-				.getProperty(Constants.Properties.ENABLE_UPDATE_CHECK, "true")
+-				.equalsIgnoreCase("false"))
+-		{
+-			_log.debug("Update check disabled -- skipping");
+-			return;
+-		}
+-
+-		VersionChecker checker = new VersionChecker();
+-		Map<String, Object> newVersion = checker.getNewVersionInfo();
+-
+-		if (null != newVersion)
+-		{
+-			Date releaseDate = (Date) newVersion
+-					.get(VersionChecker.RELEASE_DATE);
+-			_ui.showNewReleasePopup(releaseDate);
+-		}
++		//Dummy method for Gentoo
+ 	}
+ 
+ 	/**
+diff -Nur fb-photo-uploader-1.4.1/src/main/java/uk/me/phillsacre/uploader/util/Constants.java fb-photo-uploader-1.4.1_patched/src/main/java/uk/me/phillsacre/uploader/util/Constants.java
+--- fb-photo-uploader-1.4.1/src/main/java/uk/me/phillsacre/uploader/util/Constants.java	2008-11-26 12:06:23.000000000 +0200
++++ fb-photo-uploader-1.4.1_patched/src/main/java/uk/me/phillsacre/uploader/util/Constants.java	2008-12-21 11:14:05.000000000 +0200
+@@ -44,7 +44,7 @@
+ 		/**
+ 		 * Whether to copy properties across to the user.home directory
+ 		 */
+-		public static final boolean COPY_PROPS_TO_USERHOME = false;
++		public static final boolean COPY_PROPS_TO_USERHOME = true;
+ 
+ 		/**
+ 		 * The icon size for the Upload Photo list.
+diff -Nur fb-photo-uploader-1.4.1/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java fb-photo-uploader-1.4.1_patched/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java
+--- fb-photo-uploader-1.4.1/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java	2008-12-02 14:40:58.000000000 +0200
++++ fb-photo-uploader-1.4.1_patched/src/test/java/uk/me/phillsacre/uploader/gui/controllers/MainWindowControllerTest.java	2008-12-21 11:14:56.000000000 +0200
+@@ -28,33 +28,6 @@
+ 		_controller = new MainWindowController(_ui, _facebookDAO, null);
+ 	}
+ 
+-	public void testCheckForUpdatesDisabled()
+-	{
+-		PropertyUtils props = new PropertyUtils();
+-		props.setProperty(Constants.Properties.ENABLE_UPDATE_CHECK, "false");
+-
+-		_controller.checkForUpdates();
+-
+-		if (_ui.newReleasePopup)
+-		{
+-			fail("Check for updates is disabled but user has been shown new release popup");
+-		}
+-	}
+-
+-	public void testCheckForUpdatesEnabled()
+-	{
+-		PropertyUtils props = new PropertyUtils();
+-		props.setProperty(Constants.Properties.ENABLE_UPDATE_CHECK, "true");
+-		props.setProperty(Constants.Properties.BUILD_NUMBER, "0");
+-
+-		_controller.checkForUpdates();
+-
+-		if (!_ui.newReleasePopup)
+-		{
+-			fail("User has not been shown check for updates popup");
+-		}
+-	}
+-
+ 	public void testStartUpload()
+ 	{
+ 		_ui.setSelectedAlbum(null);

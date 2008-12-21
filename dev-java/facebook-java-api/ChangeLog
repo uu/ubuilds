@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  21 Dec 2008; Serkan Kaba <serkan@gentoo.org>
+  -facebook-java-api-1.7.4.ebuild, +facebook-java-api-1.8.ebuild:
+  Version bump.
+
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman
 

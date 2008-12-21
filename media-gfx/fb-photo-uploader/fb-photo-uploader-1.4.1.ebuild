@@ -23,7 +23,9 @@ CDEPEND="dev-java/browserlauncher2:1.0
 	dev-java/commons-logging
 	dev-java/ehcache:1.2
 	dev-java/log4j
-	dev-java/facebook-java-api"
+	dev-java/facebook-java-api:1
+	dev-java/swingx:0.9
+	dev-java/metadata-extractor"
 
 RDEPEND=">=virtual/jre-1.6
 	${CDEPEND}
@@ -46,7 +48,7 @@ src_unpack() {
 	cd "${S}" || die
 	mkdir package || die
 	cd lib || die
-	java-pkg_jarfrom browserlauncher2:1.0,commons-collections,commons-configuration,commons-lang:2.1,ehcache:1.2,log4j,facebook-java-api
+	java-pkg_jarfrom browserlauncher2:1.0,commons-collections,commons-configuration,commons-lang:2.1,ehcache:1.2,log4j,facebook-java-api-1,swingx-0.9,metadata-extractor
 	java-pkg_jarfrom commons-logging commons-logging.jar
 	use test && java-pkg_jarfrom --build-only junit
 }
