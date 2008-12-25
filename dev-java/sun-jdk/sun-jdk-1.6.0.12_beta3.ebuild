@@ -6,7 +6,7 @@ inherit versionator java-vm-2 eutils pax-utils
 
 MY_PV=${PV/_beta*/}
 BETA="0${PV#*_beta}"
-DATE="08_dec_2008"
+DATE="22_dec_2008"
 
 BASE_URL="http://www.java.net/download/jdk6/6u12/promoted/b${BETA}/binaries/"
 x86file="jdk-6u12-ea-bin-b${BETA}-linux-i586-${DATE}.bin"
