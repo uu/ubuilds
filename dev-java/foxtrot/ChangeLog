@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/foxtrot
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  26 Dec 2008; Alistair Bush <ali_bush@gentoo.org> +metadata.xml,
+  +foxtrot-3.0.ebuild:
+  Adding foxtrot.
+
