@@ -37,7 +37,6 @@ S="${WORKDIR}/${ECVS_MODULE}"
 
 EANT_GENTOO_CLASSPATH="jdictrayapi,jaminid,morfologik-stemming,jwordsplitter"
 EANT_BUILD_TARGET="init build"
-#JAVA_ANT_REWRITE_CLASSPATH="true"
 
 src_unpack() {
 	cvs_src_unpack
@@ -57,8 +56,6 @@ src_unpack() {
 src_test() {
 	java-pkg_jar-from --into build junit
 	ANT_TASKS="ant-junit" eant test
-	#ANT_TASKS="ant-junit" \
-	#	eant -Dgentoo.classpath="$(java-pkg_getjars jdictrayapi,jaminid,morfologik-stemming,jwordsplitter):$(java-pkg_getjars --build-only junit)" test
 }
 
 src_install() {
