@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/jflac
+# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  26 Dec 2008; Alistair Bush <ali_bush@gentoo.org> +files/build.properties,
+  +files/build.xml, +metadata.xml, +jflac-1.3.ebuild:
+  Adding jflac
+
