@@ -62,8 +62,8 @@ src_install() {
 	use doc && java-pkg_dojavadoc dist/docs/api
 	use source && java-pkg_dosrc src/java/de
 	dodoc {README,CHANGES}.txt || die "dodoc failed"
-	insinto /usr/share/languagetool
-	doins -r src/{rules,resource} || die "doins failed"
+	#insinto /usr/share/languagetool
+	#doins -r src/{rules,resource} || die "doins failed"
 	if use openoffice; then
 		mv dist/LanguageTool-${PV}.oxt ${PN}.oxt
 		openoffice-ext_src_install
