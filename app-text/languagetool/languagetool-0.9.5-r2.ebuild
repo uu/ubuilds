@@ -64,10 +64,8 @@ src_install() {
 	dodoc {README,CHANGES}.txt || die "dodoc failed"
 	#insinto /usr/share/languagetool
 	#doins -r src/{rules,resource} || die "doins failed"
-	if use openoffice; then
-		mv dist/LanguageTool-${PV}.oxt ${PN}.oxt
-		openoffice-ext_src_install
-	fi
+	use openoffice && mv dist/LanguageTool-${PV}.oxt ${PN}.oxt
+	openoffice-ext_src_install
 }
 
 pkg_postinst() {

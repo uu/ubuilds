@@ -15,9 +15,6 @@ OOO_PROGRAM_DIR="${OOO_ROOT_DIR}/program"
 UNOPKG="${OOO_PROGRAM_DIR}/unopkg"
 OOO_EXT_DIR="${OOO_ROOT_DIR}/share/extension/install"
 
-DEPEND=">=virtual/ooo-3.0"
-RDEPEND=">=virtual/ooo-3.0"
-
 add_extension() {
 	ebegin "Adding extension $1"
 	INSTDIR=$(mktemp -d --tmpdir=${T})
@@ -45,7 +42,7 @@ remove_extension() {
 	fi
 }
 
-openoffice-ext_src_install() {
+openoffice-utils_src_install() {
 	cd "${S}" || die
 	insinto ${OOO_EXT_DIR}
 	for i in ${OOO_EXTENSIONS}
@@ -54,7 +51,7 @@ openoffice-ext_src_install() {
 	done
 }
 
-openoffice-ext_pkg_postinst() {
+openoffice-utils_pkg_postinst() {
 	for i in ${OOO_EXTENSIONS}
 	do
 		add_extension ${OOO_EXT_DIR}/${i}
@@ -62,11 +59,49 @@ openoffice-ext_pkg_postinst() {
 
 }
 
-openoffice-ext_pkg_prerm() {
+openoffice-utils_pkg_prerm() {
 	for i in ${OOO_EXTENSIONS}
 	do
 		remove_extension ${i}
 	done
+}
+
+check_ooo_use() {
+	hasq openoffice ${IUSE}
+}
+
+if check_ooo_use; then
+	DEPEND="openoffice? ( >=virtual/ooo-3.0 )"
+	RDEPEND="openoffice? ( >=virtual/ooo-3.0 )"
+else
+	DEPEND=">=virtual/ooo-3.0"
+	RDEPEND=">=virtual/ooo-3.0"
+fi
+
+openoffice-ext_src_install() {
+	if check_ooo_use; then
+		use ${OPENOFFICE_EXT_OPT_USE} && openoffice-utils_src_install
+	else
+		openoffice-utils_src_install
+	fi
+	
+}
+
+openoffice-ext_pkg_postinst() {
+	if check_ooo_use; then
+		use ${OPENOFFICE_EXT_OPT_USE} && openoffice-utils_pkg_postinst
+	else
+		openoffice-utils_pkg_postinst
+	fi
+
+}
+
+openoffice-ext_pkg_prerm() {
+	if check_ooo_use; then
+		use ${OPENOFFICE_EXT_OPT_USE} && openoffice-utils_pkg_prerm
+	else
+		openoffice-utils_pkg_prerm
+	fi
 }
 
 EXPORT_FUNCTIONS src_install pkg_postinst pkg_prerm
