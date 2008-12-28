@@ -2,6 +2,11 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/sci-geosciences/josm/ChangeLog,v 1.17 2008/10/07 23:16:39 hanno Exp $
 
+* josm-1.5_p1184 (28 Dec 2008)
+
+  28 Dec 2008; Fabian Fingerle <fabian@datensalat.eu> -josm-1.5_p1091.ebuild +josm-1.5_p1184.ebuild:
+  Bump.
+
 * josm-1.5_p1145 (18 Dec 2008)
 
   18 Dec 2008; Fabian Fingerle <fabian@datensalat.eu> -josm-1.5_p1089.ebuild +josm-1.5_p1145.ebuild:
