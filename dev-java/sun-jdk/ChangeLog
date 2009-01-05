@@ -1,6 +1,11 @@
 # ChangeLog for dev-java/sun-jdk
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  05 Jan 2009; Serkan Kaba <serkan@gentoo.org>
+  -sun-jdk-1.6.0.12_beta3.ebuild, +sun-jdk-1.6.0.12_beta3-r1.ebuild,
+  files/sun-jdk-1.6.env:
+  Revbump to fix the env file.
 
   25 Dec 2008; Serkan Kaba <serkan@gentoo.org>
   -sun-jdk-1.6.0.12_beta2.ebuild, +sun-jdk-1.6.0.12_beta3.ebuild:
