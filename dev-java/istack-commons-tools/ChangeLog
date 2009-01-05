@@ -1,6 +1,11 @@
 # ChangeLog for dev-java/istack-commons-tools
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  05 Jan 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>
+  +istack-commons-tools-1.1.ebuild:
+  * Bumped to official release version - bug 188015
+  * Switched to archive exported from source:jar using new eclass
 
   12 Oct 2008; Serkan Kaba <serkan@gentoo.org>
   istack-commons-tools-20070711.ebuild:
