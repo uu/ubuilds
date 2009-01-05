@@ -20,6 +20,7 @@ CDEPEND="
 	dev-java/xerces:2
 	dev-java/xml-commons-external
 	dev-java/xalan
+	>=dev-java/fop-0.95
 	python? ( dev-java/jython )
 	tcl? ( dev-java/jacl )"
 DEPEND=">=virtual/jdk-1.4
@@ -47,7 +48,7 @@ src_unpack() {
 }
 
 JAVA_ANT_IGNORE_SYSTEM_CLASSES="true"
-EANT_BUILD_TARGET="all-jar"
+EANT_BUILD_TARGET="all-jar jars"
 
 src_compile() {
 	# Fails to build on amd64 without this
@@ -61,7 +62,12 @@ src_compile() {
 }
 
 src_install() {
-	java-pkg_dojar ${P}/lib/batik-all.jar
+	#runtime dependency
+	java-pkg_register-dependency dev-java/fop
+	#All-jar doesn't include ALL
+	java-pkg_dojar ${P}/lib/${PN}-*.jar
+	java-pkg_dojar ${P}/extensions/${PN}-*.jar
+	java-pkg_dojar ${P}/${PN}-*.jar
 
 	dodoc README || die "dodoc failed"
 	use doc && java-pkg_dojavadoc ${P}/docs/javadoc

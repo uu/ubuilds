@@ -3,6 +3,9 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-java/batik/ChangeLog,v 1.54 2008/01/20 22:27:27 caster Exp $
 
   05 Jan 2009; Mike Weissman <mike@weisso.com> batik-1.7.ebuild:
+  fixed runtime deps, corrected some missing runtime jars
+
+  05 Jan 2009; Mike Weissman <mike@weisso.com> batik-1.7.ebuild:
   revised batik-1.7.ebuild as per bug#200851 does not require jdk-1.4
 
   20 Jan 2008; Vlastimil Babka <caster@gentoo.org> -batik-1.5-r1.ebuild,
