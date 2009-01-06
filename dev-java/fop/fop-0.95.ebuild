@@ -14,7 +14,7 @@ inherit eutils java-pkg-2 java-ant-2
 
 DESCRIPTION="Formatting Objects Processor is a print formatter driven by XSL"
 HOMEPAGE="http://xmlgraphics.apache.org/fop/"
-SRC_URI="mirror://apache.cs.utah.edu/xmlgraphics/${PN}/source/${P}-src.zip"
+SRC_URI="mirror://apache/xmlgraphics/${PN}/source/${P}-src.zip"
 LICENSE="Apache-2.0"
 SLOT="0"
 # doesn't work with java.awt.headless
