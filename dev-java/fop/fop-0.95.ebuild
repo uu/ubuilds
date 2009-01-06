@@ -111,3 +111,12 @@ src_install() {
 	use examples && java-pkg_doexamples examples/* conf
 	use source && java-pkg_dosrc src/java/org src/java-1.4/* src/sandbox/org
 }
+
+pkg_postinst(){
+elog "The SVG Renderer and the MIF Handler have not been resurrected"
+elog "They are currently non-functional."
+elog
+elog "The API of FOP has changed considerably and is not backwards-compatible"
+elog "with versions 0.20.5 and 0.91beta. Version 0.92 introduced the new stable
+API."
+}
