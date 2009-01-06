@@ -12,7 +12,7 @@ SRC_URI="mirror://apache/xmlgraphics/${PN}/${PN}-src-${PV}.zip"
 
 LICENSE="Apache-2.0"
 SLOT="1.7"
-KEYWORDS="amd64 ~ia64 ppc ~ppc64 ~x86"
+KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86"
 IUSE="doc python tcl"
 
 CDEPEND="
@@ -20,7 +20,6 @@ CDEPEND="
 	dev-java/xerces:2
 	dev-java/xml-commons-external
 	dev-java/xalan
-	>=dev-java/fop-0.95
 	python? ( dev-java/jython )
 	tcl? ( dev-java/jacl )"
 DEPEND=">=virtual/jdk-1.4
@@ -62,8 +61,6 @@ src_compile() {
 }
 
 src_install() {
-	#runtime dependency
-	java-pkg_register-dependency dev-java/fop
 	#All-jar doesn't include ALL
 	java-pkg_dojar ${P}/lib/${PN}-*.jar
 	java-pkg_dojar ${P}/extensions/${PN}-*.jar
@@ -90,4 +87,7 @@ pkg_postinst() {
 	elog "we get java.security.AccessControlException: access denied."
 	elog "Feel free to submit a fix to http://bugs.gentoo.org if you come"
 	elog "up with one."
+
+	elog "To use Batik and Fop together please see(3.10):"
+	elog "http://xmlgraphics.apache.org/batik/faq.htm"
 }
