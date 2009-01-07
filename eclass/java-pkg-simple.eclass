@@ -124,7 +124,7 @@ java-pkg-simple_src_compile() {
 	debug-print "CLASSPATH=${classpath}"
 	java-pkg-simple_verbose-cmd \
 		ejavac -d ${classes} -encoding ${JAVA_ENCODING} \
-		-cp "${classpath}" ${JAVAC_ARGS} @${sources}
+		${classpath:+-cp ${classpath}} ${JAVAC_ARGS} @${sources}
 
 	# javadoc
 	if hasq doc ${JAVA_PKG_IUSE} && use doc; then
