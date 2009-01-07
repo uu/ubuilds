@@ -124,7 +124,8 @@ java-pkg-simple_src_compile() {
 	debug-print "CLASSPATH=${classpath}"
 	java-pkg-simple_verbose-cmd \
 		ejavac -d ${classes} -encoding ${JAVA_ENCODING} \
-		${classpath:+-cp ${classpath}} ${JAVAC_ARGS} @${sources}
+		${classpath:+-classpath ${classpath}} ${JAVAC_ARGS} \
+		@${sources}
 
 	# javadoc
 	if hasq doc ${JAVA_PKG_IUSE} && use doc; then
@@ -132,7 +133,8 @@ java-pkg-simple_src_compile() {
 		java-pkg-simple_verbose-cmd \
 			javadoc -d ${apidoc} \
 			-encoding ${JAVA_ENCODING} -docencoding UTF-8 -charset UTF-8 \
-			${JAVADOC_ARGS:- -quiet} @${sources} || die "javadoc failed"
+			${classpath:+-classpath ${classpath}} ${JAVADOC_ARGS:- -quiet} \
+			@${sources} || die "javadoc failed"
 	fi
 
 	# package
