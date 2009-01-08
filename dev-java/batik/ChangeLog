@@ -2,6 +2,9 @@
 # Copyright 2000-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/batik/ChangeLog,v 1.54 2008/01/20 22:27:27 caster Exp $
 
+  08 Jan 2009; Vlastimil Babka <caster@gentoo.org> ++:
+  Revbump, slot changes without revbump are bad.
+
   06 Jan 2009; Mike Weissman <mike@weisso.com> batik-1.7.ebuild:
   updated deps, included note for FOP integration
 
