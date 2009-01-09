@@ -12,11 +12,11 @@ HOMEPAGE="https://istack-commons.dev.java.net/"
 
 LICENSE="CDDL"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
 
 COMMON_DEP="dev-java/apt-mirror
 	java-virtuals/jaf
-	java-java/ant-core"
+	dev-java/ant-core"
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEP}"
 RDEPEND=">=virtual/jre-1.5
