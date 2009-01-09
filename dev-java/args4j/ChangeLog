@@ -1,0 +1,11 @@
+# ChangeLog for dev-java/args4j
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*args4j-1.0 (09 Jan 2009)
+*args4j-2.0.9 (09 Jan 2009)
+
+  09 Jan 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>
+  +args4j-1.0.ebuild, +args4j-2.0.9.ebuild, +files/build-2.0.9.xml:
+  Initial commit to java-experimental. build.xml derived from maven 1 POM.
+

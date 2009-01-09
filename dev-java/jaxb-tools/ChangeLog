@@ -1,6 +1,13 @@
 # ChangeLog for dev-java/jaxb-tools
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  09 Jan 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>
+  +jaxb-tools-2.1.9.ebuild:
+  Version bump to 2.1.9.  New built process based on upstream workspace
+  snapshot.  jaxb-tools now integrated in the jaxb ebuild, in order to stay
+  closer to upstream build process and because packages depending on jaxb at
+  runtime will likely require its tools at build time.
 
   01 Sep 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
   +files/build.xml-2.1.4, +metadata.xml, +jaxb-tools-2.1.4.ebuild:

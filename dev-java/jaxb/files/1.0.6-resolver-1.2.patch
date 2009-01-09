@@ -1,0 +1,22 @@
+Index: jaxb-ri-1.0.6/src/com/sun/tools/xjc/Options.java
+===================================================================
+--- jaxb-ri-1.0.6.orig/src/com/sun/tools/xjc/Options.java
++++ jaxb-ri-1.0.6/src/com/sun/tools/xjc/Options.java
+@@ -278,7 +278,7 @@ public class Options
+             debugMode = true;
+             // try to set the verbose flag of catalog resolver
+             try {
+-                Debug.setDebug(10);
++                CatalogManager.getStaticManager().debug.setDebug(10);
+             } catch(Throwable _) {
+                 ;   // ignore, in case catalog resolver isn't in the classpath
+             }
+@@ -425,7 +425,7 @@ public class Options
+      */
+     public void addCatalog(File catalogFile) throws IOException {
+         if(entityResolver==null) {
+-            CatalogManager.ignoreMissingProperties(true);
++            CatalogManager.getStaticManager().setIgnoreMissingProperties(true);
+             entityResolver = new CatalogResolver(true);
+         }
+         ((CatalogResolver)entityResolver).getCatalog().parseCatalog(catalogFile.getPath());

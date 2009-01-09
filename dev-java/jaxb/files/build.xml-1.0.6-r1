@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project name="jaxb" default="jar" basedir=".">
+  <target name="compile">
+    <mkdir dir="build"/>
+    <javac debug="false" srcdir="src" destdir="build">
+      <classpath>
+        <fileset dir="lib" includes="**/*.jar"/>
+      </classpath>
+    </javac>
+    <copy todir="build">
+      <fileset dir="src" includes="**/*.properties"/>
+    </copy>
+  </target>
+  <target name="jar" depends="compile">
+    <jar destfile="jaxb-api.jar" manifest="meta-inf/api/MANIFEST.MF">
+      <fileset dir="build" includes="javax/**/*.class"/>
+      <fileset dir="build" includes="javax/**/*.properties"/>
+    </jar>
+    <jar destfile="jaxb-impl.jar" manifest="meta-inf/impl/MANIFEST.MF">
+      <fileset dir="build" includes="com/sun/xml/**/*.class"/>
+      <fileset dir="build" includes="com/sun/xml/**/*.properties"/>
+    </jar>
+    <jar destfile="jaxb-xjc.jar" manifest="meta-inf/xjc/MANIFEST.MF">
+      <metainf dir="meta-inf/xjc" excludes="MANIFEST.MF"/>
+      <fileset dir="build" includes="com/sun/tools/**/*.class"/>
+      <fileset dir="build" includes="com/sun/tools/**/*.properties"/>
+      <fileset dir="build" includes="com/sun/relaxng/**/*.class"/>
+      <fileset dir="build" includes="com/sun/relaxng/**/*.properties"/>
+      <!-- The upstream jar release also contains repackaged versions of
+	   codemodel, xsom and xml-commons-resolver, but we omit those. -->
+    </jar>
+  </target>
+</project>
