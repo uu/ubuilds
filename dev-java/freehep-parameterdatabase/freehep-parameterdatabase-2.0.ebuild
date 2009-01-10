@@ -9,7 +9,7 @@ MAVEN2_REPOSITORIES="http://java.freehep.org/maven2"
 inherit java-pkg-2 java-mvn-src
 
 DESCRIPTION="High Energy Physics Java library - FreeHEP Parameter and Settings Database"
-HOMEPAGE=""
+HOMEPAGE="http://java.freehep.org/"
 
 LICENSE="LGPL"
 SLOT="0"
