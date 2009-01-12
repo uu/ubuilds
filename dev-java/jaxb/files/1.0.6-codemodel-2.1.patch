@@ -704,3 +704,21 @@ Index: jaxb-ri-1.0.6/src/com/sun/tools/xjc/reader/xmlschema/bindinfo/parser/Coll
  }
  
      public void enterElement(String $__uri, String $__local, String $__qname, Attributes $attrs) throws SAXException {
+Index: jaxb-ri-1.0.6/src/com/sun/tools/xjc/generator/marshaller/Inside.java
+===================================================================
+--- jaxb-ri-1.0.6.orig/src/com/sun/tools/xjc/generator/marshaller/Inside.java
++++ jaxb-ri-1.0.6/src/com/sun/tools/xjc/generator/marshaller/Inside.java
+@@ -149,11 +149,11 @@ final class Inside extends AbstractSideI
+                 return false;       // can't handle that.
+             
+             JClass vo = context.getRuntime(ValidatableObject.class);
+-            JExpression test = JExpr.cast(vo, 
++            JExpression test = ((JExpression)JExpr.cast(vo, 
+                 context.codeModel.ref(ProxyGroup.class).staticInvoke("blindWrap")
+                     .arg(fmg.peek(false))
+                     .arg(vo.dotclass())
+-                    .arg(JExpr._null()))
++                    .arg(JExpr._null())))
+                 .invoke("getPrimaryInterface");
+             
+             ClassItem ancls = (ClassItem)tableUse.anomaly;

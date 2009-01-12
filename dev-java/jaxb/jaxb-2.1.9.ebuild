@@ -27,11 +27,11 @@ DEPEND=">=virtual/jdk-1.5
 	dev-java/codemodel:2
 	dev-java/sun-dtdparser
 	|| ( >=dev-java/istack-commons-tools-20070711
-	     ( >=dev-java/istack-commons-tools-0.20070711
-	       <dev-java/istack-commons-tools-20000000 ) )
+		 ( >=dev-java/istack-commons-tools-0.20070711
+		   <dev-java/istack-commons-tools-20000000 ) )
 	|| ( >=dev-java/istack-commons-runtime-20070711
-	     ( >=dev-java/istack-commons-runtime-0.20070711
-	       <dev-java/istack-commons-runtime-20000000 ) )
+		 ( >=dev-java/istack-commons-runtime-0.20070711
+		   <dev-java/istack-commons-runtime-20000000 ) )
 	dev-java/relaxng-datatype
 	dev-java/rngom
 	dev-java/xsom
@@ -78,7 +78,8 @@ jaxb_compile_subpkg() {
 	shift 2
 	einfo "Compiling ${subdir}"
 	cd "${WORKDIR}/${subdir}" || die
-	ejavac ${deps:+-classpath "$(java-pkg_getjars ${deps})"} \
+	local classpath="${deps:+$(java-pkg_getjars ${deps})}"
+	ejavac ${classpath:+-classpath "${classpath}"} \
 		 -encoding UTF-8 -d classes $(find src -name \*.java)
 	echo "${subdir} recompiled from source"
 	for file in $(find src -name \*.properties); do

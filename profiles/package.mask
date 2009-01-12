@@ -6,11 +6,6 @@
 # NOTE: Please add your entry at the top!
 #
 
-# Vlastimil Babka <caster@gentoo.org> (11 Jan 2009)
-# Depends on nonexisting version of dev-java/codemodel
-=dev-java/jaxb-1.0.6-r1
-=dev-java/jaxb-2.1.9
-
 # Serkan Kaba <serkan@gentoo.org> (27 Oct 2008)
 # Mask languagetool,jwordsplitter CVS ebuild.
 =app-text/languagetool-9999

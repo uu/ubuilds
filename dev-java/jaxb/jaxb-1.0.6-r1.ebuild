@@ -18,7 +18,7 @@ SLOT="1"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-COMMON_DEP=">=dev-java/codemodel-2.1-r1:2
+COMMON_DEP="dev-java/codemodel:2
 	dev-java/dom4j:1
 	dev-java/iso-relax
 	dev-java/msv
