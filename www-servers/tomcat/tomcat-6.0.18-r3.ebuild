@@ -207,7 +207,7 @@ pkg_postinst() {
 	elog
 	elog "Please report any bugs to http://bugs.gentoo.org/"
 	elog
-	
+
 	elog "Execute the following command to setup ${P} to work with
 	'dev-util/netbeans:6.5'"
 	elog
@@ -219,23 +219,23 @@ pkg_config() {
 	#Make user aware of what this config is doing
 	einfo "This Configure will setup your ${P} to be used within dev-util/netbeans:6.5"
 	einfo "You will still have to manually add ${TOMCAT_NAME} to your Project"
-	einfo 
+	einfo
 	einfo "Do you still wish to continue? (Y/n)"
 	read answer
 	[ -z $answer ] && answer=Y
 	[ "$answer" == "Y" ] || [ "$answer" == "y" ] || die "aborted"
 
 	einfo "Checking Netbeans Setup ..."
-	einfo 
+	einfo
 	# check for Netbeans
 	if ! has_version dev-util/netbeans:6.5 ; then
 		eerror "Can't configure Tomcat for Netbeans without Netbeans!"
 		eerror "Please 'emerge dev-util/netbeans:6.5"
 	fi
-	
+
 	# make sure all Java EE NB Modules are installed to prevent
 	# ClassDefNotFoundError
-	if ! built_with_use dev-util/netbeans:6.5 netbeans_modules_j2ee ; then 
+	if ! built_with_use dev-util/netbeans:6.5 netbeans_modules_j2ee ; then
 	   eerror "Please rebuild 'dev-util/netbeans:6.5 with NETBEAN_MODULES='j2ee
 	   mobility groovy gsf'"
 	   die "Netbeans lacks required Modules for EE deployment"
@@ -244,7 +244,7 @@ pkg_config() {
 	#add netbeans run user to tomcat group to prevent permission issues
 	einfo "Please enter the user that runs 'dev-util/netbeans:6.5': "
 	read user
-	if [ "$user" == "root" ] || [ -z $user ] ; then 
+	if [ "$user" == "root" ] || [ -z $user ] ; then
 		eerror "This is not meant for user: 'root'"
 		die "bad User"
 	else
@@ -262,7 +262,7 @@ pkg_config() {
 	einfo "CATALINA_BASE = ${CATALINA_BASE}"
 	einfo "CATALINA_LIBDIR = ${CATALINA_LIBDIR}"
 	einfo "CATALINA_TMPDIR = ${CATALINA_TMPDIR}"
-	ewarn 
+	ewarn
 	ewarn "Edit Runtime ops inside NetBeans Services"
 	ewarn
 	einfo
@@ -274,7 +274,7 @@ pkg_config() {
 	[ -z $answer ] && answer=Y
 	[ "$answer" == "Y" ] || [ "$answer" == "y" ] || die "aborted"
 	#Warn user about changing conf.d file
-	ewarn 
+	ewarn
 	ewarn "Changing the ${TOMCAT_NAME}  conf.d file AFTER you have setup NetBeans"
 	ewarn "could result in runtime failure"
 	ewarn
@@ -286,7 +286,7 @@ pkg_config() {
 	test -h ${CATALINA_BASE}/logs || die "bad tomcat-logs symlink"
 	test -h ${CATALINA_BASE}/temp || die "bad tomcat-temp symlink"
 	test -h ${CATALINA_BASE}/work || die "bad tomcat-work symlink"
-	
+
 	#NB doesn't respect it's Private Configuration, can't find server.xml
 	dosym /etc/${TOMCAT_NAME} ${CATALINA_HOME}/conf || die "failed to make extra sym"
 	#Output Inside-Netbeans final steps, including external info
@@ -297,7 +297,7 @@ pkg_config() {
 	sleep 2 #wait
 	einfo "Please follow these instructions for FINAL configuration:"
 	sleep 2 #wait
-	einfo 
+	einfo
 	einfo "Please add a User/Password to the tomcat-users.xml file"
 	einfo
 	einfo "Please consult link for more info: "
@@ -308,16 +308,16 @@ pkg_config() {
 	einfo "Right click on the 'Servers Node' and in the contexts menu select on Add Server."
 	einfo
 	einfo "Select ${TOMCAT_NAME}"
-	einfo 
+	einfo
 	einfo "In the 'Tomcat Server Instance Properties' window enter: "
-	einfo 
+	einfo
 	einfo "both 'Catalina Home' and 'Catalina Base' fields."
-	einfo 
+	einfo
 	einfo "Enter the Username/Password that you inserted in the the "
 	einfo "tomcat-users.xml"
-	einfo 
+	einfo
 	einfo "Click Finish, you should now be able to see ${TOMCAT_NAME} as an added Server"
-	einfo 
+	einfo
 	einfo "For More Info, Please See:"
 	einfo "http://wiki.netbeans.org/AddExternalTomcat"
 }
