@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/www-servers/tomcat/ChangeLog,v 1.204 2008/12/20 18:12:22 serkan Exp $
 
+  12 Jan 2009; Mike Weissman <mike@weisso.com> tomcat-6.0.18-r3.ebuild:
+  added emerge --config for netbeans for bug #254526
+
   05 Jan 2009; Mike Weissman <mike@weisso.com>
   +files/5.5/26-main_tomcat_catalina_jasper_build_xml.patch,
   +files/5.5/5.5.27-dynamic-JSSE13Factory.patch, +files/5.5/catalina.policy,

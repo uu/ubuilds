@@ -201,6 +201,123 @@ pkg_postinst() {
 		ewarn "http://cve.mitre.org/cgi-bin/cvename.cgi?name=2007-2449"
 	fi
 	elog
-	elog " Please report any bugs to http://bugs.gentoo.org/"
+	elog "Eclipse-SDK plugin for ${P} does not respect split CATALINA_HOME AND"
+	elog "CATALINA BASE"
+	elog "Please see Gentoo Bug # 170292 for more info"
 	elog
+	elog "Please report any bugs to http://bugs.gentoo.org/"
+	elog
+	
+	elog "Execute the following command to setup ${P} to work with
+	'dev-util/netbeans:6.5'"
+	elog
+	elog "emerge --config =${CATEGORY}/${PF}"
+	elog
+}
+
+pkg_config() {
+	#Make user aware of what this config is doing
+	einfo "This Configure will setup your ${P} to be used within dev-util/netbeans:6.5"
+	einfo "You will still have to manually add ${TOMCAT_NAME} to your Project"
+	einfo 
+	einfo "Do you still wish to continue? (Y/n)"
+	read answer
+	[ -z $answer ] && answer=Y
+	[ "$answer" == "Y" ] || [ "$answer" == "y" ] || die "aborted"
+
+	einfo "Checking Netbeans Setup ..."
+	einfo 
+	# check for Netbeans
+	if ! has_version dev-util/netbeans:6.5 ; then
+		eerror "Can't configure Tomcat for Netbeans without Netbeans!"
+		eerror "Please 'emerge dev-util/netbeans:6.5"
+	fi
+	
+	# make sure all Java EE NB Modules are installed to prevent
+	# ClassDefNotFoundError
+	if ! built_with_use dev-util/netbeans:6.5 netbeans_modules_j2ee ; then 
+	   eerror "Please rebuild 'dev-util/netbeans:6.5 with NETBEAN_MODULES='j2ee
+	   mobility groovy gsf'"
+	   die "Netbeans lacks required Modules for EE deployment"
+	fi
+
+	#add netbeans run user to tomcat group to prevent permission issues
+	einfo "Please enter the user that runs 'dev-util/netbeans:6.5': "
+	read user
+	if [ "$user" == "root" ] || [ -z $user ] ; then 
+		eerror "This is not meant for user: 'root'"
+		die "bad User"
+	else
+		gpasswd -a $user tomcat || die "failed to add user to group"
+	fi
+
+	#need to check ENV Vars
+	source /etc/conf.d/${TOMCAT_NAME} || die "unable to source conf.d file"
+
+	#Output and Check that that User is happy with Tomcat setup
+	einfo
+	einfo "Your ${TOMCAT_NAME} Configuration:(Please note these values)"
+	einfo
+	einfo "CATALINA_HOME = ${CATALINA_HOME}"
+	einfo "CATALINA_BASE = ${CATALINA_BASE}"
+	einfo "CATALINA_LIBDIR = ${CATALINA_LIBDIR}"
+	einfo "CATALINA_TMPDIR = ${CATALINA_TMPDIR}"
+	ewarn 
+	ewarn "Edit Runtime ops inside NetBeans Services"
+	ewarn
+	einfo
+	einfo "${TOMCAT_NAME} runs as ${CATALINA_USER} : ${CATALINA_GROUP}"
+	ewarn "If you plan on changing those, you are on your own"
+	einfo
+	einfo "Would you still like to continue? (Y/n)"
+	read answer
+	[ -z $answer ] && answer=Y
+	[ "$answer" == "Y" ] || [ "$answer" == "y" ] || die "aborted"
+	#Warn user about changing conf.d file
+	ewarn 
+	ewarn "Changing the ${TOMCAT_NAME}  conf.d file AFTER you have setup NetBeans"
+	ewarn "could result in runtime failure"
+	ewarn
+	sleep 5 #Make sure that ewarn is read
+
+	einfo "Checking ${TOMCAT_NAME} Symlinks for Breakage ..."
+	#Check Tomcat Symlink Breakage, important for Split Tomcat
+	test -h ${CATALINA_BASE}/conf || die "bad tomcat-conf symlink"
+	test -h ${CATALINA_BASE}/logs || die "bad tomcat-logs symlink"
+	test -h ${CATALINA_BASE}/temp || die "bad tomcat-temp symlink"
+	test -h ${CATALINA_BASE}/work || die "bad tomcat-work symlink"
+	
+	#NB doesn't respect it's Private Configuration, can't find server.xml
+	dosym /etc/${TOMCAT_NAME} ${CATALINA_HOME}/conf || die "failed to make extra sym"
+	#Output Inside-Netbeans final steps, including external info
+	einfo
+	einfo "You are now ready to start 'dev-util/netbeans:6.5' and add "
+	einfo "${TOMCAT_NAME} to Server Node"
+	einfo
+	sleep 2 #wait
+	einfo "Please follow these instructions for FINAL configuration:"
+	sleep 2 #wait
+	einfo 
+	einfo "Please add a User/Password to the tomcat-users.xml file"
+	einfo
+	einfo "Please consult link for more info: "
+	einfo "http://tomcat.apache.org/tomcat-6.0-doc/realm-howto.html#DigestedPasswords"
+	einfo
+	einfo "Open up the 'Runtime Tab'. "
+	einfo
+	einfo "Right click on the 'Servers Node' and in the contexts menu select on Add Server."
+	einfo
+	einfo "Select ${TOMCAT_NAME}"
+	einfo 
+	einfo "In the 'Tomcat Server Instance Properties' window enter: "
+	einfo 
+	einfo "both 'Catalina Home' and 'Catalina Base' fields."
+	einfo 
+	einfo "Enter the Username/Password that you inserted in the the "
+	einfo "tomcat-users.xml"
+	einfo 
+	einfo "Click Finish, you should now be able to see ${TOMCAT_NAME} as an added Server"
+	einfo 
+	einfo "For More Info, Please See:"
+	einfo "http://wiki.netbeans.org/AddExternalTomcat"
 }
