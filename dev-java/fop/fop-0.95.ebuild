@@ -56,7 +56,7 @@ src_unpack() {
 	cd "${S}/lib"
 	rm -v *.jar || die
 
-	java-pkg_jarfrom ant-core ant.jar
+	java-pkg_jarfrom --build-only ant-core ant.jar
 	java-pkg_jarfrom avalon-framework-4.2 avalon-framework.jar \
 		avalon-framework-4.2.0.jar
 	java-pkg_jarfrom batik-1.7
