@@ -287,8 +287,10 @@ pkg_config() {
 	test -h ${CATALINA_BASE}/temp || die "bad tomcat-temp symlink"
 	test -h ${CATALINA_BASE}/work || die "bad tomcat-work symlink"
 
-	#NB doesn't respect it's Private Configuration, can't find server.xml
+	#NB Private Configuration does not read  server.xml from CATALINA_BASE
+	#See http://www.netbeans.org/issues/show_bug.cgi?id=156913
 	dosym /etc/${TOMCAT_NAME} ${CATALINA_HOME}/conf || die "failed to make extra sym"
+
 	#Output Inside-Netbeans final steps, including external info
 	einfo
 	einfo "You are now ready to start 'dev-util/netbeans:6.5' and add "
