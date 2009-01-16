@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  16 Jan 2009; Fabian Fingerle <fabian@datensalat.eu>
+  -sun-jdk-1.7.0.0_alpha41.ebuild, +sun-jdk-1.7.0.0_alpha43.ebuild:
+  Version bump.
+
   05 Jan 2009; Serkan Kaba <serkan@gentoo.org>
   -sun-jdk-1.6.0.12_beta3.ebuild, +sun-jdk-1.6.0.12_beta3-r1.ebuild,
   files/sun-jdk-1.6.env:
