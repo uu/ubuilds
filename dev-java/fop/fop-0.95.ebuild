@@ -47,8 +47,7 @@ DEPEND=">=virtual/jdk-1.4
 #	)"
 
 src_unpack() {
-	unpack ${A}
-	cd "${S}"
+	default
 
 	# automagic is bad
 	java-ant_ignore-system-classes || die
@@ -72,6 +71,9 @@ src_unpack() {
 	use jimi && java-pkg_jar-from sun-jimi
 }
 
+EANT_DOC_TARGET="javadocs"
+EANT_BUILD_TARGET="package"
+
 src_compile() {
 	# because I killed the automagic tests; all our JDK's have JCE
 	local af="-Djdk14.present=true -Djce.present=true"
@@ -80,16 +82,12 @@ src_compile() {
 	use jimi && af="${af} -Djimi.present=true"
 
 	export ANT_OPTS="-Xmx256m"
-	eant ${af} -Djavahome.jdk14="${JAVA_HOME}" package $(use_doc javadocs)
+	java-pkg-2_src_compile ${af} -Djavahome.jdk14="${JAVA_HOME}"
 }
 
 src_test() {
-	if use test ; then
-		cd "${S}/lib"
-		java-pkg_jar-from xmlunit-1
-		java-pkg_jar-from junit
-		cd "${S}"
-	fi
+	java-pkg_jar-from --into lib xmlunit-1
+	java-pkg_jar-from --into lib junit
 
 	ANT_OPTS="-Xmx1g -Djava.awt.headless=true" eant -Djunit.fork=off junit
 }
@@ -105,7 +103,7 @@ src_install() {
 	# doesn't support everything upstream launcher does...
 	java-pkg_dolauncher ${PN} --main org.apache.fop.cli.Main
 
-	dodoc NOTICE README
+	dodoc NOTICE README || die
 
 	use doc && java-pkg_dojavadoc build/javadocs
 	use examples && java-pkg_doexamples examples/* conf
@@ -113,10 +111,10 @@ src_install() {
 }
 
 pkg_postinst(){
-elog "The SVG Renderer and the MIF Handler have not been resurrected"
-elog "They are currently non-functional."
-elog
-elog "The API of FOP has changed considerably and is not backwards-compatible"
-elog "with versions 0.20.5 and 0.91beta. Version 0.92 introduced the new stable
-API."
+	elog "The SVG Renderer and the MIF Handler have not been resurrected"
+	elog "They are currently non-functional."
+	elog
+	elog "The API of FOP has changed considerably and is not backwards-compatible"
+	elog "with versions 0.20.5 and 0.91beta. Version 0.92 introduced the new"
+	elog "stable API."
 }
