@@ -18,10 +18,10 @@ IUSE="doc python tcl"
 CDEPEND="
 	dev-java/rhino:1.6
 	dev-java/xerces:2
-	dev-java/xml-commons-external
-	dev-java/xalan
-	python? ( dev-java/jython )
-	tcl? ( dev-java/jacl )"
+	dev-java/xml-commons-external:1.3
+	dev-java/xalan:0
+	python? ( dev-java/jython:0 )
+	tcl? ( dev-java/jacl:0 )"
 DEPEND=">=virtual/jdk-1.4
 	app-arch/unzip
 	${CDEPEND}"
