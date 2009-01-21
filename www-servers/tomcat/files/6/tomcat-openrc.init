@@ -97,7 +97,7 @@ start()	{
 stop()	{
 	ebegin "Stopping Tomcat"
 	init_env_vars
-	start-stop-daemon --stop --quiet \
+	start-stop-daemon --stop --quiet --retry=60 \
 	       	--pidfile /var/run/tomcat-6.pid \
 			--exec ${JAVA_HOME}/bin/java -- ${OPTS_CP} ${CATALINA_ARGS} stop ${STD_OUT}
 	eend $?
