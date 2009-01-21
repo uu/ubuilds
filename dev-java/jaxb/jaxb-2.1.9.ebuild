@@ -5,7 +5,7 @@
 EAPI="1"
 
 JAVA_PKG_IUSE="doc source"
-WANT_ANT_TASKS="ant-contrib ant-junit ant-trax"
+WANT_ANT_TASKS="ant-contrib ant-junit ant-trax app-text/jing:0"
 
 inherit eutils java-pkg-2 java-ant-2
 
@@ -44,7 +44,6 @@ DEPEND=">=virtual/jdk-1.5
 	dev-java/codemodel-annotation-compiler:2
 	dev-java/fastinfoset
 	dev-java/apt-mirror
-	app-text/jing
 	dev-java/relaxngcc
 	dev-java/stax-ex
 	dev-java/txw2-compiler
@@ -148,6 +147,7 @@ src_compile() {
 	einfo "Compiling jaxb dist"
 	[[ ${JAXB_DELETE} ]] && rm -v ${JAXB_DELETE}
 	mkdir -p tools/installer{,-builder}/build/classes
+	export ANT_OPTS=-Xbootclasspath/p:${S}/tools/lib/redist2.2/jaxb-api.jar
 	eant dist $(use_doc javadoc)
 }
 
