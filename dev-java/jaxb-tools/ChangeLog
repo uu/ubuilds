@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  22 Jan 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>
+  jaxb-tools-2.1.9.ebuild:
+  Added symlink for backwards compatibility e.g. in java-config.
+
   09 Jan 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>
   +jaxb-tools-2.1.9.ebuild:
   Version bump to 2.1.9.  New built process based on upstream workspace

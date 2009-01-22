@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+inherit java-pkg-2
+
 DESCRIPTION="Placeholder package, dev-java/jaxb now includes tools"
 HOMEPAGE="http://jaxb.dev.java.net/"
 SRC_URI=""
@@ -19,4 +21,10 @@ pkg_setup() {
 	elog "which were installed separately in jaxb-tools before."
 	elog "You may remove this package if you want to."
 	elog ""
+}
+
+src_install() {
+	# Can't use JAVA_PKG_SHAREPATH as java-pkg_init_paths_ is internal
+	[[ ${DESTTREE} ]] || die "DESTTREE not set"
+	dosym jaxb-${SLOT} "${DESTTREE}/share/${PN}-${SLOT}"
 }
