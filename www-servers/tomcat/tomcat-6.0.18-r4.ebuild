@@ -166,7 +166,7 @@ pkg_postinst() {
 	cd "${S}"
 		if [[ -e "/var/lib/${TOMCAT_NAME}/webapps" ]] ; then
 	elog "The latest webroot has NOT been installed into"
-	elog "${D}${CATALINA_BASE}/webapps/ROOT already exists"
+	elog "/var/lib/${TOMCAT_NAME}/webapps/ROOT already exists"
 	elog "and we do not want to overwrite any files you have put there."
 	elog
 	elog "Installing latest webroot into"
@@ -187,10 +187,10 @@ pkg_postinst() {
 				cp -pPr webapps/examples "${D}"${TOMCAT_HOME}/webapps
 			fi
 	else
-		einfo "Installing  webroot to ${D}${CATALINA_BASE}/webapps"
+		einfo "Installing  webroot to ${WEBAPPS_DIR}"
 		cp -p RELEASE-NOTES build/webapps/ROOT/RELEASE-NOTES.txt
-		cp -pr webapps/ROOT "${D}"${CATALINA_BASE}/webapps
-		cp -pr webapps/host-manager "${D}"${TOMCAT_HOME}/webapps
+		cp -pr webapps/ROOT "${D}"${TOMCAT_HOME}/webapps"
+		cp -pr webapps/host-manager "${D}"${TOMCAT_HOME}/webapps"
 		cp -pr webapps/manager "${D}"${TOMCAT_HOME}/webapps
 			if use doc; then
 				 cp -pr webapps/docs "${D}"${TOMCAT_HOME}/webapps
