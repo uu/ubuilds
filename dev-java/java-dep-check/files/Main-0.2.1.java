@@ -106,8 +106,8 @@ public final class Main extends EmptyVisitor {
         Collection<String> jars = getPackageJars(pkg);
         // We have a virtual with VM provider here
         if (jars.size() == 0) {
-			return true;
-		}
+            return true;
+        }
         for (String jarName : jars) {
             JarFile jar = new JarFile(jarName);
             for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();) {
@@ -128,28 +128,28 @@ public final class Main extends EmptyVisitor {
         for (String jar : bootClassPathJars) {
             File jarFile = new File(jar);
             if (jarFile.exists()) {
-				jars.add(jar);
-			}
+                jars.add(jar);
+            }
         }
         for (Iterator<String> pkg = pkgs.iterator(); pkg.hasNext();) {
-			jars.addAll(getPackageJars(pkg.next()));
-		}
+            jars.addAll(getPackageJars(pkg.next()));
+        }
 
         if (jars.size() == 0) {
-			return false;
-		}
+            return false;
+        }
         ArrayList<String> jarClasses = new ArrayList<String>();
         for (String jarName : jars) {
             JarFile jar = new JarFile(jarName);
             for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();) {
-				jarClasses.add(e.nextElement().getName());
-			}
+                jarClasses.add(e.nextElement().getName());
+            }
         }
         for (String dep : deps) {
             if (!jarClasses.contains(dep)) {
                 if (found) {
-					System.out.println("Possible missing classes");
-				}
+                    System.out.println("Possible missing classes");
+                }
                 System.out.println("\t" + dep);
                 found = false;
             }
