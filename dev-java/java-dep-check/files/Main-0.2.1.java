@@ -24,21 +24,22 @@ package javadepchecker;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.HashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -104,8 +105,9 @@ public final class Main extends EmptyVisitor {
     private static boolean depNeeded(String pkg, Collection<String> deps) throws IOException {
         Collection<String> jars = getPackageJars(pkg);
         // We have a virtual with VM provider here
-        if (jars.size() == 0)
-            return true;
+        if (jars.size() == 0) {
+			return true;
+		}
         for (String jarName : jars) {
             JarFile jar = new JarFile(jarName);
             for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();) {
@@ -125,24 +127,29 @@ public final class Main extends EmptyVisitor {
         // Do we need "java-config -r" here?
         for (String jar : bootClassPathJars) {
             File jarFile = new File(jar);
-            if (jarFile.exists())// bootclasspath seems to have unexisting files
-                jars.add(jar);
+            if (jarFile.exists()) {
+				jars.add(jar);
+			}
         }
-        for (Iterator<String> pkg = pkgs.iterator(); pkg.hasNext();)
-            jars.addAll(getPackageJars(pkg.next()));
+        for (Iterator<String> pkg = pkgs.iterator(); pkg.hasNext();) {
+			jars.addAll(getPackageJars(pkg.next()));
+		}
 
-        if (jars.size() == 0)
-            return false;
+        if (jars.size() == 0) {
+			return false;
+		}
         ArrayList<String> jarClasses = new ArrayList<String>();
         for (String jarName : jars) {
             JarFile jar = new JarFile(jarName);
-            for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();)
-                jarClasses.add(e.nextElement().getName());
+            for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();) {
+				jarClasses.add(e.nextElement().getName());
+			}
         }
         for (String dep : deps) {
             if (!jarClasses.contains(dep)) {
-                if (found)
-                    System.out.println("Possible missing classes");
+                if (found) {
+					System.out.println("Possible missing classes");
+				}
                 System.out.println("\t" + dep);
                 found = false;
             }
