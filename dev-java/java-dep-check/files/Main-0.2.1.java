@@ -77,7 +77,7 @@ public final class Main extends EmptyVisitor {
             BufferedReader in;
             in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String output = in.readLine();
-            if (!output.trim().equals("")) {
+            if (output!=null/* package somehow missing*/ && !output.trim().equals("")) {
                 for (String jar : output.split(":")) {
                     jars.add(jar);
                 }
@@ -277,7 +277,9 @@ public final class Main extends EmptyVisitor {
 
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        addDep(superName);
+        if(superName != null) {
+            addDep(superName);
+        }
         for (String iface : interfaces) {
             addDep(iface);
         }
