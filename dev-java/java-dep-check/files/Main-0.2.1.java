@@ -104,7 +104,7 @@ public final class Main extends EmptyVisitor {
     private static boolean depNeeded(String pkg, Collection<String> deps) throws IOException {
         Collection<String> jars = getPackageJars(pkg);
         // We have a virtual with VM provider here
-        if(jars.size() == 0)
+        if (jars.size() == 0)
             return true;
         for (String jarName : jars) {
             JarFile jar = new JarFile(jarName);
@@ -117,35 +117,36 @@ public final class Main extends EmptyVisitor {
         }
         return false;
     }
-    
+
     private static boolean depsFound(Collection<String> pkgs, Collection<String> deps) throws IOException {
-    	boolean found=true;
+        boolean found = true;
         Collection<String> jars = new ArrayList<String>();
         String[] bootClassPathJars = System.getProperty("sun.boot.class.path").split(":");
-        //Do we need "java-config -r" here? 
-        for(String jar: bootClassPathJars) {
-        	File jarFile= new File(jar);
-        	if(jarFile.exists())//bootclasspath seems to have unexisting files
-        		jars.add(jar);
+        // Do we need "java-config -r" here?
+        for (String jar : bootClassPathJars) {
+            File jarFile = new File(jar);
+            if (jarFile.exists())// bootclasspath seems to have unexisting files
+                jars.add(jar);
         }
         for (Iterator<String> pkg = pkgs.iterator(); pkg.hasNext();)
             jars.addAll(getPackageJars(pkg.next()));
 
-        if(jars.size() == 0)
+        if (jars.size() == 0)
             return false;
         ArrayList<String> jarClasses = new ArrayList<String>();
         for (String jarName : jars) {
-        	JarFile jar = new JarFile(jarName);
+            JarFile jar = new JarFile(jarName);
             for (Enumeration<JarEntry> e = jar.entries(); e.hasMoreElements();)
                 jarClasses.add(e.nextElement().getName());
         }
-        for(String dep: deps)
-        	if(!jarClasses.contains(dep)) {
-        		if(found)
-        			System.out.println("Possible missing classes");
-        		System.out.println("\t"+dep);
-        		found=false;
-        	}
+        for (String dep : deps) {
+            if (!jarClasses.contains(dep)) {
+                if (found)
+                    System.out.println("Possible missing classes");
+                System.out.println("\t" + dep);
+                found = false;
+            }
+        }
         return found;
     }
 
@@ -179,7 +180,7 @@ public final class Main extends EmptyVisitor {
                 if (m.matches()) {
                     Main classParser = new Main();
                     for (String jar : m.group(1).split(":")) {
-                        if(jar.endsWith(".jar")) {
+                        if (jar.endsWith(".jar")) {
                             classParser.processJar(new JarFile(image + jar));
                         }
                     }
@@ -189,14 +190,15 @@ public final class Main extends EmptyVisitor {
 
             for (String pkg : pkgs) {
                 if (!depNeeded(pkg, deps)) {
-                	if(needed)
-                		System.out.println("Possibly unneeded dependencies found");
-                    System.out.println("\t"+pkg);
+                    if (needed) {
+                        System.out.println("Possibly unneeded dependencies found");
+                    }
+                    System.out.println("\t" + pkg);
                     needed = false;
                 }
             }
             found = depsFound(pkgs, deps);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -246,8 +248,11 @@ public final class Main extends EmptyVisitor {
     private void addDep(String dep) {
         deps.add(dep + ".class");
     }
-    
+
     private void addDep(Type dep) {
+        if (dep.getSort() == Type.ARRAY) {
+            addDep(dep.getElementType());
+        }
         if (dep.getSort() == Type.OBJECT) {
             addDep(dep.getInternalName());
         }
@@ -264,14 +269,13 @@ public final class Main extends EmptyVisitor {
     }
 
     @Override
-    public void visit(int version, int access, String name, String signature,
-                      String superName, String[] interfaces) {
+    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         addDep(superName);
-        for(String iface : interfaces) {
+        for (String iface : interfaces) {
             addDep(iface);
         }
     }
-    
+
     @Override
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
         addDep(Type.getType(desc));
@@ -283,29 +287,37 @@ public final class Main extends EmptyVisitor {
         for (Type param : Type.getArgumentTypes(desc)) {
             addDep(param);
         }
+
+        if (exceptions != null) {
+            for (String exception : exceptions) {
+                addDep(exception);
+            }
+        }
         addDep(Type.getReturnType(desc));
         return new EmptyVisitor() {
             @Override
             public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
                 addDep(Type.getType(desc));
             }
+
             @Override
             public void visitFieldInsn(int opcode, String owner, String name, String desc) {
-                addDep(owner);
+                addDep(Type.getObjectType(owner));
+                addDep(Type.getType(desc));
             }
+
             @Override
             public void visitMethodInsn(int opcode, String owner, String name, String desc) {
-                addDep(owner);
+                addDep(Type.getObjectType(owner));
             }
+
             @Override
             public AnnotationVisitor visitParameterAnnotation(int parameter, String desc, boolean visible) {
                 return Main.this.visitAnnotation(desc, visible);
             }
-
-
         };
     }
-    
+
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         addDep(Type.getType(desc));
