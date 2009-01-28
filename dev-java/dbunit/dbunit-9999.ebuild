@@ -1,11 +1,11 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=1
-JAVA_PKG_IUSE="doc source"
+JAVA_PKG_IUSE="doc source test"
 
-inherit java-pkg-2 java-utils-2 subversion 
+inherit java-pkg-2 java-utils-2 subversion
 
 DESCRIPTION="DbUnit is a JUnit extension targeted for database-driven projects"
 HOMEPAGE="http://www.dbunit.org/"
@@ -14,22 +14,20 @@ ESVN_PROJECT="dbunit"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~x86"
 
 IUSE=""
 
 COMMON_DEP="dev-java/slf4j-api
-			dev-java/slf4j-log4j12
-			dev-java/slf4j-nop
 			dev-java/ant-core
-			>=dev-java/poi-3.2
-			dev-java/commons-collections
-			dev-java/commons-logging
+			dev-java/poi:3.2
+			dev-java/commons-collections:0
 			dev-java/maven-bin
 			dev-java/junit
 			"
 
 RDEPEND=">=virtual/jre-1.4
+	dev-java/slf4j-nop
 	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.4
 	app-arch/unzip
@@ -41,17 +39,13 @@ src_unpack(){
 	if [[ ${PV} == "9999" ]] ; then
 		subversion_src_unpack
 		cd "${S}"
-		epatch "${FILESDIR}"/svnjarname.patch
 	fi
 	mkdir "${S}"/lib
 	java-pkg_jar-from --into lib poi-3.2
 	java-pkg_jar-from --into lib junit
 	java-pkg_jar-from --into lib slf4j-api
-	java-pkg_jar-from --into lib slf4j-log4j12
 	java-pkg_jar-from --into lib commons-collections
-	java-pkg_jar-from --into lib commons-logging
-	java-pkg_jar-from --into lib ant-core
-	java-pkg_jar-from --into lib log4j
+	java-pkg_jar-from --build-only ant-core
 }
 
 src_compile(){
@@ -68,10 +62,12 @@ src_test(){
 }
 
 src_install() {
-	mvn jar:jar || die "install failed"
-	cd "${S}"/target
-	java-pkg_dojar "${PN}"-"${PV}".jar
+	#Needed runtime deps
+	java-pkg_register-optional-dependency slf4j-nop
+	java-pkg_register-optional-dependency slf4j-log4j12
 
+	mvn jar:jar || die "install failed"
+	java-pkg_newjar target/${PN}-*.jar "${PN}".jar
 	if use doc ; then
 		cd "${S}"/target/
 		java-pkg_dojavadoc site
@@ -82,6 +78,9 @@ src_install() {
 }
 
 pkg_postinst(){
-	einfo "See: http://dbunit.wikidot.com/"
-	einfo "for More Info"
+	ewarn
+	ewarn "SVN SNAPSHOT, standard warnings apply"
+	ewarn
+	einfo "Configuration and Documentation can be found at:"
+	einfo "http://dbunit.wikidot.com/"
 }
