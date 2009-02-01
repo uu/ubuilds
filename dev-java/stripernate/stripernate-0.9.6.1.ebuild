@@ -1,14 +1,14 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 inherit java-pkg-2
 
-DESCRIPTION=""
-HOMEPAGE=""
+DESCRIPTION="Stripernate makes working with Hibernate in Stripes as easy as Stripes itself!"
+HOMEPAGE="http://www.mongus.com/Topics/Web%20Development/Stripernate/"
 SRC_URI="http://www.mongus.com/Topics/Web%20Development/Stripernate/files/${P}-source.jar"
 
-LICENSE="apache-2"
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="doc"
@@ -20,7 +20,7 @@ IUSE="doc"
 #stripes
 #commons-logging
 RDEPEND=">=virtual/jre-1.5
-		>=dev-java/commons-logging-1.0.4	
+		>=dev-java/commons-logging-1.0.4
 		dev-java/stripes
 		>=dev-java/hibernate-3.2
 		>=dev-java/hibernate-annotations-3.2
@@ -34,11 +34,11 @@ S="${WORKDIR}"
 
 src_unpack() {
 	unpack ${A}
-	cp ${FILESDIR}/build.xml .
+	cp "${FILESDIR}/build.xml" .
 	mkdir -p src
 	mv com src/
 	mkdir -p lib
-	cd lib	
+	cd lib
 	java-pkg_jarfrom servletapi-2.4
 	java-pkg_jarfrom commons-logging
 	java-pkg_jarfrom stripes-1.4
