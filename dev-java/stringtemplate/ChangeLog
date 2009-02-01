@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/stringtemplate
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  01 Feb 2009; <nelchael@gentoo.org> stringtemplate-3.0.ebuild,
+  stringtemplate-3.1_beta1.ebuild:
+  Keyword ~ppc, ~ppc64.
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman
