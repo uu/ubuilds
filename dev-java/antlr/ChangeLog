@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/antlr
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  01 Feb 2009; <nelchael@gentoo.org> metadata.xml, antlr-3.0.ebuild,
+  antlr-3.0.1.ebuild:
+  Cleanup metadata.xml, fix keywords.
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman

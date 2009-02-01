@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -11,7 +11,7 @@ HOMEPAGE="http://www.antlr.org/"
 SRC_URI="http://www.antlr.org/download/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="3"
-KEYWORDS=""
+KEYWORDS="~amd64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE="test"
 # operates in /tmp and some tests fail
 RESTRICT="test"
