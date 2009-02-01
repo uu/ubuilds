@@ -12,7 +12,8 @@ SRC_URI="https://args4j.dev.java.net/files/documents/977/100439/${P}-src.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="2"
-KEYWORDS="~x86 ~amd64 ~ia64"
+KEYWORDS="~amd64 ~ia64 ~ppc ~x86"
+IUSE=""
 
 DEPEND=">=virtual/jdk-1.5"
 RDEPEND=">=virtual/jre-1.5"

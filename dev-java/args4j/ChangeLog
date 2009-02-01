@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  01 Feb 2009; <nelchael@gentoo.org> +metadata.xml, args4j-1.0.ebuild,
+  args4j-2.0.9.ebuild:
+  Keyword ~ppc, add metadata.
+
 *args4j-1.0 (09 Jan 2009)
 *args4j-2.0.9 (09 Jan 2009)
 
