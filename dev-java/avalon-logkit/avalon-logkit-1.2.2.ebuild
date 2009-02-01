@@ -1,14 +1,20 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI=1
-JAVA_PKG_IUSE="doc javamail jms source test"
+JAVA_PKG_IUSE="doc source test"
 inherit java-pkg-2
 
 DESCRIPTION="An easy-to-use Java logging toolkit designed for secure, performance-oriented logging."
 HOMEPAGE="http://avalon.apache.org/"
-SRC_URI="http://www.apache.org/dist/avalon/logkit/source/logkit-${PV}-src.tar.gz"
+SRC_URI="mirror://apache/avalon/logkit/source/logkit-${PV}-src.tar.gz"
+
+LICENSE="Apache-1.1"
+SLOT="1.2"
+IUSE=""
+KEYWORDS="~amd64 ~ia64 ~ppc64 ~x86"
+
 COMMON_DEP="
 	=dev-java/avalon-framework-4.1*
 	dev-java/sun-jaf
@@ -27,32 +33,45 @@ DEPEND="|| (
 	test? ( dev-java/junit:4 )
 	${COMMON_DEP}"
 
-LICENSE="Apache-1.1"
-SLOT="1.2"
-IUSE=""
-KEYWORDS="~amd64 ~ia64 ~ppc64 ~x86"
-
 S="${WORKDIR}/logkit-${PV}-dev"
 SRC_DIR="${S}/src/java"
 JAVADOC_DIR="${S}/javadoc"
 
 src_compile() {
 	mkdir classes || die "Could not create compile output dir"
-	ejavac -encoding "ISO-8859-1" -classpath $(java-pkg_getjars sun-jaf,sun-javamail,sun-jms,log4j,servletapi-2.3,avalon-framework-4.1) -d classes $(find ${SRC_DIR} -name "*.java") || die "Compilation failed"
+
+	ejavac \
+		-encoding "ISO-8859-1" \
+		-classpath $(java-pkg_getjars sun-jaf,sun-javamail,sun-jms,log4j,servletapi-2.3,avalon-framework-4.1) \
+		-d classes $(find "${SRC_DIR}" -name "*.java") \
+		|| die "Compilation failed"
+
 	jar -cf "${S}/${PN}.jar" -C classes . || die "Could not create jar"
+
 	#Generate javadoc
 	if use doc ; then
 		mkdir "${JAVADOC_DIR}" || die "Could not create javadoc dir"
-		cd ${SRC_DIR}
-		javadoc -encoding "ISO-8859-1" -sourcepath "${SRC_DIR}" -classpath $(java-pkg_getjars sun-jaf,sun-javamail,sun-jms,log4j,servletapi-2.3,avalon-framework-4.1)  -source "${JAVA_VERSION}" -d ${JAVADOC_DIR} $(find "org/apache/log" -type d | tr '/' '.') || die "Could not create javadoc"
+		cd "${SRC_DIR}"
+		javadoc \
+			-encoding "ISO-8859-1" \
+			-sourcepath "${SRC_DIR}" \
+			-classpath $(java-pkg_getjars sun-jaf,sun-javamail,sun-jms,log4j,servletapi-2.3,avalon-framework-4.1) \
+			-source "${JAVA_VERSION}" \
+			-d "${JAVADOC_DIR}" \
+			$(find "org/apache/log" -type d | tr '/' '.') \
+			|| die "Could not create javadoc"
 	fi
 }
 
 src_test() {
-
 	mkdir test-classes || die "Unable to make dir"
 	local TESTJAR="avalon-logkit-test.jar"
-	ejavac -encoding "ISO-8859-1" -classpath "avalon-logkit.jar:$(java-config -p junit-4)" -d test-classes $(find src/test -name '*.java')
+
+	ejavac \
+		-encoding "ISO-8859-1" \
+		-classpath "avalon-logkit.jar:$(java-config -p junit-4)" \
+		-d test-classes \
+		$(find src/test -name '*.java')
 
 	jar -cf "${TESTJAR}" -C test-classes .
 
@@ -72,4 +91,3 @@ src_install() {
 	use doc && java-pkg_dojavadoc "${JAVADOC_DIR}"
 	use source && java-pkg_dosrc "${SRC_DIR}/*"
 }
-

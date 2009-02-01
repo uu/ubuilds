@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/avalon-logkit
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  01 Feb 2009; <nelchael@gentoo.org> metadata.xml,
+  avalon-logkit-1.2.2.ebuild:
+  Fix QA warnings.
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com>
   avalon-logkit-1.2.2.ebuild:
