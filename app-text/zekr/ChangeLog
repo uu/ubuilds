@@ -1,6 +1,9 @@
 # ChangeLog for app-text/zekr
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  01 Feb 2009; <nelchael@gentoo.org> zekr-0.7.1.ebuild:
+  Fix LINGUAS.
 
   07 Sep 2008; Serkan Kaba <serkan@gentoo.org>
   -files/zekr-0.6.6-resource-fixes.patch, -zekr-0.7.0_beta1-r3.ebuild,

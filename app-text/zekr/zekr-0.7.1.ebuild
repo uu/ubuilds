@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -66,10 +66,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
-LANGS="az bs de en es fa fr id it nl pt ru tr tt ur"
-for l in ${LANGS}; do
-	IUSE+=" linguas_${l}"
-done
+LINGUAS="az bs de en es fa fr id it nl pt ru tr tt ur"
 
 COMMON_DEPS="dev-java/commons-collections:0
 	 dev-java/commons-configuration:0
