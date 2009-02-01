@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/xstream/xstream-1.2.ebuild,v 1.4 2006/12/22 22:27:10 betelgeuse Exp $
 
@@ -10,8 +10,7 @@ SRC_URI="http://repository.codehaus.org/com/thoughtworks/${PN}/${PN}-distributio
 
 LICENSE="BSD"
 SLOT="0"
-#KEYWORDS="~amd64 ~x86"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 #TODO java5
 IUSE="doc examples source"
 
