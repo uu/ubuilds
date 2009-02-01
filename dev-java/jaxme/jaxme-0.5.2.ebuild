@@ -1,7 +1,8 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/jaxme/jaxme-0.3.1-r4.ebuild,v 1.2 2007/10/22 10:13:21 betelgeuse Exp $
 
+EAPI="2"
 JAVA_PKG_IUSE="doc source"
 #WANT_ANT_TASKS="ant-antlr"
 
@@ -15,7 +16,7 @@ SRC_URI="mirror://apache/ws/${PN}/source/${MY_P}-src.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="
@@ -76,7 +77,7 @@ src_install() {
 	#Compatibility symlink for jaxb
 	dosym jaxmeapi.jar /usr/share/${PN}/lib/jaxb-api.jar || die "dosym jaxmeapi.jar failed"
 	java-pkg_regjar --virtual /usr/share/${PN}/lib/jaxb-api.jar
-	
+
 	dosym jaxme2-rt.jar /usr/share/${PN}/lib/jaxb-impl.jar || die "dosym jaxme2-rt.jar failed"
 	java-pkg_regjar --virtual /usr/share/${PN}/lib/jaxb-impl.jar
 
