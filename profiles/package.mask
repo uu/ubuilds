@@ -6,6 +6,10 @@
 # NOTE: Please add your entry at the top!
 #
 
+# Krzysztof Pawlik <nelchael@gentoo.org> (01 Feb 2009)
+# Crap, no distfile, ebuild has errors.
+dev-java/joram-tests
+
 # Serkan Kaba <serkan@gentoo.org> (31 Jan 2009)
 # Mask java-1.7.
 =virtual/jdk-1.7*
@@ -43,4 +47,3 @@ dev-java/htmlunit
 # =www-server/jboss-4.0.4-r2 is being masked so that I can attempt at
 # building jboss as a monolithic package for testing
 =www-servers/jboss-4.0.4-r2
-
