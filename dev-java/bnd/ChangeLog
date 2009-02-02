@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/bnd
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  02 Feb 2009; Alistair Bush <ali_bush@gentoo.org> bnd-0.0.223.ebuild:
+  QA Fixes. Dropped keywords as I know this is broken.
 
   28 Dec 2007; <alistair@gentoo.org> +files/taskdef.properties,
   bnd-0.0.223.ebuild:

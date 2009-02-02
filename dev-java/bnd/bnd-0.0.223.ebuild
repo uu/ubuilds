@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -14,14 +14,13 @@ SRC_URI="http://www.aqute.biz/repo/biz/aQute/${PN}/${PV}/${P}.jar"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS=""
 
 IUSE=""
 
 COMMON_DEP="=dev-util/eclipse-sdk-3.3*
 			dev-java/swt
-			dev-java/ant-core
-			"
+			dev-java/ant-core"
 
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEP}"
