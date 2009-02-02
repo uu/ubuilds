@@ -64,7 +64,7 @@ SRC_URI="mirror://sourceforge/${PN}/${P/_/}-linux.tar.gz
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS=""
 IUSE=""
 LINGUAS="az bs de en es fa fr id it nl pt ru tr tt ur"
 
