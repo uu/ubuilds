@@ -1,6 +1,10 @@
 # ChangeLog for app-benchmarks/jmeter
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  02 Feb 2009; Alistair Bush <ali_bush@gentoo.org> -jmeter-2.3.1.ebuild,
+  jmeter-2.3.1-r1.ebuild:
+  QA Fixes.
 
   11 Mar 2008; Alistair Bush <ali_bush@gentoo.org> jmeter-2.3.1.ebuild,
   +jmeter-2.3.1-r1.ebuild:
