@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/glazedlists
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  02 Feb 2009; Alistair Bush <ali_bush@gentoo.org> metadata.xml,
+  glazedlists-1.7.0-r2.ebuild:
+  QA Fixes. dropped ppc.
 
   22 Nov 2007; Bernhard Frauendienst <gentoo@nospam.obeliks.de>
   files/glazedlists-1.7.0-build.xml.patch, ++, -glazedlists-1.7.0-r1.ebuild:

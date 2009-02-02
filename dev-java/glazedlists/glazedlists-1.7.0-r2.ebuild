@@ -1,6 +1,6 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/glazedlists/glazedlists-1.5.0.ebuild,v 1.9 2007/08/03 15:36:06 betelgeuse Exp $
+# $Header: $
 
 JAVA_PKG_IUSE="doc source test"
 
@@ -14,7 +14,7 @@ SRC_URI="java5? ( https://${PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID_J
 	!java5? ( https://${PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID_JAVA4}/${P}-source_java14.zip )"
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="~amd64 ~x86"
 # TODO: there are some more extensions which have deps not in the portage tree, which ant-target names are:
 # japex, ktable
 IUSE="java5 jfreechart jgoodiesforms nachocalendar swingx swt"
@@ -24,12 +24,11 @@ DEPEND_COMMON="
 	nachocalendar? ( dev-java/nachocalendar )
 	swingx? ( dev-java/swingx )
 	jfreechart? ( =dev-java/jfreechart-1* )
-	swt? ( 
-		=dev-java/swt-3* 
+	swt? (
+		=dev-java/swt-3*
 		=dev-java/eclipse-core-commands-3.3*
 		=dev-java/eclipse-jface-3.3*
-	)
-"
+	)"
 
 RDEPEND="java5? ( >=virtual/jre-1.5 )
 	!java5? ( >=virtual/jre-1.4 )
@@ -65,7 +64,7 @@ src_unpack() {
 	# disable autodownloading of dependencies
 	# sort out test targets
 	epatch "${FILESDIR}/${P}-build.xml.patch"
-	
+
 	# link system jars for extensions
 	use jgoodiesforms && link_system_jars jgoodiesforms jgoodies-forms
 	use nachocalendar && link_system_jars nachocalendar nachocalendar
@@ -94,11 +93,11 @@ src_compile() {
 	# so now we have to collect them and call them individually
 	EANT_BUILD_TARGET="jar"
 	use swingx && EANT_BUILD_TARGET="swinglabs ${EANT_BUILD_TARGET}"
-	for target in nachocalendar jgoodiesforms jfreechart swt 
+	for target in nachocalendar jgoodiesforms jfreechart swt
 	do
 		use ${target} && EANT_BUILD_TARGET="${target} ${EANT_BUILD_TARGET}"
 	done
-	java-pkg-2_src_compile			
+	java-pkg-2_src_compile
 }
 
 src_test() {
@@ -118,13 +117,13 @@ src_install() {
 	if use source; then
 		# collect source folders for all the used extensions
 		local source_folders="source/ca extensions/treetable/source/*"
-		
+
 		use swingx && source_folders="${source_folders} extensions/swinglabs/source/*"
-		for extension in nachocalendar jgoodiesforms jfreechart swt 
+		for extension in nachocalendar jgoodiesforms jfreechart swt
 		do
 			use ${extension} && source_folders="${source_folders} extensions/${extension}/source/*"
 		done
-		
+
 		java-pkg_dosrc ${source_folders}
 	fi
 }
