@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/aspectj
-# Copyright 2000-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 2000-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/aspectj/ChangeLog,v 1.22 2007/04/22 14:04:39 caster Exp $
+
+  02 Feb 2009; Alistair Bush <ali_bush@gentoo.org> -aspectj-1.5.3.ebuild,
+  aspectj-1.5.3-r1.ebuild:
+  QA Fixes. Dropped ~ppc due to missing dep dev-java/jdiff
 
   19 Dec 2007; Petteri Räty <betelgeuse@gentoo.org> aspectj-1.5.3.ebuild:
   Remove trailing white space.

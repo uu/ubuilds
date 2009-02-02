@@ -1,10 +1,10 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/aspectj/aspectj-1.2-r2.ebuild,v 1.3 2007/04/22 14:04:39 caster Exp $
+# $Header: $
 
 inherit eutils java-pkg-2 java-ant-2
 
-DESCRIPTION="AspectJ is a seemless extension to the Java programming language for Aspect Oriented Programming (AOP)"
+DESCRIPTION="A seemless extension to the Java programming language for Aspect Oriented Programming (AOP)"
 
 # How to create the tarball:
 #
@@ -57,14 +57,14 @@ RDEPEND=">=virtual/jre-1.5
 
 SLOT="1.5"
 LICENSE="CPL-1.0 Apache-1.1"
-KEYWORDS="~x86 ~ppc ~amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE="doc"
 
 S="${WORKDIR}/${P}/modules"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 
 	cd build
 	# FIXME : Broken so wrapping in use flag as no time to fix
@@ -115,16 +115,14 @@ src_compile() {
 }
 
 src_install() {
-	cd "${S}"
 	java-pkg_dojar aj-build/dist/tools/lib/*.jar
-
 	java-pkg_dolauncher ajc --main org.aspectj.tools.ajc.Main
 	java-pkg_dolauncher ajbrowser --main org.aspectj.tools.ajbrowser.Main
 	if use doc; then
 		dohtml aj-build/dist/docs/doc/*.html
 		dohtml aj-build/dist/docs/README-AspectJ.html
-		cp -R aj-build/dist/docs/doc/{devguide,aspectj5rt-api,progguide} ${D}/usr/share/doc/${P}/html
-		cp -R aj-build/dist/docs/doc/examples ${D}/usr/share/doc/${P}/examples
-		cp aj-build/dist/docs/doc/*.pdf ${D}/usr/share/doc/${P}
+		cp -R aj-build/dist/docs/doc/{devguide,aspectj5rt-api,progguide} "${D}/usr/share/doc/${P}/html"
+		cp -R aj-build/dist/docs/doc/examples "${D}/usr/share/doc/${P}/examples"
+		cp aj-build/dist/docs/doc/*.pdf "${D}/usr/share/doc/${P}"
 	fi
 }
