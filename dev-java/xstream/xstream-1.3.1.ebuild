@@ -66,3 +66,9 @@ src_install(){
 	use source && java-pkg_dosrc src/java/com
 }
 
+pkg_postinst(){
+	elog "Major Changes from previous version in Portage"
+	elog "See:"
+	elog "http://xstream.codehaus.org/changes.html"
+	elog "to prevent breakage ..."
+}

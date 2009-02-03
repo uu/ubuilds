@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  03 Feb 2009; Mike Weissman <mike@weisso.com> xstream-1.2.1.ebuild,
+  +xstream-1.3.1.ebuild:
+  QA: update of xstream-1.2.1, version bump to 1.3.1 bug#257517
+
   01 Feb 2009; <nelchael@gentoo.org> xstream-1.2.1.ebuild:
   Fix KEYWORDS.
 
