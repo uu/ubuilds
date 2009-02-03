@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header:  $
 
@@ -8,7 +8,7 @@ DESCRIPTION="Common module of JBoss Application Server"
 SRC_URI="${BASE_URL}/${P}-gentoo-r1.tar.bz2 ${ECLASS_URI}"
 MY_A="${MY_A/${P}-gentoo/${P}-gentoo-r1}"
 IUSE=""
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 # FIXME uh, apparently this doesn't like newer xerces.
 COMMON_DEPEND=">=dev-java/bsf-2.3

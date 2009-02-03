@@ -5,5 +5,8 @@
   <longdescription lang="en">
     Console module of JBoss Application Server.
   </longdescription>
+  <use>
+	  <flag name="jikes"></flag>
+  </use>
 </pkgmetadata>
 

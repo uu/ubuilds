@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,13 +8,13 @@ MY_PN="JBossCache"
 MY_PV="1.3.0.SP3" # FIXME could probably use versionator
 MY_P="${MY_PN}-${MY_PV}"
 # TODO use less lame description
-DESCRIPTION="A cache for frequently accessed Java objects which dramatically improves the performance of e-business applications"
+DESCRIPTION="A cache for frequently accessed Java objects which dramatically improves the performance."
 HOMEPAGE="http://www.jboss.org/products/jbosscache"
 SRC_URI="mirror://sourceforge/jboss/${PN}-srcOnly-${MY_PV}.zip"
 
-LICENSE=""
+LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE=""
 
 DEPEND=">=virtual/jdk-1.4"

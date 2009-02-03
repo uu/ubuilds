@@ -1,10 +1,10 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 inherit eclipse-rcp
 
-KEYWORDS="~x86"
+KEYWORDS=""
 IUSE=""
 
 DEPEND="=dev-java/icu4j-3.4*

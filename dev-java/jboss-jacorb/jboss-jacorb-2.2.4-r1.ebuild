@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -12,7 +12,7 @@ SRC_URI="http://dev.gentooexperimental.org/~kiorky/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="2.2"
-KEYWORDS="~x86"
+KEYWORDS=""
 # Some patching will be needed for jikes support
 IUSE="doc"
 
@@ -53,8 +53,8 @@ src_unpack() {
 	rm -rf "${S}/test" || die "rm fautive test	failed"
 
 	# patch build.xml to put jars into dist/
-	epatch ${FILESDIR}/${P}-dist.patch
-	epatch ${FILESDIR}/${P}-jboss_adds.patch
+	epatch "${FILESDIR}/${P}-dist.patch"
+	epatch "${FILESDIR}/${P}-jboss_adds.patch"
 
 	cd "${S}/lib" || die "cd failed"
 	rm *.jar || die "rm failed"

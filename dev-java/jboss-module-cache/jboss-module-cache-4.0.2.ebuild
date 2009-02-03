@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,7 +8,7 @@ DESCRIPTION="Cache module of JBoss Application Server"
 SRC_URI="${BASE_URL}/${P}-gentoo.tar.bz2 ${ECLASS_URI}"
 IUSE="jikes"
 SLOT="4"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 COMMON_DEPEND="
 	dev-java/log4j
@@ -34,7 +34,7 @@ COMMON_DEPEND="
 	=dev-java/jboss-module-jmx-${PV}*
 	=dev-java/jboss-module-management-${PV}*
 	=dev-java/jboss-module-transaction-${PV}*
-	=dev-java/jboss-module-remoting-${PV}*
-"	
+	=dev-java/jboss-module-remoting-${PV}*"
+
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPEND}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPEND}"

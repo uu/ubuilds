@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/scout
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  03 Feb 2009; Alistair Bush <ali_bush@gentoo.org>
+  jboss-jacorb-2.2.4-r1.ebuild:
+  Drop keywords due to missing dep.
 
   27 May 2007; Vlastimil Babka <caster@gentoo.org>
   -jboss-jacorb-2.2.4.ebuild, +jboss-jacorb-2.2.4-r1.ebuild:

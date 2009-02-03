@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header:  $
 
@@ -9,7 +9,7 @@ inherit jboss-4-tmp java-pkg-2 java-ant-2
 DESCRIPTION="Common module of JBoss Application Server"
 SRC_URI="${BASEURL}/${P}.tar.bz2 ${ECLASS_URI}"
 IUSE=""
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 #JAVA_PKG_DEBUG=1
 
 DEPEND="=virtual/jdk-1.4*"
