@@ -20,7 +20,7 @@ SRC_URI="http://chianti.ucsd.edu/Cyto-${MY_PV}/cytoscapeSource-v${PV}.tar.gz
 LICENSE="LGPL-2.1"
 SLOT="0"
 IUSE=""
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 
 COMMON_DEPS="dev-java/swing-layout:1
 	dev-java/stax-ex
