@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,7 +8,9 @@ DESCRIPTION="Apache Scout is an implementation of the JSR 93 (JAXR)"
 HOMEPAGE="http://ws.apache.org/scout/index.html"
 # at least, it s on my box ! :)
 #SRC_URI="http://distfiles.cryptelium.net/gentoo/${PF}.tar.bz2"
-SRC_URI="http://dev.gentooexperimental.org/~kiorky/${PF}.tar.bz2"
+#SRC_URI="http://dev.gentooexperimental.org/~kiorky/${PF}.tar.bz2"
+#Directly above url didn't work.
+SRC_URL=""
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -43,7 +45,7 @@ src_unpack(){
 	java-pkg_jar-from axis-1
 	java-pkg_jar-from commons-discovery
 	java-pkg_jar-from sun-javamail
-	cp -f ${FILESDIR}/${PV}/build.xml .||die "src_compile: cannot import ant build file"
+	cp -f "${FILESDIR}/${PV}/build.xml" .||die "src_compile: cannot import ant build file"
 
 }
 
@@ -55,7 +57,7 @@ src_install() {
 	use source && java-pkg_dosrc    modules/scout/src/java/
 	if use examples; then
 			dodir /usr/share/doc/${PF}/examples
-			cp -r src/samples/* ${D}/usr/share/doc/${PF}/examples
+			cp -r src/samples/* "${D}/usr/share/doc/${PF}/examples"
 	fi
 }
 
