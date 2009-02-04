@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header:  $
 
@@ -10,7 +10,7 @@ SRC_URI="${BASE_URL}/${P}-gentoo.tar.bz2 ${ECLASS_URI}"
 #IUSE="jikes"
 IUSE=""
 SLOT="4"
-KEYWORDS="~x86"
+KEYWORDS=""
 
 COMMON_DEPEND="
 	=dev-java/avalon-framework-4.1*
@@ -28,5 +28,5 @@ RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEPEND}"
 
 src_compile() {
-	eant 
+	eant
 }

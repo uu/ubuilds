@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header:  $
 
@@ -8,7 +8,7 @@ DESCRIPTION="Security module of JBoss Application Server"
 SRC_URI="${BASE_URL}/${P}-gentoo.tar.bz2 ${ECLASS_URI}"
 IUSE=""
 SLOT="4"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 # this doesn't like javacc-4 apparently, but depending on =3* would create a
 # up/downgrade cycle

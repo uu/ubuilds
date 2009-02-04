@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/jboss-module-j2ee
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  04 Feb 2009; Alistair Bush <ali_bush@gentoo.org>
+  jboss-module-j2ee-4.0.2.ebuild:
+  QA Fixes. Drop keywords due to missing deps.
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman

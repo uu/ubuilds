@@ -4,6 +4,9 @@
   <herd>java</herd>
   <longdescription lang="en">
     Messaging module of JBoss Application.
-  </longdescription>
+</longdescription>
+<use>
+<flag name="jikes"/>
+</use>
 </pkgmetadata>
 

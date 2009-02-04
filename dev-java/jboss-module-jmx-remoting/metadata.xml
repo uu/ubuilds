@@ -4,6 +4,9 @@
   <herd>java</herd>
   <longdescription lang="en">
     JMX-Remoting module of JBoss Application Server.
-  </longdescription>
+</longdescription>
+<use>
+	<flag name="jikes"></flag>
+</use>
 </pkgmetadata>
 

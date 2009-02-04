@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -10,7 +10,7 @@ DESCRIPTION="Remoting module of JBoss Application Server"
 SRC_URI="${BASE_URL}/${P}-gentoo.tar.bz2 ${ECLASS_URI}"
 IUSE=""
 SLOT="4"
-KEYWORDS="~x86"
+KEYWORDS=""
 
 COMMON_DEPEND="=dev-java/commons-beanutils-1.6*
 	dev-java/commons-codec
@@ -45,7 +45,7 @@ COMMON_DEPEND="=dev-java/commons-beanutils-1.6*
 	=dev-java/jboss-module-server-${PV}*
 	=dev-java/jboss-module-security-${PV}*
 	=dev-java/jboss-module-transaction-${PV}*
-	=dev-java/jboss-module-messaging-${PV}*
-"	
+	=dev-java/jboss-module-messaging-${PV}*"
+
 DEPEND=">=virtual/jdk-1.4 ${COMMON_DEPEND}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPEND}"

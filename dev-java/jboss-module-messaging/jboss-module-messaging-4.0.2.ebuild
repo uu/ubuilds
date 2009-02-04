@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,7 +8,7 @@ DESCRIPTION="Messaging module of JBoss Application"
 SRC_URI="${BASE_URL}/${P}-gentoo.tar.bz2 ${ECLASS_URI}"
 IUSE="jikes"
 SLOT="4"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 # FIXME doesn't like javacc-4
 COMMON_DEPEND="dev-java/commons-codec
@@ -30,7 +30,7 @@ COMMON_DEPEND="dev-java/commons-codec
 	=dev-java/jboss-module-security-${PV}*
 	=dev-java/jboss-module-jmx-${PV}*
 	=dev-java/jboss-module-transaction-${PV}*"
-DEPEND=">=virtual/jdk-1.4 
+DEPEND=">=virtual/jdk-1.4
 	dev-java/javacc
 	${COMMON_DEPEND}"
 RDEPEND=">=virtual/jre-1.4 ${COMMON_DEPEND}"

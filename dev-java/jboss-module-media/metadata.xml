@@ -4,5 +4,6 @@
   <herd>java</herd>
   <longdescription lang="en">
     Media module of JBoss Applation Server.
-  </longdescription>
+</longdescription>
+<use><flag name="jikes"/></use>
 </pkgmetadata>

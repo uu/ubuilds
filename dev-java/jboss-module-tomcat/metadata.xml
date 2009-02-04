@@ -4,6 +4,7 @@
   <herd>java</herd>
   <longdescription lang="en">
     Tomcat module of JBoss Application Server.
-  </longdescription>
+</longdescription>
+<use><flag name="jikes"/></use>
 </pkgmetadata>
 
