@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/freehep-mcfio
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  04 Feb 2009; Alistair Bush <ali_bush@gentoo.org>
+  freehep-mcfio-2.0.1.ebuild:
+  Fix license.
+

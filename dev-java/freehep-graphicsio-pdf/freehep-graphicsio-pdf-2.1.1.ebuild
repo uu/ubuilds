@@ -11,7 +11,7 @@ inherit java-pkg-2 java-mvn-src
 DESCRIPTION="High Energy Physics Java library - FreeHEP Portable Document Format Driver"
 HOMEPAGE="http://java.freehep.org/"
 
-LICENSE="LGPL"
+LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 

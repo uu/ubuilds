@@ -9,7 +9,7 @@ inherit java-pkg-2
 DESCRIPTION="High Energy Physics Java library"
 HOMEPAGE="http://java.freehep.org/"
 
-LICENSE="LGPL"
+LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
