@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-<herd>java</herd>
+	<herd>java</herd>
+	<use>
+		<flag name="dbcp"/>
+		<flag name="digester"/>
+		<flag name="jboss"/>
+		<flag name="log4j"/>
+		<flag name="pool"/>
+		<flag name="validator"/>
+		<flag name="modeler"/>
+	</use>
 </pkgmetadata>

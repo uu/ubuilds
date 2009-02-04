@@ -1,6 +1,6 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/jsr173/jsr173-1.0-r1.ebuild,v 1.9 2007/05/09 15:08:37 armin76 Exp $
+# $Header: $
 
 EAPI="1"
 
@@ -8,13 +8,13 @@ JAVA_PKG_IUSE="doc source"
 
 inherit java-pkg-2 java-ant-2
 
-DESCRIPTION="The Streaming API for XML (StAX) is a groundbreaking new Java API for parsing and writing XML easily and efficiently"
+DESCRIPTION="Streaming API for XML (StAX). A new Java API for parsing and writing XML easily and efficiently"
 HOMEPAGE="http://dev2dev.bea.com/xml/stax.html"
 SRC_URI="http://ftpna2.bea.com/pub/downloads/${PN}.jar"
 
 LICENSE="bea.ri.jsr173"
 SLOT="0"
-KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
+KEYWORDS="~amd64 ~ppc ~x86 ~x86-fbsd"
 IUSE=""
 
 RDEPEND=">=virtual/jre-1.3
@@ -26,7 +26,7 @@ S=${WORKDIR}
 
 src_unpack() {
 	cd "${S}"
-	jar xvf ${DISTDIR}/${A} || die "failed to unpack"
+	jar xvf "${DISTDIR}/${A}" || die "failed to unpack"
 
 	cp "${FILESDIR}/build-${PVR}.xml" build.xml
 

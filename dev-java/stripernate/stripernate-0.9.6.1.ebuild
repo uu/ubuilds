@@ -10,7 +10,7 @@ SRC_URI="http://www.mongus.com/Topics/Web%20Development/Stripernate/files/${P}-s
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS=""
 IUSE="doc"
 
 

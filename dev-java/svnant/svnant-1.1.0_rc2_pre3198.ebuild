@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
@@ -21,7 +21,7 @@ SRC_URI="http://www.elvanor.net/gentoo/${P}.tar.bz2"
 HOMEPAGE="http://subclipse.tigris.org/svnant.html"
 LICENSE="Apache-1.1"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64"
 
 CDEPEND="dev-util/svnclientadapter"
 
@@ -37,7 +37,7 @@ IUSE=""
 #S="${WORKDIR}/svnant-1.1.0-RC2/"
 
 src_unpack() {
-	unpack "${A}"
+	unpack ${A}
 	cd "${S}"
 	java-ant_rewrite-classpath
 

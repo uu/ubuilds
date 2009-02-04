@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -10,7 +10,7 @@ SRC_URI="http://download.fr2.forge.objectweb.org/${PN}/${P}-src.tgz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~x86 "
+KEYWORDS="~x86"
 IUSE="doc source examples"
 
 
@@ -43,7 +43,7 @@ DEPEND=">=virtual/jdk-1.4
 		>=dev-java/soap-2.3.1
 		>=dev-java/jdom-${JDOM_SLOT}
 		>=dev-java/juddi-0.9_rc4
-		>=dev-java/jgroupsi-2.2.7-r1
+		>=dev-java/jgroups-2.2.7-r1
 		>=dev-java/log4j-1.2.13
 		>=dev-java/commons-logging-1.0.4-r1
 		>=dev-java/junit-3.8.2
@@ -83,7 +83,7 @@ src_install() {
 	use source && java-pkg_dosrc modules/jaxr-api/src/java/
 	use source && java-pkg_dosrc    modules/scout/src/java/
 	if use examples; then
-			dodir /usr/share/doc/${PF}/examples
-			cp -r src/samples/* ${D}/usr/share/doc/${PF}/examples
+			dodir "/usr/share/doc/${PF}/examples"
+			cp -r src/samples/* "${D}/usr/share/doc/${PF}/examples"
 	fi
 }

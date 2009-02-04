@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/velocity-tools
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  04 Feb 2009; Alistair Bush <ali_bush@gentoo.org>
+  velocity-tools-1.4.ebuild:
+  QA Fixes. Drop keywords due to missing deps.
 
   12 Aug 2008; Jesse Farinacci <jieryn@gmail.com> velocity-tools-1.4.ebuild:
   minor fix to eliminate explicit src_compile()

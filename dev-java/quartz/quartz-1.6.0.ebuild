@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/quartz/quartz-1.4.5.ebuild,v 1.4 2005/10/15 11:41:22 axxo Exp $
 
@@ -13,7 +13,7 @@ SRC_URI="https://quartz.dev.java.net/files/documents/1267/43545/${P}.zip"
 LICENSE="Apache-2.0"
 SLOT="1.6"
 IUSE=""
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS=""
 
 # Still left
 # /usr/portage/tmp/portage/dev-java/quartz-1.6.0/work/lib/build/ejb.jar
@@ -41,7 +41,6 @@ COMMON_DEPEND="dev-java/commons-collections
 		!java5? ( >=dev-java/sun-jmx-1.2.1 )
 		oracle? ( =dev-java/jdbc-oracle-bin-9.2* )
 		jboss? ( >=www-servers/jboss-3.2.3 )"
-
 
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEPEND}"

@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/jsr173
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  04 Feb 2009; Alistair Bush <ali_bush@gentoo.org> +metadata.xml,
+  jsr173-1.0-r2.ebuild:
+  QA Fixes. Drop keywords due to missing deps.
+

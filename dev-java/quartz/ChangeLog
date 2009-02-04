@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/quartz
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  04 Feb 2009; Alistair Bush <ali_bush@gentoo.org> metadata.xml,
+  quartz-1.6.0.ebuild:
+  QA Fixes. Drop keywords due to missing deps.
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> quartz-1.6.0.ebuild:
   fixing IUSE repoman warnings
