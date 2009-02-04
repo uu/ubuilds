@@ -1,4 +1,4 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
@@ -12,7 +12,7 @@ SRC_URI="https://sitemesh.dev.java.net/files/documents/887/43018/${P}.zip"
 HOMEPAGE="http://www.opensymphony.com/sitemesh/"
 LICENSE="OpenSymphony-1.1"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS=""
 
 CDEPEND=">=dev-java/servletapi-2.4
 	dev-java/velocity-tools
@@ -35,7 +35,7 @@ IUSE=""
 S="${WORKDIR}"
 
 src_unpack() {
-	unpack "${A}"
+	unpack ${A}
 	cd "${S}"
 
 	java-ant_rewrite-classpath
