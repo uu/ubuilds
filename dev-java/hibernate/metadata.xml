@@ -4,5 +4,8 @@
 	<herd>java</herd>
 	<maintainer>
 	  <email>nichoj@gentoo.org</email>
-	</maintainer>
+  </maintainer>
+  <use>
+	  <flag name="jboss"/>
+  </use>
 </pkgmetadata>

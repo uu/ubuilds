@@ -1,15 +1,15 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/hibernate/hibernate-2.1.8.ebuild,v 1.4 2005/07/09 22:26:45 swegener Exp $
+# $Header: $
 
 inherit java-pkg-2 java-ant-2
 
-DESCRIPTION="Hibernate is a powerful, ultra-high performance object / relational persistence and query service for Java."
+DESCRIPTION="A powerful, ultra-high performance object/relational persistence and query service for Java."
 SRC_URI="mirror://sourceforge/hibernate/${P}.tar.gz"
 HOMEPAGE="http://hibernate.bluemars.net"
 LICENSE="LGPL-2"
 SLOT="2"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS=""
 COMMOND_DEPEND="
 		=dev-java/cglib-2.0*
 		dev-java/commons-collections
@@ -40,11 +40,11 @@ JAVA_PKG_NV_DEPEND="=virtual/jdk-1.4* =virtual/jdk-1.5*"
 
 IUSE="doc source"
 
-S=${WORKDIR}/${PN}-${PV:0:3}
+S="${WORKDIR}/${PN}-${PV:0:3}"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 	mv lib old-lib
 	mkdir lib
 	cd lib
@@ -68,7 +68,7 @@ src_unpack() {
 
 	# JBoss disabled for now
 	# but we'd need jboss-cache and jboss-system, and jmx
-	find ${S}/src -name "Tree*" -exec rm {} \;
+	find "${S}/src" -name "Tree*" -exec rm {} \;
 
 	java-pkg_jar-from jcs-1.2
 

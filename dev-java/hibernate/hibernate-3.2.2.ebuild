@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -6,13 +6,13 @@ inherit java-pkg-2 java-ant-2 eutils
 
 MY_PV=${PV/_rc/.cr}
 MY_P="${PN}-${MY_PV}"
-DESCRIPTION="Hibernate is a powerful, ultra-high performance object / relational persistence and query service for Java."
+DESCRIPTION="A powerful, ultra-high performance object / relational persistence and query service for Java."
 SRC_URI="mirror://sourceforge/${PN}/${MY_P}.ga.tar.gz"
 HOMEPAGE="http://www.hibernate.org"
 LICENSE="LGPL-2"
 IUSE="doc jboss source"
 SLOT="3.2"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS=""
 
 COMMON_DEPEND="
 	dev-java/antlr
@@ -54,7 +54,7 @@ S="${WORKDIR}/${PN}-${SLOT}"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 
 	if ! use jboss; then
 		rm src/org/hibernate/cache/JndiBoundTreeCacheProvider.java \
@@ -65,7 +65,7 @@ src_unpack() {
 	fi
 
 
-	cd ${S}/lib
+	cd "${S}/lib"
 	rm *.jar
 
 	local JAR_PACKAGES="c3p0 commons-collections javassist-3

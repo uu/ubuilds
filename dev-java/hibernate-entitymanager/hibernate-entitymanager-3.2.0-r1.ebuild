@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -16,7 +16,7 @@ HOMEPAGE="http://annotations.hibernate.org"
 SRC_URI="mirror://sourceforge/hibernate/${MY_P}.tar.gz mirror://sourceforge/hibernate/${HIBERNATE_P}.tar.gz"
 LICENSE="LGPL-2.1"
 SLOT="3.2"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
@@ -72,7 +72,7 @@ src_unpack() {
 src_install() {
 	java-pkg_dojar ${PN}.jar
 	# FIXME: dont use this bundle jar
-	java-pkg_dojar ${S}/lib/ejb3-persistence.jar
+	java-pkg_dojar "${S}/lib/ejb3-persistence.jar"
 
 	use doc && java-pkg_dohtml -r doc/api
 	use source && java-pkg_dosrc src/*

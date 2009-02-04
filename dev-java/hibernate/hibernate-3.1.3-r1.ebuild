@@ -1,6 +1,6 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/hibernate/hibernate-3.0_rc1.ebuild,v 1.4 2005/03/23 00:42:40 st_lim Exp $
+# $Header: $
 
 WANT_ANT_TASKS="ant-antlr ant-swing ant-junit"
 JAVA_PKG_IUSE="doc source"
@@ -8,13 +8,13 @@ JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-ant-2 eutils
 
 MY_PV="3.1"
-DESCRIPTION="Hibernate is a powerful, ultra-high performance object / relational persistence and query service for Java."
+DESCRIPTION="A powerful, ultra-high performance object / relational persistence and query service for Java."
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 HOMEPAGE="http://www.hibernate.org"
 LICENSE="LGPL-2"
 IUSE="jboss"
 SLOT="3.1"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS=""
 
 COMMON_DEPEND="
 	dev-java/antlr
@@ -30,7 +30,7 @@ COMMON_DEPEND="
 	dev-java/oscache
 	dev-java/proxool
 	=dev-java/swarmcache-1*
-	jboss? ( 
+	jboss? (
 		=dev-java/jboss-module-cache-4.0*
 		=dev-java/jboss-module-common-4.0*
 		=dev-java/jboss-module-j2ee-4.0*
@@ -57,7 +57,7 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 
 	if ! use jboss; then
 		rm src/org/hibernate/cache/JndiBoundTreeCacheProvider.java \

@@ -1,17 +1,17 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/hibernate/hibernate-3.0_rc1.ebuild,v 1.4 2005/03/23 00:42:40 st_lim Exp $
+# $Header: $
 
 inherit java-pkg-2 java-ant-2 eutils
 
 MY_PV="3.0"
-DESCRIPTION="Hibernate is a powerful, ultra-high performance object / relational persistence and query service for Java."
+DESCRIPTION="A powerful, ultra-high performance object/relational persistence and query service for Java."
 SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
 HOMEPAGE="http://www.hibernate.org"
 LICENSE="LGPL-2"
 IUSE="doc jboss"
 SLOT="3"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 
 COMMON_DEPEND="
 	dev-java/ant-core
@@ -46,21 +46,21 @@ DEPEND=">=virtual/jdk-1.4
 # TODO fix for Java 1.6... has problems due to JDBC4
 JAVA_PKG_NV_DEPEND="=virtual/jdk-1.4* =virtual/jdk-1.5*"
 
-S=${WORKDIR}/${PN}-${MY_PV}
+S="${WORKDIR}/${PN}-${MY_PV}"
 
 src_unpack() {
 	unpack ${A}
-	cd ${S}
+	cd "${S}"
 
 	# get rid of the lame splash screen
-	epatch ${FILESDIR}/${P}-nosplash.patch
+	epatch "${FILESDIR}/${P}-nosplash.patch"
 
 	if ! use jboss; then
 		rm src/org/hibernate/cache/JndiBoundTreeCacheProvider.java \
 			src/org/hibernate/cache/TreeCache.java \
 			src/org/hibernate/cache/TreeCacheProvider.java
 	fi
-	
+
 	cd lib
 	rm -v *.jar || die
 
