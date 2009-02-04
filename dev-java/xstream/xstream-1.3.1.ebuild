@@ -13,7 +13,7 @@ SRC_URI="http://repository.codehaus.org/com/thoughtworks/${PN}/${PN}-distributio
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~x86"
 
 IUSE=""
 
