@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -9,7 +9,7 @@ HOMEPAGE="http://juploadr.sourceforge.net/"
 SRC_URI="http://ebuild.linux-sevenler.org/distfiles/${MY_P}.tar.bz2"
 LICENSE="LGPL-2.1"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~x86"
 IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
@@ -31,8 +31,8 @@ EANT_BUILD_TARGET="dist"
 
 src_unpack() {
 	unpack ${A}
-	epatch ${FILESDIR}/gentoo-${PV}.patch
-	cd ${S}
+	epatch "${FILESDIR}/gentoo-${PV}.patch"
+	cd "${S}"
 	mkdir lib
 	cd lib
 	java-pkg_jarfrom browserlauncher2-1.0,commons-codec,swt-3,piccolo

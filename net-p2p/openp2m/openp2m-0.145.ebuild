@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -10,7 +10,7 @@ SRC_URI="mirror://sourceforge/${PN}/OpenP2M-src.v${PV}.zip"
 LICENSE="MPL-1.0"
 SLOT="0"
 IUSE=""
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="~amd64"
 
 CDEPEND="=dev-java/commons-httpclient-3*
 	dev-java/swing-layout
@@ -44,13 +44,13 @@ src_compile() {
 	find . -name '*.java' -exec sed -i -e "s:CHAVE:34567:g" '{}' \;
 	ejavac -encoding ISO-8859-1 -classpath .:${classpath} @sources.list
 	find . -name '*' -not -name '*.java' -type f -not -name 'classes.list' -print > classes.list
-  	touch myManifest
-  	jar cmf myManifest ../${PN}.jar @classes.list
+	touch myManifest
+	jar cmf myManifest ../${PN}.jar @classes.list
 }
 
 src_install() {
 	java-pkg_dojar ${PN}.jar
 	java-pkg_dolauncher ${PN} --main gui.MainSystray
-	doicon ${FILESDIR}/${PN}.png
+	doicon "${FILESDIR}/${PN}.png"
 	make_desktop_entry ${PN} "OpenP2M" ${PN}.png
 }
