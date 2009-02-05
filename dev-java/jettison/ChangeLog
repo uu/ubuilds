@@ -1,8 +1,0 @@
-# ChangeLog for dev-java/jettison
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  03 Feb 2009; Mike Weissman <mike@weisso.com> +files/build.xml,
-  +metadata.xml, +jettison-1.0.ebuild:
-  initial import of jettison, bug#257512
-
