@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=1
-JAVA_PKG_IUSE="doc source"
+JAVA_PKG_IUSE="doc source test"
 
 inherit java-pkg-2 java-ant-2
 
@@ -17,7 +17,6 @@ KEYWORDS="~x86"
 
 IUSE=""
 
-#jettison only in java-experimental
 COMMON_DEPS="
 	dev-java/cglib:2.1
 	dev-java/dom4j:1
@@ -27,7 +26,17 @@ COMMON_DEPS="
 	dev-java/xpp3:0
 	dev-java/xml-commons-external:1.3
 	dev-java/jettison:0
-	java-virtuals/stax-api"
+	java-virtuals/stax-api
+	test? ( 
+	dev-java/junit
+	dev-java/xml-writer
+	dev-java/commons-lang:2.1
+	dev-jav/jmock:1.0
+	dev-jav/jakarta-oro:2.0
+	dev-java/stax
+	dev-java/xml-writer
+	dev-java/wstx:3.2
+	)"
 
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEPS}"
@@ -47,10 +56,15 @@ src_unpack() {
 }
 
 EANT_GENTOO_CLASSPATH="xpp3,jdom-1.0,xom,dom4j-1,joda-time,cglib-2.1
-xml-commons-external-1.3,jettison,stax-api"
+xml-commons-external-1.3,jettison,stax-api,junit,commons-lang-2.1,jmock-1.0,jakarta-oro-2.0,stax,xml-writer,wstx-3.2"
 
-EANT_BUILD_TARGET="benchmark:compile jar"
+EANT_BUILD_TARGET="benchmark:compile jar test:compile"
 EANT_EXTRA_ARGS="-Dversion=${PV}"
+
+src_test(){
+	ANT_TASKS="ant-junit ant-trax"
+	eant test || die "Tests failed"
+}
 
 src_install(){
 	java-pkg_newjar target/${P}.jar
