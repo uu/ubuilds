@@ -19,16 +19,15 @@ IUSE=""
 
 #jettison only in java-experimental
 COMMON_DEPS="
-	dev-java/commons-lang:2.1
 	dev-java/cglib:2.1
 	dev-java/dom4j:1
-	dev-java/jsr173
 	dev-java/jdom:1.0
-	dev-java/joda-time
-	dev-java/xom
-	dev-java/xpp3
+	dev-java/joda-time:0
+	dev-java/xom:0
+	dev-java/xpp3:0
 	dev-java/xml-commons-external:1.3
-	dev-java/jettison"
+	dev-java/jettison:0
+	java-virtuals/stax-api"
 
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEPS}"
@@ -38,22 +37,17 @@ RDEPEND=">=virtual/jre-1.5
 
 S="${WORKDIR}/${P}/${PN}"
 
+JAVA_ANT_REWRITE_CLASSPATH="true"
+
 src_unpack() {
 	unpack ${A}
 	cd "${S}/lib"
 	rm -v *.jar || die
 	rm -rf jdk1.3 || die
-
-	java-pkg_jar-from xpp3
-	java-pkg_jar-from jdom-1.0
-	java-pkg_jar-from xom
-	java-pkg_jar-from dom4j-1
-	java-pkg_jar-from joda-time
-	java-pkg_jar-from cglib-2.1
-	java-pkg_jar-from xml-commons-external-1.3
-	java-pkg_jar-from jettison
-	java-pkg_jar-from --build-only ant-core
 }
+
+EANT_GENTOO_CLASSPATH="xpp3,jdom-1.0,xom,dom4j-1,joda-time,cglib-2.1
+xml-commons-external-1.3,jettison,stax-api"
 
 EANT_BUILD_TARGET="benchmark:compile jar"
 EANT_EXTRA_ARGS="-Dversion=${PV}"
@@ -67,8 +61,7 @@ src_install(){
 }
 
 pkg_postinst(){
-	elog "Major Changes from previous version in Portage"
-	elog "See:"
+	elog "Major Changes from 1.2 See:"
 	elog "http://xstream.codehaus.org/changes.html"
 	elog "to prevent breakage ..."
 }

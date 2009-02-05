@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  05 Feb 2009; Petteri Räty <betelgeuse@gentoo.org> xstream-1.3.1.ebuild:
+  Pull in stax-api virtual so xstream builds with 1.5 JDKs.
+
   04 Feb 2009; Alistair Bush <ali_bush@gentoo.org> xstream-1.3.1.ebuild:
   Dropping ~amd64 due to missing dep dev-java/jettison
 
