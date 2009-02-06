@@ -27,15 +27,15 @@ COMMON_DEPS="
 	dev-java/xml-commons-external:1.3
 	dev-java/jettison:0
 	java-virtuals/stax-api
-	test? ( 
-	dev-java/junit
-	dev-java/xml-writer
-	dev-java/commons-lang:2.1
-	dev-jav/jmock:1.0
-	dev-jav/jakarta-oro:2.0
-	dev-java/stax
-	dev-java/xml-writer
-	dev-java/wstx:3.2
+	test? (
+		dev-java/junit
+		dev-java/xml-writer
+		dev-java/commons-lang:2.1
+		dev-java/jmock:1.0
+		dev-java/jakarta-oro:2.0
+		dev-java/stax
+		dev-java/xml-writer
+		dev-java/wstx:3.2
 	)"
 
 DEPEND=">=virtual/jdk-1.5
