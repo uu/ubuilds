@@ -19,14 +19,14 @@ KEYWORDS="~x86"
 IUSE=""
 
 COMMON_DEP="
-	dev-java/emma
-	dev-java/sax
+	dev-java/emma:0
+	dev-java/sax:0
 	java-virtuals/stax-api
-	dev-java/stax
-	dev-java/msv
-	dev-java/xsdlib
-	dev-java/relaxng-datatype
-	dev-java/junit"
+	dev-java/stax:0
+	dev-java/msv:0
+	dev-java/xsdlib:0
+	dev-java/relaxng-datatype:0
+	dev-java/junit:0"
 
 RDEPEND=">=virtual/jre-1.4
 	${COMMON_DEP}"
@@ -51,8 +51,7 @@ src_unpack(){
 EANT_GENTOO_CLASSPATH="emma,sax,stax-api,msv,xsdlib,relaxng-datatype,junit"
 
 src_test(){
-	ANT_TASKS="ant-junit ant-nodeps ant-trax"
-	eant test || die "Tests failed"
+	ANT_TASKS="ant-junit ant-nodeps ant-trax" eant test || die "Tests failed"
 }
 
 src_install() {
