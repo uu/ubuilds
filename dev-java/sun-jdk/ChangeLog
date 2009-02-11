@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  11 Feb 2009; Vlastimil Babka <caster@gentoo.org> ++, ++:
+  First 6u14 beta build.
+
   09 Feb 2009; Fabian Fingerle <fabian@datensalat.eu> +sun-jdk-1.7.0.0_alpha46.ebuild -sun-jdk-1.7.0.0_alpha43.ebuild:
   Version Bump
 
