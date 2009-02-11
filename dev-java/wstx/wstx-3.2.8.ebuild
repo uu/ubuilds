@@ -21,7 +21,7 @@ IUSE=""
 COMMON_DEP="
 	dev-java/emma:0
 	dev-java/sax:0
-	java-virtuals/stax-api
+	java-virtuals/jaxp-virtual
 	dev-java/stax:0
 	dev-java/msv:0
 	dev-java/xsdlib:0
@@ -48,7 +48,7 @@ src_unpack(){
 	rm -v "${S}"/lib/*.jar || die
 }
 
-EANT_GENTOO_CLASSPATH="emma,sax,stax-api,msv,xsdlib,relaxng-datatype,junit"
+EANT_GENTOO_CLASSPATH="emma,sax,jaxp-virtual,msv,xsdlib,relaxng-datatype,junit"
 
 src_test(){
 	ANT_TASKS="ant-junit ant-nodeps ant-trax" eant test || die "Tests failed"
