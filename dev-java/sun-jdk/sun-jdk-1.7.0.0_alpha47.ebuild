@@ -8,7 +8,7 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="22_jan_2009"
+DATE="12_feb_2009"
 MY_RPV=${MY_PV%.*}
 
 BASE_URL="http://download.java.net/jdk7/binaries/"
@@ -23,7 +23,7 @@ SLOT="1.7"
 LICENSE="sun-prerelease-jdk7"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="strip fetch"
-IUSE="X alsa doc nsplugin examples"
+IUSE="X alsa doc nsplugin examples x86 amd64"
 
 DEPEND="sys-apps/sed"
 

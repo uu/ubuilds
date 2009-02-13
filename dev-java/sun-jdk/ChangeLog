@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  14 Feb 2009; Fabian Fingerle <fabian@datensalat.eu>
+  +sun-jdk-1.7.0.0_alpha47.ebuild, -sun-jdk-1.7.0.0_alpha44.ebuild:
+  Version Bump
+
   11 Feb 2009; Serkan Kaba <serkan@gentoo.org>
   sun-jdk-1.6.0.14_beta1.ebuild:
   Re-restrict strip and fetch.
