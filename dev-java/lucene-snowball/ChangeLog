@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/lucene-snowball
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  14 Feb 2009; Serkan Kaba <serkan@gentoo.org> lucene-snowball-2.3.1.ebuild,
+  +metadata.xml:
+  Fix description. QA fixes.
+
