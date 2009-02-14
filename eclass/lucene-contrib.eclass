@@ -24,18 +24,30 @@ for dep in ${LUCENE_MODULE_DEPS}; do
 done
 S="${WORKDIR}/lucene-${PV}"
 
-lucene-contrib_getlucenejar_ () {
+lucene-contrib_getlucenejar_params_ () {
 	if [[ "${SLOT}" = "1" || "${SLOT}" = "1.9" ]]; then
-		java-pkg_getjar lucene-${SLOT} lucene.jar
+		echo lucene-${SLOT} lucene.jar
 	else
-		java-pkg_getjar lucene-${SLOT} lucene-core.jar
+		echo lucene-${SLOT} lucene-core.jar
 	fi
+}
+
+lucene-contrib_getlucenejar_ () {
+	java-pkg_getjar $(lucene-contrib_getlucenejar_params_)
+}
+
+lucene-contrib_symlinklucenejar_ () {
+	java-pkg_jar-from $(lucene-contrib_getlucenejar_params_) lucene-core-${PV}.jar
 }
 
 lucene-contrib_src_unpack() {
 	unpack ${A}
+	cd "${S}" || die
 	einfo "Removing bundled jars."
 	find "${S}" -name "*.jar" -delete -print
+	mkdir build || die
+	cd build || die
+	lucene-contrib_symlinklucenejar_
 }
 
 lucene-contrib_src_compile() {
