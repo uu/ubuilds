@@ -61,9 +61,9 @@ export WANT_JAVA_CONFIG="2"
 #
 # The version of portage we need to function properly. Previously it was
 # portage with phase hooks support but now we use a version with proper env
-# saving.
+# saving. For EAPI 2 we have new enough stuff so let's have cleaner deps.
 # -----------------------------------------------------------------------------
-JAVA_PKG_PORTAGE_DEP=">=sys-apps/portage-2.1.2.7"
+hasq "${EAPI}" 0 1 && JAVA_PKG_PORTAGE_DEP=">=sys-apps/portage-2.1.2.7"
 
 # -----------------------------------------------------------------------------
 # @variable-internal JAVA_PKG_E_DEPEND
@@ -438,7 +438,7 @@ java-pkg_newjar() {
 	local original_jar="${1}"
 	local new_jar="${2:-${PN}.jar}"
 	local new_jar_dest="${T}/${new_jar}"
-	
+
 	[[ -z ${original_jar} ]] && die "Must specify a jar to install"
 	[[ ! -f ${original_jar} ]] \
 		&& die "${original_jar} does not exist or is not a file!"
