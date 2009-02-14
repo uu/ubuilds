@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  14 Feb 2009; Serkan Kaba <serkan@gentoo.org> zekr-0.7.1.ebuild:
+  Added keywords after committing the missing dep.
+
   02 Feb 2009; Alistair Bush <ali_bush@gentoo.org> zekr-0.7.1.ebuild:
   Dropped keywords due to missing lucene-snowball dep.
 
