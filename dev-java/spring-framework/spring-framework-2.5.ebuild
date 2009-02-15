@@ -1,7 +1,8 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=1
 WANT_ANT_TASKS="ant-trax" #TODO Figure out what,where,how,why
 JAVA_PKG_IUSE="source doc"
 inherit java-pkg-2 java-ant-2
@@ -36,7 +37,7 @@ CDEPEND="=dev-java/asm-2.2*
 		dev-java/freemarker
 		=dev-java/groovy-1*
 		~dev-java/itext-1.4
-		=dev-java/commons-beanutils-1.7*
+		dev-java/commons-beanutils:1.7
 		=dev-java/commons-httpclient-3*
 		>=dev-java/commons-io-1
 		>=dev-java/commons-lang-2.1
