@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=1
+
 inherit eutils java-pkg-2 java-ant-2
 MY_P=juploadr-${PV}
 DESCRIPTION="Cross platform, cross-site Photo uploader."
@@ -14,7 +16,7 @@ IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
 	 dev-java/browserlauncher2
-	 >=dev-java/commons-beanutils-1.7
+	 dev-java/commons-beanutils:1.7
 	 dev-java/commons-codec
 	 >=dev-java/commons-httpclient-3.0
 	 dev-java/commons-logging
