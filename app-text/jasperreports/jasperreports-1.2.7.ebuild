@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=1
+
 inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="JasperReports is a powerful report-generating tool."
@@ -21,7 +23,7 @@ COMMONDEP="
 	>=dev-java/ant-core-1.5.1
 	>=dev-java/antlr-2.7.5
 	>=dev-java/asm-3.0
-	>=dev-java/commons-beanutils-1.7
+	dev-java/commons-beanutils:1.7
 	>=dev-java/commons-collections-2.1
 	>=dev-java/commons-digester-1.7
 	>=dev-java/commons-logging-1.0.4
