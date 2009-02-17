@@ -1,0 +1,8 @@
+# ChangeLog for dev-java/ant-batik
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  17 Feb 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>
+  +ant-batik-1.6.ebuild:
+  Created new ebuild for batik rasterizer ant task, bug #259386.
+
