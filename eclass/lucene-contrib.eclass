@@ -67,6 +67,7 @@ lucene-contrib_src_compile() {
 		-Dproject.classpath="${gcp}:${lucene_jar}" \
 		-Dlucene.jar="${lucene_jar}" \
 	jar-core
+	cd "${S}" || die
 }
 
 lucene-contrib_src_test() {
@@ -92,15 +93,7 @@ lucene-contrib_src_test() {
 }
 
 lucene-contrib_src_install() {
-	if [[ -f "${FILESDIR}/${P}.manifest" && -n "${LUCENE_OSGI_BUNDLENAME}" ]]; then
-		java-osgi_newjar-fromfile \
-			build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar \
-			${PN}.jar \
-			"${FILESDIR}/${P}.manifest" \
-			"${LUCENE_OSGI_BUNDLENAME}"
-	else
-		java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
-	fi
+	java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
 	cd contrib/${LUCENE_MODULE}
 	[[ -n "${DOCS}" ]] && dodoc ${DOCS}
 	use source && java-pkg_dosrc src/java/*
