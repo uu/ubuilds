@@ -19,20 +19,20 @@ KEYWORDS="~x86"
 IUSE=""
 
 RDEPEND=">=virtual/jre-1.5
+		dev-java/ant-core:0
 	${COMMON_DEP}"
 DEPEND=">=virtual/jdk-1.5
 	app-arch/unzip
 	${COMMON_DEP}"
 
 S="${WORKDIR}"/pyAntTasks-${PV}
-EANT_GENTOO_CLASSPATH="ant-core"
 EANT_DOC_TARGET="docs"
+EANT_GENTOO_CLASSPATH="ant-core"
 
 src_prepare(){
 	unpack ${A}
 
-	cd "${S}"/lib
-	rm -v *.jar || die
+	rm -v "${S}"/lib/*.jar || die
 
 	#bad Build file
 	rm "${S}"/build.xml || die
