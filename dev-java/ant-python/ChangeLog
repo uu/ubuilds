@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  17 Feb 2009; Mike Weissman <mike@weisso.com> ChangeLog:
+  register ant task
+
   17 Feb 2009; Mike Weissman <mike@weisso.com> ant-python-1.3.ebuild:
   updates for JAVA_PKG_STRICT
 

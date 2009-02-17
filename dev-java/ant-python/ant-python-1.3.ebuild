@@ -44,5 +44,7 @@ src_install() {
 	java-pkg_dojar dist/"${PN}.jar"
 	use doc && java-pkg_dojavadoc docs
 	use source && java-pkg_dosrc src
+
+	java-pkg_register-ant-task
 }
 
