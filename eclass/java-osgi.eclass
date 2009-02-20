@@ -23,12 +23,6 @@
 
 inherit java-utils-2
 
-# We define _OSGI_T so that it does not contain a slash at the end.
-# According to Paludis guys, there is currently a proposal for EAPIs that
-# would require all variables to end with a slash.
-
-_OSGI_T="${T/%\//}"
-
 # must get Diego to commit something like this to portability.eclass
 _canonicalise() {
 	if type -p realpath > /dev/null; then
@@ -96,7 +90,7 @@ java-osgi_makejar() {
 
 	_java-osgi_plugin "${3}"
 
-	jar umf "${T}/MANIFEST.MF" "${1}" -C "${T}" plugin.properties > /dev/null || die "Unable to recreate the OSGi compliant jar"
+	jar umf "${T}/MANIFEST.MF" "${absoluteJarPath}" -C "${T}" plugin.properties > /dev/null || die "Unable to recreate the OSGi compliant jar"
 }
 
 # -----------------------------------------------------------------------------
@@ -194,7 +188,7 @@ java-osgi_makejar-fromfile() {
 
 	_java-osgi_plugin "${3}"
 
-	jar umf "${T}/MANIFEST.MF" "${1}" -C "${T}" plugin.properties > /dev/null || die "Unable to recreate the OSGi compliant jar"
+	jar umf "${T}/MANIFEST.MF" "${absoluteJarPath}" -C "${T}" plugin.properties > /dev/null || die "Unable to recreate the OSGi compliant jar"
 }
 
 # -----------------------------------------------------------------------------
