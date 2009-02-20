@@ -56,7 +56,7 @@ _canonicalise() {
 _java-osgi_plugin() {
 	# We hardcode Gentoo as the vendor name
 
-	cat > "${_OSGI_T}/tmp_jar/plugin.properties" <<-EOF
+	cat > "${T}/plugin.properties" <<-EOF
 	bundleName="${1}"
 	vendorName="Gentoo"
 	EOF
@@ -83,13 +83,7 @@ java-osgi_makejar() {
 	local absoluteJarPath="$(_canonicalise ${1})"
 	local jarName="$(basename ${1})"
 
-	mkdir "${_OSGI_T}/tmp_jar" || die "Unable to create directory ${_OSGI_T}/tmp_jar"
-	[[ -d "${_OSGI_T}/osgi" ]] || mkdir "${_OSGI_T}/osgi" || die "Unable to create directory ${_OSGI_T}/osgi"
-
-	cd "${_OSGI_T}/tmp_jar" && jar xf "${absoluteJarPath}" && cd - > /dev/null \
-		 || die "Unable to uncompress correctly the original jar"
-
-	cat > "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" <<-EOF
+	cat > "${T}/MANIFEST.MF" <<-EOF
 	Manifest-Version: 1.0
 	Bundle-ManifestVersion: 2
 	Bundle-Name: %bundleName
@@ -102,9 +96,7 @@ java-osgi_makejar() {
 
 	_java-osgi_plugin "${3}"
 
-	jar cfm "${_OSGI_T}/osgi/${jarName}" "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" \
-		-C "${_OSGI_T}/tmp_jar/" . > /dev/null || die "Unable to recreate the OSGi compliant jar"
-	rm -rf "${_OSGI_T}/tmp_jar"
+	jar umf "${T}/MANIFEST.MF" "${1}" -C "${T}" plugin.properties > /dev/null || die "Unable to recreate the OSGi compliant jar"
 }
 
 # -----------------------------------------------------------------------------
@@ -131,7 +123,7 @@ java-osgi_dojar() {
 	debug-print-function ${FUNCNAME} "$@"
 	local jarName="$(basename ${1})"
 	java-osgi_makejar "$@"
-	java-pkg_dojar "${_OSGI_T}/osgi/${jarName}"
+	java-pkg_dojar "${1}"
 }
 
 # -----------------------------------------------------------------------------
@@ -161,10 +153,10 @@ java-osgi_newjar() {
 
 	if (( ${#} > 4 )); then
 		java-osgi_makejar "${1}" "${3}" "${4}" "${5}"
-		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}" "${2}"
+		java-pkg_newjar "${1}" "${2}"
 	else
 		java-osgi_makejar "$@"
-		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}"
+		java-pkg_newjar "${1}"
 	fi
 }
 
@@ -189,28 +181,20 @@ java-osgi_makejar-fromfile() {
 	local absoluteJarPath="$(_canonicalise ${1})"
 	local jarName="$(basename ${1})"
 
-	mkdir "${_OSGI_T}/tmp_jar" || die "Unable to create directory ${_OSGI_T}/tmp_jar"
-	[[ -d "${_OSGI_T}/osgi" ]] || mkdir "${_OSGI_T}/osgi" || die "Unable to create directory ${_OSGI_T}/osgi"
-
-	cd "${_OSGI_T}/tmp_jar" && jar xf "${absoluteJarPath}" && cd - > /dev/null \
-		|| die "Unable to uncompress correctly the original jar"
-
 	[[ -e "${2}" ]] || die "Manifest file ${2} not found"
 
 	# We automatically change the version if automatic version rewriting is on
 
 	if (( ${4} )); then
 		cat "${2}" | sed "s/Bundle-Version:.*/Bundle-Version: ${PV}/" > \
-			"${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF"
+			"${T}/MANIFEST.MF"
 	else
-		cat "${2}" > "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF"
+		cat "${2}" > "${T}/MANIFEST.MF"
 	fi
 
 	_java-osgi_plugin "${3}"
 
-	jar cfm "${_OSGI_T}/osgi/${jarName}" "${_OSGI_T}/tmp_jar/META-INF/MANIFEST.MF" \
-		-C "${_OSGI_T}/tmp_jar/" . > /dev/null || die "Unable to recreate the OSGi compliant jar"
-	rm -rf "${_OSGI_T}/tmp_jar"
+	jar umf "${T}/MANIFEST.MF" "${1}" -C "${T}" plugin.properties > /dev/null || die "Unable to recreate the OSGi compliant jar"
 }
 
 # -----------------------------------------------------------------------------
@@ -246,10 +230,10 @@ java-osgi_newjar-fromfile() {
 
 	if (( ${#} > 3 )); then
 		java-osgi_makejar-fromfile "${1}" "${3}" "${4}" "${versionRewriting}"
-		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}" "${2}"
+		java-pkg_newjar "${1}" "${2}"
 	else
 		java-osgi_makejar-fromfile "$@" "${versionRewriting}"
-		java-pkg_newjar "${_OSGI_T}/osgi/${jarName}"
+		java-pkg_newjar "${1}"
 	fi
 }
 
@@ -284,5 +268,5 @@ java-osgi_dojar-fromfile() {
 	local jarName="$(basename ${1})"
 
 	java-osgi_makejar-fromfile "$@" "${versionRewriting}"
-	java-pkg_dojar "${_OSGI_T}/osgi/${jarName}"
+	java-pkg_dojar "${1}"
 }
