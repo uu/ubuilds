@@ -1888,6 +1888,33 @@ java-utils-2_src_prepare() {
 }
 
 # ------------------------------------------------------------------------------
+# @eclass-pkg_preinst
+#
+# pkg_preinst Searches for missing and unneeded dependencies
+# Don't call directly, but via java-pkg-2_pkg_preinst!
+# ------------------------------------------------------------------------------
+
+java-utils-2_pkg_preinst() {
+	if is-java-strict; then
+		if has_version dev-java/java-dep-check; then
+			[[ -e "${JAVA_PKG_ENV}" ]] || return
+			local output=$(GENTOO_VM= java-dep-check --image "${D}" "${JAVA_PKG_ENV}")
+			if [[ ${output} && has_version <=dev-java/java-dep-check-0.2 ]]; then
+				ewarn "Possibly unneeded dependencies found in package.env:"
+				for dep in ${output}; do
+					ewarn "\t${dep}"
+				done
+			fi
+			if [[ ${output} && has_version >dev-java/java-dep-check-0.2 ]]; then
+				ewarn "${output}"
+			fi
+		else
+			eerror "Install dev-java/java-dep-check for dependency checking"
+		fi
+	fi
+}
+
+# ------------------------------------------------------------------------------
 # @section-begin build
 # @section-summary Build functions
 #
