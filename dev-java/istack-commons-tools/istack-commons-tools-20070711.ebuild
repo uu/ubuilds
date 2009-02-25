@@ -1,6 +1,6 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/istack-commons-tools/istack-commons-tools-20070122.ebuild,v 1.4 2007/08/19 17:59:00 wltjr Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/istack-commons-tools/istack-commons-tools-20090122.ebuild,v 1.4 2007/08/19 17:59:00 wltjr Exp $
 
 JAVA_PKG_IUSE="source"
 
@@ -9,7 +9,7 @@ inherit java-pkg-2 java-ant-2
 DESCRIPTION="istack-commons - tools"
 HOMEPAGE="https://istack-commons.dev.java.net/"
 #SRC_URI="mirror://gentoo/istack-commons-${PV}.tar.bz2"
-SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/istack-commons-20070711.tar.bz2"
+SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/istack-commons-20090711.tar.bz2"
 
 LICENSE="CDDL"
 SLOT="0"

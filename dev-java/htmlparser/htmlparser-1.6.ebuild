@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -7,7 +7,7 @@ inherit eutils java-pkg-2 java-ant-2
 
 DESCRIPTION="HTML Parser is a Java library used to parse HTML in either a linear or nested fashion"
 HOMEPAGE="http://htmlparser.sourceforge.net/"
-SRC_URI="mirror://sourceforge/htmlparser/htmlparser1_6_20060610.zip"
+SRC_URI="mirror://sourceforge/htmlparser/htmlparser1_6_20090610.zip"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

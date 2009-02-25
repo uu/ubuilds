@@ -1,6 +1,6 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/commons-logging/commons-logging-1.1-r2.ebuild,v 1.9 2007/04/07 04:28:54 wltjr Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/commons-logging/commons-logging-1.1-r2.ebuild,v 1.9 2009/04/07 04:28:54 wltjr Exp $
 
 JAVA_PKG_IUSE="doc source test"
 #WANT_ANT_TASKS="castor-1.0,sablecc"

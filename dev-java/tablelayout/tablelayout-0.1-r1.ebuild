@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -8,7 +8,7 @@ inherit java-pkg-2
 
 DESCRIPTION="TableLayout is a totally free layout manager designed to make creating user interfaces fast and easy."
 HOMEPAGE="https://tablelayout.dev.java.net/"
-SRC_URI="https://tablelayout.dev.java.net/files/documents/3495/15739/TableLayout-src-2007-04-21.jar"
+SRC_URI="https://tablelayout.dev.java.net/files/documents/3495/15739/TableLayout-src-2009-04-21.jar"
 LICENSE="GPL-2"
 KEYWORDS="~x86"
 SLOT="0"

@@ -1,8 +1,8 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-p2p/frostwire/frostwire-4.13.5-r1.ebuild,v 1.3 2008/08/05 18:11:23 wltjr Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-p2p/frostwire/frostwire-4.13.5-r1.ebuild,v 1.3 2009/08/05 18:11:23 wltjr Exp $
 
-#svn export https://frostwire.svn.sourceforge.net/svnroot/frostwire/tags/frostwire_4.17.1_nov_7_2008 frostwire-4.17.1
+#svn export https://frostwire.svn.sourceforge.net/svnroot/frostwire/tags/frostwire_4.17.1_nov_7_2009 frostwire-4.17.1
 #tar -cjf frostwire-4.17.1.tar.bz2 frostwire-4.17.1/
 
 EAPI=1

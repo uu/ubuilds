@@ -1,6 +1,6 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/jamon/jamon-1.01-r1.ebuild,v 1.2 2007/04/28 19:15:02 betelgeuse Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/jamon/jamon-1.01-r1.ebuild,v 1.2 2009/04/28 19:15:02 betelgeuse Exp $
 
 inherit java-pkg-2 java-ant-2 eutils
 

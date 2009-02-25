@@ -1,6 +1,6 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/jaxb-tools/jaxb-tools-2.1.2.ebuild,v 1.4 2007/08/19 18:40:18 wltjr Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/jaxb-tools/jaxb-tools-2.1.2.ebuild,v 1.4 2009/08/19 18:40:18 wltjr Exp $
 
 JAVA_PKG_IUSE="source"
 
@@ -8,7 +8,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Reference implementation of the JAXB specification."
 HOMEPAGE="http://jaxb.dev.java.net/"
-DATE="20070917"
+DATE="20090917"
 MY_P="JAXB2_src_${DATE}"
 SRC_URI="https://jaxb.dev.java.net/${PV}/${MY_P}.jar"
 
@@ -18,8 +18,8 @@ KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="=dev-java/codemodel-2*
-	>=dev-java/istack-commons-runtime-20070711
-	>=dev-java/istack-commons-tools-20070711
+	>=dev-java/istack-commons-runtime-20090711
+	>=dev-java/istack-commons-tools-20090711
 	=dev-java/jaxb-${PV}
 	java-virtuals/stax-api
 	dev-java/relaxng-datatype
