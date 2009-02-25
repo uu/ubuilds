@@ -5,17 +5,52 @@
 EAPI="1"
 if ! [[ -n "${LUCENE_MODULE}" ]]; then LUCENE_MODULE=${PN/lucene-/}; fi
 JAVA_PKG_IUSE="source test"
-JAVA_PKG_BSFIX_ALL="no"
+JAVA_PKG_BSFIX_NAME="build.xml common-build.xml contrib-build.xml"
 inherit java-pkg-2 java-ant-2 java-osgi
+
+# -----------------------------------------------------------------------------
+# @eclass-begin
+# @eclass-shortdesc Lucene-Contrib packages eclass
+#
+# This eclass is the base for all of the packages in lucene's contrib dir
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# @variable-preinherit SLOT
+# @variable-default PN minus lucene-
+#
+# If the name of the lucene-contrib package differs from "lucene-foo' specify
+# this variable
+# -----------------------------------------------------------------------------
+#LUCENE_MODULE
+
+# -----------------------------------------------------------------------------
+# @variable-preinherit WANT_JAVA_VER
+# @variable-default 1.4
+#
+# Set this variable to the minimum Java version required, which will affect the
+# DEPEND and RDEPEND of the package. Note: this should be staticly set before
+# inherit. It should not be dynamicly set based on useflags (setting it
+# dynamically based on useflags is prohibitied).
+# -----------------------------------------------------------------------------
+WANT_JAVA_VER=${WANT_JAVA_VER:-1.4}
+
+# -----------------------------------------------------------------------------
+# @variable-preinherit SLOT
+# @variable-default unset
+#
+# Please define the SLOT of each package before inherit
+# -----------------------------------------------------------------------------
+#SLOT
 
 HOMEPAGE="http://jakarta.apache.org/lucene"
 SRC_URI="mirror://apache/lucene/java/lucene-${PV}-src.tar.gz"
 LICENSE="Apache-2.0"
 
-DEPEND=">=virtual/jdk-1.4
+DEPEND=">=virtual/jdk-${WANT_JAVA_VER}
 	dev-java/lucene:${SLOT}
 	test? ( dev-java/ant-junit dev-java/junit:0 )"
-RDEPEND=">=virtual/jdk-1.4
+RDEPEND=">=virtual/jre-${WANT_JAVA_VER}
 	 dev-java/lucene:${SLOT}"
 
 for dep in ${LUCENE_MODULE_DEPS}; do
@@ -24,6 +59,11 @@ for dep in ${LUCENE_MODULE_DEPS}; do
 done
 S="${WORKDIR}/lucene-${PV}"
 
+# ------------------------------------------------------------------------------
+# @internal-function lucene-contrib_getlucenejar_params_
+#
+# determines wether to use lucene.jar or lucene-core.jar
+# ------------------------------------------------------------------------------
 lucene-contrib_getlucenejar_params_ () {
 	if [[ "${SLOT}" = "1" || "${SLOT}" = "1.9" ]]; then
 		echo lucene-${SLOT} lucene.jar
@@ -32,14 +72,29 @@ lucene-contrib_getlucenejar_params_ () {
 	fi
 }
 
+# ------------------------------------------------------------------------------
+# @internal-function lucene-contrib_getlucenejar_
+#
+# gets the lucene(-core).jar
+# ------------------------------------------------------------------------------
 lucene-contrib_getlucenejar_ () {
 	java-pkg_getjar $(lucene-contrib_getlucenejar_params_)
 }
 
+# ------------------------------------------------------------------------------
+# @internal-function lucene-contrib_symlinklucenejar_
+#
+# symlinks the lucene-core.jar for use during the contrib ebuild
+# ------------------------------------------------------------------------------
 lucene-contrib_symlinklucenejar_ () {
 	java-pkg_jar-from $(lucene-contrib_getlucenejar_params_) lucene-core-${PV}.jar
 }
 
+# ------------------------------------------------------------------------------
+# @eclass-src_unpack
+#
+# Default src_unpack for lucene-contrib packages
+# ------------------------------------------------------------------------------
 lucene-contrib_src_unpack() {
 	unpack ${A}
 	cd "${S}" || die
@@ -50,6 +105,11 @@ lucene-contrib_src_unpack() {
 	lucene-contrib_symlinklucenejar_
 }
 
+# ------------------------------------------------------------------------------
+# @eclass-src_compile
+#
+# Default src_compile for lucene-contrib packages
+# ------------------------------------------------------------------------------
 lucene-contrib_src_compile() {
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	cd contrib/${LUCENE_MODULE}
@@ -70,6 +130,11 @@ lucene-contrib_src_compile() {
 	cd "${S}" || die
 }
 
+# ------------------------------------------------------------------------------
+# @eclass-src_test
+#
+# Default src_test for lucene-contrib packages
+# ------------------------------------------------------------------------------
 lucene-contrib_src_test() {
 	java-ant_rewrite-classpath common-build.xml
 	java-ant_rewrite-classpath build.xml
@@ -92,6 +157,11 @@ lucene-contrib_src_test() {
 		-Dlucene.jar="${lucene_jar}" test
 }
 
+# ------------------------------------------------------------------------------
+# @eclass-src_install
+#
+# Default src_install for lucene-contrib packages
+# ------------------------------------------------------------------------------
 lucene-contrib_src_install() {
 	java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
 	cd contrib/${LUCENE_MODULE}
@@ -100,3 +170,7 @@ lucene-contrib_src_install() {
 }
 
 EXPORT_FUNCTIONS src_unpack src_compile src_test src_install
+
+# ------------------------------------------------------------------------------
+# @eclass-end
+# ------------------------------------------------------------------------------
