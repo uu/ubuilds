@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/lucene-surround
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  25 Feb 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
+  +lucene-surround-2.4.0.ebuild:
+  Version Bump
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman
