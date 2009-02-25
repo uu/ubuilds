@@ -12,5 +12,5 @@ IUSE=""
 src_compile() {
 	lucene-contrib_src_compile
 	java-osgi_makejar-fromfile build/contrib/${LUCENE_MODULE}/${PN}-${PV}.jar \
-			"${FILESDIR}/manifest" "Apache Lucene Analysis" "1"
+			"${FILESDIR}"/manifest "Apache Lucene Analysis" 1
 }
