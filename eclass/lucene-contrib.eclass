@@ -43,7 +43,7 @@ WANT_JAVA_VER=${WANT_JAVA_VER:-1.4}
 # -----------------------------------------------------------------------------
 #SLOT
 
-HOMEPAGE="http://jakarta.apache.org/lucene"
+HOMEPAGE="http://lucene.apache.org/"
 SRC_URI="mirror://apache/lucene/java/lucene-${PV}-src.tar.gz"
 LICENSE="Apache-2.0"
 
