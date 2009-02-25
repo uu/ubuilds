@@ -13,6 +13,7 @@ HOMEPAGE="https://istack-commons.dev.java.net/"
 LICENSE="CDDL"
 SLOT="0"
 KEYWORDS="~x86"
+IUSE=""
 
 COMMON_DEP="dev-java/junit
 	dev-java/dom4j

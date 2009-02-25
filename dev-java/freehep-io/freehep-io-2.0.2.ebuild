@@ -14,6 +14,7 @@ HOMEPAGE="http://java.freehep.org/"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE=""
 
 CDEPEND=">=dev-java/freehep-util-2.0.1
 	dev-java/junit"

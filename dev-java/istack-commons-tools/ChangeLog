@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 Feb 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
+  Adding IUSE makes repoman happy!
+
   05 Jan 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>
   +istack-commons-tools-1.1.ebuild:
   * Bumped to official release version - bug 188015
@@ -11,7 +14,7 @@
   istack-commons-tools-20070711.ebuild:
   Migrate to jaf virtual. Remove unneeded dependency.
 
-  02 Sep 2007; Miroslav Šulc <fordfrog@gentoo.org>
+  02 Sep 2007; Miroslav Å ulc <fordfrog@gentoo.org>
   istack-commons-tools-20070711.ebuild:
   Added missing dep
 

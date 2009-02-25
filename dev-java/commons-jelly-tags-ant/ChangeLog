@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/commons-jelly-tags-ant
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  25 Feb 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
+  Adding IUSE makes repoman happy!
 
   02 Mar 2007; kiorky <kiorky@cryptelium.net>
   +commons-jelly-tags-ant-1.0.ebuild, +metadata.xml:

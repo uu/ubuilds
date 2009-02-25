@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 Feb 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
+  Adding IUSE makes repoman happy!
+
 *codemodel-annotation-compiler-2.1 (09 Jan 2009)
 
   09 Jan 2009; Martin von Gagern (MvG) <Martin.vGagern@gmx.net>

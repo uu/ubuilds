@@ -13,6 +13,7 @@ HOMEPAGE="https://istack-commons.dev.java.net/"
 LICENSE="CDDL"
 SLOT="0"
 KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
+IUSE=""
 
 COMMON_DEP="dev-java/apt-mirror
 	java-virtuals/jaf

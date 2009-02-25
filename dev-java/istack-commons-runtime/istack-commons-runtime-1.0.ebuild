@@ -13,6 +13,7 @@ HOMEPAGE="https://istack-commons.dev.java.net/"
 LICENSE="CDDL"
 SLOT="0"
 KEYWORDS="~x86"
+IUSE=""
 
 COMMON_DEP="java-virtuals/jaf
 	java-virtuals/stax-api"

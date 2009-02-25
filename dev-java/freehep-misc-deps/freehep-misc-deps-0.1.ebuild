@@ -12,6 +12,7 @@ HOMEPAGE="http://java.freehep.org/"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE=""
 
 SRC_URI="http://java.freehep.org/maven2/org/netbeans/openide-lookup/1.9-patched-1.0/openide-lookup-1.9-patched-1.0.jar
 	http://java.freehep.org/maven2/org/freehep/jas-plotter/2.2.3/jas-plotter-2.2.3.jar

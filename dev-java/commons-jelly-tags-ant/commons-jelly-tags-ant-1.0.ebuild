@@ -12,3 +12,4 @@ DEPEND="=dev-java/commons-jelly-tags-junit-1.0*
 		dev-java/ant-junit
 		=dev-java/commons-jelly-tags-util-1.0*"
 EANT_GENTOO_CLASSPATH="commons-jelly-tags-junit-1,ant-core,commons-grant,ant-junit,commons-jelly-tags-util-1"
+IUSE=""

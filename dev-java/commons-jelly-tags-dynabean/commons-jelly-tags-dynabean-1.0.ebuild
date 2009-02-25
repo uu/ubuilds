@@ -9,3 +9,4 @@ inherit commons-jelly-tags-2
 KEYWORDS=""
 DEPEND="=dev-java/commons-jelly-tags-junit-1.0*"
 EANT_GENTOO_CLASSPATH="commons-jelly-tags-junit-1"
+IUSE=""

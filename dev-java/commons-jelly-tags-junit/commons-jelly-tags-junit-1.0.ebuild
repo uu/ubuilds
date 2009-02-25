@@ -7,3 +7,4 @@ SLOT="1"
 inherit commons-jelly-tags-2
 
 KEYWORDS=""
+IUSE=""
