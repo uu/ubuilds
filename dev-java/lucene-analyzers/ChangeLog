@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  25 Feb 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
+  +lucene-analyzers-2.4.0.ebuild:
+  Version Bump
+
   17 Feb 2009; Serkan Kaba <serkan@gentoo.org>
   -lucene-analyzers-1.9.1.ebuild, +lucene-analyzers-1.9.1-r2.ebuild,
   +files/manifest:
