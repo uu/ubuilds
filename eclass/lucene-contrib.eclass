@@ -99,6 +99,7 @@ lucene-contrib_src_unpack() {
 	mkdir build || die
 	cd build || die
 	lucene-contrib_symlinklucenejar_
+	cd "${WORKDIR}" || die
 }
 
 # ------------------------------------------------------------------------------
