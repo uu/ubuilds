@@ -65,11 +65,7 @@ S="${WORKDIR}/lucene-${PV}"
 # determines wether to use lucene.jar or lucene-core.jar
 # ------------------------------------------------------------------------------
 lucene-contrib_getlucenejar_params_ () {
-	if [[ "${SLOT}" = "1" || "${SLOT}" = "1.9" ]]; then
-		echo lucene-${SLOT} lucene.jar
-	else
-		echo lucene-${SLOT} lucene-core.jar
-	fi
+	echo lucene-${SLOT} lucene-core.jar
 }
 
 # ------------------------------------------------------------------------------
