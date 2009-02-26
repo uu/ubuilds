@@ -8,4 +8,3 @@ inherit lucene-contrib
 DESCRIPTION="Surround addon for lucene"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DOCS="surround.txt"

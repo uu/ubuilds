@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 Feb 2009; Serkan Kaba <serkan@gentoo.org> lucene-surround-2.4.0.ebuild:
+  Fix missing doc QA warning.
+
   25 Feb 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
   +lucene-surround-2.4.0.ebuild:
   Version Bump

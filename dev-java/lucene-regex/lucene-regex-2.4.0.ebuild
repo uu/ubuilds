@@ -8,7 +8,6 @@ inherit lucene-contrib
 DESCRIPTION="Queries addon for lucene"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-DOCS="readme.txt"
 
 DEPEND="=dev-java/jakarta-regexp-1.4*"
 RDEPEND="=dev-java/jakarta-regexp-1.4*"
