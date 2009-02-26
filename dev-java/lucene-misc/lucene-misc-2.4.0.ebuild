@@ -11,5 +11,5 @@ IUSE=""
 
 src_unpack() {
 	lucene-contrib_src_unpack
-	mv "${S}"/contrib/miscellaneous "${S}"/contrib/misc
+	mv "${S}"/contrib/miscellaneous "${S}"/contrib/misc || die
 }

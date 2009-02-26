@@ -14,9 +14,9 @@ RESTRICT="test"
 
 src_unpack() {
 	lucene-contrib_src_unpack
-	cd "${S}"
+	cd "${S}" || die
 	#copy needed util class from lucene tests
-	mkdir -p contrib/${LUCENE_MODULE}/src/test/org/apache/lucene/util
+	mkdir -p contrib/${LUCENE_MODULE}/src/test/org/apache/lucene/util || die
 	cp src/test/org/apache/lucene/util/English.java \
-	contrib/${LUCENE_MODULE}/src/test/org/apache/lucene/util/English.java
+	contrib/${LUCENE_MODULE}/src/test/org/apache/lucene/util/English.java || die
 }
