@@ -108,7 +108,7 @@ lucene-contrib_src_unpack() {
 # ------------------------------------------------------------------------------
 lucene-contrib_src_compile() {
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
-	cd contrib/${LUCENE_MODULE}
+	cd contrib/${LUCENE_MODULE} || die
 	for dep in ${LUCENE_MODULE_DEPS}; do
 		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
 		gcp="${gcp}:${pdep}"
@@ -134,8 +134,10 @@ lucene-contrib_src_compile() {
 lucene-contrib_src_test() {
 	java-ant_rewrite-classpath common-build.xml
 	java-ant_rewrite-classpath build.xml
-	cd contrib && java-ant_rewrite-classpath contrib-build.xml
-	cd ${LUCENE_MODULE} && java-ant_rewrite-classpath build.xml
+	cd contrib || die
+	java-ant_rewrite-classpath contrib-build.xml
+	cd ${LUCENE_MODULE} || die
+	java-ant_rewrite-classpath build.xml
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	local gcp="${lucene_jar}"
 	gcp="${gcp}:$(java-pkg_getjars junit)"
@@ -160,8 +162,10 @@ lucene-contrib_src_test() {
 # ------------------------------------------------------------------------------
 lucene-contrib_src_install() {
 	java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
-	cd contrib/${LUCENE_MODULE}
-	[[ -n "${DOCS}" ]] && dodoc ${DOCS}
+	cd contrib/${LUCENE_MODULE} || die
+	if [[ -n "${DOCS}" ]]; then
+		dodoc ${DOCS} || die
+	fi
 	use source && java-pkg_dosrc src/java/*
 }
 
