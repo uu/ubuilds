@@ -164,6 +164,12 @@ lucene-contrib_src_test() {
 lucene-contrib_src_install() {
 	java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
 	cd contrib/${LUCENE_MODULE} || die
+
+	DDOCS="README.txt README readme.txt readme"
+	for doc in "${DDOCS}"; do
+		[[ -f ${doc} ]] && DOCS="${DOCS} ${doc}"
+	done
+
 	if [[ -n "${DOCS}" ]]; then
 		dodoc ${DOCS} || die
 	fi
