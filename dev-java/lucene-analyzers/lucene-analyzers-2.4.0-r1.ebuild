@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-SLOT=2.3
+SLOT=2.4
 inherit lucene-contrib java-osgi
 
 DESCRIPTION="Analyzer addon for lucene"
