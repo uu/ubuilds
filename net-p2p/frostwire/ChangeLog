@@ -1,6 +1,9 @@
 # ChangeLog for net-p2p/frostwire
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/net-p2p/frostwire/ChangeLog,v 1.7 2008/12/08 02:52:00 jmbsvicetto Exp $
+
+  27 Feb 2009; Alistair Bush <ali_bush@gentoo.org> frostwire-4.17.1.ebuild:
+  Fixed rdepend.
 
   16 Dec 2008; Alistair Bush <ali_bush@gentoo.org> +metadata.xml,
   +frostwire-4.17.1.ebuild:

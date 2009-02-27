@@ -40,7 +40,7 @@ COMMON_DEP="
 DEPEND="|| ( =virtual/jdk-1.6* =virtual/jdk-1.5* )
 	${COMMON_DEP}"
 
-RDEPEND="|| ( =virtual/jre-1.6 =virtual/jre-1.5* )
+RDEPEND="|| ( =virtual/jre-1.6* =virtual/jre-1.5* )
 	dev-java/asm
 	${COMMON_DEP}"
 
