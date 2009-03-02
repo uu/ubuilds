@@ -4,15 +4,15 @@
 
 inherit eutils java-pkg-2
 
-MY_P=${PN}-snapshot-${PV/1.5_p/}
+MY_P=${PN}-snapshot-${PV/./}
 DESCRIPTION="Java-based editor for the OpenStreetMap project"
 HOMEPAGE="http://josm.openstreetmap.de/"
 SRC_URI="http://josm.openstreetmap.de/download/${MY_P}.jar"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-RDEPEND=">=virtual/jre-1.6"
 DEPEND=""
+RDEPEND=">=virtual/jre-1.6"
 S="${WORKDIR}"
 
 IUSE=""
