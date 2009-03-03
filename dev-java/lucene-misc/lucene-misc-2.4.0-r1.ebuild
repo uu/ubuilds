@@ -2,10 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=1
 SLOT=2.4
-WANT_JAVA_VER=1.5
 inherit lucene-contrib
 
-DESCRIPTION="InstantiatedIndex, an alternative RAM store - addon for lucene"
+DESCRIPTION="Misc addon for lucene"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
+
+src_unpack() {
+	lucene-contrib_src_unpack
+	mv "${S}"/contrib/miscellaneous "${S}"/contrib/misc || die
+}

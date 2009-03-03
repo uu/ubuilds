@@ -2,7 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-SLOT=2.3
+EAPI=1
+SLOT=2.4
 inherit java-pkg-2 lucene-contrib
 
 DESCRIPTION="Lucene indexer task for ant"

@@ -2,7 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="1"
+# Setting EAPI is not allowed in an eclass:
+#EAPI="1" # We need EAPI 1 or higher
+if [[ "${EAPI}" -lt "1" ]]; then return 1; fi
+
 if ! [[ -n "${LUCENE_MODULE}" ]]; then LUCENE_MODULE=${PN/lucene-/}; fi
 JAVA_PKG_IUSE="source test"
 JAVA_PKG_BSFIX_NAME="build.xml common-build.xml contrib-build.xml"
