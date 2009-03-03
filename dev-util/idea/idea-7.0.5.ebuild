@@ -5,7 +5,7 @@
 inherit eutils versionator
 
 #Change this line when updating version
-BUILD="7941"
+BUILD="7971"
 
 SLOT="$(get_major_version)"
 RDEPEND=">=virtual/jdk-1.6"
