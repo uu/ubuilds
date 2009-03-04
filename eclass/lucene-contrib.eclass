@@ -129,7 +129,7 @@ lucene-contrib_classpath_() {
 # Default src_unpack for lucene-contrib packages
 # ------------------------------------------------------------------------------
 lucene-contrib_src_unpack() {
-	unpack "${A}"
+	unpack ${A}
 	cd "${S}" || die
 
 	mkdir build || die
@@ -153,8 +153,15 @@ lucene-contrib_src_compile() {
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	cd contrib/"${LUCENE_MODULE}" || die
 
+<<<<<<< .mine
+	lucene-contrib_classpath_
+
 	eant -Dversion="${PV}" \
 		-Dproject.classpath="${LUCENE_CP}:${lucene_jar}" \
+=======
+	eant -Dversion="${PV}" \
+		-Dproject.classpath="${LUCENE_CP}:${lucene_jar}" \
+>>>>>>> .r7591
 		-Dlucene.jar="${lucene_jar}" \
 		jar-core
 }
