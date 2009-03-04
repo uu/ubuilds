@@ -3,7 +3,9 @@
 # $Header: $
 
 EAPI=1
-SLOT=2.4
+SLOT=2.3
+
+LUCENE_MODULE_DEPS="queries"
 
 inherit lucene-contrib
 
