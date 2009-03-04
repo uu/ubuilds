@@ -6,8 +6,6 @@ EAPI=1
 JAVA_PKG_IUSE="doc source"
 WANT_ANT_TASKS="ant-trax"
 
-JAVA_PKG_DEBUG="true"
-
 inherit eutils java-pkg-2 java-ant-2
 
 DESCRIPTION="Tomcat Servlet-2.5/JSP-2.1 Container"
@@ -40,6 +38,7 @@ DEPEND=">=virtual/jdk-1.5
 
 S=${WORKDIR}/${MY_P}
 
+#Extra Vars
 TOMCAT_NAME="${PN}-${SLOT}"
 TOMCAT_HOME="/usr/share/${TOMCAT_NAME}"
 WEBAPPS_DIR="/var/lib/${TOMCAT_NAME}/webapps"
@@ -139,15 +138,12 @@ src_install() {
 
 	cd "${D}/usr/share/${TOMCAT_NAME}/lib"
 	java-pkg_jar-from tomcat-servlet-api-2.5
+
 	# symlink the directories to make CATALINA_BASE possible
 	dosym /etc/${TOMCAT_NAME} ${CATALINA_BASE}/conf
 	dosym /var/log/${TOMCAT_NAME} ${CATALINA_BASE}/logs
 	dosym /var/tmp/${TOMCAT_NAME} ${CATALINA_BASE}/temp
 	dosym /var/run/${TOMCAT_NAME} ${CATALINA_BASE}/work
-
-	# link the manager's context to the right position
-	dosym ${TOMCAT_HOME}/webapps/host-manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/host-manager.xml
-	dosym ${TOMCAT_HOME}/webapps/manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/manager.xml
 
 	dodoc  "${S}"/{RELEASE-NOTES,RUNNING.txt}
 	fperms 640 /etc/${TOMCAT_NAME}/tomcat-users.xml
@@ -168,38 +164,45 @@ pkg_postinst() {
 	elog
 	elog "Installing latest webroot into"
 	elog "${TOMCAT_HOME}/webapps instead"
+	elog
+	elog "Manager Symbolic Links NOT createdi."
 	diropts -m755 -o tomcat -g tomcat
-	dodir ${TOMCAT_HOME}/webapps
+	dodir "${ROOT}"${TOMCAT_HOME}/webapps
 		cp -p RELEASE-NOTES webapps/ROOT/RELEASE-NOTES.txt
-		cp -pr webapps/host-manager "${D}"${TOMCAT_HOME}/webapps
-		cp -pr webapps/manager "${D}"${TOMCAT_HOME}/webapps
+		cp -pr webapps/host-manager "${ROOT}"${TOMCAT_HOME}/webapps
+		cp -pr webapps/manager "${ROOT}"${TOMCAT_HOME}/webapps
 			if use doc; then
-				cp -pr webapps/docs "${D}"${TOMCAT_HOME}/webapps
+				cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
 			fi
 			if use examples; then
 				cd webapps/examples/WEB-INF/lib
 				java-pkg_jar-from jakarta-jstl jstl.jar
 				java-pkg_jar-from jakarta-jstl standard.jar
 				cd "${S}"
-				cp -pPr webapps/examples "${D}"${TOMCAT_HOME}/webapps
+				cp -pPr webapps/examples "${ROOT}"${TOMCAT_HOME}/webapps
 			fi
 	else
 		einfo "Installing  webroot to ${WEBAPPS_DIR}"
 		cp -p RELEASE-NOTES build/webapps/ROOT/RELEASE-NOTES.txt
-		cp -pr webapps/ROOT "${D}"${TOMCAT_HOME}/webapps
-		cp -pr webapps/host-manager "${D}"${TOMCAT_HOME}/webapps
-		cp -pr webapps/manager "${D}"${TOMCAT_HOME}/webapps
+		cp -pr webapps/ROOT "${ROOT}"${TOMCAT_HOME}/webapps
+		cp -pr webapps/host-manager "${ROOT}"${TOMCAT_HOME}/webapps
+		cp -pr webapps/manager "${ROOT}"${TOMCAT_HOME}/webapps
 			if use doc; then
-				 cp -pr webapps/docs "${D}"${TOMCAT_HOME}/webapps
+				 cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
 			fi
 			if use examples; then
 				cd webapps/examples/WEB-INF/lib
 				java-pkg_jar-from jakarta-jstl jstl.jar
 				java-pkg_jar-from jakarta-jstl standard.jar
 				cd "${S}"
-				cp -pPr webapps/examples "${D}"${CATALINA_BASE}/webapps
+				cp -pPr webapps/examples "${ROOT}"${CATALINA_BASE}/webapps
 			fi
+			# link the manager's context to the right position
+		dosym ${TOMCAT_HOME}/webapps/host-manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/host-manager.xml
+		dosym ${TOMCAT_HOME}/webapps/manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/manager.xml
+
 		fi
+
 	elog
 	elog " This ebuild implements a FHS compliant layout for tomcat"
 	elog " Please read http://www.gentoo.org/proj/en/java/tomcat6-guide.xml"
