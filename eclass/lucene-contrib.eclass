@@ -6,7 +6,7 @@
 #EAPI="1" # We need EAPI 1 or higher
 if [[ "${EAPI}" -lt "1" ]]; then return 1; fi
 
-if ! [[ -n "${LUCENE_MODULE}" ]]; then LUCENE_MODULE=${PN/lucene-/}; fi
+if ! [[ -n "${LUCENE_MODULE}" ]]; then LUCENE_MODULE="${PN/lucene-/}"; fi
 JAVA_PKG_IUSE="source test"
 JAVA_PKG_BSFIX_NAME="build.xml common-build.xml contrib-build.xml"
 inherit java-pkg-2 java-ant-2 java-osgi
@@ -15,11 +15,13 @@ inherit java-pkg-2 java-ant-2 java-osgi
 # @eclass-begin
 # @eclass-shortdesc Lucene-Contrib packages eclass
 #
-# This eclass is the base for all of the packages in lucene's contrib dir
+# This eclass is the base for all of the packages in lucene's contrib dir for
+# SLOTS 2.* and higher (This does not handler 1.* SLOTS)
 # -----------------------------------------------------------------------------
+if [[ "${SLOT/.*}" -lt "2" ]]; then return 1; fi
 
 # -----------------------------------------------------------------------------
-# @variable-preinherit SLOT
+# @variable-preinherit LUCENE_MODULE
 # @variable-default PN minus lucene-
 #
 # If the name of the lucene-contrib package differs from "lucene-foo' specify
@@ -36,7 +38,7 @@ inherit java-pkg-2 java-ant-2 java-osgi
 # inherit. It should not be dynamicly set based on useflags (setting it
 # dynamically based on useflags is prohibitied).
 # -----------------------------------------------------------------------------
-WANT_JAVA_VER=${WANT_JAVA_VER:-1.4}
+WANT_JAVA_VER="${WANT_JAVA_VER:-1.4}"
 
 # -----------------------------------------------------------------------------
 # @variable-preinherit SLOT
@@ -54,30 +56,40 @@ DEPEND=">=virtual/jdk-${WANT_JAVA_VER}
 	dev-java/lucene:${SLOT}
 	test? ( dev-java/ant-junit dev-java/junit:0 )"
 RDEPEND=">=virtual/jre-${WANT_JAVA_VER}
-	 dev-java/lucene:${SLOT}"
+	dev-java/lucene:${SLOT}"
 
+# -----------------------------------------------------------------------------
+# @variable-preinherit LUCENE_MODULE_DEPS
+# @variable-default unset
+#
+# Contains a space delimited list of lucene-contrib packages without the
+# associated "lucene-" prefix. Use this instead of declaring them in an
+# [R]DEPEND
+# -----------------------------------------------------------------------------
 for dep in ${LUCENE_MODULE_DEPS}; do
 	DEPEND="${DEPEND} dev-java/lucene-${dep}:${SLOT}"
 	RDEPEND="${RDEPEND} dev-java/lucene-${dep}:${SLOT}"
 done
-S="${WORKDIR}/lucene-${PV}"
 
-# ------------------------------------------------------------------------------
-# @internal-function lucene-contrib_getlucenejar_params_
+# -----------------------------------------------------------------------------
+# @variable-preinherit LUCENE_EXTRA_DEPS
+# @variable-default unset
 #
-# determines wether to use lucene.jar or lucene-core.jar
-# ------------------------------------------------------------------------------
-lucene-contrib_getlucenejar_params_ () {
-	echo lucene-${SLOT} lucene-core.jar
-}
+# Contains a space delimited list of packages (which can be either just a
+# package name or a package-name-SLOT) that this package needs to have in its
+# classpath. Unlike LUCENE_MODULE_DEPS, declaring such deps in [R]DEPEND in the
+# ebuild is mandatory.
+# -----------------------------------------------------------------------------
+
+S="${WORKDIR}/lucene-${PV}"
 
 # ------------------------------------------------------------------------------
 # @internal-function lucene-contrib_getlucenejar_
 #
-# gets the lucene(-core).jar
+# gets the lucene-core.jar
 # ------------------------------------------------------------------------------
-lucene-contrib_getlucenejar_ () {
-	java-pkg_getjar $(lucene-contrib_getlucenejar_params_)
+lucene-contrib_getlucenejar_() {
+	java-pkg_getjar lucene-"${SLOT}" lucene-core.jar
 }
 
 # ------------------------------------------------------------------------------
@@ -85,9 +97,31 @@ lucene-contrib_getlucenejar_ () {
 #
 # symlinks the lucene-core.jar for use during the contrib ebuild
 # ------------------------------------------------------------------------------
-lucene-contrib_symlinklucenejar_ () {
-	java-pkg_jar-from $(lucene-contrib_getlucenejar_params_) lucene-core-${PV}.jar
+lucene-contrib_symlinklucenejar_() {
+	java-pkg_jar-from lucene-"${SLOT}" lucene-core.jar lucene-core-"${PV}".jar
 }
+
+# ------------------------------------------------------------------------------
+# @internal-function lucene-contrib_classpath_
+#
+# Generates the LUCENE_MODULE specific LUCENE_CP based on LUCENE_MODULE_DEPS and
+# LUCENE_EXTRA_DEPS (see variable definition above). This function doesn't take
+# any args.
+# ------------------------------------------------------------------------------
+lucene-contrib_classpath_() {
+	for dep in ${LUCENE_MODULE_DEPS}; do
+		local pdep=$(java-pkg_getjars "lucene-${dep}-${SLOT}" )
+		gcp="${gcp}:${pdep}"
+	done
+
+	for dep in ${LUCENE_EXTRA_DEPS}; do
+		local pdep=$(java-pkg_getjars "${dep}" )
+		gcp="${gcp}:${pdep}"
+	done
+
+	LUCENE_CP="${gcp}"
+}
+
 
 # ------------------------------------------------------------------------------
 # @eclass-src_unpack
@@ -95,14 +129,19 @@ lucene-contrib_symlinklucenejar_ () {
 # Default src_unpack for lucene-contrib packages
 # ------------------------------------------------------------------------------
 lucene-contrib_src_unpack() {
-	unpack ${A}
+	unpack "${A}"
 	cd "${S}" || die
-	einfo "Removing bundled jars."
-	find "${S}" -name "*.jar" -delete -print
+
 	mkdir build || die
 	cd build || die
+
 	lucene-contrib_symlinklucenejar_
-	cd "${WORKDIR}" || die
+	for dep in ${LUCENE_MODULE_DEPS}; do
+		mkdir -p contrib/"${dep}" || die
+		cd contrib/"${dep}" || die
+		java-pkg_jar-from "lucene-${dep}-${SLOT}" lucene-"${dep}".jar \
+		lucene-"${dep}-${PV}".jar
+	done
 }
 
 # ------------------------------------------------------------------------------
@@ -112,22 +151,12 @@ lucene-contrib_src_unpack() {
 # ------------------------------------------------------------------------------
 lucene-contrib_src_compile() {
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
-	cd contrib/${LUCENE_MODULE} || die
-	for dep in ${LUCENE_MODULE_DEPS}; do
-		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
-		gcp="${gcp}:${pdep}"
-	done
+	cd contrib/"${LUCENE_MODULE}" || die
 
-	for dep in ${LUCENE_EXTRA_DEPS}; do
-		local pdep=$(java-pkg_getjars ${dep} )
-		gcp="${gcp}:${pdep}"
-	done
-
-	eant -Dversion=${PV} \
-		-Dproject.classpath="${gcp}:${lucene_jar}" \
+	eant -Dversion="${PV}" \
+		-Dproject.classpath="${LUCENE_CP}:${lucene_jar}" \
 		-Dlucene.jar="${lucene_jar}" \
-	jar-core
-	cd "${S}" || die
+		jar-core
 }
 
 # ------------------------------------------------------------------------------
@@ -136,26 +165,17 @@ lucene-contrib_src_compile() {
 # Default src_test for lucene-contrib packages
 # ------------------------------------------------------------------------------
 lucene-contrib_src_test() {
-	java-ant_rewrite-classpath common-build.xml
-	java-ant_rewrite-classpath build.xml
-	cd contrib || die
-	java-ant_rewrite-classpath contrib-build.xml
-	cd ${LUCENE_MODULE} || die
-	java-ant_rewrite-classpath build.xml
+	cd contrib/"${LUCENE_MODULE}" || die
+
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	local gcp="${lucene_jar}"
 	gcp="${gcp}:$(java-pkg_getjars junit)"
-	for dep in ${LUCENE_MODULE_DEPS}; do
-		local pdep=$(java-pkg_getjars lucene-${dep}-${SLOT} )
-		gcp="${gcp}:${pdep}"
-	done
 
-	for dep in ${LUCENE_EXTRA_DEPS}; do
-		local pdep=$(java-pkg_getjars ${dep} )
-		gcp="${gcp}:${pdep}"
-	done
+	lucene-contrib_classpath_
+	LUCENE_CP="${gcp}:${LUCENE_CP}"
 
-	ANT_TASKS="ant-junit" eant -Dproject.classpath="${gcp}" \
+	ANT_TASKS="ant-junit" eant -Dversion="${PV}" \
+		-Dproject.classpath="${LUCENE_CP}" \
 		-Dlucene.jar="${lucene_jar}" test
 }
 
@@ -165,8 +185,8 @@ lucene-contrib_src_test() {
 # Default src_install for lucene-contrib packages
 # ------------------------------------------------------------------------------
 lucene-contrib_src_install() {
-	java-pkg_newjar build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar ${PN}.jar
-	cd contrib/${LUCENE_MODULE} || die
+	java-pkg_newjar "build/contrib/${LUCENE_MODULE}/lucene-${LUCENE_MODULE}-${PV}.jar" "${PN}.jar"
+	cd contrib/"${LUCENE_MODULE}" || die
 
 	DDOCS="README.txt README readme.txt readme"
 	for doc in "${DDOCS}"; do
