@@ -12,3 +12,10 @@ RESTRICT="test"
 DESCRIPTION="Similarity addon for lucene"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
+
+pkg_postinst() {
+	ewarn "The lucene-similarity package is really just a placeholder, and does
+not have any functionality. We recommend the lucene-queries package which
+has some document similarity query generators. - We leave this package here
+for your information."
+}

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-  <herd>java</herd>
-  <longdescription lang="en">
-    Similarity addon for lucene
-  </longdescription>
+	<herd>java</herd>
+	<longdescription lang="en">
+		Similarity addon for lucene:
+		Note that: the lucene-similarity package is really just a placeholder,
+		and does not have any functionality. <pkg>dev-java/lucene-queries</pkg>
+		has some document similarity query generators, and is the recommended
+		alternative. - We leave this package here for your information.
+	</longdescription>
 </pkgmetadata>
 
