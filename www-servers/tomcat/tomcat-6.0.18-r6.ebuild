@@ -55,6 +55,8 @@ src_unpack() {
 
 	epatch "${FILESDIR}/${SLOT}/build-xml.patch"
 
+	use examples && epatch "${FILESDIR}/${SLOT}/examples-cal.patch"
+
 	cd "${S}/webapps/examples/WEB-INF/lib/"
 	rm -v *.jar || die
 }
