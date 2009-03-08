@@ -2,14 +2,22 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-# Setting EAPI is not allowed in an eclass:
-#EAPI="1" # We need EAPI 1 or higher
-if [[ "${EAPI}" -lt "1" ]]; then return 1; fi
-
 if ! [[ -n "${LUCENE_MODULE}" ]]; then LUCENE_MODULE="${PN/lucene-/}"; fi
 JAVA_PKG_IUSE="source test"
 JAVA_PKG_BSFIX_NAME="build.xml common-build.xml contrib-build.xml"
 inherit java-pkg-2 java-ant-2 java-osgi
+
+case "${EAPI:-0}" in
+	0)
+		die "EAPI 0 is not supported by lucene-contrib eclass."
+		;;
+	1)
+		EXPORT_FUNCTIONS src_unpack src_compile src_test src_install
+		;;
+	*)
+		EXPORT_FUNCTIONS src_unpack src_prepare src_compile src_test src_install
+		;;
+esac
 
 # -----------------------------------------------------------------------------
 # @eclass-begin
@@ -131,7 +139,21 @@ lucene-contrib_classpath_() {
 lucene-contrib_src_unpack() {
 	unpack ${A}
 	cd "${S}" || die
+	has ${EAPI:-0} 0 1 && lucene-contrib_src_prepare
+	cd "${WORKDIR}" || die
+}
 
+# ------------------------------------------------------------------------------
+# @eclass-src_prepare
+#
+# Default src_prepare for lucene-contrib packages
+# ------------------------------------------------------------------------------
+lucene-contrib_src_prepare() {
+	
+	# Why was this removed?
+	# einfo "Removing bundled jars."
+	# find "${S}" -name "*.jar" -delete -print
+	
 	mkdir build || die
 	cd build || die
 
@@ -159,6 +181,7 @@ lucene-contrib_src_compile() {
 		-Dproject.classpath="${LUCENE_CP}:${lucene_jar}" \
 		-Dlucene.jar="${lucene_jar}" \
 		jar-core
+	cd "${S}" || die
 }
 
 # ------------------------------------------------------------------------------
@@ -200,8 +223,6 @@ lucene-contrib_src_install() {
 	fi
 	use source && java-pkg_dosrc src/java/*
 }
-
-EXPORT_FUNCTIONS src_unpack src_compile src_test src_install
 
 # ------------------------------------------------------------------------------
 # @eclass-end
