@@ -149,10 +149,8 @@ lucene-contrib_src_unpack() {
 # Default src_prepare for lucene-contrib packages
 # ------------------------------------------------------------------------------
 lucene-contrib_src_prepare() {
-	
-	# Why was this removed?
-	# einfo "Removing bundled jars."
-	# find "${S}" -name "*.jar" -delete -print
+	einfo "Removing bundled jars."
+	find "${S}" -name "*.jar" -delete -print
 	
 	mkdir build || die
 	cd build || die
