@@ -14,6 +14,7 @@ OOO_ROOT_DIR="/usr/$(get_libdir)/openoffice"
 OOO_PROGRAM_DIR="${OOO_ROOT_DIR}/program"
 UNOPKG="${OOO_PROGRAM_DIR}/unopkg"
 OOO_EXT_DIR="${OOO_ROOT_DIR}/share/extension/install"
+OPENOFFICE_EXT_OPT_USE=${OPENOFFICE_EXT_OPT_USE:-openoffice}
 
 add_extension() {
 	ebegin "Adding extension $1"
@@ -42,7 +43,7 @@ remove_extension() {
 	fi
 }
 
-openoffice-utils_src_install() {
+_openoffice-utils_src_install() {
 	cd "${S}" || die
 	insinto ${OOO_EXT_DIR}
 	for i in ${OOO_EXTENSIONS}
@@ -51,7 +52,7 @@ openoffice-utils_src_install() {
 	done
 }
 
-openoffice-utils_pkg_postinst() {
+_openoffice-utils_pkg_postinst() {
 	for i in ${OOO_EXTENSIONS}
 	do
 		add_extension ${OOO_EXT_DIR}/${i}
@@ -59,48 +60,48 @@ openoffice-utils_pkg_postinst() {
 
 }
 
-openoffice-utils_pkg_prerm() {
+_openoffice-utils_pkg_prerm() {
 	for i in ${OOO_EXTENSIONS}
 	do
 		remove_extension ${i}
 	done
 }
 
-check_ooo_use() {
-	hasq openoffice ${IUSE}
+_openoffice-ext_check_use() {
+	return $(hasq ${OPENOFFICE_EXT_OPT_USE} "${IUSE}")
 }
 
-if check_ooo_use; then
-	DEPEND="openoffice? ( >=virtual/ooo-3.0 )"
-	RDEPEND="openoffice? ( >=virtual/ooo-3.0 )"
+if _openoffice-ext_check_use; then
+	DEPEND="${OPENOFFICE_EXT_OPT_USE}? ( >=virtual/ooo-3.0 )"
+	RDEPEND="${OPENOFFICE_EXT_OPT_USE}? ( >=virtual/ooo-3.0 )"
 else
 	DEPEND=">=virtual/ooo-3.0"
 	RDEPEND=">=virtual/ooo-3.0"
 fi
 
 openoffice-ext_src_install() {
-	if check_ooo_use; then
-		use ${OPENOFFICE_EXT_OPT_USE} && openoffice-utils_src_install
+	if _openoffice-ext_check_use; then
+		use ${OPENOFFICE_EXT_OPT_USE} && _openoffice-utils_src_install
 	else
-		openoffice-utils_src_install
+		_openoffice-utils_src_install
 	fi
 	
 }
 
 openoffice-ext_pkg_postinst() {
-	if check_ooo_use; then
-		use ${OPENOFFICE_EXT_OPT_USE} && openoffice-utils_pkg_postinst
+	if _openoffice-ext_check_use; then
+		use ${OPENOFFICE_EXT_OPT_USE} && _openoffice-utils_pkg_postinst
 	else
-		openoffice-utils_pkg_postinst
+		_openoffice-utils_pkg_postinst
 	fi
 
 }
 
 openoffice-ext_pkg_prerm() {
-	if check_ooo_use; then
-		use ${OPENOFFICE_EXT_OPT_USE} && openoffice-utils_pkg_prerm
+	if _openoffice-ext_check_use; then
+		use ${OPENOFFICE_EXT_OPT_USE} && _openoffice-utils_pkg_prerm
 	else
-		openoffice-utils_pkg_prerm
+		_openoffice-utils_pkg_prerm
 	fi
 }
 
