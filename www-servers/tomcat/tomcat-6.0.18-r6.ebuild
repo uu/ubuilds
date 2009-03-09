@@ -159,7 +159,8 @@ pkg_postinst() {
 	#see #180519
 	einfo
 	cd "${S}"
-		if [[ -e "/var/lib/${TOMCAT_NAME}/webapps" ]] ; then
+	if [[ -e "/var/lib/${TOMCAT_NAME}/webapps" ]] ; then
+
 	elog "The latest webroot has NOT been installed into"
 	elog "/var/lib/${TOMCAT_NAME}/webapps/ROOT already exists"
 	elog "and we do not want to overwrite any files you have put there."
@@ -168,13 +169,14 @@ pkg_postinst() {
 	elog "${TOMCAT_HOME}/webapps instead"
 	elog
 	elog "Manager Symbolic Links NOT created."
+
 	diropts -m755 -o tomcat -g tomcat
 	dodir "${ROOT}"${TOMCAT_HOME}/webapps
 		cp -p RELEASE-NOTES webapps/ROOT/RELEASE-NOTES.txt
 		cp -pr webapps/host-manager "${ROOT}"${TOMCAT_HOME}/webapps
 		cp -pr webapps/manager "${ROOT}"${TOMCAT_HOME}/webapps
-			if use doc; then
-				cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
+		if use doc; then
+			cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
 			fi
 			if use examples; then
 				cd webapps/examples/WEB-INF/lib
@@ -190,7 +192,7 @@ pkg_postinst() {
 		cp -pr webapps/host-manager "${ROOT}"${TOMCAT_HOME}/webapps
 		cp -pr webapps/manager "${ROOT}"${TOMCAT_HOME}/webapps
 			if use doc; then
-				 cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
+				cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
 			fi
 			if use examples; then
 				cd webapps/examples/WEB-INF/lib
@@ -199,11 +201,10 @@ pkg_postinst() {
 				cd "${S}"
 				cp -pPr webapps/examples "${ROOT}"${CATALINA_BASE}/webapps
 			fi
-			# link the manager's context to the right position
-		dosym ${TOMCAT_HOME}/webapps/host-manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/host-manager.xml
-		dosym ${TOMCAT_HOME}/webapps/manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/manager.xml
-
-		fi
+	# link the manager's context to the right position
+	dosym ${TOMCAT_HOME}/webapps/host-manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/host-manager.xml
+	dosym ${TOMCAT_HOME}/webapps/manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/manager.xml
+	fi
 
 	elog
 	elog " This ebuild implements a FHS compliant layout for tomcat"

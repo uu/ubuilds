@@ -303,7 +303,7 @@ pkg_postinst() {
 			fi
 			if use examples; then
 				cp -pr build/webapps/{jsp-examples,servlets-examples,webdav} \
-					${WEBAPPS_DIR}
+				${WEBAPPS_DIR}
 			fi
 			cp "${S}"/container/webapps/manager/manager.xml \
 			"${ROOT}"/etc/${TOMCAT_NAME}/Catalina/localhost
