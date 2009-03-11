@@ -197,6 +197,7 @@ src_install() {
 
 	dodir   /etc/${TOMCAT_NAME}
 	fperms  750 /etc/${TOMCAT_NAME}
+	dodir /usr/share/${TOMCAT_NAME}/webapps
 
 	diropts -m0755
 
@@ -268,6 +269,27 @@ src_install() {
 	#Prep WEBAPPS_DIR
 	keepdir ${WEBAPPS_DIR}
 	set_webapps_perms "${D}"/${WEBAPPS_DIR}
+	set_webapps_perms "${D}"/usr/share/${TOMCAT_NAME}/webapps
+
+	# webapps get stored in /usr/share/${TOMCAT_NAME}/webapps
+	cd "${S}"/build
+	ebegin "Installing webapps to /usr/share/${TOMCAT_NAME}/"
+	cp -pr build/webapps/{ROOT,balancer,webdav} "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+	cd "${S}"
+	cp -pr container/webapps/{host-manager,manager,jmxremote} \
+	"${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+		if use admin; then
+		cp -pr container/webapps/admin "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+		fi
+		if use doc; then
+		cd "${S}"/build
+		cp -pr build/docs "${D}"/usr/share/${TOMCAT_NAME}/docs
+		fi
+		if use examples; then
+		cd "${S}"/build
+		cp -pr build/webapps/{jsp-examples,servlets-examples,webdav} \
+		"${D}"/usr/share/${TOMCAT_NAME}/webapps
+		fi
 }
 
 pkg_postinst() {
@@ -276,37 +298,22 @@ pkg_postinst() {
 	chown root:root /etc/conf.d/${TOMCAT_NAME}
 
 	#see #180519
-	einfo
-	cd "${S}"/build/
-	if [[ -e "/var/lib/${TOMCAT_NAME}/webapps/" ]] ; then
-		elog "The latest webroot has NOT been installed into"
-		elog "${WEBAPPS_DIR} already exists"
+
+	if [[ -e "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/" ]] ; then
+		elog "The latest webapps has NOT been installed into"
+		elog "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/ because the directory"
+		elog "already exits"
 		elog "and we do not want to overwrite any files you have put there."
 		elog
-		elog "Installing latest webroot into ${TOMCAT_HOME}/webapps instead"
-		cp -p RELEASE-NOTES build/webapps/ROOT/RELEASE-NOTES.txt
-		cp -pr build/webapps/ROOT ${TOMCAT_HOME}/webapps
-		cp "${S}"/container/webapps/manager/manager.xml ${TOMCAT_HOME}/webapps
-			if use doc; then
-				cp -pr build/webapps/tomcat-docs ${TOMCAT_HOME}/webapps
-			fi
-			if use examples; then
-				cp -pr build/webapps/{jsp-examples,servlets-examples,webdav} \
-				${TOMCAT_HOME}/webapps
-			fi
+		elog "Installing latest webroot into"
+		elog "${ROOT}/usr/share/${TOMCAT_NAME}/webapps instead"
+		elog
 	else
 		einfo "Installing webroot to ${WEBAPPS_DIR}"
-		cp -p RELEASE-NOTES build/webapps/ROOT/RELEASE-NOTES.txt
-		cp -pr build/webapps/ROOT ${WEBAPPS_DIR}
-			if use doc; then
-				cp -pr build/webapps/tomcat-docs ${WEBAPPS_DIR}
-			fi
-			if use examples; then
-				cp -pr build/webapps/{jsp-examples,servlets-examples,webdav} \
-				${WEBAPPS_DIR}
-			fi
-			cp "${S}"/container/webapps/manager/manager.xml \
-			"${ROOT}"/etc/${TOMCAT_NAME}/Catalina/localhost
+		cp -prR  "${ROOT}"/usr/share/${TOMCAT_NAME}/webapps/* \
+		"${ROOT}""${WEBAPPS_DIR}"
+		cp "${ROOT}"/usr/share/${TOMCAT_NAME}/webapps/manager/manager.xml \
+		"${ROOT}"/etc/${TOMCAT_NAME}/Catalina/localhost
 	fi
 
 	elog
@@ -328,8 +335,8 @@ pkg_postinst() {
 
 #helpers
 set_webapps_perms() {
-	chown  tomcat:tomcat ${1} || die "Failed to change owner off ${1}."
-	chmod  750           ${1} || die "Failed to change permissions off ${1}."
+	chown -R tomcat:tomcat ${1} || die "Failed to change owner off ${1}."
+	chmod -R 750           ${1} || die "Failed to change permissions off ${1}."
 }
 
 pkg_config() {

@@ -102,6 +102,7 @@ src_install() {
 
 	# create dir structure
 	dodir /usr/share/${TOMCAT_NAME}
+	dodir /usr/share/${TOMCAT_NAME}/webapps
 
 	diropts -m750 -o tomcat -g tomcat
 	dodir   /etc/${TOMCAT_NAME}
@@ -130,8 +131,23 @@ src_install() {
 	cp -pR conf/* "${D}"/etc/${TOMCAT_NAME} || die "failed to copy conf"
 	cp -pPR output/build/bin "${D}"/usr/share/${TOMCAT_NAME} \
 		|| die "failed to copy"
-
-	# replace catalina.policy with gentoo specific one bug #176701
+	# webapps get stored in /usr/share/${TOMCAT_NAME}/webapps
+	cd "${S}"/webapps
+	ebegin "Installing webapps to /usr/share/${TOMCAT_NAME}"
+	cp -pR ROOT "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+	cp -pR host-manager "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+	cp -pR manager "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+		if use doc; then
+		cp -pR docs "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+		fi
+		if use examples; then
+		cd WEB-INF/lib
+		java-pkg_jar-from jakarta-jstl jstl.jar
+		java-pkg_jar-from jakarta-jstl standard.jar
+		cd "${S}"/webapps
+		cp -pR examples "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
+		fi
+		# replace catalina.policy with gentoo specific one bug #176701
 #	cp ${FILESDIR}/${SLOT}/catalina.policy "${D}"/etc/${TOMCAT_NAME} \
 #		|| die "failed to replace catalina.policy"
 
@@ -157,50 +173,20 @@ pkg_postinst() {
 	chown -fR tomcat:tomcat /etc/${TOMCAT_NAME}
 	ewarn "Owner ship changed to tomcat:tomcat. Temp hack/fix."
 	#see #180519
-	einfo
-	cd "${S}"
-	if [[ -e "/var/lib/${TOMCAT_NAME}/webapps" ]] ; then
 
-	elog "The latest webroot has NOT been installed into"
-	elog "/var/lib/${TOMCAT_NAME}/webapps/ROOT already exists"
-	elog "and we do not want to overwrite any files you have put there."
-	elog
-	elog "Installing latest webroot into"
-	elog "${TOMCAT_HOME}/webapps instead"
-	elog
-	elog "Manager Symbolic Links NOT created."
-
-	diropts -m755 -o tomcat -g tomcat
-	dodir "${ROOT}"${TOMCAT_HOME}/webapps
-		cp -p RELEASE-NOTES webapps/ROOT/RELEASE-NOTES.txt
-		cp -pr webapps/host-manager "${ROOT}"${TOMCAT_HOME}/webapps
-		cp -pr webapps/manager "${ROOT}"${TOMCAT_HOME}/webapps
-		if use doc; then
-			cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
-			fi
-			if use examples; then
-				cd webapps/examples/WEB-INF/lib
-				java-pkg_jar-from jakarta-jstl jstl.jar
-				java-pkg_jar-from jakarta-jstl standard.jar
-				cd "${S}"
-				cp -pPr webapps/examples "${ROOT}"${TOMCAT_HOME}/webapps
-			fi
+	if [[ -e "${ROOT}/var/lib/${TOMCAT_NAME}/webapps" ]] ; then
+		elog "The latest webapp has NOT been installed into"
+		elog "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/ because directory already exists"
+		elog "and we do not want to overwrite any files you have put there."
+		elog
+		elog "Installing latest webapp into"
+		elog "${ROOT}/usr/share/${TOMCAT_NAME}/webapps instead"
+		elog
+		elog "Manager Symbolic Links NOT created."
 	else
-		einfo "Installing  webroot to ${WEBAPPS_DIR}"
-		cp -p RELEASE-NOTES build/webapps/ROOT/RELEASE-NOTES.txt
-		cp -pr webapps/ROOT "${ROOT}"${TOMCAT_HOME}/webapps
-		cp -pr webapps/host-manager "${ROOT}"${TOMCAT_HOME}/webapps
-		cp -pr webapps/manager "${ROOT}"${TOMCAT_HOME}/webapps
-			if use doc; then
-				cp -pr webapps/docs "${ROOT}"${TOMCAT_HOME}/webapps
-			fi
-			if use examples; then
-				cd webapps/examples/WEB-INF/lib
-				java-pkg_jar-from jakarta-jstl jstl.jar
-				java-pkg_jar-from jakarta-jstl standard.jar
-				cd "${S}"
-				cp -pPr webapps/examples "${ROOT}"${CATALINA_BASE}/webapps
-			fi
+		einfo "Installing latest webroot to ${ROOT}/${WEBAPPS_DIR}"
+		cp -pR "${ROOT}"/usr/share/${TOMCAT_NAME}/webapps/* \
+		"${ROOT}""${WEBAPPS_DIR}"
 	# link the manager's context to the right position
 	dosym ${TOMCAT_HOME}/webapps/host-manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/host-manager.xml
 	dosym ${TOMCAT_HOME}/webapps/manager/META-INF/context.xml /etc/${TOMCAT_NAME}/Catalina/localhost/manager.xml
