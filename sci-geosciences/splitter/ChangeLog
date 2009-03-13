@@ -1,0 +1,7 @@
+# ChangeLog for sci-geosciences/mkgmap
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  13 Mar 2009; Fabian Fingerle <fabian@datensalat.eu> 
+  +splitter-9999.ebuild, +Manifest, +ChangeLog, +metadata.xml:
+  Initial add.
