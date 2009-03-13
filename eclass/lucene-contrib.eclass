@@ -80,7 +80,7 @@ for dep in ${LUCENE_MODULE_DEPS}; do
 done
 
 # -----------------------------------------------------------------------------
-# @variable-preinherit LUCENE_EXTRA_DEPS
+# @variable LUCENE_EXTRA_DEPS
 # @variable-default unset
 #
 # Contains a space delimited list of packages (which can be either just a
