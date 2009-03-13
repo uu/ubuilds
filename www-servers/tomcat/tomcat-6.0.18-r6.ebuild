@@ -141,7 +141,7 @@ src_install() {
 		cp -pR docs "${D}"/usr/share/${TOMCAT_NAME}/webapps || die
 		fi
 		if use examples; then
-		cd WEB-INF/lib
+		cd "${S}"/webapps/examples/WEB-INF/lib
 		java-pkg_jar-from jakarta-jstl jstl.jar
 		java-pkg_jar-from jakarta-jstl standard.jar
 		cd "${S}"/webapps
@@ -174,7 +174,7 @@ pkg_postinst() {
 	ewarn "Owner ship changed to tomcat:tomcat. Temp hack/fix."
 	#see #180519
 
-	if [[ -e "${ROOT}/var/lib/${TOMCAT_NAME}/webapps" ]] ; then
+	if [[ -e "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/ROOT" ]] ; then
 		elog "The latest webapp has NOT been installed into"
 		elog "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/ because directory already exists"
 		elog "and we do not want to overwrite any files you have put there."

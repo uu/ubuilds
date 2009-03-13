@@ -299,7 +299,7 @@ pkg_postinst() {
 
 	#see #180519
 
-	if [[ -e "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/" ]] ; then
+	if [[ -e "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/ROOT" ]] ; then
 		elog "The latest webapps has NOT been installed into"
 		elog "${ROOT}/var/lib/${TOMCAT_NAME}/webapps/ because the directory"
 		elog "already exits"
