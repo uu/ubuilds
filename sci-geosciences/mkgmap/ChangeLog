@@ -2,6 +2,10 @@
 # Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/sci-geosciences/mkgmap/ChangeLog,v 1.1 2008/07/28 01:01:28 hanno Exp $
 
+  13 Mar 2009; Fabian Fingerle <fabian@datensalat.eu>
+  -mkgmap-958.ebuild, +mkgmap-977.ebuild:
+  Bump.
+
   02 Mar 2009; Fabian Fingerle <fabian@datensalat.eu>
   -mkgmap-659.ebuild, +metadata.xml, +mkgmap-958.ebuild:
   Bump.
