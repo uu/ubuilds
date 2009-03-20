@@ -9,7 +9,7 @@ inherit java-pkg-2 java-ant-2
 DESCRIPTION="istack-commons"
 HOMEPAGE="https://istack-commons.dev.java.net/"
 #SRC_URI="mirror://gentoo/istack-commons-${PV}.tar.bz2"
-SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/istack-commons-20090711.tar.bz2"
+SRC_URI="http://dev.gentoo.org/~fordfrog/distfiles/istack-commons-20070711.tar.bz2"
 
 LICENSE="CDDL"
 SLOT="0"
