@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <herd>java</herd>
+  <longdescription lang="en">
+    VLDocking is a set of Java components that helps the Swing developer to
+    build applications with docking capabilities, and even leverage existing
+    applications to higher standards. (quote: www.vlsolutions.com)
+  </longdescription>
+</pkgmetadata>
