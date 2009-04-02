@@ -6,6 +6,12 @@
 # NOTE: Please add your entry at the top!
 #
 
+# Vlastimil Babka <caster@gentoo.org> (02 Apr 2009)
+# Relies on the regjar --virtual stuff that was in Serkan's eclass
+# changes in java-experimental that we removed and he said he would
+# rework it.
+=dev-java/jaxme-0.5.2
+
 # Krzysztof Pawlik <nelchael@gentoo.org> (01 Feb 2009)
 # Fixing KEYWORDS.stupid
 =dev-java/xstream-1.2.1
