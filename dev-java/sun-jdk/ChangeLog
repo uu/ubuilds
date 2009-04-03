@@ -5,6 +5,9 @@
   03 Apr 2009; Vlastimil Babka <caster@gentoo.org> ++:
   Version bump.
 
+  03 Apr 2009; Vlastimil Babka <caster@gentoo.org> ++:
+  Version bump.
+
   27 Mar 2009; Fabian Fingerle <fabian@datensalat.eu>
   -sun-jdk-1.7.0.0_alpha50.ebuild, +sun-jdk-1.7.0.0_alpha52.ebuild:
   Version Bump.
