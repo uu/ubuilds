@@ -19,22 +19,28 @@ IUSE=""
 RDEPEND=">=virtual/jre-1.4"
 DEPEND=">=virtual/jdk-1.4"
 
-S="${WORKDIR}/maven-2.0.9-src/${PN}"
+S="${WORKDIR}/maven-${PV}-src/${PN}"
 
-src_prepare() {
-	find "${WORKDIR}" -name \*.jar -delete || die
+java_prepare() {
+	einfo "Removing shipped jar archieves:"
+	find "${WORKDIR}" -name \*.jar -delete -print || die
+	
+	echo "-d ." >> ejavacopts
+	find src/main/java/ -type f -name \*.java >> sourcefiles
+	echo "-quiet" >> javadocopts
+	echo "-d docs" >> javadocopts
+	echo "-sourcepath src/main/java" >> javadocopts
+	echo "-subpackages org.apache.maven.plugin" >> javadocopts
 }
 
 src_compile() {
-	ejavac -d . \
-		`find src/main/java -type f -name \*.java -print0 | xargs --null`
+	ejavac @ejavacopts @sourcefiles
 	jar cf ${PN}.jar org || die
-	use doc && javadoc -quiet -d docs -sourcepath src/main/java \
-		-subpackages org.apache.maven.plugin
+	use doc && ( javadoc @javadocopts || die )
 }
 
 src_install() {
 	java-pkg_dojar "${PN}.jar"
 	use doc && java-pkg_dojavadoc docs
-	use source && java-pkg_dosrc src/main/java/*
+	use source && java-pkg_dosrc src/main/java/org
 }
