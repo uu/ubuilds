@@ -1,0 +1,7 @@
+# ChangeLog for dev-java/serp
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+  07 Apr 2009; Ralph Sennhauser <gentoo.sera@bluewin.ch> +serp-1.14.2.ebuild,
+  +files/build.xml:
+  Adding new package serp.
