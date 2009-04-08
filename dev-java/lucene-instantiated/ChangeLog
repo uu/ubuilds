@@ -2,9 +2,15 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+*lucene-instantiated-2.4.1 (08 Apr 2009)
+
+  08 Apr 2009; Jacob Floyd (techgurufloyd) <jacob@techgurufloyd@gmail.com>
+  +lucene-instantiated-2.4.1.ebuild:
+  Version Bump Lucene-2.4.1
+
   03 Mar 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
   -lucene-instantiated-2.4.0.ebuild, +lucene-instantiated-2.4.0-r1.ebuild:
-  -m lucene-contrib.eclass [QA] EAPI should be in ebuilds not eclasses
+  lucene-contrib.eclass [QA] EAPI should be in ebuilds not eclasses
 
   25 Feb 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
   +lucene-instantiated-2.4.0.ebuild:

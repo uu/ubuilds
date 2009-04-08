@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  08 Apr 2009; Jacob Floyd (techgurufloyd) <jacob@techgurufloyd@gmail.com>
+  +lucli-2.4.1.ebuild:
+  Version Bump Lucene-2.4.1
+
   13 Mar 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
   +lucli-2.4.0.ebuild:
   Adding version 2.4.0
