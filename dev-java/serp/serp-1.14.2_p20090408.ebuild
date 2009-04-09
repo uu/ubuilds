@@ -9,7 +9,8 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Java bytecode manipulation and developer utilities."
 HOMEPAGE="http://serp.sourceforge.net/"
-SRC_URI="${P}.tar.bz2" # CVS only
+# scm serp.cvs.sourceforge.net:/cvsroot/serp
+SRC_URI="http://dev.gentoo.org/~serkan/distfiles/${P}.tar.bz2"
 
 LICENSE="BSD"
 SLOT="0"
@@ -18,23 +19,13 @@ IUSE=""
 
 RDEPEND=">=virtual/jre-1.4"
 DEPEND=">=virtual/jdk-1.4
-	app-arch/unzip
-	test? (	dev-java/junit:0 dev-java/ant-junit:0 )"
-
-src_tarball() {
-	cvs -z3 -d :pserver:anonymous@serp.cvs.sourceforge.net:/cvsroot/serp \
-	co serp	|| die
-	mv serp "${P}" || die
-	rm -Rv `find "${P}/" -name CVS` || die
-	tar cvjf "${P}.tar.bz2" "${P}" || die
-	rm -Rv "${P}" || die
-	echo "New tarball located at ${P}.tar.bz2"
-}
+	app-arch/unzip:0
+	test? ( dev-java/junit:0 dev-java/ant-junit:0 )"
 
 src_prepare() {
 	cp "${FILESDIR}/build.xml" . || die
 
-	use test && ( \
+	use test && (
 		mkdir lib && cd lib/ || die
 		java-pkg_jar-from --build-only junit
 	)
