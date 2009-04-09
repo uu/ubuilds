@@ -3,7 +3,11 @@
 # $Header: $
 
   09 Apr 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
+  pylucene-jcc-2.2.ebuild:
+  add keyword: ~amd64
+
+  09 Apr 2009; Jacob Floyd (techgurufloyd) <techgurufloyd@gmail.com>
   +pylucene-jcc-2.2.ebuild, +metadata.xml:
   Initial version of PyLucene's JCC. Created as a dependency of Pylucene,
-  which is needed by the Chandler Project.
+  which is needed by the Chandler Project. Bug#258896
 

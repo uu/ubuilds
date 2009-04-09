@@ -20,7 +20,7 @@ SRC_URI="http://apache.promopeddler.com/lucene/${PYLUCENE_PN}/${PYLUCENE_P}-src.
 
 LICENSE="Apache-2.0"
 SLOT="2.2"
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 IUSE="debug"
 # Note: yes JCC uses setuptools at runtime - that's a vital part of what JCC
 # does. Generate, Build, and Install Python Modules. And yes, it needs jdk at
