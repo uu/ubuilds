@@ -112,9 +112,9 @@ lucene-contrib_symlinklucenejar_() {
 # ------------------------------------------------------------------------------
 # @internal-function lucene-contrib_classpath_
 #
-# Generates the LUCENE_MODULE specific LUCENE_CP based on LUCENE_MODULE_DEPS and
+# Generates the LUCENE_MODULE specific classpath based on LUCENE_MODULE_DEPS and
 # LUCENE_EXTRA_DEPS (see variable definition above). This function doesn't take
-# any args.
+# any args. returns classpath
 # ------------------------------------------------------------------------------
 lucene-contrib_classpath_() {
 	for dep in ${LUCENE_MODULE_DEPS}; do
@@ -127,7 +127,7 @@ lucene-contrib_classpath_() {
 		gcp="${gcp}:${pdep}"
 	done
 
-	LUCENE_CP="${gcp}"
+	echo "${gcp}"
 }
 
 
@@ -173,10 +173,10 @@ lucene-contrib_src_compile() {
 	local lucene_jar=$(lucene-contrib_getlucenejar_)
 	cd contrib/"${LUCENE_MODULE}" || die
 
-	lucene-contrib_classpath_
+	local lucene_cp="$(lucene-contrib_classpath_)"
 
 	eant -Dversion="${PV}" \
-		-Dproject.classpath="${LUCENE_CP}:${lucene_jar}" \
+		-Dproject.classpath="${lucene_cp}:${lucene_jar}" \
 		-Dlucene.jar="${lucene_jar}" \
 		jar-core
 	cd "${S}" || die
@@ -194,11 +194,11 @@ lucene-contrib_src_test() {
 	local gcp="${lucene_jar}"
 	gcp="${gcp}:$(java-pkg_getjars junit)"
 
-	lucene-contrib_classpath_
-	LUCENE_CP="${gcp}:${LUCENE_CP}"
+	local lucene_cp="$(lucene-contrib_classpath_)"
+	lucene_cp="${gcp}:${lucene_cp}"
 
 	ANT_TASKS="ant-junit" eant -Dversion="${PV}" \
-		-Dproject.classpath="${LUCENE_CP}" \
+		-Dproject.classpath="${lucene_cp}" \
 		-Dlucene.jar="${lucene_jar}" test
 }
 
