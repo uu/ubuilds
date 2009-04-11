@@ -1,0 +1,12 @@
+--- build-src/core.xml	2009-04-11 14:59:34.000000000 +1200
++++ build-src/core.xml	2009-04-11 14:59:54.000000000 +1200
+@@ -242,7 +242,8 @@
+ 
+     <javac debug="${javac.debug}"
+            debuglevel="${javac.debuglevel}"
+-           sourcepath=""
++	   sourcepath=""
++	   classpath="tools.jar"
+            srcdir="${build.src}"
+            destdir="${build.classes.core}">
+       <include name="com/google/gdata/client/*.java"/>
