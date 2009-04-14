@@ -19,7 +19,7 @@ HOMEPAGE="http://lucene.apache.org/pylucene/jcc/index.html"
 SRC_URI="http://apache.promopeddler.com/lucene/${PYLUCENE_PN}/${PYLUCENE_P}-src.tar.gz"
 
 LICENSE="Apache-2.0"
-SLOT="2.2"
+SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE="debug"
 # Note: yes JCC uses setuptools at runtime - that's a vital part of what JCC

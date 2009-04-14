@@ -9,33 +9,35 @@ WANT_ANT_TASKS="ant-python"
 
 inherit versionator python distutils java-pkg-2 java-ant-2
 
+MY_PN="PyLucene"
 MY_PV="$(replace_version_separator 3 '-')"
-MY_P=${PN}-${MY_PV}
+MY_P=${MY_PN}-${MY_PV}
 LUCENE_PV="$(get_version_component_range 1-3)"
+LUCENE_SLOT="$(get_version_component_range 1-2)"
 
-DESCRIPTION="Python bindings od Lucene search engine"
+DESCRIPTION="Python bindings for the Lucene search engine"
 HOMEPAGE="http://lucene.apache.org/pylucene/"
-SRC_URI="http://apache.promopeddler.com/lucene/${PN}/${MY_P}-src-.tar.gz"
+SRC_URI="http://downloads.osafoundation.org/${MY_PN}/jcc/${MY_P}-src-jcc.tar.gz"
 
 LICENSE="Apache-2.0"
-SLOT="2.4"
+# python packages in site-packages don't SLOT very well
+SLOT="0"
 KEYWORDS="~x86"
 IUSE="debug test"
 
 # If problems arise between bugfix releases of lucene, use the following instead
 # of SLOT.
 #COMMON_DEPEND="~dev-java/lucene-${LUCENE_PV}
-COMMON_DEPEND="dev-java/lucene:${SLOT}
-	dev-java/lucene-analyzers:${SLOT}
-	dev-java/lucene-snowball:${SLOT}
-	dev-java/lucene-highlighter:${SLOT}
-	dev-java/lucene-regex:${SLOT}
-	dev-java/lucene-queries:${SLOT}
-	dev-java/lucene-instantiated:${SLOT}"
+COMMON_DEPEND="dev-java/lucene:${LUCENE_SLOT}
+	dev-java/lucene-analyzers:${LUCENE_SLOT}
+	dev-java/lucene-snowball:${LUCENE_SLOT}
+	dev-java/lucene-highlighter:${LUCENE_SLOT}
+	dev-java/lucene-regex:${LUCENE_SLOT}
+	dev-java/lucene-queries:${LUCENE_SLOT}"
 # A word to the wise: on version bumps, don't forget to update pylucene-jcc
 # version number
 DEPEND=">=virtual/jdk-1.4
-	dev-python/pylucene-jcc:2.2
+	~dev-python/pylucene-jcc-1.9
 	dev-python/setuptools
 	${COMMON_DEPEND}
 	test? ( app-text/poppler )"
@@ -46,7 +48,7 @@ S="${WORKDIR}/${MY_P}"
 
 PYTHON_MODNAME="lucene"
 
-EANT_GENTOO_CLASSPATH="lucene-${SLOT},lucene-analyzers-${SLOT},lucene-snowball-${SLOT},lucene-highlighter-${SLOT},lucene-regex-${SLOT},lucene-queries-${SLOT},lucene-instantiated-${SLOT}"
+EANT_GENTOO_CLASSPATH="lucene-${LUCENE_SLOT},lucene-analyzers-${LUCENE_SLOT},lucene-snowball-${LUCENE_SLOT},lucene-highlighter-${LUCENE_SLOT},lucene-regex-${LUCENE_SLOT},lucene-queries-${LUCENE_SLOT}"
 
 EANT_EXTRA_ARGS="-Dpython=${python} -Dversion=${MY_PV} -Dlucene.pv=${LUCENE_PV} -Dpython.modname=${PYTHON_MODNAME} -Dpython.sitedir=$(python_get_sitedir) -Dgentoo.numfiles=2"
 
@@ -82,8 +84,8 @@ src_compile() {
 	# several if loops.
 	cp="${cp}:${S}/build/dist/extensions.jar"
 	local python_modpath="${S}/build/${PYTHON_MODNAME}"
-	local init_cp="\'${cp//:/\', \'}\'"
-	sed -i -e "s~CLASSPATH = \[.*\]$~CLASSPATH = \[${init_cp}\]~" \
+	#local init_cp="\'${cp//:/\', \'}\'"
+	sed -i -e "s~CLASSPATH=\".*$~CLASSPATH=\"${cp}\"~" \
 		"${python_modpath}"/__init__.py \
 		|| die "Updating __init__.py's compile CLASSPATH didn't work!"
 
@@ -130,7 +132,7 @@ src_install() {
 	java-pkg_dojar "${S}/build/dist/extensions.jar"
 	# Fix the classpath with the new path to extensions.jar
 	sed -i -e \
-		"s~${S}/build/dist/extensions.jar~/usr/share/${PN}-${SLOT}/lib/extensions.jar~" \
+		"s~${S}/build/dist/extensions.jar~/usr/share/${PN}-${LUCENE_SLOT}/lib/extensions.jar~" \
 		"${S}/build/${PYTHON_MODNAME}/__init__.py" \
 		|| die "Updating __init__.py's install CLASSPATH didn't work!"
 
@@ -140,7 +142,7 @@ src_install() {
 	EANT_EXTRA_ARGS="${EANT_EXTRA_ARGS} -Dgentoo.root=${D}"
 	eant install ${EANT_EXTRA_ARGS}
 	
-	dodoc CHANGES CREDITS NOTICE || die "Docs weren't installed right"
+	dodoc CHANGES CREDITS README INSTALL || die "Docs weren't installed right"
 	if use doc; then
 		dohtml -r doc/*
 		java-pkg_dojavadoc docs
