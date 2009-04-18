@@ -7,7 +7,7 @@ inherit eutils java-pkg-2 java-ant-2
 
 DESCRIPTION="HTML Parser is a Java library used to parse HTML in either a linear or nested fashion"
 HOMEPAGE="http://htmlparser.sourceforge.net/"
-SRC_URI="mirror://sourceforge/htmlparser/htmlparser1_6_20090610.zip"
+SRC_URI="mirror://sourceforge/htmlparser/htmlparser1_6_20060610.zip"
 
 LICENSE="LGPL-2.1"
 SLOT="0"

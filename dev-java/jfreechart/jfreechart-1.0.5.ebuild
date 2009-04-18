@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/jfreechart/jfreechart-1.0.4.ebuild,v 1.1 2009/02/09 23:51:12 fordfrog Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/jfreechart/jfreechart-1.0.4.ebuild,v 1.1 2007/02/09 23:51:12 fordfrog Exp $
 
 JAVA_PKG_IUSE="doc source"
 

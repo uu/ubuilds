@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-emulation/emul-linux-x86-java/emul-linux-x86-java-1.5.0.15.ebuild,v 1.8 2009/09/16 20:09:04 serkan Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-emulation/emul-linux-x86-java/emul-linux-x86-java-1.5.0.15.ebuild,v 1.8 2008/09/16 20:09:04 serkan Exp $
 
 inherit versionator pax-utils eutils java-vm-2
 

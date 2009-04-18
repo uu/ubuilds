@@ -196,7 +196,7 @@ src_install() {
 
 #	java-pkg_jarinto "${JETTY_HOME}/lib/cometd/"
 	# Probably not needed, but being built
-#	java-pkg_newjar "contrib/cometd/api/target/cometd-api-0.9.20091211.jar" cometd-api-0.9.20071211.jar
+#	java-pkg_newjar "contrib/cometd/api/target/cometd-api-0.9.20071211.jar" cometd-api-0.9.20071211.jar
 
 	# Appears to be for a demo.. maybe in the future..
 	#java-pkg_newjar "contrib/cometd/demo/target/cometd-demo-${PV}/WEB-INF/lib/cometd-bayeux-${PV}.jar" cometd-bayeux.jar

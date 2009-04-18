@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/istack-commons-runtime/istack-commons-runtime-20090122.ebuild,v 1.5 2007/08/19 17:57:24 wltjr Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/istack-commons-runtime/istack-commons-runtime-20070122.ebuild,v 1.5 2007/08/19 17:57:24 wltjr Exp $
 
 JAVA_PKG_IUSE="source"
 

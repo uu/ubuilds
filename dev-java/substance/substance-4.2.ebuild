@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/laf-plugin/laf-plugin-0.2.ebuild,v 1.1 2009/04/28 22:08:06 caster Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/laf-plugin/laf-plugin-0.2.ebuild,v 1.1 2007/04/28 22:08:06 caster Exp $
 
 JAVA_PKG_IUSE="doc source"
 inherit java-pkg-2 java-ant-2

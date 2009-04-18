@@ -29,7 +29,7 @@ EAPI=1
 
 inherit java-pkg-2 java-ant-2 check-reqs
 
-DMF="R-${PV}-200910231652"
+DMF="R-${PV}-200710231652"
 MY_A="eclipse-sourceBuild-srcIncluded-${PV/.0}.zip"
 
 DESCRIPTION="Eclipse Tools Platform"
@@ -246,7 +246,7 @@ patch-apply() {
 	popd >/dev/null
 
 	# Generic releng plugins that can be used to build plugins
-	# https://www.redhat.com/archives/fedora-devel-java-list/2009-April/msg00048.html
+	# https://www.redhat.com/archives/fedora-devel-java-list/2006-April/msg00048.html
 	pushd plugins/org.eclipse.pde.build > /dev/null
 	# Patch 53
 	epatch "${FEDORA}/eclipse-pde.build-add-package-build.patch"
@@ -279,7 +279,7 @@ patch-apply() {
 
 	sed -i -e 's/<src path="\."/<src path="org"/' -e '/<include name="org\/"\/>/ d' \
 	-e '/<subant antfile="\${customBuildCallbacks}" target="pre\.gather\.bin\.parts" failonerror="false" buildpath="\.">/ { n;n;n; a\
-		<copy todir="${destination.temp.folder}/org.eclipse.osgi.services_3.1.2009v20070605" failonerror="true" overwrite="false"> \
+		<copy todir="${destination.temp.folder}/org.eclipse.osgi.services_3.1.200.v20070605" failonerror="true" overwrite="false"> \
 			<fileset dir="${build.result.folder}/@dot"> \
 				<include name="**"/> \
 			</fileset> \
@@ -288,7 +288,7 @@ patch-apply() {
 
 	sed -i -e 's/<src path="\."/<src path="org"/' -e '/<include name="org\/"\/>/ d' \
 	-e '/<subant antfile="\${customBuildCallbacks}" target="pre\.gather\.bin\.parts" failonerror="false" buildpath="\.">/ { n;n;n; a\
-		<copy todir="${destination.temp.folder}/org.eclipse.osgi.util_3.1.2009v20070605" failonerror="true" overwrite="false"> \
+		<copy todir="${destination.temp.folder}/org.eclipse.osgi.util_3.1.200.v20070605" failonerror="true" overwrite="false"> \
 			<fileset dir="${build.result.folder}/@dot"> \
 				<include name="**"/> \
 			</fileset> \

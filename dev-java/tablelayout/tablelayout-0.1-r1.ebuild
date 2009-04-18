@@ -8,7 +8,7 @@ inherit java-pkg-2
 
 DESCRIPTION="TableLayout is a totally free layout manager designed to make creating user interfaces fast and easy."
 HOMEPAGE="https://tablelayout.dev.java.net/"
-SRC_URI="https://tablelayout.dev.java.net/files/documents/3495/15739/TableLayout-src-2009-04-21.jar"
+SRC_URI="https://tablelayout.dev.java.net/files/documents/3495/15739/TableLayout-src-2007-04-21.jar"
 LICENSE="GPL-2"
 KEYWORDS="~x86"
 SLOT="0"

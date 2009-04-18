@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-java/wsdl4j/wsdl4j-1.5.1-r1.ebuild,v 1.1 2009/09/17 20:13:13 nichoj Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-java/wsdl4j/wsdl4j-1.5.1-r1.ebuild,v 1.1 2006/09/17 20:13:13 nichoj Exp $
 
 inherit java-pkg-2 java-ant-2
 

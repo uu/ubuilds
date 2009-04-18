@@ -1,6 +1,6 @@
 # Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sci-electronics/electric/electric-8.04.ebuild,v 1.3 2009/02/18 14:04:35 nixnut Exp $
+# $Header: /var/cvsroot/gentoo-x86/sci-electronics/electric/electric-8.04.ebuild,v 1.3 2007/02/18 14:04:35 nixnut Exp $
 
 EAPI=1
 JAVA_PKG_IUSE="doc gnu jmf no3d source"
@@ -21,7 +21,7 @@ COMMON_DEPEND="dev-java/ant-core
 	dev-java/apple-java-extensions-bin
 	=dev-java/bsh-2*
 	dev-java/lucene:1
-	=dev-java/prefuse-2009*"
+	=dev-java/prefuse-2006*"
 
 DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEPEND}"
@@ -44,7 +44,7 @@ PATCHES="${FILESDIR}/8.04-build_xml.patch"
 #	java-pkg_jar-from bsh bsh.jar bsh-2.0b2.jar
 #	java-pkg_jar-from junit-4 junit.jar junit-4.0.jar
 #	java-pkg_jar-from lucene-1 lucene.jar lucene-1.4.3.jar
-#	java-pkg_jar-from prefuse-2009
+#	java-pkg_jar-from prefuse-2006
 #}
 
 #EANT_EXTRA_ARGS="-Dnotests=true"
