@@ -8,7 +8,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Reference implementation of the JAXB specification."
 HOMEPAGE="http://jaxb.dev.java.net/"
-DATE="20090917"
+DATE="20070917"
 MY_P="JAXB2_src_${DATE}"
 SRC_URI="https://jaxb.dev.java.net/${PV}/${MY_P}.jar"
 
@@ -18,7 +18,7 @@ KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
 IUSE=""
 
 COMMON_DEP="dev-java/iso-relax
-	>=dev-java/istack-commons-runtime-20090711
+	>=dev-java/istack-commons-runtime-20070711
 	java-virtuals/stax-api
 	java-virtuals/jaf
 	dev-java/txw2-runtime"
