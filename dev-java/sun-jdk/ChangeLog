@@ -3,6 +3,10 @@
 # $Header: $
 
   24 Apr 2009; Vlastimil Babka <caster@gentoo.org>
+  sun-jdk-1.6.0.14_beta5.ebuild, sun-jdk-1.7.0.0_alpha56.ebuild:
+  Replace wget -O with -P in fetch hint.
+
+  24 Apr 2009; Vlastimil Babka <caster@gentoo.org>
   -sun-jdk-1.6.0.14_beta3.ebuild, +sun-jdk-1.6.0.14_beta5.ebuild,
   -sun-jdk-1.7.0.0_alpha54.ebuild, +sun-jdk-1.7.0.0_alpha56.ebuild:
   Version bump.
