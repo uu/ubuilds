@@ -50,7 +50,7 @@ pkg_nofetch() {
 	einfo "Please download:"
 	einfo "${A} from ${BASE_URL}${A}"
 	einfo "Then place it in ${DISTDIR}"
-	einfo "tip: wget ${BASE_URL}${A} -P ${DISTDIR}/"
+	einfo "tip: wget ${BASE_URL}${A} -O ${DISTDIR}/${A}"
 
 	ewarn "By downloading and installing, you are agreeing to the terms"
 	ewarn "of Sun's prerelease license."

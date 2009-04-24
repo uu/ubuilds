@@ -2,6 +2,12 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  24 Apr 2009; Serkan Kaba <serkan@gentoo.org>
+  -sun-jdk-1.6.0.14_beta4.ebuild, sun-jdk-1.6.0.14_beta5.ebuild,
+  -sun-jdk-1.7.0.0_alpha55.ebuild, sun-jdk-1.7.0.0_alpha56.ebuild:
+  Revert back wget tips because URL redirection breaks downloaded filenames.
+  Remove old.
+
   24 Apr 2009; Vlastimil Babka <caster@gentoo.org>
   sun-jdk-1.6.0.14_beta5.ebuild, sun-jdk-1.7.0.0_alpha56.ebuild:
   Replace wget -O with -P in fetch hint.
