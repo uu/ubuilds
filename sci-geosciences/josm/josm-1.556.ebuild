@@ -2,23 +2,29 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils java-pkg-2
+inherit eutils java-pkg-2 java-ant-2
 
-MY_P=${PN}-snapshot-${PV/./}
+MY_P=${PN}-${PV/./}
 DESCRIPTION="Java-based editor for the OpenStreetMap project"
 HOMEPAGE="http://josm.openstreetmap.de/"
-SRC_URI="http://josm.openstreetmap.de/download/${MY_P}.jar"
+SRC_URI="http://josm.fabian-fingerle.de/${MY_P}.tar.lzma"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-DEPEND=""
+DEPEND=">=virtual/jdk-1.6"
 RDEPEND=">=virtual/jre-1.6"
 S="${WORKDIR}"
 
 IUSE=""
 
+src_compile() {
+	cd ${PN}
+	JAVA_ANT_ENCODING=UTF-8
+	eant dist
+}
+
 src_install() {
-	java-pkg_newjar "${DISTDIR}/${MY_P}.jar"
+	java-pkg_newjar "${PN}/dist/${PN}-custom.jar" || die "java-pkg_newjar failed"
 
 	# Using the eclass doesn't let us support the http_proxy var,
 	# so we're using our own startscript for now.
