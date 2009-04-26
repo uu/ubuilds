@@ -2,6 +2,10 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  26 Apr 2009; Serkan Kaba <serkan@gentoo.org>
+  sun-jdk-1.6.0.14_beta5.ebuild, sun-jdk-1.7.0.0_alpha56.ebuild:
+  Added die calls to prevent partial installation.
+
   24 Apr 2009; Serkan Kaba <serkan@gentoo.org>
   -sun-jdk-1.6.0.14_beta4.ebuild, sun-jdk-1.6.0.14_beta5.ebuild,
   -sun-jdk-1.7.0.0_alpha55.ebuild, sun-jdk-1.7.0.0_alpha56.ebuild:

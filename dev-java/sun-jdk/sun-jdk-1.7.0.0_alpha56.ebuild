@@ -80,11 +80,11 @@ src_unpack() {
 			PACK_FILE=${S}/$(dirname $i)/$(basename $i .jar).pack
 			if [ -f ${PACK_FILE} ]; then
 				echo "	unpacking: $i"
-				$UNPACK_CMD ${PACK_FILE} "${S}"/$i
-				rm -f ${PACK_FILE}
+				$UNPACK_CMD ${PACK_FILE} "${S}"/$i || die "unpack failed"
+				rm -f ${PACK_FILE} || die "rm ${PACK_FILE} failed"
 			fi
 		done
-		rm -f ${UNPACK_CMD}
+		rm -f ${UNPACK_CMD} || die "rm ${UNPACK_CMD} failed"
 	else
 		die "unpack not found"
 	fi
