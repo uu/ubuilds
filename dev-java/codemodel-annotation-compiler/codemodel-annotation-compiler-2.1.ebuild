@@ -14,13 +14,12 @@ HOMEPAGE="https://codemodel.dev.java.net/"
 
 LICENSE="CDDL"
 SLOT="2"
-KEYWORDS="~amd64 ~x86 ~ia64 ~ppc ~x86-fbsd"
+KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
 IUSE=""
 
-COMMON_DEP=""
+COMMON_DEP="dev-java/codemodel:2
+	dev-java/ant-core"
 DEPEND=">=virtual/jdk-1.5
-	dev-java/codemodel:2
-	dev-java/ant-core
 	${COMMON_DEP}"
 RDEPEND=">=virtual/jre-1.5
 	${COMMON_DEP}"
