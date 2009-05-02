@@ -143,7 +143,7 @@ src_compile() {
 	jaxb_compile_subpkg jaxb-api-2.2 tools/lib/redist2.2/jaxb-api.jar jaf,stax-api
 	jaxb_compile_subpkg jaxb-api tools/lib/redist/jaxb-api.jar jaf,stax-api
 	jaxb_compile_subpkg resolver tools/lib/rebundle/compiler/resolver.jar
-	jaxb_compile_subpkg xsom tools/lib/rebundle/compiler/xsom.jar relaxng-datatype
+	jaxb_compile_subpkg xsom tools/lib/rebundle/compiler/xsom.jar "--build-only relaxng-datatype"
 
 	einfo "Compiling jaxb dist"
 	[[ ${JAXB_DELETE} ]] && rm -v ${JAXB_DELETE}
