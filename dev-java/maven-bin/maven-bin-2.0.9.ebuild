@@ -11,8 +11,8 @@ DESCRIPTION="Project Management and Comprehension Tool for Java"
 SRC_URI="mirror://apache/maven/binaries/${MY_P}-bin.tar.bz2"
 HOMEPAGE="http://maven.apache.org/"
 LICENSE="Apache-2.0"
-SLOT="2.1"
-KEYWORDS="~amd64 ~x86"
+SLOT="2.0"
+KEYWORDS="~amd64 ~ppc ~x86"
 
 RDEPEND=">=virtual/jdk-1.4
 	app-admin/eselect-maven"
