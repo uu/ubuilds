@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/flexdock
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  10 May 2009; Justin Lecher (jlec) <jlec@j-schmitz.net>
+  flexdock-0.5.1.ebuild:
+  added missing dep dev-java/skinlf
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman

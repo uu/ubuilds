@@ -13,7 +13,8 @@ KEYWORDS="~x86 ~amd64"
 IUSE="doc"
 
 RDEPEND=">=virtual/jre-1.4
-	 dev-java/commons-logging"
+	dev-java/commons-logging
+	dev-java/skinlf"
 
 DEPEND="${RDEPEND}
 	>=virtual/jdk-1.4
