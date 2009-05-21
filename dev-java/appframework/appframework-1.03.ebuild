@@ -10,7 +10,7 @@ inherit java-pkg-2 java-ant-2
 MY_PN="AppFramework"
 MY_P="${MY_PN}-${PV}"
 
-DESCRIPTION="Swing Application Framework prototype implementation is a small set of Java classes that simplify building desktop applications."
+DESCRIPTION="A small set of Java classes that simplify building desktop applications."
 HOMEPAGE="https://appframework.dev.java.net/"
 SRC_URI="https://appframework.dev.java.net/downloads/${MY_P}-src.zip"
 
@@ -49,8 +49,8 @@ src_unpack() {
 }
 
 src_install() {
-	java-pkg_newjar ${S}/dist/AppFramework.jar "${PN}.jar"
-	use doc && java-pkg_dojavadoc build/javadoc
+	java-pkg_newjar "${S}/dist/AppFramework.jar" "${PN}.jar"
+	use doc && java-pkg_dojavadoc dist/javadoc
 	use source && java-pkg_dosrc src/org
 	use examples && java-pkg_doexamples src/examples/*
 }
