@@ -17,10 +17,6 @@
 =dev-java/xstream-1.2.1
 
 # Krzysztof Pawlik <nelchael@gentoo.org> (01 Feb 2009)
-# Fixing KEYWORDS.stupid
->=dev-java/antlr-3.0
-
-# Krzysztof Pawlik <nelchael@gentoo.org> (01 Feb 2009)
 # Crap, no distfile, ebuild has errors.
 dev-java/joram-tests
 
