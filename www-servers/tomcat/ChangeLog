@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/www-servers/tomcat/ChangeLog,v 1.204 2008/12/20 18:12:22 serkan Exp $
 
+  19 Jun 2009; Mike Weissman <mike@weisso.com> ChangeLog:
+  removed old ebuilds
+
   12 Jun 2009; Mike Weissman <mike@weisso.com> ChangeLog:
   added tomcat-6.0.20, bug#273931
 
