@@ -104,9 +104,10 @@ java_prepare() {
 
 src_install() {
 	dodir /usr/share/${AXIS_NAME}
-	java-pkg_dojar build/lib/axis*.jar
+	mv build/lib/axis-ant.jar build/lib/ant-axis.jar || die
+	java-pkg_dojar build/lib/axis.jar
+	java-pkg_dojar build/lib/ant-axis.jar
 	java-pkg_register-ant-task
-
 	dodir /usr/share/${AXIS_NAME}/webapps
 
 	cp -pR "${S}"/webapps/axis "${D}"/usr/share/${AXIS_NAME}/webapps || die "webapps
