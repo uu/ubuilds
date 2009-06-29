@@ -1,4 +1,4 @@
-# Copyright 1999-2008 Gentoo Foundation
+# Copyright 1999-2009 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -80,10 +80,8 @@ java_prepare() {
 
 	#Remove test till they are working
 	rm -rf "${S}"/test || die
-	
 	#cd "${S}"/test
 	#mv build_ant.xml build.xml
-
 	cd "${S}"/webapps/axis/WEB-INF/lib
 	rm -v *.jar || die
 
@@ -106,7 +104,6 @@ java_prepare() {
 
 src_install() {
 	dodir /usr/share/${AXIS_NAME}
-	
 	java-pkg_dojar build/lib/axis*.jar
 	java-pkg_register-ant-task
 
@@ -124,12 +121,11 @@ src_install() {
 		dodoc xmls/*
 	fi
 	use source && java-pkg_dosrc src
-	use examples && java-pkg_doexamples samples	
+	use examples && java-pkg_doexamples samples
 }
-
 pkg_postinst(){
 	einfo "This is the final Release of Apache Axis-1"
-	einfo 
+	einfo
 	einfo "See: ${HOMEPAGE} for more info"
 	einfo
 }
