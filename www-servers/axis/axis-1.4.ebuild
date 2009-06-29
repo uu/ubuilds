@@ -1,46 +1,69 @@
-# Copyright 1999-2007 Gentoo Foundation
+# Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-servers/axis/axis-1.2_rc2.ebuild,v 1.8 2006/09/30 12:17:23 caster Exp $
+# $Header: $
 
-WANT_ANT_TASKS="ant-nodeps"
+EAPI=2
+WANT_ANT_TASKS="ant-nodeps ant-trax"
+JAVA_PKG_IUSE="doc source examples"
+
 inherit eutils java-pkg-2 java-ant-2
 
 MY_PV="${PV//./_}"
 MY_P="${PN}-${MY_PV}"
 SRCFILE="${PN}-src-${MY_PV}.tar.gz"
-DESCRIPTION="Apache's implementation of the SOAP (Simple Object Access Protocol)"
-HOMEPAGE="http://ws.apache.org/axis/"
+DESCRIPTION="Apache's Axis1 implementation of the SOAP (Simple Object Access Protocol)"
+HOMEPAGE="http://ws.apache.org/axis/index.html"
 SRC_URI="mirror://apache/ws/${PN}/${MY_PV}/${SRCFILE}"
 
 LICENSE="Apache-2.0"
 SLOT="1"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug doc"
+IUSE="debug"
 
 RDEPEND="
-	>=dev-java/commons-discovery-0.2
-	>=dev-java/wsdl4j-1.5.1
-	dev-java/sun-jaf
-	>=dev-java/commons-logging-1.0.4
-	dev-java/sun-javamail
-	>=dev-java/bsf-2.3
-	=dev-java/castor-1.1*
-	=dev-java/commons-httpclient-3*
-	dev-java/commons-net
-	dev-java/sun-jimi
-	=dev-java/servletapi-2.4*
-"
-DEPEND="=virtual/jdk-1.4*
+	dev-java/commons-discovery:0
+	dev-java/wsdl4j:0
+	dev-java/sun-jaf:0
+	dev-java/commons-logging:0
+	java-virtuals/javamail:0
+	dev-java/bsf:2.3
+	dev-java/castor:1.0
+	dev-java/commons-httpclient:3
+	dev-java/commons-net:0
+	dev-java/sun-jimi:0
+	dev-java/servletapi:2.4
+	dev-java/saaj:0
+	dev-java/jax-rpc:0
+	dev-java/log4j:0
+	dev-java/xml-commons:0
+	dev-java/xml-xmlbeans:1"
+
+DEPEND=">=virtual/jdk-1.4
 	${RDEPEND}"
 RDEPEND=">=virtual/jre-1.4
 	${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
-src_unpack() {
-	unpack ${A}
+AXIS_NAME="${PN}-${SLOT}"
 
-	cd "${S}"
+#NO - FIXME
+JAVA_PKG_FORCE_VM="sun-jdk-1.4"
+
+# not declared mandatory but fails without it
+# mailapi.jar would be enough but that's only in -bin, mail.jar superseedes
+EANT_GENTOO_CLASSPATH="sun-jaf,javamail,log4j,xml-xmlbeans:1,servletapi:2.4,bsf:2.3,sun-jimi,commons-httpclient:3,castor:1.0,xml-commons,commons-net"
+EANT_EXTRA_ARGS="-Ddeprecation=false -Dbase.path=/opt
+-Dservlet.jar=servlet-api.jar -Dwsdl4j-1.5.1.jar=wsdl4j.jar
+-Dcommons-logging-1.0.4.jar=commons-logging.jar"
+EANT_BUILD_TARGET="compile"
+EANT_DOC_TARGET="javadocs"
+EANT_NEEDS_TOOLS="true"
+
+#TODO-tests require Atlassian clover, need to figure out which ones
+RESTRICT="test"
+
+java_prepare() {
 	# remove some <copy> actions
 	epatch "${FILESDIR}/${P}-build.xml.patch"
 	# remove exact lib paths and global java.classpath from classpath
@@ -53,55 +76,60 @@ src_unpack() {
 	cp "${FILESDIR}/build.properties" . \
 		|| die "failed to copy build.properties from ${FILESDIR}"
 
-	# bundled fun
-	find . -name '*.jar' -delete || die
+	rm -rf "${S}"/docs/apiDocs || die
 
-	rm -rf docs/apiDocs
+	#Remove test till they are working
+	rm -rf "${S}"/test || die
+	
+	#cd "${S}"/test
+	#mv build_ant.xml build.xml
+
+	cd "${S}"/webapps/axis/WEB-INF/lib
+	rm -v *.jar || die
 
 	cd "${S}/lib"
-
-	# mandatory deps
-	java-pkg_jar-from commons-discovery commons-discovery.jar
+	rm -v *.jar || die
+	java-pkg_jar-from --build-only ant-core
 	java-pkg_jar-from wsdl4j wsdl4j.jar
-	java-pkg_jar-from sun-jaf activation.jar
 	java-pkg_jar-from commons-logging commons-logging.jar
-	# not declared mandatory but fails without it
-	# mailapi.jar would be enough but that's only in -bin, mail.jar superseedes
-	java-pkg_jar-from sun-javamail
+	java-pkg_jar-from commons-discovery commons-discovery.jar
 
-	# for axis-ant.jar
-	java-pkg_jar-from --build-only ant-core ant.jar
+	if use debug; then
+	EANT_EXTRA_ARGS+=" -Ddebug=on"
+	else
+	EANT_EXTRA_ARGS+=" -Ddebug=off"
+	fi
 
-	# potentionally optional
-	java-pkg_jar-from bsf-2.3
-	java-pkg_jar-from castor-1.0
-	java-pkg_jar-from commons-httpclient-3 commons-httpclient.jar
-	java-pkg_jar-from commons-net commons-net.jar
-	java-pkg_jar-from sun-jimi
-	java-pkg_jar-from servletapi-2.4 servlet-api.jar
-
-	# there could be more - jms, jetty, xml-security?, xml-xmlbeans
-	# and even more for tests - junit, httpunit, log4j, clover
-}
-
-src_compile() {
-	local antflags="-Ddeprecation=false -Dbase.path=/opt"
-	use debug && antflags="${antflags} -Ddebug=on"
-	use !debug && antflags="${antflags} -Ddebug=off"
-	eant ${antflags} compile $(use_doc javadocs)
+	cd "${S}"
+	java-ant_rewrite-classpath
 }
 
 src_install() {
+	dodir /usr/share/${AXIS_NAME}
+	
 	java-pkg_dojar build/lib/axis*.jar
-	java-pkg_dojar build/lib/jaxrpc.jar
-	java-pkg_dojar build/lib/saaj.jar
+	java-pkg_register-ant-task
 
-	dodoc LICENSE NOTICE README || die
-	dohtml release-notes.html changelog.html || die
+	dodir /usr/share/${AXIS_NAME}/webapps
+
+	cp -pR "${S}"/webapps/axis "${D}"/usr/share/${AXIS_NAME}/webapps || die "webapps
+	copy failed"
+
+	dodoc NOTICE README
+	dohtml release-notes.html changelog.html
 
 	if use doc; then
 		java-pkg_dojavadoc build/javadocs/
 		dohtml -r docs/*
-		dosym api /usr/share/doc/${PF}/html/apiDocs
+		dodoc xmls/*
 	fi
+	use source && java-pkg_dosrc src
+	use examples && java-pkg_doexamples samples	
+}
+
+pkg_postinst(){
+	einfo "This is the final Release of Apache Axis-1"
+	einfo 
+	einfo "See: ${HOMEPAGE} for more info"
+	einfo
 }
