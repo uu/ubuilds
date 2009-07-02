@@ -164,6 +164,10 @@ src_install() {
 
 	dodoc  "${S}"/{RELEASE-NOTES,RUNNING.txt}
 	fperms 640 /etc/${TOMCAT_NAME}/tomcat-users.xml
+
+	#install *.sh scripts bug #276059
+	exeinto /usr/share/${TOMCAT_NAME}/bin
+	doexe "${S}"/bin/*.sh
 }
 
 pkg_postinst() {
