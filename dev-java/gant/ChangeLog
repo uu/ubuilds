@@ -1,6 +1,12 @@
 # ChangeLog for dev-java/gant
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+*gant-1.6.1 (29 Jul 2009)
+
+  29 Jul 2009; Alistair Bush <ali_bush@gentoo.org> -gant-0.3.0.ebuild,
+  -gant-0.3.2.ebuild, +gant-1.6.1.ebuild, +files/gant-1.6.1-build.xml.patch:
+  Cleanup version. Bump to latest. Consider moving to tree.
 
   27 Aug 2007; Jean-Noël Rivasseau <elvanor@gmail.com> +metadata.xml,
   gant-0.3.0.ebuild:
