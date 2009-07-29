@@ -6,7 +6,7 @@ EAPI="2"
 
 JAVA_PKG_IUSE="source"
 
-inherit java-pkg-2 java-ant-2
+inherit bash-completion java-pkg-2 java-ant-2
 
 DESCRIPTION="a tool for scripting Ant tasks using Groovy instead of XML."
 HOMEPAGE="http://gant.codehaus.org/"
@@ -65,7 +65,13 @@ src_install() {
 		--extra_args "-Dant.home=\$ANT_HOME -Dgant.home=/usr/share/gant"
 
 	doman documentation/gant.1
+	dobashcompletion scripts/bash_completion.d/gant "${PN}"
 	use source && java-pkg_dosrc src
+}
+
+pkg_postinst() {
+	java-pkg-2_postinst
+	bash-completion_pkg_postinst
 }
 
 _jar-from() {

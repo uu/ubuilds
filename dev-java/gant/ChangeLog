@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  29 Jul 2009; Alistair Bush <ali_bush@gentoo.org> gant-1.6.1.ebuild:
+  Add bashcomp
+
 *gant-1.6.1 (29 Jul 2009)
 
   29 Jul 2009; Alistair Bush <ali_bush@gentoo.org> -gant-0.3.0.ebuild,
