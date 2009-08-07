@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit jboss-4-tmp eutils java-ant-2
+inherit eutils java-pkg-2 java-ant-2
 
 MY_P="jboss-${PV}"
 MY_P="${MY_P}.GA-src"
