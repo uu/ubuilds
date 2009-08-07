@@ -4,7 +4,7 @@
 
 WANT_ANT_TASKS="ant-pretty"
 
-inherit jboss-4-tmp java-pkg-2 java-ant-2
+inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Common module of JBoss Application Server"
 SRC_URI="${BASEURL}/${P}.tar.bz2 ${ECLASS_URI}"
@@ -18,7 +18,7 @@ S="${WORKDIR}/jboss-${PV}-src"
 #EANT_GENTOO_CLASSPATH="log4j"
 
 src_unpack() {
-	jboss-4_src_unpack
+	#jboss-4_src_unpack
 	# do like that as there is some relative path in build.xml fucking up
 	# java-ant_rewrite-classpath
 	for build in $(find "${S}" -name build*.xml );do
