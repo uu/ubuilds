@@ -20,7 +20,7 @@ IUSE=""
 RDEPEND=">=virtual/jre-1.4"
 DEPEND=">=virtual/jdk-1.4
 	app-arch/unzip:0
-	test? ( dev-java/junit:0 dev-java/ant-junit:0 )"
+	test? ( dev-java/ant-junit:0 )"
 
 src_prepare() {
 	cp "${FILESDIR}/build.xml" . || die
