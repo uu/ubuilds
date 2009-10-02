@@ -7,7 +7,7 @@ inherit versionator java-vm-2 eutils pax-utils
 MY_PV=${PV/_beta*/}
 U_PV="$(get_version_component_range 4)"
 BETA="0${PV#*_beta}"
-DATE="06_may_2009"
+DATE="09_sep_2009"
 
 BASE_URL="http://www.java.net/download/jdk6/6u${U_PV}/promoted/b${BETA}/binaries/"
 fileprefix="jdk-6u${U_PV}-ea-bin-b${BETA}-linux"
@@ -21,7 +21,7 @@ SRC_URI="x86? ( ${BASE_URL}/$x86file ) amd64? ( ${BASE_URL}/$amd64file )"
 SLOT="1.6"
 LICENSE="sun-prerelease-jdk6"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="strip fetch"
+#RESTRICT="strip fetch"
 IUSE="X alsa doc nsplugin examples"
 
 DEPEND="sys-apps/sed"
