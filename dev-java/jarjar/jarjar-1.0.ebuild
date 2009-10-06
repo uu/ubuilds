@@ -33,17 +33,15 @@ DEPEND=">=virtual/jdk-1.5
 S="${WORKDIR}/${P}rc8"
 
 java_prepare() {
+	# bug #191378
+	epatch "${FILESDIR}/0.9-bootclasspath.patch"
+
 	cd lib/ && rm * || die
 	java-pkg_jar-from ant-core
 	java-pkg_jar-from --build-only asm-3 asm.jar asm-3.1.jar
 	java-pkg_jar-from --build-only asm-3 asm-commons.jar asm-commons-3.1.jar
 	java-pkg_jar-from --build-only maven-plugin-api-2.1
 	use test && java-pkg_jar-from --build-only junit
-}
-
-src_compile() {
-	# ecj-3.3+ doesn't like the empty bootclasspath in build.xml - bug #191378
-	eant -Dcompile.bootclasspath="$(java-config -g BOOTCLASSPATH)" jar
 }
 
 src_test() {
