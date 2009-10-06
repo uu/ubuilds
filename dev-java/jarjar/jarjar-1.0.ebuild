@@ -41,6 +41,11 @@ java_prepare() {
 	use test && java-pkg_jar-from --build-only junit
 }
 
+src_compile() {
+	# ecj-3.3+ doesn't like the empty bootclasspath in build.xml
+	eant -Dcompile.bootclasspath="$(java-config -g BOOTCLASSPATH)" jar
+}
+
 src_test() {
 	ANT_TASKS="ant-junit" eant test
 }

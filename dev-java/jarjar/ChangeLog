@@ -2,6 +2,9 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  06 Oct 2009; Vlastimil Babka <caster@gentoo.org> jarjar-1.0.ebuild:
+  Fix building with ecj, bug #191378.
+
   05 Apr 2009; Ralph Sennhauser <gentoo.sera@bluewin.ch> +jarjar-1.0.ebuild:
   Adding jarjar version bump.
   There are no changes in the source from 1.0rc8 to 1.0.
