@@ -42,7 +42,7 @@ java_prepare() {
 }
 
 src_compile() {
-	# ecj-3.3+ doesn't like the empty bootclasspath in build.xml
+	# ecj-3.3+ doesn't like the empty bootclasspath in build.xml - bug #191378
 	eant -Dcompile.bootclasspath="$(java-config -g BOOTCLASSPATH)" jar
 }
 
