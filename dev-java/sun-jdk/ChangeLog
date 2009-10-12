@@ -2,6 +2,11 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  12 Oct 2009; Vlastimil Babka <caster@gentoo.org>
+  +sun-jdk-1.6.0.18_beta3.ebuild, sun-jdk-1.7.0.0_alpha73.ebuild:
+  1.6: version bump. 1.7: add missing gcc-4.2 dependency (bug #267495), amd64
+  plugin (bug #287802) and x86 plugin2.
+
   02 Oct 2009; Vlastimil Babka <caster@gentoo.org>
   -sun-jdk-1.6.0.14_beta5.ebuild, -sun-jdk-1.6.0.14_beta6.ebuild,
   +sun-jdk-1.6.0.18_beta2.ebuild:
