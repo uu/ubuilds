@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="1"
+EAPI="2"
 
 JAVA_PKG_IUSE="doc source"
 WANT_ANT_TASKS="ant-contrib ant-junit ant-trax app-text/jing:0"
@@ -26,12 +26,8 @@ DEPEND=">=virtual/jdk-1.5
 	>=dev-java/jaxb-1.0.6-r1:1
 	dev-java/codemodel:2
 	dev-java/sun-dtdparser
-	|| ( >=dev-java/istack-commons-tools-20070711
-		 ( >=dev-java/istack-commons-tools-0.20070711
-		   <dev-java/istack-commons-tools-20000000 ) )
-	|| ( >=dev-java/istack-commons-runtime-20070711
-		 ( >=dev-java/istack-commons-runtime-0.20070711
-		   <dev-java/istack-commons-runtime-20000000 ) )
+	dev-java/istack-commons-tools:1.1
+	dev-java/istack-commons-runtime:1.1
 	dev-java/relaxng-datatype
 	dev-java/rngom
 	dev-java/txw2-runtime
@@ -58,8 +54,55 @@ src_unpack() {
 	jaxb_unpack_subpkg jaxb-api tools/lib/redist/jaxb-api-src.zip
 	jaxb_unpack_subpkg resolver tools/lib/src/resolver-src.zip
 	jaxb_unpack_subpkg xsom tools/lib/src/xsom-src.zip
+}
+
+java_prepare() {
 	epatch "${FILESDIR}"/2.1.9-no-package-rename.patch
 	epatch "${FILESDIR}"/2.1.12-xjc-uses-jam.patch
+
+	einfo "replacing shipped dependencies with installed ones."
+	find . -name \*.jar -print0 | xargs -0 rm
+
+	cd "${S}/tools/compiler10" || die
+	java-pkg_jarfrom jaxb-1 jaxb-xjc.jar jaxb1-xjc.jar
+
+	cd "${S}/tools/lib/rebundle/compiler" || die
+	java-pkg_jarfrom --build-only codemodel-2 codemodel.jar
+	java-pkg_jarfrom --build-only sun-dtdparser sun-dtdparser.jar dtd-parser-1.0.jar
+	java-pkg_jarfrom --build-only istack-commons-tools-1.1 istack-commons-tools.jar
+	java-pkg_jarfrom --build-only relaxng-datatype relaxngDatatype.jar
+	#rm resolver.jar # recompiled from source later on
+	java-pkg_jarfrom --build-only rngom rngom.jar
+	#rm xsom.jar # recompiled from source later on
+
+	cd "${S}/tools/lib/rebundle/runtime2" || die
+	java-pkg_jarfrom --build-only istack-commons-runtime-1.1 istack-commons-runtime.jar
+	java-pkg_jarfrom --build-only txw2-runtime txw2-runtime.jar txw2.jar
+
+	cd "${S}/tools/lib/rebundle/runtime" || die
+	java-pkg_jarfrom --build-only iso-relax isorelax.jar
+	java-pkg_jarfrom --build-only msv msv.jar
+	java-pkg_jarfrom --build-only relaxng-datatype relaxngDatatype.jar
+	java-pkg_jarfrom --build-only xsdlib xsdlib.jar
+
+	cd "${S}/tools/lib/redist" || die
+	java-pkg_jarfrom --virtual jaf # activation.jar
+	#rm jaxb-api.jar # recompiled from source later on
+	java-pkg_jarfrom --virtual stax-api # jsr173_1.0_api.jar
+
+	cd "${S}/tools/lib/util" || die
+	#rm ant-*.jar bnd-0.0.249.jar dom4j.jar installer.jar pretty-printer.jar
+	#rm istack-commons-test.jar jing-rnc-driver.jar package-rename-task.jar
+	#rm maven-repository-importer.jar sfx4j-1.0.jar sjsxp.jar xercesImpl.jar
+	java-pkg_jarfrom --build-only ant-core ant.jar
+	java-pkg_jarfrom --build-only args4j-1 args4j.jar args4j-1.0-RC.jar
+	java-pkg_jarfrom --build-only codemodel-annotation-compiler-2 codemodel-annotation-compiler.jar
+	java-pkg_jarfrom --build-only fastinfoset fastinfoset.jar FastInfoset.jar
+	java-pkg_jarfrom --build-only apt-mirror apt-mirror.jar jam.jar
+	java-pkg_jarfrom --build-only jing jing.jar
+	java-pkg_jarfrom --build-only relaxngcc relaxngcc.jar
+	java-pkg_jarfrom --build-only stax-ex stax-ex.jar
+	java-pkg_jarfrom --build-only txw2-compiler txwc2.jar
 }
 
 jaxb_unpack_subpkg() {
@@ -91,56 +134,11 @@ jaxb_compile_subpkg() {
 }
 
 src_compile() {
-	einfo "replacing shipped dependencies with installed ones."
-	find . -name \*.jar -print0 | xargs -0 rm
-
-	cd "${S}/tools/compiler10" || die
-	java-pkg_jarfrom jaxb-1 jaxb-xjc.jar jaxb1-xjc.jar
-
-	cd "${S}/tools/lib/rebundle/compiler" || die
-	java-pkg_jarfrom --build-only codemodel-2 codemodel.jar
-	java-pkg_jarfrom --build-only sun-dtdparser sun-dtdparser.jar dtd-parser-1.0.jar
-	java-pkg_jarfrom --build-only istack-commons-tools istack-commons-tools.jar
-	java-pkg_jarfrom --build-only relaxng-datatype relaxngDatatype.jar
-	#rm resolver.jar # recompiled from source later on
-	java-pkg_jarfrom --build-only rngom rngom.jar
-	#rm xsom.jar # recompiled from source later on
-
-	cd "${S}/tools/lib/rebundle/runtime2" || die
-	java-pkg_jarfrom --build-only istack-commons-runtime istack-commons-runtime.jar
-	java-pkg_jarfrom --build-only txw2-runtime txw2-runtime.jar txw2.jar
-
-	cd "${S}/tools/lib/rebundle/runtime" || die
-	java-pkg_jarfrom --build-only iso-relax isorelax.jar
-	java-pkg_jarfrom --build-only msv msv.jar
-	java-pkg_jarfrom --build-only relaxng-datatype relaxngDatatype.jar
-	java-pkg_jarfrom --build-only xsdlib xsdlib.jar
-
-	cd "${S}/tools/lib/redist" || die
-	java-pkg_jarfrom --virtual jaf # activation.jar
-	#rm jaxb-api.jar # recompiled from source later on
-	java-pkg_jarfrom --virtual stax-api # jsr173_1.0_api.jar
-
-	cd "${S}/tools/lib/util" || die
-	#rm ant-*.jar bnd-0.0.249.jar dom4j.jar installer.jar pretty-printer.jar
-	#rm istack-commons-test.jar jing-rnc-driver.jar package-rename-task.jar
-	#rm maven-repository-importer.jar sfx4j-1.0.jar sjsxp.jar xercesImpl.jar
-	java-pkg_jarfrom --build-only ant-core ant.jar
-	java-pkg_jarfrom --build-only args4j-1 args4j.jar args4j-1.0-RC.jar
-	java-pkg_jarfrom --build-only codemodel-annotation-compiler-2 codemodel-annotation-compiler.jar
-	java-pkg_jarfrom --build-only fastinfoset fastinfoset.jar FastInfoset.jar
-	java-pkg_jarfrom --build-only apt-mirror apt-mirror.jar jam.jar
-	java-pkg_jarfrom --build-only jing jing.jar
-	java-pkg_jarfrom --build-only relaxngcc relaxngcc.jar
-	java-pkg_jarfrom --build-only stax-ex stax-ex.jar
-	java-pkg_jarfrom --build-only txw2-compiler txwc2.jar
-
 	jaxb_compile_subpkg jaxb-api tools/lib/redist/jaxb-api.jar jaf,stax-api
 	jaxb_compile_subpkg resolver tools/lib/rebundle/compiler/resolver.jar
 	jaxb_compile_subpkg xsom tools/lib/rebundle/compiler/xsom.jar "--build-only relaxng-datatype"
 
 	einfo "Compiling jaxb dist"
-	[[ ${JAXB_DELETE} ]] && rm -v ${JAXB_DELETE}
 	mkdir -p tools/installer{,-builder}/build/classes
 	export ANT_OPTS=-Xbootclasspath/p:${S}/tools/lib/redist/jaxb-api.jar
 	eant dist $(use_doc javadoc)
