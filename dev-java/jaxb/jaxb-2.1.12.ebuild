@@ -13,7 +13,7 @@ DESCRIPTION="Reference implementation of the JAXB specification."
 HOMEPAGE="http://jaxb.dev.java.net/"
 SRC_URI="https://jaxb.dev.java.net/${PV}/jaxb-ri-${PV//./_}.src.zip"
 
-LICENSE="|| ( CDDL GPL-2 )"
+LICENSE="|| ( CDDL GPL-2-sun-classpath-exception )"
 SLOT="2"
 KEYWORDS="~amd64 ~x86 ~ppc ~x86-fbsd"
 IUSE=""
