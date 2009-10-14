@@ -1,0 +1,25 @@
+Include jam.jar in compile-time classpath for xjc.
+
+xjc uses jam.jar from apt-mirror, but since 2.1.12 doesn't include that jar
+in its compile-time classpath.  The patch restores the inclusion from
+2.1.11. It is necessary for build.sysclasspath=ignore.
+
+Example of a dependency from xjc on apt-mirror:
+com.sun.tools.jxc.ConfigReader imports
+com.sun.mirror.apt.AnnotationProcessorEnvironment
+
+2009-10-14 Martin von Gagern
+
+
+Index: jaxb-ri/xjc/build.xml
+===================================================================
+--- jaxb-ri.orig/xjc/build.xml
++++ jaxb-ri/xjc/build.xml
+@@ -59,6 +59,7 @@
+       <fileset dir="${jaxb.libs.util}" includes="ant.jar"/>
+       <!-- dependency on dom4j ??? -->  
+       <pathelement path="${jaxb.libs.util}/dom4j.jar" />
++      <pathelement path="${jaxb.libs.util}/jam.jar" />
+       <pathelement path="${jaxb.libs.compiler}/txw2.jar" />
+     </path>
+ 
