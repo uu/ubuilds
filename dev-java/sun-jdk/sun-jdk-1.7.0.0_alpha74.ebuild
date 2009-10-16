@@ -8,7 +8,7 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="17_sep_2009"
+DATE="15_oct_2009"
 MY_RPV=${MY_PV%.*}
 
 BASE_URL="http://download.java.net/jdk7/binaries/"
@@ -25,9 +25,12 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="strip fetch"
 IUSE="X alsa doc nsplugin examples x86 amd64"
 
-DEPEND="sys-apps/sed"
+# unpack200 needs gcc-4.2 and is used in unpack, thus DEPEND - #267495
+DEPEND=">=sys-devel/gcc-4.2
+	sys-apps/sed"
 
-RDEPEND="doc? ( =dev-java/java-sdk-docs-1.6.0* )
+RDEPEND=">=sys-devel/gcc-4.2
+	doc? ( =dev-java/java-sdk-docs-1.6.0* )
 	alsa? ( media-libs/alsa-lib )
 	x86? ( =virtual/libstdc++-3.3 )
 	X? (
@@ -118,8 +121,9 @@ src_install() {
 
 		if use x86 ; then
 			install_mozilla_plugin /opt/${P}/jre/plugin/i386/$plugin_dir/libjavaplugin_oji.so
+			install_mozilla_plugin /opt/${P}/jre/lib/i386/libnpjp2.so plugin2
 		else
-			eerror "No plugin available for amd64 arch"
+			install_mozilla_plugin /opt/${P}/jre/lib/amd64/libnpjp2.so
 		fi
 	fi
 
@@ -137,6 +141,22 @@ src_install() {
 pkg_postinst() {
 	# Set as default VM if none exists
 	java-vm-2_pkg_postinst
+
+	if use x86 && use nsplugin; then
+		elog
+		elog "Two variants of the nsplugin are available via eselect java-nsplugin:"
+		elog "${VMHANDLE} and ${VMHANDLE}-plugin2 (the Next-Generation Plug-In) "
+		ewarn "Note that the ${VMHANDLE}-plugin2 works only in Firefox 3!"
+		elog "For more info see https://jdk6.dev.java.net/plugin2/"
+		elog
+	fi
+
+	if use amd64 && use nsplugin; then
+		elog
+		ewarn "Note that the nsplugin works only in Firefox 3 or newer browsers!"
+		elog "For more info see https://jdk6.dev.java.net/plugin2/"
+		elog
+	fi
 
 	if ! use X; then
 		local xwarn="virtual/x11 and/or"
