@@ -2,6 +2,11 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  19 Oct 2009; Vlastimil Babka <caster@gentoo.org>
+  sun-jdk-1.6.0.18_beta2.ebuild, sun-jdk-1.6.0.18_beta3.ebuild,
+  sun-jdk-1.7.0.0_alpha74.ebuild:
+  Replace RESTRICT=fetch with ACCEPT_LICENSE stuff. Set it and forget it!
+
   16 Oct 2009; Fabian Fingerle <fabian@datensalat.eu>
   +sun-jdk-1.7.0.0_alpha74.ebuild, -sun-jdk-1.7.0.0_alpha72.ebuild:
   Bump
