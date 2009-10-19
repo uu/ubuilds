@@ -54,7 +54,8 @@ QA_TEXTRELS_x86="opt/${P}/jre/lib/i386/server/libjvm.so
 	opt/${P}/jre/lib/i386/libdeploy.so"
 
 pkg_setup() {
-	check_license
+	check_license "${FILESDIR}/../../../licenses/${LICENSE}"
+	java-vm-2_pkg_setup
 }
 
 src_unpack() {
