@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit eutils java-virtuals-2
+inherit java-virtuals-2
 
 DESCRIPTION="This is a virtual for Javadoc"
 
@@ -10,7 +10,7 @@ SRC_URI=""
 
 HOMEPAGE="http://www.gentoo.org/"
 
-DEPEND=">=virtual/jdk-1.5"
+DEPEND=""
 
 RDEPEND=">=virtual/jdk-1.5"
 IUSE=""
