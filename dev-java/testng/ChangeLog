@@ -1,6 +1,13 @@
-# ChangeLog for net-irc/anope
+# ChangeLog for dev-java/testng
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+*testng-5.10 (20 Oct 2009)
+
+  20 Oct 2009; Daniel Solano Gómez <gentoo@sattvik.com>
+  +testng-5.10.ebuild, +files/testng-5.10-unit_test_concurrency_fix.patch,
+  +files/testng.xml, +files/testng-override.xml:
+  Version bump.
 
   15 Feb 2009; Petteri Räty <betelgeuse@gentoo.org> +testng-5.7.ebuild:
   Version bump and QA fix.

@@ -1,0 +1,62 @@
+Index: test/src/test/configuration/ConfigurationGroupBothSampleTest.java
+===================================================================
+--- test/src/test/configuration/ConfigurationGroupBothSampleTest.java	(revisión: 753)
++++ test/src/test/configuration/ConfigurationGroupBothSampleTest.java	(copia de trabajo)
+@@ -1,6 +1,7 @@
+ package test.configuration;
+ 
+ import java.util.ArrayList;
++import java.util.Collections;
+ import java.util.List;
+ 
+ import org.testng.annotations.AfterGroups;
+@@ -9,7 +10,7 @@
+ import org.testng.annotations.Test;
+ 
+ public class ConfigurationGroupBothSampleTest {
+-  static List<Integer> m_list = new ArrayList<Integer>();
++  static List<Integer> m_list = Collections.synchronizedList(new ArrayList<Integer>());
+   
+   @BeforeGroups(groups={"twice"}, value={"twice"})
+   public void a(){
+Index: test/src/test/thread/DataProviderThreadPoolSizeSampleTest.java
+===================================================================
+--- test/src/test/thread/DataProviderThreadPoolSizeSampleTest.java	(revisión: 753)
++++ test/src/test/thread/DataProviderThreadPoolSizeSampleTest.java	(copia de trabajo)
+@@ -4,6 +4,7 @@
+ import org.testng.annotations.DataProvider;
+ import org.testng.annotations.Test;
+ 
++import java.util.Collections;
+ import java.util.HashMap;
+ import java.util.Map;
+ 
+@@ -13,7 +14,7 @@
+   @BeforeClass(alwaysRun = true)
+   public void setUp() {
+     ppp("INIT THREAD IDS");
+-    m_threadIds = new HashMap<Long, Long>();    
++    m_threadIds = Collections.synchronizedMap(new HashMap<Long, Long>()); 
+   }
+   
+   @DataProvider(parallel = true)
+Index: test/src/test/thread/ThreadPoolSizeTest.java
+===================================================================
+--- test/src/test/thread/ThreadPoolSizeTest.java	(revisión: 753)
++++ test/src/test/thread/ThreadPoolSizeTest.java	(copia de trabajo)
+@@ -1,5 +1,6 @@
+ package test.thread;
+ 
++import java.util.Collections;
+ import java.util.HashMap;
+ import java.util.Map;
+ 
+@@ -13,7 +14,7 @@
+   @BeforeClass
+   public void setUp() {
+     ppp("INIT THREAD IDS");
+-    m_threadIds = new HashMap<Long, Long>();    
++    m_threadIds = Collections.synchronizedMap(new HashMap<Long, Long>());    
+   }
+ 
+   @Test(invocationCount = 10, threadPoolSize = 3)
