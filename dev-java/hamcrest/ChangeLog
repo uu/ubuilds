@@ -1,0 +1,14 @@
+# ChangeLog for dev-java/hamcrest
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*hamcrest-1.2 (03 Nov 2009)
+
+  03 Nov 2009; Daniel Solano Gómez <gentoo@sattvik.com>
+  +hamcrest-1.2.ebuild, +files/hamcrest-1.2-empty_core.patch,
+  +files/hamcrest-1.2-empty_generator.patch,
+  +files/hamcrest-1.2-empty_integration.patch,
+  +files/hamcrest-1.2-empty_library.patch,
+  +files/hamcrest-1.2-no_source_in_jar.patch, +metadata.xml:
+  Add modularised ebuild for Hamcrest packages.
+
