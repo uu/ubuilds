@@ -7,7 +7,7 @@ inherit versionator java-vm-2 eutils pax-utils
 MY_PV=${PV/_beta*/}
 U_PV="$(get_version_component_range 4)"
 BETA="0${PV#*_beta}"
-DATE="09_sep_2009"
+DATE="28_oct_2009"
 
 BASE_URL="http://www.java.net/download/jdk6/6u${U_PV}/promoted/b${BETA}/binaries/"
 fileprefix="jdk-6u${U_PV}-ea-bin-b${BETA}-linux"
@@ -21,7 +21,10 @@ SRC_URI="x86? ( ${BASE_URL}/$x86file ) amd64? ( ${BASE_URL}/$amd64file )"
 SLOT="1.6"
 LICENSE="sun-prerelease-jdk6"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="strip fetch"
+
+# for the check_license
+PROPERTIES="interactive"
+RESTRICT="mirror strip"
 IUSE="X alsa doc nsplugin examples"
 
 DEPEND="sys-apps/sed"
@@ -46,14 +49,9 @@ QA_TEXTRELS_x86="opt/${P}/jre/lib/i386/server/libjvm.so
 	opt/${P}/jre/lib/i386/motif21/libmawt.so
 	opt/${P}/jre/lib/i386/libdeploy.so"
 
-pkg_nofetch() {
-	einfo "Please download:"
-	einfo "${A} from ${BASE_URL}${A}"
-	einfo "Then place it in ${DISTDIR}"
-	einfo "tip: wget ${BASE_URL}${A} -O ${DISTDIR}/${A}"
-
-	ewarn "By downloading and installing, you are agreeing to the terms"
-	ewarn "of Sun's prerelease license."
+pkg_setup() {
+	check_license "${FILESDIR}/../../../licenses/${LICENSE}"
+	java-vm-2_pkg_setup
 }
 
 src_unpack() {

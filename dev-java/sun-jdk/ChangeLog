@@ -2,6 +2,11 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
 
+  06 Nov 2009; Vlastimil Babka <caster@gentoo.org>
+  -sun-jdk-1.6.0.18_beta2.ebuild, +sun-jdk-1.6.0.18_beta4.ebuild,
+  -sun-jdk-1.7.0.0_alpha73.ebuild, +sun-jdk-1.7.0.0_alpha75.ebuild:
+  Version bump.
+
   19 Oct 2009; Vlastimil Babka <caster@gentoo.org>
   sun-jdk-1.6.0.18_beta3.ebuild, sun-jdk-1.7.0.0_alpha74.ebuild:
   Fix check_license call and call java-vm-2_pkg_setup.

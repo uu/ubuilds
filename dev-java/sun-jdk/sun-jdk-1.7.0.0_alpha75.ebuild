@@ -8,7 +8,7 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="01_oct_2009"
+DATE="30_oct_2009"
 MY_RPV=${MY_PV%.*}
 
 BASE_URL="http://download.java.net/jdk7/binaries/"
@@ -22,8 +22,11 @@ SRC_URI="x86? ( ${BASE_URL}/$x86file ) amd64? ( ${BASE_URL}/$amd64file )"
 SLOT="1.7"
 LICENSE="sun-prerelease-jdk7"
 KEYWORDS="~amd64 ~x86"
-RESTRICT="strip fetch"
-IUSE="X alsa doc nsplugin examples x86 amd64"
+
+# for the check_license
+PROPERTIES="interactive"
+RESTRICT="mirror strip"
+IUSE="X alsa doc nsplugin examples"
 
 # unpack200 needs gcc-4.2 and is used in unpack, thus DEPEND - #267495
 DEPEND=">=sys-devel/gcc-4.2
@@ -50,14 +53,9 @@ QA_TEXTRELS_x86="opt/${P}/jre/lib/i386/server/libjvm.so
 	opt/${P}/jre/lib/i386/motif21/libmawt.so
 	opt/${P}/jre/lib/i386/libdeploy.so"
 
-pkg_nofetch() {
-	einfo "Please download:"
-	einfo "${A} from ${BASE_URL}${A}"
-	einfo "Then place it in ${DISTDIR}"
-	einfo "tip: wget ${BASE_URL}${A} -O ${DISTDIR}/${A}"
-
-	ewarn "By downloading and installing, you are agreeing to the terms"
-	ewarn "of Sun's prerelease license."
+pkg_setup() {
+	check_license "${FILESDIR}/../../../licenses/${LICENSE}"
+	java-vm-2_pkg_setup
 }
 
 src_unpack() {
