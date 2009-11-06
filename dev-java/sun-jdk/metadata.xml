@@ -2,8 +2,4 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<herd>java</herd>
-	<use>
-		<flag name="x86"></flag>
-		<flag name="amd64"></flag>
-	</use>
 </pkgmetadata>
