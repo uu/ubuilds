@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>java</herd>
+<longdescription>
+	VimClojure consists of a set of plugin for Vim to enhance the editing of
+	Clojure files. It provides syntax highlighting and indenting.  When enabled,
+	it also provides interactive features like omni completion, macro expansion,
+	code evaluation,  docstring lookup, and javadoc lookup.
+</longdescription>
+<use>
+	<flag name='minimal'>Disables interactive features that require <pkg>dev-java/gorilla</pkg></flag>
+</use>
+</pkgmetadata>
