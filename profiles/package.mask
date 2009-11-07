@@ -10,7 +10,7 @@
 # Relies on the regjar --virtual stuff that was in Serkan's eclass
 # changes in java-experimental that we removed and he said he would
 # rework it.
-=dev-java/jaxme-0.5.2
+=dev-java/jaxme-0.5.2-r1
 
 # Krzysztof Pawlik <nelchael@gentoo.org> (01 Feb 2009)
 # Fixing KEYWORDS.stupid
