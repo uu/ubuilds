@@ -2,6 +2,12 @@
 # Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/maven-bin/ChangeLog,v 1.57 2009/05/12 19:33:02 ali_bush Exp $
 
+*maven-bin-3.0_alpha4 (17 Nov 2009)
+
+  17 Nov 2009; Jesse Farinacci <jieryn@gmail.com>
+  -maven-bin-3.0_alpha3.ebuild, +maven-bin-3.0_alpha4.ebuild:
+  maven team pushed a new alpha release to fix a couple of critical bugs
+
 *maven-bin-3.0_alpha3 (15 Nov 2009)
 
   15 Nov 2009; Jesse Farinacci <jieryn@gmail.com>
