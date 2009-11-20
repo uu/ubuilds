@@ -47,3 +47,9 @@ start() {
 			com.martiansoftware.nailgun.NGServer ${GORILLA_HOST}:${GORILLA_PORT}
 	eend $?
 }
+
+stop() {
+	ebegin "Starting ${SVCNAME}"
+	start-stop-daemon --stop --quiet --pidfile "${PIDFILE}"
+	eend $?
+}
