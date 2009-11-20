@@ -74,7 +74,7 @@ src_test() {
 
 src_install() {
 	java-pkg_newjar "${P}-jdk15.jar" "${PN}.jar"
-	java-pkg_dolauncher testng --jar "${PN}.jar"
+	java-pkg_dolauncher testng --main org.testng.TestNG
 	java-pkg_register-ant-task
 
 	use doc && java-pkg_dojavadoc javadocs/
