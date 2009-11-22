@@ -7,7 +7,7 @@ inherit versionator java-vm-2 eutils pax-utils
 MY_PV=${PV/_beta*/}
 U_PV="$(get_version_component_range 4)"
 BETA="0${PV#*_beta}"
-DATE="07_oct_2009"
+DATE="18_nov_2009"
 
 BASE_URL="http://www.java.net/download/jdk6/6u${U_PV}/promoted/b${BETA}/binaries/"
 fileprefix="jdk-6u${U_PV}-ea-bin-b${BETA}-linux"
