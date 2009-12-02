@@ -19,7 +19,7 @@ RDEPEND=">=virtual/jdk-1.4
 
 IUSE=""
 
-S="${WORKDIR}/apache-maven-3.0-alpha-4"
+S="${WORKDIR}/apache-maven-3.0-alpha-5"
 
 MAVEN=${PN}-${SLOT}
 MAVEN_SHARE="/usr/share/${MAVEN}"
