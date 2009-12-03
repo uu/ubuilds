@@ -1,6 +1,13 @@
 # ChangeLog for dev-util/eclipse-sdk
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+*eclipse-sdk-3.5.1 (03 Dec 2009)
+
+  03 Dec 2009; Alistair Bush <ali_bush@gentoo.org> +files/3.5/eclipse-3.5,
+  +files/3.5/eclipserc-3.5, +eclipse-sdk-3.5.1.ebuild:
+  Add eclipse-sdk-3.5.1. Thanks to all the good work from Matt Whitlock
+  <matt@whitlock.name>
 
   25 Jan 2008; Petteri Räty <betelgeuse@gentoo.org>
   eclipse-sdk-3.3.1.1-r2.ebuild:
