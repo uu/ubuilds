@@ -3,8 +3,14 @@
 # $Header: $
 
 EAPI="2"
+WANT_ANT_TASKS="ant-nodeps"
 
-inherit java-pkg-2 check-reqs
+# eclipse-build is too complicated for automatic fixing
+# if there are any fixes we should create patches
+# and push them upstream
+JAVA_PKG_BSFIX="off"
+
+inherit java-pkg-2 java-ant-2 check-reqs
 
 BUILD_ID="R3_5_1"
 ECLIPSE_BUILD_VER="R0_4_0"
@@ -80,12 +86,13 @@ src_unpack() {
 	mv "${WORKDIR}/eclipse-build-0_4_RC6" "${S}" || die
 	ln -s "${DISTDIR}/eclipse-${BUILD_ID}-fetched-src.tar.bz2" "${S}"/ || die
 
-	( cd "${S}" && ant unpack ) || die 'ant unpack failed'
+	cd "${S}"
+	eant unpack
 }
 
 src_prepare() {
 	# apply patches before we start cleaning junk out
-	ant applyPatches || die 'ant applyPatches failed'
+	eant applyPatches
 
 	# fix up hardcoded runtime class paths
 	sed -e 's|/usr/lib/jvm/java/jre/lib/rt\.jar:.*$|'"$(java-config --runtime)"'|' \
@@ -134,7 +141,7 @@ src_prepare() {
 }
 
 src_compile() {
-	JAVA_HOME=$(java-config --jdk-home) ANT_OPTS='-Xmx512M' ./build.sh || die
+	ANT_OPTS='-Xmx512M' eant -DbuildArch=${arch}
 }
 
 src_install() {
