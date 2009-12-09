@@ -7,15 +7,17 @@ inherit eutils versionator
 SLOT="$(get_major_version)"
 RDEPEND=">=virtual/jdk-1.6"
 
-MY_VER="IU-90.193"
+MY_PV="93.13"
+
+RESTRICT="strip"
 
 DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
 HOMEPAGE="http://jetbrains.com/idea/"
-SRC_URI="http://download.jetbrains.com/${PN}/${PN}${MY_VER}.tar.gz"
+SRC_URI="http://download.jetbrains.com/${PN}/${PN}IU-${PV}.tar.gz"
 LICENSE="IntelliJ-IDEA"
 IUSE=""
 KEYWORDS="~x86 ~amd64"
-S="${WORKDIR}/${PN}-${MY_VER}"
+S="${WORKDIR}/${PN}-IU-${MY_PV}"
 
 src_install() {
 	local dir="/opt/${P}"
