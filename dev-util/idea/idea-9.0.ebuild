@@ -10,6 +10,7 @@ RDEPEND=">=virtual/jdk-1.6"
 MY_PV="93.13"
 
 RESTRICT="strip"
+QA_TEXTRELS="opt/${P}/bin/libbreakgen.so"
 
 DESCRIPTION="IntelliJ IDEA is an intelligent Java IDE"
 HOMEPAGE="http://jetbrains.com/idea/"
