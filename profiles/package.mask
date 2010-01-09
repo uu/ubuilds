@@ -6,10 +6,6 @@
 # NOTE: Please add your entry at the top!
 #
 
-# Daniel Solano Gómez <gentoo@sattvik.com> (07 Nov 2009)
-# Git version of clojure-contrib
-=dev-lang/clojure-contrib-1.0.0.99999999
-
 # Vlastimil Babka <caster@gentoo.org> (02 Apr 2009)
 # Relies on the regjar --virtual stuff that was in Serkan's eclass
 # changes in java-experimental that we removed and he said he would

@@ -30,7 +30,7 @@ local ECLOJURE_RDEPEND=""
 # @DESCRIPTION:
 # Sets the version of Clojure to use.  This variable should be set before the
 # eclass is imported.
-CLOJURE_VERSION=${CLOJURE_VERSION:-1.0.0}
+CLOJURE_VERSION=${CLOJURE_VERSION:-1.0}
 
 # @ECLASS-VARIABLE: WANT_CLOJURE_CONTRIB
 # @DESCRIPTION:
@@ -49,25 +49,38 @@ CLOJURE_CONTRIB_VERSION=${CLOJURE_CONTRIB_VERSION:-${CLOJURE_VERSION}}
 
 # Check and normalise Clojure version
 case "${CLOJURE_VERSION}" in
-	1.0.0*)
-		CLOJURE_VERSION="1.0.0"
+	1.0*)
+		CLOJURE_SLOT="0"
 		[[ -n JAVA_PKG_DEBUG && "${EBUILD_PHASE}" == "setup" ]] \
-			&& einfo "Building with Clojure ${CLOJURE_VERSION}"
+			&& einfo "Building with Clojure 1.0"
+		;;
+	1.1*)
+		CLOJURE_SLOT="1.1"
+		[[ -n JAVA_PKG_DEBUG && "${EBUILD_PHASE}" == "setup" ]] \
+			&& einfo "Building with Clojure 1.1"
 		;;
 	*)
 		die "Clojure version ${CLOJURE_VERSION} is not currently supported by this eclass"
 		;;
 esac
 
+CLOJURE_ATOM="clojure"
+CLOJURE_CONTRIB_ATOM="clojure-contrib"
+if [[ "${CLOJURE_SLOT}" != "0" ]]; then
+	CLOJURE_ATOM="${CLOJURE_ATOM}-${CLOJURE_SLOT}"
+	CLOJURE_CONTRIB_ATOM="${CLOJURE_CONTRIB_ATOM}-${CLOJURE_SLOT}"
+fi
+
+
 # set up Java depends
 ECLOJURE_DEPEND="${ECLOJURE_DEPEND} >=virtual/jdk-1.5"
 ECLOJURE_RDEPEND="${ECLOJURE_RDEPEND} >=virtual/jre-1.5"
 
 # set up Clojure depends
-ECLOJURE_CDEPEND="${ECLOJURE_CDEPEND} ~dev-lang/clojure-${CLOJURE_VERSION}"
+ECLOJURE_CDEPEND="${ECLOJURE_CDEPEND} dev-lang/clojure:${CLOJURE_SLOT}"
 if [[ -n ${WANT_CLOJURE_CONTRIB} ]]; then
 	ECLOJURE_CDEPEND="${ECLOJURE_CDEPEND} \
-		=dev-lang/clojure-contrib-${CLOJURE_CONTRIB_VERSION}*"
+		dev-lang/clojure-contrib:${CLOJURE_SLOT}"
 fi
 
 # finalise depends
@@ -82,9 +95,9 @@ EXPORT_FUNCTIONS src_compile
 # A thin wrapper around java-pkg-2_src_compile that adds ‘clojure.jar’ and
 # ‘clojure-contrib.jar’ properties to EANT_EXTRA_ARGS.
 clojure_src_compile() {
-	local ant_args="-Dclojure.jar=$(java-pkg_getjars clojure)"
+	local ant_args="-Dclojure.jar=$(java-pkg_getjars ${CLOJURE_ATOM})"
 	if [[ "${DEPEND}" == *dev-lang/clojure-contrib* ]] ; then 
-		ant_args="${ant_args} -Dclojure-contrib.jar=$(java-pkg_getjars clojure-contrib)"
+		ant_args="${ant_args} -Dclojure-contrib.jar=$(java-pkg_getjars ${CLOJURE_CONTRIB_ATOM})"
 	fi
 	EANT_EXTRA_ARGS="${EANT_EXTRA_ARGS} ${ant_args}"
 	java-pkg-2_src_compile
