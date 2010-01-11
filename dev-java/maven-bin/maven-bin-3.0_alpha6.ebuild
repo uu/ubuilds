@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/maven-bin/maven-bin-2.1.0.ebuild,v 1.1 2009/05/12 19:33:02 ali_bush Exp $
 
@@ -8,7 +8,7 @@ MY_PN=apache-${PN%%-bin}
 MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Project Management and Comprehension Tool for Java"
-SRC_URI="mirror://apache/maven/binaries/apache-maven-3.0-alpha-5-bin.tar.gz"
+SRC_URI="mirror://apache/maven/binaries/apache-maven-3.0-alpha-6-bin.tar.gz"
 HOMEPAGE="http://maven.apache.org/"
 LICENSE="Apache-2.0"
 SLOT="3.0"
@@ -19,7 +19,7 @@ RDEPEND=">=virtual/jdk-1.5
 
 IUSE=""
 
-S="${WORKDIR}/apache-maven-3.0-alpha-5"
+S="${WORKDIR}/apache-maven-3.0-alpha-6"
 
 MAVEN=${PN}-${SLOT}
 MAVEN_SHARE="/usr/share/${MAVEN}"
