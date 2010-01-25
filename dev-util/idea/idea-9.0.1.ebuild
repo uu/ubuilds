@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -7,7 +7,7 @@ inherit eutils versionator
 SLOT="$(get_major_version)"
 RDEPEND=">=virtual/jdk-1.6"
 
-MY_PV="93.13"
+MY_PV="93.94"
 
 RESTRICT="strip"
 QA_TEXTRELS="opt/${P}/bin/libbreakgen.so"
