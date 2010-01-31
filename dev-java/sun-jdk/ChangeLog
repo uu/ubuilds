@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/sun-jdk
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  31 Jan 2009, Fabian Fingerle <fabian@datensalat.eu>
+  -sun-jdk-1.7.0.0_alpha78.ebuild, +sun-jdk-1.7.0.0_alpha81.ebuild:
+  Version Bump
 
   19 Dec 2009; Fabian Fingerle <fabian@datensalat.eu>
   -sun-jdk-1.7.0.0_alpha77.ebuild, +sun-jdk-1.7.0.0_alpha78.ebuild:
