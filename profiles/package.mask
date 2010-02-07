@@ -6,6 +6,18 @@
 # NOTE: Please add your entry at the top!
 #
 
+# Vlastimil Babka <caster@gentoo.org) (4 Feb 2010)
+# Instructions for migration from old icedtea:0 to new slotted icedtea:7
+# It is a bit tricky due to a blocker needed to prevent file collisions.
+# 1) emerge --deselect dev-java/icedtea:0
+# If you have icedtea6-bin, icedtea:6 or gcj-jdk then the following will just switch icedtea:0 to icedtea:7
+# 2a) emerge -av dev-java/icedtea:7
+# If you want to rebuild icedtea:7 using just icedtea:0, first create a binpkg, ignoring missing deps
+# 2b) emerge -av --buildpkgonly --nodeps dev-java/icedtea:7
+# 3)  emerge -av --unmerge dev-java/icedtea:0
+# 4)  emerge -av --usepkgonly dev-java/icedtea:7
+=dev-java/icedtea-1*
+
 # Vlastimil Babka <caster@gentoo.org> (02 Apr 2009)
 # Relies on the regjar --virtual stuff that was in Serkan's eclass
 # changes in java-experimental that we removed and he said he would
