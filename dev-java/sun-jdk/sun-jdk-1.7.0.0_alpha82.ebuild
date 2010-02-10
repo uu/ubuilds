@@ -1,25 +1,26 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-inherit versionator java-vm-2 eutils pax-utils
+inherit java-vm-2 eutils pax-utils
 
 MY_PV=${PV/_beta*/}
-U_PV="$(get_version_component_range 4)"
-BETA="0${PV#*_beta}"
-DATE="28_oct_2009"
+MY_PVL=${MY_PV%.*}_${MY_PV##*.}
+MY_PVA=${MY_PV//./_}
+ALPHA=${PV#*_alpha}
+DATE="04_feb_2010"
+MY_RPV=${MY_PV%.*}
 
-BASE_URL="http://www.java.net/download/jdk6/6u${U_PV}/promoted/b${BETA}/binaries/"
-fileprefix="jdk-6u${U_PV}-ea-bin-b${BETA}-linux"
-x86file="${fileprefix}-i586-${DATE}.bin"
-amd64file="${fileprefix}-amd64-${DATE}.bin"
+BASE_URL="http://download.java.net/jdk7/binaries/"
+x86file="jdk-7-ea-bin-b${ALPHA}-linux-i586-${DATE}.bin"
+amd64file="jdk-7-ea-bin-b${ALPHA}-linux-x64-${DATE}.bin"
 
-S="${WORKDIR}/jdk$(replace_version_separator 3 _ ${MY_PV})"
+S="${WORKDIR}/jdk${MY_RPV}"
 DESCRIPTION="Sun's Java Development Kit"
-HOMEPAGE="https://jdk6.dev.java.net/"
+HOMEPAGE="https://jdk7.dev.java.net/"
 SRC_URI="x86? ( ${BASE_URL}/$x86file ) amd64? ( ${BASE_URL}/$amd64file )"
-SLOT="1.6"
-LICENSE="sun-prerelease-jdk6"
+SLOT="1.7"
+LICENSE="sun-prerelease-jdk7"
 KEYWORDS="~amd64 ~x86"
 
 # for the check_license
@@ -27,9 +28,12 @@ PROPERTIES="interactive"
 RESTRICT="mirror strip"
 IUSE="X alsa doc nsplugin examples"
 
-DEPEND="sys-apps/sed"
+# unpack200 needs gcc-4.2 and is used in unpack, thus DEPEND - #267495
+DEPEND=">=sys-devel/gcc-4.2
+	sys-apps/sed"
 
-RDEPEND="doc? ( =dev-java/java-sdk-docs-1.6.0* )
+RDEPEND=">=sys-devel/gcc-4.2
+	doc? ( =dev-java/java-sdk-docs-1.6.0* )
 	alsa? ( media-libs/alsa-lib )
 	x86? ( =virtual/libstdc++-3.3 )
 	X? (
@@ -85,12 +89,7 @@ src_unpack() {
 	else
 		die "unpack not found"
 	fi
-	# see bug #207282
-	if use x86; then
-		einfo "Creating the Class Data Sharing archives"
-		"${S}"/bin/java -client -Xshare:dump || die
-		"${S}"/bin/java -server -Xshare:dump || die
-	fi
+	"${S}"/bin/java -client -Xshare:dump
 }
 
 src_install() {
@@ -152,10 +151,7 @@ pkg_postinst() {
 
 	if use amd64 && use nsplugin; then
 		elog
-		elog "This version finally brings a browser plugin for amd64"
-		elog "It is the so-called Next-Generation Plug-In (plugin2)"
-		elog "Use eselect java-nsplugin to select it (${VMHANDLE})."
-		ewarn "Note that it works only in Firefox 3 or newer browsers!"
+		ewarn "Note that the nsplugin works only in Firefox 3 or newer browsers!"
 		elog "For more info see https://jdk6.dev.java.net/plugin2/"
 		elog
 	fi
@@ -170,7 +166,7 @@ pkg_postinst() {
 
 	echo
 	einfo " Be careful: ${P}'s Java compiler uses"
-	einfo " '-source 1.6' as default. This means that some keywords "
+	einfo " '-source 1.7' as default. This means that some keywords "
 	einfo " such as 'enum' are not valid identifiers any more in that mode,"
 	einfo " which can cause incompatibility with certain sources."
 	einfo " Additionally, some API changes may cause some breakages."
