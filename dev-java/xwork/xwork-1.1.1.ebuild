@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -11,13 +11,11 @@ SRC_URI="https://${PN}.dev.java.net/files/documents/709/28621/${P}.zip"
 LICENSE="OpenSymphony-1.1"
 SLOT="1.1"
 KEYWORDS=""
-IUSE="doc java5 source"
+IUSE="doc source"
 
-DEPEND="java5? ( >=virtual/jdk-1.5 )
-	!java5? ( >=virtual/jdk-1.4 )
+DEPEND=">=virtual/jdk-1.5
 	app-arch/unzip"
-RDEPEND="java5? ( >=virtual/jre-1.5 )
-	!java5? ( >=virtual/jre-1.4 )
+RDEPEND=">=virtual/jre-1.5
 	=dev-java/ognl-2.6*
 	=dev-java/oscore-2.2*
 	dev-java/rife-continuations
@@ -49,14 +47,13 @@ src_unpack() {
 }
 
 src_compile() {
-	local antflags="-Dskip.ivy=false jar"
-	use java5 && antflags="${antflags} tiger"
+	local antflags="-Dskip.ivy=false jar tiger"
 	eant ${antflags} $(use_doc javadocs)
 }
 
 src_install() {
 	java-pkg_newjar build/${P}.jar ${PN}.jar
-	use java5 && java-pkg_newjar build/${PN}-tiger-${PV}.jar ${PN}-tiger.jar
+	java-pkg_newjar build/${PN}-tiger-${PV}.jar ${PN}-tiger.jar
 	use doc && java-pkg_dohtml -r dist/docs/api
 	use source && java-pkg_dosrc src/java/*
 }
