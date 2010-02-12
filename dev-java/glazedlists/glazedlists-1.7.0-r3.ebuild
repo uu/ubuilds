@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -9,15 +9,13 @@ inherit java-pkg-2 eutils java-ant-2
 
 HOMEPAGE="http://publicobject.com/glazedlists/"
 SRC_DOCUMENT_ID_JAVA5="1073/38679"
-SRC_DOCUMENT_ID_JAVA4="1073/38683"
-SRC_URI="java5? ( https://${PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID_JAVA5}/${P}-source_java15.zip )
-	!java5? ( https://${PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID_JAVA4}/${P}-source_java14.zip )"
+SRC_URI="https://${PN}.dev.java.net/files/documents/${SRC_DOCUMENT_ID_JAVA5}/${P}-source_java15.zip"
 LICENSE="|| ( LGPL-2.1 MPL-1.1 )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 # TODO: there are some more extensions which have deps not in the portage tree, which ant-target names are:
 # japex, ktable
-IUSE="java5 jfreechart jgoodiesforms nachocalendar swingx swt"
+IUSE="jfreechart jgoodiesforms nachocalendar swingx swt"
 
 DEPEND_COMMON="
 	jgoodiesforms? ( dev-java/jgoodies-forms )
@@ -30,11 +28,9 @@ DEPEND_COMMON="
 		=dev-java/eclipse-jface-3.3*
 	)"
 
-RDEPEND="java5? ( >=virtual/jre-1.5 )
-	!java5? ( >=virtual/jre-1.4 )
+RDEPEND=">=virtual/jre-1.5
 	${DEPEND_COMMON}"
-DEPEND="java5? ( >=virtual/jdk-1.5 )
-	!java5? ( >=virtual/jdk-1.4 )
+DEPEND=">=virtual/jdk-1.5
 	test? ( dev-java/ant-junit )
 	app-arch/unzip
 	${DEPEND_COMMON}"
@@ -105,11 +101,7 @@ src_test() {
 }
 
 src_install() {
-	if use java5; then
-		java-pkg_newjar "target/${PN}_java15.jar"
-	else
-		java-pkg_newjar "target/${PN}_java14.jar"
-	fi
+	java-pkg_newjar "target/${PN}_java15.jar"
 	if use doc; then
 		dohtml readme.html || die
 		java-pkg_dojavadoc "target/docs/api"
