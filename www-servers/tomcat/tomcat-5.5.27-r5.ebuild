@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/www-servers/tomcat/tomcat-5.5.27-r2.ebuild,v 1.1 2008/12/19 20:48:47 ali_bush Exp $
 
@@ -17,7 +17,7 @@ HOMEPAGE="http://tomcat.apache.org/"
 KEYWORDS="~amd64 -ppc -ppc64 ~x86 ~x86-fbsd"
 LICENSE="Apache-2.0"
 
-IUSE="admin java5 examples test"
+IUSE="admin examples test"
 
 SERVLET_API="~dev-java/tomcat-servlet-api-${PV}"
 RDEPEND="dev-java/eclipse-ecj:3.3
@@ -42,18 +42,8 @@ RDEPEND="dev-java/eclipse-ecj:3.3
 	dev-java/ant-core
 	admin? ( dev-java/struts:1.2 )
 	dev-java/sun-javamail
-	java5? (
-		>=virtual/jre-1.5
-	)
-	!java5? (
-		=virtual/jre-1.4*
-		dev-java/sun-jaf
-		dev-java/mx4j-core:3.0
-		dev-java/xerces:2
-	   	dev-java/xml-commons-external:1.3
-	   )"
-DEPEND="java5? ( >=virtual/jdk-1.5 )
-	!java5? ( =virtual/jdk-1.4* )
+	>=virtual/jre-1.5"
+DEPEND=">=virtual/jdk-1.5
 	${RDEPEND}"
 
 S=${WORKDIR}/${MY_P}
@@ -69,12 +59,6 @@ pkg_setup() {
 	enewuser tomcat -1 -1 /dev/null tomcat
 
 	java-pkg_filter-compiler ecj-3.1  ecj-3.2
-	if use !java5 && built_with_use ${SERVLET_API} java5;
-	then
-		eerror "With USE=\"-java5\" ${SERVLET_API} must also"
-		eerror "be built without java5 support"
-		die "Rebuild ${SERVLET_API} without java5 support"
-	fi
 }
 
 src_unpack() {
@@ -100,13 +84,6 @@ src_unpack() {
 	mkdir ./bin && cd ./bin
 	java-pkg_jar-from commons-logging commons-logging-api.jar
 	java-pkg_jar-from commons-daemon
-	if ! use java5; then
-		java-pkg_jar-from mx4j-core-3.0 mx4j.jar jmx.jar
-		java-pkg_jar-from mx4j-core-3.0 mx4j-rjmx.jar jmx-remote.jar
-		mkdir "${S}"/build/build/common/endorsed && cd "${S}"/build/build/common/endorsed
-		java-pkg_jar-from xml-commons-external-1.3 xml-apis.jar
-		java-pkg_jar-from xerces-2 xercesImpl.jar
-	fi
 
 	mkdir "${S}"/build/build/common/lib && cd "${S}"/build/build/common/lib
 	java-pkg_jar-from ant-core
@@ -161,13 +138,6 @@ src_compile(){
 		antflags="${antflags} -Dexamples.precompile.notrequired=true"
 	fi
 	antflags="${antflags} -Djasper.home=${S}/jasper"
-	if ! use java5; then
-		antflags="${antflags} -Dactivation.jar=$(java-pkg_getjars sun-jaf)"
-		antflags="${antflags} -Djmx.jar=$(java-pkg_getjar mx4j-core-3.0 mx4j.jar)"
-		antflags="${antflags} -Djmx-remote.jar=$(java-pkg_getjar mx4j-core-3.0 mx4j-rjmx.jar)"
-		antflags="${antflags} -DxercesImpl.jar=$(java-pkg_getjar xerces-2 xercesImpl.jar)"
-		antflags="${antflags} -Dxml-apis.jar=$(java-pkg_getjar xml-commons-external-1.3 xml-apis.jar)"
-	fi
 
 	eant ${antflags}
 }
