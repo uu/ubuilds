@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/quartz
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  12 Feb 2010; Vlastimil Babka <caster@gentoo.org> quartz-1.6.0.ebuild:
+  Remove java5 flag.
 
   04 Feb 2009; Alistair Bush <ali_bush@gentoo.org> metadata.xml,
   quartz-1.6.0.ebuild:

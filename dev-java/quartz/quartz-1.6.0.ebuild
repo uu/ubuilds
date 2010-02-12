@@ -1,8 +1,8 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-java/quartz/quartz-1.4.5.ebuild,v 1.4 2005/10/15 11:41:22 axxo Exp $
 
-JAVA_PKG_IUSE="dbcp digester jboss java5 log4j modeler oracle pool source test validator"
+JAVA_PKG_IUSE="dbcp digester jboss log4j modeler oracle pool source test validator"
 
 inherit java-pkg-2 java-ant-2
 
@@ -38,14 +38,13 @@ COMMON_DEPEND="dev-java/commons-collections
 		dev-java/sun-jaf
 		dev-java/sun-javamail
 		dev-java/sun-jms
-		!java5? ( >=dev-java/sun-jmx-1.2.1 )
 		oracle? ( =dev-java/jdbc-oracle-bin-9.2* )
 		jboss? ( >=www-servers/jboss-3.2.3 )"
 
-RDEPEND=">=virtual/jre-1.4
+RDEPEND=">=virtual/jre-1.5
 	${COMMON_DEPEND}"
 
-DEPEND=">=virtual/jdk-1.4
+DEPEND=">=virtual/jdk-1.5
 	${COMMON_DEPEND}
 	app-arch/unzip"
 
@@ -76,7 +75,6 @@ src_compile() {
 	CLASSPATH="$CLASSPATH:$(java-pkg_getjars sun-jaf)"
 	CLASSPATH="$CLASSPATH:$(java-pkg_getjars sun-javamail)"
 	CLASSPATH="$CLASSPATH:$(java-pkg_getjars sun-jms)"
-	use ! java5 && CLASSPATH="$CLASSPATH:$(java-pkg_getjars sun-jmx)"
 	use oracle && CLASSPATH="$CLASSPATH:$(java-pkg_getjars jdbc-oracle-bin-9.2)"
 	if use jboss; then
 
