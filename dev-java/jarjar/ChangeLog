@@ -1,6 +1,9 @@
 # ChangeLog for dev-java/jarjar
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  28 Feb 2010; Vlastimil Babka <caster@gentoo.org> Manifest:
+  Fix building with ant 1.8, bug #263636.
 
   06 Oct 2009; Vlastimil Babka <caster@gentoo.org> jarjar-1.0.ebuild:
   Use build.xml patch, as property did not affect src_test.
