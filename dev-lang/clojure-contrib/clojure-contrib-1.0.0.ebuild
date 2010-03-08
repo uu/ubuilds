@@ -1,4 +1,4 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
@@ -9,19 +9,13 @@ JAVA_PKG_IUSE="source test"
 inherit clojure java-ant-2
 
 DESCRIPTION="User contributed packages for Clojure."
-HOMEPAGE="http://clojure.org/"
-SRC_URI="http://github.com/richhickey/${PN}/zipball/${PV/_rc/-RC} ->  ${P}.zip"
+HOMEPAGE="http://code.google.com/p/clojure-contrib/"
+SRC_URI="http://clojure-contrib.googlecode.com/files/${P}.zip"
 
 LICENSE="EPL-1.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
-
-src_unpack() {
-	default
-	cd "${WORKDIR}" || die "Unable to change directory to ${WORKDIR}"
-	mv richhickey-clojure-contrib-60a6fae "${P}" || die "Unable to rename unpacked source directory."
-}
 
 src_test() {
 	java-pkg-2_src_test
