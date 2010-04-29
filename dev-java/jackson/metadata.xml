@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>java</herd>
+	<longdescription lang="en">
+		Jackson is a:
+
+   		* Streaming (reading, writing)
+    	* FAST (measured to be faster than any other Java json parser and data binder)
+    	* Powerful (full data binding for common JDK classes as well as any Java bean class, Collection, Map or Enum)
+    	* Zero-dependency (does not rely on other packages beyond JDK)
+    	* Open Source (LGPL or AL)
+    	* Fully conformant
+	</longdescription>
+	<use>
+		<flag name="mapper">Build optional mapper jar contain functionality for data binding</flag>
+		<flag name="jaxrs">Build support for JAX-RS implementation to use
+			Jackson.</flag>
+		<flag name="xc">Add XML compatibility support such as JAXB Annotations</flag>
+	</use>
+</pkgmetadata>
+
