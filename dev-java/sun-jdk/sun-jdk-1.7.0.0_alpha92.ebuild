@@ -8,7 +8,7 @@ MY_PV=${PV/_beta*/}
 MY_PVL=${MY_PV%.*}_${MY_PV##*.}
 MY_PVA=${MY_PV//./_}
 ALPHA=${PV#*_alpha}
-DATE="15_apr_2010"
+DATE="06_may_2010"
 MY_RPV=${MY_PV%.*}
 
 BASE_URL="http://download.java.net/jdk7/binaries/"
