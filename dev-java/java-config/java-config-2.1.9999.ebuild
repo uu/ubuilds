@@ -1,6 +1,10 @@
-# Copyright 1999-2009 Gentoo Foundation
+# Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
+
+EAPI="2"
+PYTHON_DEPEND="*:2.6"
+SUPPORT_PYTHON_ABIS="1"
 
 inherit fdo-mime gnome2-utils distutils eutils subversion
 
@@ -15,11 +19,20 @@ SLOT="2"
 KEYWORDS="~amd64 ~ia64 ~ppc ~ppc64 ~x86 ~x86-fbsd"
 IUSE=""
 
-DEPEND="dev-lang/python"
-RDEPEND="${DEPEND}
-	dev-java/java-config-wrapper"
+DEPEND=""
+RDEPEND=">=dev-java/java-config-wrapper-0.15"
+# Tests fail when java-config isn't already installed.
+RESTRICT="test"
+RESTRICT_PYTHON_ABIS="2.4 2.5"
 
 PYTHON_MODNAME="java_config_2"
+
+src_test() {
+	testing() {
+		PYTHONPATH="build-${PYTHON_ABI}/lib" "$(PYTHON)" src/run-test-suite.py
+	}
+	python_execute_function testing
+}
 
 src_install() {
 	distutils_src_install
@@ -29,7 +42,6 @@ src_install() {
 }
 
 pkg_postrm() {
-	distutils_python_version
 	distutils_pkg_postrm
 	fdo-mime_desktop_database_update
 	gnome2_icon_cache_update
@@ -39,15 +51,4 @@ pkg_postinst() {
 	distutils_pkg_postinst
 	fdo-mime_desktop_database_update
 	gnome2_icon_cache_update
-
-	elog "The way Java is handled on Gentoo has been recently updated."
-	elog "If you have not done so already, you should follow the"
-	elog "instructions available at:"
-	elog "\thttp://www.gentoo.org/proj/en/java/java-upgrade.xml"
-	elog
-	elog "While we are moving towards the new Java system, we only allow"
-	elog "1.3 or 1.4 JDKs to be used with java-config-1 to ensure"
-	elog "backwards compatibility with the old system."
-	elog "For more details about this, please see:"
-	elog "\thttp://www.gentoo.org/proj/en/java/why-we-need-java-14.xml"
 }

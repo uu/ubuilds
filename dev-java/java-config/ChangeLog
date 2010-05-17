@@ -1,6 +1,10 @@
 # ChangeLog for dev-java/java-config
-# Copyright 1999-2008 Gentoo Foundation; Distributed under the GPL v2
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
 # $Header: $
+
+  17 May 2010; Vlastimil Babka <caster@gentoo.org>
+  java-config-2.1.9999.ebuild:
+  Sync changes from ebuild in main tree.
 
   14 Aug 2008; Jesse Farinacci <jieryn@gmail.com> +metadata.xml:
   creating metadata.xml to shut up repoman
