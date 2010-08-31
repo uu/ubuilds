@@ -123,7 +123,8 @@ jaxb_compile_subpkg() {
 	ejavac ${classpath:+-classpath "${classpath}"} \
 		 -encoding UTF-8 -d classes $(find src -name \*.java)
 	echo "${subdir} recompiled from source"
-	for file in $(find src -name \*.properties); do
+	for file in $(find src -type f -a \
+				  ! \( -name \*.java -o -name package.html \) ); do
 		mkdir -p classes/$(dirname ${file#src/}) || die
 		cp ${file} classes/${file#src/} || die
 	done
