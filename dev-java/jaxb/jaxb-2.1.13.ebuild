@@ -64,7 +64,7 @@ java_prepare() {
 	find . -name \*.jar -print0 | xargs -0 rm
 
 	cd "${S}/tools/compiler10" || die
-	java-pkg_jarfrom jaxb-1 jaxb-xjc.jar jaxb1-xjc.jar
+	java-pkg_jarfrom --build-only jaxb-1 jaxb-xjc.jar jaxb1-xjc.jar
 
 	cd "${S}/tools/lib/rebundle/compiler" || die
 	java-pkg_jarfrom --build-only codemodel-2 codemodel.jar
