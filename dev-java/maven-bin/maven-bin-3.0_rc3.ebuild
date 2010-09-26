@@ -9,7 +9,7 @@ MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Project Management and Comprehension Tool for Java"
 #SRC_URI="mirror://apache/maven/binaries/apache-maven-3.0-beta-3-bin.tar.gz"
-SRC_URI="https://repository.apache.org/content/repositories/maven-006/org/apache/maven/apache-maven/3.0-RC2/apache-maven-3.0-RC2-bin.tar.gz"
+SRC_URI="https://repository.apache.org/content/repositories/maven-014/org/apache/maven/apache-maven/3.0-RC3/apache-maven-3.0-RC3-bin.tar.gz"
 HOMEPAGE="http://maven.apache.org/"
 LICENSE="Apache-2.0"
 SLOT="3.0"
@@ -20,7 +20,7 @@ RDEPEND=">=virtual/jdk-1.5
 
 IUSE=""
 
-S="${WORKDIR}/apache-maven-3.0-RC2"
+S="${WORKDIR}/apache-maven-3.0-RC3"
 
 MAVEN=${PN}-${SLOT}
 MAVEN_SHARE="/usr/share/${MAVEN}"
