@@ -1,0 +1,9 @@
+# ChangeLog for dev-java/swingx
+# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*dcd-1.1 (28 Sep 2010)
+
+  28 Sep 2010; Ralph Sennhauser <gentoo.sera@bluewin.ch> +dcd-1.1.ebuild,
+  +metadata.xml, +ChangeLog :
+  Add ebuild for dcd-1.1
