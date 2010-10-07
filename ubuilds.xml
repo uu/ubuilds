@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<layman>
+	<overlay 
+		type="git"
+	      src="git://github.com/uu/ubuilds.git"
+		      contact="uu@megaplan.ru"
+			      name="ubuilds">
+		<link>http://github.com/uu/ubuilds</link>
+		<description>
+			Various unstable ebuilds.
+		</description>
+	</overlay>
+</layman>
