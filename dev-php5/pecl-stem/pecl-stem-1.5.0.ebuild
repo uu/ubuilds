@@ -20,7 +20,7 @@ PHP_EXT_NAME="stem"
 PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 
-inherit php-ext-pecl-r1
+inherit php-ext-pecl-r2
 
 DESCRIPTION="a PHP extension that provides word stemming"
 
