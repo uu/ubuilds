@@ -4,17 +4,6 @@
 
 EAPI=3
 
-#DESCRIPTION=""
-#HOMEPAGE=""
-#SRC_URI=""
-
-#LICENSE=""
-#SLOT="0"
-#KEYWORDS="~x86"
-#IUSE=""
-
-#DEPEND=""
-#RDEPEND="${DEPEND}"
 
 PHP_EXT_NAME="stem"
 PHP_EXT_INI="yes"
@@ -27,9 +16,8 @@ DESCRIPTION="a PHP extension that provides word stemming"
 LICENSE="PHP 3.01"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-#IUSE="examples"
 
 DEPEND="dev-lang/php[curl,hash,ssl]"
 RDEPEND="${DEPEND}"
-
-need_php_by_category
+IUSE=""
+#need_php_by_category
