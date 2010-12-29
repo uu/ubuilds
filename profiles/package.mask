@@ -32,11 +32,6 @@
 # Crap, no distfile, ebuild has errors.
 dev-java/joram-tests
 
-# Serkan Kaba <serkan@gentoo.org> (31 Jan 2009)
-# Mask java-1.7.
-=virtual/jdk-1.7*
-=dev-java/sun-jdk-1.7*
-
 # Serkan Kaba <serkan@gentoo.org> (27 Oct 2008)
 # Mask languagetool,jwordsplitter CVS ebuild.
 =app-text/languagetool-9999
