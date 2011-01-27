@@ -20,7 +20,7 @@ IUSE=""
 DISTDIR="/usr/portage/distfiles/"
 DEPEND="dev-lang/php
 	dev-util/re2c
-	dev-php/pinba"
+	dev-php5/pinba"
 RDEPEND="${DEPEND}"
 
 
@@ -31,25 +31,24 @@ RDEPEND="${DEPEND}"
 	#eaclocal
 	#utoreconf
 #
+S="${WORKDIR}/pinba_extension-${PV}"
+#src_unpack() {
+#	PN="pinba_extension"
+#}
 src_prepare() {
-	mv pinba-${PV} ${P}
 	php-ext-source-r2_src_prepare
-#	phpize
-#	cd pinba-${PV}	
-#	econf --with-pinba=/usr
-#	rm aclocal.m4
-#	eautoreconf
-#	elibtoolize
-
-
+}
+src_configure() {
+	php-ext-source-r2_src_configure
 }
 #need_php_by_category
 src_install() {
-	cd pinba-${PV}	
 	php-ext-source-r2_src_install
-	dodir "${PHP_EXT_SHARED_DIR}"
-	insinto "${PHP_EXT_SHARED_DIR}"
-	doins pinba.php
+	dodoc NEWS README CREDITS
+#	dodir "${PHP_EXT_SHARED_DIR}"
+
+#insinto "${PHP_EXT_SHARED_DIR}"
+#	doins pinba.php
 
 	#einstall
 	#php-lib-r1_src_install ./ 
