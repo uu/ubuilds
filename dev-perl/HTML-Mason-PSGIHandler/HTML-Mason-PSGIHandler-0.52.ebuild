@@ -3,10 +3,9 @@
 # $Header: $
 inherit perl-module
 
-DESCRIPTION="Read and write JPEG files"
-#SRC_URI="mirror://cpan/authors/id/P/PG/PGOLLUCCI/${P}.tar.gz"
-SRC_URI="mirror://cpan/authors/id/T/TO/TONYC/${P}.tar.gz"
-HOMEPAGE="http://search.cpan.org/~tonyc/${P}/"
+DESCRIPTION="PSGI handler for HTML::Mason"
+SRC_URI="mirror://cpan/authors/id/A/AB/ABH/${P}.tar.gz"
+HOMEPAGE="http://search.cpan.org/~ruz/${P}/"
 
 SLOT="0"
 LICENSE="|| ( Artistic GPL-2 )"
