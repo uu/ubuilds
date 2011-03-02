@@ -21,7 +21,7 @@ RDEPEND="${DEPEND}"
 
 pkg_setup() {
 #	confutils_require_one mysql mariadb
-	ebuild /usr/portage/dev-db/mysql/mysql-5.1.50-r1.ebuild compile
+	ebuild /usr/portage/dev-db/mysql/mysql-5.1.51.ebuild compile
 	#mv /var/tmp/portage/dev-db/mysql-5.1.52/work 
 }
 
@@ -29,7 +29,7 @@ pkg_setup() {
 src_configure() {
 	ebuild /
 	local
-	myconf="--with-mysql=/var/tmp/portage/dev-db/mysql-5.1.50-r1/work/mysql/
+	myconf="--with-mysql=/var/tmp/portage/dev-db/mysql-5.1.51/work/mysql/
 	--with-protobuf --with-judy --with-event"
 	myconf="${myconf} --libdir=/usr/$(get_libdir)/mysql/plugin"
 	cd "pinba_engine-${PV}"
