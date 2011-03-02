@@ -15,7 +15,7 @@ inherit autotools eutils php-ext-source-r2
 
 LICENSE="GPL"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 DISTDIR="/usr/portage/distfiles/"
 DEPEND="dev-lang/php
