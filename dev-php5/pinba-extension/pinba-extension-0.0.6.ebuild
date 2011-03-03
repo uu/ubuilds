@@ -20,7 +20,7 @@ IUSE=""
 DISTDIR="/usr/portage/distfiles/"
 DEPEND="dev-lang/php
 	dev-util/re2c
-	dev-php5/pinba"
+	dev-libs/protobuf"
 RDEPEND="${DEPEND}"
 
 
