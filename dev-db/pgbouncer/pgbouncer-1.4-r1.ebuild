@@ -27,8 +27,7 @@ inherit eutils autotools
 src_prepare() {
 	sed -i -e "s,pgbouncer.log,/var/log/pgbouncer/pgbouncer.log," \
 		-e "s,pgbouncer.pid,/var/run/pgbouncer/pgbouncer.pid," \
-		-e "s,etc/userlist.txt,/etc/userlist.txt," 
-etc/pgbouncer.ini || die
+		-e "s,etc/userlist.txt,/etc/userlist.txt," etc/pgbouncer.ini || die
 }
 
 src_configure() {
@@ -62,10 +61,8 @@ pkg_postinst() {
 	einfo
 	einfo "See 'man pgbouncer' for Administration Commands"
 	einfo
-	einfo "By default, PgBouncer does not have access to any 
-databases."
-	einfo "Create on with permissions needed for your application 
-and"
+	einfo "By default, PgBouncer does not have access to any databases."
+	einfo "Create on with permissions needed for your application and"
 	einfo "make sure that it exists in pgbouncer's auth_file."
 }
 
