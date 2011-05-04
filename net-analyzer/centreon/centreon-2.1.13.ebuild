@@ -50,7 +50,7 @@ RDEPEND="
 	dev-perl/Socket6"
 
 #need_2
-need_php5
+need_php5.3
 
 setup_vars() {
 	INSTALL_DIR_OREON="/usr/share/centreon"
