@@ -89,7 +89,7 @@ CDEPEND="
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_passenger? (
-		$(ruby_implementation_depend ruby18)
+		$(ruby_implementation_depend ree18)
 		>=dev-ruby/rubygems-0.9.0
 		>=dev-ruby/rake-0.8.1
 		>=dev-ruby/fastthread-1.0.1
@@ -310,7 +310,7 @@ src_install() {
 		# manually
 		cd "${WORKDIR}"/passenger-${PASSENGER_PV}
 
-		export RUBY="ruby18"
+		export RUBY="ree18"
 
 		insinto $(${RUBY} -rrbconfig -e 'print Config::CONFIG["archdir"]')
 		insopts -m 0755
