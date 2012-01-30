@@ -1,8 +1,0 @@
-OREON_DIR=/usr/share/centreon
-LOG_DIR=/var/log/centreon
-
-*/2 * * * *    nagios /usr/bin/php -q ${OREON_DIR}/cron/centAcl.php 2>&1 >> ${LOG_DIR}/centAcl.log
-0 1 1-31 * * nagios /usr/bin/perl ${OREON_DIR}/cron/archiveDayLog 2>&1 >> ${LOG_DIR}/archiveDayLog.log
-* * * * *    nagios /usr/sbin/logAnalyser 2>&1 >> ${LOG_DIR}/logAnalyser.log
-*/5 * * * *    nagios /usr/sbin/nagiosPerfTrace 2>&1 >> ${LOG_DIR}/nagiosPerfTrace.log
-0 2 * * *    nagios ${OREON_DIR}/cron/centreonPurge.sh 2>&1 >> ${LOG_DIR}/centreonPurge.log

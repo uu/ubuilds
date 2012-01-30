@@ -1,7 +1,0 @@
-# ChangeLog for dev-java/jaranalyzer
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  08 Apr 2009; Ralph Sennhauser <gentoo.sera@bluewin.ch>
-  +jaranalyzer-1.2.ebuild,+files/build.xml:
-  Adding package jaranalyzer.

@@ -1,7 +1,0 @@
-# ChangeLog for dev-java/commonj-twm
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-	04 Apr 2009; Ralph Sennhauser <gentoo.sera@bluewin.ch>
-	+commonj-twm-1.1.ebuild:
-	adding commonj-twm, spring dependency

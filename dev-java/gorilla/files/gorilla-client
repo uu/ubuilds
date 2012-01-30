@@ -1,6 +1,0 @@
-#!/bin/bash
-if [[ -z ${GORILLA_HOST} || -z ${GORILLA_PORT} ]] ; then
-	echo "Warning, either GORILLA_HOST or GORILLA_PORT is not set."
-	exit 1
-fi
-/usr/bin/ng --nailgun-server ${GORILLA_HOST} --nailgun-port ${GORILLA_PORT} ${@}

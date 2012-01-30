@@ -1,9 +1,0 @@
-# ChangeLog for dev-java/hamcrest-generator
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  03 Nov 2009; Daniel Solano Gómez <gentoo@sattvik.com>
-  +hamcrest-generator-1.2.ebuild,
-  +files/hamcrest-generator-1.2-no_jarjar.patch,
-  +files/hamcrest-1.2-no_source_in_jar.patch, +metadata.xml:
-  New package: dev-java/hamcrest-generator

@@ -1,8 +1,0 @@
-# ChangeLog for dev-java/stun4j
-# Copyright 1999-2007 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  22 Apr 2007; Miroslav Šulc <fordfrog@gentoo.org> +stun4j-20051206.ebuild,
-  +metadata.xml:
-  New package
-

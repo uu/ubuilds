@@ -1,9 +1,0 @@
-# ChangeLog for dev-libs/thrift
-# Copyright 1999-2010 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-*thrift-0.2.0 (28 Apr 2010)
-
-  28 Apr 2010; Alistair Bush <ali_bush@gentoo.org> +thrift-0.2.0.ebuild:
-  Add initial ebuild. from #309403
-

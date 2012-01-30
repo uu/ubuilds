@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
-<pkgmetadata>
-  <herd>java</herd>
-  <longdescription lang="en">
-    MTPSynchronizer is a very simple interface for adding, deleting and retrieving content from your MTP device, with a Linux desktop
-  </longdescription>
-</pkgmetadata>
-

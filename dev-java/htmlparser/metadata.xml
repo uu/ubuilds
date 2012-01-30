@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
-<pkgmetadata>
-  <herd>java</herd>
-  <longdescription lang="en">
-    HTML Parser is a Java library used to parse HTML in either a linear or nested fashion.
-  </longdescription>
-</pkgmetadata>
-

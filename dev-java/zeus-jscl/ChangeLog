@@ -1,6 +1,0 @@
-# ChangeLog for dev-java/zeus-jscl
-# Copyright 1999-2009 Gentoo Foundation; Distributed under the GPL v2
-# $Header: $
-
-  04 Apr 2009; Ralph Sennhuser <gento.sera@bluewin.ch> +zeus-jscl-1.60.ebuild:
-  Adding package zeus-jscl.
