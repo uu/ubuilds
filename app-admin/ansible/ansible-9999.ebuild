@@ -29,6 +29,10 @@ src_compile() {
 
 src_install() {
 	distutils_src_install
+	dodir /usr/share/ansible
+	insinto /usr/share/ansible
+	insopts -m0655
+	doins library/*
 	dodoc COPYING 
 	ewarn "You have to create hosts file for user:"
 	ewarn "		echo \"127.0.0.1\" > ~/ansible_hosts"
