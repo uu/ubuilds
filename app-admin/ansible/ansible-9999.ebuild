@@ -10,7 +10,7 @@ SRC_URI=""
 
 DESCRIPTION="Ansible is a radically simple deployment, model-driven configuration management, and command execution framework. "
 HOMEPAGE="http://ansible.github.com/"
-
+KEYWORDS="~alpha ~amd64 ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
 LICENSE="GPL-3"
 SLOT="0"
 IUSE="templates"
