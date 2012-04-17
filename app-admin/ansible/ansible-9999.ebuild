@@ -31,9 +31,9 @@ src_install() {
 	distutils_src_install
 	dodoc COPYING 
 	ewarn "You have to create hosts file for user:"
-	einfo "		echo \"127.0.0.1\" > ~/ansible_hosts"
+	ewarn "		echo \"127.0.0.1\" > ~/ansible_hosts"
 	ewarn "or global:"
-	einfo "		echo \"127.0.0.1\" > /etc/ansible/hosts"
-	einfo ""
-	einfo "More info on http://ansible.github.com/gettingstarted.html"
+	ewarn "		echo \"127.0.0.1\" > /etc/ansible/hosts"
+	ewarn ""
+	ewarn "More info on http://ansible.github.com/gettingstarted.html"
 }
