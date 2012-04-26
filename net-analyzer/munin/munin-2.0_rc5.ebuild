@@ -38,6 +38,9 @@ DEPEND_COM="dev-lang/perl
 			dev-perl/libwww-perl
 			dev-perl/net-server
 			dev-perl/DBI
+			dev-perl/FCGI
+			dev-perl/File-Copy-Recursive
+			dev-perl/IO-Socket-INET6
 			virtual/perl-Digest-MD5
 			virtual/perl-Getopt-Long
 			virtual/perl-MIME-Base64
