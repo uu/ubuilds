@@ -105,9 +105,10 @@ HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_SHA1="86e7a18"
 
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.22rc3"
+HTTP_SET_MISC_MODULE_PV="0.22rc8"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="7adef5a"
+HTTP_SET_MISC_MODULE_SHA1="658c235"
+HTTP_SET_MISC_MODULE_URI="http://github.com/agentzh/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
 # NginX XSS module (https://github.com/agentzh/xss-nginx-module, BSD)
 HTTP_XSS_MODULE_PV="0.03rc3"
@@ -175,7 +176,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_echo? ( https://github.com/agentzh/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
 	nginx_modules_http_rds_json? ( https://github.com/agentzh/rds-json-nginx-module/tarball/v${HTTP_RDS_JSON_MODULE_PV} -> ${HTTP_RDS_JSON_MODULE_P}.tar.gz )
 	nginx_modules_http_srcache? ( https://github.com/agentzh/srcache-nginx-module/tarball/v${HTTP_SRCACHE_MODULE_PV} -> ${HTTP_SRCACHE_MODULE_P}.tar.gz )
-	nginx_modules_http_set_misc? ( https://github.com/agentzh/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )
+	nginx_modules_http_set_misc? ( ${HTTP_SET_MISC_MODULE_URI} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )
 	nginx_modules_http_xss? ( https://github.com/agentzh/xss-nginx-module/tarball/v${HTTP_XSS_MODULE_PV} -> ${HTTP_XSS_MODULE_P}.tar.gz )
 	nginx_modules_http_array_var? ( https://github.com/agentzh/array-var-nginx-module/tarball/v${HTTP_ARRAY_VAR_MODULE_PV} -> ${HTTP_ARRAY_VAR_MODULE_P}.tar.gz )
 	nginx_modules_http_iconv? ( https://github.com/calio/iconv-nginx-module/tarball/v${HTTP_ICONV_MODULE_PV} -> ${HTTP_ICONV_MODULE_P}.tar.gz )
