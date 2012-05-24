@@ -33,7 +33,13 @@ HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}
 HTTP_HEADERS_MORE_MODULE_SHA1="3580526"
 
 # http_redis (http://wiki.nginx.org/HttpRedis)
-HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
+#HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
+
+# http_redis (https://github.com/agentzh/redis2-nginx-module, BSD license)
+HTTP_REDIS_MODULE_PV="0.08rc4"
+HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
+HTTP_REDIS_MODULE_SHA1="5044f16"
+HTTP_REDIS_MODULE_URI="http://github.com/agentzh/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
 HTTP_PUSH_MODULE_PV="0.692"
@@ -59,11 +65,16 @@ HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="bc97eea"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
-HTTP_LUA_MODULE_PV="0.3.1rc19"
-HTTP_LUA_MODULE_P="lua-nginx-module-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="b25d06b"
+#HTTP_LUA_MODULE_PV="0.3.1rc19"
+#HTTP_LUA_MODULE_P="lua-nginx-module-${HTTP_LUA_MODULE_PV}"
+#HTTP_LUA_MODULE_SHA1="b25d06b"
 
-# NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
+# http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
+HTTP_LUA_MODULE_PV="0.5.0rc28"
+HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
+HTTP_LUA_MODULE_SHA1="7a7ac79"
+HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
+
 HTTP_DRIZZLE_MODULE_PV="0.1.2rc2"
 HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
 HTTP_DRIZZLE_MODULE_SHA1="44f8593"
@@ -152,13 +163,13 @@ HOMEPAGE="http://sysoev.ru/nginx/
 SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_headers_more? ( https://github.com/agentzh/headers-more-nginx-module/tarball/v${HTTP_HEADERS_MORE_MODULE_PV} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( https://github.com/FooBarWidget/passenger/tarball/master -> passenger-git-${PASSENGER_PV}.tar.gz )
-	nginx_modules_http_redis? ( http://people.freebsd.org/~osa/${HTTP_REDIS_MODULE_P}.tar.gz )
+	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} ->	${HTTP_REDIS_MODULE_P}.tar.gz )
 	nginx_modules_http_push? ( http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz )
 	nginx_modules_http_cache_purge? ( http://labs.frickle.com/files/${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
 	nginx_modules_http_upload? ( http://www.grid.net.ru/nginx/download/${HTTP_UPLOAD_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( https://github.com/msva/nginx-ey-balancer/tarball/v${HTTP_EY_BALANCER_MODULE_PV} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( https://github.com/simpl/ngx_devel_kit/tarball/v${HTTP_NDK_MODULE_PV} -> ${HTTP_NDK_MODULE_P}.tar.gz )
-	nginx_modules_http_lua? ( https://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV} -> ${HTTP_LUA_MODULE_P}.tar.gz )
+	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_drizzle? ( https://github.com/chaoslawful/drizzle-nginx-module/tarball/v${HTTP_DRIZZLE_MODULE_PV} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( https://github.com/calio/form-input-nginx-module/tarball/v${HTTP_FORM_INPUT_MODULE_PV} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
 	nginx_modules_http_echo? ( https://github.com/agentzh/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
@@ -309,7 +320,7 @@ src_prepare() {
 	fi
 
 	if use nginx_modules_http_passenger; then
-		mv "${WORKDIR}/FooBarWidget-passenger-2aadb5d" "${WORKDIR}"/passenger-"${PASSENGER_PV}";
+		mv "${WORKDIR}/FooBarWidget-passenger-2c75a53" "${WORKDIR}"/passenger-"${PASSENGER_PV}";
 		cd "${WORKDIR}"/passenger-"${PASSENGER_PV}";
 
 		epatch "${FILESDIR}"/passenger-3.0.9-gentoo.patch
@@ -517,7 +528,8 @@ src_configure() {
 # http_redis
 	if use nginx_modules_http_redis; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/${HTTP_REDIS_MODULE_P}"
+		#myconf+=" --add-module=${WORKDIR}/${HTTP_REDIS_MODULE_P}"
+		myconf+=" --add-module=${WORKDIR}/agentzh-redis2-nginx-module-${HTTP_REDIS_MODULE_SHA1}"
 	fi
 
 	if use http || use http-cache; then
