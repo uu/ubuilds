@@ -26,10 +26,6 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	php-ext-source-r2_src_prepare
-	if use threads; then
-		cd "${S}"
-		epatch "${FILESDIR}/${P}-tsrm_ls.patch"
-	fi
 }
 
 src_install() {
