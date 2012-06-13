@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-ruby/net-sftp/net-sftp-2.0.5.ebuild,v 1.7 2012/05/01 18:24:27 armin76 Exp $
 
-EAPI="2"
-USE_RUBY="ruby18 ruby19"
+EAPI="4"
+USE_RUBY="ruby19"
 
 RUBY_FAKEGEM_TASK_DOC="doc"
 
