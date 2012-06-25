@@ -1,0 +1,4 @@
+#!/bin/sh
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/megacli/lib"
+export LD_PRELOAD=/opt/megacli/lib/libfake-uname.so
+exec /opt/megacli/megacli "$@"
