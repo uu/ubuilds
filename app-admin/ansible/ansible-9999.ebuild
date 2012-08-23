@@ -5,6 +5,8 @@
 EAPI="4"
 
 EGIT_REPO_URI="git://github.com/ansible/ansible.git"
+EGIT_BRANCH="devel"
+
 inherit git-2 distutils
 SRC_URI=""
 
