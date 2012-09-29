@@ -23,6 +23,7 @@ DEPEND="${RDEPEND}"
 CONFIG_CHECK="MD BLK_DEV_DM DM_UEVENT"
 
 src_compile() {
+	sed -i '/COMMIT_REV/d' Makefile
     MAKEOPTS="-j1"
 	BUILD_TARGETS=" "
     linux-mod_src_compile
