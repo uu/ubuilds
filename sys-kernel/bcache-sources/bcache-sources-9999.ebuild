@@ -9,6 +9,7 @@ ETYPE="sources"
 #CKV=`date +%F`
 CKV="3.6.0"
 K_SECURITY_UNSUPPORTED="1"
+K_DEBLOB_AVAILABLE="0"
 
 inherit kernel-2 git-2
 detect_version

@@ -41,18 +41,24 @@ src_install() {
   if use fuse; then
   	dosbin ${S}/fuse/sector-fuse
   fi
-  dosbin ${S}/master/start_all
-  dosbin ${S}/master/start_master
-  dosbin ${S}/master/stop_all
-  dosbin ${S}/slave/start_slave
-  dosbin ${S}/security/sserver
-  dosbin ${S}/security/ssl_cert_gen
-  dosbin ${S}/tools/sector_*
-  dolib.so  ${S}/lib/*.so
-  dodir /etc/sector
-  dodir /etc/sector/users
-  insinto /etc/sector
+  dodir /opt/sector
+  dodir /opt/sector/{master,lib,slave,security,tools,conf}
+  dodir /opt/sector/conf/users
+  insinto /opt/sector/master
+  doins ${S}/master/start_all
+  doins ${S}/master/start_master
+  doins ${S}/master/stop_all
+  insinto /opt/sector/slave
+  doins ${S}/slave/start_slave
+  insinto /opt/sector/security
+  doins ${S}/security/sserver
+  doins ${S}/security/ssl_cert_gen
+  insinto /opt/sector/tools
+  doins ${S}/tools/sector_*
+  insinto /opt/sector/lib
+  doins  ${S}/lib/*.so
+  insinto /opt/sector/conf
   doins conf/*
-  insinto /etc/sector/users
+  insinto /opt/sector/conf/users
   doins conf/users/*
 }
