@@ -45,22 +45,31 @@ src_install() {
 	cat > "${PN}" <<-EOF
 		#!/sbin/runscript
 
-		opts="start stop restart"
+		#opts="start stop restart"
 
 		start() {
+			ebegin "Starting zookeeper"
 			${INSTALL_DIR}/bin/zkServer.sh start > /dev/null
+			eend $?
 				}
 
 		stop() {
+			ebegin "Stopping zookeeper"
+
 			${INSTALL_DIR}/bin/zkServer.sh stop
+			eend $?
 				}
 
 		restart() {
+			ebegin "Restarting zookeeper"
 			${INSTALL_DIR}/bin/zkServer.sh restart > /dev/null
+			eend $?
 				}
 
 		status() {
+			ebegin "Starting zookeeper"
 			${INSTALL_DIR}/bin/zkServer.sh status
+			eend $?
 				}
 	EOF
 	doinitd "${PN}" || die "doinitd failed"
