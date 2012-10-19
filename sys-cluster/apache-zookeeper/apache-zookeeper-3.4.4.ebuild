@@ -46,23 +46,23 @@ src_install() {
 		#!/sbin/runscript
 
 		#opts="start stop restart"
-
+		extra_commands="status restart"
 		start() {
 			ebegin "Starting zookeeper"
-			${INSTALL_DIR}/bin/zkServer.sh start > /dev/null
+			${INSTALL_DIR}/bin/zkServer.sh start &> /dev/null
 			eend $?
 				}
 
 		stop() {
 			ebegin "Stopping zookeeper"
 
-			${INSTALL_DIR}/bin/zkServer.sh stop
+			${INSTALL_DIR}/bin/zkServer.sh stop &> /dev/null
 			eend $?
 				}
 
 		restart() {
 			ebegin "Restarting zookeeper"
-			${INSTALL_DIR}/bin/zkServer.sh restart > /dev/null
+			${INSTALL_DIR}/bin/zkServer.sh restart &> /dev/null
 			eend $?
 				}
 
