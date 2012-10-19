@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-db/repmgr/repmgr-9999.ebuild,v 1.1 2012/09/10 15:10:25 uu Exp $
 EAPI=4
 
-inherit distutils git-2 versionator eutils
+inherit git-2 versionator eutils
 
 DESCRIPTION="PostgreSQL Replication Manager"
 
