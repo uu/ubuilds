@@ -35,7 +35,7 @@ src_install() {
   dodir /usr/share/postgresql-${PGSLOT}/contrib/
   insinto /usr/share/postgresql-${PGSLOT}/contrib/
   doins sql/repmgr_funcs.sql repmgr.sql sql/uninstall_repmgr_funcs.sql uninstall_repmgr.sql 
-  fowners postgres:postgres /usr/share/postgresql-${PGSLOT}/contrib/*
+  #fowners postgres:postgres /usr/share/postgresql-${PGSLOT}/contrib/*
   dobin repmgr repmgrd
   dodoc  CREDITS COPYRIGHT README.rst LICENSE TODO
   insinto /etc
