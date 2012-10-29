@@ -72,7 +72,7 @@ HTTP_NDK_MODULE_SHA1="bc97eea"
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
 HTTP_LUA_MODULE_PV="0.7.2"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="e607b639"
+HTTP_LUA_MODULE_SHA1="e607b63"
 HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 
 HTTP_DRIZZLE_MODULE_PV="0.1.4"
