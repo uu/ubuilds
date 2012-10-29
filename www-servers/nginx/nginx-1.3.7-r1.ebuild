@@ -38,7 +38,7 @@ HTTP_HEADERS_MORE_MODULE_SHA1="3580526"
 # http_redis (https://github.com/agentzh/redis2-nginx-module, BSD license)
 HTTP_REDIS_MODULE_PV="0.09"
 HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
-HTTP_REDIS_MODULE_SHA1="279beeeb"
+HTTP_REDIS_MODULE_SHA1="279beee"
 HTTP_REDIS_MODULE_URI="http://github.com/agentzh/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
