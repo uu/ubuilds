@@ -25,7 +25,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="doc"
 
-RDEPEND=">=dev-python/ssh-1.7.14"
+RDEPEND=">=dev-python/ssh-1.7.14 >=dev-python/paramiko-1.8.0"
 DEPEND="${RDEPEND}
 	dev-python/setuptools
 	doc? ( dev-python/sphinx )
