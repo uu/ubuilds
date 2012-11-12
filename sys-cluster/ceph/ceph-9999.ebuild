@@ -11,6 +11,8 @@ HOMEPAGE="http://ceph.com/"
 #SRC_URI="http://ceph.com/download/${P}.tar.bz2"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/ceph/ceph.git"
+EGIT_BOOTSTRAP="eautoreconf"
+EGIT_HAS_SUBMODULES="true"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
@@ -39,28 +41,15 @@ CDEPEND="
 	tcmalloc? ( dev-util/google-perftools )
 	"
 DEPEND="${CDEPEND}
-	virtual/pkgconfig"
+	virtual/pkgconfig dev-db/leveldb"
 RDEPEND="${CDEPEND}
 	sys-fs/btrfs-progs"
 
 STRIP_MASK="/usr/lib*/rados-classes/*"
 
-src_prepare() {
-	sed -e 's:invoke-rc\.d.*:/etc/init.d/ceph reload >/dev/null:' \
-		-i src/logrotate.conf || die
-	sed -i "/^docdir =/d" src/Makefile.am || die #fix doc path
-	# disable testsnaps
-	sed -e '/testsnaps/d' -i src/Makefile.am || die
-	sed -e "/bin=/ s:lib:$(get_libdir):" "${FILESDIR}"/${PN}.initd \
-		> "${T}"/${PN}.initd || die
-	#sed -i -e '/AM_INIT_AUTOMAKE/s:-Werror ::' src/leveldb/configure.ac || die #423755
-	eautoreconf
-}
-
 src_configure() {
 	econf \
 		--without-hadoop \
-		--with-system-leveldb \
 		--docdir="${EPREFIX}/usr/share/doc/${PF}" \
 		--includedir=/usr/include \
 		$(use_with debug) \
