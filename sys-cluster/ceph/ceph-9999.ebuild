@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit autotools eutils multilib git-2
+inherit autotools eutils multilib git-2 linux-info
 
 DESCRIPTION="Ceph distributed filesystem"
 HOMEPAGE="http://ceph.com/"
@@ -12,12 +12,14 @@ HOMEPAGE="http://ceph.com/"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/ceph/ceph.git"
 EGIT_BOOTSTRAP="eautoreconf"
+EGIT_BRANCH="next"
 EGIT_HAS_SUBMODULES="true"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="debug fuse gtk libatomic radosgw static-libs tcmalloc"
+CONFIG_CHECK="CRYPTO_CBC CRYPTO_AES_X86_64 CRYPTO_AES"
 
 CDEPEND="
 	dev-libs/boost

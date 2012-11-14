@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit autotools eutils multilib
+inherit autotools eutils multilib linux-info
 
 DESCRIPTION="Ceph distributed filesystem"
 HOMEPAGE="http://ceph.com/"
@@ -14,7 +14,7 @@ LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="debug fuse gtk libatomic radosgw static-libs tcmalloc"
-
+CONFIG_CHECK="CRYPTO_CBC CRYPTO_AES_X86_64 CRYPTO_AES"
 CDEPEND="
 	dev-libs/boost
 	dev-libs/fcgi
