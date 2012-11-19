@@ -579,13 +579,13 @@ src_configure() {
 		--prefix=/usr \
 		--sbin-path=/usr/sbin/nginx \
 		--conf-path=/etc/"${MY_NAME}"/"${MY_NAME}".conf \
-		--error-log-path=/var/log/"${MY_NAME}"/error_log \
+		--error-log-path=/var/tmp/"${MY_NAME}"/error_log \
 		--pid-path=/var/run/"${MY_NAME}".pid \
 		--lock-path=/var/lock/nginx.lock \
 		--user="${MY_NAME}" --group="${MY_NAME}" \
 		--with-cc-opt="-I${ROOT}usr/include" \
 		--with-ld-opt="-L${ROOT}usr/lib" \
-		--http-log-path=/var/log/"${MY_NAME}"/access_log \
+		--http-log-path=/var/tmp/"${MY_NAME}"/access_log \
 		--http-client-body-temp-path=/var/tmp/"${MY_NAME}"/client \
 		--http-proxy-temp-path=/var/tmp/"${MY_NAME}"/proxy \
 		--http-fastcgi-temp-path=/var/tmp/"${MY_NAME}"/fastcgi \
