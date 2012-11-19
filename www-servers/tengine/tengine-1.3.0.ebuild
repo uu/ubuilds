@@ -263,7 +263,7 @@ CDEPEND="
 	perftools? ( dev-util/google-perftools )
 	rrd? ( >=net-analyzer/rrdtool-1.3.8 )
 "
-RDEPEND="${CDEPEND}"
+RDEPEND="${CDEPEND} !www-servers/nginx"
 DEPEND="${CDEPEND}
 	libatomic? ( dev-libs/libatomic_ops )"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
