@@ -208,7 +208,7 @@ NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis 
 http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
-http_xss http_iconv http_upload_progress"
+http_xss http_iconv http_upload_progress http_syslog"
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -220,7 +220,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
 IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd
-ssl vim-syntax +luajit syslog"
+ssl vim-syntax +luajit"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -245,6 +245,7 @@ CDEPEND="
 	nginx_modules_http_geo? ( dev-libs/geoip )
 	nginx_modules_http_gzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
+	nginx_modules_http_syslog? ( virtual/logger )
 	nginx_modules_http_image_filter? ( media-libs/gd )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
@@ -270,7 +271,7 @@ DEPEND="${CDEPEND}
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
 S="${WORKDIR}/${PN}-${PV}"
-
+MY_NAME="nginx"
 pkg_setup() {
 	ebegin "Creating nginx user and group"
 	enewgroup nginx
@@ -546,10 +547,10 @@ src_configure() {
 	fi
 
 	use perftools && myconf+=" --with-google_perftools_module"
-	use syslog && myconf+=" --with-syslog"
 	use rrd && myconf+=" --add-module=${WORKDIR}/mod_rrd_graph-0.2.0"
 	use chunk && myconf+=" --add-module=${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"
 	use pam && myconf+=" --add-module=${WORKDIR}/ngx_http_auth_pam_module-1.1"
+	use nginx_modules_http_syslog && myconf+=" --with-syslog"
 
 	# MAIL modules
 	for mod in $NGINX_MODULES_MAIL; do
@@ -577,19 +578,19 @@ src_configure() {
 	./configure \
 		--prefix=/usr \
 		--sbin-path=/usr/sbin/nginx \
-		--conf-path=/etc/"${PN}"/"${PN}".conf \
-		--error-log-path=/var/log/"${PN}"/error_log \
-		--pid-path=/var/run/"${PN}".pid \
+		--conf-path=/etc/"${MY_NAME}"/"${MY_NAME}".conf \
+		--error-log-path=/var/log/"${MY_NAME}"/error_log \
+		--pid-path=/var/run/"${MY_NAME}".pid \
 		--lock-path=/var/lock/nginx.lock \
-		--user="${PN}" --group="${PN}" \
+		--user="${MY_NAME}" --group="${MY_NAME}" \
 		--with-cc-opt="-I${ROOT}usr/include" \
 		--with-ld-opt="-L${ROOT}usr/lib" \
-		--http-log-path=/var/log/"${PN}"/access_log \
-		--http-client-body-temp-path=/var/tmp/"${PN}"/client \
-		--http-proxy-temp-path=/var/tmp/"${PN}"/proxy \
-		--http-fastcgi-temp-path=/var/tmp/"${PN}"/fastcgi \
-		--http-scgi-temp-path=/var/tmp/"${PN}"/scgi \
-		--http-uwsgi-temp-path=/var/tmp/"${PN}"/uwsgi \
+		--http-log-path=/var/log/"${MY_NAME}"/access_log \
+		--http-client-body-temp-path=/var/tmp/"${MY_NAME}"/client \
+		--http-proxy-temp-path=/var/tmp/"${MY_NAME}"/proxy \
+		--http-fastcgi-temp-path=/var/tmp/"${MY_NAME}"/fastcgi \
+		--http-scgi-temp-path=/var/tmp/"${MY_NAME}"/scgi \
+		--http-uwsgi-temp-path=/var/tmp/"${MY_NAME}"/uwsgi \
 		${myconf} || die "configure failed"
 }
 
@@ -600,7 +601,7 @@ src_compile() {
 }
 
 src_install() {
-	keepdir /var/log/"${PN}" /var/tmp/"${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
+	keepdir /var/log/"${MY_NAME}" /var/tmp/"${MY_NAME}"/{client,proxy,fastcgi,scgi,uwsgi}
 
 	dosbin objs/nginx
 	newinitd "${FILESDIR}"/nginx.initd nginx
@@ -608,8 +609,8 @@ src_install() {
 	cp "${FILESDIR}"/nginx.conf conf/nginx.conf
 	rm conf/win-utf conf/koi-win conf/koi-utf
 
-	dodir /etc/"${PN}"
-	insinto /etc/"${PN}"
+	dodir /etc/"${MY_NAME}"
+	insinto /etc/"${MY_NAME}"
 	doins conf/*
 
 	doman man/nginx.8
@@ -770,9 +771,9 @@ src_install() {
 
 pkg_postinst() {
 	if use ssl; then
-		if [ ! -f "${ROOT}"/etc/ssl/"${PN}"/"${PN}".key ]; then
-			install_cert /etc/ssl/"${PN}"/"${PN}"
-			chown "${PN}":"${PN}" "${ROOT}"/etc/ssl/"${PN}"/"${PN}".{crt,csr,key,pem}
+		if [ ! -f "${ROOT}"/etc/ssl/"${MY_NAME}"/"${MY_NAME}".key ]; then
+			install_cert /etc/ssl/"${MY_NAME}"/"${MY_NAME}"
+			chown "${MY_NAME}":"${MY_NAME}" "${ROOT}"/etc/ssl/"${MY_NAME}"/"${MY_NAME}".{crt,csr,key,pem}
 		fi
 	fi
 }
