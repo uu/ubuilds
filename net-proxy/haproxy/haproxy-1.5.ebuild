@@ -8,7 +8,7 @@ inherit eutils versionator toolchain-funcs flag-o-matic
 
 DESCRIPTION="A TCP/HTTP reverse proxy for high availability environments"
 HOMEPAGE="http://haproxy.1wt.eu"
-SRC_URI="http://haproxy.1wt.eu/download/$(get_version_component_range 1-2)/src/${P}.tar.gz"
+SRC_URI="http://haproxy.1wt.eu/download/$(get_version_component_range 1-2)/src/devel/${P}-dev12.tar.gz"
 
 LICENSE="GPL-2 LGPL-2.1"
 SLOT="0"
@@ -17,6 +17,9 @@ IUSE="examples pcre vim-syntax"
 
 DEPEND="pcre? ( dev-libs/libpcre )"
 RDEPEND="${DEPEND}"
+
+
+S="${WORKDIR}/${P}-dev12"
 
 pkg_setup() {
 	enewgroup haproxy
