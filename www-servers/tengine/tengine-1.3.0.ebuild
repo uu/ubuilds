@@ -219,7 +219,8 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit"
+IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd
+ssl vim-syntax +luajit syslog"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -545,6 +546,7 @@ src_configure() {
 	fi
 
 	use perftools && myconf+=" --with-google_perftools_module"
+	use syslog && myconf+=" --with-syslog"
 	use rrd && myconf+=" --add-module=${WORKDIR}/mod_rrd_graph-0.2.0"
 	use chunk && myconf+=" --add-module=${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"
 	use pam && myconf+=" --add-module=${WORKDIR}/ngx_http_auth_pam_module-1.1"
