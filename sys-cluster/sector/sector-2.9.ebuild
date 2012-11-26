@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-db/repmgr/repmgr-9999.ebuild,v 1.1 2012/09/10 15:10:25 uu Exp $
 EAPI=4
 
-inherit eutils
+inherit eutils versionator
 
 DESCRIPTION="Sector/Sphere High Performance Distributed File System and Parallel Data Processing Engine"
 
@@ -13,7 +13,7 @@ SRC_URI="http://downloads.sourceforge.net/project/${PN}/SECTOR/${PV}/${PN}.${PV}
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-
+ 
 IUSE="fuse"
 GCC_UNNEEDED="4.7"
 RDEPEND=""
@@ -44,6 +44,7 @@ src_install() {
   dodir /opt/sector
   dodir /opt/sector/{master,lib,slave,security,tools,conf}
   dodir /opt/sector/conf/users
+  insopts -m755
   insinto /opt/sector/master
   doins ${S}/master/start_all
   doins ${S}/master/start_master
@@ -55,6 +56,7 @@ src_install() {
   doins ${S}/security/ssl_cert_gen
   insinto /opt/sector/tools
   doins ${S}/tools/sector_*
+  doins ${S}/tools/sphere_*
   insinto /opt/sector/lib
   doins  ${S}/lib/*.so
   insinto /opt/sector/conf
