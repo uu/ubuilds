@@ -2,10 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=3
+EAPI=4
 PHP_EXT_NAME="pinba"
 PHP_EXT_INI="yes"
 PHPSAPILIST="apache2 cgi cli fpm"
+USE_PHP="php5-3 php5-4"
 
 inherit php-ext-source-r2 git-2 autotools
 
