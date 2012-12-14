@@ -7,12 +7,13 @@ PYTHON_DEPEND="2"
 SUPPORT_PYTHON_ABIS="1"
 RESTRICT_PYTHON_ABIS="3.* *-jython"
 
-inherit distutils
+inherit distutils git-2
 
 DESCRIPTION="SSH2 protocol library"
 HOMEPAGE="http://www.lag.net/paramiko/ http://pypi.python.org/pypi/paramiko"
 #SRC_URI="http://www.lag.net/paramiko/download/${P}.tar.gz"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
+#SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
+EGIT_REPO_URI="git://github.com/paramiko/paramiko.git"
 
 LICENSE="LGPL-2.1"
 SLOT="0"
