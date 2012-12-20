@@ -28,9 +28,9 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="a788dea"
 
 # http_headers_more (http://github.com/agentzh/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.17rc1"
+HTTP_HEADERS_MORE_MODULE_PV="0.19"
 HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}"
-HTTP_HEADERS_MORE_MODULE_SHA1="3580526"
+HTTP_HEADERS_MORE_MODULE_SHA1="27bcbd2"
 
 # http_redis (http://wiki.nginx.org/HttpRedis)
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
@@ -46,7 +46,7 @@ HTTP_PUSH_MODULE_PV="0.692"
 HTTP_PUSH_MODULE_P="nginx_http_push_module-${HTTP_PUSH_MODULE_PV}"
 
 # http_cache_purge (http://labs.frickle.com/nginx_ngx_cache_purge/, BSD-2 license)
-HTTP_CACHE_PURGE_MODULE_PV="1.5"
+HTTP_CACHE_PURGE_MODULE_PV="2.0"
 HTTP_CACHE_PURGE_MODULE_P="ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}"
 
 # HTTP Upload module from Valery Kholodkov
@@ -60,7 +60,7 @@ HTTP_EY_BALANCER_MODULE_P="nginx-ey-balancer-${HTTP_EY_BALANCER_MODULE_PV}"
 HTTP_EY_BALANCER_MODULE_SHA1="3189cf3"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
-HTTP_NDK_MODULE_PV="0.2.17rc2"
+HTTP_NDK_MODULE_PV="0.2.17"
 HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="bc97eea"
 
@@ -70,9 +70,9 @@ HTTP_NDK_MODULE_SHA1="bc97eea"
 #HTTP_LUA_MODULE_SHA1="b25d06b"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.7.2"
+HTTP_LUA_MODULE_PV="0.7.8"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="e607b63"
+HTTP_LUA_MODULE_SHA1="d4eb39b"
 HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 
 HTTP_DRIZZLE_MODULE_PV="0.1.4"
@@ -85,24 +85,24 @@ HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="d41681d"
 
 # NginX echo module (https://github.com/agentzh/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.37rc7"
+HTTP_ECHO_MODULE_PV="0.41"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="b7ea185"
+HTTP_ECHO_MODULE_SHA1="d3eb42d"
 
 # NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module, BSD)
-HTTP_MEMC_MODULE_PV="0.13rc1"
+HTTP_MEMC_MODULE_PV="0.13rc3"
 HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
-HTTP_MEMC_MODULE_SHA1="5b0504b"
+HTTP_MEMC_MODULE_SHA1="4007350"
 
 # NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module, BSD)
-HTTP_RDS_JSON_MODULE_PV="0.12rc6"
+HTTP_RDS_JSON_MODULE_PV="0.12rc10"
 HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
-HTTP_RDS_JSON_MODULE_SHA1="1152ade"
+HTTP_RDS_JSON_MODULE_SHA1="74c21b3"
 
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module, BSD)
-HTTP_SRCACHE_MODULE_PV="0.13rc2"
+HTTP_SRCACHE_MODULE_PV="0.16"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
-HTTP_SRCACHE_MODULE_SHA1="86e7a18"
+HTTP_SRCACHE_MODULE_SHA1="9350a49"
 
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module, BSD)
 HTTP_SET_MISC_MODULE_PV="0.22rc8"
@@ -121,9 +121,9 @@ HTTP_ARRAY_VAR_MODULE_P="array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_PV}"
 HTTP_ARRAY_VAR_MODULE_SHA1="fed751a"
 
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module, BSD)
-HTTP_ICONV_MODULE_PV="0.10rc5"
+HTTP_ICONV_MODULE_PV="0.10rc7"
 HTTP_ICONV_MODULE_P="iconv-nginx-module-${HTTP_ICONV_MODULE_PV}"
-HTTP_ICONV_MODULE_SHA1="4e71946"
+HTTP_ICONV_MODULE_SHA1="abdac17"
 
 ## NginX Set-CConv module (https://github.com/liseen/set-cconv-nginx-module, BSD)
 #HTTP_SET_CCONV_MODULE_PV=""
@@ -131,9 +131,9 @@ HTTP_ICONV_MODULE_SHA1="4e71946"
 #HTTP_SET_CCONV_MODULE_SHA1=""
 
 # NginX Featured mecached module (http://labs.frickle.com/nginx_ngx_postgres, BSD-2)
-HTTP_POSTGRES_MODULE_PV="0.9rc2"
+HTTP_POSTGRES_MODULE_PV="1.0rc2"
 HTTP_POSTGRES_MODULE_P="ngx_postgres-${HTTP_POSTGRES_MODULE_PV}"
-HTTP_POSTGRES_MODULE_SHA1="5cb9d09"
+HTTP_POSTGRES_MODULE_SHA1="b72f87b"
 
 # NginX coolkit module (http://labs.frickle.com/nginx_ngx_coolkit/, BSD-2)
 HTTP_COOLKIT_MODULE_PV="1.0"
@@ -148,7 +148,7 @@ HTTP_AUTH_REQUEST_MODULE_PV="0.2"
 HTTP_AUTH_REQUEST_MODULE_P="ngx_http_auth_request_module-${HTTP_AUTH_REQUEST_MODULE_PV}"
 
 # http_slowfs_cache (http://labs.frickle.com/nginx_ngx_slowfs_cache/, BSD-2 license)
-HTTP_SLOWFS_CACHE_MODULE_PV="1.8"
+HTTP_SLOWFS_CACHE_MODULE_PV="1.9"
 HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 
 CHUNKIN_MODULE_PV="0.22rc2"
