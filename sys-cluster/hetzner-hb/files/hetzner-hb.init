@@ -1,0 +1,22 @@
+#!/sbin/runscript
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+depend() {
+ need net
+}
+
+start() {
+	ebegin "Starting hetzner-hb"
+	myDir="`readlink -nf \`dirname $WATCHDOG_SCRIPT\`/`"
+	start-stop-daemon --start -d "$myDir" -x "${WATCHDOG_SCRIPT}" -p "${WATCHDOG_PID}" -b -m
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping hetzner-hb"
+	start-stop-daemon --stop -p "${WATCHDOG_PID}"
+	eend $?
+}
+
