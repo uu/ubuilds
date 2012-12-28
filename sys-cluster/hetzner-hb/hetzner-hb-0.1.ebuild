@@ -36,6 +36,7 @@ src_install(){
 	doins lib/*
 	dodir /opt/hetzner-hb/bin
 	insinto /opt/hetzner-hb/bin
+	insopts -m0744
 	doins bin/heartbeat
 	dodir /opt/hetzner-hb/config
 	insinto /opt/hetzner-hb/config

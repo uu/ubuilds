@@ -16,6 +16,14 @@ EAPI="4"
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
 
+# syslog
+SYSLOG_MODULE_PV="1.2.0"
+SYSLOG_MODULE_P="ngx_syslog-${SYSLOG_MODULE_PV}"
+SYSLOG_MODULE_SHA1="2686c1c"
+SYSLOG_MODULE_URI="https://github.com/yaoweibin/nginx_syslog_patch/tarball/${SYSLOG_MODULE_SHA1}"
+SYSLOG_MODULE_WD="${WORKDIR}/yaoweibin-nginx_syslog_patch-${SYSLOG_MODULE_SHA1}"
+
+
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
 PASSENGER_PV="3.0.12"
@@ -162,6 +170,7 @@ HOMEPAGE="http://sysoev.ru/nginx/
 	http://pushmodule.slact.net/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
 SRC_URI="http://nginx.org/download/${P}.tar.gz
+	syslog? ( ${SYSLOG_MODULE_URI} -> ${SYSLOG_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( https://github.com/agentzh/headers-more-nginx-module/tarball/v${HTTP_HEADERS_MORE_MODULE_PV} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( https://github.com/FooBarWidget/passenger/tarball/master -> passenger-git-${PASSENGER_PV}.tar.gz )
 	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} ->	${HTTP_REDIS_MODULE_P}.tar.gz )
@@ -192,7 +201,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 
-LICENSE="BSD BSD-2 GPL-2 MIT
+LICENSE="BSD-2 BSD SSLeay MIT GPL-2
 	pam? ( as-is )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -219,7 +228,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit"
+IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit +pcre-jit +syslog"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
@@ -239,12 +248,14 @@ done
 
 CDEPEND="
 	pcre? ( >=dev-libs/libpcre-4.2 )
+	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
+	selinux? ( sec-policy/selinux-nginx )
 	ssl? ( dev-libs/openssl )
 	http-cache? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_geo? ( dev-libs/geoip )
 	nginx_modules_http_gzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
-	nginx_modules_http_image_filter? ( media-libs/gd )
+	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
