@@ -210,7 +210,7 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static image_filter
-mp4 perl random_index realip secure_link stub_status sub xslt"
+mp4 perl random_index realip secure_link stub_status sub xslt spdy"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 
 NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis http_push
@@ -329,6 +329,10 @@ src_prepare() {
 
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
+	fi
+
+	if use nginx_modules_http_spdy; then
+		epatch "${FILESDIR}"/nginx-spdy-54.patch
 	fi
 
 	if use nginx_modules_http_passenger; then
