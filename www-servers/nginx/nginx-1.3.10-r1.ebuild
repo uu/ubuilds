@@ -373,7 +373,9 @@ src_configure() {
 	for mod in $NGINX_MODULES_OPT; do
 		if use nginx_modules_http_${mod}; then
 			http_enabled=1
-			myconf+=" --with-http_${mod}_module"
+			if mod != "spdy"; then
+				myconf+=" --with-http_${mod}_module"
+			fi
 		fi
 	done
 
