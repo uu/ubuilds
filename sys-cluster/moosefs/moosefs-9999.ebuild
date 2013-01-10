@@ -40,7 +40,7 @@ src_configure() {
 	local myopts=""
 	use fuse || myopts="--disable-mfsmount"
 	econf \
-		--sysconfdir=/etc/mfs \
+		--sysconfdir=/etc \
 		--with-default-user=mfs \
 		--with-default-group=mfs \
 		$(use_enable cgi mfscgi) \
