@@ -37,7 +37,8 @@ ruby_add_rdepend '
 
 DEPEND=">=dev-ruby/settingslogic-2.0.8
 	 >=dev-ruby/xmpp4r-0.5-r1
-     >=dev-ruby/bunny-0.8.0"
+	 >=dev-ruby/amq-protocol-1.0.1
+     >=dev-ruby/bunny-0.9.0"
 RDEPEND="${DEPEND}"
 
 # tests require to have an ODBC service enabled, so we can't run them
