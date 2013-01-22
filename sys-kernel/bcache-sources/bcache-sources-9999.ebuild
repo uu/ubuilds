@@ -20,7 +20,8 @@ K_SECURITY_UNSUPPORTED="1"
 
 EGIT_REPO_URI="http://evilpiepirate.org/git/linux-bcache.git"
 EGIT_PROJECT="linux-bcache"
-EGIT_BRANCH="bcache"
+#EGIT_UPSTREAM="bcache-3.2"
+EGIT_BRANCH="bcache-3.2"
 
 DESCRIPTION="Full sources for the Linux kernel with bcache patch"
 HOMEPAGE="http://www.kernel.org"
