@@ -10,7 +10,7 @@ RUBY_FAKEGEM_TASK_DOC=""
 # Tests require a live AMQP server.
 RUBY_FAKEGEM_TASK_TEST=""
 
-RUBY_FAKEGEM_EXTRADOC="CHANGELOG README.textile"
+RUBY_FAKEGEM_EXTRADOC=""
 
 inherit ruby-fakegem
 
