@@ -7,7 +7,7 @@ depend() {
 
 start() {
 	ebegin "Starting jabbit"
-	start-stop-daemon --start --exec /usr/bin/jabbit --pidfile /var/run/jabbit.pid --background --make-pidfile
+	start-stop-daemon --start --exec /usr/bin/jabbit --pidfile /var/run/jabbit.pid --background --make-pidfile -1 /var/log/jabbit.log -2 /var/log/jabbit.err 
 	eend $?
 }
 
