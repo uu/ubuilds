@@ -32,23 +32,20 @@ IUSE=""
 ruby_add_rdepend '
      >=dev-ruby/settingslogic-2.0.8
 	 >=dev-ruby/xmpp4r-0.5-r1
-     >=dev-ruby/bunny-0.8.0'
+     >=dev-ruby/bunny-0.9.0_pre6'
 
 
 DEPEND=">=dev-ruby/settingslogic-2.0.8
 	 >=dev-ruby/xmpp4r-0.5-r1
 	 >=dev-ruby/amq-protocol-1.0.1
-     >=dev-ruby/bunny-0.9.0"
+	 dev-ruby/json
+     >=dev-ruby/bunny-0.9.0_pre6"
 RDEPEND="${DEPEND}"
 
-# tests require to have an ODBC service enabled, so we can't run them
-# for now :(
 RESTRICT=test
-#all_ruby_prepare() {
-#einfo ${W}
-#einfo ${WORKDIR}
-#einfo ${S}
-#}
-# mkdir -p ${W}/all/jabbit-0.0.1/
-# mv ${W}/* ${W}/all/jabbit-0.0.1/
-#}
+
+all_ruby_install() {
+     all_fakegem_install
+     newinitd "${FILESDIR}/${PN}.init" ${PN} || die
+}
+

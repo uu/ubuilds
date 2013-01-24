@@ -1,0 +1,19 @@
+#!/sbin/runscript
+#
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting jabbit"
+	start-stop-daemon --start --exec /usr/bin/jabbit --pidfile /var/run/jabbit.pid --background --make-pidfile
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping jabbit"
+	start-stop-daemon --stop --pidfile /var/run/jabbit.pid
+	eend $?
+}
+
