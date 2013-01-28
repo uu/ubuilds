@@ -210,14 +210,14 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static image_filter
-mp4 perl random_index realip secure_link stub_status sub xslt "
+mp4 perl random_index realip secure_link stub_status sub xslt spdy"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 
 NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis http_push
 http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
-http_xss http_iconv http_upload_progress"
+http_xss http_iconv http_upload_progress "
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -228,7 +228,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit +pcre-jit +syslog +spdy"
+IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit +pcre-jit +syslog"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -330,8 +330,10 @@ src_prepare() {
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
 
-	if use spdy; then
-		epatch "${FILESDIR}"/nginx-spdy-54.patch
+	if use nginx_modules_http_spdy; then
+		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
+		einfo "Patching for SPDY"
+		patch --verbose -p1 -d ${S} < "${FILESDIR}"/nginx-spdy-59.patch
 	fi
 
 	if use nginx_modules_http_passenger; then
