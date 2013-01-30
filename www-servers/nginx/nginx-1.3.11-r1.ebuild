@@ -162,6 +162,12 @@ HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 CHUNKIN_MODULE_PV="0.22rc2"
 CHUNKIN_MODULE_SHA1="b46dd27"
 
+# add the feature of tcp proxy with nginx, with health check and status monitor 
+# (git://github.com/yaoweibin/nginx_tcp_proxy_module.git, AS-IS)
+#HTTP_TCP_PROXY_MODULE_PV="1.0rc2"
+#HTTP_TCP_PROXY_MODULE_P="ngx-tcp-${HTTP_POSTGRES_MODULE_PV}"
+#HTTP_TCP_MODULE_SHA1="b72f87b"
+
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
@@ -196,6 +202,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_supervisord? ( http://labs.frickle.com/files/${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_request? ( http://mdounin.ru/files/${HTTP_AUTH_REQUEST_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
+	nginx_modules_http_tcp_proxy? (	http://github.com/yaoweibin/nginx_tcp_proxy_module/archive/master.zip )
 	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
@@ -217,7 +224,7 @@ NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis 
 http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
-http_xss http_iconv http_upload_progress "
+http_xss http_iconv http_upload_progress http_tcp_proxy"
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -389,7 +396,12 @@ src_configure() {
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/simpl-ngx_devel_kit-${HTTP_NDK_MODULE_SHA1}"
 	fi
-
+# (**) http_tcp_proxy
+	if use nginx_modules_http_tcp_proxy; then
+		epatch ${WORKDIR}/nginx_tcp_proxy_module-master/tcp.patch
+		http_enabled=1
+		myconf+=" --add-module=${WORKDIR}/nginx_tcp_proxy_module-master"
+	fi
 # (**) http_set_misc
 	if use nginx_modules_http_set_misc; then
 		http_enabled=1
