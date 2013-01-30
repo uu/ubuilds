@@ -1,0 +1,20 @@
+#!/sbin/runscript
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting erpher"
+	checkpath -d -m 0770 -o erpher:erpher /var/run/erpher
+	start-stop-daemon --start --chdir "${ERPHER_DIR}" -u "${ERPHER_USER}" --exec "${ERPHER_BIN}" --pidfile "${ERPHER_PID}" --background -- start
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping erpher"
+	start-stop-daemon --stop --chdir "${ERPHER_DIR}" -u "${ERPHER_USER}" --exec "${ERPHER_BIN}" --pidfile "${ERPHER_PID}" -- stop
+	eend $?
+}
+
+
