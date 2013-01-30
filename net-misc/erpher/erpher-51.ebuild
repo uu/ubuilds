@@ -15,9 +15,9 @@ IUSE="rabbitmq"
 RESTRICT="strip"
 
 if use rabbitmq; then
-	SRC_URI="http://www.alx-xc.ru/erpher/erpher-lin64-51.tgz"
+	SRC_URI="http://www.alx-xc.ru/erpher/erpher-lin64-${PV}.tgz"
 else
-	SRC_URI="http://www.alx-xc.ru/erpher/erpher-lin64-51-worabbit.tgz"
+	SRC_URI="http://www.alx-xc.ru/erpher/erpher-lin64-${PV}-worabbit.tgz"
 fi
 
 S=${WORKDIR}/${PN}
