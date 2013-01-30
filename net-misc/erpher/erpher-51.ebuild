@@ -37,6 +37,7 @@ src_prepare() {
 src_install() {
 	dodir /opt/${PN}
 	cp -a "${S}/" "${D}/opt/" || die "Install failed!"
+	chown -R ${PN}:${PN} ${D}/opt/${PN}
 	newinitd ${FILESDIR}/erpher.init ${PN}
 	newconfd ${FILESDIR}/erpher.conf ${PN}
 }
