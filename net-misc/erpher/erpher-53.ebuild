@@ -14,11 +14,9 @@ KEYWORDS="amd64"
 IUSE="rabbitmq"
 RESTRICT="strip"
 
-if use rabbitmq; then
-	SRC_URI="http://www.alx-xc.ru/erpher/erpher-lin64-${PV}.tgz"
-else
-	SRC_URI="http://www.alx-xc.ru/erpher/erpher-lin64-${PV}-worabbit.tgz"
-fi
+SRC_URI=" rabbitmq? ( http://www.alx-xc.ru/erpher/erpher-lin64-${PV}.tgz )
+		  !rabbitmq? ( http://www.alx-xc.ru/erpher/erpher-lin64-${PV}-worabbit.tgz )
+		  "
 
 S=${WORKDIR}/${PN}
 DEPEND=""
