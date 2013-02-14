@@ -204,6 +204,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_auth_request? ( http://mdounin.ru/files/${HTTP_AUTH_REQUEST_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_tcp_proxy? (	http://github.com/yaoweibin/nginx_tcp_proxy_module/archive/master.zip )
+	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
@@ -225,7 +226,7 @@ NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis 
 http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
-http_xss http_iconv http_upload_progress http_tcp_proxy"
+http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed"
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -341,7 +342,7 @@ src_prepare() {
 	if use nginx_modules_http_spdy; then
 		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
 		einfo "Patching for SPDY"
-		patch -p1 -d ${S} < "${FILESDIR}"/nginx-spdy-62.patch
+		patch -p1 -s -d ${S} < "${FILESDIR}"/nginx-spdy-62.patch
 	fi
 
 	if use nginx_modules_http_passenger; then
@@ -402,6 +403,11 @@ src_configure() {
 		epatch ${WORKDIR}/nginx_tcp_proxy_module-master/tcp.patch
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/nginx_tcp_proxy_module-master"
+	fi
+# (**) http_ngx_pagespeed
+	if use nginx_modules_http_pagespeed; then
+		http_enabled=1
+		myconf+=" --add-module=${WORKDIR}/ngx_pagespeed-master"
 	fi
 # (**) http_set_misc
 	if use nginx_modules_http_set_misc; then
