@@ -342,7 +342,7 @@ src_prepare() {
 	if use nginx_modules_http_spdy; then
 		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
 		einfo "Patching for SPDY"
-		patch -p1 -s -d ${S} < "${FILESDIR}"/nginx-spdy-62.patch
+		patch -p1 -s -d ${S} < "${FILESDIR}"/nginx-spdy-63.patch
 	fi
 
 	if use nginx_modules_http_passenger; then
