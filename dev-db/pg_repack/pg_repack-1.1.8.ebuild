@@ -10,9 +10,10 @@ SRC_URI="http://api.pgxn.org/dist/pg_repack/${PV}/${P}.zip"
 
 LICENSE="AS-IS"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="x86 amd64"
 IUSE=""
 
 DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+		dev-db/postgresql-server"
 
