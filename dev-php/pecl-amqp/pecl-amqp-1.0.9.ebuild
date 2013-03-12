@@ -14,7 +14,7 @@ inherit php-ext-pecl-r2
 DESCRIPTION="PHP Bindings for AMQP 0-9-1 compatible brokers."
 LICENSE="PHP 3.01"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~x86"
 
 DEPEND="net-libs/rabbitmq-c"
 RDEPEND="${DEPEND}"

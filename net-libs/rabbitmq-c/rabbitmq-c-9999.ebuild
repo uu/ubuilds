@@ -18,7 +18,7 @@ else
 	SRC_URI="https://github.com/alanxz/rabbitmq-c/archive/${PN}-v${PV}.zip"
 	KEYWORDS="~amd64 ~x86"
 fi
-
+KEYWORDS="amd64 ~x86"
 LICENSE="MIT"
 SLOT="0"
 IUSE="examples static-libs tools"
