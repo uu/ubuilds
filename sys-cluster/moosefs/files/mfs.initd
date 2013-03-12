@@ -1,11 +1,18 @@
 #!/sbin/runscript
 
+extra_commands="failover"
+
 depend() {
 	need net
 }
 
 chkconfig() {
 	[ -z "${ROLES}" ] && { eerror "No role defined !"; return 1;}
+	if [ ${FAILOVER} -eq 1 ]; then
+		[ -z "${FAILOVER_IP}" ] && { eerror "No failover ip defined !"; return 1;}
+		[ -z "${IFACE}" ] && { eerror "No interface defined !"; return 1;}
+		[ ${FAILOVER} -ne 1 ] && { eerror "Autorestore must be enabled !"; return 1;}
+	fi
 	for ROLE in ${ROLES}; do
 		if [ ! -f /etc/mfs/${ROLE}.cfg ]; then
 			eerror "Missing configuration file for role ${ROLE} !"
@@ -76,4 +83,15 @@ stop() {
 	eoutdent
 
 	eend ${RETURN}
+}
+
+failover() {
+		ebegin "Starting master migration"
+		if ! ip addr | grep ${FAILOVER_IP} > /dev/null
+		then
+		ip addr add ${FAILOVER_IP}'/32' dev ${IFACE}
+		fi
+		start-stop-daemon -q --stop -n mfsmetalogger || RETURN=$?
+		autorestore && start_role mfsmaster
+		eend $?
 }
