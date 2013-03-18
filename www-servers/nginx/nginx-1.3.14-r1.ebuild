@@ -207,6 +207,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
+	nginx_modules_http_spdy? ( http://nginx.org/patches/spdy/patch.spdy.txt )
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 
@@ -342,7 +343,7 @@ src_prepare() {
 	if use nginx_modules_http_spdy; then
 		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
 		einfo "Patching for SPDY"
-		patch -p1 -s -d ${S} < "${FILESDIR}"/nginx-spdy-66.patch
+		patch -p1 -s -d ${S} < "${DISTDIR}"/patch.spdy.txt
 	fi
 
 	if use nginx_modules_http_passenger; then
