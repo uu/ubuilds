@@ -343,7 +343,7 @@ src_prepare() {
 	if use nginx_modules_http_spdy; then
 		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
 		einfo "Patching for SPDY"
-		echo y | patch -p1 -s -d ${S} < "${DISTDIR}"/patch.spdy.txt 
+		patch -p1 -f -s -d ${S} < "${DISTDIR}"/patch.spdy.txt 
 	fi
 	if use syslog; then
 		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
