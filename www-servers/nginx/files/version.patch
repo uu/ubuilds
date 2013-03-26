@@ -1,0 +1,14 @@
+--- src/http/ngx_http_header_filter_module.c_orig	2013-03-26 16:51:08.000000000 +0400
++++ src/http/ngx_http_header_filter_module.c	2013-03-26 16:51:48.000000000 +0400
+@@ -46,8 +46,8 @@
+ };
+ 
+ 
+-static char ngx_http_server_string[] = "Server: nginx" CRLF;
+-static char ngx_http_server_full_string[] = "Server: " NGINX_VER CRLF;
++static char ngx_http_server_string[] = "Server: megadrom" CRLF;
++static char ngx_http_server_full_string[] = "Server: 2013" CRLF;
+ 
+ 
+ static ngx_str_t ngx_http_status_lines[] = {
+

@@ -17,12 +17,11 @@ EAPI="4"
 GENTOO_DEPEND_ON_PERL="no"
 
 # syslog
-SYSLOG_MODULE_PV="1.2.0"
+SYSLOG_MODULE_PV="0.25"
+SYSLOG_MODULE_NGINX_PV="1.3.14"
 SYSLOG_MODULE_P="ngx_syslog-${SYSLOG_MODULE_PV}"
-SYSLOG_MODULE_SHA1="2686c1c"
-SYSLOG_MODULE_URI="https://github.com/yaoweibin/nginx_syslog_patch/tarball/${SYSLOG_MODULE_SHA1}"
-SYSLOG_MODULE_WD="${WORKDIR}/yaoweibin-nginx_syslog_patch-${SYSLOG_MODULE_SHA1}"
-
+SYSLOG_MODULE_URI="https://github.com/yaoweibin/nginx_syslog_patch/archive/v${SYSLOG_MODULE_PV}.tar.gz"
+SYSLOG_MODULE_WD="${WORKDIR}/nginx_syslog_patch-${SYSLOG_MODULE_PV}"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
@@ -336,6 +335,7 @@ src_prepare() {
 
 	sed -i -e "s|\(NGX_MAX_ERROR_STR\)   2048|\1 4096|" "${S}"/src/core/ngx_log.h
 
+	epatch "${FILESDIR}"/version.patch
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
@@ -343,7 +343,12 @@ src_prepare() {
 	if use nginx_modules_http_spdy; then
 		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
 		einfo "Patching for SPDY"
-		patch -p1 -s -d ${S} < "${DISTDIR}"/patch.spdy.txt
+		echo y | patch -p1 -s -d ${S} < "${DISTDIR}"/patch.spdy.txt 
+	fi
+	if use syslog; then
+		#epatch -p1 "${FILESDIR}"/nginx-spdy-59.patch
+		einfo "Patching for Syslog"
+		use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_${SYSLOG_MODULE_NGINX_PV}.patch
 	fi
 
 	if use nginx_modules_http_passenger; then
@@ -380,6 +385,10 @@ src_configure() {
 			myconf+=" --without-http_${mod}_module"
 		fi
 	done
+	# syslog support
+    if use syslog; then
+        myconf+=" --add-module=${SYSLOG_MODULE_WD}"
+    fi
 
 	for mod in $NGINX_MODULES_OPT; do
 		if use nginx_modules_http_${mod}; then
