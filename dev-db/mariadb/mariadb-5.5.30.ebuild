@@ -25,10 +25,9 @@ EPATCH_EXCLUDE=''
 
 DEPEND="|| ( >=sys-devel/gcc-3.4.6 >=sys-devel/gcc-apple-4.0 )"
 RDEPEND="${RDEPEND} 
-pinba? ( dev-libs/judy
-dev-libs/protobuf
-dev-libs/libevent
-dev-libs/hoard )
+		pinba? ( dev-libs/judy
+				 dev-libs/protobuf
+				 dev-libs/libevent )
 "
 
 # Please do not add a naive src_unpack to this ebuild
@@ -42,9 +41,9 @@ src_prepare() {
 }
 
 src_install() {
-	if use pinba; then
 		MARIADB_BUILD=${WORKDIR}/${P}_build
 		MARIADB_PATH=${WORKDIR}/mysql
+	if use pinba; then
 		cp -a $MARIADB_BUILD/include/* ${MARIADB_PATH}/include/ || die "cannot copy includes"
 		cp -a $MARIADB_BUILD/scripts/* ${MARIADB_PATH}/scripts/ || die "cannot copy scripts"
 		cd ${WORKDIR}/pinba_engine-${PINBA_MODULE_PV} 

@@ -2,12 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
-inherit flag-o-matic
+EAPI=5
+inherit flag-o-matic git-2
 
 DESCRIPTION="HOARD Memory Allocator"
 HOMEPAGE="http://www.hoard.org"
-SRC_URI="http://www.cs.umass.edu/~emery/hoard/${P}/lib${P}.tar.gz"
+EGIT_REPO_URI="git://github.com/emeryberger/Hoard.git"
+#EGIT_OPTIONS="--recursive"
+EGIT_HAS_SUBMODULES=true
+SRC_URI=""
+#SRC_URI="http://www.cs.umass.edu/~emery/hoard/${P}/lib${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -17,7 +21,7 @@ IUSE="doc debug"
 DEPEND=""
 RDEPEND=""
 
-S="${WORKDIR}/emeryberger-Hoard-d065953"
+#S="${WORKDIR}/emeryberger-Hoard-d065953"
 
 src_compile() {
 	# Makefile forces hardcode -march cflags (pentium4 and nocona), so we
@@ -60,9 +64,9 @@ EOF
 
 	# installing libhoard
 	dolib.so src/libhoard.so
-
+	doheader -r src/include/hoard/
 	# installing docs
-	dodoc {AUTHORS,COPYING,NEWS,README,THANKS}
+	dodoc {AUTHORS,COPYING,NEWS,README.md,THANKS}
 	if use doc; then
 		dohtml -r doc/*
 	fi
