@@ -25,7 +25,7 @@ SYSLOG_MODULE_WD="${WORKDIR}/nginx_syslog_patch-${SYSLOG_MODULE_PV}"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="3.0.12"
+PASSENGER_PV="4.0.0.rc6"
 USE_RUBY="ruby19"
 RUBY_OPTIONAL="yes"
 
@@ -43,9 +43,9 @@ HTTP_HEADERS_MORE_MODULE_SHA1="27bcbd2"
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
 
 # http_redis (https://github.com/agentzh/redis2-nginx-module, BSD license)
-HTTP_REDIS_MODULE_PV="0.09"
+HTTP_REDIS_MODULE_PV="0.10"
 HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
-HTTP_REDIS_MODULE_SHA1="279beee"
+HTTP_REDIS_MODULE_SHA1="78a7622"
 HTTP_REDIS_MODULE_URI="http://github.com/agentzh/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
@@ -62,14 +62,14 @@ HTTP_UPLOAD_MODULE_PV="2.2.0"
 HTTP_UPLOAD_MODULE_P="nginx_upload_module-${HTTP_UPLOAD_MODULE_PV}"
 
 # ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer, as-is)
-HTTP_EY_BALANCER_MODULE_PV="0.0.7"
+HTTP_EY_BALANCER_MODULE_PV="0.0.8"
 HTTP_EY_BALANCER_MODULE_P="nginx-ey-balancer-${HTTP_EY_BALANCER_MODULE_PV}"
-HTTP_EY_BALANCER_MODULE_SHA1="3189cf3"
+HTTP_EY_BALANCER_MODULE_SHA1="859b2ef"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
-HTTP_NDK_MODULE_PV="0.2.17"
+HTTP_NDK_MODULE_PV="0.2.18"
 HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
-HTTP_NDK_MODULE_SHA1="bc97eea"
+HTTP_NDK_MODULE_SHA1="48bc5dd"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
 #HTTP_LUA_MODULE_PV="0.3.1rc19"
@@ -77,9 +77,9 @@ HTTP_NDK_MODULE_SHA1="bc97eea"
 #HTTP_LUA_MODULE_SHA1="b25d06b"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.7.14"
+HTTP_LUA_MODULE_PV="0.8.0"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1=""
+HTTP_LUA_MODULE_SHA1="2aa12ab"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 
@@ -93,9 +93,9 @@ HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="d41681d"
 
 # NginX echo module (https://github.com/agentzh/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.41"
+HTTP_ECHO_MODULE_PV="0.45"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="d3eb42d"
+HTTP_ECHO_MODULE_SHA1="6ce0801"
 
 # NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module, BSD)
 HTTP_MEMC_MODULE_PV="0.13rc3"
@@ -108,9 +108,9 @@ HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_SHA1="74c21b3"
 
 # NginX SRCache module (https://github.com/agentzh/srcache-nginx-module, BSD)
-HTTP_SRCACHE_MODULE_PV="0.16"
+HTTP_SRCACHE_MODULE_PV="0.19"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
-HTTP_SRCACHE_MODULE_SHA1="9350a49"
+HTTP_SRCACHE_MODULE_SHA1="f957c0f"
 
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module, BSD)
 HTTP_SET_MISC_MODULE_PV="0.22rc8"
@@ -119,9 +119,9 @@ HTTP_SET_MISC_MODULE_SHA1="658c235"
 HTTP_SET_MISC_MODULE_URI="http://github.com/agentzh/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
 # NginX XSS module (https://github.com/agentzh/xss-nginx-module, BSD)
-HTTP_XSS_MODULE_PV="0.03rc3"
+HTTP_XSS_MODULE_PV="0.03rc9"
 HTTP_XSS_MODULE_P="xss-nginx-module-${HTTP_XSS_MODULE_PV}"
-HTTP_XSS_MODULE_SHA1="8618dd3"
+HTTP_XSS_MODULE_SHA1="beddbe1"
 
 # NginX Array-Var module (https://github.com/agentzh/array-var-nginx-module, BSD)
 HTTP_ARRAY_VAR_MODULE_PV="0.03rc1"
