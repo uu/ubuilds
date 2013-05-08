@@ -27,18 +27,18 @@ DEPEND="dev-libs/libxslt
 	yp? ( net-misc/curl )
 	ssl? ( dev-libs/openssl )"
 RDEPEND="${DEPEND}"
-
+S="${WORKDIR}/icecast-2.3.99.3"
 pkg_setup() {
 	enewuser icecast -1 -1 -1 nogroup
 }
 
-src_prepare() {
+#src_prepare() {
 	# bug #368539
 	#	epatch "${FILESDIR}"/${P}-libkate.patch
 	# bug #430434
 	#epatch "${FILESDIR}"/${P}-fix-xiph_openssl.patch
-	eautoreconf
-}
+	#eautoreconf
+#}
 
 src_configure() {
 	econf \
