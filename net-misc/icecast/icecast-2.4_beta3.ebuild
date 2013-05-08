@@ -56,7 +56,7 @@ src_install() {
 	emake DESTDIR="${D}" install
 	dodoc AUTHORS README TODO HACKING NEWS conf/icecast.xml.dist
 	dohtml -A chm,hhc,hhp doc/*
-	doman debian/icecast2.1
+	#doman debian/icecast2.1
 
 	newinitd "${FILESDIR}"/init.d.icecast icecast
 
