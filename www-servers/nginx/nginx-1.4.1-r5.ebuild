@@ -25,7 +25,7 @@ SYSLOG_MODULE_WD="${WORKDIR}/nginx_syslog_patch-${SYSLOG_MODULE_PV}"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="4.0.0.rc6"
+PASSENGER_PV="4.0.2"
 USE_RUBY="ruby19"
 RUBY_OPTIONAL="yes"
 
@@ -77,9 +77,9 @@ HTTP_NDK_MODULE_SHA1="48bc5dd"
 #HTTP_LUA_MODULE_SHA1="b25d06b"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.8.0"
+HTTP_LUA_MODULE_PV="0.8.2rc1"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="2aa12ab"
+HTTP_LUA_MODULE_SHA1="f50c778"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 
@@ -161,6 +161,17 @@ HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 
 CHUNKIN_MODULE_PV="0.22rc2"
 CHUNKIN_MODULE_SHA1="b46dd27"
+# naxsi-core (https://code.google.com/p/naxsi/, GPLv2+)
+HTTP_NAXSI_MODULE_PV="0.50"
+HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
+HTTP_NAXSI_MODULE_URI="https://naxsi.googlecode.com/files/naxsi-core-${HTTP_NAXSI_MODULE_PV}.tgz"
+HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-core-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
+
+# http_metrics (https://github.com/madvertise/ngx_metrics, BSD license)
+HTTP_METRICS_MODULE_PV="0.1.1"
+HTTP_METRICS_MODULE_P="ngx_metrics-${HTTP_METRICS_MODULE_PV}"
+HTTP_METRICS_MODULE_URI="https://github.com/madvertise/ngx_metrics/archive/v${HTTP_METRICS_MODULE_PV}.tar.gz"
+HTTP_METRICS_MODULE_WD="${WORKDIR}/ngx_metrics-${HTTP_METRICS_MODULE_PV}"
 
 # add the feature of tcp proxy with nginx, with health check and status monitor 
 # (git://github.com/yaoweibin/nginx_tcp_proxy_module.git, AS-IS)
@@ -205,12 +216,14 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_tcp_proxy? (	http://github.com/yaoweibin/nginx_tcp_proxy_module/archive/master.zip -> ngx_tcp_proxy.zip )
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
+	nginx_modules_http_metrics? ( ${HTTP_METRICS_MODULE_URI} -> ${HTTP_METRICS_MODULE_P}.tar.gz )
+	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} ->	${HTTP_NAXSI_MODULE_P}.tar.gz )
 	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 
-LICENSE="BSD-2 BSD SSLeay MIT GPL-2
+LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	pam? ( as-is )"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
@@ -226,7 +239,8 @@ NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis 
 http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
-http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed http_pinba"
+http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed
+http_pinba http_metrics http_naxsi"
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -234,6 +248,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
 		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
+		nginx_modules_http_naxsi? ( pcre )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
@@ -583,6 +598,15 @@ src_configure() {
 		http_enabled=1
 	fi
 
+	if use nginx_modules_http_naxsi ; then
+	    http_enabled=1
+	    myconf+=" --add-module=${HTTP_NAXSI_MODULE_WD}"
+	fi
+	if use nginx_modules_http_metrics ; then
+	    http_enabled=1
+	    myconf+=" --add-module=${HTTP_METRICS_MODULE_WD}"
+	fi
+
 	if [ $http_enabled ]; then
 		use http-cache || myconf+=" --without-http-cache"
 		use ssl && myconf+=" --with-http_ssl_module"
@@ -644,24 +668,27 @@ src_compile() {
 }
 
 src_install() {
-	keepdir /var/log/"${PN}" /var/tmp/"${PN}"/{client,proxy,fastcgi,scgi,uwsgi}
+    cp "${FILESDIR}"/nginx.conf "${ED}"/etc/nginx/nginx.conf || die
 
-	dosbin objs/nginx
-	newinitd "${FILESDIR}"/nginx.initd nginx
+    newinitd "${FILESDIR}"/nginx.initd-r2 nginx
 
-	cp "${FILESDIR}"/nginx.conf conf/nginx.conf
-	rm conf/win-utf conf/koi-win conf/koi-utf
+    systemd_newunit "${FILESDIR}"/nginx.service-r1 nginx.service
 
-	dodir /etc/"${PN}"
-	insinto /etc/"${PN}"
-	doins conf/*
+    doman man/nginx.8
+    dodoc CHANGES* README
 
-	doman man/nginx.8
-	dodoc CHANGES* README
+    # just keepdir. do not copy the default htdocs files (bug #449136)
+    keepdir /var/www/localhost
+    rm -rf "${D}"/usr/html || die
 
-	# logrotate
-	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/nginx.logrotate nginx
+    keepdir /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+    fperms 0700 /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+    fowners ${PN}:${PN} /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+
+    # logrotate
+    insinto /etc/logrotate.d
+    newins "${FILESDIR}"/nginx.logrotate nginx
+
 
 # http_perl
 	if use nginx_modules_http_perl; then
@@ -807,16 +834,55 @@ src_install() {
 		cd "${WORKDIR}"/passenger-"${PASSENGER_PV}"
 		rake fakeroot
 	fi
+# hhtp_metrics
+    if use nginx_modules_http_metrics; then
+        docinto ${HTTP_METRICS_MODULE_P}
+        dodoc "${HTTP_METRICS_MODULE_WD}"/README.md
+    fi
+
+# http_naxsi
+	if use nginx_modules_http_naxsi; then
+        insinto /etc/nginx
+        doins "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/naxsi_core.rules
+
+        docinto ${HTTP_NAXSI_MODULE_P}
+        newdoc "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/default_location_config.example nbs.rules
+	fi
 
 	use chunk   && newdoc "${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
 	use pam && newdoc "${WORKDIR}"/ngx_http_auth_pam_module-1.1/README README.pam
 }
 
 pkg_postinst() {
-	if use ssl; then
-		if [ ! -f "${ROOT}"/etc/ssl/"${PN}"/"${PN}".key ]; then
-			install_cert /etc/ssl/"${PN}"/"${PN}"
-			chown "${PN}":"${PN}" "${ROOT}"/etc/ssl/"${PN}"/"${PN}".{crt,csr,key,pem}
-		fi
-	fi
+   if use ssl; then
+        if [ ! -f "${EROOT}"/etc/ssl/${PN}/${PN}.key ]; then
+            install_cert /etc/ssl/${PN}/${PN}
+            use prefix || chown ${PN}:${PN} "${EROOT}"/etc/ssl/${PN}/${PN}.{crt,csr,key,pem}
+        fi
+    fi
+
+    if use nginx_modules_http_lua && use nginx_modules_http_spdy; then
+        ewarn "Lua 3rd party module author warns against using ${P} with"
+        ewarn "NGINX_MODULES_HTTP=\"lua spdy\". For more info, see http://git.io/OldLsg"
+    fi
+
+    # This is the proper fix for bug #458726/#469094, resp. CVE-2013-0337 for
+    # existing installations
+    local fix_perms=0
+
+    for rv in ${REPLACING_VERSIONS} ; do
+        version_compare ${rv} 1.4.1-r2
+        [[ $? -eq 1 ]] && fix_perms=1
+    done
+
+    if [[ $fix_perms -eq 1 ]] ; then
+        ewarn "To fix a security bug (CVE-2013-0337, bug #458726) had the following"
+        ewarn "directories the world-readable bit removed (if set):"
+        ewarn "  ${EPREFIX}/var/log/nginx"
+        ewarn "  ${EPREFIX}${NGINX_HOME_TMP}/{,client,proxy,fastcgi,scgi,uwsgi}"
+        ewarn "Check if this is correct for your setup before restarting nginx!"
+        ewarn "This is a one-time change and will not happen on subsequent updates."
+        ewarn "Furthermore nginx' temp directories got moved to ${NGINX_HOME_TMP}"
+        chmod o-rwx "${EPREFIX}"/var/log/nginx "${EPREFIX}/${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+    fi
 }
