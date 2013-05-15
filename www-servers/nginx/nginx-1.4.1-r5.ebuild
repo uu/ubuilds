@@ -305,6 +305,9 @@ PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 S="${WORKDIR}/${PN}-${PV}"
 
 pkg_setup() {
+	NGINX_HOME="/var/lib/nginx" 
+	NGINX_HOME_TMP="${NGINX_HOME}/tmp"
+
 	ebegin "Creating nginx user and group"
 	enewgroup ${PN}
 	enewuser ${PN} -1 -1 -1 ${PN}
