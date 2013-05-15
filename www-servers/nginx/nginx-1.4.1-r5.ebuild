@@ -668,26 +668,28 @@ src_compile() {
 }
 
 src_install() {
-    cp "${FILESDIR}"/nginx.conf "${ED}"/etc/nginx/nginx.conf || die
+	emake DESTDIR="${D}" install
 
-    newinitd "${FILESDIR}"/nginx.initd-r2 nginx
+	cp "${FILESDIR}"/nginx.conf "${ED}"/etc/nginx/nginx.conf || die
 
-    systemd_newunit "${FILESDIR}"/nginx.service-r1 nginx.service
+	newinitd "${FILESDIR}"/nginx.initd-r2 nginx
 
-    doman man/nginx.8
-    dodoc CHANGES* README
+	systemd_newunit "${FILESDIR}"/nginx.service-r1 nginx.service
 
-    # just keepdir. do not copy the default htdocs files (bug #449136)
-    keepdir /var/www/localhost
-    rm -rf "${D}"/usr/html || die
+	doman man/nginx.8
+	dodoc CHANGES* README
 
-    keepdir /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
-    fperms 0700 /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
-    fowners ${PN}:${PN} /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+	# just keepdir. do not copy the default htdocs files (bug #449136)
+	keepdir /var/www/localhost
+	rm -rf "${D}"/usr/html || die
 
-    # logrotate
-    insinto /etc/logrotate.d
-    newins "${FILESDIR}"/nginx.logrotate nginx
+	keepdir /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+	fperms 0700 /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+	fowners ${PN}:${PN} /var/log/nginx "${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
+
+	# logrotate
+	insinto /etc/logrotate.d
+	newins "${FILESDIR}"/nginx.logrotate nginx
 
 
 # http_perl
