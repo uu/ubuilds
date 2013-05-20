@@ -17,6 +17,8 @@ inherit ruby-fakegem
 DESCRIPTION="Another synchronous Ruby AMQP client"
 HOMEPAGE="http://github.com/celldee/bunny"
 
+RDEPEND="=dev-ruby/amq-protocol-1.6.0"
+
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
