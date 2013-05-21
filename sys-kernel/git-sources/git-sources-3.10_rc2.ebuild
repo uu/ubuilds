@@ -30,6 +30,10 @@ ebuild -- if the problem is not there, please contact the upstream kernel
 developers at http://bugzilla.kernel.org and on the linux-kernel mailing list to
 report the problem so it can be fixed in time for the next kernel release."
 
+src_prepare() {
+	epatch ${FILESDIR}/xfs-user-ns.patch
+}
+
 pkg_postinst() {
 	postinst_sources
 }
