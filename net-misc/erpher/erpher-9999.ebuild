@@ -11,10 +11,16 @@ HOMEPAGE="http://megaplan.ru"
 LICENSE="WTFPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="rabbitmq"
+IUSE="rabbitmq ecomet"
 RESTRICT="strip"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/alx-xc/erpher_prepared.git"
+
+if use ecomet
+ then
+	EGIT_REPO_BRANCH="ecomet"
+fi
+
 #SRC_URI=" rabbitmq? ( http://www.alx-xc.ru/erpher/erpher-lin64-${PV}.tgz )
 #		  !rabbitmq? ( http://www.alx-xc.ru/erpher/erpher-lin64-${PV}-worabbit.tgz )
 #
