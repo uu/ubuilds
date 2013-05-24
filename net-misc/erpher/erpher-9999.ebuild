@@ -18,7 +18,7 @@ EGIT_REPO_URI="git://github.com/alx-xc/erpher_prepared.git"
 
 if use ecomet
  then
-	EGIT_REPO_BRANCH="ecomet"
+	EGIT_BRANCH="ecomet"
 fi
 
 #SRC_URI=" rabbitmq? ( http://www.alx-xc.ru/erpher/erpher-lin64-${PV}.tgz )
