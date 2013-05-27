@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-analyzer/nagios-check_fail2ban/nagios-check_fail2ban-3.ebuild,v 1.2 2011/05/14 06:28:43 hollow Exp $
 
-EAPI="2"
+EAPI="4"
 
 inherit multilib autotools
 
