@@ -27,7 +27,8 @@ ruby_add_rdepend virtual/rubygems
 
 ruby_add_bdepend "test? ( app-text/ronn )"
 
-RDEPEND+=" dev-ruby/capistrano"
+RDEPEND+=" dev-ruby/capistrano 
+		   dev-ruby/railsless-deploy"
 DEPEND+=" test? ( dev-vcs/git )"
 
 #all_ruby_prepare() {
