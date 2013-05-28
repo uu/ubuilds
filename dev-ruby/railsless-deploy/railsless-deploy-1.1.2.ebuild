@@ -11,12 +11,12 @@ RUBY_FAKEGEM_RECIPE_TEST="rspec"
 
 # No documentation task
 RUBY_FAKEGEM_TASK_DOC=""
-RUBY_FAKEGEM_EXTRADOC="README.md LICENSE.txt"
+RUBY_FAKEGEM_EXTRADOC="README.markdown CHANGELOG.markdown LICENSE.markdown"
 
 inherit ruby-fakegem
 
-DESCRIPTION="Capistrano recipe for deploying node.js apps."
-HOMEPAGE="https://github.com/loopj/capistrano-node-deploy"
+DESCRIPTION="A Railsless Deploy File for Capistrano"
+HOMEPAGE="https://github.com/leehambley/railsless-deploy/"
 
 LICENSE="MIT"
 SLOT="0"
@@ -27,9 +27,7 @@ ruby_add_rdepend virtual/rubygems
 
 ruby_add_bdepend "test? ( app-text/ronn )"
 
-RDEPEND+=" dev-ruby/capistrano 
-		   =dev-ruby/multi_json-1.3.7
-		   dev-ruby/railsless-deploy"
+RDEPEND+=" dev-ruby/capistrano"
 DEPEND+=" test? ( dev-vcs/git )"
 
 #all_ruby_prepare() {
