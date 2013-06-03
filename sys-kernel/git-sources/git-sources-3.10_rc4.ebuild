@@ -19,6 +19,7 @@ detect_version
 
 DESCRIPTION="The very latest -git version of the Linux kernel"
 HOMEPAGE="http://www.kernel.org"
+KERNEL_URI="${KERNEL_BASE_URI}/testing/linux-${CKV/_rc/-rc}.tar.xz"
 SRC_URI="${KERNEL_URI}"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sh ~sparc ~x86"
@@ -30,9 +31,9 @@ ebuild -- if the problem is not there, please contact the upstream kernel
 developers at http://bugzilla.kernel.org and on the linux-kernel mailing list to
 report the problem so it can be fixed in time for the next kernel release."
 
-src_prepare() {
-	epatch ${FILESDIR}/xfs-user-ns.patch
-}
+#src_prepare() {
+#	epatch ${FILESDIR}/xfs-user-ns.patch
+#}
 
 pkg_postinst() {
 	postinst_sources
