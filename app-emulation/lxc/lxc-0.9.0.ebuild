@@ -107,8 +107,8 @@ src_configure() {
 src_install() {
 	default
 
-	rm -r "${D}"/usr/sbin/lxc-setcap \
-		|| die "unable to remove lxc-setcap"
+#	rm -r "${D}"/usr/sbin/lxc-setcap \
+#		|| die "unable to remove lxc-setcap"
 
 	keepdir /etc/lxc /usr/lib/lxc/rootfs
 
