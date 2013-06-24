@@ -1,0 +1,140 @@
+#!/sbin/runscript
+# Copyright 1999-2010 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+COUCHBASE_USER="couchbase"
+COUCHBASE_PATH=/opt/couchbase
+PIDFILE=/var/run/couchbase-server.pid
+
+DEFAULT_CONFIG_DIR="/opt/couchbase/etc/couchdb/default.d"
+DEFAULT_CONFIG_FILE="/opt/couchbase/etc/couchdb/default.ini"
+LOCAL_CONFIG_DIR="/opt/couchbase/etc/couchdb/local.d"
+LOCAL_CONFIG_FILE="/opt/couchbase/etc/couchdb/local.ini"
+
+couch_start_arguments=""
+
+_add_config_file () {
+    couch_start_arguments="$couch_start_arguments $1"
+}
+
+_add_config_dir () {
+    for file in "$1"/*.ini; do
+        if [ -r "$file" ]; then
+          _add_config_file "$file"
+        fi
+    done
+}
+
+_load_config () {
+    _add_config_file "$DEFAULT_CONFIG_FILE"
+    _add_config_dir "$DEFAULT_CONFIG_DIR"
+    _add_config_file "$LOCAL_CONFIG_FILE"
+    _add_config_dir "$LOCAL_CONFIG_DIR"
+    if [ "$COUCHDB_ADDITIONAL_CONFIG_FILE" != '' ]
+    then
+        _add_config_file "$COUCHDB_ADDITIONAL_CONFIG_FILE"
+    fi
+}
+
+start() {
+        ebegin "Starting couchbase server"
+
+        touch $PIDFILE
+        chown $COUCHBASE_USER:daemon $PIDFILE
+
+        # pam-limits (/etc/security/limits.d and limits.conf) aren't working with start-stop-daemon
+        ulimit -n 10240
+        ulimit -c unlimited
+
+	PATH="/opt/couchbase/bin":$PATH
+	export PATH
+
+	if [ `ulimit -n` -lt 10240 ]
+	then
+cat <<EOF
+The maximum number of open files for the couchbase user is set too low.
+It must be at least 10240. Normally this can be increased by adding
+the following lines to /etc/security/limits.conf:
+
+couchbase              soft    nofile                  <value>
+couchbase              hard    nofile                  <value>
+
+Where <value> is greater than 10240.
+EOF
+	fi
+
+	datadir="/opt/couchbase/var/lib/couchbase"
+
+	test -d "$datadir" || mkdir -p "$datadir"
+	cd "$datadir"
+
+	# Initialize distributed erlang on the system (i.e. epmd)
+	erl -noshell -setcookie nocookie -sname init -run init stop 2>&1 > /dev/null
+	if [ $? -ne 0 ]
+	then
+		exit 1
+	fi
+
+       	ERL_LIBS="/opt/couchbase/lib/ns_server/erlang/lib:/opt/couchbase/lib/couchdb/erlang/lib:/opt/couchbase/lib/couchdb/plugins"
+        export ERL_LIBS
+
+	LD_LIBRARY_PATH="/opt/couchbase/lib":"/opt/couchbase/lib/memcached":$LD_LIBRARY_PATH
+	export LD_LIBRARY_PATH
+
+	ERL_CRASH_DUMP=erl_crash.dump.$(date +%m-%d-%Y-%H:%M:%S).$$
+	export ERL_CRASH_DUMP
+
+	ERL_FULLSWEEP_AFTER=512
+	export ERL_FULLSWEEP_AFTER
+
+	_load_config
+
+	# Set an ENV variable to force C++ STL and string classes to not use its
+	# default memory pooling allocator.
+	# For GCC 3.2.2 and later
+	GLIBCPP_FORCE_NEW=1
+	export GLIBCPP_FORCE_NEW
+	# For GCC 3.4 and later
+	GLIBCXX_FORCE_NEW=1
+	export GLIBCXX_FORCE_NEW
+
+        start-stop-daemon --start -m --pidfile ${PIDFILE} --background  \
+            --chdir $COUCHBASE_PATH/bin -u "$COUCHBASE_USER" --name beam \
+            --exec erl -- \
+		+A 16 \
+		+c \
+		+S 16:16 \
+		-smp auto \
+		+sbt u \
+		+P 327680 \
+		+K true \
+                -noinput \
+                -setcookie nocookie \
+		-kernel inet_dist_listen_min 21100 inet_dist_listen_max 21299 \
+			error_logger false \
+		-sasl sasl_error_logger false \
+                -run ns_bootstrap -- \
+		-couch_ini $couch_start_arguments \
+                -ns_server config_path "\"/opt/couchbase/etc/couchbase/static_config\"" \
+		-ns_server pidfile "\"/opt/couchbase/var/lib/couchbase/couchbase-server.pid\"" \
+		-ns_server nodefile "\"/opt/couchbase/var/lib/couchbase/couchbase-server.node\"" \
+		-ns_server cookiefile "\"/opt/couchbase/var/lib/couchbase/couchbase-server.cookie\"" 2>&1 > /dev/null
+
+	local i=0
+        local timeout=5
+        while [ ! -f ${PIDFILE} ] && [ $i -le $timeout ]; do
+            sleep 1
+            i=$(($i + 1))
+        done
+
+        [ $timeout -gt $i ]
+        eend $?
+
+}
+
+stop() {
+        ebegin "Stopping couchbase server"
+        start-stop-daemon --stop --pidfile ${PIDFILE} --name beam
+        rm -f ${PIDFILE}
+}
