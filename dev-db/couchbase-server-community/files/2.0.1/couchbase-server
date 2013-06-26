@@ -11,7 +11,7 @@ DEFAULT_CONFIG_DIR="/opt/couchbase/etc/couchdb/default.d"
 DEFAULT_CONFIG_FILE="/opt/couchbase/etc/couchdb/default.ini"
 LOCAL_CONFIG_DIR="/opt/couchbase/etc/couchdb/local.d"
 LOCAL_CONFIG_FILE="/opt/couchbase/etc/couchdb/local.ini"
-
+HOSTNAME=`hostname`
 couch_start_arguments=""
 
 _add_config_file () {
@@ -115,6 +115,7 @@ EOF
 			error_logger false \
 		-sasl sasl_error_logger false \
                 -run ns_bootstrap -- \
+		-name $HOSTNAME \
 		-couch_ini $couch_start_arguments \
                 -ns_server config_path "\"/opt/couchbase/etc/couchbase/static_config\"" \
 		-ns_server pidfile "\"/opt/couchbase/var/lib/couchbase/couchbase-server.pid\"" \
