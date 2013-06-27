@@ -1,0 +1,45 @@
+#!/sbin/runscript
+
+TWEMPROXY_EXEC=/usr/sbin/nutcracker
+TWEMPROXY_CONF=/etc/nutcracker.yml
+TWEMPROXY_PID=/var/run/twemproxy/twemproxy.pid
+TWEMPROXY_USER=twemproxy
+TWEMPROXY_GROUP=twemproxy
+
+extra_commands="checkconfig"
+
+depend() {
+    need net
+}
+
+checkconfig() {
+    if [ ! -f "${TWEMPROXY_CONF}" ]; then
+        eerror "${TWEMPROXY_CONF} does not exist!"
+        return 1
+    fi
+
+    ebegin "Checking ${TWEMPROXY_CONF}"
+    ${TWEMPROXY_EXEC} -t -c ${TWEMPROXY_CONF}
+}
+
+start() {
+	ebegin "Starting Twemproxy server"
+    checkconfig || { eerror "Please fix your ${TWEMPROXY_CONF} first"; return 1; }
+	start-stop-daemon --start \
+		--exec "${TWEMPROXY_EXEC}" \
+        -- -d -c "${TWEMPROXY_CONF}" -p "${TWEMPROXY_PID}"
+}
+
+stop() {
+	ebegin "Stopping Twemproxy server"
+	start-stop-daemon --stop --quiet --pidfile "${TWEMPROXY_PID}"
+	ret=$?
+	rm -f "${TWEMPROXY_PID}"
+	eend ${ret}
+}
+
+restart() {
+    checkconfig || { eerror "Please fix your ${TWEMPROXY_CONF} first"; return 1; }
+    stop
+    start
+}
