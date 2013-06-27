@@ -1,0 +1,93 @@
+Index: apc_main.c
+===================================================================
+--- apc_main.c	(revision 328200)
++++ apc_main.c	(working copy)
+@@ -485,6 +485,7 @@
+     const char* filename = NULL;
+ 
+     if (!APCG(enabled) || apc_cache_busy(apc_cache)) {
++        APCG(skip_cache) = 1;
+         return old_compile_file(h, type TSRMLS_CC);
+     }
+ 
+@@ -502,17 +503,18 @@
+             return old_compile_file(h, type TSRMLS_CC);
+         }
+     } else if(!APCG(cache_by_default)) {
++        APCG(skip_cache) = 1;
+         return old_compile_file(h, type TSRMLS_CC);
+     }
+     APCG(current_cache) = apc_cache;
+ 
+-
+     t = apc_time();
+ 
+     apc_debug("1. h->opened_path=[%s]  h->filename=[%s]\n" TSRMLS_CC, h->opened_path?h->opened_path:"null",h->filename);
+ 
+     /* try to create a cache key; if we fail, give up on caching */
+     if (!apc_cache_make_file_key(&key, h->filename, PG(include_path), t TSRMLS_CC)) {
++        APCG(skip_cache) = 1;
+         return old_compile_file(h, type TSRMLS_CC);
+     }
+ 
+@@ -532,6 +534,7 @@
+                                                 apc_sma_protect, apc_sma_unprotect TSRMLS_CC);
+         if (!ctxt.pool) {
+             apc_warning("Unable to allocate memory for pool." TSRMLS_CC);
++            APCG(skip_cache) = 1;
+             return old_compile_file(h, type TSRMLS_CC);
+         }
+         ctxt.copy = APC_COPY_OUT_OPCODE;
+@@ -581,21 +584,28 @@
+         } else {
+             if (apc_search_paths(h->filename, PG(include_path), &fileinfo TSRMLS_CC) != 0) {
+                 apc_debug("Stat failed %s - bailing (%s) (%d)\n" TSRMLS_CC,h->filename,SG(request_info).path_translated);
++                APCG(skip_cache) = 1;
+                 return old_compile_file(h, type TSRMLS_CC);
+             }
+         }
+         if (APCG(max_file_size) < fileinfo.st_buf.sb.st_size) { 
+             apc_debug("File is too big %s (%ld) - bailing\n" TSRMLS_CC, h->filename, fileinfo.st_buf.sb.st_size);
++            APCG(skip_cache) = 1;
+             return old_compile_file(h, type TSRMLS_CC);
+         }
+         key.mtime = fileinfo.st_buf.sb.st_mtime;
+     }
+ 
++    if (APCG(skip_cache)) {
++        return old_compile_file(h, type TSRMLS_CC);
++    }
++
+     HANDLE_BLOCK_INTERRUPTIONS();
+ 
+ #if NONBLOCKING_LOCK_AVAILABLE
+     if(APCG(write_lock)) {
+         if(!apc_cache_write_lock(apc_cache TSRMLS_CC)) {
++            APCG(skip_cache) = 1;
+             HANDLE_UNBLOCK_INTERRUPTIONS();
+             return old_compile_file(h, type TSRMLS_CC);
+         }
+Index: apc_globals.h
+===================================================================
+--- apc_globals.h	(revision 328200)
++++ apc_globals.h	(working copy)
+@@ -124,6 +124,7 @@
+ #endif
+     char *serializer_name;       /* the serializer config option */
+     apc_serializer_t *serializer;/* the actual serializer in use */
++    zend_bool skip_cache;        /* if error occurred, skip caching for this request lifecycle */
+ ZEND_END_MODULE_GLOBALS(apc)
+ 
+ /* (the following declaration is defined in php_apc.c) */
+Index: php_apc.c
+===================================================================
+--- php_apc.c	(revision 328200)
++++ php_apc.c	(working copy)
+@@ -395,6 +395,7 @@
+ #if HAVE_SIGACTION
+         apc_set_signals(TSRMLS_C);
+ #endif
++        APCG(skip_cache) = 0;
+     }
+     return SUCCESS;
+ }
