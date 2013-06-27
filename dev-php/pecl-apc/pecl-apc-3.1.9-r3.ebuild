@@ -40,11 +40,11 @@ IUSE+=" ${LUSE/lock_pthreadmutex/+lock_pthreadmutex}"
 
 REQUIRED_USE="^^ ( $LUSE )"
 
-src_prepare() {
-	epatch ${FILESDIR}/lambda-fix.patch
-}
+#src_prepare() {
+#}
 
 src_configure() {
+	epatch ${FILESDIR}/lambda-fix.patch
 	my_conf="--enable-apc"
 	enable_extension_enable "apc-mmap" "mmap" 0
 
