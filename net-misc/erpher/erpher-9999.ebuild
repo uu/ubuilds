@@ -11,14 +11,22 @@ HOMEPAGE="http://megaplan.ru"
 LICENSE="WTFPL-2"
 SLOT="0"
 KEYWORDS="amd64"
-IUSE="rabbitmq ecomet"
+IUSE="norabbitmq ecomet"
 RESTRICT="strip"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/alx-xc/erpher_prepared.git"
 
+MY_NAME='erpher'
+
 if use ecomet
  then
 	EGIT_BRANCH="ecomet"
+	MY_NAME='ecomet'
+fi
+
+if use norabbitmq
+ then
+	EGIT_BRANCH="worabbit"
 fi
 
 #SRC_URI=" rabbitmq? ( http://www.alx-xc.ru/erpher/erpher-lin64-${PV}.tgz )
@@ -38,11 +46,15 @@ pkg_setup() {
 
 src_prepare() {
 	 sed -e "s:%ROOT%:/opt/${PN}:" etc/app.config.tmpl > etc/app.config || die
+	 mv etc/vm.args.tmpl etc/vm.args || die
 }
 
 src_install() {
 	dodir /opt/${PN}
-	cp -a "${S}/" "${D}/opt/" || die "Install failed!"
+	dodir /etc
+	cp -a "${S}/" "${D}opt/" || die "Install failed!"
+	mv "${D}opt/${MY_NAME}/etc" "${D}etc/${MY_NAME}" || die "Copy etc dir failed"
+	ln -s /etc/${MY_NAME} /opt/erpher/etc
 	chown -R ${PN}:${PN} ${D}/opt/${PN}
 	newinitd ${FILESDIR}/erpher.init ${PN}
 	newconfd ${FILESDIR}/erpher.conf ${PN}
