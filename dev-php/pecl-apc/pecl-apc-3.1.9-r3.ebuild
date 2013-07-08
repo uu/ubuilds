@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-php/pecl-apc/pecl-apc-3.1.9-r2.ebuild,v 1.8 2013/04/09 08:49:14 olemarkus Exp $
 
-EAPI=4
+EAPI=5
 
 PHP_EXT_NAME="apc"
 PHP_EXT_PECL_PKG="APC"
@@ -11,6 +11,8 @@ PHP_EXT_ZENDEXT="no"
 DOCS="CHANGELOG INSTALL NOTICE TECHNOTES.txt TODO"
 
 PHP_EXT_INIFILE="${PN}.ini"
+
+USE_PHP="php5-5 php5-3 php5-4"
 
 inherit php-ext-pecl-r2 confutils eutils
 
