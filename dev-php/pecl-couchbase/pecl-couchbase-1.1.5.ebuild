@@ -15,7 +15,7 @@ USE_PHP="php5-5 php5-3 php5-4"
 
 inherit php-ext-pecl-r2 eutils
 
-KEYWORDS="~amd64 ~mips ~ppc ~ppc64 ~x86"
+KEYWORDS="amd64 ~mips ~ppc ~ppc64 x86"
 
 DESCRIPTION="The PHP client library provides fast access to documents in Couchbase Server 2.0. "
 LICENSE="PHP-3.01"
