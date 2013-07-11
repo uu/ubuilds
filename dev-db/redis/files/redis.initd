@@ -21,7 +21,7 @@ start() {
 	chown ${REDIS_USER}:${REDIS_GROUP} ${PID_DIR}
 
 	ebegin "Starting Redis server"
-	start-stop-daemon --start \
+	start-stop-daemon --start -b -m \
 		--chdir "${REDIS_DIR}" \
 		--user ${REDIS_USER}:${REDIS_GROUP} \
 		--pidfile "${REDIS_PID}" \
