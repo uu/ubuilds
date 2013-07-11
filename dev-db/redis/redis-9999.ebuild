@@ -92,8 +92,9 @@ src_install() {
 	nonfatal dodoc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README
 
 	dobin src/redis-cli
-	dosbin src/redis-benchmark src/redis-server src/redis-check-aof src/redis-check-dump
+	dosbin src/redis-benchmark src/redis-server src/redis-check-aof src/redis-check-dump src/redis-trib.rb
 	fperms 0750 /usr/sbin/redis-benchmark
+	fperms 0750 /usr/sbin/redis-trib.rb
 	dosym /usr/sbin/redis-server /usr/sbin/redis-sentinel
 
 	if use prefix; then
