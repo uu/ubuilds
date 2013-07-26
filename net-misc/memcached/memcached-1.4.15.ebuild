@@ -48,7 +48,7 @@ src_compile() {
 	# There is a heavy degree of per-object compile flags
 	# Users do NOT know better than upstream. Trying to compile the testapp and
 	# the -debug version with -DNDEBUG _WILL_ fail.
-	append-flags -UNDEBUG
+	append-flags -UNDEBUG -pthread
 	emake testapp memcached-debug CFLAGS="${CFLAGS}" || die "emake of testapp and memcached-debug failed."
 	filter-flags -UNDEBUG
 	emake || die "emake failed."
