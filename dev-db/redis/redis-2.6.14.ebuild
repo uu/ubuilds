@@ -1,17 +1,17 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-db/redis/redis-2.6.9.ebuild,v 1.1 2013/01/24 12:09:13 djc Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-db/redis/redis-2.6.13.ebuild,v 1.4 2013/07/04 12:23:47 ago Exp $
 
-EAPI=4
+EAPI=5
 
-inherit autotools eutils flag-o-matic user
+inherit autotools eutils flag-o-matic toolchain-funcs user
 
 DESCRIPTION="A persistent caching system, key-value and data structures database."
 HOMEPAGE="http://redis.io/"
 SRC_URI="http://redis.googlecode.com/files/${P}.tar.gz"
 
 LICENSE="BSD"
-KEYWORDS="~amd64 ~x86 ~x86-macos ~x86-solaris"
+KEYWORDS="amd64 x86 ~x86-macos ~x86-solaris"
 IUSE="+jemalloc tcmalloc test"
 SLOT="0"
 
@@ -32,7 +32,10 @@ pkg_setup() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-2.6.7"-{shared,config}.patch
-	# epatch "${FILESDIR}/${P}"-tclsh86.patch
+
+	# bug 467172, 467174
+	sed -i -e 's:AR=:AR?=:g' -e 's:RANLIB=:RANLIB?=:g' "${S}/deps/lua/src/Makefile" || die
+
 	# now we will rewrite present Makefiles
 	local makefiles=""
 	for MKF in $(find -name 'Makefile' | cut -b 3-); do
@@ -63,6 +66,8 @@ src_configure() {
 }
 
 src_compile() {
+	tc-export CC AR RANLIB
+
 	local myconf=""
 
 	if use tcmalloc ; then
@@ -73,7 +78,7 @@ src_compile() {
 		myconf="${myconf} MALLOC=yes"
 	fi
 
-	emake ${myconf}
+	emake ${myconf} V=1 CC="${CC}" AR="${AR} rcu" RANLIB="${RANLIB}"
 }
 
 src_install() {
@@ -83,7 +88,7 @@ src_install() {
 	fperms 0644 /etc/{redis,sentinel}.conf
 
 	newconfd "${FILESDIR}/redis.confd" redis
-	newinitd "${FILESDIR}/redis.initd" redis
+	newinitd "${FILESDIR}/redis.initd-2" redis
 
 	nonfatal dodoc 00-RELEASENOTES BUGS CONTRIBUTING MANIFESTO README
 
