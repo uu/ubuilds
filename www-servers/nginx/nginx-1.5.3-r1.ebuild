@@ -191,7 +191,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_passenger? ( https://github.com/FooBarWidget/passenger/tarball/master -> passenger-git-${PASSENGER_PV}.tar.gz )
 	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} ->	${HTTP_REDIS_MODULE_P}.tar.gz )
 	nginx_modules_http_push? ( http://pushmodule.slact.net/downloads/${HTTP_PUSH_MODULE_P}.tar.gz )
-	nginx_modules_http_cache_purge? ( http://labs.frickle.com/files/${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
+	nginx_modules_http_cache_purge? ( https://codeload.github.com/FRiCKLE/ngx_cache_purge/legacy.tar.gz/master -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
 	nginx_modules_http_upload? ( http://www.grid.net.ru/nginx/download/${HTTP_UPLOAD_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( https://github.com/msva/nginx-ey-balancer/tarball/v${HTTP_EY_BALANCER_MODULE_PV} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( https://github.com/simpl/ngx_devel_kit/tarball/v${HTTP_NDK_MODULE_PV} -> ${HTTP_NDK_MODULE_P}.tar.gz )
@@ -207,11 +207,11 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_iconv? ( https://github.com/calio/iconv-nginx-module/tarball/v${HTTP_ICONV_MODULE_PV} -> ${HTTP_ICONV_MODULE_P}.tar.gz )
 	nginx_modules_http_memc? ( https://github.com/agentzh/memc-nginx-module/tarball/v${HTTP_MEMC_MODULE_PV} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
 	nginx_modules_http_postgres? ( https://github.com/FRiCKLE/ngx_postgres/tarball/${HTTP_POSTGRES_MODULE_PV} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
-	nginx_modules_http_coolkit? ( http://labs.frickle.com/files/${HTTP_COOLKIT_MODULE_P}.tar.gz )
+	nginx_modules_http_coolkit? ( https://codeload.github.com/FRiCKLE/ngx_coolkit/legacy.tar.gz/master -> ${HTTP_COOLKIT_MODULE_P}.tar.gz )
 	nginx_modules_http_upload_progress? ( https://github.com/masterzen/nginx-upload-progress-module/tarball/v${HTTP_UPLOAD_PROGRESS_MODULE_PV} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
-	nginx_modules_http_supervisord? ( http://labs.frickle.com/files/${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
+	nginx_modules_http_supervisord? ( https://codeload.github.com/FRiCKLE/ngx_supervisord/legacy.tar.gz/master -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_request? ( http://mdounin.ru/files/${HTTP_AUTH_REQUEST_MODULE_P}.tar.gz )
-	nginx_modules_http_slowfs_cache? ( http://labs.frickle.com/files/${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
+	nginx_modules_http_slowfs_cache? ( https://codeload.github.com/FRiCKLE/ngx_slowfs_cache/legacy.tar.gz/master -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_tcp_proxy? (	http://github.com/yaoweibin/nginx_tcp_proxy_module/archive/master.zip -> ngx_tcp_proxy.zip )
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
@@ -221,6 +221,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
+#nginx_modules_http_coolkit? ( http://labs.frickle.com/files/${HTTP_COOLKIT_MODULE_P}.tar.gz )
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	pam? ( as-is )"
