@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-php5/pecl-idn/pecl-idn-0.2.0-r1.ebuild,v 1.1 2010/11/04 15:09:20 mabi Exp $
 
-EAPI=3
+EAPI=5
 
 PHP_EXT_NAME="dbase"
 PHP_EXT_INI="no"
