@@ -6,7 +6,7 @@ EAPI=4
 PHP_EXT_NAME="pinba"
 PHP_EXT_INI="yes"
 PHPSAPILIST="apache2 cgi cli fpm"
-USE_PHP="php5-3 php5-4"
+USE_PHP="php5-3 php5-4 php5-5"
 
 inherit php-ext-source-r2 git-2 autotools
 
