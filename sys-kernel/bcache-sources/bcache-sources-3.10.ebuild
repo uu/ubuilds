@@ -26,6 +26,6 @@ EGIT_BRANCH="bcache-3.10-stable"
 DESCRIPTION="Full sources for the Linux kernel with bcache patch"
 HOMEPAGE="http://www.kernel.org"
 SRC_URI=""
-
-KEYWORDS="~amd64 ~x86"
+RDEPEND="tools? ( sys-fs/bcache-tools )"
+KEYWORDS="amd64 ~x86"
 IUSE="tools"
