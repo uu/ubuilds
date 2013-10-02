@@ -67,9 +67,9 @@ HTTP_EY_BALANCER_MODULE_P="nginx-ey-balancer-${HTTP_EY_BALANCER_MODULE_PV}"
 HTTP_EY_BALANCER_MODULE_SHA1="859b2ef"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
-HTTP_NDK_MODULE_PV="0.2.18"
+HTTP_NDK_MODULE_PV="0.2.19"
 HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
-HTTP_NDK_MODULE_SHA1="48bc5dd"
+HTTP_NDK_MODULE_SHA1="8dd0df5"
 
 # NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
 #HTTP_LUA_MODULE_PV="0.3.1rc19"
@@ -77,9 +77,9 @@ HTTP_NDK_MODULE_SHA1="48bc5dd"
 #HTTP_LUA_MODULE_SHA1="b25d06b"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.8.9"
+HTTP_LUA_MODULE_PV="0.9.0"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="a641101"
+HTTP_LUA_MODULE_SHA1="2063a94"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 
@@ -98,9 +98,9 @@ HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_SHA1="6ce0801"
 
 # NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module, BSD)
-HTTP_MEMC_MODULE_PV="0.13rc3"
+HTTP_MEMC_MODULE_PV="0.13"
 HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
-HTTP_MEMC_MODULE_SHA1="4007350"
+HTTP_MEMC_MODULE_SHA1="6b05e90"
 
 # NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module, BSD)
 HTTP_RDS_JSON_MODULE_PV="0.12rc10"
@@ -113,15 +113,15 @@ HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_SHA1="f957c0f"
 
 # NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.22rc8"
+HTTP_SET_MISC_MODULE_PV="0.22"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="658c235"
+HTTP_SET_MISC_MODULE_SHA1="c882bd7"
 HTTP_SET_MISC_MODULE_URI="http://github.com/agentzh/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
 # NginX XSS module (https://github.com/agentzh/xss-nginx-module, BSD)
-HTTP_XSS_MODULE_PV="0.03rc9"
+HTTP_XSS_MODULE_PV="0.03"
 HTTP_XSS_MODULE_P="xss-nginx-module-${HTTP_XSS_MODULE_PV}"
-HTTP_XSS_MODULE_SHA1="beddbe1"
+HTTP_XSS_MODULE_SHA1="fa04099"
 
 # NginX Array-Var module (https://github.com/agentzh/array-var-nginx-module, BSD)
 HTTP_ARRAY_VAR_MODULE_PV="0.03rc1"
@@ -162,7 +162,7 @@ HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 CHUNKIN_MODULE_PV="0.22rc2"
 CHUNKIN_MODULE_SHA1="b46dd27"
 # naxsi-core (https://code.google.com/p/naxsi/, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.50"
+HTTP_NAXSI_MODULE_PV="0.51-1"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://naxsi.googlecode.com/files/naxsi-core-${HTTP_NAXSI_MODULE_PV}.tgz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-core-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
