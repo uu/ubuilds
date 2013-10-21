@@ -5,7 +5,7 @@
 EAPI=5
 
 # jruby → Many tests fail and test suite hangs.
-USE_RUBY="ruby18 ruby19 ree18"
+USE_RUBY="ruby18 ruby19 ree18 ruby20"
 
 RUBY_FAKEGEM_RECIPE_TEST="rspec"
 
