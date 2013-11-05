@@ -80,6 +80,10 @@ src_configure() {
 		${myconf} \
 		--libexecdir=/usr/$(get_libdir)/nagios/plugins \
 		--sysconfdir=/etc/nagios
+		--with-ps-command="/bin/ps axwo 'stat uid pid ppid vsz rss pcpu etime comm args'" 
+		--with-ps-format="%s %d %d %d %d %d %f %s %s %n" 
+		--with-ps-varlist='procstat,&procuid,&procpid,&procppid,&procvsz,&procrss,&procpcpu,&procetime,procprog,&pos' 
+		--with-ps-cols=10
 }
 
 DOCS=( ACKNOWLEDGEMENTS AUTHORS BUGS CODING ChangeLog FAQ NEWS README REQUIREMENTS SUPPORT THANKS )
