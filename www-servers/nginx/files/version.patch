@@ -6,8 +6,8 @@
  
 -static char ngx_http_server_string[] = "Server: nginx" CRLF;
 -static char ngx_http_server_full_string[] = "Server: " NGINX_VER CRLF;
-+static char ngx_http_server_string[] = "Server: megadrom" CRLF;
-+static char ngx_http_server_full_string[] = "Server: 2013" CRLF;
++static char ngx_http_server_string[] = "Server: megadrom@%HOSTNAME%" CRLF;
++static char ngx_http_server_full_string[] = "Server: megadrom@%HOSTNAME%" CRLF;
  
  
  static ngx_str_t ngx_http_status_lines[] = {

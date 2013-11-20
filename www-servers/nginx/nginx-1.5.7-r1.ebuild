@@ -355,6 +355,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/version.patch
 	host=$(hostname 2>/dev/null)
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_special_response.c
+	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_header_filter_module.c
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
