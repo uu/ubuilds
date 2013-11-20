@@ -353,6 +353,8 @@ src_prepare() {
 	sed -i -e "s|\(NGX_MAX_ERROR_STR\)   2048|\1 4096|" "${S}"/src/core/ngx_log.h
 
 	epatch "${FILESDIR}"/version.patch
+	host=$(hostname 2>/dev/null)
+	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_special_response.c
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
