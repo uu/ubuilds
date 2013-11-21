@@ -171,7 +171,7 @@ src_install() {
 
 	# parallel install doesn't work and it's also pointless to have this
 	# run in parallel for now (because it uses internal loops).
-	emake -j1 DESTDIR="${D}" $(usex install)
+	emake -j1 DESTDIR="${D}"  #$(usex install)
 
 	# we remove /run from the install, as it's not the package's to deal
 	# with.
