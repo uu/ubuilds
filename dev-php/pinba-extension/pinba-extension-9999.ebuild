@@ -2,19 +2,19 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 PHP_EXT_NAME="pinba"
 PHP_EXT_INI="yes"
 PHPSAPILIST="apache2 cgi cli fpm"
 USE_PHP="php5-3 php5-4 php5-5"
 
-inherit php-ext-source-r2 git-2 autotools
+inherit php-ext-pecl-r2 git-2 autotools
 
 DESCRIPTION="Pinba is a realtime monitoring/statistics server for PHP using
 MySQL as a read-only interface."
 HOMEPAGE="http://pinba.org/"
 EGIT_REPO_URI="git://github.com/tony2001/pinba_extension.git"
-
+SRC_URI=""
 LICENSE="PHP-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
