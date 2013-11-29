@@ -22,3 +22,7 @@ DEPEND=""
 RDEPEND="${DEPEND}
 		dev-lang/php
 		"
+#src_prepare() {
+#	#EPATCH_OPTS="-p1"
+#	epatch "${FILESDIR}/php-55.patch"
+#}
