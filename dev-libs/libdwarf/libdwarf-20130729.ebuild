@@ -8,7 +8,7 @@ inherit flag-o-matic
 
 DESCRIPTION="Library to deal with DWARF Debugging Information Format"
 HOMEPAGE="http://reality.sgiweb.org/davea/dwarf.html"
-SRC_URI="http://pkgs.fedoraproject.org/repo/pkgs/libdwarf/${P}.tar.gz/77c8b351f11738bc9fa50474a69d5b36/${P}.tar.gz"
+SRC_URI="http://pkgs.fedoraproject.org/repo/pkgs/libdwarf/${P}.tar.gz/4cc5e48693f7b93b7aa0261e63c0e21d/${P}.tar.gz"
 
 LICENSE="GPL-2 LGPL-2"
 SLOT="0"
