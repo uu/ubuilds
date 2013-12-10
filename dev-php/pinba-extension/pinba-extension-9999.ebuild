@@ -8,7 +8,7 @@ PHP_EXT_INI="yes"
 PHPSAPILIST="apache2 cgi cli fpm"
 USE_PHP="php5-3 php5-4 php5-5"
 
-inherit php-ext-pecl-r2 git-2 autotools
+inherit php-ext-source-r2 git-2 autotools
 
 DESCRIPTION="Pinba is a realtime monitoring/statistics server for PHP using
 MySQL as a read-only interface."
@@ -27,6 +27,7 @@ RDEPEND="${DEPEND}"
 
 src_prepare() {
 	php-ext-source-r2_src_prepare
+	eautoreconf
 }
 
 src_install() {
