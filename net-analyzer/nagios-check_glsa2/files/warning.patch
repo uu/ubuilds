@@ -1,0 +1,14 @@
+--- check_glsa2.sh_orig	2013-12-11 13:53:22.549823254 +0400
++++ check_glsa2.sh	2013-12-11 13:53:31.463288047 +0400
+@@ -53,8 +53,8 @@
+ 		echo "OK - system not affected by any GLSAs (${#WHITELIST[@]} whitelisted)"
+ 		exit 0
+ 	else
+-		echo "CRITICAL - affecting GLSAs:${GLSA_PACKAGES}"
+-		exit 2
++		echo "WARNING - affecting GLSAs:${GLSA_PACKAGES}"
++		exit 1
+ 	fi
+ 
+ # glsa-check returned no vulnerable packages
+
