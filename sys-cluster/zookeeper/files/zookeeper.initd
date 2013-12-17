@@ -1,0 +1,30 @@
+#!/sbin/runscript
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+modules="${root_dir}/lib/jline-0.9.94.jar:${root_dir}/lib/netty-3.2.2.Final.jar:${root_dir}/lib/slf4j-log4j12-1.6.1.jar:${root_dir}/lib/log4j-1.2.15.jar:${root_dir}/lib/slf4j-api-1.6.1.jar"
+jar_file="$root_dir/zookeeper-${version}.jar"
+args="-Xmn${xmn} -Xmx${xmx} -server -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:CMSInitiatingOccupancyFraction=90 -XX:NewRatio=7 -XX:+UseCompressedOops -Dzookeeper.log.dir=. -Dzookeeper.root.logger=INFO,CONSOLE -cp $root_dir/build/classes:$root_dir/build/lib/*.jar:${modules}:${jar_file}:$root_dir/src/java/lib/*.jar:$root_dir/conf: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only=false org.apache.zookeeper.server.quorum.QuorumPeerMain ${config}"
+
+depend() {
+	use net
+}
+
+start_pre() {
+	checkpath -f ${pid_file} -f ${log_file} -o ${user}
+	checkpath -d ${data_dir} -o ${user}
+}
+
+start() {
+	ebegin	"Starting ${instance_name}..."
+	start-stop-daemon	--start -p ${pid_file} -u ${user} -P -b -d ${root_dir} -m -1 ${log_file} -w 5000 -2 ${log_file} -x java -- ${args}
+	eend	$? "failed to start ${instance_name} =("
+}
+
+stop() {
+	ebegin	"Trying to stop ${instance_name}..."
+	start-stop-daemon	--stop -p ${pid_file} -R SIGTERM/10
+	eend	$? "failed to stop ${instance_name} =("
+}
+
