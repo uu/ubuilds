@@ -360,6 +360,13 @@ src_prepare() {
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
 
+    if use nginx_modules_http_lua; then
+        cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
+        epatch "${FILESDIR}"/ngx-lua-for-nginx-"${PV}".patch
+        cd -
+    fi
+
+
 #if use syslog; then
 #		einfo "Patching for Syslog"
 #		use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_${SYSLOG_MODULE_NGINX_PV}.patch
