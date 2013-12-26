@@ -14,7 +14,7 @@ EGIT_REPO_URI="git://github.com/antirez/redis.git"
 EGIT_BRANCH="unstable"
 
 LICENSE="BSD"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="+jemalloc tcmalloc test"
 SLOT="0"
 
