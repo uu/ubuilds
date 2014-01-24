@@ -8,7 +8,9 @@ PHP_EXT_NAME="zookeeper"
 PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 
-inherit php-ext-pecl-r2
+USE_PHP="php5-5 php5-3 php5-4"
+
+inherit php-ext-pecl-r2 confutils eutils
 
 DESCRIPTION="php extension for connections to zookeeper server"
 
@@ -19,7 +21,6 @@ KEYWORDS="amd64 x86"
 DEPEND="dev-lang/php[curl,hash,ssl] ( || ( dev-libs/libzookeeper
 sys-cluster/zookeeper ) )"
 RDEPEND="${DEPEND}"
-USE_PHP="php5-5 php5-3 php5-4"
-
+IUSE=""
 #my_conf="--with-libzookeeper-dir=/home/www/utinet/zookeeper-devel/src/c/"
 #need_php_by_category
