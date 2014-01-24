@@ -14,12 +14,12 @@ DESCRIPTION="php extension for connections to zookeeper server"
 
 LICENSE="PHP 3.01"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 
 DEPEND="dev-lang/php[curl,hash,ssl] ( || ( dev-libs/libzookeeper
 sys-cluster/zookeeper ) )"
 RDEPEND="${DEPEND}"
-IUSE="+php_targets_php5-3"
+USE_PHP="php5-5 php5-3 php5-4"
 
 #my_conf="--with-libzookeeper-dir=/home/www/utinet/zookeeper-devel/src/c/"
 #need_php_by_category
