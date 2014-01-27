@@ -1,0 +1,19 @@
+#!/sbin/runscript
+#
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting rm-agent"
+	start-stop-daemon --start --exec /usr/bin/ruby /opt/rm-agent/rm_agent.rb --pidfile /var/run/rm-agent.pid --background --make-pidfile -1 /var/log/rm-agent/rm-agent.log -2 /var/log/rm-agent/rm-agent.err 
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping rm-agent"
+	start-stop-daemon --stop --pidfile /var/run/rm-agent.pid
+	eend $?
+}
+
