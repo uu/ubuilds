@@ -17,13 +17,16 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 S=${WORKDIR}/${PN}
 
-inherit eutils
+inherit eutils user
+
+pkg_setup() {
+	enewuser deploy -1
+}
 
 src_install() {
-#enewuser deploy
 	dodir /opt/${PN}
 	dodir /var/log/${PN}
-	fowners post /var/log/${PN}
+	fowners deploy /var/log/${PN}
 	insinto /opt/${PN}
 	doins *
 	newinitd "${FILESDIR}/${PN}.init" ${PN} || die
