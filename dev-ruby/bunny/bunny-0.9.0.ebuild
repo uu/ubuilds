@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-ruby/bunny/bunny-0.8.0.ebuild,v 1.1 2012/08/04 14:51:40 graaff Exp $
 
 EAPI="4"
-USE_RUBY="ruby18 ruby19"
+USE_RUBY="ruby18 ruby19 ruby20 ruby21"
 
 RUBY_FAKEGEM_TASK_DOC=""
 
