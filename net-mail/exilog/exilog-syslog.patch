@@ -1,0 +1,46 @@
+--- exilog/lib/exilog_parse.pm	2014-01-22 19:35:58.264782081 +0400
++++ /usr/lib/exilog/exilog_parse.pm	2013-04-06 17:16:56.000000000 +0400
+@@ -264,6 +254,8 @@
+   my $subj = shift || "";
+   chomp($subj);
+ 
++  $subj = hook_syslog( $subj );
++
+   my $h = { 'table' => 'rejects' };
+ 
+   # There are 2 types of rejects: one without a message ID (pre-DATA)
+@@ -301,6 +293,8 @@
+   my $subj = shift || "";
+   chomp($subj);
+ 
++  $subj = hook_syslog( $subj );
++
+   # Exception: do not use "retry time not reached [for any host]".
+   # It's just too spammy and gets logged by default.
+   return 0 if ($subj =~ /retry time not reached$/);
+@@ -358,4 +352,25 @@
+   return $h;
+ };
+ 
++sub hook_syslog {
++    my $string = shift;
++    return $string unless $string;
++
++    my ( $date, $message ) = ( $string  =~ m/(.*)exim\-main: (.*)$/ );
++
++    my %months = (
++        Jan => 1, Feb => 2,  Mar => 3,  Apr => 4,
++        May => 5, Jun => 6,  Jul => 7,  Aug => 8,
++        Sep => 9, Oct => 10, Nov => 11, Dec => 12,
++    );
++
++    $date =~ m/^(\w{3})\s+(\d+)/i;
++    $date = $2;
++    my $month = $months{ $1 };
++    my $year  = 1900 + (localtime())[5];
++
++    return sprintf "%04d-%02d-%02d %s", $year, $month, $date, $message;
++}
++
+ 1;
++
