@@ -24,5 +24,6 @@ src_install() {
 	doexe ${S}/bin/omnipitr-*
 	insinto /usr/lib
     doins -r ${S}/lib/*
+	dodir /var/tmp/${PN}
 }
 
