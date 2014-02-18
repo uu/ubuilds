@@ -20,6 +20,7 @@ IUSE="doc check"
 #RDEPEND=""
 
 src_install() {
+	exeinto /usr/bin
 	doexe ${S}/bin/omnipitr-*
 	insinto /usr/lib
     doins -r ${S}/lib/*
