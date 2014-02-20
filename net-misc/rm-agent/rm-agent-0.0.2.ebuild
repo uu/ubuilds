@@ -25,9 +25,12 @@ pkg_setup() {
 
 src_install() {
 	dodir /opt/${PN}
+	dodir /opt/${PN}/rm_agent
 	dodir /var/log/${PN}
 	fowners deploy /var/log/${PN}
 	insinto /opt/${PN}
 	doins *
+	insinto /opt/${PN}/rm_agent	
+	doins rm_agent/*
 	newinitd "${FILESDIR}/${PN}.init" ${PN} || die
 }
