@@ -6,7 +6,7 @@ EAPI=2
 inherit eutils git-2
 
 EGIT_REPO_URI="git://github.com/facebook/hhvm.git"
-EGIT_BRANCH="master"
+EGIT_COMMIT="HHVM-${PV}"
 
 IUSE="+jemalloc devel debug"
 
@@ -44,7 +44,7 @@ RDEPEND="
 	dev-util/google-perftools
 	dev-libs/cloog
 	dev-libs/elfutils
-	dev-libs/libdwarf
+	=dev-libs/libdwarf-20120410
 	app-arch/bzip2
 	sys-devel/binutils
 	>=sys-devel/gcc-4.7
@@ -56,11 +56,12 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	>=dev-util/cmake-2.8.7
+	dev-vcs/git
 "
 
 SLOT="0"
 LICENSE="PHP-3"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 
 src_prepare()
 {
