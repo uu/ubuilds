@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit eutils git-2 autotools
+inherit eutils git-2 autotools user
 
 MY_P="mfs-${PV}"
 S="${WORKDIR}/${MY_P}"
