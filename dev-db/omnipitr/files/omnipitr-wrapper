@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/bin/omnipitr-archive -D POSTGRES-DATA-DIR -l POSTGRES-LOG-DIR/archive-^Y-^m-^d.log -dr bzip2=postgres@REPLICA-SERVER:/POSTGRES-DATA-DIR/wal_archive/ -dr bzip2=..... -s /var/tmp/omnipitr/state "$1"

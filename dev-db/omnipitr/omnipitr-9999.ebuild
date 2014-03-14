@@ -25,5 +25,6 @@ src_install() {
 	insinto /usr/lib
     doins -r ${S}/lib/*
 	dodir /var/tmp/${PN}
+	doins ${FILESDIR}/omnipitr-wrapper
 }
 
