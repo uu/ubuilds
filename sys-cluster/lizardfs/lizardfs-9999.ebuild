@@ -16,7 +16,7 @@ EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="none"
+KEYWORDS="x86 amd64"
 IUSE="cgi +fuse static-libs"
 
 RDEPEND="
