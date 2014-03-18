@@ -24,6 +24,8 @@ RDEPEND="
 	fuse? ( >=sys-fs/fuse-2.6 )"
 DEPEND="${RDEPEND}"
 
+mycmakeargs="-DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=NO -DCMAKE_INSTALL_PREFIX=/ -DENABLE_DEBIAN_PATHS=YES"
+
 pkg_setup() {
 	enewgroup mfs
 	enewuser mfs -1 -1 -1 mfs
