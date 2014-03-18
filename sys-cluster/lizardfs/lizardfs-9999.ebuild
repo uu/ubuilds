@@ -12,12 +12,18 @@ S="${WORKDIR}/${MY_P}"
 DESCRIPTION="LizardFS is an Open Source Distributed File System licenced under GPLv3."
 HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
+
+if use "mddump" ; then
+	EGIT_REPO_URI="git://github.com/wrodis/lizardfs.git"
+	EGIT_BRANCH="md_dump"
+else
+	EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
+fi
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="cgi +fuse static-libs"
+IUSE="cgi +fuse static-libs mddump"
 
 RDEPEND="
 	cgi? ( dev-lang/python )
