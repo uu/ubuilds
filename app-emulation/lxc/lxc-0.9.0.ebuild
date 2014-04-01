@@ -16,7 +16,7 @@ fi
 
 DESCRIPTION="LinuX Containers userspace utilities"
 HOMEPAGE="http://lxc.sourceforge.net/"
-SRC_URI="http://lxc.sourceforge.net/download/lxc/${MY_P}.tar.gz"
+SRC_URI="http://lxc.sourceforge.net/download/${MY_P}.tar.gz"
 #	${BACKPORTS:+http://dev.gentoo.org/~flameeyes/${PN}/${MY_P}-backports-${BACKPORTS}.tar.xz}"
 S="${WORKDIR}/${MY_P}"
 
