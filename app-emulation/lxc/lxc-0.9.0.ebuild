@@ -6,7 +6,7 @@ EAPI="4"
 
 MY_P="${P/_/-}"
 
-BACKPORTS=1
+#BACKPORTS=1
 
 inherit eutils linux-info versionator flag-o-matic
 
@@ -16,7 +16,7 @@ fi
 
 DESCRIPTION="LinuX Containers userspace utilities"
 HOMEPAGE="http://lxc.sourceforge.net/"
-SRC_URI="http://lxc.sourceforge.net/download/${MY_P}.tar.gz"
+SRC_URI="http://sourceforge.net/projects/lxc/files/lxc/${MY_P}/${MY_P}.tar.gz/download
 #	${BACKPORTS:+http://dev.gentoo.org/~flameeyes/${PN}/${MY_P}-backports-${BACKPORTS}.tar.xz}"
 S="${WORKDIR}/${MY_P}"
 
