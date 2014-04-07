@@ -16,7 +16,8 @@ fi
 
 DESCRIPTION="LinuX Containers userspace utilities"
 HOMEPAGE="http://lxc.sourceforge.net/"
-SRC_URI="http://lxc.sourceforge.net/download/${MY_P}.tar.gz"
+#SRC_URI="http://lxc.sourceforge.net/download/${MY_P}.tar.gz"
+SRC_URI="https://linuxcontainers.org/downloads/${MY_P}.tar.gz"
 #	${BACKPORTS:+http://dev.gentoo.org/~flameeyes/${PN}/${MY_P}-backports-${BACKPORTS}.tar.xz}"
 S="${WORKDIR}/${MY_P}"
 
@@ -29,7 +30,6 @@ IUSE="examples"
 RDEPEND="sys-libs/libcap"
 
 DEPEND="${RDEPEND}
-	app-text/docbook-sgml-utils
 	>=sys-kernel/linux-headers-3.2"
 
 RDEPEND="${RDEPEND}
