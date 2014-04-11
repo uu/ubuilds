@@ -15,6 +15,8 @@ SLOT="0"
 KEYWORDS="amd64 hppa ppc sparc x86"
 IUSE=""
 
+DEPEND="dev-python/setuptools dev-python/configparser"
+
 #S="${WORKDIR}"/lhost-${PN}-610082b
 
 
