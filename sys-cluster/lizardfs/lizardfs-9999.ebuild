@@ -13,17 +13,12 @@ DESCRIPTION="LizardFS is an Open Source Distributed File System licenced under G
 HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
 
-if use "mddump" ; then
-	EGIT_REPO_URI="git://github.com/wrodis/lizardfs.git"
-	EGIT_BRANCH="md_dump"
-else
-	EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
-fi
+EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="cgi +fuse static-libs mddump"
+IUSE="cgi +fuse static-libs"
 
 RDEPEND="
 	cgi? ( dev-lang/python )

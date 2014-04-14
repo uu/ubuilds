@@ -1,132 +1,111 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=2
+EAPI="5"
 
-inherit eutils git-2
+inherit eutils git-2 user
 
-EGIT_REPO_URI="git://github.com/facebook/hhvm.git"
+EGIT_REPO_URI="https://github.com/facebook/hhvm.git"
 EGIT_BRANCH="master"
 
-IUSE="+jemalloc devel debug"
-
-CURL_P="curl-7.31.0"
-LIBEVENT_P="libevent-1.4.14b-stable"
-
-SRC_URI="http://curl.haxx.se/download/${CURL_P}.tar.bz2
-         https://github.com/downloads/libevent/libevent/${LIBEVENT_P}.tar.gz"
+IUSE="debug hack xen zend-compat"
 
 DESCRIPTION="Virtual Machine, Runtime, and JIT for PHP"
 HOMEPAGE="https://github.com/facebook/hhvm"
 
 RDEPEND="
-	>=dev-libs/boost-1.48
-	sys-devel/flex
-	sys-devel/bison
-	dev-util/re2c
-	virtual/mysql
-	dev-libs/libxml2
-	dev-libs/libmcrypt
-	dev-libs/icu
-	dev-libs/openssl
-	sys-libs/libcap
-	media-libs/gd
-	sys-libs/zlib
+	app-arch/bzip2
+	dev-cpp/glog
 	dev-cpp/tbb
-	dev-libs/oniguruma
-	dev-libs/libpcre
-	dev-libs/expat
-	sys-libs/readline
-	sys-libs/ncurses
-	dev-libs/libmemcached
-	net-nds/openldap
-	net-libs/c-client[kerberos]
-	dev-util/google-perftools
+	hack? ( >=dev-lang/ocaml-3.12[ocamlopt] )
+	>=dev-libs/boost-1.49
 	dev-libs/cloog
 	dev-libs/elfutils
+	dev-libs/expat
+	dev-libs/icu
+	>=dev-libs/jemalloc-3.0.0[stats]
 	dev-libs/libdwarf
-	app-arch/bzip2
-	sys-devel/binutils
+	>=dev-libs/libevent-2.0.9
+	dev-libs/libmcrypt
+	dev-libs/libmemcached
+	dev-libs/libpcre
+	dev-libs/libxml2
+	dev-libs/libxslt
+	dev-libs/oniguruma
+	dev-libs/openssl
+	media-gfx/imagemagick
+	media-libs/freetype
+	media-libs/gd[jpeg,png]
+	net-libs/c-client[kerberos]
+	>=net-misc/curl-7.28.0
+	net-nds/openldap
 	>=sys-devel/gcc-4.7
-	dev-cpp/glog
-	jemalloc? ( >=dev-libs/jemalloc-3.0.0[stats] )
-	media-libs/libvpx
+	sys-libs/libcap
+	sys-libs/ncurses
+	sys-libs/readline
+	sys-libs/zlib
+	virtual/mysql
 "
 
 DEPEND="
 	${RDEPEND}
 	>=dev-util/cmake-2.8.7
+	sys-devel/binutils
+	sys-devel/bison
+	sys-devel/flex
 "
 
 SLOT="0"
 LICENSE="PHP-3"
 KEYWORDS="~amd64"
 
+pkg_setup() {
+	ebegin "Creating hhvm user and group"
+	enewgroup hhvm
+	enewuser hhvm -1 -1 "/var/lib/hhvm" hhvm
+	eend $?
+}
+
 src_prepare()
 {
-	git submodule init
-	git submodule update
-
-	epatch "${FILESDIR}/support-curl-7.31.0.patch"
-
-	export CMAKE_PREFIX_PATH="${D}/usr/lib/hhvm"
-
-	einfo "Building custom libevent"
-	export EPATCH_SOURCE="${S}/hphp/third_party"
-	EPATCH_OPTS="-d ""${WORKDIR}/${LIBEVENT_P}" epatch libevent-1.4.14.fb-changes.diff
-	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-	./autogen.sh
-	./configure --prefix="${CMAKE_PREFIX_PATH}"
-	emake
-	emake -j1 install
-	popd > /dev/null
-
-	einfo "Building custom curl"
-	EPATCH_OPTS="-d ""${WORKDIR}/${CURL_P} -p1" epatch libcurl.fb-changes.diff
-	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-	./buildconf
-	./configure --prefix="${CMAKE_PREFIX_PATH}"
-	emake
-	emake -j1 install
-	popd > /dev/null
-
-	CMAKE_BUILD_TYPE="Release"
-	if use debug; then
-		CMAKE_BUILD_TYPE="Debug"
-	fi
-	export CMAKE_BUILD_TYPE
+	git submodule update --init
 }
 
 src_configure()
 {
-	export HPHP_HOME="${S}"
-	econf -DCMAKE_BUILD_TYPE="$CMAKE_BUILD_TYPE"
+	CMAKE_BUILD_TYPE="Release"
+	if use debug; then
+		CMAKE_BUILD_TYPE="Debug"
+	fi
+
+	if use xen; then
+		HHVM_OPTS="${HHVM_OPTS} -DDISABLE_HARDWARE_COUNTERS=ON"
+	fi
+
+	if use zend-compat; then
+		HHVM_OPTS="${HHVM_OPTS} -DENABLE_ZEND_COMPAT=ON"
+	fi
+
+	econf -DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}" ${HHVM_OPTS}
 }
 
 src_install()
 {
-	pushd "${WORKDIR}/${LIBEVENT_P}" > /dev/null
-	emake -j1 install
-	popd > /dev/null
+	dobin hphp/hhvm/hhvm
 
-	pushd "${WORKDIR}/${CURL_P}" > /dev/null
-	emake -j1 install
-	popd > /dev/null
-
-	rm -rf "${D}/usr/lib/hhvm/"{bin,include,share}
-	rm -rf "${D}/usr/lib/hhvm/lib/pkgconfig"
-	rm -f "${D}/usr/lib/hhvm/lib/"*.{a,la}
-
-	exeinto "/usr/lib/hhvm/bin"
-	doexe hphp/hhvm/hhvm
-
-	if use devel; then
-		cp -a "${S}/hphp/test" "${D}/usr/lib/hhvm/"
+	if use hack; then
+		dobin hphp/hack/bin/hh_client
+		dobin hphp/hack/bin/hh_server
+		dobin hphp/hack/bin/hh_single_type_check
+		dodir "/usr/share/hhvm/hack"
+		cp -a "${S}/hphp/hack/hhi" "${D}/usr/share/hhvm/hack/"
+		cp -a "${S}/hphp/hack/editor-plugins/emacs" "${D}/usr/share/hhvm/hack/"
+		cp -a "${S}/hphp/hack/editor-plugins/vim" "${D}/usr/share/hhvm/hack/"
 	fi
 
-	dobin "${FILESDIR}/hhvm"
-	newinitd "${FILESDIR}"/hhvm.rc hhvm
+	newinitd "${FILESDIR}"/hhvm.initd-r3 hhvm
+	newconfd "${FILESDIR}"/hhvm.confd-r3 hhvm
 	dodir "/etc/hhvm"
 	insinto /etc/hhvm
-	newins "${FILESDIR}"/config.hdf.dist config.hdf.dist
+	newins "${FILESDIR}"/config.hdf.dist-r3 config.hdf.dist
 }
