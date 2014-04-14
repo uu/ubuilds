@@ -15,9 +15,9 @@ Log {
 }
 
 Server {
-    #Host = domain.tld
     IP = 127.0.0.1
-    Port = 4247
+    Port = 9000
+    Type = fastcgi
     ThreadCount = 10
 
     SourceRoot = /var/www/localhost
@@ -164,29 +164,6 @@ Server {
     # RTTI profiling settings. Experimental.
     #RTTIDirectory = /tmp/
     #EnableCliRTTI = false
-}
-
-
-VirtualHost {
-    default {
-        Disabled = false
-        #Prefix = prefix.
-        #Pattern = .*
-        #PathTranslation = htdocs/
-        #ServerName =
-        #ServerVariables {
-        #    name = value
-        #}
-
-        RewriteRules {
-            backend {
-                pattern = .*
-                to = index.php
-                qsa = true
-                #redirect = 0   #(default: off) | 302 | 301 | other status code
-            }
-        }
-    }
 }
 
 ### Administration Server
