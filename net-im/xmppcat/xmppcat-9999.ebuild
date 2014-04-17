@@ -15,16 +15,5 @@ SLOT="0"
 KEYWORDS="amd64 hppa ppc sparc x86"
 IUSE=""
 
-DEPEND="dev-python/setuptools dev-python/configparser"
+DEPEND="dev-python/setuptools dev-python/configparser dev-python/dnspython"
 
-#S="${WORKDIR}"/lhost-${PN}-610082b
-
-
-
-#src_install() {
-#    exeinto /usr/bin
-#	    doexe ${S}/bin/omnipitr-*
-#		    insinto /usr/lib
-#			    doins -r ${S}/lib/*
-#				    dodir /var/tmp/${PN}
-#					}
