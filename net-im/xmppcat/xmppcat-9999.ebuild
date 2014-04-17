@@ -15,5 +15,5 @@ SLOT="0"
 KEYWORDS="amd64 hppa ppc sparc x86"
 IUSE=""
 
-DEPEND="dev-python/setuptools dev-python/configparser dev-python/dnspython"
+DEPEND="dev-python/setuptools dev-python/configparser dev-python/dnspython dev-python/pyasn1-modules"
 
