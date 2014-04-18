@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=4
-inherit eutils git-2
+inherit eutils git-2 user
 DESCRIPTION="ERlang PHp workER"
 HOMEPAGE="http://megaplan.ru"
 
