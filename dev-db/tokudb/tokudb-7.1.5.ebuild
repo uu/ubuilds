@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=5
-inherit eutils
+inherit eutils user
 
 
 DESCRIPTION="TokuDB® scales MySQL® and MariaDB® from GBs to TBs while improving
