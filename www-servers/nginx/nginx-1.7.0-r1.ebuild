@@ -34,7 +34,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.0"
 HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE_PV}"
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="a788dea"
 
-# http_headers_more (http://github.com/agentzh/headers-more-nginx-module, BSD license)
+# http_headers_more (http://github.com/openresty/headers-more-nginx-module, BSD license)
 HTTP_HEADERS_MORE_MODULE_PV="0.25"
 HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_SHA1="0c6e05d"
@@ -42,11 +42,11 @@ HTTP_HEADERS_MORE_MODULE_SHA1="0c6e05d"
 # http_redis (http://wiki.nginx.org/HttpRedis)
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
 
-# http_redis (https://github.com/agentzh/redis2-nginx-module, BSD license)
+# http_redis (https://github.com/openresty/redis2-nginx-module, BSD license)
 HTTP_REDIS_MODULE_PV="0.10"
 HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
 HTTP_REDIS_MODULE_SHA1="78a7622"
-HTTP_REDIS_MODULE_URI="http://github.com/agentzh/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
+HTTP_REDIS_MODULE_URI="http://github.com/openresty/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
 HTTP_PUSH_MODULE_PV="0.71"
@@ -92,38 +92,38 @@ HTTP_FORM_INPUT_MODULE_PV="0.07"
 HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="78de845"
 
-# NginX echo module (https://github.com/agentzh/echo-nginx-module, BSD)
+# NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
 HTTP_ECHO_MODULE_PV="0.45"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_SHA1="6ce0801"
 
-# NginX Featured mecached module (https://github.com/agentzh/memc-nginx-module, BSD)
+# NginX Featured mecached module (https://github.com/openresty/memc-nginx-module, BSD)
 HTTP_MEMC_MODULE_PV="0.14"
 HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_SHA1="de4cf86"
 
-# NginX RDS-JSON module (https://github.com/agentzh/rds-json-nginx-module, BSD)
+# NginX RDS-JSON module (https://github.com/openresty/rds-json-nginx-module, BSD)
 HTTP_RDS_JSON_MODULE_PV="0.13"
 HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_SHA1="8292070"
 
-# NginX SRCache module (https://github.com/agentzh/srcache-nginx-module, BSD)
+# NginX SRCache module (https://github.com/openresty/srcache-nginx-module, BSD)
 HTTP_SRCACHE_MODULE_PV="0.25"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_SHA1="f25fe90"
 
-# NginX Set-Misc module (https://github.com/agentzh/set-misc-nginx-module, BSD)
+# NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
 HTTP_SET_MISC_MODULE_PV="0.24"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
 HTTP_SET_MISC_MODULE_SHA1="36fd035"
-HTTP_SET_MISC_MODULE_URI="http://github.com/agentzh/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
+HTTP_SET_MISC_MODULE_URI="http://github.com/openresty/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
-# NginX XSS module (https://github.com/agentzh/xss-nginx-module, BSD)
+# NginX XSS module (https://github.com/openresty/xss-nginx-module, BSD)
 HTTP_XSS_MODULE_PV="0.04"
 HTTP_XSS_MODULE_P="xss-nginx-module-${HTTP_XSS_MODULE_PV}"
 HTTP_XSS_MODULE_SHA1="7e37038"
 
-# NginX Array-Var module (https://github.com/agentzh/array-var-nginx-module, BSD)
+# NginX Array-Var module (https://github.com/openresty/array-var-nginx-module, BSD)
 HTTP_ARRAY_VAR_MODULE_PV="0.03"
 HTTP_ARRAY_VAR_MODULE_P="array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_PV}"
 HTTP_ARRAY_VAR_MODULE_SHA1="4676747"
@@ -188,7 +188,7 @@ HOMEPAGE="http://sysoev.ru/nginx/
 	http://pushmodule.slact.net/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
 SRC_URI="http://nginx.org/download/${P}.tar.gz
-	nginx_modules_http_headers_more? ( https://github.com/agentzh/headers-more-nginx-module/tarball/v${HTTP_HEADERS_MORE_MODULE_PV} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
+	nginx_modules_http_headers_more? ( https://github.com/openresty/headers-more-nginx-module/tarball/v${HTTP_HEADERS_MORE_MODULE_PV} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_passenger? ( https://github.com/FooBarWidget/passenger/tarball/master -> passenger-git-${PASSENGER_PV}.tar.gz )
 	nginx_modules_http_redis? ( ${HTTP_REDIS_MODULE_URI} ->	${HTTP_REDIS_MODULE_P}.tar.gz )
 	nginx_modules_http_push? ( https://github.com/slact/nginx_http_push_module/archive/v${HTTP_PUSH_MODULE_PV}.tar.gz -> ${HTTP_PUSH_MODULE_P}.tar.gz )
@@ -199,14 +199,14 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_drizzle? ( https://github.com/chaoslawful/drizzle-nginx-module/tarball/v${HTTP_DRIZZLE_MODULE_PV} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( https://github.com/calio/form-input-nginx-module/tarball/v${HTTP_FORM_INPUT_MODULE_PV} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
-	nginx_modules_http_echo? ( https://github.com/agentzh/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
-	nginx_modules_http_rds_json? ( https://github.com/agentzh/rds-json-nginx-module/tarball/v${HTTP_RDS_JSON_MODULE_PV} -> ${HTTP_RDS_JSON_MODULE_P}.tar.gz )
-	nginx_modules_http_srcache? ( https://github.com/agentzh/srcache-nginx-module/tarball/v${HTTP_SRCACHE_MODULE_PV} -> ${HTTP_SRCACHE_MODULE_P}.tar.gz )
+	nginx_modules_http_echo? ( https://github.com/openresty/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
+	nginx_modules_http_rds_json? ( https://github.com/openresty/rds-json-nginx-module/tarball/v${HTTP_RDS_JSON_MODULE_PV} -> ${HTTP_RDS_JSON_MODULE_P}.tar.gz )
+	nginx_modules_http_srcache? ( https://github.com/openresty/srcache-nginx-module/tarball/v${HTTP_SRCACHE_MODULE_PV} -> ${HTTP_SRCACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_set_misc? ( ${HTTP_SET_MISC_MODULE_URI} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )
-	nginx_modules_http_xss? ( https://github.com/agentzh/xss-nginx-module/tarball/v${HTTP_XSS_MODULE_PV} -> ${HTTP_XSS_MODULE_P}.tar.gz )
-	nginx_modules_http_array_var? ( https://github.com/agentzh/array-var-nginx-module/tarball/v${HTTP_ARRAY_VAR_MODULE_PV} -> ${HTTP_ARRAY_VAR_MODULE_P}.tar.gz )
+	nginx_modules_http_xss? ( https://github.com/openresty/xss-nginx-module/tarball/v${HTTP_XSS_MODULE_PV} -> ${HTTP_XSS_MODULE_P}.tar.gz )
+	nginx_modules_http_array_var? ( https://github.com/openresty/array-var-nginx-module/tarball/v${HTTP_ARRAY_VAR_MODULE_PV} -> ${HTTP_ARRAY_VAR_MODULE_P}.tar.gz )
 	nginx_modules_http_iconv? ( https://github.com/calio/iconv-nginx-module/tarball/v${HTTP_ICONV_MODULE_PV} -> ${HTTP_ICONV_MODULE_P}.tar.gz )
-	nginx_modules_http_memc? ( https://github.com/agentzh/memc-nginx-module/tarball/v${HTTP_MEMC_MODULE_PV} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
+	nginx_modules_http_memc? ( https://github.com/openresty/memc-nginx-module/tarball/v${HTTP_MEMC_MODULE_PV} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
 	nginx_modules_http_postgres? ( https://github.com/FRiCKLE/ngx_postgres/tarball/${HTTP_POSTGRES_MODULE_PV} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
 	nginx_modules_http_coolkit? ( https://codeload.github.com/FRiCKLE/ngx_coolkit/legacy.tar.gz/master -> ${HTTP_COOLKIT_MODULE_P}.tar.gz )
 	nginx_modules_http_upload_progress? ( https://github.com/masterzen/nginx-upload-progress-module/tarball/v${HTTP_UPLOAD_PROGRESS_MODULE_PV} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
@@ -219,7 +219,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} ->	${HTTP_NAXSI_MODULE_P}.tar.gz )
 	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
-	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
+	chunk? ( https://github.com/openresty/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 #nginx_modules_http_coolkit? ( http://labs.frickle.com/files/${HTTP_COOLKIT_MODULE_P}.tar.gz )
 
@@ -449,7 +449,7 @@ src_configure() {
 # (**) http_set_misc
 	if use nginx_modules_http_set_misc; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"
 	fi
 
 # (**)http_ auth_request
@@ -462,13 +462,13 @@ src_configure() {
 # (**) http_echo
 	if use nginx_modules_http_echo; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"
 	fi
 
 # (**) http_memc
 	if use nginx_modules_http_memc; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-memc-nginx-module-${HTTP_MEMC_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-memc-nginx-module-${HTTP_MEMC_MODULE_SHA1}"
 	fi
 
 # (**) http_lua
@@ -488,13 +488,13 @@ src_configure() {
 # (**) http_headers_more
 	if use nginx_modules_http_headers_more; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-headers-more-nginx-module-${HTTP_HEADERS_MORE_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-headers-more-nginx-module-${HTTP_HEADERS_MORE_MODULE_SHA1}"
 	fi
 
 # (**) http_srcache
 	if use nginx_modules_http_srcache; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-srcache-nginx-module-${HTTP_SRCACHE_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-srcache-nginx-module-${HTTP_SRCACHE_MODULE_SHA1}"
 	fi
 	
 
@@ -507,7 +507,7 @@ src_configure() {
 # (**) http_rds_json
 	if use nginx_modules_http_rds_json; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_SHA1}"
 	fi
 
 # http_postgres
@@ -543,13 +543,13 @@ src_configure() {
 # http_xss
 	if use nginx_modules_http_xss; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/agentzh-xss-nginx-module-${HTTP_XSS_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-xss-nginx-module-${HTTP_XSS_MODULE_SHA1}"
 	fi
 
 # http_array_var
 	if use nginx_modules_http_array_var; then
 		http_enabled=1
-		myconf="${myconf} --add-module=${WORKDIR}/agentzh-array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_SHA1}"
+		myconf="${myconf} --add-module=${WORKDIR}/openresty-array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_SHA1}"
 	fi
 
 # http_form_input
@@ -604,7 +604,7 @@ src_configure() {
 	if use nginx_modules_http_redis; then
 		http_enabled=1
 		#myconf+=" --add-module=${WORKDIR}/${HTTP_REDIS_MODULE_P}"
-		myconf+=" --add-module=${WORKDIR}/agentzh-redis2-nginx-module-${HTTP_REDIS_MODULE_SHA1}"
+		myconf+=" --add-module=${WORKDIR}/openresty-redis2-nginx-module-${HTTP_REDIS_MODULE_SHA1}"
 	fi
 
 	if use http || use http-cache; then
@@ -629,7 +629,7 @@ src_configure() {
 
 	use perftools && myconf+=" --with-google_perftools_module"
 	use rrd && myconf+=" --add-module=${WORKDIR}/mod_rrd_graph-0.2.0"
-	use chunk && myconf+=" --add-module=${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"
+	use chunk && myconf+=" --add-module=${WORKDIR}/openresty-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"
 	use pam && myconf+=" --add-module=${WORKDIR}/ngx_http_auth_pam_module-1.1"
 
 	# MAIL modules
@@ -764,19 +764,19 @@ src_install() {
 # http_echo
 	if use nginx_modules_http_echo; then
 		docinto "${HTTP_ECHO_MODULE_P}"
-		dodoc "${WORKDIR}"/"agentzh-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"/README
 	fi
 
 # http_srcache
 	if use nginx_modules_http_srcache; then
 		docinto "${HTTP_SRCACHE_MODULE_P}"
-		dodoc "${WORKDIR}"/"agentzh-srcache-nginx-module-${HTTP_SRCACHE_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-srcache-nginx-module-${HTTP_SRCACHE_MODULE_SHA1}"/README
 	fi
 
 # http_memc
 	if use nginx_modules_http_memc; then
 		docinto "${HTTP_MEMC_MODULE_P}"
-		dodoc "${WORKDIR}"/"agentzh-memc-nginx-module-${HTTP_MEMC_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-memc-nginx-module-${HTTP_MEMC_MODULE_SHA1}"/README
 	fi
 
 # http_drizzle
@@ -788,7 +788,7 @@ src_install() {
 # http_rds_json
 	if use nginx_modules_http_rds_json; then
 		docinto "${HTTP_RDS_JSON_MODULE_P}"
-		dodoc "${WORKDIR}"/"agentzh-rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_SHA1}"/README
 	fi
 
 # http_postgres
@@ -806,19 +806,19 @@ src_install() {
 # http_set_misc
 	if use nginx_modules_http_set_misc; then
 		docinto "${HTTP_SET_MISC_MODULE_P}"
-		dodoc "${WORKDIR}"/"agentzh-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"/README
 	fi
 
 # http_xss
  	if use nginx_modules_http_xss; then
 		docinto "${HTTP_XSS_MODULE_P}"
-		dodoc "${WORKDIR}"/"agentzh-xss-nginx-module-${HTTP_XSS_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-xss-nginx-module-${HTTP_XSS_MODULE_SHA1}"/README
 	fi
 
 # http_array_var
 	if use nginx_modules_http_array_var; then
 		docinto "${HTTP_ARRAY_VAR_MODULE_P}"
-		dodoc "${WORKDIR}"/"agentzh-array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_SHA1}"/README
 	fi
 
 # http_iconv
@@ -865,7 +865,7 @@ src_install() {
         newdoc "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/default_location_config.example nbs.rules
 	fi
 
-	use chunk   && newdoc "${WORKDIR}/agentzh-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
+	use chunk   && newdoc "${WORKDIR}/openresty-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
 	use pam && newdoc "${WORKDIR}"/ngx_http_auth_pam_module-1.1/README README.pam
 }
 
