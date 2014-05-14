@@ -1,0 +1,18 @@
+#!/sbin/runscript
+#extra_commands="publish"
+
+start() {
+	ebegin "Starting ${SVCNAME}"
+	start-stop-daemon --start --exec "/usr/bin/bango" \
+	    --pidfile "/var/run/bango.pid" -1  /var/log/bango.log -2  /var/log/bango.log
+	eend $?
+}
+
+stop() {
+
+	ebegin "Stopping ${SVCNAME}"
+	start-stop-daemon --stop --exec "/usr/bin/bango" \
+	    --pidfile "/var/run/bango.pid" --quiet -1  /var/log/bango.log -2  /var/log/bango.log
+	eend $?
+}
+
