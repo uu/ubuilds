@@ -3,7 +3,7 @@
 
 start() {
 	ebegin "Starting ${SVCNAME}"
-	start-stop-daemon --start --exec "/usr/bin/bango" \
+	start-stop-daemon --start -b --exec "/usr/bin/bango" \
 	    --pidfile "/var/run/bango.pid" -1  /var/log/bango.log -2  /var/log/bango.log
 	eend $?
 }
