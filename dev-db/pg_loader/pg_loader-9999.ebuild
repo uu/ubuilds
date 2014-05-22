@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/dimitri/pgloader.git"
 
 LICENSE=""
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="x86 amd64"
 IUSE=""
 
 DEPEND="dev-lisp/sbcl"

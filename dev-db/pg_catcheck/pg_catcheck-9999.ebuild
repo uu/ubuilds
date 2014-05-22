@@ -12,7 +12,7 @@ EGIT_REPO_URI="https://github.com/EnterpriseDB/pg_catcheck.git"
 
 LICENSE=""
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="x86 amd64"
 IUSE=""
 
 DEPEND=""
