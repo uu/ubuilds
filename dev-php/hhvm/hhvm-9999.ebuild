@@ -7,6 +7,7 @@ inherit eutils git-2 user
 
 EGIT_REPO_URI="https://github.com/facebook/hhvm.git"
 EGIT_BRANCH="master"
+EGIT_HAS_SUBMODULES=1
 
 IUSE="debug hack xen zend-compat"
 
