@@ -25,14 +25,14 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="4.0.2"
+PASSENGER_PV="4.0.45"
 USE_RUBY="ruby19"
 RUBY_OPTIONAL="yes"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
-HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.0"
+HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.1"
 HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE_PV}"
-HTTP_UPLOAD_PROGRESS_MODULE_SHA1="a788dea"
+HTTP_UPLOAD_PROGRESS_MODULE_SHA1="39e4d53"
 
 # http_headers_more (http://github.com/openresty/headers-more-nginx-module, BSD license)
 HTTP_HEADERS_MORE_MODULE_PV="0.25"
@@ -77,9 +77,9 @@ HTTP_NDK_MODULE_SHA1="8dd0df5"
 #HTTP_LUA_MODULE_SHA1="b25d06b"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.5"
+HTTP_LUA_MODULE_PV="0.9.8"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="97d9162"
+HTTP_LUA_MODULE_SHA1="73e831f"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 
@@ -159,8 +159,8 @@ HTTP_AUTH_REQUEST_MODULE_P="ngx_http_auth_request_module-${HTTP_AUTH_REQUEST_MOD
 HTTP_SLOWFS_CACHE_MODULE_PV="1.9"
 HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
 
-CHUNKIN_MODULE_PV="0.22rc2"
-CHUNKIN_MODULE_SHA1="b46dd27"
+CHUNKIN_MODULE_PV="0.23"
+CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://code.google.com/p/naxsi/, GPLv2+)
 HTTP_NAXSI_MODULE_PV="0.53-1"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
@@ -219,7 +219,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} ->	${HTTP_NAXSI_MODULE_P}.tar.gz )
 	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
-	chunk? ( https://github.com/openresty/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
+	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
 #nginx_modules_http_coolkit? ( http://labs.frickle.com/files/${HTTP_COOLKIT_MODULE_P}.tar.gz )
 
