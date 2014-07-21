@@ -3,15 +3,15 @@
 # $Header: $
 
 EAPI=5
-inherit git-2 eutils
+inherit eutils
 DESCRIPTION="Distributed banning system for fail2ban"
 HOMEPAGE="https://github.com/uu/bango"
-SRC_URI=""
-EGIT_REPO_URI="https://github.com/uu/bango.git"
-
+SRC_URI="https://github.com/uu/bango/archive/v${PV}.tar.gz"
+#EGIT_REPO_URI="https://github.com/uu/bango.git"
+#EGIT_COMMIT="65d73d9b2addc9e3b2877f04f24ef574d81ed7b3"
 LICENSE="WTFPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="x86 amd64"
 IUSE=""
 
 DEPEND="
