@@ -23,6 +23,7 @@ IUSE="cgi +fuse static-libs"
 RDEPEND="
 	cgi? ( dev-lang/python )
 	!sys-cluster/moosefs
+	app-text/asciidoc
 	fuse? ( >=sys-fs/fuse-2.6 )"
 DEPEND="${RDEPEND}"
 
