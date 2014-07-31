@@ -28,6 +28,7 @@ RDEPEND="${DEPEND}"
 src_prepare() {
 	php-ext-source-r2_src_prepare
 	eautoreconf
+	epatch ${FILESDIR}/threads.patch
 }
 
 src_install() {
