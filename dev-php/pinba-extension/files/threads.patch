@@ -1,0 +1,12 @@
+--- pinba.c_orig	2014-07-31 15:30:47.398837709 +0400
++++ pinba.c	2014-07-31 15:30:51.895493932 +0400
+@@ -451,7 +451,7 @@
+ 		ai_list = NULL;
+ 		status = getaddrinfo(collector->host, collector->port, &ai_hints, &ai_list);
+ 		if (status != 0) {
+-			php_error_docref(NULL TSRMLS_CC, E_WARNING, "failed to resolve Pinba server hostname '%s': %s", collector->host, gai_strerror(status));
++			//php_error_docref(NULL TSRMLS_CC, E_WARNING, "failed to resolve Pinba server hostname '%s': %s", collector->host, gai_strerror(status));
+ 			fd = -1; /* need to put -1 into collector->fd */
+ 		}
+ 		else {
+
