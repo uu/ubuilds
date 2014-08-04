@@ -1,0 +1,23 @@
+#!/sbin/runscript
+
+
+depend() {
+	need net xvfb
+	use logger
+}
+
+start() {
+	ebegin "Starting selenium-server on port ${PORT}"
+		checkpath -f -m 0600 -o ${USER}:${GROUP} ${LOG}
+		start-stop-daemon --start --quiet --background \
+		--make-pidfile --pidfile ${PIDFILE} --user ${USER} --group ${GROUP} --env DISPLAY=:0 --env PKG_ARGS="${PKG_ARGS}" \
+		--exec /usr/bin/selenium-server  
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping selenium-server on port ${PORT}"
+		start-stop-daemon --stop --quiet --pidfile ${PIDFILE}
+	eend $?
+}
+
