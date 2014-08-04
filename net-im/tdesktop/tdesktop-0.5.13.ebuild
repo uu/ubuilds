@@ -22,7 +22,9 @@ KEYWORDS="amd64 x86"
 IUSE=""
 
 DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	media-sound/pulseaudio
+"
 
 src_install() {
 	newbin Telegram telegram
