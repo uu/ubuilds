@@ -43,9 +43,9 @@ HTTP_HEADERS_MORE_MODULE_SHA1="0c6e05d"
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
 
 # http_redis (https://github.com/openresty/redis2-nginx-module, BSD license)
-HTTP_REDIS_MODULE_PV="0.10"
+HTTP_REDIS_MODULE_PV="0.11"
 HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
-HTTP_REDIS_MODULE_SHA1="78a7622"
+HTTP_REDIS_MODULE_SHA1="828803d"
 HTTP_REDIS_MODULE_URI="http://github.com/openresty/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
@@ -77,15 +77,15 @@ HTTP_NDK_MODULE_SHA1="8dd0df5"
 #HTTP_LUA_MODULE_SHA1="b25d06b"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.9"
+HTTP_LUA_MODULE_PV="0.9.10"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="2495343"
+HTTP_LUA_MODULE_SHA1="cea9ee2"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
-
-HTTP_DRIZZLE_MODULE_PV="0.1.4"
+# https://github.com/openresty/drizzle-nginx-module/releases
+HTTP_DRIZZLE_MODULE_PV="0.1.7"
 HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
-HTTP_DRIZZLE_MODULE_SHA1="59e12ad"
+HTTP_DRIZZLE_MODULE_SHA1="b83a8a9"
 
 # NginX for-input module (https://github.com/calio/form-input-nginx-module, BSD)
 HTTP_FORM_INPUT_MODULE_PV="0.09"
@@ -93,14 +93,14 @@ HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="fb720de"
 
 # NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.45"
+HTTP_ECHO_MODULE_PV="0.54"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="6ce0801"
+HTTP_ECHO_MODULE_SHA1="ee15666"
 
 # NginX Featured mecached module (https://github.com/openresty/memc-nginx-module, BSD)
-HTTP_MEMC_MODULE_PV="0.14"
+HTTP_MEMC_MODULE_PV="0.15"
 HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
-HTTP_MEMC_MODULE_SHA1="de4cf86"
+HTTP_MEMC_MODULE_SHA1="1518da4"
 
 # NginX RDS-JSON module (https://github.com/openresty/rds-json-nginx-module, BSD)
 HTTP_RDS_JSON_MODULE_PV="0.13"
@@ -108,9 +108,9 @@ HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_SHA1="8292070"
 
 # NginX SRCache module (https://github.com/openresty/srcache-nginx-module, BSD)
-HTTP_SRCACHE_MODULE_PV="0.25"
+HTTP_SRCACHE_MODULE_PV="0.28"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
-HTTP_SRCACHE_MODULE_SHA1="f25fe90"
+HTTP_SRCACHE_MODULE_SHA1="ffa9ab7"
 
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
 HTTP_SET_MISC_MODULE_PV="0.24"
