@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-ruby/xmpp4r/xmpp4r-0.5-r1.ebuild,v 1.3 2011/01/26 10:44:18 fauli Exp $
 
-EAPI="4"
-USE_RUBY="ruby18 ruby19"
+EAPI="5"
+USE_RUBY="ruby18 ruby19 ruby20 ruby21"
 
 RUBY_FAKEGEM_EXTRADOC="README.rdoc README_ruby19.txt CHANGELOG"
 
