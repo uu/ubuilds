@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-ruby/ruby-odbc/ruby-odbc-0.99991-r1.ebuild,v 1.6 2012/05/01 18:24:10 armin76 Exp $
 
-EAPI=4
+EAPI=5
 
 # ruby19 → fails to build
 # jruby → uses C extensions
-USE_RUBY="ruby19"
+USE_RUBY="ruby19 ruby20 ruby21"
 
 RUBY_FAKEGEM_TASK_TEST=""
 RUBY_FAKEGEM_TASK_DOC=""
@@ -32,14 +32,14 @@ IUSE=""
 ruby_add_rdepend '
      >=dev-ruby/settingslogic-2.0.8
 	 >=dev-ruby/xmpp4r-0.5-r1
-     >=dev-ruby/bunny-0.9.0_pre6'
+     >=dev-ruby/bunny-1.3.1'
 
 
 DEPEND=">=dev-ruby/settingslogic-2.0.8
 	 >=dev-ruby/xmpp4r-0.5-r1
 	 >=dev-ruby/amq-protocol-1.0.1
 	 dev-ruby/json
-     >=dev-ruby/bunny-0.9.0_pre6"
+     >=dev-ruby/bunny-1.3.1"
 RDEPEND="${DEPEND}"
 
 RESTRICT=test
