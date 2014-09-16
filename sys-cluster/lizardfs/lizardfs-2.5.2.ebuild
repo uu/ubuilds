@@ -14,7 +14,7 @@ HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
 
 EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
-EGIT_COMMIT="44d770d3c58a60abfdfc95ffa5e5bd86c9ccfd5b"
+EGIT_COMMIT="5ddcaeaa3e7893caf4eb696ad118ac7fee09c532"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="x86 amd64"
