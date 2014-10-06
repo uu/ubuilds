@@ -1,6 +1,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
+
+inherit systemd
 
 DESCRIPTION="Service orchestration and management tool"
 HOMEPAGE="http://www.serfdom.io/"
@@ -21,9 +23,5 @@ src_install() {
 
 	newinitd ${FILESDIR}/serf-agent.initd serf-agent
 	newconfd ${FILESDIR}/serf-agent.confd serf-agent
-
-	insinto /etc/logrotate.d
-	newins  ${FILESDIR}/serf.logrotate serf
-
-	keepdir /run/serf /var/log/serf
+	systemd_dounit ${FILESDIR}/serf-agent.service
 }
