@@ -1,9 +1,10 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
+EAPI=5
 inherit perl-module
 
-DESCRIPTION="PSGI handler for HTML::Mason"
+DESCRIPTION="Starlet - a simple, high-performance PSGI/Plack HTTP server"
 SRC_URI="mirror://cpan/authors/id/K/KA/KAZUHO/${P}.tar.gz"
 HOMEPAGE="http://search.cpan.org/~kazuho/${P}/"
 

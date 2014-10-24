@@ -1,12 +1,12 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
+EAPI=5
 inherit perl-module
 
-DESCRIPTION="Extract structure of quoted HTML mail message"
-#SRC_URI="mirror://cpan/authors/id/P/PG/PGOLLUCCI/${P}.tar.gz"
-SRC_URI="mirror://cpan/authors/id/R/RU/RUZ/${P}.tar.gz"
-HOMEPAGE="http://search.cpan.org/~ruz/${P}/"
+DESCRIPTION="Finds name and type of a global variable"
+SRC_URI="mirror://cpan/authors/id/A/AL/ALEXMV/${P}.tar.gz"
+HOMEPAGE="http://search.cpan.org/~alexmv/${P}/"
 
 SLOT="0"
 LICENSE="|| ( Artistic GPL-2 )"

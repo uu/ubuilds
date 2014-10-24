@@ -1,10 +1,10 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-perl/Apache-DBI/Apache-DBI-1.06.ebuild,v 1.9 2007/12/04 20:41:32 corsair Exp $
-
+EAPI=5
 inherit perl-module
 
-DESCRIPTION="Convert::Color 	color space conversions and named lookups  "
+DESCRIPTION="Convert::Color color space conversions and named lookups  "
 #SRC_URI="mirror://cpan/authors/id/P/PG/PGOLLUCCI/${P}.tar.gz"
 SRC_URI="mirror://cpan/authors/id/P/PE/PEVANS/${P}.tar.gz"
 HOMEPAGE="http://search.cpan.org/~ruz/${P}/"

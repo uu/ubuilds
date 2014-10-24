@@ -1,10 +1,11 @@
 # Copyright 1999-2011 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
+EAPI=5
 inherit perl-module
 
 DESCRIPTION="PSGI handler for HTML::Mason"
-SRC_URI="mirror://cpan/authors/id/A/AB/ABH/${P}.tar.gz"
+SRC_URI="mirror://cpan/authors/id/R/RU/RUZ/${P}.tar.gz"
 HOMEPAGE="http://search.cpan.org/~ruz/${P}/"
 
 SLOT="0"
