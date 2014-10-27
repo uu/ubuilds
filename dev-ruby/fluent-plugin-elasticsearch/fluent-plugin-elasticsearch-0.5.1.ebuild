@@ -20,7 +20,7 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 ruby_add_rdepend "=app-admin/fluentd-0.10*
-dev-ruby/multi_json
+=dev-ruby/multi_json-1.10*
 dev-ruby/faraday
 dev-ruby/patron
 dev-ruby/elasticsearch
