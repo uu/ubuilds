@@ -1,0 +1,25 @@
+#!/sbin/runscript
+# Copyright 1999-2014 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+depend() {
+	need net
+	use dns logger
+}
+
+start_pre() {
+	checkpath -f -o elasticsearch /var/log/kibana.log
+}
+
+start() {
+  ebegin "Starting kibana"
+    start-stop-daemon -u elasticsearch -g elasticsearch -S -b -m -p /run/kibana.pid -1  /var/log/kibana.log -2 /var/log/kibana.log /usr/bin/kibana 
+  eend $?
+}
+
+stop() {
+  ebegin "Stopping kibana"
+    start-stop-daemon -u elasticsearch -g elasticsearch -K -p /run/kibana.pid  /usr/bin/kibana
+  eend $?
+}
