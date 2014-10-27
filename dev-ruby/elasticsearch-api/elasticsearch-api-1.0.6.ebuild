@@ -8,8 +8,8 @@ USE_RUBY="ruby19 ruby20 ruby21"
 
 inherit ruby-fakegem
 
-DESCRIPTION="Elasticsearch, a plugin for Fluentd"
-HOMEPAGE="https://github.com/uken/fluent-plugin-elasticsearch"
+DESCRIPTION="Ruby integrations for Elasticsearch"
+HOMEPAGE="https://github.com/elasticsearch/elasticsearch-ruby"
 
 LICENSE="MIT"
 SLOT="0"
@@ -19,8 +19,4 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
-ruby_add_rdepend "=app-admin/fluentd-0.10*
-dev-ruby/patron
-dev-ruby/elasticsearch
-dev-ruby/elasticsearch-api
-dev-ruby/elasticsearch-transport"
+ruby_add_rdepend "dev-ruby/elasticsearch"
