@@ -77,9 +77,9 @@ HTTP_NDK_MODULE_SHA1="8dd0df5"
 #HTTP_LUA_MODULE_SHA1="b25d06b"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.12"
+HTTP_LUA_MODULE_PV="0.9.13rc1"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="7388458"
+HTTP_LUA_MODULE_SHA1="0d736bf"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 # https://github.com/openresty/drizzle-nginx-module/releases
@@ -88,9 +88,9 @@ HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
 HTTP_DRIZZLE_MODULE_SHA1="b83a8a9"
 
 # NginX for-input module (https://github.com/calio/form-input-nginx-module, BSD)
-HTTP_FORM_INPUT_MODULE_PV="0.09"
+HTTP_FORM_INPUT_MODULE_PV="0.10"
 HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
-HTTP_FORM_INPUT_MODULE_SHA1="fb720de"
+HTTP_FORM_INPUT_MODULE_SHA1="494b868"
 
 # NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
 HTTP_ECHO_MODULE_PV="0.54"
@@ -113,10 +113,17 @@ HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_SHA1="ffa9ab7"
 
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.24"
+HTTP_SET_MISC_MODULE_PV="0.26"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="36fd035"
+HTTP_SET_MISC_MODULE_SHA1="1680123"
 HTTP_SET_MISC_MODULE_URI="http://github.com/openresty/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
+
+# NginX Set-Misc module (https://github.com/fluent/nginx-fluentd-module/releases, BSD)
+HTTP_FLUENTD_MODULE_PV="0.3"
+HTTP_FLUENTD_MODULE_P="fluentd-nginx-module-${HTTP_FLUENTD_MODULE_PV}"
+HTTP_FLUENTD_MODULE_SHA1="cf4ef2a"
+HTTP_FLUENTD_MODULE_URI="https://github.com/fluent/nginx-fluentd-module/tarball/v${HTTP_FLUENTD_MODULE_PV}"
+
 
 # NginX XSS module (https://github.com/openresty/xss-nginx-module, BSD)
 HTTP_XSS_MODULE_PV="0.04"
@@ -203,6 +210,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_rds_json? ( https://github.com/openresty/rds-json-nginx-module/tarball/v${HTTP_RDS_JSON_MODULE_PV} -> ${HTTP_RDS_JSON_MODULE_P}.tar.gz )
 	nginx_modules_http_srcache? ( https://github.com/openresty/srcache-nginx-module/tarball/v${HTTP_SRCACHE_MODULE_PV} -> ${HTTP_SRCACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_set_misc? ( ${HTTP_SET_MISC_MODULE_URI} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )
+	nginx_modules_http_fluentd? ( ${HTTP_FLUENTD_MODULE_URI} -> ${HTTP_FLUENTD_MODULE_P}.tar.gz )
 	nginx_modules_http_xss? ( https://github.com/openresty/xss-nginx-module/tarball/v${HTTP_XSS_MODULE_PV} -> ${HTTP_XSS_MODULE_P}.tar.gz )
 	nginx_modules_http_array_var? ( https://github.com/openresty/array-var-nginx-module/tarball/v${HTTP_ARRAY_VAR_MODULE_PV} -> ${HTTP_ARRAY_VAR_MODULE_P}.tar.gz )
 	nginx_modules_http_iconv? ( https://github.com/calio/iconv-nginx-module/tarball/v${HTTP_ICONV_MODULE_PV} -> ${HTTP_ICONV_MODULE_P}.tar.gz )
@@ -240,7 +248,7 @@ http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
 http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed
-http_pinba http_metrics http_naxsi"
+http_pinba http_metrics http_naxsi http_fluentd"
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -284,6 +292,7 @@ CDEPEND="
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
+	nginx_modules_http_fluentd? ( app-admin/fluentd )
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) )
 	nginx_modules_http_passenger? (
 		$(ruby_implementation_depend ruby19)
@@ -360,10 +369,10 @@ src_prepare() {
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
-	if use nginx_modules_http_lua; then
-		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
-		epatch "${FILESDIR}"/lua-1.7.5.patch
-	fi
+#	if use nginx_modules_http_lua; then
+#		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
+#		epatch "${FILESDIR}"/lua-1.7.5.patch
+#	fi
 
 #   if use nginx_modules_http_lua; then
 #       cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
@@ -454,6 +463,12 @@ src_configure() {
 	if use nginx_modules_http_set_misc; then
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/openresty-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"
+	fi
+
+# (**) http_fluentd
+	if use nginx_modules_http_fluentd; then
+		http_enabled=1
+		myconf+=" --add-module=${WORKDIR}/fluent-nginx-fluentd-module-${HTTP_FLUENTD_MODULE_SHA1}"
 	fi
 
 # (**)http_ auth_request
