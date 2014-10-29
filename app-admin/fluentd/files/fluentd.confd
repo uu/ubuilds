@@ -1,4 +1,5 @@
 FLUENTD_EXEC="/usr/bin/fluentd"
+FLUENTD_RUN="/var/run/fluent"
 FLUENTD_PID="/var/run/fluent/fluentd.pid"
 FLUENTD_CONF="/etc/fluent/fluent.conf"
 FLUENTD_LOG="/var/log/fluent/fluentd.log"

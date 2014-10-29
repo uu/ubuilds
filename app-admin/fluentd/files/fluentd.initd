@@ -5,6 +5,7 @@
 
 FLUENTD_EXEC=${FLUENTD_EXEC:-/usr/bin/fluentd}
 FLUENTD_PID=${FLUENTD_PID:-/run/fluent/fluentd.pid}
+FLUENTD_RUN=${FLUENTD_PID:-/run/fluent/}
 FLUENTD_CONF=${FLUENTD_CONF:-/etc/fluent/fluent.conf}
 FLUENTD_LOG=${FLUENTD_LOG:-/var/log/fluent/fluentd.log}
 FLUENTD_USER=${FLUENTD_USER:-fluent}
@@ -19,6 +20,11 @@ start_stop_daemon_args="--user ${FLUENTD_USER}:${FLUENTD_GROUP}"
 depend() {
 	use net
 }
+
+start_pre() {
+	checkpath -d --owner ${FLUENTD_USER}:${FLUENTD_GROUP} ${FLUENTD_RUN} 
+}
+
 
 reload() {
 	ebegin "Reloading ${SVCNAME}"
