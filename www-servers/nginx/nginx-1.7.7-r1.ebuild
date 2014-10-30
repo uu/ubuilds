@@ -71,10 +71,11 @@ HTTP_NDK_MODULE_PV="0.2.19"
 HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="8dd0df5"
 
-# NginX Lua module (https://github.com/chaoslawful/lua-nginx-module, BSD)
-#HTTP_LUA_MODULE_PV="0.3.1rc19"
-#HTTP_LUA_MODULE_P="lua-nginx-module-${HTTP_LUA_MODULE_PV}"
-#HTTP_LUA_MODULE_SHA1="b25d06b"
+# http_fancyindex (https://github.com/aperezdc/ngx-fancyindex, BSD license)
+HTTP_FANCYINDEX_MODULE_PV="0.3.4"
+HTTP_FANCYINDEX_MODULE_P="ngx_http_fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
+HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
+HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
 HTTP_LUA_MODULE_PV="0.9.13rc1"
@@ -93,9 +94,9 @@ HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="494b868"
 
 # NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.54"
+HTTP_ECHO_MODULE_PV="0.56"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="ee15666"
+HTTP_ECHO_MODULE_SHA1="8f28ddf"
 
 # NginX Featured mecached module (https://github.com/openresty/memc-nginx-module, BSD)
 HTTP_MEMC_MODULE_PV="0.15"
@@ -163,16 +164,26 @@ HTTP_AUTH_REQUEST_MODULE_PV="0.2"
 HTTP_AUTH_REQUEST_MODULE_P="ngx_http_auth_request_module-${HTTP_AUTH_REQUEST_MODULE_PV}"
 
 # http_slowfs_cache (http://labs.frickle.com/nginx_ngx_slowfs_cache/, BSD-2 license)
-HTTP_SLOWFS_CACHE_MODULE_PV="1.9"
-HTTP_SLOWFS_CACHE_MODULE_P="ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
+HTTP_SLOWFS_CACHE_MODULE_PV="1.10"
+HTTP_SLOWFS_CACHE_MODULE_P="ngx_http_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
+HTTP_SLOWFS_CACHE_MODULE_URI="http://labs.frickle.com/files/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}.tar.gz"
+HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MODULE_PV}"
+
+
 
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://code.google.com/p/naxsi/, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.53-1"
+HTTP_NAXSI_MODULE_PV="0.53-2"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://naxsi.googlecode.com/files/naxsi-core-${HTTP_NAXSI_MODULE_PV}.tgz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-core-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
+
+# tidehunter (https://github.com/ruoshan/tidehunter)
+HTTP_TIDEHUNTER_MODULE_PV="202cd81739976b6cff17a6a1504f7002c128bb71"
+HTTP_TIDEHUNTER_MODULE_P="ngx_tidehunter-${HTTP_TIDEHUNTER_MODULE_PV}"
+HTTP_TIDEHUNTER_MODULE_URI="https://github.com/ruoshan/tidehunter/archive/${HTTP_TIDEHUNTER_MODULE_PV}.zip"
+HTTP_TIDEHUNTER_MODULE_WD="${WORKDIR}/tidehunter-${HTTP_TIDEHUNTER_MODULE_PV}/"
 
 # http_metrics (https://github.com/madvertise/ngx_metrics, BSD license)
 HTTP_METRICS_MODULE_PV="0.1.1"
@@ -186,6 +197,74 @@ HTTP_TCP_PROXY_MODULE_PV="0.4.5"
 HTTP_TCP_PROXY_MODULE_P="ngx-tcp-proxy"
 HTTP_TCP_PROXY_MODULE_SHA1="4a8c314"
 HTTP_TCP_PROXY_MODULE_URI="http://github.com/yaoweibin/nginx_tcp_proxy_module/archive/v${HTTP_TCP_PROXY_MODULE_PV}.tar.gz"
+
+
+# http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module, BSD license)
+HTTP_UPSTREAM_CHECK_MODULE_PV="0.3.0"
+HTTP_UPSTREAM_CHECK_MODULE_P="ngx_http_upstream_check-${HTTP_UPSTREAM_CHECK_MODULE_PV}"
+HTTP_UPSTREAM_CHECK_MODULE_URI="https://github.com/yaoweibin/nginx_upstream_check_module/archive/v${HTTP_UPSTREAM_CHECK_MODULE_PV}.tar.gz"
+HTTP_UPSTREAM_CHECK_MODULE_WD="${WORKDIR}/nginx_upstream_check_module-${HTTP_UPSTREAM_CHECK_MODULE_PV}"
+# nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module, BSD license)
+RTMP_MODULE_PV="1.1.6"
+RTMP_MODULE_P="ngx_rtmp-${RTMP_MODULE_PV}"
+RTMP_MODULE_URI="http://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE_PV}.tar.gz"
+RTMP_MODULE_WD="${WORKDIR}/nginx-rtmp-module-${RTMP_MODULE_PV}"
+
+# nginx-dav-ext-module (http://github.com/arut/nginx-dav-ext-module, BSD license)
+HTTP_DAV_EXT_MODULE_PV="0.0.3"
+HTTP_DAV_EXT_MODULE_P="ngx_http_dav_ext-${HTTP_DAV_EXT_MODULE_PV}"
+HTTP_DAV_EXT_MODULE_URI="http://github.com/arut/nginx-dav-ext-module/archive/v${HTTP_DAV_EXT_MODULE_PV}.tar.gz"
+HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/nginx-dav-ext-module-${HTTP_DAV_EXT_MODULE_PV}"
+
+# mod_security for nginx (https://modsecurity.org/, Apache-2.0)
+# keep the MODULE_P here consistent with upstream to avoid tarball duplication
+HTTP_SECURITY_MODULE_PV="2.8.0"
+HTTP_SECURITY_MODULE_P="modsecurity-apache_${HTTP_SECURITY_MODULE_PV}"
+HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
+HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
+
+
+# sticky-module (https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng, BSD-2)
+HTTP_STICKY_MODULE_PV="1.2.5"
+HTTP_STICKY_MODULE_P="nginx_http_sticky_module_ng-${HTTP_STICKY_MODULE_PV}"
+HTTP_STICKY_MODULE_URI="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/${HTTP_STICKY_MODULE_PV}.tar.bz2"
+HTTP_STICKY_MODULE_WD="${WORKDIR}/nginx-goodies-nginx-sticky-module-ng-bd312d586752"
+
+# ajp-module (https://github.com/yaoweibin/nginx_ajp_module, BSD-2)
+HTTP_AJP_MODULE_PV="0.3.0"
+HTTP_AJP_MODULE_P="ngx_http_ajp_module-${HTTP_AJP_MODULE_PV}"
+HTTP_AJP_MODULE_URI="https://github.com/yaoweibin/nginx_ajp_module/archive/v${HTTP_AJP_MODULE_PV}.tar.gz"
+HTTP_AJP_MODULE_WD="${WORKDIR}/nginx_ajp_module-${HTTP_AJP_MODULE_PV}"
+
+# mogilefs-module (http://www.grid.net.ru/nginx/mogilefs.en.html, BSD-2)
+HTTP_MOGILEFS_MODULE_PV="1.0.4"
+HTTP_MOGILEFS_MODULE_P="ngx_mogilefs_module-${HTTP_MOGILEFS_MODULE_PV}"
+HTTP_MOGILEFS_MODULE_URI="http://www.grid.net.ru/nginx/download/nginx_mogilefs_module-${HTTP_MOGILEFS_MODULE_PV}.tar.gz"
+HTTP_MOGILEFS_MODULE_WD="${WORKDIR}/nginx_mogilefs_module-${HTTP_MOGILEFS_MODULE_PV}"
+
+# eval-module (http://www.grid.net.ru/nginx/eval.ru.html, BSD-2)
+HTTP_EVAL_MODULE_PV="1.0.3"
+HTTP_EVAL_MODULE_P="ngx_eval_module-${HTTP_EVAL_MODULE_PV}"
+HTTP_EVAL_MODULE_URI="https://github.com/vkholodkov/nginx-eval-module/archive/${HTTP_EVAL_MODULE_PV}.tar.gz"
+HTTP_EVAL_MODULE_WD="${WORKDIR}/nginx-eval-module-${HTTP_EVAL_MODULE_PV}"
+
+# websockify (https://github.com/tg123/websockify-nginx-module)
+HTTP_WEBSOCKIFY_MODULE_PV="0.0.2"
+HTTP_WEBSOCKIFY_MODULE_P="ngx_websockify_module-${HTTP_WEBSOCKIFY_MODULE_PV}"
+HTTP_WEBSOCKIFY_MODULE_URI="https://github.com/tg123/websockify-nginx-module/archive/${HTTP_WEBSOCKIFY_MODULE_PV}.tar.gz"
+HTTP_WEBSOCKIFY_MODULE_WD="${WORKDIR}/websockify-nginx-module-${HTTP_WEBSOCKIFY_MODULE_PV}"
+
+# poller(https://github.com/dbcode/nginx-poller-module)
+HTTP_POLLER_MODULE_PV="406c83c9e57ca2a613fe361d639a29bdeddf63ca" # no releases :(
+HTTP_POLLER_MODULE_P="ngx_poller_module-${HTTP_POLLER_MODULE_PV}"
+HTTP_POLLER_MODULE_URI="https://github.com/dbcode/nginx-poller-module/archive/${HTTP_POLLER_MODULE_PV}.zip"
+HTTP_POLLER_MODULE_WD="${WORKDIR}/nginx-poller-module-${HTTP_POLLER_MODULE_PV}"
+
+# bodytime(https://github.com/koordinates/bodytime-nginx-module)
+HTTP_BODYTIME_MODULE_PV="8b47f5c049b8afd5b0d639f747e47446597c22e4"
+HTTP_BODYTIME_MODULE_P="ngx_bodytime_module-${HTTP_BODYTIME_MODULE_PV}"
+HTTP_BODYTIME_MODULE_URI="https://github.com/koordinates/bodytime-nginx-module/archive/${HTTP_BODYTIME_MODULE_PV}.zip"
+HTTP_BODYTIME_MODULE_WD="${WORKDIR}/bodytime-nginx-module-${HTTP_BODYTIME_MODULE_PV}"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user
 
@@ -225,6 +304,19 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
 	nginx_modules_http_metrics? ( ${HTTP_METRICS_MODULE_URI} -> ${HTTP_METRICS_MODULE_P}.tar.gz )
 	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} ->	${HTTP_NAXSI_MODULE_P}.tar.gz )
+	nginx_modules_http_tidehunter? ( ${HTTP_TIDEHUNTER_MODULE_URI} -> ${HTTP_TIDEHUNTER_MODULE_P}.zip )
+	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
+	nginx_modules_http_dav_ext? ( ${HTTP_DAV_EXT_MODULE_URI} -> ${HTTP_DAV_EXT_MODULE_P}.tar.gz )
+	nginx_modules_http_security? ( ${HTTP_SECURITY_MODULE_URI} -> ${HTTP_SECURITY_MODULE_P}.tar.gz )
+	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.bz2 )
+	nginx_modules_http_ajp? ( ${HTTP_AJP_MODULE_URI} -> ${HTTP_AJP_MODULE_P}.tar.gz )
+	nginx_modules_http_mogilefs? ( ${HTTP_MOGILEFS_MODULE_URI} -> ${HTTP_MOGILEFS_MODULE_P}.tar.gz )
+	nginx_modules_http_eval? ( ${HTTP_EVAL_MODULE_URI} -> ${HTTP_EVAL_MODULE_P}.tar.gz )
+	nginx_modules_http_websockify? ( ${HTTP_WEBSOCKIFY_MODULE_URI} -> ${HTTP_WEBSOCKIFY_MODULE_P}.tar.gz )
+	nginx_modules_http_poller? ( ${HTTP_POLLER_MODULE_URI} -> ${HTTP_POLLER_MODULE_P}.zip )
+	nginx_modules_http_bodytime? ( ${HTTP_BODYTIME_MODULE_URI} -> ${HTTP_BODYTIME_MODULE_P}.zip )
+	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
+	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
 	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
@@ -239,7 +331,7 @@ KEYWORDS="~amd64 ~x86"
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
-NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static image_filter
+NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static gunzip image_filter
 mp4 perl random_index realip secure_link stub_status sub xslt spdy"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 
@@ -248,7 +340,8 @@ http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
 http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed
-http_pinba http_metrics http_naxsi http_fluentd"
+http_pinba http_metrics http_naxsi http_tidehunter http_fluentd http_upstream_check http_dav_ext http_security
+http_sticky http_ajp http_mogilefs http_fancyindex http_eval http_websockify http_poller http_bodytime"
 # http_set_cconv"
 
 REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -257,10 +350,11 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
 		nginx_modules_http_iconv? ( nginx_modules_http_ndk )
 		nginx_modules_http_naxsi? ( pcre )
+		nginx_modules_http_security? ( pcre )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit +pcre-jit +syslog systemd"
+IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -294,6 +388,10 @@ CDEPEND="
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_fluentd? ( app-admin/fluentd )
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) )
+	nginx_modules_http_gunzip? ( sys-libs/zlib )
+	nginx_modules_http_dav_ext? ( dev-libs/expat )
+	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
+	nginx_modules_http_tidehunter? ( dev-libs/jansson )
 	nginx_modules_http_passenger? (
 		$(ruby_implementation_depend ruby19)
 		>=dev-ruby/rubygems-0.9.0
@@ -358,17 +456,31 @@ src_unpack() {
 }
 
 src_prepare() {
-	sed -i -e 's/ make/ \\$(MAKE)/' "${S}"/auto/lib/perl/make
+	epatch "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
 
+	sed -i -e 's/ make/ \\$(MAKE)/' "${S}"/auto/lib/perl/make
 	sed -i -e "s|\(NGX_MAX_ERROR_STR\)   2048|\1 4096|" "${S}"/src/core/ngx_log.h
 
 	epatch "${FILESDIR}"/version.patch
+
 	host=$(hostname 2>/dev/null)
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_special_response.c
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_header_filter_module.c
+
+    if use nginx_modules_http_upstream_check; then
+        epatch "${FILESDIR}"/check_1.7.2+.patch
+    fi
+
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
 	fi
+
+    if use rtmp ; then
+        cd "${RTMP_MODULE_WD}"
+        epatch "${FILESDIR}/rtmp-${P}.patch"
+        cd "${S}"
+    fi
+
 #	if use nginx_modules_http_lua; then
 #		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
 #		epatch "${FILESDIR}"/lua-1.7.5.patch
@@ -404,6 +516,22 @@ src_prepare() {
 }
 
 src_configure() {
+    # mod_security needs to generate nginx/modsecurity/config before including it
+    if use nginx_modules_http_security; then
+        cd "${HTTP_SECURITY_MODULE_WD}"
+        if use luajit ; then
+            sed -i \
+                -e 's|^\(LUA_PKGNAMES\)=.*|\1="luajit"|' \
+                configure || die
+        fi
+        ./configure \
+            --enable-standalone-module \
+            $(use_enable pcre-jit) \
+            $(use_with nginx_modules_http_lua lua) || die "configure failed for mod_security"
+    fi
+
+    cd "${S}"
+
 	local myconf= http_enabled= mail_enabled=
 
 	use aio && myconf+=" --with-file-aio --with-aio_module"
@@ -411,6 +539,7 @@ src_configure() {
 	use ipv6 && myconf+=" --with-ipv6"
 	use libatomic && myconf+=" --with-libatomic"
 	use pcre && myconf+=" --with-pcre"
+	use pcre-jit  && myconf+=" --with-pcre-jit"
 
 	# HTTP modules
 	for mod in $NGINX_MODULES_STD; do
@@ -423,6 +552,67 @@ src_configure() {
 	# syslog support
     if use syslog; then
         myconf+=" --add-module=${SYSLOG_MODULE_WD}"
+    fi
+
+    if use nginx_modules_http_fancyindex; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_FANCYINDEX_MODULE_WD}"
+    fi
+    
+	if use nginx_modules_http_eval; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_EVAL_MODULE_WD}"
+    fi
+	
+	if use nginx_modules_http_websockify; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_WEBSOCKIFY_MODULE_WD}"
+    fi
+	
+	if use nginx_modules_http_poller; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_POLLER_MODULE_WD}"
+    fi
+	
+	if use nginx_modules_http_bodytime; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_BODYTIME_MODULE_WD}"
+    fi
+
+
+    if use nginx_modules_http_upstream_check; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_UPSTREAM_CHECK_MODULE_WD}"
+    fi
+
+    if use rtmp ; then
+        http_enabled=1
+        myconf+=" --add-module=${RTMP_MODULE_WD}"
+    fi
+
+    if use nginx_modules_http_dav_ext ; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_DAV_EXT_MODULE_WD}"
+    fi
+
+    if use nginx_modules_http_security ; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_SECURITY_MODULE_WD}/nginx/modsecurity"
+    fi
+
+    if use nginx_modules_http_sticky ; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_STICKY_MODULE_WD}"
+    fi
+
+    if use nginx_modules_http_ajp ; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_AJP_MODULE_WD}"
+    fi
+
+    if use nginx_modules_http_mogilefs ; then
+        http_enabled=1
+        myconf+=" --add-module=${HTTP_MOGILEFS_MODULE_WD}"
     fi
 
 	for mod in $NGINX_MODULES_OPT; do
@@ -634,6 +824,12 @@ src_configure() {
 	    http_enabled=1
 	    myconf+=" --add-module=${HTTP_NAXSI_MODULE_WD}"
 	fi
+	
+	if use nginx_modules_http_tidehunter ; then
+	    http_enabled=1
+	    myconf+=" --add-module=${HTTP_TIDEHUNTER_MODULE_WD}"
+	fi
+
 	if use nginx_modules_http_metrics ; then
 	    http_enabled=1
 	    myconf+=" --add-module=${HTTP_METRICS_MODULE_WD}"
@@ -674,6 +870,10 @@ src_configure() {
 	export LANG=C LC_ALL=C
 	tc-export CC
 
+    if ! use prefix; then
+        myconf+=" --user=${PN} --group=${PN}"
+    fi
+
 	./configure \
 		--prefix=/usr \
 		--sbin-path=/usr/sbin/nginx \
@@ -694,6 +894,8 @@ src_configure() {
 }
 
 src_compile() {
+	use nginx_modules_http_security && emake -C "${HTTP_SECURITY_MODULE_WD}"
+
 	# https://bugs.gentoo.org/286772
 	export LANG=C LC_ALL=C
 	emake LINK="${CC} ${LDFLAGS}" OTHERLDFLAGS="${LDFLAGS}" || die "emake failed"
@@ -723,6 +925,58 @@ src_install() {
 	# logrotate
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/nginx.logrotate nginx
+
+
+    if use nginx_modules_http_fancyindex; then
+        docinto ${HTTP_FANCYINDEX_MODULE_P}
+        dodoc "${HTTP_FANCYINDEX_MODULE_WD}"/README.rst
+    fi
+
+    if use nginx_modules_http_upstream_check; then
+        docinto ${HTTP_UPSTREAM_CHECK_MODULE_P}
+        dodoc "${HTTP_UPSTREAM_CHECK_MODULE_WD}"/{README,CHANGES}
+    fi
+
+    if use rtmp; then
+        docinto ${RTMP_MODULE_P}
+        dodoc "${RTMP_MODULE_WD}"/{AUTHORS,README.md,stat.xsl}
+    fi
+
+    if use nginx_modules_http_dav_ext; then
+        docinto ${HTTP_DAV_EXT_MODULE_P}
+        dodoc "${HTTP_DAV_EXT_MODULE_WD}"/README
+    fi
+
+    if use nginx_modules_http_security; then
+        docinto ${HTTP_SECURITY_MODULE_P}
+        dodoc "${HTTP_SECURITY_MODULE_WD}"/{CHANGES,README.TXT,authors.txt}
+    fi
+
+    if use nginx_modules_http_sticky; then
+        docinto ${HTTP_STICKY_MODULE_P}
+        dodoc "${HTTP_STICKY_MODULE_WD}"/{README.md,Changelog.txt,docs/sticky.pdf}
+    fi
+
+    if use nginx_modules_http_ajp; then
+        docinto ${HTTP_AJP_MODULE_P}
+        dodoc "${HTTP_AJP_MODULE_WD}"/README
+    fi
+
+    if use nginx_modules_http_websockify; then
+        docinto ${HTTP_WEBSOCKIFY_MODULE_P}
+        dodoc "${HTTP_WEBSOCKIFY_MODULE_WD}"/README.md
+    fi
+    
+	if use nginx_modules_http_poller; then
+        docinto ${HTTP_POLLER_MODULE_P}
+        dodoc "${HTTP_POLLER_MODULE_WD}"/README.md
+    fi
+	
+	if use nginx_modules_http_bodytime; then
+        docinto ${HTTP_BODYTIME_MODULE_P}
+        dodoc "${HTTP_BODYTIME_MODULE_WD}"/{README.md,LICENSE}
+    fi
+
 
 
 # http_perl
@@ -920,4 +1174,14 @@ pkg_postinst() {
         ewarn "Furthermore nginx' temp directories got moved to ${NGINX_HOME_TMP}"
         chmod o-rwx "${EPREFIX}"/var/log/nginx "${EPREFIX}/${NGINX_HOME_TMP}"/{,client,proxy,fastcgi,scgi,uwsgi}
     fi
+
+    # If the nginx user can't change into or read the dir, display a warning.
+    # If su is not available we display the warning nevertheless since we can't check properly
+    su -s /bin/sh -c 'cd /var/log/nginx/ && ls' nginx >&/dev/null
+    if [ $? -ne 0 ] ; then
+        ewarn "Please make sure that the nginx user or group has at least"
+        ewarn "'rx' permissions on /var/log/nginx (default on a fresh install)"
+        ewarn "Otherwise you end up with empty log files after a logrotate."
+    fi
+
 }
