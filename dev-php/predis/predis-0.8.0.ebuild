@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-php/YAML/YAML-1.0.5.ebuild,v 1.1 2012/03/10 14:33:53 olemarkus Exp $
 
-EAPI=4
+EAPI=5
 
 PHP_PEAR_CHANNEL="${FILESDIR}/channel.xml"
 PHP_PEAR_URI="pear.nrk.io"

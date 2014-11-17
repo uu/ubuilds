@@ -2,7 +2,7 @@
 # Distributed under the terms of the OSI Reciprocal Public License
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 inherit git-2 eutils
 

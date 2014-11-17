@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 PHP_EXT_NAME="redis"
 PHP_EXT_INI="yes"
 PHPSAPILIST="apache2 cgi cli fpm"

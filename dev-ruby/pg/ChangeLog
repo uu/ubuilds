@@ -112,7 +112,7 @@
   18 Dec 2011; Diego E. Pettenò <flameeyes@gentoo.org> +pg-0.12.0-r1.ebuild,
   -pg-0.12.0.ebuild:
   Fix dependency over rake-compiler that was declared a runtime dependency in
-  the spec file; bump to EAPI=4 to be on the safe side (with REQUIRE_USE).
+  the spec file; bump to EAPI=5 to be on the safe side (with REQUIRE_USE).
 
 *pg-0.12.0 (13 Dec 2011)
 

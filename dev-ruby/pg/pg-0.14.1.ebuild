@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-ruby/pg/pg-0.14.1.ebuild,v 1.6 2013/04/05 18:23:31 ago Exp $
 
-EAPI=4
+EAPI=5
 USE_RUBY="ruby18 ree18 ruby19 ruby20 ruby21"
 
 RUBY_FAKEGEM_RECIPE_TEST="rspec"

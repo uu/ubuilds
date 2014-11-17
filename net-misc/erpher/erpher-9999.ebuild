@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 inherit eutils git-2 user
 DESCRIPTION="ERlang PHp workER"
 HOMEPAGE="http://megaplan.ru"

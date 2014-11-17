@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-fs/flashcache/flashcache-9999.ebuild,v 1.0 2012/09/12 13:53:17 uu Exp $
 
-EAPI=4
+EAPI=5
 
 inherit eutils git-2 linux-mod linux-info
 

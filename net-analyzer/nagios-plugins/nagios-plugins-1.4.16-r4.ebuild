@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-analyzer/nagios-plugins/nagios-plugins-1.4.16-r3.ebuild,v 1.2 2012/11/21 18:31:35 flameeyes Exp $
 
-EAPI=4
+EAPI=5
 
 PATCHSET=2
 

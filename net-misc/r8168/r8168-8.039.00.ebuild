@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-misc/r8168/r8168-8.038.00.ebuild,v 1.1 2014/03/18 16:45:02 joker Exp $
 
-EAPI=4
+EAPI=5
 
 inherit linux-mod eutils
 

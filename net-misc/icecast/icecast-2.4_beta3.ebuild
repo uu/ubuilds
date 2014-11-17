@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-misc/icecast/icecast-2.3.3-r1.ebuild,v 1.2 2013/03/03 23:00:41 hwoarang Exp $
 
-EAPI=4
+EAPI=5
 inherit eutils autotools user
 
 DESCRIPTION="An opensource alternative to shoutcast that supports mp3, ogg (vorbis/theora) and aac streaming"

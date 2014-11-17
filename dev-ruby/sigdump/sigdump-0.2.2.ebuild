@@ -1,4 +1,4 @@
-EAPI=4
+EAPI=5
 
 USE_RUBY="ruby19 ruby20 ruby21"
 RUBY_FAKEGEM_NAME="sigdump"

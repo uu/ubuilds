@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-cluster/ceph/ceph-0.51.ebuild,v 1.1 2012/09/14 08:49:59 scarabeus Exp $
 
-EAPI=4
+EAPI=5
 
 inherit autotools eutils multilib git-2 linux-info
 

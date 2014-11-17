@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit python eutils git-2
+inherit python eutils perl-app git-2
 
 DESCRIPTION="FSBACKUP - file system backup and synchronization utility."
 HOMEPAGE="http://www.opennet.ru/dev/fsbackup/"
@@ -18,8 +18,8 @@ IUSE=""
 DEPEND="app-arch/tar dev-lang/perl virtual/perl-Digest-MD5 virtual/perl-DB_File"
 RDEPEND="${DEPEND}"
 
-src_install() {
-	/usr/bin/env perl ./install.pl
-	dodoc README
-}
+#src_install() {
+#	/usr/bin/env perl ./install.pl
+#	dodoc README
+#}
 
