@@ -1,5 +1,5 @@
---- bin/kibana_orig	2014-10-27 16:39:51.962164886 +0300
-+++ bin/kibana	2014-10-27 16:40:44.378769869 +0300
+--- bin/kibana_orig	2014-11-11 22:57:34.000000000 +0300
++++ bin/kibana	2014-11-17 15:55:09.064050529 +0300
 @@ -14,8 +14,6 @@
    fi
  done
@@ -9,9 +9,17 @@
  if [ -x "${JAVA_HOME}/bin/java" ]; then
    JAVA="${JAVA_HOME}/bin/java"
  else
-@@ -34,4 +32,4 @@
- export GEM_HOME=
- export GEM_PATH=
+@@ -36,9 +34,9 @@
  
--KIBANA_VERSION=4.0.0-BETA1.1 CONFIG_PATH=${DIR}/../config/kibana.yml RACK_ENV=production exec "${JAVA}" $JAVA_OPTS -jar "${DIR}/../lib/kibana.jar" "$@"
-+KIBANA_VERSION=4.0.0-BETA1.1 CONFIG_PATH=/etc/kibana/kibana.yml RACK_ENV=production exec "${JAVA}" $JAVA_OPTS -jar "/opt/kibana/kibana.jar" "$@" >> /var/log/kibana.log
+ # shellcheck disable=SC2086
+ KIBANA_VERSION=4.0.0-BETA2 \
+-  CONFIG_PATH=${DIR}/../config/kibana.yml \
++  CONFIG_PATH=/etc/kibana/kibana.yml \
+   PLUGINS_FOLDER=${DIR}/../plugins \
+   RACK_ENV=production \
+   exec "${JAVA}" \
+   $JAVA_OPTS \
+-  -jar "${DIR}/../lib/kibana.jar" "$@"
+\ No newline at end of file
++  -jar "/opt/kibana/kibana.jar" "$@"
+

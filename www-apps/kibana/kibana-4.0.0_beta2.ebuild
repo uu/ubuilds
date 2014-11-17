@@ -8,14 +8,14 @@ inherit eutils
 DESCRIPTION="visualize logs and time-stamped data"
 HOMEPAGE="http://www.elasticsearch.org/overview/kibana/"
 #SRC_URI="https://download.elasticsearch.org/${PN}/${PN}/${P}.tar.gz"
-SRC_URI="https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA1.1.tar.gz"
+SRC_URI="https://download.elasticsearch.org/kibana/kibana/kibana-4.0.0-BETA2.tar.gz"
 
 LICENSE="Apache-2.0"
 KEYWORDS="~amd64"
 RDEPEND=""
 SLOT=0
 #RDEPEND="virtual/httpd-basic"
-S="${WORKDIR}/kibana-4.0.0-BETA1.1"
+S="${WORKDIR}/kibana-4.0.0-BETA2"
 
 src_prepare() {
 	epatch ${FILESDIR}/kibana-gentoo-path.patch
