@@ -24,8 +24,6 @@ RDEPEND="
 	cgi? ( dev-lang/python )
 	!sys-cluster/moosefs
 	app-text/asciidoc
-	dev-libs/boost
-	dev-libs/thrift
 	fuse? ( >=sys-fs/fuse-2.6 )"
 DEPEND="${RDEPEND}"
 
