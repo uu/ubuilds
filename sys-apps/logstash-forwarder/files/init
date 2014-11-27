@@ -1,0 +1,19 @@
+#!/sbin/runscript
+#extra_commands="publish"
+
+start() {
+	ebegin "Starting ${SVCNAME}"
+	rm -f /var/run/logstash-fw.pid
+	start-stop-daemon --start -b --exec "/usr/bin/logstash-forwarder" \
+	    -m --pidfile "/var/run/logstash-fw.pid" -1  /var/log/logstash-fw.log -2  /var/log/logstash-fw.log
+	eend $?
+}
+
+stop() {
+
+	ebegin "Stopping ${SVCNAME}"
+	start-stop-daemon --stop --exec "/usr/bin/logstash-forwarder" \
+	    --pidfile "/var/run/logstash-fw.pid" --quiet
+	eend $?
+}
+
