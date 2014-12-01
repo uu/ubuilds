@@ -55,7 +55,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	>=dev-util/cmake-2.8.7
-	sys-devel/binutils
+	sys-devel/binutils[static-libs]
 	sys-devel/bison
 	sys-devel/flex
 "
