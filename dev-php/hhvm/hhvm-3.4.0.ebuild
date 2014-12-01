@@ -38,7 +38,7 @@ RDEPEND="
 	media-libs/gd[jpeg,png]
 	net-libs/c-client[kerberos]
 	>=net-misc/curl-7.28.0
-	>=sys-devel/gcc-4.7
+	>=sys-devel/gcc-4.8
 	sys-libs/libcap
 	dev-libs/libzip
 	app-arch/lz4
