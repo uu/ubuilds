@@ -39,9 +39,14 @@ RDEPEND="
 	media-libs/gd[jpeg,png]
 	net-libs/c-client[kerberos]
 	>=net-misc/curl-7.28.0
-	net-nds/openldap
-	>=sys-devel/gcc-4.7
+	>=sys-devel/gcc-4.8
 	sys-libs/libcap
+	dev-libs/libzip
+	app-arch/lz4
+	dev-db/unixODBC
+	dev-libs/double-conversion
+	net-nds/openldap
+	dev-libs/libedit
 	sys-libs/ncurses
 	sys-libs/readline
 	sys-libs/zlib
@@ -51,14 +56,14 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	>=dev-util/cmake-2.8.7
-	sys-devel/binutils
+	sys-devel/binutils[static-libs]
 	sys-devel/bison
 	sys-devel/flex
 "
 
 SLOT="0"
 LICENSE="PHP-3"
-KEYWORDS="~amd64"
+KEYWORDS="amd64"
 
 pkg_setup() {
 	ebegin "Creating hhvm user and group"
@@ -69,7 +74,7 @@ pkg_setup() {
 
 src_prepare()
 {
-	git submodule update --init
+	git submodule update --init --recursive
 }
 
 src_configure()
@@ -110,3 +115,4 @@ src_install()
 	insinto /etc/hhvm
 	newins "${FILESDIR}"/config.hdf.dist-r3 config.hdf.dist
 }
+
