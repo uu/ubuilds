@@ -78,15 +78,15 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.13rc1"
+HTTP_LUA_MODULE_PV="0.9.13"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="0d736bf"
+HTTP_LUA_MODULE_SHA1="7a97d09"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 # https://github.com/openresty/drizzle-nginx-module/releases
-HTTP_DRIZZLE_MODULE_PV="0.1.7"
+HTTP_DRIZZLE_MODULE_PV="0.1.8"
 HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
-HTTP_DRIZZLE_MODULE_SHA1="b83a8a9"
+HTTP_DRIZZLE_MODULE_SHA1="fba80cf"
 
 # NginX for-input module (https://github.com/calio/form-input-nginx-module, BSD)
 HTTP_FORM_INPUT_MODULE_PV="0.10"
@@ -94,9 +94,9 @@ HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="494b868"
 
 # NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.56"
+HTTP_ECHO_MODULE_PV="0.57"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="8f28ddf"
+HTTP_ECHO_MODULE_SHA1="91ee9a8"
 
 # NginX Featured mecached module (https://github.com/openresty/memc-nginx-module, BSD)
 HTTP_MEMC_MODULE_PV="0.15"
@@ -114,9 +114,9 @@ HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_SHA1="ffa9ab7"
 
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.26"
+HTTP_SET_MISC_MODULE_PV="0.27"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="1680123"
+HTTP_SET_MISC_MODULE_SHA1="e08cfd2"
 HTTP_SET_MISC_MODULE_URI="http://github.com/openresty/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
 # NginX Set-Misc module (https://github.com/fluent/nginx-fluentd-module/releases, BSD)
