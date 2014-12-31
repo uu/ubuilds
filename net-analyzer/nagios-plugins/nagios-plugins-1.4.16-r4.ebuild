@@ -20,7 +20,7 @@ IUSE="+ssl samba mysql postgres ldap snmp nagios-dns nagios-ntp nagios-ping nagi
 
 DEPEND="ldap? ( >=net-nds/openldap-2.0.25 )
 	mysql? ( virtual/mysql )
-	postgres? ( dev-db/postgresql-base )
+	postgres? ( dev-db/postgresql )
 	ssl? (
 		!gnutls? ( >=dev-libs/openssl-0.9.6g )
 		gnutls? ( net-libs/gnutls )
