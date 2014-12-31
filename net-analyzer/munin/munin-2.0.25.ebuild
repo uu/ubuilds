@@ -34,7 +34,7 @@ DEPEND_COM="dev-lang/perl[berkdb]
 					 dev-perl/Cache-Cache
 					 dev-perl/DBD-mysql )
 			ssl? ( dev-perl/Net-SSLeay )
-			postgres? ( dev-perl/DBD-Pg virtual/postgresql )
+			postgres? ( dev-perl/DBD-Pg )
 			memcached? ( dev-perl/Cache-Memcached )
 			cgi? ( dev-perl/FCGI )
 			apache? ( www-servers/apache[apache2_modules_cgi,apache2_modules_cgid,apache2_modules_rewrite] )
