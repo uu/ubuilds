@@ -1,0 +1,10 @@
+--- ./rebar.config.orig	2015-01-27 13:56:55.956586856 +0300
++++ ./rebar.config	2015-01-27 13:56:08.572588897 +0300
+@@ -1,6 +1,6 @@
+ {sub_dirs, ["rel"]}.
+ 
+-{require_otp_vsn, "R14B0[234]|R15"}.
++{require_otp_vsn, "R14B0[234]|R1[567]"}.
+ 
+ {cover_enabled, true}.
+
