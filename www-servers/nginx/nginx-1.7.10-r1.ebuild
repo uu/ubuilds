@@ -78,9 +78,9 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.13"
+HTTP_LUA_MODULE_PV="0.9.14"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="7a97d09"
+HTTP_LUA_MODULE_SHA1="cea0699"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 # https://github.com/openresty/drizzle-nginx-module/releases
@@ -114,9 +114,9 @@ HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
 HTTP_SRCACHE_MODULE_SHA1="ffa9ab7"
 
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.27"
+HTTP_SET_MISC_MODULE_PV="0.28"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="e08cfd2"
+HTTP_SET_MISC_MODULE_SHA1="f72abf1"
 HTTP_SET_MISC_MODULE_URI="http://github.com/openresty/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
 # NginX Set-Misc module (https://github.com/fluent/nginx-fluentd-module/releases, BSD)
@@ -147,9 +147,9 @@ HTTP_ICONV_MODULE_SHA1="b37efb5"
 #HTTP_SET_CCONV_MODULE_SHA1=""
 
 # NginX Featured mecached module (http://labs.frickle.com/nginx_ngx_postgres, BSD-2)
-HTTP_POSTGRES_MODULE_PV="1.0rc2"
+HTTP_POSTGRES_MODULE_PV="1.0rc5"
 HTTP_POSTGRES_MODULE_P="ngx_postgres-${HTTP_POSTGRES_MODULE_PV}"
-HTTP_POSTGRES_MODULE_SHA1="b72f87b"
+HTTP_POSTGRES_MODULE_SHA1="f9479fb"
 
 # NginX coolkit module (http://labs.frickle.com/nginx_ngx_coolkit/, BSD-2)
 HTTP_COOLKIT_MODULE_PV="1.0"
