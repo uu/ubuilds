@@ -9,7 +9,7 @@ inherit autotools eutils flag-o-matic systemd toolchain-funcs user
 DESCRIPTION="A persistent caching system, key-value and data structures database"
 HOMEPAGE="http://redis.io/"
 #SRC_URI="http://download.redis.io/releases/${P}.tar.gz"
-SRC_URI="https://github.com/antirez/redis/archive/3.0.0-rc3.tar.gz"
+SRC_URI="https://github.com/antirez/redis/archive/3.0.0-rc4.tar.gz"
 
 LICENSE="BSD"
 KEYWORDS="~amd64 ~amd64-linux ~hppa ~x86 ~x86-linux ~x86-macos ~x86-solaris"
