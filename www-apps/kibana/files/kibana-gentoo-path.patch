@@ -1,25 +1,9 @@
---- bin/kibana_orig	2014-11-11 22:57:34.000000000 +0300
-+++ bin/kibana	2014-11-17 15:55:09.064050529 +0300
-@@ -14,8 +14,6 @@
-   fi
- done
+--- bin/kibana_orig	2015-02-19 19:09:56.000000000 +0300
++++ bin/kibana	2015-02-25 16:17:00.716332746 +0300
+@@ -17,5 +17,5 @@
+ NODE=${DIR}/node/bin/node
+ SERVER=${DIR}/src/bin/kibana.js
  
--DIR=$(dirname "${SCRIPT}")
--
- if [ -x "${JAVA_HOME}/bin/java" ]; then
-   JAVA="${JAVA_HOME}/bin/java"
- else
-@@ -36,9 +34,9 @@
- 
- # shellcheck disable=SC2086
- KIBANA_VERSION=4.0.0-BETA2 \
--  CONFIG_PATH=${DIR}/../config/kibana.yml \
-+  CONFIG_PATH=/etc/kibana/kibana.yml \
-   PLUGINS_FOLDER=${DIR}/../plugins \
-   RACK_ENV=production \
-   exec "${JAVA}" \
-   $JAVA_OPTS \
--  -jar "${DIR}/../lib/kibana.jar" "$@"
-\ No newline at end of file
-+  -jar "/opt/kibana/kibana.jar" "$@"
+-CONFIG_PATH="${DIR}/config/kibana.yml" NODE_ENV="production" exec "${NODE}" ${SERVER} ${@}
++CONFIG_PATH="/etc/config/kibana.yml" NODE_ENV="production" exec "${NODE}" ${SERVER} ${@}
 
