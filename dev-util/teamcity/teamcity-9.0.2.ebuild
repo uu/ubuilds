@@ -1,6 +1,6 @@
 EAPI="5"
 
-inherit eutils
+inherit eutils user
 
 DESCRIPTION="Extensible continuous integration server"
 HOMEPAGE="http://www.jetbrains.com/teamcity/"
