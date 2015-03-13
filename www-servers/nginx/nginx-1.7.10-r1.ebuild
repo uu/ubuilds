@@ -72,15 +72,15 @@ HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="8dd0df5"
 
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex, BSD license)
-HTTP_FANCYINDEX_MODULE_PV="0.3.4"
+HTTP_FANCYINDEX_MODULE_PV="0.3.5"
 HTTP_FANCYINDEX_MODULE_P="ngx_http_fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.14"
+HTTP_LUA_MODULE_PV="0.9.15"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="cea0699"
+HTTP_LUA_MODULE_SHA1="4388b1e"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 # https://github.com/openresty/drizzle-nginx-module/releases
@@ -251,7 +251,7 @@ HTTP_EVAL_MODULE_WD="${WORKDIR}/nginx-eval-module-${HTTP_EVAL_MODULE_PV}"
 # websockify (https://github.com/tg123/websockify-nginx-module)
 HTTP_WEBSOCKIFY_MODULE_PV="0.0.2"
 HTTP_WEBSOCKIFY_MODULE_P="ngx_websockify_module-${HTTP_WEBSOCKIFY_MODULE_PV}"
-HTTP_WEBSOCKIFY_MODULE_URI="https://github.com/tg123/websockify-nginx-module/archive/${HTTP_WEBSOCKIFY_MODULE_PV}.tar.gz"
+HTTP_WEBSOCKIFY_MODULE_URI="https://github.com/tg123/websockify-nginx-module/archive/v${HTTP_WEBSOCKIFY_MODULE_PV}.tar.gz"
 HTTP_WEBSOCKIFY_MODULE_WD="${WORKDIR}/websockify-nginx-module-${HTTP_WEBSOCKIFY_MODULE_PV}"
 
 # poller(https://github.com/dbcode/nginx-poller-module)
