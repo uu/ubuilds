@@ -9,6 +9,6 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND=""
+DEPEND="dev-nodejs/pm2"
 RDEPEND=">=net-libs/nodejs-0.10.36
 	${DEPEND}"
