@@ -12,3 +12,10 @@ IUSE=""
 DEPEND="dev-nodejs/pm2"
 RDEPEND=">=net-libs/nodejs-0.10.36
 	${DEPEND}"
+
+
+src_install() {
+	npm-2_src_install
+	newinitd ${FILESDIR}/${PN}.init ${PN}
+	newconfd ${FILESDIR}/${PN}.conf ${PN}
+}

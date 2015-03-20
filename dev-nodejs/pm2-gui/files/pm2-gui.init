@@ -1,0 +1,21 @@
+#!/sbin/runscript
+# Copyright 1999-2015 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+depend() {
+  need network
+}
+
+start() {
+    ebegin "Starting pm2-gui"
+		start-stop-daemon -u ${USER} -g ${GROUP} -S -b -m -p /run/pm2-gui.pid -1 ${LOG}  pm2-gui -- start ${PORT} 
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping pm2-gui"
+		start-stop-daemon -u ${USER} -g ${GROUP} -K -p /run/pm2-gui.pid -1 ${LOG} pm2-gui
+    eend $?
+}
+
