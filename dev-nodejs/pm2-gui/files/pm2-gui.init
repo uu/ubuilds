@@ -3,6 +3,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+
+start_pre() {
+	checkpath -f -o php-fcgi ${LOG}
+}
+
 depend() {
   need network
 }
