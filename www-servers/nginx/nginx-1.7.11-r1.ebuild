@@ -1145,7 +1145,7 @@ src_install() {
 	fi
 
 	use chunk   && newdoc "${WORKDIR}/openresty-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
-	use pam && newdoc "${WORKDIR}"/ngx_http_auth_pam_module-${PAM_MODULE_PV}/README README.pam
+	use pam && newdoc "${WORKDIR}"/ngx_http_auth_pam_module-${PAM_MODULE_PV}/README.md README.pam
 }
 
 pkg_postinst() {
