@@ -456,7 +456,7 @@ pkg_setup() {
 src_unpack() {
 	# prevent ruby-ng.eclass from messing with src_unpack
 	default
-	use pam && unpack "ngx_http_auth_pam_module-1.1.tar.gz"
+	use pam && unpack "ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 	use rrd && unpack "Mod_rrd_graph-0.2.0.tar.gz"
 	use chunk && unpack "chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz"
 }
