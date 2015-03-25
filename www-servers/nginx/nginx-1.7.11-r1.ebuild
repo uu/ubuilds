@@ -1140,8 +1140,9 @@ src_install() {
         insinto /etc/nginx
         doins "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/naxsi_core.rules
 
-        docinto ${HTTP_NAXSI_MODULE_P}
-        newdoc "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/default_location_config.example nbs.rules
+		# removed in 0.54
+		#docinto ${HTTP_NAXSI_MODULE_P}
+		#newdoc "${HTTP_NAXSI_MODULE_WD}"/../naxsi_config/default_location_config.example nbs.rules
 	fi
 
 	use chunk   && newdoc "${WORKDIR}/openresty-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
