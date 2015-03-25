@@ -177,7 +177,7 @@ CHUNKIN_MODULE_SHA1="81c04f6"
 HTTP_NAXSI_MODULE_PV="0.54rc0"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
-HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-core-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
+HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
 
 # tidehunter (https://github.com/ruoshan/tidehunter)
 HTTP_TIDEHUNTER_MODULE_PV="202cd81739976b6cff17a6a1504f7002c128bb71"
