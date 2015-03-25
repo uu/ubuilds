@@ -266,6 +266,12 @@ HTTP_BODYTIME_MODULE_P="ngx_bodytime_module-${HTTP_BODYTIME_MODULE_PV}"
 HTTP_BODYTIME_MODULE_URI="https://github.com/koordinates/bodytime-nginx-module/archive/${HTTP_BODYTIME_MODULE_PV}.zip"
 HTTP_BODYTIME_MODULE_WD="${WORKDIR}/bodytime-nginx-module-${HTTP_BODYTIME_MODULE_PV}"
 
+# pam https://github.com/stogh/ngx_http_auth_pam_module/tarball/v
+PAM_MODULE_PV="1.4"
+PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
+PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
+
+
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
@@ -317,7 +323,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_bodytime? ( ${HTTP_BODYTIME_MODULE_URI} -> ${HTTP_BODYTIME_MODULE_P}.zip )
 	nginx_modules_http_fancyindex? ( ${HTTP_FANCYINDEX_MODULE_URI} -> ${HTTP_FANCYINDEX_MODULE_P}.tar.gz )
 	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )
-	pam? ( http://web.iti.upv.es/~sto/nginx/ngx_http_auth_pam_module-1.1.tar.gz )
+	pam? ( ${PAM_MODULE_URI} -> ${PAM_MODULE_P} )
 	rrd? ( http://wiki.nginx.org/images/9/9d/Mod_rrd_graph-0.2.0.tar.gz )
 	chunk? ( https://github.com/agentzh/chunkin-nginx-module/tarball/v${CHUNKIN_MODULE_PV} -> chunkin-nginx-module-${CHUNKIN_MODULE_PV}.tgz )"
 #	nginx_modules_http_set_cconv? ( http://github.com/liseen/set-cconv-nginx-module/tarball/v${HTTP_SET_CCONV_MODULE_PV} -> ${HTTP_SET_CCON_MODULE_P}.tar.gz )
