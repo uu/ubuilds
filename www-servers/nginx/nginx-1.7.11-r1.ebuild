@@ -62,9 +62,9 @@ HTTP_UPLOAD_MODULE_PV="2.2.0"
 HTTP_UPLOAD_MODULE_P="nginx_upload_module-${HTTP_UPLOAD_MODULE_PV}"
 
 # ey-balancer/maxconn module (https://github.com/msva/nginx-ey-balancer, as-is)
-HTTP_EY_BALANCER_MODULE_PV="0.0.8"
+HTTP_EY_BALANCER_MODULE_PV="0.0.9"
 HTTP_EY_BALANCER_MODULE_P="nginx-ey-balancer-${HTTP_EY_BALANCER_MODULE_PV}"
-HTTP_EY_BALANCER_MODULE_SHA1="859b2ef"
+HTTP_EY_BALANCER_MODULE_SHA1="c650e1f"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
 HTTP_NDK_MODULE_PV="0.2.19"
@@ -78,9 +78,9 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.15"
+HTTP_LUA_MODULE_PV="0.9.16rc1"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="4388b1e"
+HTTP_LUA_MODULE_SHA1="3eadb55"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 # https://github.com/openresty/drizzle-nginx-module/releases
@@ -109,9 +109,9 @@ HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_SHA1="8292070"
 
 # NginX SRCache module (https://github.com/openresty/srcache-nginx-module, BSD)
-HTTP_SRCACHE_MODULE_PV="0.28"
+HTTP_SRCACHE_MODULE_PV="0.29"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
-HTTP_SRCACHE_MODULE_SHA1="ffa9ab7"
+HTTP_SRCACHE_MODULE_SHA1="c521830"
 
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
 HTTP_SET_MISC_MODULE_PV="0.28"
@@ -173,10 +173,10 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MOD
 
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
-# naxsi-core (https://code.google.com/p/naxsi/, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.53-2"
+# naxsi-core (https://github.com/nbs-system/naxsi/releases, GPLv2+)
+HTTP_NAXSI_MODULE_PV="0.54rc0"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
-HTTP_NAXSI_MODULE_URI="https://naxsi.googlecode.com/files/naxsi-core-${HTTP_NAXSI_MODULE_PV}.tgz"
+HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-core-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
 
 # tidehunter (https://github.com/ruoshan/tidehunter)
@@ -205,7 +205,7 @@ HTTP_UPSTREAM_CHECK_MODULE_P="ngx_http_upstream_check-${HTTP_UPSTREAM_CHECK_MODU
 HTTP_UPSTREAM_CHECK_MODULE_URI="https://github.com/yaoweibin/nginx_upstream_check_module/archive/v${HTTP_UPSTREAM_CHECK_MODULE_PV}.tar.gz"
 HTTP_UPSTREAM_CHECK_MODULE_WD="${WORKDIR}/nginx_upstream_check_module-${HTTP_UPSTREAM_CHECK_MODULE_PV}"
 # nginx-rtmp-module (http://github.com/arut/nginx-rtmp-module, BSD license)
-RTMP_MODULE_PV="1.1.6"
+RTMP_MODULE_PV="1.1.7"
 RTMP_MODULE_P="ngx_rtmp-${RTMP_MODULE_PV}"
 RTMP_MODULE_URI="http://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE_PV}.tar.gz"
 RTMP_MODULE_WD="${WORKDIR}/nginx-rtmp-module-${RTMP_MODULE_PV}"
@@ -218,7 +218,7 @@ HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/nginx-dav-ext-module-${HTTP_DAV_EXT_MODULE_PV
 
 # mod_security for nginx (https://modsecurity.org/, Apache-2.0)
 # keep the MODULE_P here consistent with upstream to avoid tarball duplication
-HTTP_SECURITY_MODULE_PV="2.8.0"
+HTTP_SECURITY_MODULE_PV="2.9.0"
 HTTP_SECURITY_MODULE_P="modsecurity-apache_${HTTP_SECURITY_MODULE_PV}"
 HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -249,7 +249,7 @@ HTTP_EVAL_MODULE_URI="https://github.com/vkholodkov/nginx-eval-module/archive/${
 HTTP_EVAL_MODULE_WD="${WORKDIR}/nginx-eval-module-${HTTP_EVAL_MODULE_PV}"
 
 # websockify (https://github.com/tg123/websockify-nginx-module)
-HTTP_WEBSOCKIFY_MODULE_PV="0.0.2"
+HTTP_WEBSOCKIFY_MODULE_PV="0.0.3"
 HTTP_WEBSOCKIFY_MODULE_P="ngx_websockify_module-${HTTP_WEBSOCKIFY_MODULE_PV}"
 HTTP_WEBSOCKIFY_MODULE_URI="https://github.com/tg123/websockify-nginx-module/archive/v${HTTP_WEBSOCKIFY_MODULE_PV}.tar.gz"
 HTTP_WEBSOCKIFY_MODULE_WD="${WORKDIR}/websockify-nginx-module-${HTTP_WEBSOCKIFY_MODULE_PV}"
