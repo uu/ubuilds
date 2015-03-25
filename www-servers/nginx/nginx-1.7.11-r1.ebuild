@@ -851,7 +851,7 @@ src_configure() {
 	use perftools && myconf+=" --with-google_perftools_module"
 	use rrd && myconf+=" --add-module=${WORKDIR}/mod_rrd_graph-0.2.0"
 	use chunk && myconf+=" --add-module=${WORKDIR}/openresty-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"
-	use pam && myconf+=" --add-module=${WORKDIR}/ngx_http_auth_pam_module-1.1"
+	use pam && myconf+=" --add-module=${WORKDIR}/ngx_http_auth_pam_module-${PAM_MODULE_PV}"
 
 	# MAIL modules
 	for mod in $NGINX_MODULES_MAIL; do
@@ -1145,7 +1145,7 @@ src_install() {
 	fi
 
 	use chunk   && newdoc "${WORKDIR}/openresty-chunkin-nginx-module-${CHUNKIN_MODULE_SHA1}"/README README.chunkin
-	use pam && newdoc "${WORKDIR}"/ngx_http_auth_pam_module-1.1/README README.pam
+	use pam && newdoc "${WORKDIR}"/ngx_http_auth_pam_module-${PAM_MODULE_PV}/README README.pam
 }
 
 pkg_postinst() {
