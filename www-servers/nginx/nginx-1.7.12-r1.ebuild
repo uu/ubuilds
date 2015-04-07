@@ -25,8 +25,8 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="4.0.45"
-USE_RUBY="ruby19"
+PASSENGER_PV="5.0.6"
+USE_RUBY="ruby21"
 RUBY_OPTIONAL="yes"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
