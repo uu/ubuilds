@@ -174,7 +174,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MOD
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://github.com/nbs-system/naxsi/releases, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.54rc0"
+HTTP_NAXSI_MODULE_PV="0.54rc2"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
