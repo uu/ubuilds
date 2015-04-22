@@ -25,7 +25,7 @@ SRC_URI=""
 EGIT_PROJECT="xhprof"
 EGIT_REPO_URI="https://github.com/facebook/xhprof.git"
 
-DEPEND="virtual/httpd-php"
+DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_unpack() {
