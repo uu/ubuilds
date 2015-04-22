@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-misc/elasticsearch/elasticsearch-1.3.2-r1.ebuild,v 1.1 2014/10/06 14:36:26 chainsaw Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-misc/elasticsearch/elasticsearch-1.5.0.ebuild,v 1.1 2015/04/01 17:33:46 blueness Exp $
 
 EAPI=5
 
@@ -9,12 +9,11 @@ inherit eutils systemd user
 MY_PN="${PN%-bin}"
 DESCRIPTION="Open Source, Distributed, RESTful, Search Engine"
 HOMEPAGE="http://www.elasticsearch.org/"
-#SRC_URI="http://download.${MY_PN}.org/${MY_PN}/${MY_PN}/${MY_PN}-${PV}.tar.gz"
-SRC_URI="https://download.elasticsearch.org/elasticsearch/elasticsearch/${P}.tar.gz"
+SRC_URI="http://download.${MY_PN}.org/${MY_PN}/${MY_PN}/${MY_PN}-${PV}.tar.gz"
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="amd64"
-#S=${WORKDIR}/"elasticsearch-1.4.0.Beta1"
+KEYWORDS="~amd64"
+
 RESTRICT="strip"
 QA_PREBUILT="usr/share/elasticsearch/lib/sigar/libsigar-*.so"
 
@@ -27,6 +26,7 @@ pkg_setup() {
 
 src_prepare() {
 	rm -rf lib/sigar/*{solaris,winnt,freebsd,macosx}*
+	rm -rf bin/*.{bat,exe}
 	rm lib/sigar/libsigar-ia64-linux.so
 	rm LICENSE.txt
 
@@ -82,4 +82,3 @@ pkg_postinst() {
 	elog "/etc/${MY_PN}/instance (for symlinked init)"
 	elog
 }
-
