@@ -19,6 +19,9 @@ DESCRIPTION="A PHP extension for parsing and working with RFC822 and RFC2045 (MI
 LICENSE="PHP-2.02"
 SLOT="0"
 IUSE=""
+
+MP_V="2.1.6"
+SRC_URI="http://distfiles.gentoo.org/distfiles/mailparse-${MP_V}.tgz"
 RDEPEND="dev-lang/php[unicode]"
 
 for target in ${USE_PHP}; do
