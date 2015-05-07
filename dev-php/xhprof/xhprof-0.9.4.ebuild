@@ -6,7 +6,7 @@ EAPI="5"
 
 PHP_EXT_S="${WORKDIR}/${P}/extension"
 
-USE_PHP="php5-3 php5-4 php5-5"
+USE_PHP="php5-3 php5-4 php5-5 php5-6"
 
 inherit php-ext-pecl-r2
 
