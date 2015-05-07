@@ -9,20 +9,16 @@ PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 DOCS="README"
 
-USE_PHP="php5-6 php5-5 php5-4"
+USE_PHP="php5-6 php5-5 php5-4 php5-3"
 
 inherit php-ext-pecl-r2
 
-KEYWORDS="~amd64 ~ppc ~ppc64 ~x86"
+KEYWORDS="amd64 ppc ppc64 x86"
 
 DESCRIPTION="A PHP extension for parsing and working with RFC822 and RFC2045 (MIME) compliant messages"
 LICENSE="PHP-2.02"
 SLOT="0"
 IUSE=""
-
-MP_V="2.1.6"
-SRC_URI="http://distfiles.gentoo.org/distfiles/mailparse-${MP_V}.tgz"
-RDEPEND="dev-lang/php[unicode]"
 
 for target in ${USE_PHP}; do
 	slot=${target/php}
@@ -34,4 +30,3 @@ done
 RDEPEND="${PHPUSEDEPEND}"
 DEPEND="${RDEPEND}
 	dev-util/re2c"
-
