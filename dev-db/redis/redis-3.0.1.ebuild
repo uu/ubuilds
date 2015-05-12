@@ -1,6 +1,6 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-db/redis/redis-2.8.19.ebuild,v 1.1 2014/12/21 09:48:39 hwoarang Exp $
+# $Header: /var/cvsroot/gentoo-x86/dev-db/redis/redis-3.0.0.ebuild,v 1.2 2015/05/05 09:01:19 jer Exp $
 
 EAPI=5
 
@@ -9,19 +9,18 @@ inherit autotools eutils flag-o-matic systemd toolchain-funcs user
 DESCRIPTION="A persistent caching system, key-value and data structures database"
 HOMEPAGE="http://redis.io/"
 SRC_URI="http://download.redis.io/releases/${P}.tar.gz"
-#SRC_URI="https://github.com/antirez/redis/archive/3.0.0-rc4.tar.gz"
 
 LICENSE="BSD"
-KEYWORDS="~amd64 ~amd64-linux ~hppa ~x86 ~x86-linux ~x86-macos ~x86-solaris"
+KEYWORDS="~amd64 ~hppa ~ppc64 ~x86 ~amd64-linux ~x86-linux ~x86-macos ~x86-solaris"
 IUSE="+jemalloc tcmalloc test"
 SLOT="0"
 
-RDEPEND=">=dev-lang/lua-5.1
+RDEPEND=">=dev-lang/lua-5.1:*
 	tcmalloc? ( dev-util/google-perftools )
 	jemalloc? ( >=dev-libs/jemalloc-3.2 )"
 DEPEND="virtual/pkgconfig
 	>=sys-devel/autoconf-2.63
-	test? ( dev-lang/tcl )
+	test? ( dev-lang/tcl:0= )
 	${RDEPEND}"
 REQUIRED_USE="?? ( tcmalloc jemalloc )"
 
@@ -43,10 +42,9 @@ src_prepare() {
 	# Append cflag for lua_cjson
 	# https://github.com/antirez/redis/commit/4fdcd213#diff-3ba529ae517f6b57803af0502f52a40bL61
 	append-cflags "-DENABLE_CJSON_GLOBAL"
-
-	# Avoid glibc noise
-	# https://github.com/antirez/redis/pull/2189
-	[[ ${CHOST} == *linux* ]] && append-cflags "-D_DEFAULT_SOURCE"
+    # Avoid glibc noise
+    # https://github.com/antirez/redis/pull/2189
+    [[ ${CHOST} == *linux* ]] && append-cflags "-D_DEFAULT_SOURCE"
 
 	# now we will rewrite present Makefiles
 	local makefiles=""
