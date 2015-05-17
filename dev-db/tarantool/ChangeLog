@@ -1,0 +1,22 @@
+# ChangeLog for dev-db/tarantool
+# Copyright 1999-2012 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*tarantool-9999 (15 May 2013)
+
+  28 August 2014; Roman Tsisyk <roman@tarantool.org> tarantool-9999.ebuild
+  Rename to tarantool-1.5.9999.ebuild and test under latest upstream sources.
+
+  11 July 2013; Roman Tsisyk <roman@tarantool.org> tarantool-9999.ebuild:
+  Update ebuild for new 1.5.1 release.
+  Add USE=mysql and USE=postgres, remove USE="luajit-bundled".
+  Fix FEATURES="test", fix libunwind dependecy, fix docbook generation.
+
+  13 June 2013; Roman Tsisyk <roman@tarantool.org> tarantool-9999.ebuild:
+  Split 1.4.9999 and 9999 ebuilds and remove references to Objective C in 9999
+
+  23 May 2013; Roman Tsisyk <roman@tarantool.org> tarantool-9999.ebuild:
+  Add "client" and "server" use flags
+
+  15 May 2013; Roman Tsisyk <roman@tarantool.org> +tarantool-1.4.9999.ebuild:
+  Initial commit
