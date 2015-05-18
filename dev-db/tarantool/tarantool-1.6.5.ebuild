@@ -27,7 +27,7 @@ RDEPEND="
 	sys-libs/libunwind
 	client? ( sys-libs/readline sys-libs/ncurses )
 	mysql? ( virtual/mysql )
-	postgres? ( dev-db/postgresql-base )
+	postgres? ( dev-db/postgresql )
 "
 
 DEPEND="
