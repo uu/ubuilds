@@ -473,9 +473,9 @@ src_prepare() {
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_special_response.c
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_header_filter_module.c
 
-    if use nginx_modules_http_upstream_check; then
-        epatch "${FILESDIR}"/check_1.7.2+.patch
-    fi
+#    if use nginx_modules_http_upstream_check; then
+#        epatch "${FILESDIR}"/check_1.7.2+.patch
+#    fi
 
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
@@ -487,10 +487,10 @@ src_prepare() {
         cd "${S}"
     fi
 
-#	if use nginx_modules_http_lua; then
-#		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
-#		epatch "${FILESDIR}"/lua-1.7.5.patch
-#	fi
+	if use nginx_modules_http_lua; then
+		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
+		epatch "${FILESDIR}"/lua-1.9.1.patch
+	fi
 
 #   if use nginx_modules_http_lua; then
 #       cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
