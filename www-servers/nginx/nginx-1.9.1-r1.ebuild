@@ -1076,12 +1076,6 @@ src_install() {
 		dodoc "${WORKDIR}"/"${HTTP_COOLKIT_MODULE_P}"/README
 	fi
 
-# http_set_misc
-	if use nginx_modules_http_set_misc; then
-		docinto "${HTTP_SET_MISC_MODULE_P}"
-		dodoc "${WORKDIR}"/"openresty-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"/README
-	fi
-
 # http_xss
  	if use nginx_modules_http_xss; then
 		docinto "${HTTP_XSS_MODULE_P}"
