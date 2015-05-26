@@ -360,7 +360,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp"
+IUSE="chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -540,7 +540,6 @@ src_configure() {
 
 	local myconf= http_enabled= mail_enabled=
 
-	use aio && myconf+=" --with-file-aio --with-aio_module"
 	use debug && myconf+=" --with-debug"
 	use ipv6 && myconf+=" --with-ipv6"
 	use libatomic && myconf+=" --with-libatomic"
