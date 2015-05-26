@@ -654,11 +654,6 @@ src_configure() {
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/ngx_http_pinba_module-master"
 	fi
-# (**) http_set_misc
-	if use nginx_modules_http_set_misc; then
-		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/openresty-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"
-	fi
 
 # (**) http_fluentd
 	if use nginx_modules_http_fluentd; then
