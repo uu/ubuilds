@@ -8,6 +8,7 @@ PHP_EXT_NAME="dbase"
 PHP_EXT_INI="no"
 PHP_EXT_ZENDEXT="no"
 DOCS="README ChangeLog"
+USE_PHP="php5-5 php5-3 php5-4 php5-6"
 
 inherit php-ext-pecl-r2
 

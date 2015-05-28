@@ -7,6 +7,7 @@ EAPI=5
 PHP_EXT_NAME="stem"
 PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
+USE_PHP="php5-5 php5-3 php5-4 php5-6"
 
 inherit php-ext-pecl-r2
 
