@@ -360,7 +360,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="aio chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp"
+IUSE="chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -473,9 +473,9 @@ src_prepare() {
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_special_response.c
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_header_filter_module.c
 
-    if use nginx_modules_http_upstream_check; then
-        epatch "${FILESDIR}"/check_1.7.2+.patch
-    fi
+#    if use nginx_modules_http_upstream_check; then
+#        epatch "${FILESDIR}"/check_1.7.2+.patch
+#    fi
 
 	if use nginx_modules_http_ey_balancer; then
 		epatch "${FILESDIR}"/nginx-1.x-ey-balancer.patch
@@ -487,10 +487,10 @@ src_prepare() {
         cd "${S}"
     fi
 
-#	if use nginx_modules_http_lua; then
-#		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
-#		epatch "${FILESDIR}"/lua-1.7.5.patch
-#	fi
+	if use nginx_modules_http_lua; then
+		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
+		epatch "${FILESDIR}"/lua-1.9.1.patch
+	fi
 
 #   if use nginx_modules_http_lua; then
 #       cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
@@ -540,7 +540,6 @@ src_configure() {
 
 	local myconf= http_enabled= mail_enabled=
 
-	use aio && myconf+=" --with-file-aio --with-aio_module"
 	use debug && myconf+=" --with-debug"
 	use ipv6 && myconf+=" --with-ipv6"
 	use libatomic && myconf+=" --with-libatomic"
@@ -654,11 +653,6 @@ src_configure() {
 	if use nginx_modules_http_pinba; then
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/ngx_http_pinba_module-master"
-	fi
-# (**) http_set_misc
-	if use nginx_modules_http_set_misc; then
-		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/openresty-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"
 	fi
 
 # (**) http_fluentd
@@ -1080,12 +1074,6 @@ src_install() {
 	if use nginx_modules_http_coolkit; then
 		docinto "${HTTP_COOLKIT_MODULE_P}"
 		dodoc "${WORKDIR}"/"${HTTP_COOLKIT_MODULE_P}"/README
-	fi
-
-# http_set_misc
-	if use nginx_modules_http_set_misc; then
-		docinto "${HTTP_SET_MISC_MODULE_P}"
-		dodoc "${WORKDIR}"/"openresty-set-misc-nginx-module-${HTTP_SET_MISC_MODULE_SHA1}"/README
 	fi
 
 # http_xss
