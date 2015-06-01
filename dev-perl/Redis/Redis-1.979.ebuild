@@ -14,8 +14,7 @@ KEYWORDS="alpha amd64 ia64 ppc ppc64 sparc x86"
 IUSE=""
 
 SRC_TEST="do"
-#DEPEND="dev-perl/Convert-Color-Library
-#dev-perl/List-UtilsBy"
+DEPEND="dev-perl/Module-Build-Tiny"
 
 export OPTIMIZE="$CFLAGS"
 
