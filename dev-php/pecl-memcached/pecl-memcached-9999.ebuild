@@ -18,6 +18,13 @@ DESCRIPTION="PHP extension for interfacing with memcached via libmemcached libra
 LICENSE="PHP-3"
 SLOT="0"
 IUSE="+session igbinary json sasl"
+
+if has_php="php7-0"; then
+EGIT_BRANCH="php7"
+else
+EGIT_BRANCH="master"
+fi
+
 SRC_URI=""
 
 DEPEND="|| ( >=dev-libs/libmemcached-1.0.14 >=dev-libs/libmemcached-1.0[sasl?] )
