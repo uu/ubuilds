@@ -36,8 +36,8 @@ src_configure() {
 	my_conf="--enable-memcached
 		$(use_enable session memcached-session)
 		$(use_enable sasl memcached-sasl)
-		$(use_enable json memcached-json)
-		$(use_enable igbinary memcached-igbinary)"
+		$(use_enable json memcached-json)"
+#$(use_enable igbinary memcached-igbinary)"
 
 	php-ext-source-r2_src_configure
 }
