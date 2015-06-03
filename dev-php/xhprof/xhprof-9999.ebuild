@@ -9,7 +9,7 @@ PHP_EXT_INI="yes"
 PHP_EXT_S="${WORKDIR}/${P}/extension"
 PHPSAPILIST="apache2 cgi fpm cli"
 
-USE_PHP="php5-3 php5-4 php5-5 php5-6"
+USE_PHP="php5-3 php5-4 php5-5 php5-6 php7-0"
 inherit php-ext-source-r2 confutils git-2
 
 LICENSE="Apache-2.0"
@@ -23,7 +23,7 @@ HOMEPAGE="https://github.com/facebook/xhprof.git"
 DESCRIPTION="A Hierarchical Profiler for PHP"
 SRC_URI=""
 EGIT_PROJECT="xhprof"
-EGIT_REPO_URI="https://github.com/facebook/xhprof.git"
+EGIT_REPO_URI="https://github.com/phacility/xhprof.git"
 
 DEPEND=""
 RDEPEND="${DEPEND}"

@@ -12,7 +12,7 @@ inherit git-2 eutils
 EGIT_REPO_URI="https://github.com/xdebug/xdebug.git"
 SRC_URI=""
 
-USE_PHP="php5-5 php5-3 php5-4"
+USE_PHP="php5-5 php5-3 php5-4 php5-6 php7-0"
 inherit php-ext-source-r2
 SRC_URI=""
 
