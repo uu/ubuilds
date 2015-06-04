@@ -19,11 +19,11 @@ LICENSE="PHP-3"
 SLOT="0"
 IUSE="+session igbinary json sasl"
 
-if has_php="php7-0"; then
-EGIT_BRANCH="php7"
-else
+#if use php_targets_php7-0 ; then
+#EGIT_BRANCH="php7"
+#else
 EGIT_BRANCH="master"
-fi
+#fi
 
 SRC_URI=""
 
@@ -36,8 +36,8 @@ src_configure() {
 	my_conf="--enable-memcached
 		$(use_enable session memcached-session)
 		$(use_enable sasl memcached-sasl)
-		$(use_enable json memcached-json)"
-#$(use_enable igbinary memcached-igbinary)"
+		$(use_enable json memcached-json)
+		$(use_enable igbinary memcached-igbinary)"
 
 	php-ext-source-r2_src_configure
 }
