@@ -25,7 +25,6 @@ npm-2_src_compile() {
 DEPEND="${DEPEND} net-libs/nodejs"
 
 npm-2_src_unpack() {
-	#return
     unpack "${A}"
     mv "${WORKDIR}/package" ${S}
 }
@@ -41,8 +40,6 @@ npm-2_src_configure() {
 }
 
 npm-2_src_install() {
-#	dodir "${ED}/usr/share" "${ED}/usr/share/info" "${ED}/var/lib" "${ED}/usr" \
-#		"${ED}/usr/share/man" "${ED}/etc"
 	npm install -g "${DISTDIR}/${A}" || die
 }
 EXPORT_FUNCTIONS src_configure src_install src_unpack src_compile
