@@ -1,0 +1,31 @@
+#!/sbin/runscript
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+extra_started_commands="reload"
+
+description="The openmcu-ru daemon init script"
+description_reload="Reloads the openmcu-ru daemon"
+
+depend() {
+	need net
+}
+
+start() {
+	ebegin "Starting openmcu-ru"
+	/opt/openmcu-ru/bin/openmcu-ru -d -l /var/log/openmcu-ru.log > /dev/null 2>&1
+	eend $?
+}
+
+stop() {
+	ebegin "Stopping openmcu-ru"
+	/opt/openmcu-ru/bin/openmcu-ru -k > /dev/null 2>&1
+	eend $?
+}
+
+reload() {
+	ebegin "Reloading openmcu-ru"
+	stop
+	start
+	eend $?
+}

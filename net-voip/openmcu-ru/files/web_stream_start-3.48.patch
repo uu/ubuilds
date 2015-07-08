@@ -1,0 +1,14 @@
+--- openmcu-ru/conf/web_steeam_start.old	2014-05-28 10:48:24.000000000 +0400
++++ openmcu-ru/conf/web_stream_start	2014-06-02 12:32:13.483957710 +0400
+@@ -1,8 +1,8 @@
+ #!/bin/bash
+ 
+-DIR_BIN="/usr/local/bin"
+-DIR_CONF="/usr/local/share/openmcu-ru/config"
+-DIR_PIPE="/usr/local/share/openmcu-ru/pipe"
++DIR_BIN="/usr/bin"
++DIR_CONF="/usr/share/openmcu-ru/config"
++DIR_PIPE="/usr/share/openmcu-ru/pipe"
+ 
+ $DIR_BIN/ffserver -f $DIR_CONF/ffserver.conf &
+ 
