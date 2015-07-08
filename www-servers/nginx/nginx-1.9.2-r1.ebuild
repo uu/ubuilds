@@ -25,8 +25,8 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="5.0.6"
-USE_RUBY="ruby21"
+PASSENGER_PV="5.0.13"
+USE_RUBY="ruby21 ruby22"
 RUBY_OPTIONAL="yes"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
@@ -35,21 +35,21 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="39e4d53"
 
 # http_headers_more (http://github.com/openresty/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.25"
+HTTP_HEADERS_MORE_MODULE_PV="0.261"
 HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}"
-HTTP_HEADERS_MORE_MODULE_SHA1="0c6e05d"
+HTTP_HEADERS_MORE_MODULE_SHA1="ccaede8"
 
 # http_redis (http://wiki.nginx.org/HttpRedis)
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
 
 # http_redis (https://github.com/openresty/redis2-nginx-module, BSD license)
-HTTP_REDIS_MODULE_PV="0.11"
+HTTP_REDIS_MODULE_PV="0.12"
 HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
-HTTP_REDIS_MODULE_SHA1="828803d"
+HTTP_REDIS_MODULE_SHA1="e4a157f"
 HTTP_REDIS_MODULE_URI="http://github.com/openresty/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
-HTTP_PUSH_MODULE_PV="0.71"
+HTTP_PUSH_MODULE_PV="0.73"
 HTTP_PUSH_MODULE_P="nginx_http_push_module-${HTTP_PUSH_MODULE_PV}"
 
 # http_cache_purge (http://labs.frickle.com/nginx_ngx_cache_purge/, BSD-2 license)
@@ -78,45 +78,45 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.16rc1"
+HTTP_LUA_MODULE_PV="0.9.16"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
-HTTP_LUA_MODULE_SHA1="3eadb55"
+HTTP_LUA_MODULE_SHA1="f67aefc"
 #HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 # https://github.com/openresty/drizzle-nginx-module/releases
-HTTP_DRIZZLE_MODULE_PV="0.1.8"
+HTTP_DRIZZLE_MODULE_PV="0.1.9"
 HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
-HTTP_DRIZZLE_MODULE_SHA1="fba80cf"
+HTTP_DRIZZLE_MODULE_SHA1="7d2b1d9"
 
 # NginX for-input module (https://github.com/calio/form-input-nginx-module, BSD)
-HTTP_FORM_INPUT_MODULE_PV="0.10"
+HTTP_FORM_INPUT_MODULE_PV="0.11"
 HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
-HTTP_FORM_INPUT_MODULE_SHA1="494b868"
+HTTP_FORM_INPUT_MODULE_SHA1="bab98b4"
 
 # NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.57"
+HTTP_ECHO_MODULE_PV="0.58"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="91ee9a8"
+HTTP_ECHO_MODULE_SHA1="7bc71d2"
 
 # NginX Featured mecached module (https://github.com/openresty/memc-nginx-module, BSD)
-HTTP_MEMC_MODULE_PV="0.15"
+HTTP_MEMC_MODULE_PV="0.16"
 HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
-HTTP_MEMC_MODULE_SHA1="1518da4"
+HTTP_MEMC_MODULE_SHA1="4f6f78f"
 
 # NginX RDS-JSON module (https://github.com/openresty/rds-json-nginx-module, BSD)
-HTTP_RDS_JSON_MODULE_PV="0.13"
+HTTP_RDS_JSON_MODULE_PV="0.14"
 HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
-HTTP_RDS_JSON_MODULE_SHA1="8292070"
+HTTP_RDS_JSON_MODULE_SHA1="b73fc29"
 
 # NginX SRCache module (https://github.com/openresty/srcache-nginx-module, BSD)
-HTTP_SRCACHE_MODULE_PV="0.29"
+HTTP_SRCACHE_MODULE_PV="0.30"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
-HTTP_SRCACHE_MODULE_SHA1="c521830"
+HTTP_SRCACHE_MODULE_SHA1="b3fd3e2"
 
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.28"
+HTTP_SET_MISC_MODULE_PV="0.29"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="f72abf1"
+HTTP_SET_MISC_MODULE_SHA1="c69a6ff"
 HTTP_SET_MISC_MODULE_URI="http://github.com/openresty/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
 # NginX Set-Misc module (https://github.com/fluent/nginx-fluentd-module/releases, BSD)
@@ -127,19 +127,19 @@ HTTP_FLUENTD_MODULE_URI="https://github.com/fluent/nginx-fluentd-module/tarball/
 
 
 # NginX XSS module (https://github.com/openresty/xss-nginx-module, BSD)
-HTTP_XSS_MODULE_PV="0.04"
+HTTP_XSS_MODULE_PV="0.05"
 HTTP_XSS_MODULE_P="xss-nginx-module-${HTTP_XSS_MODULE_PV}"
-HTTP_XSS_MODULE_SHA1="7e37038"
+HTTP_XSS_MODULE_SHA1="368c47b"
 
 # NginX Array-Var module (https://github.com/openresty/array-var-nginx-module, BSD)
-HTTP_ARRAY_VAR_MODULE_PV="0.03"
+HTTP_ARRAY_VAR_MODULE_PV="0.04"
 HTTP_ARRAY_VAR_MODULE_P="array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_PV}"
-HTTP_ARRAY_VAR_MODULE_SHA1="4676747"
+HTTP_ARRAY_VAR_MODULE_SHA1="3d435fc"
 
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module, BSD)
-HTTP_ICONV_MODULE_PV="0.10"
+HTTP_ICONV_MODULE_PV="0.11"
 HTTP_ICONV_MODULE_P="iconv-nginx-module-${HTTP_ICONV_MODULE_PV}"
-HTTP_ICONV_MODULE_SHA1="b37efb5"
+HTTP_ICONV_MODULE_SHA1="f0ab358"
 
 ## NginX Set-CConv module (https://github.com/liseen/set-cconv-nginx-module, BSD)
 #HTTP_SET_CCONV_MODULE_PV=""
@@ -174,7 +174,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MOD
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://github.com/nbs-system/naxsi/releases, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.54rc2"
+HTTP_NAXSI_MODULE_PV="0.54rc3"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
