@@ -36,7 +36,6 @@ RDEPEND=${DEPEND}
 INSTALL_DIR="/opt"
 
 src_prepare() {
-    epatch "${FILESDIR}"/web_stream_start-git.patch
     sed -i -e 's|ldconfig -v|ldconfig -r|g' configure.ac
     ./autogen.sh
 }
