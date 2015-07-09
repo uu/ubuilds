@@ -26,7 +26,7 @@ GENTOO_DEPEND_ON_PERL="no"
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
 PASSENGER_PV="5.0.13"
-USE_RUBY="ruby21 ruby22"
+USE_RUBY="ruby21"
 RUBY_OPTIONAL="yes"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
@@ -77,12 +77,16 @@ HTTP_FANCYINDEX_MODULE_P="ngx_http_fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
-# http_lua (https://github.com/chaoslawful/lua-nginx-module, BSD license)
+# http_lua (https://github.com/openresty/lua-nginx-module, BSD license)
+HTTP_LUA_MODULE_PV_SSL="b4eeb04a04f984b19470b6ee2fcabb88c9072975"
+HTTP_LUA_MODULE_P_SSL="ngx_lua-${HTTP_LUA_MODULE_PV_SSL}"
+HTTP_LUA_MODULE_URI_SSL="https://github.com/chaoslawful/lua-nginx-module/archive/${HTTP_LUA_MODULE_PV_SSL}.zip"
+
 HTTP_LUA_MODULE_PV="0.9.16"
-HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_SHA1="f67aefc"
-#HTTP_LUA_MODULE_URI="http://github.com/chaoslawful/lua-nginx-module/tarball/v${HTTP_LUA_MODULE_PV}"
+HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
+
 # https://github.com/openresty/drizzle-nginx-module/releases
 HTTP_DRIZZLE_MODULE_PV="0.1.9"
 HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
@@ -288,7 +292,10 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_upload? ( http://www.grid.net.ru/nginx/download/${HTTP_UPLOAD_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( https://github.com/msva/nginx-ey-balancer/tarball/v${HTTP_EY_BALANCER_MODULE_PV} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( https://github.com/simpl/ngx_devel_kit/tarball/v${HTTP_NDK_MODULE_PV} -> ${HTTP_NDK_MODULE_P}.tar.gz )
-	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
+	nginx_modules_http_lua? (
+							!ssl? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
+							ssl?  ( ${HTTP_LUA_MODULE_URI_SSL} -> ${HTTP_LUA_MODULE_P_SSL}.zip )
+							)
 	nginx_modules_http_drizzle? ( https://github.com/chaoslawful/drizzle-nginx-module/tarball/v${HTTP_DRIZZLE_MODULE_PV} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( https://github.com/calio/form-input-nginx-module/tarball/v${HTTP_FORM_INPUT_MODULE_PV} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
 	nginx_modules_http_echo? ( https://github.com/openresty/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
@@ -394,12 +401,13 @@ CDEPEND="
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_fluentd? ( app-admin/fluentd )
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) )
+	nginx_modules_http_lua? ( ssl? ( >=dev-libs/openssl-1.0.2 ) )
 	nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
 	nginx_modules_http_tidehunter? ( dev-libs/jansson )
 	nginx_modules_http_passenger? (
-		$(ruby_implementation_depend ruby19)
+		$(ruby_implementation_depend ruby21)
 		>=dev-ruby/rubygems-0.9.0
 		>=dev-ruby/rake-0.8.1
 		>=dev-ruby/fastthread-1.0.1
@@ -488,21 +496,14 @@ src_prepare() {
     fi
 
 	if use nginx_modules_http_lua; then
-		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
+		if use ssl; then
+			epatch "${FILESDIR}"/nginx-ssl-cert.patch
+			cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV_SSL}"
+		else
+			cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
+		fi
 		epatch "${FILESDIR}"/lua-1.9.1.patch
 	fi
-
-#   if use nginx_modules_http_lua; then
-#       cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
-#       epatch "${FILESDIR}"/ngx-lua-for-nginx-"${PV}".patch
-#    cd -
-	#fi
-
-
-#if use syslog; then
-#		einfo "Patching for Syslog"
-#		use syslog && epatch "${SYSLOG_MODULE_WD}"/syslog_${SYSLOG_MODULE_NGINX_PV}.patch
-#	fi
 
 	if use nginx_modules_http_passenger; then
 		mv "${WORKDIR}/FooBarWidget-passenger-2c75a53" "${WORKDIR}"/passenger-"${PASSENGER_PV}";
@@ -690,8 +691,14 @@ src_configure() {
 			export LUA_LIB=$(pkg-config --variable libdir lua)
 			export LUA_INC=$(pkg-config --variable includedir lua)			
 		fi
-		myconf+="
-		--add-module=${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
+		if use ssl; then
+			myconf+="
+			--add-module=${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"
+		else
+			myconf+="
+			--add-module=${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
+		fi
+
 	fi
 
 # (**) http_headers_more
@@ -1024,8 +1031,13 @@ src_install() {
 
 # http_lua
 	if use nginx_modules_http_lua; then
-		docinto "${HTTP_LUA_MODULE_P}"
-		dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV}"/{Changes,README.markdown}
+		if use ssl; then
+			docinto "${HTTP_LUA_MODULE_P_SSL}"
+			dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"/{Changes,README.markdown}
+		else
+			docinto "${HTTP_LUA_MODULE_P}"
+			dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV}"/{Changes,README.markdown}
+		fi
 	fi
 
 # http_form_input
