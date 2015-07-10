@@ -400,7 +400,7 @@ CDEPEND="
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_fluentd? ( app-admin/fluentd )
-	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit:2 ) !luajit? ( >=dev-lang/lua-5.1 ) )
+	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit ) !luajit? ( >=dev-lang/lua-5.1 ) )
 	nginx_modules_http_lua? ( ssl? ( >=dev-libs/openssl-1.0.2 ) )
 	nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
