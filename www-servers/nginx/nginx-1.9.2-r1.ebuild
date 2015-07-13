@@ -293,8 +293,8 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_ey_balancer? ( https://github.com/msva/nginx-ey-balancer/tarball/v${HTTP_EY_BALANCER_MODULE_PV} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( https://github.com/simpl/ngx_devel_kit/tarball/v${HTTP_NDK_MODULE_PV} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_lua? (
-							!ssl? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
-							ssl?  ( ${HTTP_LUA_MODULE_URI_SSL} -> ${HTTP_LUA_MODULE_P_SSL}.zip )
+							!luassl? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
+							luassl?  ( ${HTTP_LUA_MODULE_URI_SSL} -> ${HTTP_LUA_MODULE_P_SSL}.zip )
 							)
 	nginx_modules_http_drizzle? ( https://github.com/chaoslawful/drizzle-nginx-module/tarball/v${HTTP_DRIZZLE_MODULE_PV} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( https://github.com/calio/form-input-nginx-module/tarball/v${HTTP_FORM_INPUT_MODULE_PV} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
@@ -357,7 +357,7 @@ http_pinba http_metrics http_naxsi http_tidehunter http_fluentd http_upstream_ch
 http_sticky http_ajp http_mogilefs http_fancyindex http_eval http_websockify http_poller http_bodytime"
 # http_set_cconv"
 
-REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
+REQUIRED_USE="nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_rds_json? ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
@@ -367,7 +367,7 @@ REQUIRED_USE="	nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp"
+IUSE="chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp luassl"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -496,9 +496,11 @@ src_prepare() {
     fi
 
 	if use nginx_modules_http_lua; then
-		if use ssl; then
-			epatch "${FILESDIR}"/nginx-ssl-cert.patch
+		if use luassl; then
+			epatch "${FILESDIR}"/nginx-luassl-cert.patch
 			cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV_SSL}"
+			epatch "${FILESDIR}"/nginx-lua-privekey-to-der-1.patch
+			epatch "${FILESDIR}"/nginx-lua-privekey-to-der-2.patch
 		else
 			cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
 		fi
