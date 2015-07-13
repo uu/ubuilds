@@ -693,7 +693,7 @@ src_configure() {
 			export LUA_LIB=$(pkg-config --variable libdir lua)
 			export LUA_INC=$(pkg-config --variable includedir lua)			
 		fi
-		if use ssl; then
+		if use luassl; then
 			myconf+="
 			--add-module=${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"
 		else
@@ -1033,9 +1033,12 @@ src_install() {
 
 # http_lua
 	if use nginx_modules_http_lua; then
-		if use ssl; then
+		if use luassl; then
 			docinto "${HTTP_LUA_MODULE_P_SSL}"
 			dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"/{Changes,README.markdown}
+			dodir /usr/local/lib/lua-nginx-module/lua/ngx/
+			insinto /usr/local/lib/lua-nginx-module/lua/ngx/
+			doins "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"/lua/ngx/ssl.lua
 		else
 			docinto "${HTTP_LUA_MODULE_P}"
 			dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV}"/{Changes,README.markdown}
