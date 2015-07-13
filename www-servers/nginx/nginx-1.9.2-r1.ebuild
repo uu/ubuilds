@@ -1033,11 +1033,11 @@ src_install() {
 
 # http_lua
 	if use nginx_modules_http_lua; then
-		if use luassl; then
+		if use luassl && luajit; then
 			docinto "${HTTP_LUA_MODULE_P_SSL}"
 			dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"/{Changes,README.markdown}
-			dodir /usr/local/lib/lua-nginx-module/lua/ngx/
-			insinto /usr/local/lib/lua-nginx-module/lua/ngx/
+			dodir /usr/share/lua/5.1/resty/
+			insinto /usr/share/lua/5.1/resty/
 			doins "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"/lua/ngx/ssl.lua
 		else
 			docinto "${HTTP_LUA_MODULE_P}"

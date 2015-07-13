@@ -14,7 +14,7 @@ EGIT_REPO_URI="https://github.com/openresty/lua-${PN}"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64"
 IUSE="luajit"
 
 RDEPEND="
