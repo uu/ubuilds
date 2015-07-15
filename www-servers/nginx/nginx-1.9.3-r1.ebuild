@@ -401,7 +401,7 @@ CDEPEND="
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_fluentd? ( app-admin/fluentd )
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit ) !luajit? ( >=dev-lang/lua-5.1 ) )
-	nginx_modules_http_lua? ( ssl? ( >=dev-libs/openssl-1.0.2 ) )
+	nginx_modules_http_lua? ( luassl? ( >=dev-libs/openssl-1.0.2d ) )
 	nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
