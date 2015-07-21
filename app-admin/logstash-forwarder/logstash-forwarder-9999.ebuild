@@ -5,7 +5,7 @@
 EAPI=5
 inherit git-2 eutils
 DESCRIPTION="An experiment to cut logs in preparation for processing elsewhere."
-HOMEPAGE="https://github.com/uu/bango"
+HOMEPAGE="https://github.com/elastic/logstash-forwarder"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/elasticsearch/logstash-forwarder.git"
 
