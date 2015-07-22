@@ -9,15 +9,21 @@ DESCRIPTION="OmniPITR is a set of scripts to ease setting up WAL replication,
 and making hot backups from both Master and Slave systems."
 
 HOMEPAGE="https://github.com/omniti-labs/omnipitr"
-EGIT_REPO_URI="https://github.com/omniti-labs/omnipitr"
+EGIT_REPO_URI="https://github.com/uu/omnipitr"
 
 LICENSE="AS IS"
 
 SLOT="0"
 KEYWORDS="amd64 x86"
-IUSE="doc check"
-#DEPEND=""
-#RDEPEND=""
+IUSE="doc check bzip2 gzip lzma lz4 xz"
+DEPEND="
+	bzip2? ( app-arch/bzip2 )
+	gzip? ( app-arch/gzip )
+	lzma? ( app-arch/lzma )
+	lz4? ( app-arch/lz4 )
+	xz? ( app-arch/xz-utils )
+"
+RDEPEND="${DEPEND}"
 
 src_install() {
 	exeinto /usr/bin
