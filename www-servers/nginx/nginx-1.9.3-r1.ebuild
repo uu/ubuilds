@@ -2,15 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="5"
+EAPI=5
 
 # Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
 # - any http-module activates the main http-functionality and overrides USE=-http
-# - keep the following 3 requirements in mind before adding external modules:
-#   * alive upstream
-#   * sane packaging
-#   * builds cleanly
+# - keep the following requirements in mind before adding external modules:
+#	* alive upstream
+#	* sane packaging
+#	* builds cleanly
+#	* does not need a patch for nginx core
 # - TODO: test the google-perftools module (included in vanilla tarball)
 
 # prevent perl-module from adding automagic perl DEPENDs
@@ -276,10 +277,10 @@ PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
 
-inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user
+inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib 
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
-HOMEPAGE="http://sysoev.ru/nginx/
+HOMEPAGE="http://nginx.org
 	http://www.modrails.com/
 	http://pushmodule.slact.net/
 	http://labs.frickle.com/nginx_ngx_cache_purge/"
@@ -338,11 +339,11 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	pam? ( as-is )"
-SLOT="0"
+SLOT="mainline"
 KEYWORDS="~amd64 ~x86"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
-geo gzip limit_req limit_zone map memcached proxy referer rewrite scgi ssi
+geo gzip limit_req limit_conn map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static gunzip image_filter
 mp4 perl random_index realip secure_link stub_status sub xslt spdy"
@@ -426,23 +427,21 @@ PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 S="${WORKDIR}/${PN}-${PV}"
 
 pkg_setup() {
-	NGINX_HOME="/var/lib/nginx" 
+	NGINX_HOME="/var/lib/nginx"
 	NGINX_HOME_TMP="${NGINX_HOME}/tmp"
 
 	ebegin "Creating nginx user and group"
 	enewgroup ${PN}
-	enewuser ${PN} -1 -1 -1 ${PN}
-	eend ${?}
+	enewuser ${PN} -1 -1 "${NGINX_HOME}" ${PN}
+	eend $?
 
 	if use libatomic; then
-		ewarn ""
 		ewarn "GCC 4.1+ features built-in atomic operations."
 		ewarn "Using libatomic_ops is only needed if using"
 		ewarn "a different compiler or a GCC prior to 4.1"
 	fi
 
 	if [[ -n $NGINX_ADD_MODULES ]]; then
-		ewarn ""
 		ewarn "You are building custom modules via \$NGINX_ADD_MODULES!"
 		ewarn "This nginx installation is not supported!"
 		ewarn "Make sure you can reproduce the bug without those modules"
@@ -455,7 +454,6 @@ pkg_setup() {
 	fi
 
 	if use !http; then
-		ewarn ""
 		ewarn "To actually disable all http-functionality you also have to disable"
 		ewarn "all nginx http modules."
 	fi
