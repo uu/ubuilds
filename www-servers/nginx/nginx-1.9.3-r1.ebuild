@@ -54,8 +54,9 @@ HTTP_PUSH_MODULE_PV="0.73"
 HTTP_PUSH_MODULE_P="nginx_http_push_module-${HTTP_PUSH_MODULE_PV}"
 
 # http_cache_purge (http://labs.frickle.com/nginx_ngx_cache_purge/, BSD-2 license)
-HTTP_CACHE_PURGE_MODULE_PV="2.1"
+HTTP_CACHE_PURGE_MODULE_PV="2.3"
 HTTP_CACHE_PURGE_MODULE_P="ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}"
+HTTP_CACHE_PURGE_MODULE_WD="FRiCKLE-ngx_cache_purge-331fe43"
 
 # HTTP Upload module from Valery Kholodkov
 # (http://www.grid.net.ru/nginx/upload.en.html, BSD license)
@@ -795,7 +796,7 @@ src_configure() {
 # http_cache_purge
 	if use nginx_modules_http_cache_purge; then
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/${HTTP_CACHE_PURGE_MODULE_P}"
+		myconf+=" --add-module=${WORKDIR}/${HTTP_CACHE_PURGE_MODULE_WD}"
 	fi
 
 # http_upload
@@ -1001,8 +1002,8 @@ src_install() {
 
 # http_cache_purge
 	if use nginx_modules_http_cache_purge; then
-		docinto "${HTTP_CACHE_PURGE_MODULE_P}"
-		dodoc "${WORKDIR}"/"${HTTP_CACHE_PURGE_MODULE_P}"/{CHANGES,README.md}
+		docinto "${HTTP_CACHE_PURGE_MODULE_WD}"
+		dodoc "${WORKDIR}"/"${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md}
 	fi
 
 # http_upload
