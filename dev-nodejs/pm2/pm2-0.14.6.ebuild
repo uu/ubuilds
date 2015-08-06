@@ -10,5 +10,5 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND=""
-RDEPEND=">=net-libs/nodejs-0.10.36
+RDEPEND=">=net-libs/nodejs-0.10.38
 	${DEPEND}"
