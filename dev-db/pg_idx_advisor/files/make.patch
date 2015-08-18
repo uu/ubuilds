@@ -1,0 +1,16 @@
+--- sql/pg_idx_advisor.sql	2015-08-18 17:24:52.859799884 +0300
++++ sql/pg_idx_advisor.sql.new	2015-08-18 17:24:48.391799969 +0300
+@@ -3,7 +3,7 @@
+ 	benefit		real,
+ 	index_size	integer,
+ 	backend_pid	integer,
+-	timestamp	timestamptz,	
++	timestamp	timestamptz,
+ 	indcollation int[], -- oidvector
+ 	indclass	int[],
+ 	indoption	int[],
+@@ -14,3 +14,4 @@
+ 
+ create index IA_reloid on index_advisory( reloid );
+ create index IA_backend_pid on index_advisory( backend_pid );
++Load 'pg_idx_advisor';
