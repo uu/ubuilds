@@ -13,7 +13,7 @@ EGIT_REPO_URI="git://github.com/uptimejp/sql_firewall.git"
 EGIT_BRANCH="master"
 EGIT_COMMIT="v0_8"
 
-LICENSE="GPL-3"
+LICENSE="POSTGRESQL GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
