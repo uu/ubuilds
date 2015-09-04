@@ -202,7 +202,7 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/ngx_metrics-${HTTP_METRICS_MODULE_PV}"
 HTTP_TCP_PROXY_MODULE_PV="0.4.5"
 HTTP_TCP_PROXY_MODULE_P="ngx-tcp-proxy"
 HTTP_TCP_PROXY_MODULE_SHA1="4a8c314"
-HTTP_TCP_PROXY_MODULE_URI="http://github.com/yaoweibin/nginx_tcp_proxy_module/archive/v${HTTP_TCP_PROXY_MODULE_PV}.tar.gz"
+HTTP_TCP_PROXY_MODULE_URI="https://github.com/dreamcommerce/nginx_tcp_proxy_module/archive/dc.zip"
 
 
 # http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module, BSD license)
@@ -231,10 +231,10 @@ HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
 
 
 # sticky-module (https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng, BSD-2)
-HTTP_STICKY_MODULE_PV="1.2.5"
+HTTP_STICKY_MODULE_PV="1.2.6"
 HTTP_STICKY_MODULE_P="nginx_http_sticky_module_ng-${HTTP_STICKY_MODULE_PV}"
 HTTP_STICKY_MODULE_URI="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/${HTTP_STICKY_MODULE_PV}.tar.bz2"
-HTTP_STICKY_MODULE_WD="${WORKDIR}/nginx-goodies-nginx-sticky-module-ng-bd312d586752"
+HTTP_STICKY_MODULE_WD="${WORKDIR}/nginx-goodies-nginx-sticky-module-ng-c78b7dd79d0d"
 
 # ajp-module (https://github.com/yaoweibin/nginx_ajp_module, BSD-2)
 HTTP_AJP_MODULE_PV="0.3.0"
@@ -314,7 +314,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_upload_progress? ( https://github.com/masterzen/nginx-upload-progress-module/tarball/v${HTTP_UPLOAD_PROGRESS_MODULE_PV} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
 	nginx_modules_http_supervisord? ( https://codeload.github.com/FRiCKLE/ngx_supervisord/legacy.tar.gz/master -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( https://codeload.github.com/FRiCKLE/ngx_slowfs_cache/legacy.tar.gz/master -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
-	nginx_modules_http_tcp_proxy? (	${HTTP_TCP_PROXY_MODULE_URI} -> ${HTTP_TCP_PROXY_MODULE_P}-${HTTP_TCP_PROXY_MODULE_PV}.tar.gz )
+	nginx_modules_http_tcp_proxy? (	${HTTP_TCP_PROXY_MODULE_URI} -> ${HTTP_TCP_PROXY_MODULE_P}-${HTTP_TCP_PROXY_MODULE_PV}.zip )
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
 	nginx_modules_http_metrics? ( ${HTTP_METRICS_MODULE_URI} -> ${HTTP_METRICS_MODULE_P}.tar.gz )
@@ -642,9 +642,9 @@ src_configure() {
 	fi
 # (**) http_tcp_proxy
 	if use nginx_modules_http_tcp_proxy; then
-		#epatch ${WORKDIR}/nginx_tcp_proxy_module-master/tcp.patch
+		epatch ${WORKDIR}/nginx_tcp_proxy_module-dc/tcp.patch
 		http_enabled=1
-		myconf+=" --add-module=${WORKDIR}/nginx_tcp_proxy_module-${HTTP_TCP_PROXY_MODULE_PV}"
+		myconf+=" --add-module=${WORKDIR}/nginx_tcp_proxy_module-dc"
 	fi
 # (**) http_ngx_pagespeed
 	if use nginx_modules_http_pagespeed; then
@@ -1053,7 +1053,7 @@ src_install() {
 # http_echo
 	if use nginx_modules_http_echo; then
 		docinto "${HTTP_ECHO_MODULE_P}"
-		dodoc "${WORKDIR}"/"openresty-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"openresty-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"/README.markdown
 	fi
 
 # http_srcache
