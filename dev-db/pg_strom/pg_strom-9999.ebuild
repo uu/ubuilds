@@ -6,7 +6,7 @@ EAPI=5
 
 inherit git-2 eutils
 
-DESCRIPTION="SQL Firewall Extension for PostgreSQL"
+DESCRIPTION="CUDA stream for PostgreSQL"
 HOMEPAGE="https://github.com/pg-strom/devel"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/pg-strom/devel.git"
