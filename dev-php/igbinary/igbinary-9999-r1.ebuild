@@ -8,17 +8,17 @@ PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 DOCS="README"
 
-USE_PHP="php5-6 php5-5 php5-4"
+USE_PHP="php7-0"
 
 inherit php-ext-source-r2 git-2
 
 KEYWORDS="~amd64 ~x86"
 
 DESCRIPTION="A fast drop in replacement for the standard PHP serialize"
-HOMEPAGE="https://github.com/igbinary/igbinary"
+HOMEPAGE="https://github.com/Sean-Der/igbinary"
 if has_php="php7-0"; then
-EGIT_REPO_URI="https://github.com/igbinary/igbinary"
-EGIT_BRANCH="php7-dev"
+EGIT_REPO_URI="https://github.com/Sean-Der/igbinary"
+EGIT_BRANCH="php7"
 SRC_URI=""
 else
 SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${PF}.tar.gz"
