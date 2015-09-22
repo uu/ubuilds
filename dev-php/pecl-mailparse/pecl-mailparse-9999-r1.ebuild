@@ -12,7 +12,7 @@ USE_PHP="php7-0"
 
 inherit php-ext-pecl-r2 git-2
 
-KEYWORDS="amd64 x86"
+KEYWORDS="-*"
 EGIT_REPO_URI="https://github.com/Sean-Der/pecl-mail-mailparse.git"
 DESCRIPTION="A PHP extension for parsing and working with RFC822 and RFC2045 (MIME) compliant messages"
 LICENSE="PHP-2.02"

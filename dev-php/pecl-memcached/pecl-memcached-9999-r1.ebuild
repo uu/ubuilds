@@ -12,7 +12,7 @@ USE_PHP="php7-0"
 
 inherit php-ext-pecl-r2 git-2
 
-KEYWORDS="amd64 x86"
+KEYWORDS="-*"
 EGIT_REPO_URI="https://github.com/php-memcached-dev/php-memcached.git"
 DESCRIPTION="PHP extension for interfacing with memcached via libmemcached library"
 LICENSE="PHP-3"

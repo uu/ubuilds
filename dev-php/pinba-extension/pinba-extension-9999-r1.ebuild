@@ -20,7 +20,7 @@ EGIT_BRANCH="php7"
 SRC_URI=""
 LICENSE="PHP-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="-*"
 IUSE="threads"
 
 DEPEND="
