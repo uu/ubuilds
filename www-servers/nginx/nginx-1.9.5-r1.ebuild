@@ -357,9 +357,9 @@ http_auth_request http_set_misc http_srcache http_supervisord http_array_var
 http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed
 http_pinba http_metrics http_naxsi http_tidehunter http_fluentd http_upstream_check http_dav_ext http_security
 http_sticky http_ajp http_mogilefs http_fancyindex http_eval http_websockify http_poller http_bodytime"
-# http_set_cconv"
 
 REQUIRED_USE="nginx_modules_http_lua? ( nginx_modules_http_ndk )
+		http2? ( !nginx_modules_http_spdy )
 		nginx_modules_http_rds_json? ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
@@ -369,7 +369,7 @@ REQUIRED_USE="nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="chunk debug +http +http-cache ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp luassl"
+IUSE="chunk debug +http +http-cache http2 ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp luassl"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -390,6 +390,7 @@ CDEPEND="
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
 	ssl? ( dev-libs/openssl )
+	http2? ( >=dev-libs/openssl-1.0.2d )
 	http-cache? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_geo? ( dev-libs/geoip )
 	nginx_modules_http_gzip? ( sys-libs/zlib )
@@ -547,6 +548,7 @@ src_configure() {
 	use libatomic && myconf+=" --with-libatomic"
 	use pcre && myconf+=" --with-pcre"
 	use pcre-jit  && myconf+=" --with-pcre-jit"
+	use http2 && myconf+=" --with-http_v2_module"
 
 	# HTTP modules
 	for mod in $NGINX_MODULES_STD; do
