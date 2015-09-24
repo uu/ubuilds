@@ -347,7 +347,7 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_conn map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition dav degradation flv geoip gzip_static gunzip image_filter
-mp4 perl random_index realip secure_link stub_status sub xslt spdy"
+mp4 perl random_index realip secure_link stub_status sub xslt "
 NGINX_MODULES_MAIL="imap pop3 smtp"
 
 NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis http_push
@@ -359,7 +359,6 @@ http_pinba http_metrics http_naxsi http_tidehunter http_fluentd http_upstream_ch
 http_sticky http_ajp http_mogilefs http_fancyindex http_eval http_websockify http_poller http_bodytime"
 
 REQUIRED_USE="nginx_modules_http_lua? ( nginx_modules_http_ndk )
-		http2? ( !nginx_modules_http_spdy )
 		nginx_modules_http_rds_json? ( || ( nginx_modules_http_drizzle nginx_modules_http_postgres ) )
 		nginx_modules_http_form_input? ( nginx_modules_http_ndk )
 		nginx_modules_http_set_misc? ( nginx_modules_http_ndk )
@@ -397,7 +396,6 @@ CDEPEND="
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
-	nginx_modules_http_spdy? ( >=dev-libs/openssl-1.0.1c )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
 	nginx_modules_http_secure_link? ( userland_GNU? ( dev-libs/openssl ) )
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
@@ -1161,11 +1159,6 @@ pkg_postinst() {
             install_cert /etc/ssl/${PN}/${PN}
             use prefix || chown ${PN}:${PN} "${EROOT}"/etc/ssl/${PN}/${PN}.{crt,csr,key,pem}
         fi
-    fi
-
-    if use nginx_modules_http_lua && use nginx_modules_http_spdy; then
-        ewarn "Lua 3rd party module author warns against using ${P} with"
-        ewarn "NGINX_MODULES_HTTP=\"lua spdy\". For more info, see http://git.io/OldLsg"
     fi
 
     # This is the proper fix for bug #458726/#469094, resp. CVE-2013-0337 for
