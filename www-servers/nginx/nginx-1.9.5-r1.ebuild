@@ -542,21 +542,21 @@ src_configure() {
 
 	local myconf= http_enabled= mail_enabled=
 
-	use aio		  && myconf+=( --with-file-aio )
-	use debug	  && myconf+=( --with-debug )
-	use ipv6	  && myconf+=( --with-ipv6 )
-	use libatomic && myconf+=( --with-libatomic )
-	use pcre	  && myconf+=( --with-pcre )
-	use pcre-jit  && myconf+=( --with-pcre-jit )
-	use threads   && myconf+=( --with-threads )
-	use http2 	  && myconf+=( --with-http_v2_module )
+	use aio		  && myconf+=" --with-file-aio"
+	use debug	  && myconf+=" --with-debug"
+	use ipv6	  && myconf+=" --with-ipv6"
+	use libatomic && myconf+=" --with-libatomic"
+	use pcre	  && myconf+=" --with-pcre"
+	use pcre-jit  && myconf+=" --with-pcre-jit"
+	use threads   && myconf+=" --with-threads"
+	use http2 	  && myconf+=" --with-http_v2_module"
 
 	# HTTP modules
 	for mod in $NGINX_MODULES_STD; do
 		if use nginx_modules_http_${mod}; then
 			http_enabled=1
 		else
-			myconf+=( --without-http_${mod}_module )
+			myconf+=" --without-http_${mod}_module"
 		fi
 	done
 	# syslog support
@@ -628,12 +628,12 @@ src_configure() {
 	for mod in $NGINX_MODULES_OPT; do
 		if use nginx_modules_http_${mod}; then
 			http_enabled=1
-			myconf+=( --with-http_${mod}_module )
+			myconf+=" --with-http_${mod}_module"
 		fi
 	done
 
 	if use nginx_modules_http_fastcgi; then
-		myconf+=( --with-http_realip_module )
+		myconf+=" --with-http_realip_module"
 	fi
 
 	# third-party modules
@@ -641,13 +641,13 @@ src_configure() {
 # (**) http_ndk
 	if use nginx_modules_http_ndk; then
 		http_enabled=1
-		myconf+=( --add-module=${WORKDIR}/simpl-ngx_devel_kit-${HTTP_NDK_MODULE_SHA1} )
+		myconf+=" --add-module=${WORKDIR}/simpl-ngx_devel_kit-${HTTP_NDK_MODULE_SHA1}"
 	fi
 # (**) http_tcp_proxy
 	if use nginx_modules_http_tcp_proxy; then
 		epatch ${WORKDIR}/nginx_tcp_proxy_module-dc/tcp.patch
 		http_enabled=1
-		myconf+=( --add-module=${WORKDIR}/nginx_tcp_proxy_module-dc )
+		myconf+=" --add-module=${WORKDIR}/nginx_tcp_proxy_module-dc"
 	fi
 # (**) http_ngx_pagespeed
 	if use nginx_modules_http_pagespeed; then
@@ -663,20 +663,20 @@ src_configure() {
 # (**) http_fluentd
 	if use nginx_modules_http_fluentd; then
 		http_enabled=1
-		myconf+=( --add-module=${WORKDIR}/fluent-nginx-fluentd-module-${HTTP_FLUENTD_MODULE_SHA1} )
+		myconf+=" --add-module=${WORKDIR}/fluent-nginx-fluentd-module-${HTTP_FLUENTD_MODULE_SHA1}"
 	fi
 
 # (**)http_ auth_request
 	if use nginx_modules_http_auth_request; then
 		http_enabled=1
 		#myconf+=( --add-module=${WORKDIR}/${HTTP_AUTH_REQUEST_MODULE_P} )
-		myconf+=( --with-http_auth_request_module )
+		myconf+=" --with-http_auth_request_module"
 	fi
 
 # (**) http_echo
 	if use nginx_modules_http_echo; then
 		http_enabled=1
-		myconf+=( --add-module=${WORKDIR}/openresty-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1} )
+		myconf+=" --add-module=${WORKDIR}/openresty-echo-nginx-module-${HTTP_ECHO_MODULE_SHA1}"
 	fi
 
 # (**) http_memc
