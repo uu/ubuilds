@@ -36,9 +36,9 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="39e4d53"
 
 # http_headers_more (http://github.com/openresty/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.261"
+HTTP_HEADERS_MORE_MODULE_PV="0.27"
 HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}"
-HTTP_HEADERS_MORE_MODULE_SHA1="ccaede8"
+HTTP_HEADERS_MORE_MODULE_SHA1="c8b4b0a"
 
 # http_redis (http://wiki.nginx.org/HttpRedis)
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
@@ -84,8 +84,8 @@ HTTP_LUA_MODULE_PV_SSL="b4eeb04a04f984b19470b6ee2fcabb88c9072975"
 HTTP_LUA_MODULE_P_SSL="ngx_lua-${HTTP_LUA_MODULE_PV_SSL}"
 HTTP_LUA_MODULE_URI_SSL="https://github.com/chaoslawful/lua-nginx-module/archive/${HTTP_LUA_MODULE_PV_SSL}.zip"
 
-HTTP_LUA_MODULE_PV="0.9.16"
-HTTP_LUA_MODULE_SHA1="f67aefc"
+HTTP_LUA_MODULE_PV="0.9.17"
+HTTP_LUA_MODULE_SHA1="2cbeb0c"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 
@@ -143,9 +143,9 @@ HTTP_ARRAY_VAR_MODULE_P="array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_PV}"
 HTTP_ARRAY_VAR_MODULE_SHA1="3d435fc"
 
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module, BSD)
-HTTP_ICONV_MODULE_PV="0.11"
+HTTP_ICONV_MODULE_PV="0.12"
 HTTP_ICONV_MODULE_P="iconv-nginx-module-${HTTP_ICONV_MODULE_PV}"
-HTTP_ICONV_MODULE_SHA1="f0ab358"
+HTTP_ICONV_MODULE_SHA1="8938ebe"
 
 ## NginX Set-CConv module (https://github.com/liseen/set-cconv-nginx-module, BSD)
 #HTTP_SET_CCONV_MODULE_PV=""
@@ -180,7 +180,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MOD
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://github.com/nbs-system/naxsi/releases, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.54rc3"
+HTTP_NAXSI_MODULE_PV="0.54"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
@@ -469,7 +469,7 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
-	epatch "${FILESDIR}/http2_server_proto.patch"
+	#epatch "${FILESDIR}/http2_server_proto.patch"
 
 	sed -i -e 's/ make/ \\$(MAKE)/' "${S}"/auto/lib/perl/make
 	sed -i -e "s|\(NGX_MAX_ERROR_STR\)   2048|\1 4096|" "${S}"/src/core/ngx_log.h
