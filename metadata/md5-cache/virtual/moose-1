@@ -1,0 +1,7 @@
+DEFINED_PHASES=-
+DESCRIPTION=Virtual for moosefs/lizardfs
+EAPI=5
+KEYWORDS=x86 amd64
+RDEPEND=|| ( sys-cluster/moosefs sys-cluster/lizardfs )
+SLOT=0
+_md5_=cacfc143e97beeff7a507047ab05f27b

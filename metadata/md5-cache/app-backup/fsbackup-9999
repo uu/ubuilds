@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile configure install prepare setup test unpack
+DEPEND=app-arch/tar dev-lang/perl virtual/perl-Digest-MD5 virtual/perl-DB_File dev-lang/perl[-build(-)] dev-vcs/git
+DESCRIPTION=FSBACKUP - file system backup and synchronization utility.
+EAPI=5
+HOMEPAGE=http://www.opennet.ru/dev/fsbackup/
+KEYWORDS=amd64 hppa ppc sparc x86
+LICENSE=AS IS
+RDEPEND=app-arch/tar dev-lang/perl virtual/perl-Digest-MD5 virtual/perl-DB_File dev-lang/perl[-build(-)]
+SLOT=0
+_eclasses_=eutils	f20548a2f7b0128068388cd2ec26708a	git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	multiprocessing	e32940a7b2a9992ad217eccddb84d548	perl-app	f4e5d7e4162790fd8dca8dafe5a2eadf	perl-functions	c33a06e499e64c25a40c02377173ce37	perl-module	f6f618e05c3182f044c96da774b0c4e9	python	0c2c16ea4f9074d3248bd4365d03890c	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85	unpacker	1d149d9bda7723e740cfd28118f27813
+_md5_=68512f5fb29ec745120309403df1e452

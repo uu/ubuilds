@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile install unpack
+DESCRIPTION=Production process manager for Node.JS applications. Perfectly designed for microservice architecture.
+EAPI=5
+HOMEPAGE=https://www.npmjs.org/package/pm2
+KEYWORDS=~amd64 ~x86
+LICENSE=AGPL-3
+RDEPEND=>=net-libs/nodejs-4.0.0 dev-nodejs/async dev-nodejs/chalk dev-nodejs/chokidar dev-nodejs/cli-table dev-nodejs/coffee-script dev-nodejs/commander dev-nodejs/cron dev-nodejs/debug dev-nodejs/eventemitter2 dev-nodejs/moment dev-nodejs/nssocket dev-nodejs/pidusage dev-nodejs/pmx dev-nodejs/vizion dev-nodejs/pm2-axon dev-nodejs/pm2-axon-rpc dev-nodejs/pm2-deploy dev-nodejs/pm2-multimeter dev-nodejs/safe-clone-deep dev-nodejs/shelljs dev-nodejs/isbinaryfile dev-nodejs/blessed dev-nodejs/semver dev-nodejs/mkdirp
+SLOT=0
+SRC_URI=http://registry.npmjs.org/pm2/-/pm2-0.15.0.tgz
+_eclasses_=multilib	3972ca401cf7dbb430df9995f5d8d580	npm	da80fb88c3a4e1544dec1a47d41f8556	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=0cad97153c239fe0396c955c3fe2d847

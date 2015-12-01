@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile install unpack
+DESCRIPTION=A neat wrapper around node.js fs.watch / fs.watchFile / fsevents.
+EAPI=5
+HOMEPAGE=https://www.npmjs.org/package/chokidar
+KEYWORDS=~amd64 ~x86
+LICENSE=AGPL-3
+SLOT=0
+SRC_URI=http://registry.npmjs.org/chokidar/-/chokidar-1.1.0.tgz
+_eclasses_=multilib	3972ca401cf7dbb430df9995f5d8d580	npm	da80fb88c3a4e1544dec1a47d41f8556	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=95fba27ea2495d7a51b4651bc41ddd6c

@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile install postinst postrm prepare setup unpack
+DEPEND=dev-python/setuptools =dev-lang/python-2* dev-vcs/git
+DESCRIPTION=Python client library for AMQP
+EAPI=5
+HOMEPAGE=http://pika.github.com/
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-2
+RDEPEND==dev-lang/python-2*
+SLOT=0
+_eclasses_=distutils	ad9e4720eb3e69090dd968b152fc611b	git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	python	0c2c16ea4f9074d3248bd4365d03890c	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=41b4da0e49c2c6a88240121ed3738174

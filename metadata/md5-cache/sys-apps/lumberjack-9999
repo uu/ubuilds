@@ -1,0 +1,10 @@
+DEFINED_PHASES=compile install postinst unpack
+DEPEND=dev-libs/openssl dev-libs/jemalloc =net-libs/zeromq-2* sys-libs/zlib dev-vcs/git
+DESCRIPTION=Cuts logs in preparation for processing elsewhere
+EAPI=5
+HOMEPAGE=https://github.com/jordansissel/lumberjack
+KEYWORDS=~amd64 ~x86
+RESTRICT=mirror
+SLOT=0
+_eclasses_=eutils	f20548a2f7b0128068388cd2ec26708a	git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=f78534f50a107f77be0dccf43e9676cb

@@ -1,0 +1,11 @@
+DEFINED_PHASES=configure install unpack
+DEPEND=sys-libs/zlib sys-libs/readline dev-libs/libconfig dev-libs/openssl lua? ( dev-lang/lua ) dev-vcs/git
+DESCRIPTION=Command line interface client for Telegram
+EAPI=5
+HOMEPAGE=https://github.com/vysheng/tg
+IUSE=lua
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-2
+SLOT=0
+_eclasses_=git-2	df00117322129fb906bb0a53c3d6a020
+_md5_=c3f3e34d161f2eae7a83b7e1109d16d7

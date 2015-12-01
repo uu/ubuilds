@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile install unpack
+DEPEND=dev-lang/go dev-vcs/git
+DESCRIPTION=An experiment to cut logs in preparation for processing elsewhere.
+EAPI=5
+HOMEPAGE=https://github.com/elastic/logstash-forwarder
+KEYWORDS=x86 amd64
+LICENSE=Apache-2
+RDEPEND=dev-lang/go
+SLOT=0
+_eclasses_=eutils	f20548a2f7b0128068388cd2ec26708a	git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=0c40a400a2e95e311b53118c9198e984
