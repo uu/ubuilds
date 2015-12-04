@@ -25,10 +25,10 @@ S="${WORKDIR}/free-sa-2.0.0b6p7"
 
 src_prepare() {
 # fix global.mk
-	sed -e 's/#OSTYPE = generic-any-cc/OSTYPE = generic-any-cc/' -i "${S}/global.mk" \
+	sed -e 's/OSTYPE = generic-any-cc/#OSTYPE = generic-any-cc/' -i "${S}/global.mk" \
 		|| die "patching global.mk"
-#	sed -e 's/#OSTYPE = redhat-native-gcc/OSTYPE = redhat-native-gcc/' -i "${S}/global.mk" \
-#		|| die "patching global.mk"
+	sed -e 's/#OSTYPE = redhat-x86_64-gcc4/OSTYPE = redhat-x86_64-gcc4/' -i "${S}/global.mk" \
+		|| die "patching global.mk"
 }
 
 src_install() {
