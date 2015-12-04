@@ -14,7 +14,7 @@ SRC_URI="http://sourceforge.net/projects/free-sa/files/free-sa-dev/2.0.0b6p7/fre
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~x86"
+KEYWORDS="x86 amd64"
 IUSE=""
 
 DEPEND="app-admin/syslog-ng
