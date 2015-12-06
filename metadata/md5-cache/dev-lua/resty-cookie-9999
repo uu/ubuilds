@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile configure install prepare unpack
+DEPEND=virtual/lua[luajit=] www-servers/nginx[nginx_modules_http_lua] virtual/pkgconfig >=dev-vcs/git-1.8.2.1
+DESCRIPTION=Library for parsing HTTP Cookie header for Nginx
+EAPI=5
+HOMEPAGE=https://github.com/cloudflare/lua-resty-cookie
+IUSE=luajit
+LICENSE=BSD
+RDEPEND=virtual/lua[luajit=] www-servers/nginx[nginx_modules_http_lua]
+SLOT=0
+_eclasses_=base	3fe4f8980633fd7bc69e9887209ba2fe	eutils	f20548a2f7b0128068388cd2ec26708a	git-r3	e6443022d06c4de81a14e017bdfcc306	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=b46d876163de4ebd3c2189056eb34e74

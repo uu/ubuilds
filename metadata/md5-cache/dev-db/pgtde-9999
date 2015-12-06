@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile install unpack
+DEPEND=dev-db/postgresql dev-vcs/git
+DESCRIPTION=Transparent Data Encryption for PostgreSQL
+EAPI=5
+HOMEPAGE=https://github.com/nec-postgres/tdeforpg
+KEYWORDS=~amd64 ~x86
+LICENSE=GPL-3
+RDEPEND=dev-db/postgresql
+SLOT=0
+_eclasses_=git-2	df00117322129fb906bb0a53c3d6a020
+_md5_=f5e6da902fb9149739674854aff7c022

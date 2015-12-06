@@ -1,0 +1,11 @@
+DEFINED_PHASES=install unpack
+DEPEND=dev-db/postgresql dev-vcs/git
+DESCRIPTION=PostgreSQL plugin for Nagios.
+EAPI=5
+HOMEPAGE=https://github.com/OPMDG/check_pgactivity
+KEYWORDS=~amd64 ~x86
+LICENSE=OPMDG
+RDEPEND=dev-db/postgresql
+SLOT=0
+_eclasses_=git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=b67a9aac04b56afd1013f91d00068960

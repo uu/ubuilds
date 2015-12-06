@@ -32,7 +32,7 @@ src_unpack() {
 }
 
 src_install() {
-        dodoc NEWS README CREDITS
+        dodoc NEWS README.rst CREDITS CONTRIBUTING.rst
         php-ext-source-r2_src_install
 
         php-ext-source-r2_addtoinifiles "xdebug.auto_trace" '"0"'

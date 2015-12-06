@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile install
+DEPEND=virtual/mysql || ( dev-db/postgresql:9.4[server] dev-db/postgresql:9.3[server] )
+DESCRIPTION=MySQL Foreign Data Wrapper for PostgreSQL
+EAPI=5
+HOMEPAGE=https://github.com/EnterpriseDB/mysql_fdw
+KEYWORDS=~amd64
+LICENSE=POSTGRESQL
+RDEPEND=virtual/mysql || ( dev-db/postgresql:9.4[server] dev-db/postgresql:9.3[server] )
+SLOT=0
+SRC_URI=https://github.com/EnterpriseDB/mysql_fdw/archive/REL-2_0_1.tar.gz -> mysql_fdw-2.0.1.tar.gz
+_md5_=b292967cef4b74d94228ec84b34dfbe6

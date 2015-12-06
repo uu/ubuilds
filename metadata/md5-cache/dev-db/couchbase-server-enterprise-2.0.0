@@ -1,0 +1,11 @@
+DEFINED_PHASES=install setup unpack
+DESCRIPTION=Distributed key-value database management system
+EAPI=2
+HOMEPAGE=http://www.couchbase.com
+KEYWORDS=~x86 ~amd64
+LICENSE=COUCHBASE INC. COMMUNITY EDITION
+RDEPEND=>=sys-libs/ncurses-5 >=dev-libs/libevent-1.4.13 >=dev-libs/cyrus-sasl-2 >=dev-libs/openssl-0.9.8e
+SLOT=0
+SRC_URI=x86? ( http://packages.couchbase.com/releases/2.0.0/couchbase-server-enterprise_x86_2.0.0.deb ) amd64? ( http://packages.couchbase.com/releases/2.0.0/couchbase-server-enterprise_x86_64_2.0.0.deb )
+_eclasses_=eutils	f20548a2f7b0128068388cd2ec26708a	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_md5_=52cc1c7e878bd77307b88c95146c645d

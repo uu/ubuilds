@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-perl/Apache-DBI/Apache-DBI-1.06.ebuild,v 1.9 2007/12/04 20:41:32 corsair Exp $
 
+EAPI=5
+
 inherit perl-module
 
 DESCRIPTION="Convert-Color-Library-0.03	named lookup of colors from C<Color::Library> "
