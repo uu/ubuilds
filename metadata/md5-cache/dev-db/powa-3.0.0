@@ -8,4 +8,4 @@ LICENSE=DALIBO
 RDEPEND=dev-db/postgresql:9.4
 SLOT=0
 _eclasses_=git-2	df00117322129fb906bb0a53c3d6a020
-_md5_=52188a07c13778eb10ce3c9377dd92f6
+_md5_=de4531ecdf667f9842ee2829872e2720
