@@ -25,18 +25,12 @@ dev-python/psycopg:2
 www-servers/tornado
 ${DEPEND}"
 
-
 src_test() {
 	testing() {
 		PYTHONPATH="build-${PYTHON_ABI}/lib" "$(PYTHON)" test.py --verbose
 	}
 	python_execute_function testing
 }
-
-
-#src_compile() {
-#    emake -j1 USE_PGXS=1
-#}
 
 src_install() {
 	distutils_src_install
@@ -45,27 +39,5 @@ src_install() {
 	newconfd "${FILESDIR}/powa-web.conf" powa-web
 	insinto /etc/
 	newins powa-web.conf-dist powa-web.conf
-#	pg_libdir=$(pg_config --pkglibdir)
-#	insinto ${pg_libdir}
-#	doins ${MY_P}.so
-#
-#	pg_shared=$(pg_config --sharedir)
-#	insinto ${pg_shared}/extension
-#	doins ${MY_P}.control
-#	doins ${MY_P}--${PV}.sql
-#	
-#	dodoc README.md
 }
 
-pkg_config() {
-	einfo "Add to your postgresql.conf :"
-	einfo
-	einfo "shared_preload_libraries = 'pg_stat_statements,powa'"
-	einfo
-	einfo "Enable powa by creating an extension with:"
-	einfo
-	einfo "your_database=# CREATE EXTENSION pg_stat_statements;"
-	einfo "your_database=# CREATE EXTENSION btree_gist;"
-	einfo "your_database=# CREATE EXTENSION powa;"
-	einfo
-}
