@@ -14,7 +14,7 @@ depend() {
 
 start() {
     ebegin "Starting powa-web"
-        start-stop-daemon -u ${USER} -g ${GROUP} -S -b -m -p /run/powa-web.pid -1 ${LOG} powa-web -- --port ${PORT:-8888} --address ${ADDRESS:-0.0.0.0} --logging ${LOGLEVEL:-none} --config ${CONFIG_PATH:-/etc/powa-web.conf} 
+        start-stop-daemon -u ${USER} -g ${GROUP} -S -b -m -p /run/powa-web.pid -1 ${LOG} powa-web -- --port=${PORT:-8888} --address=${ADDRESS:-0.0.0.0} --logging ${LOGLEVEL:-none} --config ${CONFIG_PATH:-/etc/powa-web.conf} 
     eend $?
 }
 
