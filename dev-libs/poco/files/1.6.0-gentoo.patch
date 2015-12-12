@@ -1,0 +1,79 @@
+--- components	2012-11-18 16:56:59.000000000 +0100
++++ components	2012-12-06 12:29:07.779546771 +0100
+@@ -1,16 +1,10 @@
+-CppUnit
+ Foundation
+ XML
+ Util
+ Net
+-Crypto
+-NetSSL_OpenSSL
+ Data
+-Data/SQLite
+-Data/ODBC
+-Data/MySQL
+ Zip
+ PageCompiler
+ PageCompiler/File2Page
+--- Data/ODBC/ODBC.make	2015-05-12 14:45:08.103847954 +0300
++++ Data/ODBC/ODBC.make	2015-05-12 14:48:22.143847930 +0300
+@@ -14,9 +14,9 @@
+ ifeq (0, $(shell test -d /usr/lib/$(OSARCH)-linux-gnu; echo $$?))
+ POCO_ODBC_LIB = /usr/lib/$(OSARCH)-linux-gnu
+ else ifeq (0, $(shell test -d /usr/lib64; echo $$?))
+-POCO_ODBC_LIB = /usr/lib64
++POCO_ODBC_LIB = /usr/$(LIBDIR)
+ else 
+-POCO_ODBC_LIB = /usr/lib
++POCO_ODBC_LIB = /usr/$(LIBDIR)
+ endif
+ endif
+ 
+@@ -40,9 +40,9 @@
+ ##
+ ## unixODBC
+ ##
+-else ifeq (0, $(shell test -e $(POCO_ODBC_LIB)/libodbc$(LIBLINKEXT); echo $$?))
++else ifeq (unixodbc, $(GENTOO_ODBC))
+ SYSLIBS += -lodbc
+-ifeq (0, $(shell test -e $(POCO_ODBC_LIB)/libodbcinst$(LIBLINKEXT); echo $$?))
++ifeq (unixodbc, $(GENTOO_ODBC))
+ SYSLIBS += -lodbcinst
+ endif
+ COMMONFLAGS += -DPOCO_UNIXODBC
+@@ -50,7 +50,7 @@
+ ##
+ ## iODBC
+ ##
+-else ifeq (0, $(shell test -e $(POCO_ODBC_LIB)/libiodbc$(LIBLINKEXT); echo $$?))
++else ifeq (unixodbc, $(GENTOO_ODBC))
+ SYSLIBS += -liodbc -liodbcinst
+ COMMONFLAGS += -DPOCO_IODBC -I/usr/include/iodbc
+
+--- Makefile	2012-11-18 16:57:00.000000000 +0100
++++ Makefile	2012-12-06 12:29:07.779546771 +0100
+@@ -33,7 +33,7 @@
+ 
+ install: libexecs
+ 	mkdir -p $(INSTALLDIR)/include/Poco
+-	mkdir -p $(INSTALLDIR)/lib
++	mkdir -p $(INSTALLDIR)/$(LIBDIR)
+ 	mkdir -p $(INSTALLDIR)/bin
+ 	for comp in $(COMPONENTS) ; do \
+ 		if [ -d "$(POCO_BASE)/$$comp/include" ] ; then \
+@@ -43,11 +43,11 @@
+ 			find $(POCO_BUILD)/$$comp/bin -perm -700 -type f -exec cp -f {} $(INSTALLDIR)/bin \; ; \
+ 		fi ; \
+ 	done
+-	find $(POCO_BUILD)/lib -name "libPoco*" -type f -exec cp -f {} $(INSTALLDIR)/lib \;
+-	find $(POCO_BUILD)/lib -name "libPoco*" -type l -exec cp -Rf {} $(INSTALLDIR)/lib \;
++	find $(POCO_BUILD)/$(LIBDIR) -name "libPoco*" -type f -exec cp -f {} $(INSTALLDIR)/$(LIBDIR) \;
++	find $(POCO_BUILD)/$(LIBDIR) -name "libPoco*" -type l -exec cp -Rf {} $(INSTALLDIR)/$(LIBDIR) \;
+ 
+-libexecs =  Foundation-libexec XML-libexec Util-libexec Net-libexec Crypto-libexec NetSSL_OpenSSL-libexec Data-libexec Data/SQLite-libexec Data/ODBC-libexec Data/MySQL-libexec Zip-libexec PageCompiler-libexec PageCompiler/File2Page-libexec
+-tests    =  Foundation-tests XML-tests Util-tests Net-tests Crypto-tests NetSSL_OpenSSL-tests Data-tests Data/SQLite-tests Data/ODBC-tests Data/MySQL-tests Zip-tests
++libexecs =  Foundation-libexec XML-libexec Util-libexec Net-libexec Data-libexec Zip-libexec PageCompiler-libexec
++tests    =  Foundation-tests XML-tests Util-tests Net-tests Data-tests Zip-tests
+ samples  =  Foundation-samples XML-samples Util-samples Net-samples Crypto-samples NetSSL_OpenSSL-samples Data-samples Zip-samples PageCompiler-samples
+ 
+ .PHONY: $(libexecs)

@@ -17,7 +17,7 @@ KEYWORDS="~amd64"
 RESTRICT="strip"
 QA_PREBUILT="usr/share/elasticsearch/lib/sigar/libsigar-*.so"
 
-RDEPEND="|| ( virtual/jre:1.7 virtual/jre:1.8 )"
+RDEPEND="|| ( virtual/jre:1.8 )"
 
 pkg_setup() {
 	enewgroup ${MY_PN}

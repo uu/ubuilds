@@ -1,0 +1,26 @@
+#!/sbin/runscript
+# Copyright 1999-2015 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+
+start_pre() {
+    checkpath -f -o ${USER} ${LOG:-/var/log/powa-web.log}
+}
+
+depend() {
+    need network
+}
+
+start() {
+    ebegin "Starting powa-web"
+        start-stop-daemon -u ${USER} -g ${GROUP} -S -b -m -p /run/powa-web.pid -1 ${LOG} powa-web -- --port=${PORT:-8888} --address=${ADDRESS:-0.0.0.0} --logging=${LOGLEVEL:-none} --config=${CONFIG_PATH:-/etc/powa-web.conf} 
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping powa-web"
+	start-stop-daemon -u ${USER} -g ${GROUP} -K -p /run/powa-web.pid -1 ${LOG} powa-web
+    eend $?
+}
+
