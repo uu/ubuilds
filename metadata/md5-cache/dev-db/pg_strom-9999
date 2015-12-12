@@ -1,6 +1,6 @@
 DEFINED_PHASES=compile config install prepare unpack
 DEPEND=dev-db/postgresql:9.5 >=dev-util/nvidia-cuda-toolkit-7.0.28 >=dev-util/nvidia-cuda-sdk-7.0.28 dev-vcs/git
-DESCRIPTION=SQL Firewall Extension for PostgreSQL
+DESCRIPTION=CUDA stream for PostgreSQL
 EAPI=5
 HOMEPAGE=https://github.com/pg-strom/devel
 KEYWORDS=~amd64 ~x86
@@ -8,4 +8,4 @@ LICENSE=GPL-2
 RDEPEND=dev-db/postgresql:9.5 >=dev-util/nvidia-cuda-toolkit-7.0.28 >=dev-util/nvidia-cuda-sdk-7.0.28
 SLOT=0
 _eclasses_=eutils	d9bd2ddd85a58e470b49ca997e255a4c	git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
-_md5_=7117dfa26cb8f69ddde8b8e60713be14
+_md5_=7e4648c74df3def0836c5cac8b467df7
