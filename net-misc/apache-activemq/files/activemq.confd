@@ -1,0 +1,17 @@
+###
+#	Here is some params that can be changed to run activemq with the params you want
+###
+
+#	version of activemq.
+version='5.7.0'
+#	user to run activemq
+user='activemq'
+#	root directory of activemq
+home_dir='/opt/apache-activemq'
+#	data dir
+data_dir='/var/db/apache-activemq'
+#	temp dir
+temp_dir='/var/tmp/apache-activemq'
+#	java heap size, use it with letters in the end to specify size - G/g or M/g
+XMS='1G'
+XMX='1G'

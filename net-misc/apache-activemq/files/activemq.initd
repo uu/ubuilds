@@ -1,0 +1,32 @@
+#!/sbin/runscript
+# Copyright 1999-2012 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+prog_name="activemq"
+jar_file="${home_dir}/bin/activemq.jar"
+params="-Xms${XMS} -Xmx${XMX} -Djava.util.logging.config.file=logging.properties -Dcom.sun.management.jmxremote -Djava.io.tmpdir=${temp_dir} -Dactivemq.classpath=${home_dir}/conf; -Dactivemq.home=${home_dir} -Dactivemq.base=${home_dir} -Dactivemq.conf=${home_dir}/conf -Dactivemq.data=${data_dir} -jar ${jar_file}"
+pid_file="/var/run/${prog_name}.pid"
+log_file="/var/log/${prog_name}.log"
+
+depend() {
+	use net
+}
+
+start_pre() {
+	checkpath -f ${pid_file} -f ${log_file} -o ${user}
+	checkpath -d ${data_dir} -o ${user}
+}
+
+start() {
+	ebegin	"Starting ${prog_name}..."
+	start-stop-daemon	--start -p ${pid_file} -u ${user} -P -b -d ${home_dir} -m -1 ${log_file} -w 5000 -2 ${log_file} -x java -- ${params} start
+	eend	$? "failed to start ${prog_name} =("
+}
+
+stop() {
+	ebegin	"Trying to stop ${prog_name}..."
+	start-stop-daemon	--stop -p ${pid_file} -R SIGTERM/10
+	eend	$? "failed to stop ${prog_name} =("
+}
+

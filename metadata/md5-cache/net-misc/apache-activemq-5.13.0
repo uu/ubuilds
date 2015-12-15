@@ -1,0 +1,12 @@
+DEFINED_PHASES=install preinst
+DEPEND=virtual/jre
+DESCRIPTION=Apache ActiveMQ is the most popular and powerful open source messaging and Integration Patterns server
+EAPI=5
+HOMEPAGE=https://activemq.apache.org
+KEYWORDS=~x86 ~amd64
+LICENSE=Apache-2.0
+RDEPEND=virtual/jre
+SLOT=0
+SRC_URI=http://apache-mirror.rbc.ru/pub/apache/activemq/5.13.0/apache-activemq-5.13.0-bin.tar.gz
+_eclasses_=user	906f3c8eb3a2350a4f1191a89baa3e46
+_md5_=c1aae8241567da45ab2a92bf32663cce

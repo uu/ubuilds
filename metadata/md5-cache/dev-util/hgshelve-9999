@@ -6,5 +6,5 @@ HOMEPAGE=https://bitbucket.org/tksoh/hgshelve/
 KEYWORDS=~x86-macos
 RDEPEND=dev-vcs/mercurial
 SLOT=0
-_eclasses_=eutils	d9bd2ddd85a58e470b49ca997e255a4c	mercurial	c3d4dac64a35c8fb6b1cbb0b72b533eb	multilib	3972ca401cf7dbb430df9995f5d8d580	python	0c2c16ea4f9074d3248bd4365d03890c	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_eclasses_=eutils	d9bd2ddd85a58e470b49ca997e255a4c	mercurial	c3d4dac64a35c8fb6b1cbb0b72b533eb	multilib	3972ca401cf7dbb430df9995f5d8d580	python	6db27cc2b9cbfa3f47e984065ead123f	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
 _md5_=ca967b719faeb640bbaf8b4b4aa636e7
