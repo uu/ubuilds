@@ -9,4 +9,4 @@ RDEPEND=virtual/jre
 SLOT=0
 SRC_URI=http://apache-mirror.rbc.ru/pub/apache/activemq/5.13.0/apache-activemq-5.13.0-bin.tar.gz
 _eclasses_=user	906f3c8eb3a2350a4f1191a89baa3e46
-_md5_=c1aae8241567da45ab2a92bf32663cce
+_md5_=62d405fffb16eefb66a34cd535dccd77
