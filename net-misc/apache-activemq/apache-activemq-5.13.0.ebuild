@@ -30,7 +30,7 @@ src_install() {
 	cp -a ${S}/* ${D}/opt/${PN} || die "install failed!"
 
 	newinitd ${FILESDIR}/activemq.init activemq || die
-	newconfd ${FILESDIR}/activemq.confd activemq || die
+	newconfd ${FILESDIR}/activemq.conf activemq || die
 }
 
 pkg_preinst() {
