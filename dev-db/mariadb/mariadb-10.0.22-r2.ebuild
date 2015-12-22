@@ -1,12 +1,13 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-db/mariadb/mariadb-10.0.20.ebuild,v 1.1 2015/06/20 01:04:32 grknight Exp $
+# $Id$
 
 EAPI="5"
-MY_EXTRAS_VER="20141215-0144Z"
+MY_EXTRAS_VER="20150717-1707Z"
+HAS_TOOLS_PATCH="1"
+SUBSLOT="18"
 
 inherit toolchain-funcs mysql-multilib
-# only to make repoman happy. it is really set in the eclass
 IUSE="$IUSE pinba"
 
 PINBA_MODULE_PV="1.1.0"
@@ -26,9 +27,21 @@ RDEPEND="${RDEPEND}
 				 dev-libs/libevent )
 "
 
+src_prepare() {
+	mysql-multilib_src_prepare
+	if use pinba; then
+		cd "${WORKDIR}/pinba_engine-${PINBA_MODULE_PV}"
+		epatch "${FILESDIR}/pinba-configure.patch"
+		cd -
+	fi
+}
+
 src_install() {
 	multilib_src_install
 	if use pinba; then
+		#cd "${WORKDIR}/pinba_engine-${PINBA_MODULE_PV}"
+		#epatch "${FILESDIR}/pinba-configure.patch"
+		#cd -
 		MARIADB_BUILD=${WORKDIR}/mysql-abi_x86_64.amd64
 		MARIADB_PATH=${WORKDIR}/mysql
 		cp -a $MARIADB_BUILD/include/* ${MARIADB_PATH}/include/ || die "cannot copy includes"
@@ -46,7 +59,7 @@ src_install() {
 }
 
 # Official test instructions:
-# USE='embedded extraengine perl ssl static-libs community' \
+# USE='embedded extraengine perl openssl static-libs' \
 # FEATURES='test userpriv -usersandbox' \
 # ebuild mariadb-X.X.XX.ebuild \
 # digest clean package
@@ -61,11 +74,11 @@ multilib_src_test() {
 	local retstatus_unit
 	local retstatus_tests
 
-	# Bug #213475 - MySQL _will_ object strenously if your machine is named
-	# localhost. Also causes weird failures.
-	[[ "${HOSTNAME}" == "localhost" ]] && die "Your machine must NOT be named localhost"
+	if use server ; then
 
-	if ! use "minimal" ; then
+		# Bug #213475 - MySQL _will_ object strenously if your machine is named
+		# localhost. Also causes weird failures.
+		[[ "${HOSTNAME}" == "localhost" ]] && die "Your machine must NOT be named localhost"
 
 		if [[ $UID -eq 0 ]]; then
 			die "Testing with FEATURES=-userpriv is no longer supported by upstream. Tests MUST be run as non-root."
@@ -80,6 +93,13 @@ multilib_src_test() {
 		retstatus_unit=$?
 		[[ $retstatus_unit -eq 0 ]] || eerror "test-unit failed"
 
+		# Create a symlink to provided binaries so the tests can find them when client-libs is off
+		if ! use client-libs ; then
+			ln -srf /usr/bin/my_print_defaults "${BUILD_DIR}/client/my_print_defaults" || die
+			ln -srf /usr/bin/perror "${BUILD_DIR}/client/perror" || die
+			mysql-multilib_disable_test main.perror "String mismatch due to not building local perror"
+		fi
+
 		# Ensure that parallel runs don't die
 		export MTR_BUILD_THREAD="$((${RANDOM} % 100))"
 		# Enable parallel testing, auto will try to detect number of cores
@@ -87,7 +107,7 @@ multilib_src_test() {
 		# The default maximum is 8 unless MTR_MAX_PARALLEL is increased
 		export MTR_PARALLEL="${MTR_PARALLEL:-auto}"
 
-		# create directories because mysqladmin might right out of order
+		# create directories because mysqladmin might run out of order
 		mkdir -p "${T}"/var-tests{,/log}
 
 		# These are failing in MariaDB 10.0 for now and are believed to be
@@ -102,11 +122,16 @@ multilib_src_test() {
 		# main.mysql_client_test_comp:
 		# segfaults at random under Portage only, suspect resource limits.
 		#
+		# archive.mysqlhotcopy_archive main.mysqlhotcopy_myisam
+		# fails due to bad cleanup of previous tests when run in parallel
+		# The tool is deprecated anyway
+		# Bug 532288
 
 		for t in main.mysql_client_test main.mysql_client_test_nonblock \
 			main.mysql_client_test_comp \
 			binlog.binlog_statement_insert_delayed main.information_schema \
 			main.mysqld--help main.bootstrap \
+			archive.mysqlhotcopy_archive main.mysqlhotcopy_myisam \
 			funcs_1.is_triggers funcs_1.is_tables_mysql funcs_1.is_columns_mysql ; do
 				mysql-multilib_disable_test  "$t" "False positives in Gentoo"
 		done
@@ -115,7 +140,7 @@ multilib_src_test() {
 		pushd "${TESTDIR}"
 
 		# run mysql-test tests
-		perl mysql-test-run.pl --force --vardir="${T}/var-tests"
+		perl mysql-test-run.pl --force --vardir="${T}/var-tests" --reorder
 
 		retstatus_tests=$?
 		[[ $retstatus_tests -eq 0 ]] || eerror "tests failed"
@@ -136,7 +161,6 @@ multilib_src_test() {
 		einfo "Tests successfully completed"
 
 	else
-
 		einfo "Skipping server tests due to minimal build."
 	fi
 }

@@ -1,0 +1,25 @@
+From 5c72ed9956ba3a2f831ba19db2da26ee60fb246a Mon Sep 17 00:00:00 2001
+From: Antony Dovgal <tony@daylessday.org>
+Date: Tue, 26 May 2015 17:45:38 +0300
+Subject: [PATCH] fix linker flags
+
+---
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index f598ef3..78e98bd 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -226,9 +226,9 @@ int main() {
+     LIBRT_REQUIRED="no"
+   ], [
+     if test "$PINBA_RPATH" != "no"; then
+-      LDFLAGS="$ld_runpath_switch$LIBEVENT_DIR/$LIBDIR -L$LIBEVENT_DIR/$LIBDIR -levent -rt"
++      LDFLAGS="$ld_runpath_switch$LIBEVENT_DIR/$LIBDIR -L$LIBEVENT_DIR/$LIBDIR -levent -lrt"
+     else
+-      LDFLAGS="-L$LIBEVENT_DIR/$LIBDIR -levent -rt"
++      LDFLAGS="-L$LIBEVENT_DIR/$LIBDIR -levent -lrt"
+     fi
+     AC_TRY_RUN([
+ #include <stdlib.h>
