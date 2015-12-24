@@ -26,7 +26,7 @@ EGIT_REPO_URI="git://github.com/redis/redis-rb.git"
 
 LICENSE="|| ( GPL-2 Ruby )"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
+KEYWORDS="-*"
 IUSE=""
 
 #ruby_add_rdepend '
