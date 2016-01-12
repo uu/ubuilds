@@ -9,7 +9,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Selenium automates browsers"
 HOMEPAGE="http://www.seleniumhq.org/"
-SRC_URI="http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-${PV}.jar"
+SRC_URI="https://npm.taobao.org/mirrors/selenium/2.48/selenium-server-standalone-${PV}.jar"
 
 LICENSE="BSD"
 SLOT="0"
