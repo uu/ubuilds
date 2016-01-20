@@ -8,5 +8,5 @@ LICENSE=GPL-2
 RDEPEND=dev-vcs/mercurial =dev-lang/python-2* =dev-lang/python-2*[threads]
 SLOT=0
 SRC_URI=http://bitbucket.org/Bill_Barry/hgattic/get/3ba1e5f03971.tar.bz2
-_eclasses_=distutils	ad9e4720eb3e69090dd968b152fc611b	multilib	3972ca401cf7dbb430df9995f5d8d580	python	6db27cc2b9cbfa3f47e984065ead123f	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
+_eclasses_=distutils	ad9e4720eb3e69090dd968b152fc611b	multilib	3972ca401cf7dbb430df9995f5d8d580	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85
 _md5_=fcf56e7e111e9cfc64f34e34e9ae9db3
