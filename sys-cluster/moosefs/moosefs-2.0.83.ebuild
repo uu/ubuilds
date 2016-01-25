@@ -4,21 +4,19 @@
 
 EAPI=5
 
-inherit eutils git-2 autotools user
+inherit eutils autotools user
 
-MY_P="mfs-${PV}"
-S="${WORKDIR}/${MY_P}"
+#MY_P="mfs-${PV}"
+#S="${WORKDIR}/${MY_P}"
 
 DESCRIPTION="A filesystem for highly reliable petabyte storage"
 HOMEPAGE="http://www.moosefs.org/"
-#SRC_URI="http://www.moosefs.org/tl_files/mfscode/${MY_P}.tar.gz"
-SRC_URI=""
-EGIT_REPO_URI="git://github.com/xmirror/moosefs.git"
+SRC_URI="http://ppa.moosefs.com/src/${PF}-1.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="none"
-IUSE="cgi +fuse static-libs"
+KEYWORDS="amd64 x86"
+IUSE="cgi +fuse static-libs systemd"
 
 RDEPEND="
 	cgi? ( dev-lang/python )
@@ -39,6 +37,7 @@ src_prepare() {
 src_configure() {
 	local myopts=""
 	use fuse || myopts="--disable-mfsmount"
+	use systemd || myopts="--with-systemdsystemunitdir=no"
 	econf \
 		--sysconfdir=/etc \
 		--with-default-user=mfs \

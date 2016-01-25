@@ -32,6 +32,12 @@ IUSE=""
 DEPEND=""
 RDEPEND="${DEPEND}"
 
+src_prepare() {
+	epatch "${FILESDIR}/honor-cflags.patch"
+	ln -s ${S} "${WORKDIR}/php7.0"
+	php-ext-source-r2_src_prepare
+}
+
 src_configure() {
 	my_conf="--enable-igbinary"
 	php-ext-source-r2_src_configure
@@ -43,3 +49,4 @@ src_test() {
 	      NO_INTERACTION="yes" emake test || die "emake test failed for slot ${slot}"
 	   done
 }
+
