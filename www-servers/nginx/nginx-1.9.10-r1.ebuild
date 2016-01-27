@@ -84,8 +84,8 @@ HTTP_LUA_MODULE_PV_SSL="b4eeb04a04f984b19470b6ee2fcabb88c9072975"
 HTTP_LUA_MODULE_P_SSL="ngx_lua-${HTTP_LUA_MODULE_PV_SSL}"
 HTTP_LUA_MODULE_URI_SSL="https://github.com/chaoslawful/lua-nginx-module/archive/${HTTP_LUA_MODULE_PV_SSL}.zip"
 
-HTTP_LUA_MODULE_PV="0.9.20rc2"
-HTTP_LUA_MODULE_SHA1="f54438b"
+HTTP_LUA_MODULE_PV="0.10.0"
+HTTP_LUA_MODULE_SHA1="09644c4"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 

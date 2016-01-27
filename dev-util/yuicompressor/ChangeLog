@@ -1,0 +1,26 @@
+# ChangeLog for dev-util/yuicompressor
+# Copyright 1999-2016 Gentoo Foundation; Distributed under the GPL v2
+# (auto-generated from git log)
+
+*yuicompressor-2.4.8 (08 Jan 2016)
+
+  08 Jan 2016; Tomas Mozes <hydrapolic@gmail.com> +metadata.xml,
+  +yuicompressor-2.4.8.ebuild:
+  adding package
+
+  Package-Manager: portage-2.2.26
+
+  08 Jan 2016; Tomas Mozes <hydrapolic@gmail.com> yuicompressor-2.4.8.ebuild:
+  use sane source package name
+
+  Package-Manager: portage-2.2.26
+
+  13 Jan 2016; Patrice Clement <monsieurp@gentoo.org>
+  yuicompressor-2.4.8.ebuild:
+  Edit DEPEND and RDEPEND.
+
+  Package-Manager: portage-2.2.26
+  Signed-off-by: Patrice Clement <monsieurp@gentoo.org>
+
+  Gentoo-Bug: 500656
+
