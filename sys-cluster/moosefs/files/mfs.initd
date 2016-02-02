@@ -8,10 +8,10 @@ depend() {
 
 chkconfig() {
 	[ -z "${ROLES}" ] && { eerror "No role defined !"; return 1;}
-	if [ ${FAILOVER} -eq 1 ]; then
+	if [ "${FAILOVER}" -eq "1" ]; then
 		[ -z "${FAILOVER_IP}" ] && { eerror "No failover ip defined !"; return 1;}
 		[ -z "${IFACE}" ] && { eerror "No interface defined !"; return 1;}
-		[ ${FAILOVER} -ne 1 ] && { eerror "Autorestore must be enabled !"; return 1;}
+		[ "${AUTORESTORE}" -ne "1" ] && { eerror "Autorestore must be enabled !"; return 1;}
 	fi
 	for ROLE in ${ROLES}; do
 		if [ ! -f /etc/mfs/${ROLE}.cfg ]; then
