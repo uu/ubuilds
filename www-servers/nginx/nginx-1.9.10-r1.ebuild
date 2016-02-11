@@ -317,6 +317,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_tcp_proxy? (	${HTTP_TCP_PROXY_MODULE_URI} -> ${HTTP_TCP_PROXY_MODULE_P}-${HTTP_TCP_PROXY_MODULE_PV}.zip )
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
+	nginx_modules_http_zip? 	  ( https://github.com/evanmiller/mod_zip/archive/master.zip ->	ngx_zip.zip )
 	nginx_modules_http_metrics? ( ${HTTP_METRICS_MODULE_URI} -> ${HTTP_METRICS_MODULE_P}.tar.gz )
 	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} ->	${HTTP_NAXSI_MODULE_P}.tar.gz )
 	nginx_modules_http_tidehunter? ( ${HTTP_TIDEHUNTER_MODULE_URI} -> ${HTTP_TIDEHUNTER_MODULE_P}.zip )
@@ -355,7 +356,7 @@ http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
 http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed
-http_pinba http_metrics http_naxsi http_tidehunter http_fluentd http_upstream_check http_dav_ext http_security
+http_pinba http_zip http_metrics http_naxsi http_tidehunter http_fluentd http_upstream_check http_dav_ext http_security
 http_sticky http_ajp http_mogilefs http_fancyindex http_eval http_websockify http_poller http_bodytime"
 
 REQUIRED_USE="nginx_modules_http_lua? ( nginx_modules_http_ndk )
@@ -659,6 +660,11 @@ src_configure() {
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/ngx_http_pinba_module-master"
 	fi
+# (**) http_ngx_zip
+	if use nginx_modules_http_zip; then
+		http_enabled=1
+		myconf+=" --add-module=${WORKDIR}/mod_zip-master"
+	fi
 
 # (**) http_fluentd
 	if use nginx_modules_http_fluentd; then
@@ -835,7 +841,7 @@ src_configure() {
 	    http_enabled=1
 	    myconf+=" --add-module=${HTTP_NAXSI_MODULE_WD}"
 	fi
-	
+
 	if use nginx_modules_http_tidehunter ; then
 	    http_enabled=1
 	    myconf+=" --add-module=${HTTP_TIDEHUNTER_MODULE_WD}"
