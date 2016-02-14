@@ -24,9 +24,9 @@ DEPEND="dev-db/postgresql:9.5
 RDEPEND="${DEPEND}"
 
 
-src_prepare() {
-	epatch ${FILESDIR}/make.patch
-}
+#src_prepare() {
+#	epatch ${FILESDIR}/make.patch
+#}
 
 src_compile() {
     emake -j1 USE_PGXS=1
