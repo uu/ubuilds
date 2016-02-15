@@ -1,5 +1,5 @@
 DEFINED_PHASES=compile configure install postinst prepare setup test unpack
-DEPEND=dev-lang/perl sys-libs/libunwind client? ( sys-libs/readline sys-libs/ncurses ) mysql? ( virtual/mysql ) postgres? ( dev-db/postgresql-base ) || ( >=sys-devel/gcc-4.5[cxx] >=sys-devel/clang-3.2 ) test? ( dev-python/python-daemon dev-python/pyyaml dev-python/pexpect ) doc? ( app-text/jing www-client/lynx app-text/docbook-xml-dtd app-text/docbook-xsl-ns-stylesheets app-text/docbook-xsl-stylesheets ) sys-devel/make >=dev-util/cmake-2.6 userland_GNU? ( >=sys-apps/findutils-4.4.0 ) dev-vcs/git
+DEPEND=dev-lang/perl sys-libs/libunwind client? ( sys-libs/readline sys-libs/ncurses ) mysql? ( virtual/mysql ) postgres? ( dev-db/postgresql-base ) || ( >=sys-devel/gcc-4.5[cxx] >=sys-devel/clang-3.2 ) test? ( dev-python/python-daemon dev-python/pyyaml dev-python/pexpect ) doc? ( app-text/jing www-client/lynx app-text/docbook-xml-dtd app-text/docbook-xsl-ns-stylesheets app-text/docbook-xsl-stylesheets ) sys-devel/make >=dev-util/cmake-2.6 dev-vcs/git
 DESCRIPTION=Tarantool - an efficient, extensible in-memory data store.
 EAPI=4
 HOMEPAGE=http://tarantool.org
@@ -9,5 +9,5 @@ LICENSE=BSD-2
 RDEPEND=dev-lang/perl sys-libs/libunwind client? ( sys-libs/readline sys-libs/ncurses ) mysql? ( virtual/mysql ) postgres? ( dev-db/postgresql-base )
 REQUIRED_USE=avx? ( sse2 ) || ( client server )
 SLOT=0
-_eclasses_=cmake-utils	3443785f3176b7cfdf7bd1f2c403bd9f	eutils	28fb3e5852485af1c348d446b0b98389	flag-o-matic	d270fa247153df66074f795fa42dba3e	git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85	user	906f3c8eb3a2350a4f1191a89baa3e46	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
+_eclasses_=cmake-utils	c67ce9708a9c02be2d296cf547740e9c	eutils	28fb3e5852485af1c348d446b0b98389	flag-o-matic	d270fa247153df66074f795fa42dba3e	git-2	df00117322129fb906bb0a53c3d6a020	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85	user	906f3c8eb3a2350a4f1191a89baa3e46	versionator	99ae9d758cbe7cfed19170e7d48f5a9c
 _md5_=57d46413c4234ca7b4e2c4ab63722187

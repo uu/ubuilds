@@ -1,9 +1,0 @@
-
-# specify a different port (default: 7000)
-PORT=""
-
-# specify other options as needed (see `man 8 sheep`)
-OPTIONS=""
-
-# specify a different storage path (default: '/var/lib/sheepdog')
-STORAGE=""

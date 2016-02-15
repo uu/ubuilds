@@ -277,6 +277,10 @@ PAM_MODULE_PV="1.4"
 PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
+# nchan https://github.com/slact/nchan/releases
+HTTP_NCHAN_MODULE_PV="0.99.4"
+HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
+HTTP_NCHAN_MODULE_SHA1="9fdc668"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib 
 
@@ -308,6 +312,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_xss? ( https://github.com/openresty/xss-nginx-module/tarball/v${HTTP_XSS_MODULE_PV} -> ${HTTP_XSS_MODULE_P}.tar.gz )
 	nginx_modules_http_array_var? ( https://github.com/openresty/array-var-nginx-module/tarball/v${HTTP_ARRAY_VAR_MODULE_PV} -> ${HTTP_ARRAY_VAR_MODULE_P}.tar.gz )
 	nginx_modules_http_iconv? ( https://github.com/calio/iconv-nginx-module/tarball/v${HTTP_ICONV_MODULE_PV} -> ${HTTP_ICONV_MODULE_P}.tar.gz )
+	nginx_modules_http_nchan? ( https://github.com/slact/nchan/tarball/v${HTTP_NCHAN_MODULE_PV} -> ${HTTP_NCHAN_MODULE_P}.tar.gz )
 	nginx_modules_http_memc? ( https://github.com/openresty/memc-nginx-module/tarball/v${HTTP_MEMC_MODULE_PV} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
 	nginx_modules_http_postgres? ( https://github.com/FRiCKLE/ngx_postgres/tarball/${HTTP_POSTGRES_MODULE_PV} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
 	nginx_modules_http_coolkit? ( https://codeload.github.com/FRiCKLE/ngx_coolkit/legacy.tar.gz/master -> ${HTTP_COOLKIT_MODULE_P}.tar.gz )
@@ -355,7 +360,7 @@ NGINX_MODULES_3RD="http_cache_purge http_headers_more http_passenger http_redis 
 http_upload http_ey_balancer http_slowfs_cache http_ndk http_lua http_form_input
 http_echo http_memc http_drizzle http_rds_json http_postgres http_coolkit
 http_auth_request http_set_misc http_srcache http_supervisord http_array_var
-http_xss http_iconv http_upload_progress http_tcp_proxy http_pagespeed
+http_xss http_iconv http_nchan http_upload_progress http_tcp_proxy http_pagespeed
 http_pinba http_zip http_metrics http_naxsi http_tidehunter http_fluentd http_upstream_check http_dav_ext http_security
 http_sticky http_ajp http_mogilefs http_fancyindex http_eval http_websockify http_poller http_bodytime"
 
@@ -788,6 +793,12 @@ src_configure() {
 	if use nginx_modules_http_iconv; then
 		http_enabled=1
 		myconf+=" --add-module=${WORKDIR}/calio-iconv-nginx-module-${HTTP_ICONV_MODULE_SHA1}"
+	fi
+
+# http_nchan
+	if use nginx_modules_http_nchan; then
+		http_enabled=1
+		myconf+=" --add-module=${WORKDIR}/slact-nchan-${HTTP_NCHAN_MODULE_SHA1}"
 	fi
 
 # http_upload_progress
