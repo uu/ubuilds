@@ -691,7 +691,6 @@ src_configure() {
 		myconf+=( --with-http_realip_module )
 	fi
 
-	# third-party modules
 	if use nginx_modules_http_upload_progress; then
 		http_enabled=1
 		myconf+=( --add-module=${HTTP_UPLOAD_PROGRESS_MODULE_WD} )
@@ -799,6 +798,134 @@ src_configure() {
 		http_enabled=1
 		myconf+=( --add-module=${HTTP_LDAP_MODULE_WD} )
 	fi
+
+    if use nginx_modules_http_eval; then
+        http_enabled=1
+        myconf+=( --add-module=${HTTP_EVAL_MODULE_WD} )
+    fi
+
+    if use nginx_modules_http_websockify; then
+        http_enabled=1
+        myconf+=( --add-module=${HTTP_WEBSOCKIFY_MODULE_WD} )
+    fi
+
+    if use nginx_modules_http_poller; then
+        http_enabled=1
+        myconf+=( --add-module=${HTTP_POLLER_MODULE_WD} )
+    fi
+
+    if use nginx_modules_http_bodytime; then
+        http_enabled=1
+        myconf+=( --add-module=${HTTP_BODYTIME_MODULE_WD} )
+    fi
+
+    if use nginx_modules_http_ajp ; then
+        http_enabled=1
+        myconf+=( --add-module=${HTTP_AJP_MODULE_WD})
+    fi
+
+    if use nginx_modules_http_pinba; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/ngx_http_pinba_module-master )
+    fi
+
+    if use nginx_modules_http_zip; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/mod_zip-master )
+    fi
+
+    if use nginx_modules_http_fluentd; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/fluent-nginx-fluentd-module-${HTTP_FLUENTD_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_tcp_proxy; then
+        epatch ${WORKDIR}/nginx_tcp_proxy_module-dc/tcp.patch
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/nginx_tcp_proxy_module-dc )
+    fi
+
+    if use nginx_modules_http_srcache; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/openresty-srcache-nginx-module-${HTTP_SRCACHE_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_drizzle; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/chaoslawful-drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_rds_json; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/openresty-rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_postgres; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/FRiCKLE-ngx_postgres-${HTTP_POSTGRES_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_coolkit; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/${HTTP_COOLKIT_MODULE_P} )
+    fi
+
+    if use nginx_modules_http_passenger; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/passenger-${PASSENGER_PV}/ext/nginx )
+    fi
+
+    if use nginx_modules_http_push; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/${HTTP_PUSH_MODULE_P} )
+    fi
+
+    if use nginx_modules_http_supervisord; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/${HTTP_SUPERVISORD_MODULE_P} )
+    fi
+
+    if use nginx_modules_http_xss; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/openresty-xss-nginx-module-${HTTP_XSS_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_array_var; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/openresty-array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_form_input; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/calio-form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_iconv; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/calio-iconv-nginx-module-${HTTP_ICONV_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_nchan; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/slact-nchan-${HTTP_NCHAN_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_redis; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/openresty-redis2-nginx-module-${HTTP_REDIS_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_ey_balancer; then
+        http_enabled=1
+        myconf+=( --add-module=${WORKDIR}/msva-nginx-ey-balancer-${HTTP_EY_BALANCER_MODULE_SHA1} )
+    fi
+
+    if use nginx_modules_http_tidehunter ; then
+        http_enabled=1
+        myconf+=( --add-module=${HTTP_TIDEHUNTER_MODULE_WD} )
+    fi
+
+
 
 	if use http || use http-cache || use http2; then
 		http_enabled=1
