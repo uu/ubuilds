@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -11,7 +11,7 @@ inherit eutils user
 
 DESCRIPTION="Lightweight connection pooler for PostgreSQL"
 HOMEPAGE="https://pgbouncer.github.io"
-SRC_URI="https://pgbouncer.github.io/downloads/${P}.tar.gz"
+SRC_URI="https://pgbouncer.github.io/downloads/files/${PV}/${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
