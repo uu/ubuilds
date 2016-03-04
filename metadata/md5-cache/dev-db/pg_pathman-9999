@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile config install unpack
+DEPEND=dev-db/postgresql:9.5 dev-vcs/git
+DESCRIPTION=Partitioning tool for PostgreSQL
+EAPI=5
+HOMEPAGE=http://www.postgrespro.com/blog/pgsql/pg_pathman
+KEYWORDS=~amd64 ~x86
+LICENSE=POSTGRESQL
+RDEPEND=dev-db/postgresql:9.5
+SLOT=0
+_eclasses_=git-2	df00117322129fb906bb0a53c3d6a020
+_md5_=46ff781211dae7958ffbb5eb1d92de7f
