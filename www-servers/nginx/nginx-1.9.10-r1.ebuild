@@ -475,6 +475,7 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
+	epatch "${FILESDIR}/openssl-1.0.2f.patch"
 	#epatch "${FILESDIR}/http2_server_proto.patch"
 
 	sed -i -e 's/ make/ \\$(MAKE)/' "${S}"/auto/lib/perl/make
