@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst setup
+DEPEND=app-arch/xz-utils mail-filter/procmail >=dev-libs/libpcre-4.5 >=dev-libs/openssl-1.0.1 rdf? ( =media-libs/raptor-1* ) console? ( sys-libs/readline ) odbc? ( dev-db/unixODBC ) curl? ( net-misc/curl ) iconv? ( virtual/libiconv ) bzip2? ( || ( app-arch/bzip2 app-arch/pbzip2 ) ) zlib? ( sys-libs/zlib ) java? ( >=virtual/jdk-1.4 dev-java/ant ) perl? ( >=dev-lang/perl-5.8.0 ) ruby? ( dev-lang/ruby dev-ruby/rubygems ) sphinx? ( app-misc/sphinx ) geom? ( >=sci-libs/geos-2.2.0 ) fits? ( sci-libs/cfitsio ) !dev-db/monetdb-common
+DESCRIPTION=A column-store based (R)DBMS.
+EAPI=4
+HOMEPAGE=https://www.monetdb.org/
+IUSE=debug -rdf datacell fits +sql -console -odbc -static curl iconv -java bzip2 zlib perl -ruby sphinx geom hwcounter
+KEYWORDS=amd64 x86 ~arm
+LICENSE=MonetDBPL-1.1
+RDEPEND=>=dev-libs/libpcre-4.5 >=dev-libs/openssl-1.0.1 rdf? ( =media-libs/raptor-1* ) console? ( sys-libs/readline ) odbc? ( dev-db/unixODBC ) curl? ( net-misc/curl ) iconv? ( virtual/libiconv ) bzip2? ( || ( app-arch/bzip2 app-arch/pbzip2 ) ) zlib? ( sys-libs/zlib ) java? ( >=virtual/jdk-1.4 dev-java/ant ) perl? ( >=dev-lang/perl-5.8.0 ) ruby? ( dev-lang/ruby dev-ruby/rubygems ) sphinx? ( app-misc/sphinx ) geom? ( >=sci-libs/geos-2.2.0 ) fits? ( sci-libs/cfitsio ) !dev-db/monetdb-common
+RESTRICT=primaryuri
+SLOT=5
+SRC_URI=https://www.monetdb.org/downloads/sources/Latest/MonetDB-11.21.11.tar.xz
+_eclasses_=eutils	9d81603248f2ba3ec59124320d123e5e	flag-o-matic	d270fa247153df66074f795fa42dba3e	multilib	3972ca401cf7dbb430df9995f5d8d580	toolchain-funcs	7a212e5e01adfa4805c9978366e6ee85	user	906f3c8eb3a2350a4f1191a89baa3e46
+_md5_=2ebc7f8bdad6884d28e3da19f5a0af58
