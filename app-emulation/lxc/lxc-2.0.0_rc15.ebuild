@@ -2,10 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
-MY_P="${P/_/-}"
-PYTHON_COMPAT=( python{3_3,3_4} )
+MY_P="${P/_/.}"
+PYTHON_COMPAT=( python{3_3,3_4,3_5} )
 DISTUTILS_OPTIONAL=1
 
 inherit autotools bash-completion-r1 distutils-r1 eutils linux-info versionator flag-o-matic systemd
@@ -61,6 +61,8 @@ CONFIG_CHECK="~CGROUPS ~CGROUP_DEVICE
 	~!GRKERNSEC_CHROOT_PIVOT
 	~!GRKERNSEC_CHROOT_CHMOD
 	~!GRKERNSEC_CHROOT_CAPS
+	~!GRKERNSEC_PROC
+	~!GRKERNSEC_SYSFS_RESTRICT
 "
 
 ERROR_DEVPTS_MULTIPLE_INSTANCES="CONFIG_DEVPTS_MULTIPLE_INSTANCES:  needed for pts inside container"
@@ -89,6 +91,8 @@ ERROR_GRKERNSEC_CHROOT_DOUBLE="CONFIG_GRKERNSEC_CHROOT_DOUBLE:  some GRSEC featu
 ERROR_GRKERNSEC_CHROOT_PIVOT="CONFIG_GRKERNSEC_CHROOT_PIVOT:  some GRSEC features make LXC unusable see postinst notes"
 ERROR_GRKERNSEC_CHROOT_CHMOD="CONFIG_GRKERNSEC_CHROOT_CHMOD:  some GRSEC features make LXC unusable see postinst notes"
 ERROR_GRKERNSEC_CHROOT_CAPS="CONFIG_GRKERNSEC_CHROOT_CAPS:  some GRSEC features make LXC unusable see postinst notes"
+ERROR_GRKERNSEC_PROC="CONFIG_GRKERNSEC_PROC:  this GRSEC feature is incompatible with unprivileged containers"
+ERROR_GRKERNSEC_SYSFS_RESTRICT="CONFIG_GRKERNSEC_SYSFS_RESTRICT:  this GRSEC feature is incompatible with unprivileged containers"
 
 DOCS=(AUTHORS CONTRIBUTING MAINTAINERS NEWS README doc/FAQ.txt)
 
@@ -97,8 +101,7 @@ S="${WORKDIR}/${PN}-${MY_P}"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 src_prepare() {
-
-	epatch "${FILESDIR}"/${PN}-1.1.3-bash-completion.patch
+	eapply_user
 	eautoreconf
 }
 
@@ -149,10 +152,6 @@ src_compile() {
 src_install() {
 	default
 
-	mv "${ED}"/usr/share/bash-completion/completions/${PN} "${ED}"/$(get_bashcompdir)/${PN}-start || die
-	bashcomp_alias ${PN}-start \
-		${PN}-{attach,cgroup,clone,console,create,destroy,device,execute,freeze,info,monitor,snapshot,start-ephemeral,stop,unfreeze,wait}
-
 	if use python; then
 		pushd "${S}/src/python-lxc" > /dev/null
 		# Unset DOCS. This has been handled by the default target
@@ -169,12 +168,6 @@ src_install() {
 	# Use initd.3 per #517144
 	newinitd "${FILESDIR}/${PN}.initd.3" ${PN}
 
-	# lxc-devsetup script
-	exeinto /usr/libexec/${PN}
-	doexe config/init/systemd/${PN}-devsetup
-	# Remember to compare our systemd unit file with the upstream one
-	# config/init/systemd/lxc.service.in
-	systemd_newunit "${FILESDIR}"/${PN}_at.service.2 "lxc@.service"
 }
 
 pkg_postinst() {
