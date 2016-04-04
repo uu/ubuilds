@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 inherit golang-base user
 
@@ -52,7 +52,7 @@ src_install() {
 	newinitd "${FILESDIR}/${PN}-initd" "${PN}"
 	newconfd "${FILESDIR}/${PN}-confd" "${PN}"
 
-  keepdir "${LOG_DIR}"
+	keepdir "${LOG_DIR}"
 	fowners "${DAEMON_USER}" "${LOG_DIR}"
 
 	keepdir "${DATA_DIR}"
