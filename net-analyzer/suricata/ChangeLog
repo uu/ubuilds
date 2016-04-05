@@ -1,0 +1,45 @@
+# ChangeLog for net-analyzer/suricata
+# Copyright 1999-2016 Gentoo Foundation; Distributed under the GPL v2
+# (auto-generated from git log)
+
+*suricata-2.0.10 (30 Nov 2015)
+
+  30 Nov 2015; Slawomir Lis <slis@gentoo.org>
+  +files/fortify_source-numeric.patch, +files/json.patch,
+  +files/magic-location.patch, +metadata.xml, +suricata-2.0.10.ebuild:
+  Added suricata ebuild (#437564)
+
+  Package-Manager: portage-2.2.26
+
+  28 Dec 2015; Slawomir Lis <slis@gentoo.org> suricata-2.0.10.ebuild:
+  Fixed #569636
+
+  Package-Manager: portage-2.2.26
+
+*suricata-2.0.11 (28 Dec 2015)
+
+  28 Dec 2015; Slawomir Lis <slis@gentoo.org> +suricata-2.0.11.ebuild:
+  version bump
+
+  Package-Manager: portage-2.2.26
+
+  24 Jan 2016; Michał Górny <mgorny@gentoo.org> metadata.xml:
+  Set appropriate maintainer types in metadata.xml (GLEP 67)
+
+  19 Feb 2016; Slawomir Lis <slis@gentoo.org> metadata.xml,
+  -suricata-2.0.10.ebuild, suricata-2.0.11.ebuild:
+  Added detection USE flag, drop old
+
+  Package-Manager: portage-2.2.27
+
+  19 Feb 2016; Slawomir Lis <slis@gentoo.org> metadata.xml:
+  fixing broken metadata.xml, sorry
+
+  Package-Manager: portage-2.2.27
+
+  19 Feb 2016; Slawomir Lis <slis@gentoo.org> metadata.xml,
+  suricata-2.0.11.ebuild:
+  useflag to use libhtp instead of bundled one (#575144)
+
+  Package-Manager: portage-2.2.27
+
