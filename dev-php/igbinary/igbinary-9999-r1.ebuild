@@ -33,7 +33,6 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	epatch "${FILESDIR}/honor-cflags.patch"
 	ln -s ${S} "${WORKDIR}/php7.0"
 	php-ext-source-r2_src_prepare
 }

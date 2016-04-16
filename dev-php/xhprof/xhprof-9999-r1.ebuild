@@ -47,7 +47,7 @@ src_configure() {
 src_install() {
 	php-ext-source-r2_src_install
 	cd ${S}
-	dodoc CHANGELOG CREDITS README
+	dodoc CHANGELOG CREDITS 
 
 	php-ext-source-r2_addtoinifiles "xhprof.output_dir" '"/tmp"'
 
