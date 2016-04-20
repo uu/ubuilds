@@ -1,0 +1,37 @@
+# /etc/conf.d/influxdb: config file for /etc/init.d/influxdb
+
+# Config file
+INFLUXDB_CONFIG="/etc/influxdb/influxdb.conf"
+
+# Binary file
+INFLUXDB_BIN="/usr/bin/influxdb"
+
+# Run influxdb as user
+INFLUXDB_USER="influxdb"
+
+# Run influxdb as group
+INFLUXDB_GROUP="influxdb"
+
+# Data directory
+INFLUXDB_DATADIR="/var/lib/influxdb"
+
+# PID directory
+INFLUXDB_PIDDIR="/var/run/influxdb"
+
+# PID filename
+INFLUXDB_PIDFILE="${INFLUXDB_PIDDIR}/influxdb.pid"
+
+# Log directory
+INFLUXDB_LOGDIR="/var/log/influxdb"
+
+# Log filename
+INFLUXDB_LOGFILE="${INFLUXDB_LOGDIR}/error.log"
+
+# Any additional options passed to influxdb when starting
+#INFLUXDB_OPTS=""
+
+# Specify URI of an existing cluster to join, if any
+#INFLUXDB_JOIN=""
+
+# Custom hostname specification
+#INFLUXDB_HOSTNAME=""

@@ -1,0 +1,73 @@
+#!/sbin/runscript
+# Copyright 1999-2013 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+extra_commands="configtest"
+
+description="InfluxDB Daemon"
+description_configtest="Run syntax tests for configuration files."
+
+depend() {
+    need net localmount
+    use dns logger
+    after bootmisc
+}
+
+checkconfig() {
+    if [ ! -f "${INFLUXDB_CONFIG}" ] ; then
+        eerror "Please create ${INFLUXDB_CONFIG}"
+        return 1
+    fi
+
+    checkpath -q -d -m 0750 -o ${INFLUXDB_USER}:${INFLUXDB_GROUP} ${INFLUXDB_DATADIR}
+    checkpath -q -d -m 0750 -o ${INFLUXDB_USER}:${INFLUXDB_GROUP} ${INFLUXDB_PIDDIR}
+    checkpath -q -d -m 0750 -o ${INFLUXDB_USER}:${INFLUXDB_GROUP} ${INFLUXDB_LOGDIR}
+
+    buildopts
+
+    touch "${INFLUXDB_PIDFILE}"
+    chown "${INFLUXDB_USER}:${INFLUXDB_GROUP}" "${INFLUXDB_PIDFILE}"
+
+    chown -R "${INFLUXDB_USER}:${INFLUXDB_GROUP}" "${INFLUXDB_DATADIR}"
+
+    return $ret
+}
+
+start() {
+    checkconfig || return $?
+    ebegin "Starting ${SVCNAME}"
+    start-stop-daemon --start --background \
+        --user $INFLUXDB_USER:$INFLUXDB_GROUP \
+        --pidfile $INFLUXDB_PIDFILE \
+        -1 $INFLUXDB_LOGFILE \
+        -2 $INFLUXDB_LOGFILE \
+        --exec /usr/bin/influxd \
+        -- ${OPTS}
+    eend $? "Failed to start ${SVCNAME}"
+}
+
+stop() {
+    ebegin "Stopping ${SVCNAME}"
+    start-stop-daemon --stop --pidfile "${INFLUXDB_PIDFILE}" --retry 15
+    eend $? "Failed to stop ${SVCNAME}"
+}
+
+configtest() {
+    ebegin "Checking ${SVCNAME} configuration"
+    checkconfig
+    eend $? "failed, please correct errors above"
+}
+
+buildopts() {
+    OPTS="-config ${INFLUXDB_CONFIG} \
+        -pidfile ${INFLUXDB_PIDFILE}"
+
+    if [[ -n "${INFLUXDB_JOIN}" ]]; then
+        OPTS+=" -join ${INFLUXDB_JOIN}"
+    fi
+    if [[ -n "${INFLUXDB_HOSTNAME}" ]]; then
+        OPTS+=" -hostname ${INFLUXDB_HOSTNAME}"
+    fi
+
+    OPTS+=" ${INFLUXDB_OPTS}"
+}
