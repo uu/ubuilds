@@ -234,13 +234,6 @@ HTTP_TIDEHUNTER_MODULE_P="ngx_tidehunter-${HTTP_TIDEHUNTER_MODULE_PV}"
 HTTP_TIDEHUNTER_MODULE_URI="https://github.com/ruoshan/tidehunter/archive/${HTTP_TIDEHUNTER_MODULE_PV}.zip"
 HTTP_TIDEHUNTER_MODULE_WD="${WORKDIR}/tidehunter-${HTTP_TIDEHUNTER_MODULE_PV}/"
 
-# add the feature of tcp proxy with nginx, with health check and status monitor
-# (git://github.com/yaoweibin/nginx_tcp_proxy_module.git, AS-IS)
-HTTP_TCP_PROXY_MODULE_PV="0.4.5"
-HTTP_TCP_PROXY_MODULE_P="ngx-tcp-proxy"
-HTTP_TCP_PROXY_MODULE_SHA1="4a8c314"
-HTTP_TCP_PROXY_MODULE_URI="https://github.com/dreamcommerce/nginx_tcp_proxy_module/archive/dc.zip"
-
 # ajp-module (https://github.com/yaoweibin/nginx_ajp_module, BSD-2)
 HTTP_AJP_MODULE_PV="0.3.0"
 HTTP_AJP_MODULE_P="ngx_http_ajp_module-${HTTP_AJP_MODULE_PV}"
@@ -318,7 +311,6 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_postgres? ( https://github.com/FRiCKLE/ngx_postgres/tarball/${HTTP_POSTGRES_MODULE_PV} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
 	nginx_modules_http_coolkit? ( https://codeload.github.com/FRiCKLE/ngx_coolkit/legacy.tar.gz/master -> ${HTTP_COOLKIT_MODULE_P}.tar.gz )
 	nginx_modules_http_supervisord? ( https://codeload.github.com/FRiCKLE/ngx_supervisord/legacy.tar.gz/master -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
-	nginx_modules_http_tcp_proxy? (	${HTTP_TCP_PROXY_MODULE_URI} -> ${HTTP_TCP_PROXY_MODULE_P}-${HTTP_TCP_PROXY_MODULE_PV}.zip )
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
 	nginx_modules_http_zip? 	  ( https://github.com/evanmiller/mod_zip/archive/master.zip ->	ngx_zip.zip )
@@ -384,7 +376,6 @@ NGINX_MODULES_3RD="
 	http_iconv
 	http_nchan
 	http_upload_progress
-	http_tcp_proxy
 	http_pagespeed
 	http_pinba
 	http_zip
@@ -757,12 +748,6 @@ src_configure() {
     if use nginx_modules_http_fluentd; then
         http_enabled=1
         myconf+=( --add-module=${WORKDIR}/fluent-nginx-fluentd-module-${HTTP_FLUENTD_MODULE_SHA1} )
-    fi
-
-    if use nginx_modules_http_tcp_proxy; then
-        epatch ${WORKDIR}/nginx_tcp_proxy_module-dc/tcp.patch
-        http_enabled=1
-        myconf+=( --add-module=${WORKDIR}/nginx_tcp_proxy_module-dc )
     fi
 
     if use nginx_modules_http_srcache; then
