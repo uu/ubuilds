@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror"
 IUSE=""
 
-DEPEND=">=dev-lang/go-1.5"
+DEPEND=">=dev-lang/go-1.6"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${P}/src/${EGO_PN}"
