@@ -1,12 +1,12 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-admin/puppet/puppet-4.2.0.ebuild,v 1.3 2015/07/16 05:47:32 prometheanfire Exp $
+# $Id$
 
 EAPI="5"
 
 USE_RUBY="ruby20 ruby21 ruby22"
 
-RUBY_FAKEGEM_RECIPE_TEST="rspec"
+RUBY_FAKEGEM_RECIPE_TEST="rspec3"
 
 inherit elisp-common xemacs-elisp-common eutils user ruby-fakegem versionator
 
@@ -16,28 +16,35 @@ SRC_URI="http://downloads.puppetlabs.com/puppet/${P}.tar.gz"
 
 LICENSE="Apache-2.0 GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
-IUSE="augeas diff doc emacs ldap puppetdb rrdtool selinux shadow sqlite vim-syntax xemacs"
+KEYWORDS="~amd64 ~hppa ~ppc ~x86"
+IUSE="augeas diff doc emacs ldap rrdtool selinux shadow sqlite vim-syntax xemacs"
+RESTRICT="test"
 
 ruby_add_rdepend "
 	dev-ruby/hiera
-	>=dev-ruby/rgen-0.6.5 =dev-ruby/rgen-0.6*
+	>=dev-ruby/rgen-0.6.5
 	dev-ruby/json
 	augeas? ( dev-ruby/ruby-augeas )
 	diff? ( dev-ruby/diff-lcs )
 	doc? ( dev-ruby/rdoc )
 	ldap? ( dev-ruby/ruby-ldap )
-	puppetdb? ( dev-ruby/puppetdb-termini )
 	shadow? ( dev-ruby/ruby-shadow )
 	sqlite? ( dev-ruby/sqlite3 )
 	virtual/ruby-ssl"
 
-DEPEND="${DEPEND}
-	dev-lang/ruby
-	>=dev-ruby/facter-3.0.0
+ruby_add_bdepend "
+	test? (
+		dev-ruby/mocha
+		dev-ruby/rack
+		dev-ruby/rspec-its
+	)"
+# this should go in the above lists, but isn't because of test deps not being keyworded
+#		dev-ruby/rspec-collection_matchers
+
+DEPEND+=" ${DEPEND}
 	emacs? ( virtual/emacs )
 	xemacs? ( app-editors/xemacs )"
-RDEPEND="${RDEPEND}
+RDEPEND+=" ${RDEPEND}
 	rrdtool? ( >=net-analyzer/rrdtool-1.2.23[ruby] )
 	selinux? (
 		sys-libs/libselinux[ruby]
@@ -81,15 +88,15 @@ all_ruby_compile() {
 
 each_ruby_install() {
 	each_fakegem_install
-	dosym "/usr/$(get_libdir)/ruby/gems/$(ruby_get_version)/gems/${P}" "/usr/$(get_libdir)/ruby/gems/$(ruby_get_version)/gems/${PN}"
+#	dosym "/usr/$(get_libdir)/ruby/gems/$(ruby_get_version)/gems/${P}" "/usr/$(get_libdir)/ruby/gems/$(ruby_get_version)/gems/${PN}"
 }
 
 all_ruby_install() {
 	all_fakegem_install
 
 	# systemd stuffs
-	#insinto /usr/lib/systemd/system
-	#doins "${WORKDIR}/all/${P}/ext/systemd/puppet.service"
+	insinto /usr/lib/systemd/system
+	doins "${WORKDIR}/all/${P}/ext/systemd/puppet.service"
 
 	# tmpfiles stuff
 	insinto /usr/lib/tmpfiles.d
