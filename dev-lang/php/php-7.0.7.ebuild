@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils autotools flag-o-matic versionator depend.apache apache-module libtool systemd
+inherit eutils autotools flag-o-matic versionator depend.apache apache-module libtool systemd git-2
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~ia64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos"
 
@@ -29,6 +29,9 @@ function php_get_uri ()
 	esac
 }
 
+EGIT_REPO_URI="https://git.php.net/repository/php-src.git"
+EGIT_BRANCH="PHP-7.0.7"
+
 PHP_MV="$(get_major_version)"
 SLOT="$(get_version_component_range 1-2)"
 
@@ -47,7 +50,8 @@ PHP_SRC_URI="$(php_get_uri "${PHP_RELEASE}" "${PHP_P}.tar.bz2")"
 
 PHP_FPM_CONF_VER="1"
 
-SRC_URI="${PHP_SRC_URI}"
+#SRC_URI="${PHP_SRC_URI}"
+SRC_URI=""
 
 DESCRIPTION="The PHP language runtime engine"
 HOMEPAGE="http://php.net/"
