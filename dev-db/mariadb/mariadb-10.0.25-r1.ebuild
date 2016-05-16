@@ -1,11 +1,9 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 MY_EXTRAS_VER="20151223-1501Z"
-# The wsrep API version must match between upstream WSREP and sys-cluster/galera major number
-WSREP_REVISION="25"
 SUBSLOT="18"
 MYSQL_PV_MAJOR="5.6"
 
@@ -17,8 +15,7 @@ DESCRIPTION="An enhanced, drop-in replacement for MySQL"
 IUSE="bindist odbc oqgraph pam sphinx tokudb xml pinba"
 RESTRICT="!bindist? ( bindist )"
 
-REQUIRED_USE="tokudb? ( jemalloc ) static? ( !pam )"
-
+REQUIRED_USE="server? ( tokudb? ( jemalloc ) ) static? ( !pam )"
 
 PINBA_MODULE_PV="1.1.0"
 PINBA_MODULE_URI="http://pinba.org/files/pinba_engine-1.1.0.tar.gz"
@@ -29,9 +26,15 @@ KEYWORDS="alpha amd64 ~arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc ~
 SRC_URI="$SRC_URI
 	pinba? ( http://pinba.org/files/pinba_engine-${PINBA_MODULE_PV}.tar.gz )
 "
-# When MY_EXTRAS is bumped, the index should be revised to exclude these.
-EPATCH_EXCLUDE='20004_all_mariadb-filter-tokudb-flags-10.0.7.patch'
 
+MY_PATCH_DIR="${WORKDIR}/mysql-extras-${MY_EXTRAS_VER}"
+PATCHES=(
+	"${MY_PATCH_DIR}/01050_all_mariadb_mysql_config_cleanup-5.5.41.patch"
+	"${MY_PATCH_DIR}/20004_all_mariadb-filter-tokudb-flags-10.0.23.patch"
+	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.15.patch"
+	"${MY_PATCH_DIR}/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch"
+	"${MY_PATCH_DIR}/20018_all_mariadb-10.0.20-without-clientlibs-tools.patch"
+)
 COMMON_DEPEND="
 	!bindist? ( >=sys-libs/readline-4.1:0=	)
 	server? (
@@ -53,8 +56,8 @@ RDEPEND="${RDEPEND} ${COMMON_DEPEND}
 		dev-perl/TermReadKey
 		virtual/perl-Term-ANSIColor
 		virtual/perl-Time-HiRes )
-	pinba? ( dev-libs/judy
-		dev-libs/libevent )
+		pinba? ( dev-libs/judy
+			dev-libs/libevent )
 "
 MULTILIB_WRAPPED_HEADERS+=( /usr/include/mysql/mysql_version.h )
 
