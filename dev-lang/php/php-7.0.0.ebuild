@@ -44,7 +44,7 @@ PHP_RELEASE="php"
 PHP_P="${PN}-${PHP_PV}"
 
 EGIT_REPO_URI="https://git.php.net/repository/php-src.git"
-
+EGIT_BRANCH="PHP-7.0"
 #PHP_SRC_URI="$(php_get_uri "${PHP_RELEASE}" "${PHP_P}.tar.bz2")"
 
 PHP_FPM_CONF_VER="1"
