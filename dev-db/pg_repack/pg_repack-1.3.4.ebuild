@@ -15,5 +15,5 @@ IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}
-		dev-db/postgresql"
+		dev-db/postgresql[static-libs]"
 
