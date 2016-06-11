@@ -1,0 +1,20 @@
+--- a/libcontainerd/remote_linux.go_orig	2016-06-11 15:56:07.947991434 +0300
++++ b/libcontainerd/remote_linux.go	2016-06-11 15:56:42.507991430 +0300
+@@ -30,7 +30,7 @@
+ 	maxConnectionRetryCount   = 3
+ 	connectionRetryDelay      = 3 * time.Second
+ 	containerdShutdownTimeout = 15 * time.Second
+-	containerdBinary          = "docker-containerd"
++	containerdBinary          = "containerd"
+ 	containerdPidFilename     = "docker-containerd.pid"
+ 	containerdSockFilename    = "docker-containerd.sock"
+ 	eventTimestampFilename    = "event.ts"
+@@ -349,7 +349,7 @@
+ 	}
+ 
+ 	// Start a new instance
+-	args := []string{"-l", r.rpcAddr, "--runtime", "docker-runc", "--start-timeout", "2m"}
++	args := []string{"-l", r.rpcAddr, "--runtime", "runc", "--start-timeout", "2m"}
+ 	if r.debugLog {
+ 		args = append(args, "--debug", "--metrics-interval=0")
+ 	}
