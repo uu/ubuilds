@@ -12,7 +12,7 @@ USE_PHP="php7-0"
 
 inherit php-ext-pecl-r2 git-2
 
-KEYWORDS="amd64 x86"
+KEYWORDS="-*"
 EGIT_REPO_URI="https://github.com/tony2001/php-judy.git"
 DESCRIPTION="PHP Extension for libJudy http://pecl.php.net/package/Judy"
 LICENSE="PHP-3"
