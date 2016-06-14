@@ -84,8 +84,8 @@ HTTP_LUA_MODULE_PV_SSL="b4eeb04a04f984b19470b6ee2fcabb88c9072975"
 HTTP_LUA_MODULE_P_SSL="ngx_lua-${HTTP_LUA_MODULE_PV_SSL}"
 HTTP_LUA_MODULE_URI_SSL="https://github.com/chaoslawful/lua-nginx-module/archive/${HTTP_LUA_MODULE_PV_SSL}.zip"
 
-HTTP_LUA_MODULE_PV="0.10.0"
-HTTP_LUA_MODULE_SHA1="09644c4"
+HTTP_LUA_MODULE_PV="0.10.5"
+HTTP_LUA_MODULE_SHA1="1d3d441"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 
@@ -180,7 +180,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MOD
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://github.com/nbs-system/naxsi/releases, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.54"
+HTTP_NAXSI_MODULE_PV="0.55rc2"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
