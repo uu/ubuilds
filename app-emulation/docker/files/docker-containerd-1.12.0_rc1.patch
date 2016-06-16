@@ -1,0 +1,11 @@
+--- libcontainerd/remote_linux.go_orig	2016-06-15 07:36:32.000000000 +0300
++++ libcontainerd/remote_linux.go	2016-06-16 17:16:14.863939311 +0300
+@@ -30,7 +30,7 @@
+ 	maxConnectionRetryCount   = 3
+ 	connectionRetryDelay      = 3 * time.Second
+ 	containerdShutdownTimeout = 15 * time.Second
+-	containerdBinary          = "docker-containerd"
++	containerdBinary          = "containerd"
+ 	containerdPidFilename     = "docker-containerd.pid"
+ 	containerdSockFilename    = "docker-containerd.sock"
+ 	containerdStateDir        = "containerd"
