@@ -6,5 +6,5 @@ KEYWORDS=~amd64 ~x86
 LICENSE=AGPL-3
 SLOT=0
 SRC_URI=http://registry.npmjs.org/eventemitter2/-/eventemitter2-0.4.14.tgz
-_eclasses_=multilib	d062ae4ba2fc40a19c11de2ad89b6616	npm	da80fb88c3a4e1544dec1a47d41f8556	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1
+_eclasses_=multilib	d062ae4ba2fc40a19c11de2ad89b6616	npm	da80fb88c3a4e1544dec1a47d41f8556	toolchain-funcs	d513d423d449877e49d99af3f7af7acb
 _md5_=706bfa83e812a6e6cb8c65d093b41996
