@@ -7,5 +7,5 @@ LICENSE=AGPL-3
 RDEPEND=>=net-libs/nodejs-4.0.0 dev-nodejs/async dev-nodejs/chalk dev-nodejs/chokidar dev-nodejs/cli-table dev-nodejs/coffee-script dev-nodejs/commander dev-nodejs/cron dev-nodejs/debug dev-nodejs/eventemitter2 dev-nodejs/moment dev-nodejs/nssocket dev-nodejs/pidusage dev-nodejs/pmx dev-nodejs/vizion dev-nodejs/pm2-axon dev-nodejs/pm2-axon-rpc dev-nodejs/pm2-deploy dev-nodejs/pm2-multimeter dev-nodejs/safe-clone-deep dev-nodejs/shelljs dev-nodejs/isbinaryfile dev-nodejs/blessed dev-nodejs/semver dev-nodejs/mkdirp
 SLOT=0
 SRC_URI=http://registry.npmjs.org/pm2/-/pm2-0.15.0.tgz
-_eclasses_=multilib	d062ae4ba2fc40a19c11de2ad89b6616	npm	da80fb88c3a4e1544dec1a47d41f8556	toolchain-funcs	c9d9187f4caa4026a0ceddd8dfceb3c1
+_eclasses_=multilib	d062ae4ba2fc40a19c11de2ad89b6616	npm	da80fb88c3a4e1544dec1a47d41f8556	toolchain-funcs	e886935aae2b45a545665444ab0667cf
 _md5_=0cad97153c239fe0396c955c3fe2d847
