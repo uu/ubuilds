@@ -26,8 +26,8 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="5.0.13"
-USE_RUBY="ruby21"
+PASSENGER_PV="5.0.29"
+USE_RUBY="ruby23"
 RUBY_OPTIONAL="yes"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
@@ -36,17 +36,17 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="39e4d53"
 
 # http_headers_more (http://github.com/openresty/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.28"
+HTTP_HEADERS_MORE_MODULE_PV="0.30"
 HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}"
-HTTP_HEADERS_MORE_MODULE_SHA1="51dcf09"
+HTTP_HEADERS_MORE_MODULE_SHA1="cf01659"
 
 # http_redis (http://wiki.nginx.org/HttpRedis)
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
 
 # http_redis (https://github.com/openresty/redis2-nginx-module, BSD license)
-HTTP_REDIS_MODULE_PV="0.12"
+HTTP_REDIS_MODULE_PV="0.13"
 HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
-HTTP_REDIS_MODULE_SHA1="e4a157f"
+HTTP_REDIS_MODULE_SHA1="75d35b0"
 HTTP_REDIS_MODULE_URI="http://github.com/openresty/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
@@ -69,9 +69,9 @@ HTTP_EY_BALANCER_MODULE_P="nginx-ey-balancer-${HTTP_EY_BALANCER_MODULE_PV}"
 HTTP_EY_BALANCER_MODULE_SHA1="c650e1f"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
-HTTP_NDK_MODULE_PV="0.2.19"
+HTTP_NDK_MODULE_PV="0.3.0"
 HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
-HTTP_NDK_MODULE_SHA1="8dd0df5"
+HTTP_NDK_MODULE_SHA1="e443262"
 
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex, BSD license)
 HTTP_FANCYINDEX_MODULE_PV="0.3.5"
@@ -95,19 +95,19 @@ HTTP_DRIZZLE_MODULE_P="drizzle-nginx-module-${HTTP_DRIZZLE_MODULE_PV}"
 HTTP_DRIZZLE_MODULE_SHA1="7d2b1d9"
 
 # NginX for-input module (https://github.com/calio/form-input-nginx-module, BSD)
-HTTP_FORM_INPUT_MODULE_PV="0.11"
+HTTP_FORM_INPUT_MODULE_PV="0.12"
 HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
-HTTP_FORM_INPUT_MODULE_SHA1="bab98b4"
+HTTP_FORM_INPUT_MODULE_SHA1="43ee690"
 
 # NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.58"
+HTTP_ECHO_MODULE_PV="0.59"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="7bc71d2"
+HTTP_ECHO_MODULE_SHA1="02c40f1"
 
 # NginX Featured mecached module (https://github.com/openresty/memc-nginx-module, BSD)
-HTTP_MEMC_MODULE_PV="0.16"
+HTTP_MEMC_MODULE_PV="0.17"
 HTTP_MEMC_MODULE_P="memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
-HTTP_MEMC_MODULE_SHA1="4f6f78f"
+HTTP_MEMC_MODULE_SHA1="ba4e865"
 
 # NginX RDS-JSON module (https://github.com/openresty/rds-json-nginx-module, BSD)
 HTTP_RDS_JSON_MODULE_PV="0.14"
@@ -115,14 +115,14 @@ HTTP_RDS_JSON_MODULE_P="rds-json-nginx-module-${HTTP_RDS_JSON_MODULE_PV}"
 HTTP_RDS_JSON_MODULE_SHA1="b73fc29"
 
 # NginX SRCache module (https://github.com/openresty/srcache-nginx-module, BSD)
-HTTP_SRCACHE_MODULE_PV="0.30"
+HTTP_SRCACHE_MODULE_PV="0.31"
 HTTP_SRCACHE_MODULE_P="srcache-nginx-module-${HTTP_SRCACHE_MODULE_PV}"
-HTTP_SRCACHE_MODULE_SHA1="b3fd3e2"
+HTTP_SRCACHE_MODULE_SHA1="962b08e"
 
 # NginX Set-Misc module (https://github.com/openresty/set-misc-nginx-module, BSD)
-HTTP_SET_MISC_MODULE_PV="0.29"
+HTTP_SET_MISC_MODULE_PV="0.30"
 HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
-HTTP_SET_MISC_MODULE_SHA1="c69a6ff"
+HTTP_SET_MISC_MODULE_SHA1="4637b0d"
 HTTP_SET_MISC_MODULE_URI="http://github.com/openresty/set-misc-nginx-module/tarball/v${HTTP_SET_MISC_MODULE_PV}"
 
 # NginX Set-Misc module (https://github.com/fluent/nginx-fluentd-module/releases, BSD)
@@ -138,14 +138,14 @@ HTTP_XSS_MODULE_P="xss-nginx-module-${HTTP_XSS_MODULE_PV}"
 HTTP_XSS_MODULE_SHA1="368c47b"
 
 # NginX Array-Var module (https://github.com/openresty/array-var-nginx-module, BSD)
-HTTP_ARRAY_VAR_MODULE_PV="0.04"
+HTTP_ARRAY_VAR_MODULE_PV="0.05"
 HTTP_ARRAY_VAR_MODULE_P="array-var-nginx-module-${HTTP_ARRAY_VAR_MODULE_PV}"
-HTTP_ARRAY_VAR_MODULE_SHA1="3d435fc"
+HTTP_ARRAY_VAR_MODULE_SHA1="51cf2ab"
 
 # NginX Iconv module (https://github.com/calio/iconv-nginx-module, BSD)
-HTTP_ICONV_MODULE_PV="0.13"
+HTTP_ICONV_MODULE_PV="0.14"
 HTTP_ICONV_MODULE_P="iconv-nginx-module-${HTTP_ICONV_MODULE_PV}"
-HTTP_ICONV_MODULE_SHA1="cc3bc69"
+HTTP_ICONV_MODULE_SHA1="67d55c7"
 
 ## NginX Set-CConv module (https://github.com/liseen/set-cconv-nginx-module, BSD)
 #HTTP_SET_CCONV_MODULE_PV=""
@@ -199,9 +199,9 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/ngx_metrics-${HTTP_METRICS_MODULE_PV}"
 
 # add the feature of tcp proxy with nginx, with health check and status monitor 
 # (git://github.com/yaoweibin/nginx_tcp_proxy_module.git, AS-IS)
-HTTP_TCP_PROXY_MODULE_PV="0.4.5"
+HTTP_TCP_PROXY_MODULE_PV="nginx_1.9.14"
 HTTP_TCP_PROXY_MODULE_P="ngx-tcp-proxy"
-HTTP_TCP_PROXY_MODULE_SHA1="4a8c314"
+HTTP_TCP_PROXY_MODULE_SHA1="c329c58"
 HTTP_TCP_PROXY_MODULE_URI="https://github.com/dreamcommerce/nginx_tcp_proxy_module/archive/dc.zip"
 
 
@@ -224,7 +224,7 @@ HTTP_DAV_EXT_MODULE_WD="${WORKDIR}/nginx-dav-ext-module-${HTTP_DAV_EXT_MODULE_PV
 
 # mod_security for nginx (https://modsecurity.org/, Apache-2.0)
 # keep the MODULE_P here consistent with upstream to avoid tarball duplication
-HTTP_SECURITY_MODULE_PV="2.9.0"
+HTTP_SECURITY_MODULE_PV="2.9.1"
 HTTP_SECURITY_MODULE_P="modsecurity-apache_${HTTP_SECURITY_MODULE_PV}"
 HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -273,14 +273,14 @@ HTTP_BODYTIME_MODULE_URI="https://github.com/koordinates/bodytime-nginx-module/a
 HTTP_BODYTIME_MODULE_WD="${WORKDIR}/bodytime-nginx-module-${HTTP_BODYTIME_MODULE_PV}"
 
 # pam https://github.com/stogh/ngx_http_auth_pam_module/tarball/v
-PAM_MODULE_PV="1.4"
+PAM_MODULE_PV="1.5.1"
 PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="0.99.4"
+HTTP_NCHAN_MODULE_PV="0.99.16"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="9fdc668"
+HTTP_NCHAN_MODULE_SHA1="cb47d26"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib 
 
