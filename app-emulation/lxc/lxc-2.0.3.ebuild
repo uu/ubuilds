@@ -1,10 +1,10 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="6"
+EAPI="5"
 
-MY_P="${P/_/.}"
+MY_P="${P/_/-}"
 PYTHON_COMPAT=( python{3_3,3_4,3_5} )
 DISTUTILS_OPTIONAL=1
 
@@ -14,7 +14,7 @@ DESCRIPTION="LinuX Containers userspace utilities"
 HOMEPAGE="https://linuxcontainers.org/"
 SRC_URI="https://github.com/lxc/lxc/archive/${MY_P}.tar.gz"
 
-KEYWORDS="-*"
+KEYWORDS="~amd64 ~arm ~arm64"
 
 LICENSE="LGPL-3"
 SLOT="0"
@@ -101,7 +101,9 @@ S="${WORKDIR}/${PN}-${MY_P}"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 src_prepare() {
-	eapply_user
+	epatch "${FILESDIR}"/${P}-bash-completion.patch
+	#558854
+	epatch "${FILESDIR}"/${P}-omit-sysconfig.patch
 	eautoreconf
 }
 
@@ -152,6 +154,12 @@ src_compile() {
 src_install() {
 	default
 
+	mv "${ED}"/usr/share/bash-completion/completions/${PN} "${ED}"/$(get_bashcompdir)/${PN}-start || die
+	# start-ephemeral is no longer a command but removing it here
+	# generates QA warnings (still in upstream completion script)
+	bashcomp_alias ${PN}-start \
+		${PN}-{attach,cgroup,copy,console,create,destroy,device,execute,freeze,info,monitor,snapshot,start-ephemeral,stop,unfreeze,wait}
+
 	if use python; then
 		pushd "${S}/src/python-lxc" > /dev/null
 		# Unset DOCS. This has been handled by the default target
@@ -165,9 +173,14 @@ src_install() {
 	find "${D}" -name '*.la' -delete
 
 	# Gentoo-specific additions!
-	# Use initd.3 per #517144
-	newinitd "${FILESDIR}/${PN}.initd.3" ${PN}
+	newinitd "${FILESDIR}/${PN}.initd.4" ${PN}
 
+	# lxc-devsetup script
+	#exeinto /usr/libexec/${PN}
+	#doexe config/init/common/${PN}-devsetup
+	# Remember to compare our systemd unit file with the upstream one
+	# config/init/systemd/lxc.service.in
+	systemd_newunit "${FILESDIR}"/${PN}_at.service.3 "lxc@.service"
 }
 
 pkg_postinst() {
