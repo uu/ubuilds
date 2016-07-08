@@ -1048,7 +1048,7 @@ src_install() {
 # http_ndk
 	if use nginx_modules_http_ndk; then
 		docinto "${HTTP_NDK_MODULE_P}"
-		dodoc "${WORKDIR}"/"simpl-ngx_devel_kit-${HTTP_NDK_MODULE_SHA1}"/README
+		dodoc "${WORKDIR}"/"simpl-ngx_devel_kit-${HTTP_NDK_MODULE_SHA1}"/README.md
 	fi
 
 # http_lua
