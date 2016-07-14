@@ -27,7 +27,7 @@ src_prepare() {
 
 src_install() {
 	doman lynis.8
-	dodoc CHANGELOG FAQ README
+	dodoc CHANGELOG.md FAQ README INSTALL CONTRIBUTORS
 
 	# Remove the old one during the next stabilize progress
 	exeinto /etc/cron.daily
