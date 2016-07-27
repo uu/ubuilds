@@ -1045,7 +1045,7 @@ src_install() {
 # http_lua
 	if use nginx_modules_http_lua; then
 		docinto "${HTTP_LUA_MODULE_P}"
-		dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV}"/{Changes,README.markdown}
+		dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV}"/{README.markdown}
 	fi
 
 # http_form_input
