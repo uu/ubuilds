@@ -79,12 +79,7 @@ HTTP_FANCYINDEX_MODULE_P="ngx_http_fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
-# http_lua (https://github.com/openresty/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV_SSL="b4eeb04a04f984b19470b6ee2fcabb88c9072975"
-HTTP_LUA_MODULE_P_SSL="ngx_lua-${HTTP_LUA_MODULE_PV_SSL}"
-HTTP_LUA_MODULE_URI_SSL="https://github.com/chaoslawful/lua-nginx-module/archive/${HTTP_LUA_MODULE_PV_SSL}.zip"
-
-HTTP_LUA_MODULE_PV="0.10.5"
+HTTP_LUA_MODULE_PV="0.10.6rc1"
 HTTP_LUA_MODULE_SHA1="1d3d441"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
@@ -201,10 +196,10 @@ HTTP_METRICS_MODULE_WD="${WORKDIR}/ngx_metrics-${HTTP_METRICS_MODULE_PV}"
 
 # add the feature of tcp proxy with nginx, with health check and status monitor 
 # (git://github.com/yaoweibin/nginx_tcp_proxy_module.git, AS-IS)
-HTTP_TCP_PROXY_MODULE_PV="nginx_1.9.14"
+HTTP_TCP_PROXY_MODULE_PV="nginx_1.11.1"
 HTTP_TCP_PROXY_MODULE_P="ngx-tcp-proxy"
-HTTP_TCP_PROXY_MODULE_SHA1="c329c58"
-HTTP_TCP_PROXY_MODULE_URI="https://github.com/dreamcommerce/nginx_tcp_proxy_module/archive/dc.zip"
+HTTP_TCP_PROXY_MODULE_SHA1="76a276a"
+HTTP_TCP_PROXY_MODULE_URI="https://github.com/dreamcommerce/nginx_tcp_proxy_module/archive/${HTTP_TCP_PROXY_MODULE_PV}.tar.gz"
 
 
 # http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module, BSD license)
@@ -289,7 +284,7 @@ HTTP_NCHAN_MODULE_PV="0.99.16"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
 HTTP_NCHAN_MODULE_SHA1="cb47d26"
 
-inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib 
+inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="http://nginx.org
@@ -305,10 +300,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_upload? ( http://www.grid.net.ru/nginx/download/${HTTP_UPLOAD_MODULE_P}.tar.gz )
 	nginx_modules_http_ey_balancer? ( https://github.com/msva/nginx-ey-balancer/tarball/v${HTTP_EY_BALANCER_MODULE_PV} -> ${HTTP_EY_BALANCER_MODULE_P}.tar.gz )
 	nginx_modules_http_ndk? ( https://github.com/simpl/ngx_devel_kit/tarball/v${HTTP_NDK_MODULE_PV} -> ${HTTP_NDK_MODULE_P}.tar.gz )
-	nginx_modules_http_lua? (
-							!luassl? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
-							luassl?  ( ${HTTP_LUA_MODULE_URI_SSL} -> ${HTTP_LUA_MODULE_P_SSL}.zip )
-							)
+	nginx_modules_http_lua? ( ${HTTP_LUA_MODULE_URI} -> ${HTTP_LUA_MODULE_P}.tar.gz )
 	nginx_modules_http_drizzle? ( https://github.com/chaoslawful/drizzle-nginx-module/tarball/v${HTTP_DRIZZLE_MODULE_PV} -> ${HTTP_DRIZZLE_MODULE_P}.tar.gz )
 	nginx_modules_http_form_input? ( https://github.com/calio/form-input-nginx-module/tarball/v${HTTP_FORM_INPUT_MODULE_PV} -> ${HTTP_FORM_INPUT_MODULE_P}.tar.gz )
 	nginx_modules_http_echo? ( https://github.com/openresty/echo-nginx-module/tarball/v${HTTP_ECHO_MODULE_PV} -> ${HTTP_ECHO_MODULE_P}.tar.gz )
@@ -326,7 +318,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_upload_progress? ( https://github.com/masterzen/nginx-upload-progress-module/tarball/v${HTTP_UPLOAD_PROGRESS_MODULE_PV} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
 	nginx_modules_http_supervisord? ( https://codeload.github.com/FRiCKLE/ngx_supervisord/legacy.tar.gz/master -> ${HTTP_SUPERVISORD_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( https://codeload.github.com/FRiCKLE/ngx_slowfs_cache/legacy.tar.gz/master -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
-	nginx_modules_http_tcp_proxy? (	${HTTP_TCP_PROXY_MODULE_URI} -> ${HTTP_TCP_PROXY_MODULE_P}-${HTTP_TCP_PROXY_MODULE_PV}.zip )
+	nginx_modules_http_tcp_proxy? (	${HTTP_TCP_PROXY_MODULE_URI} -> ${HTTP_TCP_PROXY_MODULE_P}-${HTTP_TCP_PROXY_MODULE_PV}.tar.gz )
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
 	nginx_modules_http_zip? 	  ( https://github.com/evanmiller/mod_zip/archive/master.zip ->	ngx_zip.zip )
@@ -382,7 +374,7 @@ REQUIRED_USE="nginx_modules_http_lua? ( nginx_modules_http_ndk )
 		nginx_modules_http_array_var? ( nginx_modules_http_ndk )"
 #		nginx_modules_http_set_cconv? ( nginx_modules_http_ndk )
 
-IUSE="+aio +threads chunk debug +http +http-cache http2 ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp luassl"
+IUSE="+aio +threads chunk debug +http +http-cache http2 ipv6 libatomic pam +pcre perftools rrd ssl vim-syntax +luajit pcre-jit +syslog systemd rtmp"
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
 done
@@ -416,7 +408,6 @@ CDEPEND="
 	nginx_modules_http_drizzle? ( dev-db/drizzle )
 	nginx_modules_http_fluentd? ( app-admin/fluentd )
 	nginx_modules_http_lua? ( luajit? ( dev-lang/luajit ) !luajit? ( >=dev-lang/lua-5.1 ) )
-	nginx_modules_http_lua? ( luassl? ( >=dev-libs/openssl-1.0.2d ) )
 	nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
@@ -510,14 +501,7 @@ src_prepare() {
     fi
 
 	if use nginx_modules_http_lua; then
-		if use luassl; then
-			epatch "${FILESDIR}"/nginx-luassl-cert.patch
-			cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV_SSL}"
-			epatch "${FILESDIR}"/nginx-lua-privekey-to-der-1.patch
-			epatch "${FILESDIR}"/nginx-lua-privekey-to-der-2.patch
-		else
-			cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
-		fi
+		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
 		epatch "${FILESDIR}"/lua-1.9.1.patch
 	fi
 
@@ -720,13 +704,7 @@ src_configure() {
 			export LUA_LIB=$(pkg-config --variable libdir lua)
 			export LUA_INC=$(pkg-config --variable includedir lua)			
 		fi
-		if use luassl; then
-			myconf+="
-			--add-module=${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"
-		else
-			myconf+="
-			--add-module=${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
-		fi
+		myconf+=" --add-module=${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
 
 	fi
 
@@ -1066,16 +1044,8 @@ src_install() {
 
 # http_lua
 	if use nginx_modules_http_lua; then
-		if use luassl && luajit; then
-			docinto "${HTTP_LUA_MODULE_P_SSL}"
-			dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"/{Changes,README.markdown}
-			dodir /usr/share/lua/5.1/resty/
-			insinto /usr/share/lua/5.1/resty/
-			doins "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV_SSL}"/lua/ngx/ssl.lua
-		else
-			docinto "${HTTP_LUA_MODULE_P}"
-			dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV}"/{Changes,README.markdown}
-		fi
+		docinto "${HTTP_LUA_MODULE_P}"
+		dodoc "${WORKDIR}"/"lua-nginx-module-${HTTP_LUA_MODULE_PV}"/{Changes,README.markdown}
 	fi
 
 # http_form_input
