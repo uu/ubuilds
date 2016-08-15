@@ -1,0 +1,11 @@
+DEFINED_PHASES=compile config install unpack
+DEPEND=dev-db/postgresql dev-vcs/git
+DESCRIPTION=Fast wildcard search for LIKE operator for PostgreSQL 8.4+
+EAPI=5
+HOMEPAGE=http://sigaev.ru/git/gitweb.cgi?p=wildspeed.git;a=blob;hb=HEAD;f=README.md
+KEYWORDS=~amd64 ~x86
+LICENSE=POSTGRESQL GPL-2
+RDEPEND=dev-db/postgresql
+SLOT=0
+_eclasses_=git-2	7af5d170bfc02983b4bcd3167dc5edd4
+_md5_=c1c08a14fdca7402d959418e356d8a56
