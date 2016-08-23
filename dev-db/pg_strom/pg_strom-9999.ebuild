@@ -10,7 +10,7 @@ DESCRIPTION="CUDA stream for PostgreSQL"
 HOMEPAGE="https://github.com/pg-strom/devel"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/pg-strom/devel.git"
-#EGIT_BRANCH="gpujoin"
+#EGIT_BRANCH="pgsql9.6"
 #EGIT_COMMIT="v0_8"
 
 LICENSE="GPL-2"
@@ -44,7 +44,7 @@ src_install() {
 	
 	pg_bin=$(pg_config --bindir)
 	exeinto ${pg_bin}
-	doexe src/gpuinfo 
+	doexe utils/gpuinfo utils/kfunc_info
 
 	dodoc README.md
 }

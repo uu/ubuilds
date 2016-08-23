@@ -3,7 +3,7 @@
 # $Id$
 
 EAPI="6"
-MY_EXTRAS_VER="20151223-1501Z"
+MY_EXTRAS_VER="20160629-1442Z"
 SUBSLOT="18"
 MYSQL_PV_MAJOR="5.6"
 
@@ -21,7 +21,7 @@ PINBA_MODULE_PV="1.1.0"
 PINBA_MODULE_URI="http://pinba.org/files/pinba_engine-1.1.0.tar.gz"
 
 # REMEMBER: also update eclass/mysql*.eclass before committing!
-KEYWORDS="alpha amd64 ~arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc ~x86 ~sparc-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
+KEYWORDS="~alpha amd64 arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc x86 ~sparc-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
 
 SRC_URI="$SRC_URI
 	pinba? ( http://pinba.org/files/pinba_engine-${PINBA_MODULE_PV}.tar.gz )
@@ -30,8 +30,9 @@ SRC_URI="$SRC_URI
 MY_PATCH_DIR="${WORKDIR}/mysql-extras-${MY_EXTRAS_VER}"
 PATCHES=(
 	"${MY_PATCH_DIR}/01050_all_mariadb_mysql_config_cleanup-5.5.41.patch"
-	"${MY_PATCH_DIR}/20004_all_mariadb-filter-tokudb-flags-10.0.23.patch"
-	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.15.patch"
+	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.26.patch"
+	#"${MY_PATCH_DIR}/20004_all_mariadb-filter-tokudb-flags-10.0.23.patch"
+	#"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.15.patch"
 	"${MY_PATCH_DIR}/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch"
 	"${MY_PATCH_DIR}/20018_all_mariadb-10.0.20-without-clientlibs-tools.patch"
 )
@@ -59,7 +60,9 @@ RDEPEND="${RDEPEND} ${COMMON_DEPEND}
 		pinba? ( dev-libs/judy
 			dev-libs/libevent )
 "
-MULTILIB_WRAPPED_HEADERS+=( /usr/include/mysql/mysql_version.h )
+MULTILIB_WRAPPED_HEADERS+=( /usr/include/mysql/mysql_version.h
+	/usr/include/mysql/private/probes_mysql_nodtrace.h
+	/usr/include/mysql/private/probes_mysql_dtrace.h )
 
 
 src_prepare() {
