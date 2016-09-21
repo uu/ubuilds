@@ -7,12 +7,14 @@ MY_EXTRAS_VER="20160629-1442Z"
 SUBSLOT="18"
 MYSQL_PV_MAJOR="5.6"
 
-inherit toolchain-funcs mysql-multilib-r1
+JAVA_PKG_OPT_USE="jdbc"
+
+inherit toolchain-funcs java-pkg-opt-2 mysql-multilib-r1
 
 HOMEPAGE="http://mariadb.org/"
 DESCRIPTION="An enhanced, drop-in replacement for MySQL"
 
-IUSE="bindist odbc oqgraph pam sphinx tokudb xml pinba"
+IUSE="bindist jdbc odbc oqgraph pam sphinx tokudb xml pinba"
 RESTRICT="!bindist? ( bindist )"
 
 REQUIRED_USE="server? ( tokudb? ( jemalloc ) ) static? ( !pam )"
@@ -31,8 +33,6 @@ MY_PATCH_DIR="${WORKDIR}/mysql-extras-${MY_EXTRAS_VER}"
 PATCHES=(
 	"${MY_PATCH_DIR}/01050_all_mariadb_mysql_config_cleanup-5.5.41.patch"
 	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.26.patch"
-	#"${MY_PATCH_DIR}/20004_all_mariadb-filter-tokudb-flags-10.0.23.patch"
-	#"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.15.patch"
 	"${MY_PATCH_DIR}/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch"
 	"${MY_PATCH_DIR}/20018_all_mariadb-10.0.20-without-clientlibs-tools.patch"
 )
@@ -50,6 +50,7 @@ COMMON_DEPEND="
 	>=dev-libs/libpcre-8.35:3=
 "
 DEPEND="|| ( >=sys-devel/gcc-3.4.6 >=sys-devel/gcc-apple-4.0 )
+	server? ( extraengine? ( jdbc? ( >=virtual/jdk-1.6 ) ) )
 	${COMMON_DEPEND}"
 RDEPEND="${RDEPEND} ${COMMON_DEPEND}
 	perl? ( !dev-db/mytop
@@ -57,6 +58,7 @@ RDEPEND="${RDEPEND} ${COMMON_DEPEND}
 		dev-perl/TermReadKey
 		virtual/perl-Term-ANSIColor
 		virtual/perl-Time-HiRes )
+	server? ( extraengine? ( jdbc? ( >=virtual/jre-1.6 ) ) )
 		pinba? ( dev-libs/judy
 			dev-libs/libevent )
 "
@@ -64,12 +66,22 @@ MULTILIB_WRAPPED_HEADERS+=( /usr/include/mysql/mysql_version.h
 	/usr/include/mysql/private/probes_mysql_nodtrace.h
 	/usr/include/mysql/private/probes_mysql_dtrace.h )
 
+pkg_setup() {
+	java-pkg-opt-2_pkg_setup
+	mysql-multilib-r1_pkg_setup
+}
+
+pkg_preinst() {
+	java-pkg-opt-2_pkg_preinst
+	mysql-multilib-r1_pkg_preinst
+}
 
 src_prepare() {
+	java-pkg-opt-2_src_prepare
 	mysql-multilib-r1_src_prepare
 	if use pinba; then
 		cd "${WORKDIR}/pinba_engine-${PINBA_MODULE_PV}"
-		epatch "${FILESDIR}/pinba-configure.patch"
+		eapply "${FILESDIR}/pinba-configure.patch"
 		cd -
 	fi
 }
@@ -101,6 +113,7 @@ src_configure(){
 			-DCONNECT_WITH_MYSQL=1
 			-DCONNECT_WITH_LIBXML2=$(usex xml)
 			-DCONNECT_WITH_ODBC=$(usex odbc)
+			-DCONNECT_WITH_JDBC=$(usex jdbc)
 			-DWITHOUT_MROONGA=1
 		)
 	fi
@@ -192,14 +205,15 @@ multilib_src_test() {
 		# The tool is deprecated anyway
 		# Bug 532288
 
-		for t in main.mysql_client_test main.mysql_client_test_nonblock \
-			main.mysql_client_test_comp \
-			binlog.binlog_statement_insert_delayed main.information_schema \
-			main.mysqld--help main.bootstrap \
-			archive.mysqlhotcopy_archive main.mysqlhotcopy_myisam \
-			funcs_1.is_triggers funcs_1.is_tables_mysql funcs_1.is_columns_mysql ; do
-				mysql-multilib-r1_disable_test  "$t" "False positives in Gentoo"
-		done
+#main.bootstrap \
+#		for t in main.mysql_client_test main.mysql_client_test_nonblock \
+#			main.mysql_client_test_comp \
+#			binlog.binlog_statement_insert_delayed main.information_schema \
+#			main.mysqld--help \
+#			archive.mysqlhotcopy_archive main.mysqlhotcopy_myisam \
+#			funcs_1.is_triggers funcs_1.is_tables_mysql funcs_1.is_columns_mysql ; do
+#				mysql-multilib-r1_disable_test  "$t" "False positives in Gentoo"
+#		done
 
 		# Run mysql tests
 		pushd "${TESTDIR}" || die
