@@ -9,11 +9,13 @@ PYTHON_COMPAT=( python{2_7,3_4,3_5} )
 inherit eutils flag-o-matic linux-info multilib pam prefix python-single-r1 \
 		systemd user versionator
 
-KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~ppc-macos ~x86-solaris"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~ppc-macos ~x86-solaris"
 
 SLOT="$(get_version_component_range 1-2)"
 
-SRC_URI="http://repo.postgrespro.ru/pgpro-${SLOT}/src/${P}.tar.bz2"
+MY_PV=${PV/_/}
+MY_SUB="1"
+S="${WORKDIR}/${PN}-${MY_PV}"
 
 LICENSE="POSTGRESQL GPL-2"
 DESCRIPTION="PostgreSQL RDBMS"
@@ -21,8 +23,12 @@ HOMEPAGE="http://www.postgresql.org/"
 
 LINGUAS="af cs de en es fa fr hr hu it ko nb pl pt_BR ro ru sk sl sv tr
 		 zh_CN zh_TW"
+
 IUSE="doc kerberos kernel_linux ldap libressl nls pam perl -pg_legacytimestamp python
-	  +readline selinux +server ssl static-libs tcl threads uuid xml zlib"
+	  +readline selinux +server ssl static-libs tcl threads uuid xml zlib +pro"
+
+SRC_URI="pro? ( http://repo.postgrespro.ru/pgpro-9.6/src/postgrespro-${PV}.${MY_SUB}.tar.bz2 )
+        !pro? ( mirror://postgresql/source/v${MY_PV}/postgresql-${MY_PV}.tar.bz2 )"
 
 for lingua in ${LINGUAS}; do
 	IUSE+=" linguas_${lingua}"
@@ -45,7 +51,7 @@ virtual/libintl
 kerberos? ( virtual/krb5 )
 ldap? ( net-nds/openldap )
 pam? ( virtual/pam )
-perl? ( >=dev-lang/perl-5.8 )
+perl? ( >=dev-lang/perl-5.8:= )
 python? ( ${PYTHON_DEPS} )
 readline? ( sys-libs/readline:0= )
 ssl? (
@@ -92,7 +98,6 @@ RDEPEND="${CDEPEND}
 !dev-db/postgresql-docs:${SLOT}
 !dev-db/postgresql-base:${SLOT}
 !dev-db/postgresql-server:${SLOT}
-!!dev-db/postgresql:${SLOT}
 selinux? ( sec-policy/selinux-postgresql )
 "
 
@@ -103,6 +108,8 @@ pkg_setup() {
 	enewuser postgres 70 /bin/sh /var/lib/postgresql postgres
 
 	use python && python-single-r1_pkg_setup
+
+	use pro && S="${WORKDIR}/postgrespro-${PV}.${MY_SUB}"
 }
 
 src_prepare() {
@@ -118,7 +125,7 @@ src_prepare() {
 	# hardened and non-hardened environments. (Bug #528786)
 	sed 's/@install_bin@/install -c/' -i src/Makefile.global.in || die
 
-	#use server || epatch "${FILESDIR}/${PN}-${SLOT}-no-server.patch"
+	use server || epatch "${FILESDIR}/${PN}-${SLOT}.1-no-server.patch"
 
 	# Fix bug 486556 where the server would crash at start up because of
 	# an infinite loop caused by a self-referencing symlink.
@@ -164,7 +171,6 @@ src_configure() {
 		--mandir="${PO}/usr/share/postgresql-${SLOT}/man" \
 		--sysconfdir="${PO}/etc/postgresql-${SLOT}" \
 		--with-system-tzdata="${PO}/usr/share/zoneinfo" \
-		$(use_enable !alpha spinlocks) \
 		$(use_enable !pg_legacytimestamp integer-datetimes) \
 		$(use_enable threads thread-safety) \
 		$(use_with kerberos gssapi) \
@@ -197,15 +203,15 @@ src_install() {
 	# they'll be generated from source before being installed so we
 	# manually install man pages.
 	# We use ${SLOT} instead of doman for postgresql.eselect
-	# insinto /usr/share/postgresql-${SLOT}/man/
-	# doins -r doc/src/sgml/man{1,3,7}
-	#if ! use server; then
-	#	# Remove man pages for non-existent binaries
-	#	for m in {initdb,pg_{controldata,ctl,resetxlog},post{gres,master}}; do
-	#		rm "${ED}/usr/share/postgresql-${SLOT}/man/man1/${m}.1"
-	#	done
-	#fi
-	#docompress /usr/share/postgresql-${SLOT}/man/man{1,3,7}
+	insinto /usr/share/postgresql-${SLOT}/man/
+	use pro || doins -r doc/src/sgml/man{1,3,7}
+	if ! use server; then
+		# Remove man pages for non-existent binaries
+		for m in {initdb,pg_{controldata,ctl,resetxlog},post{gres,master}}; do
+			rm "${ED}/usr/share/postgresql-${SLOT}/man/man1/${m}.1"
+		done
+	fi
+	use pro || docompress /usr/share/postgresql-${SLOT}/man/man{1,3,7}
 
 	insinto /etc/postgresql-${SLOT}
 	newins src/bin/psql/psqlrc.sample psqlrc
@@ -216,28 +222,28 @@ src_install() {
 
 	use static-libs || find "${ED}" -name '*.a' -delete
 
-	#if use doc ; then
-	#	docinto html
-	#	dodoc doc/src/sgml/html/*
-	#
-	#	docinto sgml
-	#	dodoc doc/src/sgml/*.{sgml,dsl}
-	#fi
+	if use doc ; then
+		docinto html
+		dodoc doc/src/sgml/html/*
+
+		docinto sgml
+		dodoc doc/src/sgml/*.{sgml,dsl}
+	fi
 
 	if use server; then
 		sed -e "s|@SLOT@|${SLOT}|g" -e "s|@LIBDIR@|$(get_libdir)|g" \
-			"${FILESDIR}/${PN}.confd" | newconfd - postgresql-${SLOT}
+			"${FILESDIR}/${PN}.confd" | newconfd - ${PN}-${SLOT}
 
 		sed -e "s|@SLOT@|${SLOT}|g" -e "s|@LIBDIR@|$(get_libdir)|g" \
-			"${FILESDIR}/${PN}.init-9.3" | newinitd - postgresql-${SLOT}
+			"${FILESDIR}/${PN}.init-9.3" | newinitd - ${PN}-${SLOT}
 
 		sed -e "s|@SLOT@|${SLOT}|g" -e "s|@LIBDIR@|$(get_libdir)|g" \
 			"${FILESDIR}/${PN}.service" | \
-			systemd_newunit - postgresql-${SLOT}.service
+			systemd_newunit - ${PN}-${SLOT}.service
 
-		newbin "${FILESDIR}"/${PN}-check-db-dir postgresql-${SLOT}-check-db-dir
+		newbin "${FILESDIR}"/${PN}-check-db-dir ${PN}-${SLOT}-check-db-dir
 
-		use pam && pamd_mimic system-auth postgresql-${SLOT} auth account session
+		use pam && pamd_mimic system-auth ${PN}-${SLOT} auth account session
 
 		if use prefix ; then
 			keepdir /run/postgresql
@@ -248,11 +254,6 @@ src_install() {
 
 pkg_postinst() {
 	postgresql-config update
-
-	if use alpha && use server ; then
-		ewarn "PostgreSQL 9.5+ no longer has native spinlock support on Alpha platforms."
-		ewarn "As a result, performance will be extremely degraded."
-	fi
 
 	elog "If you need a global psqlrc-file, you can place it in:"
 	elog "    ${EROOT%/}/etc/postgresql-${SLOT}/"
@@ -422,8 +423,6 @@ pkg_config() {
 }
 
 src_test() {
-	einfo ">>> Test phase [check]: ${CATEGORY}/${PF}"
-
 	if use server && [[ ${UID} -ne 0 ]] ; then
 		emake check
 
