@@ -8,7 +8,7 @@ PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 DOCS="README"
 
-USE_PHP="php5-6 php5-5 php5-3 php5-4"
+USE_PHP="php7-0"
 
 inherit php-ext-pecl-r2 git-2
 
@@ -19,7 +19,7 @@ LICENSE="PHP-3"
 SLOT="0"
 IUSE=""
 
-EGIT_BRANCH="master"
+EGIT_BRANCH="php7"
 
 SRC_URI=""
 
