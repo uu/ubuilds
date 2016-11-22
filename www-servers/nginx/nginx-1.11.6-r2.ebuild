@@ -418,6 +418,7 @@ CDEPEND="
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
 	nginx_modules_http_tidehunter? ( dev-libs/jansson )
+	nginx_modules_http_brotli? ( dev-libs/libbrotli )
 	nginx_modules_http_passenger? (
 		$(ruby_implementation_depend ruby21)
 		>=dev-ruby/rubygems-0.9.0
