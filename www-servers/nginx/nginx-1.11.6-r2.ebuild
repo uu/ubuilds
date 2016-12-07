@@ -285,9 +285,9 @@ PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="0.99.16"
+HTTP_NCHAN_MODULE_PV="1.0.8"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="cb47d26"
+HTTP_NCHAN_MODULE_SHA1="bb4ad22"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib
 
@@ -419,6 +419,7 @@ CDEPEND="
 	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
 	nginx_modules_http_tidehunter? ( dev-libs/jansson )
 	nginx_modules_http_brotli? ( dev-libs/libbrotli )
+	nginx_modules_http_nchan? ( dev-libs/hiredis )
 	nginx_modules_http_passenger? (
 		$(ruby_implementation_depend ruby21)
 		>=dev-ruby/rubygems-0.9.0
