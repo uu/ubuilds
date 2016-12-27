@@ -1,6 +1,6 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-misc/rabbitmq-server/rabbitmq-server-3.5.1.ebuild,v 1.1 2015/04/30 10:38:43 ultrabug Exp $
+# $Id$
 
 EAPI="5"
 
@@ -10,14 +10,14 @@ inherit eutils python-any-r1 systemd user
 
 DESCRIPTION="RabbitMQ is a high-performance AMQP-compliant message broker written in Erlang"
 HOMEPAGE="http://www.rabbitmq.com/"
-SRC_URI="http://www.rabbitmq.com/releases/rabbitmq-server/v${PV}/rabbitmq-server-${PV}.tar.gz"
+SRC_URI="http://www.rabbitmq.com/releases/rabbitmq-server/v${PV}/rabbitmq-server-${PV}.tar.xz"
 
 LICENSE="GPL-2 MPL-1.1"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 ~arm64 x86"
 IUSE=""
 
-RDEPEND="dev-lang/erlang"
+RDEPEND="dev-lang/erlang[ssl]"
 DEPEND="${RDEPEND}
 	app-arch/zip
 	app-arch/unzip
@@ -34,8 +34,7 @@ pkg_setup() {
 }
 
 src_compile() {
-	emake all docs_all
-	gunzip docs/*.gz
+	emake all docs dist
 }
 
 src_install() {

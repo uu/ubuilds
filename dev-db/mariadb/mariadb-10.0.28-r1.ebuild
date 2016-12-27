@@ -17,13 +17,13 @@ DESCRIPTION="An enhanced, drop-in replacement for MySQL"
 IUSE="bindist jdbc odbc oqgraph pam sphinx tokudb xml pinba"
 RESTRICT="!bindist? ( bindist )"
 
-REQUIRED_USE="server? ( tokudb? ( jemalloc ) ) static? ( !pam )"
+REQUIRED_USE="server? ( tokudb? ( jemalloc ) ) static? ( !pam ) jdbc? ( extraengine server !static )"
 
 PINBA_MODULE_PV="1.1.0"
 PINBA_MODULE_URI="http://pinba.org/files/pinba_engine-1.1.0.tar.gz"
 
 # REMEMBER: also update eclass/mysql*.eclass before committing!
-KEYWORDS="~alpha amd64 arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc x86 ~sparc-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
+KEYWORDS="alpha amd64 arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc x86 ~sparc-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
 
 SRC_URI="$SRC_URI
 	pinba? ( http://pinba.org/files/pinba_engine-${PINBA_MODULE_PV}.tar.gz )
