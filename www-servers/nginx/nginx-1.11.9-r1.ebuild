@@ -36,9 +36,9 @@ HTTP_UPLOAD_PROGRESS_MODULE_P="ngx_upload_progress-${HTTP_UPLOAD_PROGRESS_MODULE
 HTTP_UPLOAD_PROGRESS_MODULE_SHA1="39e4d53"
 
 # http_headers_more (http://github.com/openresty/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.30"
+HTTP_HEADERS_MORE_MODULE_PV="0.32"
 HTTP_HEADERS_MORE_MODULE_P="ngx-http-headers-more-${HTTP_HEADERS_MORE_MODULE_PV}"
-HTTP_HEADERS_MORE_MODULE_SHA1="cf01659"
+HTTP_HEADERS_MORE_MODULE_SHA1="5aa7605"
 
 # http_redis (http://wiki.nginx.org/HttpRedis)
 #HTTP_REDIS_MODULE_P="ngx_http_redis-0.3.5"
@@ -74,7 +74,7 @@ HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="e443262"
 
 # http_fancyindex (https://github.com/aperezdc/ngx-fancyindex, BSD license)
-HTTP_FANCYINDEX_MODULE_PV="0.3.5"
+HTTP_FANCYINDEX_MODULE_PV="0.4.1"
 HTTP_FANCYINDEX_MODULE_P="ngx_http_fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
@@ -95,9 +95,9 @@ HTTP_FORM_INPUT_MODULE_P="form-input-nginx-module-${HTTP_FORM_INPUT_MODULE_PV}"
 HTTP_FORM_INPUT_MODULE_SHA1="43ee690"
 
 # NginX echo module (https://github.com/openresty/echo-nginx-module, BSD)
-HTTP_ECHO_MODULE_PV="0.59"
+HTTP_ECHO_MODULE_PV="0.60"
 HTTP_ECHO_MODULE_P="echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
-HTTP_ECHO_MODULE_SHA1="02c40f1"
+HTTP_ECHO_MODULE_SHA1="46334b3"
 
 # NginX Featured mecached module (https://github.com/openresty/memc-nginx-module, BSD)
 HTTP_MEMC_MODULE_PV="0.17"
@@ -175,11 +175,11 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MOD
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://github.com/nbs-system/naxsi/releases, GPLv2+)
-#HTTP_NAXSI_MODULE_PV="0.55rc2"
-HTTP_NAXSI_MODULE_PV="master"
+HTTP_NAXSI_MODULE_PV="0.55.1"
+#HTTP_NAXSI_MODULE_PV="master"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
-#HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
-HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/master.zip"
+HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
+#HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/master.zip"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
 
 HTTP_BROTLI_MODULE_PV="master"
@@ -285,9 +285,9 @@ PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="1.0.8"
+HTTP_NCHAN_MODULE_PV="1.1.0"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="bb4ad22"
+HTTP_NCHAN_MODULE_SHA1="da4114d"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib
 
@@ -852,9 +852,12 @@ src_configure() {
 	    http_enabled=1
 	    myconf+=" --add-module=${HTTP_NAXSI_MODULE_WD}"
 	fi
-	
+
 	if use nginx_modules_http_brotli ; then
 	    http_enabled=1
+		cd ${HTTP_BROTLI_MODULE_WD}/deps/brotli
+		git clone https://github.com/google/brotli.git .
+		cd -
 	    myconf+=" --add-module=${HTTP_BROTLI_MODULE_WD}"
 	fi
 
