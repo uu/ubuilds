@@ -182,9 +182,11 @@ HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_
 #HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/master.zip"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
 
-HTTP_BROTLI_MODULE_PV="master"
+# TODO: hardcoded because of stalled API
+HTTP_BROTLI_MODULE_PV="12529813a9f8475718370a19007c7905601a62ad"
 HTTP_BROTLI_MODULE_P="ngx_brotli-${HTTP_BROTLI_MODULE_PV}"
-HTTP_BROTLI_MODULE_URI="https://github.com/google/ngx_brotli/archive/master.zip"
+#HTTP_BROTLI_MODULE_URI="https://github.com/google/ngx_brotli/archive/master.zip"
+HTTP_BROTLI_MODULE_URI="https://github.com/google/ngx_brotli/archive/12529813a9f8475718370a19007c7905601a62ad.zip"
 HTTP_BROTLI_MODULE_WD="${WORKDIR}/ngx_brotli-${HTTP_BROTLI_MODULE_PV}"
 
 # tidehunter (https://github.com/ruoshan/tidehunter)
@@ -856,7 +858,11 @@ src_configure() {
 	if use nginx_modules_http_brotli ; then
 	    http_enabled=1
 		cd ${HTTP_BROTLI_MODULE_WD}/deps/brotli
-		git clone https://github.com/google/brotli.git .
+		#git clone -b v0.5 https://github.com/google/brotli.git .
+		#git clone --depth=1 https://github.com/google/brotli.git .
+		#git checkout Ia5d9bcb89e8d09daaaabc319333f6868421fc7f0
+		#git pull
+		#make
 		cd -
 	    myconf+=" --add-module=${HTTP_BROTLI_MODULE_WD}"
 	fi

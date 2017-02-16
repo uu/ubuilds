@@ -1,23 +1,31 @@
---- src/http/ngx_http_header_filter_module.c_orig	2013-03-26 16:51:08.000000000 +0400
-+++ src/http/ngx_http_header_filter_module.c	2013-03-26 16:51:48.000000000 +0400
-@@ -46,8 +46,8 @@
- };
+--- src/http/ngx_http_header_filter_module.c_orig	2017-02-14 18:36:05.000000000 +0300
++++ src/http/ngx_http_header_filter_module.c	2017-02-16 16:02:25.984295255 +0300
+@@ -47,8 +47,8 @@
  
  
--static char ngx_http_server_string[] = "Server: nginx" CRLF;
--static char ngx_http_server_full_string[] = "Server: " NGINX_VER CRLF;
-+static char ngx_http_server_string[] = "Server: megadrom@%HOSTNAME%" CRLF;
-+static char ngx_http_server_full_string[] = "Server: megadrom@%HOSTNAME%" CRLF;
+ static u_char ngx_http_server_string[] = "Server: nginx" CRLF;
+-static u_char ngx_http_server_full_string[] = "Server: " NGINX_VER CRLF;
+-static u_char ngx_http_server_build_string[] = "Server: " NGINX_VER_BUILD CRLF;
++static u_char ngx_http_server_full_string[] = "Server: megadrom@%HOSTNAME%" CRLF;
++static u_char ngx_http_server_build_string[] = "Server: megadrom@%HOSTNAME%" CRLF;
  
  
  static ngx_str_t ngx_http_status_lines[] = {
---- src/http/ngx_http_special_response.c_orig	2013-03-26 17:14:15.431992229 +0400
-+++ src/http/ngx_http_special_response.c	2013-03-26 17:15:18.188318910 +0400
-@@ -19,14 +19,14 @@
+--- src/http/ngx_http_special_response.c_orig	2017-02-14 18:36:05.000000000 +0300
++++ src/http/ngx_http_special_response.c	2017-02-16 16:01:52.768295824 +0300
+@@ -19,21 +19,21 @@
  
  
  static u_char ngx_http_error_full_tail[] =
 -"<hr><center>" NGINX_VER "</center>" CRLF
++"<hr><center><i>megadrom@%HOSTNAME%</i></center>" CRLF
+ "</body>" CRLF
+ "</html>" CRLF
+ ;
+ 
+ 
+ static u_char ngx_http_error_build_tail[] =
+-"<hr><center>" NGINX_VER_BUILD "</center>" CRLF
 +"<hr><center><i>megadrom@%HOSTNAME%</i></center>" CRLF
  "</body>" CRLF
  "</html>" CRLF
@@ -30,4 +38,3 @@
  "</body>" CRLF
  "</html>" CRLF
  ;
-
