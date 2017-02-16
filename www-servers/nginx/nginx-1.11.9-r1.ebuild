@@ -490,7 +490,7 @@ src_prepare() {
 	sed -i -e 's/ make/ \\$(MAKE)/' "${S}"/auto/lib/perl/make
 	sed -i -e "s|\(NGX_MAX_ERROR_STR\)   2048|\1 4096|" "${S}"/src/core/ngx_log.h
 
-	epatch "${FILESDIR}"/version.patch
+	epatch "${FILESDIR}"/version-9.patch
 
 	host=$(hostname 2>/dev/null)
 	sed -i -e "s|%HOSTNAME%|$host|" "${S}"/src/http/ngx_http_special_response.c
@@ -858,6 +858,11 @@ src_configure() {
 	if use nginx_modules_http_brotli ; then
 	    http_enabled=1
 		cd ${HTTP_BROTLI_MODULE_WD}/deps/brotli
+		#git clone -b v0.5 https://github.com/google/brotli.git .
+		#git clone --depth=1 https://github.com/google/brotli.git .
+		#git checkout Ia5d9bcb89e8d09daaaabc319333f6868421fc7f0
+		#git pull
+		#make
 		cd -
 	    myconf+=" --add-module=${HTTP_BROTLI_MODULE_WD}"
 	fi
