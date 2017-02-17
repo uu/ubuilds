@@ -1,12 +1,12 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
-USE_PHP="php7-0 php5-6 php5-4 php5-5"
+USE_PHP="php7-1 php7-0 php5-6"
 
-inherit php-ext-pecl-r2
+inherit php-ext-pecl-r3
 
 KEYWORDS="~amd64 ~x86"
 
@@ -15,5 +15,5 @@ LICENSE="PHP-3.01"
 SLOT="0"
 IUSE=""
 
-DEPEND=">=net-libs/rabbitmq-c-0.7.1"
+DEPEND=">=net-libs/rabbitmq-c-0.5.2"
 RDEPEND="${DEPEND}"
