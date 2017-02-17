@@ -101,6 +101,9 @@ src_configure(){
 				-DWITHOUT_FEDERATEDX=1 )
 		fi
 
+		# Connect with Zip is currently broken and does not compile
+		# Reported upstream https://jira.mariadb.org/browse/MDEV-11809
+
 		MYSQL_CMAKE_NATIVE_DEFINES+=(
 			$(mysql-cmake_use_plugin oqgraph OQGRAPH)
 			$(mysql-cmake_use_plugin sphinx SPHINX)
@@ -115,6 +118,7 @@ src_configure(){
 			-DCONNECT_WITH_ODBC=$(usex odbc)
 			-DCONNECT_WITH_JDBC=$(usex jdbc)
 			-DWITHOUT_MROONGA=1
+			-DCONNECT_WITH_ZIP=OFF
 		)
 	fi
 	mysql-multilib-r1_src_configure
