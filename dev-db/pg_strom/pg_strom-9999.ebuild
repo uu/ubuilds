@@ -18,15 +18,15 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-DEPEND="dev-db/postgresql:9.5
+DEPEND=">=dev-db/postgresql-9.5.0
 	>=dev-util/nvidia-cuda-toolkit-7.0.28
 	>=dev-util/nvidia-cuda-sdk-7.0.28"
 RDEPEND="${DEPEND}"
 
 
-#src_prepare() {
-#	epatch ${FILESDIR}/make.patch
-#}
+src_prepare() {
+	epatch ${FILESDIR}/make.patch
+}
 
 src_compile() {
     emake -j1 USE_PGXS=1
