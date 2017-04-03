@@ -1,4 +1,4 @@
-# Copyright 2010 Gentoo Foundation
+# Copyright 2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
@@ -9,7 +9,7 @@ inherit java-pkg-2 java-ant-2
 
 DESCRIPTION="Selenium automates browsers"
 HOMEPAGE="http://www.seleniumhq.org/"
-SRC_URI="http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-${PV}.jar"
+SRC_URI="http://selenium-release.storage.googleapis.com/3.3/selenium-server-standalone-${PV}.jar"
 
 LICENSE="BSD"
 SLOT="0"
