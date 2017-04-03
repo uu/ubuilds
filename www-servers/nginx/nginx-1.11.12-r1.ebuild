@@ -26,7 +26,7 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="5.0.29"
+PASSENGER_PV="5.1.2"
 USE_RUBY="ruby23"
 RUBY_OPTIONAL="yes"
 
@@ -175,7 +175,7 @@ HTTP_SLOWFS_CACHE_MODULE_WD="${WORKDIR}/ngx_slowfs_cache-${HTTP_SLOWFS_CACHE_MOD
 CHUNKIN_MODULE_PV="0.23"
 CHUNKIN_MODULE_SHA1="81c04f6"
 # naxsi-core (https://github.com/nbs-system/naxsi/releases, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.55.1"
+HTTP_NAXSI_MODULE_PV="0.55.3"
 #HTTP_NAXSI_MODULE_PV="master"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
@@ -287,9 +287,9 @@ PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="1.1.0"
+HTTP_NCHAN_MODULE_PV="1.1.3"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="da4114d"
+HTTP_NCHAN_MODULE_SHA1="f4d6dbd"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib
 
@@ -328,7 +328,7 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_tcp_proxy? (	${HTTP_TCP_PROXY_MODULE_URI} -> ${HTTP_TCP_PROXY_MODULE_P}-${HTTP_TCP_PROXY_MODULE_PV}.tar.gz )
 	nginx_modules_http_pagespeed? (	http://github.com/pagespeed/ngx_pagespeed/archive/master.zip ->	ngx_pagespeed.zip )
 	nginx_modules_http_pinba? 	  ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->	ngx_pinba.zip )
-	nginx_modules_http_zip? 	  ( https://github.com/evanmiller/mod_zip/archive/master.zip ->	ngx_zip.zip )
+	nginx_modules_http_zip? 	  ( https://github.com/anthonyryan1/mod_zip/archive/master.zip ->	ngx_zip-anthonyryan1.zip )
 	nginx_modules_http_metrics? ( ${HTTP_METRICS_MODULE_URI} -> ${HTTP_METRICS_MODULE_P}.tar.gz )
 	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} ->	${HTTP_NAXSI_MODULE_P}.zip )
 	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.zip )
@@ -513,6 +513,7 @@ src_prepare() {
 	if use nginx_modules_http_lua; then
 		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
 		epatch "${FILESDIR}"/lua-1.9.1.patch
+		epatch "${FILESDIR}"/lua-1.11.12.patch
 	fi
 
 	if use nginx_modules_http_passenger; then
