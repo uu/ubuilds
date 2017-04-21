@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-php/xhprof/xhprof-0.9.2.ebuild,v 1.2 2011/03/27 04:50:11 mr_bones_ Exp $
 
-EAPI="6"
+EAPI=6
 
 PHP_EXT_NAME="xhprof"
 PHP_EXT_INI="yes"
@@ -36,8 +36,8 @@ src_unpack() {
   git-r3_src_unpack
 
   for slot in $(php_get_slots); do
-    cp -r "${S}/extension" "${WORKDIR}/${slot}"
-    cp -r "${S}/${DOCS}" "${WORKDIR}/${slot}"
+    cp -r "${PHP_EXT_S}" "${WORKDIR}/${slot}"
+    cp "${S}/${DOCS}" "${WORKDIR}/${slot}"
   done
 }
 
@@ -51,8 +51,8 @@ src_install() {
   doins -r xhprof_lib
 }
 
-
 pkg_postinst() {
   einfo "The xhprof_html/ and the xhprof_lib/ directory shipped with this"
   einfo "release were installed into ${PHP_EXT_SHARED_DIR}"
 }
+
