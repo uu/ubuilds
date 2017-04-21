@@ -2,15 +2,18 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-php/xhprof/xhprof-0.9.2.ebuild,v 1.2 2011/03/27 04:50:11 mr_bones_ Exp $
 
-EAPI="5"
+EAPI="6"
 
 PHP_EXT_NAME="xhprof"
 PHP_EXT_INI="yes"
 PHP_EXT_S="${WORKDIR}/${P}/extension"
 PHPSAPILIST="apache2 cgi fpm cli"
+DOCS=( CHANGELOG )
 
 USE_PHP="php7-0 php7-1"
-inherit php-ext-source-r2 confutils git-2
+PHP_EXT_ECONF_ARGS=( --enable-xhprof=shared )
+
+inherit php-ext-source-r3 confutils git-r3
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -22,42 +25,34 @@ RESTRICT="test"
 HOMEPAGE="https://github.com/facebook/xhprof.git"
 DESCRIPTION="A Hierarchical Profiler for PHP"
 SRC_URI=""
-EGIT_PROJECT="xhprof"
 EGIT_REPO_URI="https://github.com/RustJason/xhprof.git"
 EGIT_BRANCH="php7"
+
 
 DEPEND=""
 RDEPEND="${DEPEND}"
 
 src_unpack() {
-	git-2_src_unpack
-	local slot orig_s="${PHP_EXT_S}"
-	for slot in $(php_get_slots); do
-		cp -r "${orig_s}" "${WORKDIR}/${slot}" || die "Failed to copy source ${orig_s} to PHP target directory"
-		cd ${WORKDIR}/${slot}
-	done
-}
+  git-r3_src_unpack
 
-src_configure() {
-	my_conf="--enable-xhprof=shared"
-
-	php-ext-source-r2_src_configure
+  for slot in $(php_get_slots); do
+    cp -r "${S}/extension" "${WORKDIR}/${slot}"
+    cp -r "${S}/${DOCS}" "${WORKDIR}/${slot}"
+  done
 }
 
 src_install() {
-	php-ext-source-r2_src_install
-	cd ${S}
-	dodoc CHANGELOG CREDITS 
-
-	php-ext-source-r2_addtoinifiles "xhprof.output_dir" '"/tmp"'
-
-	insinto "${PHP_EXT_SHARED_DIR}"
-	doins -r xhprof_html
-	insinto "${PHP_EXT_SHARED_DIR}"
-	doins -r xhprof_lib
+  php-ext-source-r3_src_install
+  php-ext-source-r3_addtoinifiles "xhprof.output_dir" "/tmp"
+  cd ${S}
+  insinto "${PHP_EXT_SHARED_DIR}"
+  doins -r xhprof_html
+  insinto "${PHP_EXT_SHARED_DIR}"
+  doins -r xhprof_lib
 }
 
+
 pkg_postinst() {
-	elog "The xhprof_html/ and the xhprof_lib/ directory shipped with this"
-	elog "release were installed into ${PHP_EXT_SHARED_DIR}"
+  einfo "The xhprof_html/ and the xhprof_lib/ directory shipped with this"
+  einfo "release were installed into ${PHP_EXT_SHARED_DIR}"
 }
