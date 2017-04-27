@@ -1,9 +1,8 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI="6"
-MY_EXTRAS_VER="20160629-1442Z"
+MY_EXTRAS_VER="20170310-1426Z"
 SUBSLOT="18"
 MYSQL_PV_MAJOR="5.6"
 
@@ -19,15 +18,15 @@ RESTRICT="!bindist? ( bindist )"
 
 REQUIRED_USE="server? ( tokudb? ( jemalloc ) ) static? ( !pam ) jdbc? ( extraengine server !static )"
 
-PINBA_MODULE_PV="1.1.0"
-PINBA_MODULE_URI="http://pinba.org/files/pinba_engine-1.1.0.tar.gz"
-
+PINBA_MODULE_PV="1.2.0"
+PINBA_MODULE_URI="http://pinba.org/files/pinba_engine-1.2.0.tar.gz"
 # REMEMBER: also update eclass/mysql*.eclass before committing!
-KEYWORDS="alpha amd64 arm ~arm64 hppa ~ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc x86 ~sparc-fbsd ~x86-fbsd ~x86-freebsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
+KEYWORDS="alpha amd64 arm ~arm64 hppa ~ia64 ~mips ppc ppc64 ~s390 ~sh sparc x86 ~sparc-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
 
 SRC_URI="$SRC_URI
 	pinba? ( http://pinba.org/files/pinba_engine-${PINBA_MODULE_PV}.tar.gz )
 "
+
 
 MY_PATCH_DIR="${WORKDIR}/mysql-extras-${MY_EXTRAS_VER}"
 PATCHES=(
@@ -35,6 +34,7 @@ PATCHES=(
 	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.26.patch"
 	"${MY_PATCH_DIR}/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch"
 	"${MY_PATCH_DIR}/20018_all_mariadb-10.0.20-without-clientlibs-tools.patch"
+	"${MY_PATCH_DIR}/20034_all_mariadb-10.0.30-fix-without-server.patch"
 )
 COMMON_DEPEND="
 	!bindist? ( >=sys-libs/readline-4.1:0=	)
@@ -42,12 +42,13 @@ COMMON_DEPEND="
 		extraengine? (
 			odbc? ( dev-db/unixODBC:0= )
 			xml? ( dev-libs/libxml2:2= )
+			sys-libs/zlib[minizip]
 		)
 		oqgraph? ( >=dev-libs/boost-1.40.0:0= dev-libs/judy:0= )
 		pam? ( virtual/pam:0= )
 		tokudb? ( app-arch/snappy )
 	)
-	>=dev-libs/libpcre-8.35:3=
+	>=dev-libs/libpcre-8.35:3=[${MULTILIB_USEDEP}]
 "
 DEPEND="|| ( >=sys-devel/gcc-3.4.6 >=sys-devel/gcc-apple-4.0 )
 	server? ( extraengine? ( jdbc? ( >=virtual/jdk-1.6 ) ) )
@@ -79,11 +80,6 @@ pkg_preinst() {
 src_prepare() {
 	java-pkg-opt-2_src_prepare
 	mysql-multilib-r1_src_prepare
-	if use pinba; then
-		cd "${WORKDIR}/pinba_engine-${PINBA_MODULE_PV}"
-		eapply "${FILESDIR}/pinba-configure.patch"
-		cd -
-	fi
 }
 
 src_configure(){
@@ -118,19 +114,14 @@ src_configure(){
 			-DCONNECT_WITH_ODBC=$(usex odbc)
 			-DCONNECT_WITH_JDBC=$(usex jdbc)
 			-DWITHOUT_MROONGA=1
-			-DCONNECT_WITH_ZIP=OFF
 		)
 	fi
 	mysql-multilib-r1_src_configure
 }
 
-
 src_install() {
 	multilib_src_install
 	if use pinba; then
-		#cd "${WORKDIR}/pinba_engine-${PINBA_MODULE_PV}"
-		#epatch "${FILESDIR}/pinba-configure.patch"
-		#cd -
 		MARIADB_BUILD=${WORKDIR}/mysql-abi_x86_64.amd64
 		MARIADB_PATH=${WORKDIR}/mysql
 		cp -a $MARIADB_BUILD/include/* ${MARIADB_PATH}/include/ || die "cannot copy includes"
