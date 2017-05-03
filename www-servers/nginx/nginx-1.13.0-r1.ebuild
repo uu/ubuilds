@@ -287,9 +287,9 @@ PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="1.1.3"
+HTTP_NCHAN_MODULE_PV="1.1.4"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="f4d6dbd"
+HTTP_NCHAN_MODULE_SHA1="0d29a52"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib
 
