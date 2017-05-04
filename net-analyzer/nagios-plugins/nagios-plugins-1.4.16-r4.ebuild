@@ -10,7 +10,7 @@ inherit autotools eutils multilib user
 
 DESCRIPTION="Nagios $PV plugins - Pack of plugins to make Nagios work properly"
 HOMEPAGE="http://www.nagios.org/"
-SRC_URI="mirror://sourceforge/nagiosplug/${P}.tar.gz
+SRC_URI="https://nagios-plugins.org/download/nagios-plugins-${PV}.tar.gz
 	http://dev.gentoo.org/~flameeyes/${PN}/${P}-patches-${PATCHSET}.tar.xz"
 
 LICENSE="GPL-2"
