@@ -1132,10 +1132,10 @@ src_install() {
 	fi
 
 # http_iconv
-	if use nginx_modules_http_iconv; then
-		docinto "${HTTP_ICONV_MODULE_P}"
-		dodoc "${WORKDIR}"/"calio-iconv-nginx-module-${HTTP_ICONV_MODULE_SHA1}"/README
-	fi
+#	if use nginx_modules_http_iconv; then
+#		docinto "${HTTP_ICONV_MODULE_P}"
+#		dodoc "${WORKDIR}"/"calio-iconv-nginx-module-${HTTP_ICONV_MODULE_SHA1}"/README
+#	fi
 
 # http_set_cconv
 #	if use nginx_modules_http_set_cconv; then
