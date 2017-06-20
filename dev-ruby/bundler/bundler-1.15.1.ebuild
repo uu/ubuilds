@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 USE_RUBY="ruby20 ruby21 ruby22 ruby23 ruby24"
 
@@ -10,7 +10,7 @@ USE_RUBY="ruby20 ruby21 ruby22 ruby23 ruby24"
 
 # No documentation task
 RUBY_FAKEGEM_TASK_DOC=""
-RUBY_FAKEGEM_EXTRADOC="README.md CHANGELOG.md ISSUES.md"
+RUBY_FAKEGEM_EXTRADOC="README.md CHANGELOG.md"
 
 RUBY_FAKEGEM_GEMSPEC="${PN}.gemspec"
 
