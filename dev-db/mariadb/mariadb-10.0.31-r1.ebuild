@@ -34,7 +34,6 @@ PATCHES=(
 	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.26.patch"
 	"${MY_PATCH_DIR}/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch"
 	"${MY_PATCH_DIR}/20018_all_mariadb-10.0.20-without-clientlibs-tools.patch"
-	"${MY_PATCH_DIR}/20034_all_mariadb-10.0.30-fix-without-server.patch"
 )
 COMMON_DEPEND="
 	!bindist? ( >=sys-libs/readline-4.1:0=	)
@@ -105,11 +104,9 @@ src_configure(){
 			$(mysql-cmake_use_plugin sphinx SPHINX)
 			$(mysql-cmake_use_plugin tokudb TOKUDB)
 			$(mysql-cmake_use_plugin pam AUTH_PAM)
-			-DWITHOUT_CASSANDRA=0
 			$(mysql-cmake_use_plugin extraengine SEQUENCE)
 			$(mysql-cmake_use_plugin extraengine SPIDER)
 			$(mysql-cmake_use_plugin extraengine CONNECT)
-			-DCONNECT_WITH_MYSQL=1
 			-DCONNECT_WITH_LIBXML2=$(usex xml)
 			-DCONNECT_WITH_ODBC=$(usex odbc)
 			-DCONNECT_WITH_JDBC=$(usex jdbc)

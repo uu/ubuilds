@@ -26,7 +26,7 @@ GENTOO_DEPEND_ON_PERL="no"
 
 # http_passenger (http://www.modrails.com/, MIT license)
 # TODO: currently builds some stuff in src_configure
-PASSENGER_PV="5.1.2"
+PASSENGER_PV="5.1.4"
 USE_RUBY="ruby23"
 RUBY_OPTIONAL="yes"
 
@@ -79,8 +79,8 @@ HTTP_FANCYINDEX_MODULE_P="ngx_http_fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v${HTTP_FANCYINDEX_MODULE_PV}.tar.gz"
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
-HTTP_LUA_MODULE_PV="0.10.8"
-HTTP_LUA_MODULE_SHA1="975c3f8"
+HTTP_LUA_MODULE_PV="0.10.9rc5"
+HTTP_LUA_MODULE_SHA1="2dd4462"
 HTTP_LUA_MODULE_P="ngx_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/chaoslawful/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 
@@ -183,10 +183,12 @@ HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
 
 # TODO: hardcoded because of stalled API
-HTTP_BROTLI_MODULE_PV="12529813a9f8475718370a19007c7905601a62ad"
+# HTTP_BROTLI_MODULE_PV="12529813a9f8475718370a19007c7905601a62ad"
+HTTP_BROTLI_MODULE_PV="4d411a77bf4862e28b3a1f0dd6f827de29165e51"
 HTTP_BROTLI_MODULE_P="ngx_brotli-${HTTP_BROTLI_MODULE_PV}"
 #HTTP_BROTLI_MODULE_URI="https://github.com/google/ngx_brotli/archive/master.zip"
-HTTP_BROTLI_MODULE_URI="https://github.com/google/ngx_brotli/archive/12529813a9f8475718370a19007c7905601a62ad.zip"
+#HTTP_BROTLI_MODULE_URI="https://github.com/google/ngx_brotli/archive/12529813a9f8475718370a19007c7905601a62ad.zip"
+HTTP_BROTLI_MODULE_URI="https://github.com/FluentDevelopment/ngx_brotli/archive/${HTTP_BROTLI_MODULE_PV}.zip"
 HTTP_BROTLI_MODULE_WD="${WORKDIR}/ngx_brotli-${HTTP_BROTLI_MODULE_PV}"
 
 # tidehunter (https://github.com/ruoshan/tidehunter)
@@ -287,9 +289,9 @@ PAM_MODULE_P="ngx_http_auth_pam_module-${PAM_MODULE_PV}.tar.gz"
 PAM_MODULE_URI="https://github.com/stogh/ngx_http_auth_pam_module/archive/v${PAM_MODULE_PV}.tar.gz"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="1.1.3"
+HTTP_NCHAN_MODULE_PV="1.1.6"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="f4d6dbd"
+HTTP_NCHAN_MODULE_SHA1="9d60f2b"
 
 inherit eutils ssl-cert toolchain-funcs perl-module ruby-ng flag-o-matic user systemd versionator multilib
 
@@ -331,7 +333,6 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_zip? 	  ( https://github.com/anthonyryan1/mod_zip/archive/master.zip ->	ngx_zip-anthonyryan1.zip )
 	nginx_modules_http_metrics? ( ${HTTP_METRICS_MODULE_URI} -> ${HTTP_METRICS_MODULE_P}.tar.gz )
 	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} ->	${HTTP_NAXSI_MODULE_P}.zip )
-	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.zip )
 	nginx_modules_http_tidehunter? ( ${HTTP_TIDEHUNTER_MODULE_URI} -> ${HTTP_TIDEHUNTER_MODULE_P}.zip )
 	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
 	nginx_modules_http_dav_ext? ( ${HTTP_DAV_EXT_MODULE_URI} -> ${HTTP_DAV_EXT_MODULE_P}.tar.gz )
@@ -420,7 +421,6 @@ CDEPEND="
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
 	nginx_modules_http_tidehunter? ( dev-libs/jansson )
-	nginx_modules_http_brotli? ( dev-libs/libbrotli )
 	nginx_modules_http_nchan? ( dev-libs/hiredis )
 	nginx_modules_http_passenger? (
 		$(ruby_implementation_depend ruby21)
@@ -513,7 +513,7 @@ src_prepare() {
 	if use nginx_modules_http_lua; then
 		cd "${WORKDIR}"/lua-nginx-module-"${HTTP_LUA_MODULE_PV}"
 		epatch "${FILESDIR}"/lua-1.9.1.patch
-		epatch "${FILESDIR}"/lua-1.11.12.patch
+		#epatch "${FILESDIR}"/lua-1.11.12.patch
 	fi
 
 	if use nginx_modules_http_passenger; then
@@ -858,7 +858,12 @@ src_configure() {
 
 	if use nginx_modules_http_brotli ; then
 	    http_enabled=1
-		cd ${HTTP_BROTLI_MODULE_WD}/deps/brotli
+		#cd ${HTTP_BROTLI_MODULE_WD}/deps/brotli
+		mkdir -p ${HTTP_BROTLI_MODULE_WD}
+		git clone https://github.com/FluentDevelopment/ngx_brotli.git ${HTTP_BROTLI_MODULE_WD}
+		cd ${HTTP_BROTLI_MODULE_WD}
+		git submodule update --init
+		export NGX_BROTLI_STATIC_MODULE_ONLY=1
 		cd -
 	    myconf+=" --add-module=${HTTP_BROTLI_MODULE_WD}"
 	fi
@@ -1127,10 +1132,10 @@ src_install() {
 	fi
 
 # http_iconv
-	if use nginx_modules_http_iconv; then
-		docinto "${HTTP_ICONV_MODULE_P}"
-		dodoc "${WORKDIR}"/"calio-iconv-nginx-module-${HTTP_ICONV_MODULE_SHA1}"/README
-	fi
+#	if use nginx_modules_http_iconv; then
+#		docinto "${HTTP_ICONV_MODULE_P}"
+#		dodoc "${WORKDIR}"/"calio-iconv-nginx-module-${HTTP_ICONV_MODULE_SHA1}"/README
+#	fi
 
 # http_set_cconv
 #	if use nginx_modules_http_set_cconv; then

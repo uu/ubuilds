@@ -8,7 +8,7 @@ inherit flag-o-matic git-2
 DESCRIPTION="HOARD Memory Allocator"
 HOMEPAGE="http://www.hoard.org"
 EGIT_REPO_URI="git://github.com/emeryberger/Hoard.git"
-#EGIT_OPTIONS="--recursive"
+EGIT_OPTIONS="--recursive"
 EGIT_HAS_SUBMODULES=true
 SRC_URI=""
 #SRC_URI="http://www.cs.umass.edu/~emery/hoard/${P}/lib${P}.tar.gz"
@@ -18,7 +18,9 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64 ~x86-fbsd"
 IUSE="doc debug"
 
-DEPEND=""
+DEPEND="sys-devel/llvm[clang]
+	sys-devel/clang
+"
 RDEPEND=""
 
 #S="${WORKDIR}/emeryberger-Hoard-d065953"
@@ -37,13 +39,13 @@ src_compile() {
 	local target
 	case ${ARCH} in
 	x86)
-		target="linux-gcc-x86"
+		target="Linux-gcc-x86"
 		;;
 	amd64)
-		target="linux-gcc-x86-64"
+		target="Linux-gcc-x86_64"
 		;;
 	x86-fbsd)
-		target="linux-gcc-x86"
+		target="Linux-gcc-x86"
 		;;
 	*)
 		target="generic-gcc"
