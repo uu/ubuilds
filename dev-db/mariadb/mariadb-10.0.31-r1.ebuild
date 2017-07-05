@@ -24,7 +24,7 @@ PINBA_MODULE_URI="http://pinba.org/files/pinba_engine-1.2.0.tar.gz"
 KEYWORDS="alpha amd64 arm ~arm64 hppa ~ia64 ~mips ppc ppc64 ~s390 ~sh sparc x86 ~sparc-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
 
 SRC_URI="$SRC_URI
-	pinba? ( http://pinba.org/files/pinba_engine-${PINBA_MODULE_PV}.tar.gz )
+	pinba? ( ${PINBA_MODULE_URI} )
 "
 
 
@@ -34,6 +34,7 @@ PATCHES=(
 	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.26.patch"
 	"${MY_PATCH_DIR}/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch"
 	"${MY_PATCH_DIR}/20018_all_mariadb-10.0.20-without-clientlibs-tools.patch"
+	"${MY_PATCH_DIR}/20034_all_mariadb-10.0.30-fix-without-server.patch"
 )
 COMMON_DEPEND="
 	!bindist? ( >=sys-libs/readline-4.1:0=	)
@@ -128,6 +129,7 @@ src_install() {
 		--with-mysql=${MARIADB_PATH} \
 		--with-judy=/usr \
 		--with-event=/usr \
+		--with-hoard \
 		--libdir=/usr/lib64/mysql/plugin/ || die "error configuring pinba"
 		emake DESTDIR="${D}" install || die "error making pinba"
 		ewarn "Initialize pinba as follows:"
