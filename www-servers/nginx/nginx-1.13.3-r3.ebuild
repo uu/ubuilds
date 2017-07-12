@@ -404,9 +404,7 @@ CDEPEND="
 	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	nginx_modules_http_nchan? ( dev-libs/hiredis )
-	nginx_modules_http_fluentd? ( app-admin/fluentd )
-	
-"
+	nginx_modules_http_fluentd? ( app-admin/fluentd )"
 RDEPEND="${CDEPEND}
 	selinux? ( sec-policy/selinux-nginx )
 	!www-servers/nginx:0"
@@ -422,7 +420,8 @@ REQUIRED_USE="pcre-jit? ( pcre )
 	nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
 	nginx_modules_http_security? ( pcre )
-	nginx_modules_http_push_stream? ( ssl )"
+	nginx_modules_http_push_stream? ( ssl )
+	nginx_modules_http_zip? ( || ( nginx_modules_http_addition nginx_modules_http_ssi nginx_modules_http_slice ) )"
 
 pkg_setup() {
 	NGINX_HOME="/var/lib/nginx"
