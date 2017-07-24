@@ -4,7 +4,9 @@
 
 EAPI=5
 
-inherit python eutils git-2
+PYTHON_COMPAT=(python2_7)
+
+inherit python-r1 eutils git-r3
 
 DESCRIPTION="xmppcat is a python-script to send xmpp (jabber), similar to what mail(1) does for mail."
 HOMEPAGE="https://github.com/mtorromeo/xmppcat"
@@ -16,4 +18,3 @@ KEYWORDS="amd64 hppa ppc sparc x86"
 IUSE=""
 
 DEPEND="dev-python/setuptools dev-python/configparser dev-python/dnspython dev-python/pyasn1-modules"
-

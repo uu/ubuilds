@@ -11,7 +11,7 @@ HOMEPAGE="http://getcomposer.org"
 
 MY_PV=$(replace_version_separator _ -)
 
-SRC_URI="http://getcomposer.org/download/1.0.0-alpha8/composer.phar -> composer-9999.phar"
+SRC_URI="https://getcomposer.org/download/1.0.0-alpha8/composer.phar -> composer-9999.phar"
 
 LICENSE="MIT"
 SLOT="0"
@@ -31,5 +31,4 @@ src_install() {
 	#bump up to the latest
 	php ${WORKDIR}/composer self-update
 	dobin composer
-
 }

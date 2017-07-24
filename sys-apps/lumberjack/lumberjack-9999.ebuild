@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils git-2
+inherit eutils git-r3
 
 EGIT_REPO_URI="git://github.com/jordansissel/lumberjack.git"
 if [[ ${PV} != *9999* ]] ; then

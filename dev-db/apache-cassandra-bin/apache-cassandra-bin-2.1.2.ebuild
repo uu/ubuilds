@@ -7,7 +7,7 @@ inherit eutils user systemd
 
 DESCRIPTION="The Apache Cassandra database is the right choice when you need
 scalability and high availability without compromising performance."
-HOMEPAGE="http://cassandra.apache.org/"
+HOMEPAGE="https://cassandra.apache.org/"
 SRC_URI="mirror://apache/cassandra/${PV}/apache-cassandra-${PV}-bin.tar.gz"
 
 LICENSE="Apache-2.0"

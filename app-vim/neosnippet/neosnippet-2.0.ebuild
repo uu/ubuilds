@@ -1,6 +1,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=5
 
 #VIM_PLUGIN_VIM_VERSION="7.0"
 inherit vim-plugin vcs-snapshot
@@ -12,10 +12,8 @@ LICENSE="GPL-2"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
-RDEPEND="${DEPEND}
-app-vim/vital
+DEPEND="app-vim/vital
 !app-vim/snipmate"
-#app-vim/neocomplcache"
 
 VIM_PLUGIN_HELPFILES="neocomplcache-snippets-complete"
 

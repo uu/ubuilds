@@ -1,9 +1,0 @@
-
-/var/log/zookeeper.log {
-	daily
-	compress
-	copytruncate
-	rotate	7
-	missingok
-}
-

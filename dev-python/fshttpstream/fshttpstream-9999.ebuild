@@ -2,12 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-python/paramiko/paramiko-1.7.7.2.ebuild,v 1.1 2012/08/17 07:04:47 patrick Exp $
 
-EAPI="4"
-PYTHON_DEPEND="2"
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="3.* *-jython"
+EAPI="5"
+PYTHON_COMPAT=(python2_7)
 
-inherit distutils git-2
+inherit distutils-r1 git-r3
 
 DESCRIPTION="Websocket proxy server to send freeswitch events to websocket client."
 HOMEPAGE="https://github.com/tamiel/fshttpstream"
@@ -36,10 +34,4 @@ src_test() {
 		PYTHONPATH="build-${PYTHON_ABI}/lib" "$(PYTHON)" test.py --verbose
 	}
 	python_execute_function testing
-}
-
-src_install() {
-	#cd ${S}/src
-	distutils_src_install
-
 }

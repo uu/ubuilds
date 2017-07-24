@@ -7,12 +7,12 @@ EAPI=5
 RUBY_FAKEGEM_TASK_DOC=""
 RUBY_FAKEGEM_TASK_TEST="spec"
 RUBY_FAKEGEM_EXTRADOC="README.mdown"
-USE_RUBY="ruby18 ruby19 ruby20 ruby21"
+USE_RUBY="ruby20 ruby21 ruby22 ruby23 ruby24"
 
 inherit ruby-fakegem
 
 DESCRIPTION="Copying and syncing extension to Net::FTP"
-HOMEPAGE="http://github.com/zpendleton/ftp-ext"
+HOMEPAGE="https://github.com/zpendleton/ftp-ext"
 
 LICENSE="MIT"
 SLOT="0"

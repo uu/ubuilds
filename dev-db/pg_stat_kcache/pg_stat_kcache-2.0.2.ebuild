@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Gather statistics about physical disk access and CPU consumption done by backends."
 HOMEPAGE="https://github.com/dalibo/pg_stat_kcache"

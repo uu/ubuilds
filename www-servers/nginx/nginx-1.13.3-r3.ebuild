@@ -143,7 +143,7 @@ HTTP_LDAP_MODULE_WD="${WORKDIR}/nginx-auth-ldap-${HTTP_LDAP_MODULE_PV}"
 HTTP_REDIS_MODULE_PV="0.13"
 HTTP_REDIS_MODULE_P="ngx_redis-${HTTP_REDIS_MODULE_PV}"
 HTTP_REDIS_MODULE_SHA1="75d35b0"
-HTTP_REDIS_MODULE_URI="http://github.com/openresty/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
+HTTP_REDIS_MODULE_URI="https://github.com/openresty/redis2-nginx-module/tarball/v${HTTP_REDIS_MODULE_PV}"
 
 # http_push (http://pushmodule.slact.net/, MIT license)
 HTTP_PUSH_MODULE_PV="0.73"
@@ -269,7 +269,7 @@ SRC_URI="https://nginx.org/download/${P}.tar.gz
     nginx_modules_http_iconv? ( https://github.com/calio/iconv-nginx-module/tarball/v${HTTP_ICONV_MODULE_PV} -> ${HTTP_ICONV_MODULE_P}.tar.gz )
 	nginx_modules_http_nchan? ( https://github.com/slact/nchan/tarball/v${HTTP_NCHAN_MODULE_PV} -> ${HTTP_NCHAN_MODULE_P}.tar.gz )
 	nginx_modules_http_postgres? ( https://github.com/FRiCKLE/ngx_postgres/tarball/${HTTP_POSTGRES_MODULE_PV} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
-	nginx_modules_http_pinba?     ( http://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->  ngx_pinba.zip )
+	nginx_modules_http_pinba?     ( https://github.com/tony2001/ngx_http_pinba_module/archive/master.zip ->  ngx_pinba.zip )
 	nginx_modules_http_zip?       ( https://github.com/evanmiller/mod_zip/archive/master.zip ->   ngx_zip-evanmiller.zip )
 	nginx_modules_http_bodytime? ( ${HTTP_BODYTIME_MODULE_URI} -> ${HTTP_BODYTIME_MODULE_P}.zip )"
 

@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer>
-		<email>darkside@gentoo.org</email>
-		<name>Jeremy Olexa</name>
-	</maintainer>
-	<maintainer>
-		<email>hollow@gentoo.org</email>
-		<name>Benedikt Böhm</name>
-	</maintainer>
-	<maintainer>
-		<email>dev-zero@gentoo.org</email>
-		<name>Tiziano Müller</name>
-	</maintainer>
 	<use>
 		<flag name='aio'>Enables file AIO support</flag>
 		<flag name='http'>Enable HTTP core support</flag>

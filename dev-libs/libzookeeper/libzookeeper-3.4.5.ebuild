@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
 
-DEPEND="!sys-claster/zookeeper"
+DEPEND="!sys-cluster/zookeeper"
 RDEPEND="${DEPEND}"
 
 src_unpack() {

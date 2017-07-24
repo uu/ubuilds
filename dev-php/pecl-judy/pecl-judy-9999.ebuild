@@ -7,10 +7,11 @@ PHP_EXT_NAME="judy"
 PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 DOCS="README"
+PHP_EXT_PECL_PKG="pecl-judy"
 
 USE_PHP="php7-0 php7-1"
 
-inherit php-ext-pecl-r2 git-2
+inherit php-ext-pecl-r2 git-r3
 
 KEYWORDS="amd64 x86"
 EGIT_REPO_URI="https://github.com/tony2001/php-judy.git"
@@ -27,4 +28,3 @@ DEPEND="dev-libs/judy
 		sys-libs/zlib
 		dev-lang/php"
 RDEPEND="${DEPEND}"
-

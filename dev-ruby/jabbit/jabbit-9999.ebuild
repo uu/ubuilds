@@ -4,9 +4,7 @@
 
 EAPI=5
 
-# ruby19 → fails to build
-# jruby → uses C extensions
-USE_RUBY="ruby19 ruby20 ruby21 ruby22"
+USE_RUBY="ruby21 ruby22 ruby23 ruby24"
 
 RUBY_FAKEGEM_TASK_TEST=""
 RUBY_FAKEGEM_TASK_DOC=""
@@ -14,13 +12,10 @@ RUBY_FAKEGEM_EXTRADOC="README.md LICENSE"
 RUBY_FAKEGEM_NAME="jabbit"
 RUBY_FAKEGEM_GEMSPEC=${RUBY_FAKEGEM_NAME}.gemspec
 
-#S=${WORKDIR}
-WORKDIR="${WORKDIR}/all/${P}"
-
-inherit ruby-fakegem git-2
+inherit ruby-fakegem git-r3
 
 DESCRIPTION="Jabber via RabbitMQ proxy."
-HOMEPAGE="http://github.com/uu/jabbit"
+HOMEPAGE="https://github.com/uu/jabbit"
 SRC_URI=""
 EGIT_REPO_URI="git://github.com/uu/jabbit.git"
 
@@ -48,4 +43,3 @@ all_ruby_install() {
      all_fakegem_install
      newinitd "${FILESDIR}/${PN}.init" ${PN} || die
 }
-

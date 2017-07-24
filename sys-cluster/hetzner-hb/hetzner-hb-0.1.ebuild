@@ -6,7 +6,7 @@ EAPI=5
 
 
 DESCRIPTION="Hetzner hetzner-hb daemon"
-HOMEPAGE="http://github.com/mrkamel/heartbeat"
+HOMEPAGE="https://github.com/mrkamel/heartbeat"
 SRC_URI=""
 
 EGIT_REPO_URI="git://github.com/uu/heartbeat.git"

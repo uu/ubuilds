@@ -9,9 +9,9 @@ PATCHSET=2
 inherit autotools eutils multilib user
 
 DESCRIPTION="Nagios $PV plugins - Pack of plugins to make Nagios work properly"
-HOMEPAGE="http://www.nagios.org/"
+HOMEPAGE="https://www.nagios.org/"
 SRC_URI="https://nagios-plugins.org/download/nagios-plugins-${PV}.tar.gz
-	http://dev.gentoo.org/~flameeyes/${PN}/${P}-patches-${PATCHSET}.tar.xz"
+	https://dev.gentoo.org/~flameeyes/${PN}/${P}-patches-${PATCHSET}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"

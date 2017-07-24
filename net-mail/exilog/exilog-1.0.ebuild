@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI="5"
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="A log analyzer for exim"
 
@@ -19,7 +19,7 @@ IUSE="syslog"
 #RDEPEND=""
 
 src_unpack() {
-    unpack ${A}
+#    unpack ${A}
     cd "${S}"
     epatch "${FILESDIR}/${PV}-syslog.patch"
 }

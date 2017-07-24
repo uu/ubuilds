@@ -5,9 +5,9 @@
 EAPI=5
 
 DESCRIPTION="Free squid log analyzer"
-HOMEPAGE="http://sourceforge.net/projects/free-sa/"
+HOMEPAGE="https://sourceforge.net/projects/free-sa/"
 #SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
-SRC_URI="http://sourceforge.net/projects/free-sa/files/free-sa-dev/2.0.0b6p7/free-sa-2.0.0b6p7.tar.gz"
+SRC_URI="https://sourceforge.net/projects/free-sa/files/free-sa-dev/2.0.0b6p7/free-sa-2.0.0b6p7.tar.gz"
 #RESTRICT="mirror"
 #SRC_URI=""
 #RESTRICT="fetch"
