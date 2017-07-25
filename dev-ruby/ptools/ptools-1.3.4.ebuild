@@ -7,15 +7,14 @@ EAPI=5
 RUBY_FAKEGEM_TASK_DOC=""
 RUBY_FAKEGEM_TASK_TEST="spec"
 RUBY_FAKEGEM_EXTRADOC="README"
-USE_RUBY="ruby18 ruby19 ruby20 ruby21"
+USE_RUBY="ruby20 ruby21 ruby22 ruby23 ruby24"
 
 inherit ruby-fakegem
 
 DESCRIPTION="Additional set of commands for the File class based on Unix command line tools."
-HOMEPAGE="http://rubyforge.org/projects/shards"
+HOMEPAGE="https://github.com/djberg96/ptools"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE=""
-#ruby_add_rdepend "dev-ruby/settingslogic dev-ruby/session dev-ruby/fattr"
