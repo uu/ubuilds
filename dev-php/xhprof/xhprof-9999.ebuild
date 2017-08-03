@@ -13,7 +13,7 @@ DOCS=( CHANGELOG )
 USE_PHP="php7-0 php7-1"
 PHP_EXT_ECONF_ARGS=( --enable-xhprof=shared )
 
-inherit php-ext-source-r3 confutils git-r3
+inherit php-ext-source-r3 git-r3
 
 LICENSE="Apache-2.0"
 SLOT="0"
