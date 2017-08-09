@@ -16,7 +16,7 @@ KEYWORDS="amd64 x86"
 MODULE_NAMES="it87(hwmon:${S})"
 BUILD_TARGETS="modules"
 
-CONFIG_CHECK="!IT87"
+CONFIG_CHECK="!SENSORS_IT87"
 ERROR_IT87="${P} requires original IT87 to be disabled"
 
 PATCHES=(
