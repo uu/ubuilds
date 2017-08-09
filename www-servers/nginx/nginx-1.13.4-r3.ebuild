@@ -53,7 +53,7 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/openresty/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.10.8"
+HTTP_LUA_MODULE_PV="0.10.10"
 HTTP_LUA_MODULE_P="ngx_http_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/openresty/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
@@ -219,9 +219,9 @@ HTTP_BODYTIME_MODULE_URI="https://github.com/koordinates/bodytime-nginx-module/a
 HTTP_BODYTIME_MODULE_WD="${WORKDIR}/bodytime-nginx-module-${HTTP_BODYTIME_MODULE_PV}"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="1.1.6"
+HTTP_NCHAN_MODULE_PV="1.1.7"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="9d60f2b"
+HTTP_NCHAN_MODULE_SHA1="f127242"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
 HTTP_NDK_MODULE_PV="0.3.0"
@@ -289,7 +289,7 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
 	upstream_keepalive upstream_least_conn upstream_zone userid uwsgi"
 NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip
 	gzip_static image_filter mp4 perl random_index realip secure_link
-	slice stub_status sub xslt"
+	slice stub_status sub xslt mirror"
 NGINX_MODULES_STREAM_STD="access geo limit_conn map return split_clients
 	upstream_hash upstream_least_conn upstream_zone"
 NGINX_MODULES_STREAM_OPT="geoip realip ssl_preread"
@@ -485,7 +485,6 @@ src_prepare() {
 
 	if use nginx_modules_http_lua; then
 		cd "${HTTP_LUA_MODULE_WD}" || die
-		eapply -p1 "${FILESDIR}"/http_lua_nginx-1.11.11+-r1.patch
 		cd "${S}" || die
 		sed -i -e 's/-llua5.1/-llua/' "${HTTP_LUA_MODULE_WD}/config" || die
 	fi
