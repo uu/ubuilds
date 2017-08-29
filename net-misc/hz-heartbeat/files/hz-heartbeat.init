@@ -13,7 +13,7 @@ depend() {
 
 start() {
 	ebegin "Starting Hetzner heartbeat"
-		start-stop-daemon --start -p ${pid_file} -b -m -1 ${log_file} -2 ${log_file} -x /usr/bin/hz-heartbeat -- -c /etc/hz-heratbeat/heartbeat.yml
+		start-stop-daemon --start -p ${pid_file} -b -m -1 ${log_file} -2 ${log_file} -x /usr/bin/${prog_name} -- -c /etc/${prog_name}/heartbeat.yml
 	eend $?
 }
 
