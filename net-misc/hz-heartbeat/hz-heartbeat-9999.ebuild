@@ -16,7 +16,7 @@ SRC_URI=""
 
 LICENSE=""
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 DEPEND="dev-ruby/hashr
