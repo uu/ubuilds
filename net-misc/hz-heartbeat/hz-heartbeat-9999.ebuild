@@ -47,6 +47,7 @@ all_ruby_prepare() {
 	fi
 	sed -i '/mocha/d' Gemfile || die
 	rm bin/debian* || die
+	eapply -p0 ${FILESDIR}/logger.patch
 
 
 #	mkdir bin
