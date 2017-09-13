@@ -1,0 +1,145 @@
+diff --git a/include/bouncer.h b/include/bouncer.h
+index 8990573..90e6d19 100644
+--- a/include/bouncer.h
++++ b/include/bouncer.h
+@@ -108,7 +108,6 @@ extern int cf_sbuf_len;
+ #include "pam.h"
+ 
+ /* to avoid allocations will use static buffers */
+-#define MAX_DBNAME	64
+ #define MAX_USERNAME	64
+ #define MAX_PASSWORD	128
+ 
+@@ -279,7 +278,7 @@ struct PgUser {
+  */
+ struct PgDatabase {
+ 	struct List head;
+-	char name[MAX_DBNAME];	/* db name for clients */
++	char *name;		/* db name for clients */
+ 
+ 	bool db_paused;		/* PAUSE <db>; was issued */
+ 	bool db_dead;		/* used on RELOAD/SIGHUP to later detect removed dbs */
+diff --git a/src/janitor.c b/src/janitor.c
+index cde91b6..c9e1586 100644
+--- a/src/janitor.c
++++ b/src/janitor.c
+@@ -650,6 +650,7 @@ void kill_database(PgDatabase *db)
+ 		statlist_remove(&database_list, &db->head);
+ 	}
+ 	aatree_destroy(&db->user_tree);
++	free(db->name);
+ 	slab_free(db_cache, db);
+ }
+ 
+diff --git a/src/loader.c b/src/loader.c
+index 3392651..a136dc7 100644
+--- a/src/loader.c
++++ b/src/loader.c
+@@ -174,6 +174,48 @@ static void set_autodb(const char *connstr)
+ 	}
+ }
+ 
++
++/* The following function allows auto-connections to specify
++ * their target database by providing a connection-string-like
++ * format that we'll translate on the fly here.
++ */
++#define DYN_PREFIX "DYN&"
++#define DYN_PREFIX_LEN (sizeof(DYN_PREFIX) - 1)
++#define HAS_DYN_PREFIX(name) (0 == strncmp(DYN_PREFIX, name, DYN_PREFIX_LEN))
++#define DYN_SEP '&'
++/*
++ * It would be nice to be able to use equals signs in the connection string,
++ * but this triggers psql to hand the db name off to libpq, which then parses
++ * it as a PQ connection string, breaking things.
++ */
++#define DYN_ASSIGN '+'
++
++static char *dynamic_connstr(const char *name)
++{
++	char *p, *connstr;
++
++	connstr = malloc(strlen(name) - DYN_PREFIX_LEN + 1);
++	if (connstr == NULL) {
++		log_warning("failed to allocate memory for connstr");
++		return NULL;
++	}
++
++	/* copy everything except the prefix and replace */
++	strcpy(connstr, name + DYN_PREFIX_LEN);
++	p = connstr;
++	while ((p = strchr(p, DYN_SEP)) != NULL) {
++		*p = ' ';
++	}
++	p = connstr;
++	while ((p = strchr(p, DYN_ASSIGN)) != NULL) {
++		*p = '=';
++	}
++
++	log_info("Dynamic connstr: '%s'", connstr);
++
++	return connstr;
++}
++
+ /* fill PgDatabase from connstr */
+ bool parse_database(void *base, const char *name, const char *connstr)
+ {
+@@ -210,7 +252,13 @@ bool parse_database(void *base, const char *name, const char *connstr)
+ 		return true;
+ 	}
+ 
+-	tmp_connstr = strdup(connstr);
++	if (HAS_DYN_PREFIX(name)) {
++		tmp_connstr = dynamic_connstr(name);
++	}
++	else {
++		tmp_connstr = strdup(connstr);
++	}
++
+ 	if (!tmp_connstr)
+ 		return false;
+ 
+diff --git a/src/main.c b/src/main.c
+index 1bc2446..f5aac24 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -499,6 +499,7 @@ static void signal_setup(void)
+ 	if (err < 0)
+ 		fatal_perror("signal_add");
+ 
++
+ 	signal_set(&ev_sigusr2, SIGUSR2, handle_sigusr2, NULL);
+ 	err = signal_add(&ev_sigusr2, NULL);
+ 	if (err < 0)
+diff --git a/src/objects.c b/src/objects.c
+index 1606373..75344c4 100644
+--- a/src/objects.c
++++ b/src/objects.c
+@@ -319,19 +319,23 @@ static void put_in_order(struct List *newitem, struct StatList *list,
+ PgDatabase *add_database(const char *name)
+ {
+ 	PgDatabase *db = find_database(name);
++	size_t name_len = strlen(name);
+ 
+ 	/* create new object if needed */
+ 	if (db == NULL) {
+ 		db = slab_alloc(db_cache);
+ 		if (!db)
+ 			return NULL;
+-
+-		list_init(&db->head);
+-		if (strlcpy(db->name, name, sizeof(db->name)) >= sizeof(db->name)) {
+-			log_warning("Too long db name: %s", name);
++		db->name = malloc(name_len + 1);
++		if (!db->name)
++		{
++			log_warning("Couldn't allocate name: %s", name);
+ 			slab_free(db_cache, db);
+ 			return NULL;
+ 		}
++
++		list_init(&db->head);
++		strcpy(db->name, name);
+ 		aatree_init(&db->user_tree, user_node_cmp, user_node_release);
+ 		put_in_order(&db->head, &database_list, cmp_database);
+ 	}
