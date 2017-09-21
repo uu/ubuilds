@@ -19,10 +19,6 @@ BUILD_TARGETS="modules"
 CONFIG_CHECK="!SENSORS_IT87"
 ERROR_SENSORS_IT87="${P} requires original IT87 to be disabled"
 
-PATCHES=(
-	"${FILESDIR}"/${P}-makefile.patch
-)
-
 pkg_setup() {
 	linux-mod_pkg_setup
 	BUILD_PARAMS="KERNELDIR=${KV_DIR}"
