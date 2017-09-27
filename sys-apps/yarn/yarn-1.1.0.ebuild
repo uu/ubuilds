@@ -16,7 +16,7 @@ RDEPEND="!dev-util/cmdtest
 	net-libs/nodejs"
 DEPEND="${RDEPEND}"
 
-S="${WORKDIR}/dist"
+S=${WORKDIR}/${PN}-v${PV}
 
 src_install() {
 	local install_dir="/usr/$(get_libdir)/node_modules/yarn" path
