@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-MY_EXTRAS_VER="20170316-1355Z"
+MY_EXTRAS_VER="20170830-1210Z"
 # The wsrep API version must match between upstream WSREP and sys-cluster/galera major number
 WSREP_REVISION="25"
 SUBSLOT="18"
@@ -18,12 +18,12 @@ DESCRIPTION="An enhanced, drop-in replacement for MySQL"
 IUSE="+backup bindist cracklib galera kerberos innodb-lz4 innodb-lzo innodb-snappy jdbc mroonga odbc oqgraph pam sphinx sst-rsync sst-xtrabackup tokudb systemd xml pinba"
 RESTRICT="!bindist? ( bindist )"
 
-REQUIRED_USE="server? ( tokudb? ( jemalloc ) ) static? ( !pam ) jdbc? ( extraengine server !static )"
+REQUIRED_USE="jdbc? ( extraengine server !static ) server? ( tokudb? ( jemalloc !tcmalloc ) ) static? ( !pam )"
 
 PINBA_MODULE_PV="1.2.0"
 PINBA_MODULE_URI="http://pinba.org/files/pinba_engine-${PINBA_MODULE_PV}.tar.gz"
 # REMEMBER: also update eclass/mysql*.eclass before committing!
-KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~sparc-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
+KEYWORDS="alpha amd64 arm ~arm64 ~hppa ia64 ~mips ~ppc ppc64 ~s390 ~sh ~sparc x86 ~sparc-fbsd ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~x64-solaris ~x86-solaris"
 
 SRC_URI="$SRC_URI
 	pinba? ( ${PINBA_MODULE_URI} )
@@ -36,12 +36,12 @@ PATCHES=(
 	"${MY_PATCH_DIR}"/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch
 	"${MY_PATCH_DIR}"/20015_all_mariadb-pkgconfig-location.patch
 	"${MY_PATCH_DIR}"/20018_all_mariadb-10.1.16-without-clientlibs-tools.patch
+	"${MY_PATCH_DIR}"/20025_all_mariadb-10.1.26-gssapi-detect.patch
 )
 
 COMMON_DEPEND="
 	mroonga? ( app-text/groonga-normalizer-mysql )
 	kerberos? ( virtual/krb5[${MULTILIB_USEDEP}] )
-	systemd? ( sys-apps/systemd:= )
 	!bindist? (
 		sys-libs/binutils-libs:0=
 		>=sys-libs/readline-4.1:0=
@@ -59,6 +59,7 @@ COMMON_DEPEND="
 		innodb-snappy? ( app-arch/snappy )
 		oqgraph? ( >=dev-libs/boost-1.40.0:0= dev-libs/judy:0= )
 		pam? ( virtual/pam:0= )
+		systemd? ( sys-apps/systemd:= )
 		tokudb? ( app-arch/snappy )
 	)
 	>=dev-libs/libpcre-8.35:3=

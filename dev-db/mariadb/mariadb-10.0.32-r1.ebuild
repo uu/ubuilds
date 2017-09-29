@@ -34,7 +34,6 @@ PATCHES=(
 	"${MY_PATCH_DIR}/20006_all_cmake_elib-mariadb-10.0.26.patch"
 	"${MY_PATCH_DIR}/20009_all_mariadb_myodbc_symbol_fix-5.5.38.patch"
 	"${MY_PATCH_DIR}/20018_all_mariadb-10.0.20-without-clientlibs-tools.patch"
-	"${MY_PATCH_DIR}/20034_all_mariadb-10.0.30-fix-without-server.patch"
 )
 COMMON_DEPEND="
 	!bindist? ( >=sys-libs/readline-4.1:0=	)
