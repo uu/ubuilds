@@ -10,7 +10,7 @@ MYSQL_PV_MAJOR="5.6"
 
 JAVA_PKG_OPT_USE="jdbc"
 
-inherit toolchain-funcs java-pkg-opt-2 mysql-multilib-r1
+inherit toolchain-funcs java-pkg-opt-2 mysql-multilib-r1 autotools
 
 HOMEPAGE="http://mariadb.org/"
 DESCRIPTION="An enhanced, drop-in replacement for MySQL"
@@ -157,12 +157,15 @@ src_install() {
 		cp -a $MARIADB_BUILD/include/* ${MARIADB_PATH}/include/ || die "cannot copy includes"
 		cp -a $MARIADB_BUILD/scripts/* ${MARIADB_PATH}/scripts/ || die "cannot copy scripts"
 		cd ${WORKDIR}/pinba_engine-${PINBA_MODULE_PV} 
+		eautoreconf
 		econf \
 		--with-mysql=${MARIADB_PATH} \
 		--with-judy=/usr \
 		--with-event=/usr \
 		--with-hoard \
 		--libdir=/usr/lib64/mysql/plugin/ || die "error configuring pinba"
+		# HACK: adding -fno-rtti flag
+		sed -i "s/-DNDEBUG/-fno-rtti -DNDEBUG/g" Makefile src/Makefile || die "error adding -fno-rtti flag"
 		emake DESTDIR="${D}" install || die "error making pinba"
 		ewarn "Initialize pinba as follows:"
 		ewarn "mysql> INSTALL PLUGIN pinba SONAME 'libpinba_engine.so';"
