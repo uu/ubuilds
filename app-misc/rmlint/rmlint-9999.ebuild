@@ -14,7 +14,7 @@ EGIT_BRANCH="master"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="x86 amd64"
 IUSE="doc +nls"
 
 RDEPEND="
