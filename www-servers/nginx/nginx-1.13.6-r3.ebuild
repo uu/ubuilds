@@ -222,6 +222,7 @@ HTTP_NDK_MODULE_PV="0.3.0"
 HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 HTTP_NDK_MODULE_SHA1="e443262"
 
+MOD_ZIP_SHA1="5ae85b322cda18daf9cd01a81e3525dad2c3521d"
 
 # We handle deps below ourselves
 SSL_DEPS_SKIP=1
@@ -264,7 +265,7 @@ SRC_URI="https://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_nchan? ( https://github.com/slact/nchan/tarball/v${HTTP_NCHAN_MODULE_PV} -> ${HTTP_NCHAN_MODULE_P}.tar.gz )
 	nginx_modules_http_postgres? ( https://github.com/FRiCKLE/ngx_postgres/tarball/${HTTP_POSTGRES_MODULE_PV} -> ${HTTP_POSTGRES_MODULE_P}.tar.gz )
 	nginx_modules_http_pinba?     ( https://github.com/tony2001/ngx_http_pinba_module/archive/master.zip -> ngx_pinba.zip )
-	nginx_modules_http_zip?       ( https://github.com/evanmiller/mod_zip/archive/master.zip -> ngx_zip-evanmiller.zip )
+	nginx_modules_http_zip?       ( https://github.com/evanmiller/mod_zip/archive/5ae85b322cda18daf9cd01a81e3525dad2c3521d.zip -> ngx_http_mod_zip_${MOD_ZIP_SHA1}.zip )
 	nginx_modules_http_bodytime? ( ${HTTP_BODYTIME_MODULE_URI} -> ${HTTP_BODYTIME_MODULE_P}.zip )"
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
@@ -690,7 +691,7 @@ src_configure() {
 
     if use nginx_modules_http_zip; then
         http_enabled=1
-        myconf+=( --add-module=${WORKDIR}/mod_zip-master )
+        myconf+=( --add-module=${WORKDIR}/mod_zip-${MOD_ZIP_SHA1} )
     fi
 
     if use nginx_modules_http_fluentd; then
