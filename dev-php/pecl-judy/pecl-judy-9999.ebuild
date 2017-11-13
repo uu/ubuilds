@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-php/pecl-memcached/pecl-memcached-2.1.0-r2.ebuild,v 1.4 2013/08/13 21:55:59 ago Exp $
 
-EAPI="5"
+EAPI="6"
 PHP_EXT_NAME="judy"
 PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
@@ -11,7 +11,7 @@ PHP_EXT_PECL_PKG="pecl-judy"
 
 USE_PHP="php7-0 php7-1"
 
-inherit php-ext-pecl-r2 git-r3
+inherit php-ext-pecl-r3 git-r3
 
 KEYWORDS="amd64 x86"
 EGIT_REPO_URI="https://github.com/tony2001/php-judy.git"
