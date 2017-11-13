@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI=6
 
 PHP_EXT_NAME="zookeeper"
 PHP_EXT_INI="yes"
@@ -10,7 +10,7 @@ PHP_EXT_ZENDEXT="no"
 
 USE_PHP="php5-6 php7-0 php7-1"
 
-inherit php-ext-pecl-r2 confutils eutils
+inherit php-ext-pecl-r3
 
 DESCRIPTION="php extension for connections to zookeeper server"
 
