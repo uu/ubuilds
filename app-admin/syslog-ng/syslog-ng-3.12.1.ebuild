@@ -15,7 +15,9 @@ LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
 IUSE="amqp caps dbi geoip ipv6 json libressl mongodb pacct python redis smtp spoof-source systemd tcpd java"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )
+			  java? ( json )
+"
 RESTRICT="test"
 
 RDEPEND="
@@ -67,10 +69,7 @@ src_prepare() {
 }
 
 src_configure() {
-
-        JAVA_HOME="$(java-config -g JAVA_HOME)"
-
-
+	JAVA_HOME="$(java-config -g JAVA_HOME)"
 	econf \
 		--enable-manpages \
 		--with-embedded-crypto \
@@ -83,7 +82,6 @@ src_configure() {
 		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
 		--enable-native \
 		$(use_enable systemd) \
-		$(use_enable java) \
 		$(use_enable caps linux-caps) \
 		$(use_enable geoip) \
 		$(use_enable ipv6) \
@@ -98,11 +96,13 @@ src_configure() {
 		$(use_enable spoof-source) \
 		$(use_enable dbi sql) \
 		$(use_enable tcpd tcp-wrapper) \
-		$(usex java --enable-java-modules)
+		$(use_enable java) \
+		$(usex java --enable-java-modules --disable-java-modules)
 		if use java
 			then
 				eapply "${FILESDIR}/java.patch"
 				sed -i '/^CPPFLAGS =/ s:$: '"$(java-pkg_get-jni-cflags)"':' Makefile
+				sed -i '/^GRADLE =/ s:$: --no-daemon:' Makefile
 				sed -i 's:^JNI_CFLAGS =.*$:JNI_CFLAGS = '"$(java-pkg_get-jni-cflags)"':' Makefile
 				sed -i 's:^JNI_LIBS =.*$:JNI_LIBS = -L'"$(java-config -g JAVA_HOME)/jre/lib/amd64/server -ljvm"':' Makefile
 		fi
@@ -111,6 +111,11 @@ src_configure() {
 src_install() {
 	# -j1 for bug #484470
 	emake -j1 DESTDIR="${D}" install
+
+	cat <<-EOF > "${T}"/50${P}
+	LD_LIBRARY_PATH="$(java-config -g JAVA_HOME)/jre/lib/amd64/server/"
+	EOF
+	doenvd "${T}"/50${P}
 
 	dodoc AUTHORS NEWS.md CONTRIBUTING.md contrib/syslog-ng.conf* \
 		contrib/syslog2ng "${FILESDIR}/${MY_PV_MM}/syslog-ng.conf.gentoo.hardened" \
