@@ -30,7 +30,9 @@ RDEPEND="
 	systemd? ( sys-apps/systemd )
 	tcpd? ( >=sys-apps/tcp-wrappers-7.6 )
 	dev-libs/libpcre
-	java? ( virtual/jdk:1.8 )
+	java? ( virtual/jdk:1.8
+			dev-java/gradle-bin
+	)
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
 	!dev-libs/eventlog
