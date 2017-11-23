@@ -1,9 +1,9 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 PYTHON_COMPAT=( python2_7 )
-inherit autotools python-single-r1 eutils multilib systemd versionator
+inherit autotools python-single-r1 eutils multilib systemd versionator java-utils-2
 
 MY_PV=${PV/_/}
 MY_PV_MM=$(get_version_component_range 1-2)
@@ -14,7 +14,7 @@ SRC_URI="https://github.com/balabit/${PN}/releases/download/${P}/${P}.tar.gz"
 LICENSE="GPL-2+ LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~x86-fbsd"
-IUSE="amqp caps dbi geoip ipv6 json libressl mongodb pacct python redis smtp spoof-source systemd tcpd"
+IUSE="amqp caps dbi geoip ipv6 json libressl mongodb pacct python redis smtp spoof-source systemd tcpd java"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 RESTRICT="test"
 
@@ -30,6 +30,7 @@ RDEPEND="
 	systemd? ( sys-apps/systemd )
 	tcpd? ( >=sys-apps/tcp-wrappers-7.6 )
 	dev-libs/libpcre
+	java? ( virtual/jdk:1.8 )
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
 	!dev-libs/eventlog
@@ -60,13 +61,15 @@ src_prepare() {
 				's:@GENTOO_RESTART@:/etc/init.d/syslog-ng reload:')" \
 			"${f}" > "${T}/${bn/.in/}" || die
 	done
-	epatch_user
+	eapply_user
 }
 
 src_configure() {
+
+        JAVA_HOME="$(java-config -g JAVA_HOME)"
+
+
 	econf \
-		--disable-java \
-		--disable-docs \
 		--enable-manpages \
 		--with-embedded-crypto \
 		--with-ivykis=internal \
@@ -75,8 +78,10 @@ src_configure() {
 		--localstatedir=/var/lib/syslog-ng \
 		--with-pidfile-dir=/var/run \
 		--with-module-dir=/usr/$(get_libdir)/syslog-ng \
-		$(systemd_with_unitdir) \
+		--with-systemdsystemunitdir="$(systemd_get_systemunitdir)" \
+		--enable-native \
 		$(use_enable systemd) \
+		$(use_enable java) \
 		$(use_enable caps linux-caps) \
 		$(use_enable geoip) \
 		$(use_enable ipv6) \
@@ -90,7 +95,15 @@ src_configure() {
 		$(usex amqp --with-librabbitmq-client=internal --without-librabbitmq-client) \
 		$(use_enable spoof-source) \
 		$(use_enable dbi sql) \
-		$(use_enable tcpd tcp-wrapper)
+		$(use_enable tcpd tcp-wrapper) \
+		$(usex java --enable-java-modules)
+		if use java
+			then
+				eapply "${FILESDIR}/java.patch"
+				sed -i '/^CPPFLAGS =/ s:$: '"$(java-pkg_get-jni-cflags)"':' Makefile
+				sed -i 's:^JNI_CFLAGS =.*$:JNI_CFLAGS = '"$(java-pkg_get-jni-cflags)"':' Makefile
+				sed -i 's:^JNI_LIBS =.*$:JNI_LIBS = -L'"$(java-config -g JAVA_HOME)/jre/lib/amd64/server -ljvm"':' Makefile
+		fi
 }
 
 src_install() {
