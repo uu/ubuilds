@@ -213,9 +213,9 @@ HTTP_BODYTIME_MODULE_URI="https://github.com/koordinates/bodytime-nginx-module/a
 HTTP_BODYTIME_MODULE_WD="${WORKDIR}/bodytime-nginx-module-${HTTP_BODYTIME_MODULE_PV}"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="1.1.7"
+HTTP_NCHAN_MODULE_PV="1.1.11"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="f127242"
+HTTP_NCHAN_MODULE_SHA1="85ffa9f"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
 HTTP_NDK_MODULE_PV="0.3.0"
