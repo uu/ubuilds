@@ -14,26 +14,29 @@ HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
 
 EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
-EGIT_COMMIT="e476bfc848d0f58d8fcbeec88e6bd825b1061050"
+#EGIT_COMMIT="If316525daf78165494416508cb81b5448f3b760d"
+EGIT_COMMIT="v3.12.0"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="cgi +fuse static-libs"
+IUSE="cgi +fuse static-libs -devel"
 
 RDEPEND="
 	cgi? ( dev-lang/python )
 	!sys-cluster/moosefs
 	app-text/asciidoc
-	dev-libs/boost
-	dev-libs/thrift
 	fuse? ( >=sys-fs/fuse-2.6 )"
 DEPEND="${RDEPEND}"
 
-mycmakeargs="-DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=NO -DCMAKE_INSTALL_PREFIX=/ -DENABLE_DEBIAN_PATHS=YES"
 
 pkg_setup() {
 	enewgroup mfs
 	enewuser mfs -1 -1 -1 mfs
+mycmakeargs="-DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=NO -DCMAKE_INSTALL_PREFIX=/ -DENABLE_DEBIAN_PATHS=YES"
+
+if use devel; then
+  mycmakeargs+=" -DENABLE_CLIENT_LIB=YES"
+fi
 }
 
 src_install() {
@@ -52,3 +55,4 @@ src_install() {
 	chown -R mfs:mfs "${D}var/lib/mfs" || die
 	chmod 750 "${D}var/lib/mfs" || die
 }
+
