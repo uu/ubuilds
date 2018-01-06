@@ -9,7 +9,7 @@ inherit git-2
 DESCRIPTION="SQL Firewall Extension for PostgreSQL"
 HOMEPAGE="https://github.com/uptimejp/sql_firewall"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/uptimejp/sql_firewall.git"
+EGIT_REPO_URI="https://github.com/uptimejp/sql_firewall.git"
 EGIT_BRANCH="master"
 EGIT_COMMIT="v0_8"
 

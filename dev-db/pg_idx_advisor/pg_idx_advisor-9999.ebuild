@@ -9,7 +9,7 @@ inherit git-2 eutils
 DESCRIPTION="PostgreSQL extension to scale out real-time reads and writes."
 HOMEPAGE="https://github.com/cohenjo/pg_idx_advisor"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/cohenjo/pg_idx_advisor.git"
+EGIT_REPO_URI="https://github.com/cohenjo/pg_idx_advisor.git"
 EGIT_BRANCH="master"
 
 LICENSE="POSTGRESQL GPL-2"

@@ -9,7 +9,7 @@ inherit git-2
 DESCRIPTION="Columnar store for analytics with PostgreSQL."
 HOMEPAGE="https://github.com/citusdata/cstore_fdw"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/citusdata/cstore_fdw.git"
+EGIT_REPO_URI="https://github.com/citusdata/cstore_fdw.git"
 EGIT_BRANCH="master"
 
 LICENSE="Apache-2.0"

@@ -13,12 +13,12 @@ DESCRIPTION="LizardFS is an Open Source Distributed File System licenced under G
 HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
+EGIT_REPO_URI="https://github.com/lizardfs/lizardfs.git"
 #EGIT_COMMIT="If316525daf78165494416508cb81b5448f3b760d"
 EGIT_COMMIT="v3.12.0"
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="x86 amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE="cgi +fuse static-libs -devel"
 
 RDEPEND="

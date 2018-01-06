@@ -17,7 +17,7 @@ inherit ruby-fakegem git-r3
 DESCRIPTION="Jabber via RabbitMQ proxy."
 HOMEPAGE="https://github.com/uu/jabbit"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/uu/jabbit.git"
+EGIT_REPO_URI="https://github.com/uu/jabbit.git"
 
 LICENSE="|| ( GPL-2 Ruby )"
 SLOT="0"

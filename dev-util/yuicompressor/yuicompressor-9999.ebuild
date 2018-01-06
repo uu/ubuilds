@@ -8,7 +8,7 @@ inherit java-pkg-2 java-ant-2 git-2
 
 DESCRIPTION="JavaScript and CSS compressor"
 HOMEPAGE="http://yui.github.io/yuicompressor/"
-EGIT_REPO_URI="git://github.com/yui/yuicompressor"
+EGIT_REPO_URI="https://github.com/yui/yuicompressor"
 SRC_URI=""
 
 LICENSE="BSD"

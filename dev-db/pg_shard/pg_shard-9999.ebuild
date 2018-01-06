@@ -9,7 +9,7 @@ inherit git-2
 DESCRIPTION="PostgreSQL extension to scale out real-time reads and writes."
 HOMEPAGE="https://github.com/citusdata/pg_shard"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/citusdata/pg_shard.git"
+EGIT_REPO_URI="https://github.com/citusdata/pg_shard.git"
 EGIT_BRANCH="master"
 
 LICENSE="GPL-3"

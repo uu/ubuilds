@@ -9,7 +9,7 @@ inherit git-2 eutils
 DESCRIPTION="CUDA stream for PostgreSQL"
 HOMEPAGE="https://github.com/pg-strom/devel"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/pg-strom/devel.git"
+EGIT_REPO_URI="https://github.com/pg-strom/devel.git"
 #EGIT_BRANCH="pgsql9.6"
 #EGIT_COMMIT="v0_8"
 

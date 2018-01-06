@@ -9,7 +9,7 @@ inherit git-2
 DESCRIPTION="Transparent Data Encryption for PostgreSQL"
 HOMEPAGE="https://github.com/nec-postgres/tdeforpg"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/snaga/tdeforpg.git"
+EGIT_REPO_URI="https://github.com/snaga/tdeforpg.git"
 EGIT_BRANCH="benchmark"
 
 LICENSE="GPL-3"

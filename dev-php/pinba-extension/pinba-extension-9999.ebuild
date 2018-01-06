@@ -17,7 +17,7 @@ DESCRIPTION="Pinba is a realtime monitoring/statistics server for PHP using
 MySQL as a read-only interface."
 HOMEPAGE="http://pinba.org/"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/tony2001/pinba_extension.git"
+EGIT_REPO_URI="https://github.com/tony2001/pinba_extension.git"
 
 LICENSE="PHP-3"
 SLOT="0"

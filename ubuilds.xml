@@ -2,7 +2,7 @@
 	<layman>
 	<overlay 
 		type="git"
-	      src="git://github.com/uu/ubuilds.git"
+	      src="https://github.com/uu/ubuilds.git"
 		      contact="uu@megaplan.ru"
 			      name="ubuilds">
 		<link>http://github.com/uu/ubuilds</link>

@@ -11,7 +11,7 @@ HOMEPAGE="https://github.com/alanxz/rabbitmq-c"
 
 if [[ ${PV} == *9999* ]]; then
 	inherit git-2
-	EGIT_REPO_URI="git://github.com/alanxz/rabbitmq-c.git"
+	EGIT_REPO_URI="https://github.com/alanxz/rabbitmq-c.git"
 	EGIT_HAS_SUBMODULES="true"
 	KEYWORDS="-*"
 else

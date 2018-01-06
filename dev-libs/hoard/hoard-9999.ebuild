@@ -7,7 +7,7 @@ inherit flag-o-matic git-2
 
 DESCRIPTION="HOARD Memory Allocator"
 HOMEPAGE="http://www.hoard.org"
-EGIT_REPO_URI="git://github.com/emeryberger/Hoard.git"
+EGIT_REPO_URI="https://github.com/emeryberger/Hoard.git"
 EGIT_OPTIONS="--recursive"
 EGIT_HAS_SUBMODULES=true
 SRC_URI=""

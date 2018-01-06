@@ -15,7 +15,7 @@ inherit distutils-r1 git-2
 
 DESCRIPTION="naxsi whitelist creation"
 HOMEPAGE="https://github.com/prajal/nxutil"
-EGIT_REPO_URI="git://github.com/prajal/nxutil.git"
+EGIT_REPO_URI="https://github.com/prajal/nxutil.git"
 
 LICENSE="GPL-2"
 SLOT="0"

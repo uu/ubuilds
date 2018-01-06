@@ -9,7 +9,7 @@ inherit git-2 multilib
 DESCRIPTION="PostgreSQL plugin for Nagios."
 HOMEPAGE="https://github.com/OPMDG/check_pgactivity"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/OPMDG/check_pgactivity.git"
+EGIT_REPO_URI="https://github.com/OPMDG/check_pgactivity.git"
 EGIT_BRANCH="master"
 
 LICENSE="OPMDG"

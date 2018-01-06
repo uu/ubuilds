@@ -11,7 +11,7 @@ inherit eutils user git-r3 autotools
 DESCRIPTION="Lightweight connection pooler for PostgreSQL"
 HOMEPAGE="https://pgbouncer.github.io"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/${PN}/${PN}.git"
+EGIT_REPO_URI="https://github.com/${PN}/${PN}.git"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"

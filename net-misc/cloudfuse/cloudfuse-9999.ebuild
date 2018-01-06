@@ -6,7 +6,7 @@ EAPI=5
 
 DESCRIPTION="Fuse cloud system for use with any Swift"
 HOMEPAGE="https://github.com/redbo/cloudfuse"
-EGIT_REPO_URI="git://github.com/vfloz/cloudfuse.git"
+EGIT_REPO_URI="https://github.com/vfloz/cloudfuse.git"
 
 LICENSE=""
 SLOT="0"

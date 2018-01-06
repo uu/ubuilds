@@ -11,7 +11,7 @@ inherit php-ext-source-r2 git-2 autotools
 
 DESCRIPTION="A PHP extension for Redis."
 HOMEPAGE="https://github.com/nicolasff/phpredis"
-EGIT_REPO_URI="git://github.com/nicolasff/phpredis.git"
+EGIT_REPO_URI="https://github.com/nicolasff/phpredis.git"
 
 LICENSE="PHP-3"
 SLOT="0"

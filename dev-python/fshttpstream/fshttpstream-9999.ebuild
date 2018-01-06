@@ -11,7 +11,7 @@ DESCRIPTION="Websocket proxy server to send freeswitch events to websocket clien
 HOMEPAGE="https://github.com/tamiel/fshttpstream"
 #SRC_URI="http://www.lag.net/paramiko/download/${P}.tar.gz"
 #SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
-EGIT_REPO_URI="git://github.com/tamiel/fshttpstream.git"
+EGIT_REPO_URI="https://github.com/tamiel/fshttpstream.git"
 EGIT_BRANCH="0.3"
 
 LICENSE="MPL 1.1"

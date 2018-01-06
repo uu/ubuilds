@@ -9,7 +9,7 @@ inherit git-2
 DESCRIPTION="Partitioning tool for PostgreSQL"
 HOMEPAGE="http://www.postgrespro.com/blog/pgsql/pg_pathman"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/postgrespro/pg_pathman.git"
+EGIT_REPO_URI="https://github.com/postgrespro/pg_pathman.git"
 EGIT_BRANCH="master"
 
 LICENSE="POSTGRESQL"

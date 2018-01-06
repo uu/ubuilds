@@ -9,7 +9,7 @@ inherit git-2
 DESCRIPTION="Fast wildcard search for LIKE operator for PostgreSQL 8.4+"
 HOMEPAGE="http://sigaev.ru/git/gitweb.cgi?p=wildspeed.git;a=blob;hb=HEAD;f=README.md"
 SRC_URI=""
-EGIT_REPO_URI="git://sigaev.ru/wildspeed"
+EGIT_REPO_URI="https://sigaev.ru/wildspeed"
 #EGIT_BRANCH="master"
 
 LICENSE="POSTGRESQL GPL-2"

@@ -9,7 +9,7 @@ inherit git-2 eutils
 DESCRIPTION="Watches last lines of a PostgreSQL table like in a 'tail -f'."
 HOMEPAGE="https://github.com/aaparmeggiani/pg_tail"
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/aaparmeggiani/pg_tail.git"
+EGIT_REPO_URI="https://github.com/aaparmeggiani/pg_tail.git"
 #EGIT_BRANCH="gpujoin"
 #EGIT_COMMIT="v0_8"
 

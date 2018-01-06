@@ -9,7 +9,7 @@ DESCRIPTION="Hetzner hetzner-hb daemon"
 HOMEPAGE="https://github.com/mrkamel/heartbeat"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/uu/heartbeat.git"
+EGIT_REPO_URI="https://github.com/uu/heartbeat.git"
 EGIT_BRANCH="master"
 
 #USE_RUBY="ruby18"

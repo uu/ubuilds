@@ -8,7 +8,7 @@ inherit toolchain-funcs git-r3 autotools
 
 DESCRIPTION="Meta project to build libraries from the brotli source code"
 HOMEPAGE="https://github.com/bagder/libbrotli"
-EGIT_REPO_URI="git://github.com/bagder/libbrotli"
+EGIT_REPO_URI="https://github.com/bagder/libbrotli"
 SRC_URI=""
 
 LICENSE="MIT"

@@ -6,7 +6,7 @@ DESCRIPTION="MySQL FDW (Foreign Data Wrapper) for PostgreSQL"
 HOMEPAGE="http://pgxn.org/dist/mysql_fdw/"
 
 SRC_URI=""
-EGIT_REPO_URI="git://github.com/EnterpriseDB/mysql_fdw.git"
+EGIT_REPO_URI="https://github.com/EnterpriseDB/mysql_fdw.git"
 EGIT_BRANCH="master"
 
 LICENSE="POSTGRESQL"

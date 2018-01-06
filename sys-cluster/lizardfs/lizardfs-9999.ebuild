@@ -13,7 +13,7 @@ DESCRIPTION="LizardFS is an Open Source Distributed File System licenced under G
 HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
 
-EGIT_REPO_URI="git://github.com/lizardfs/lizardfs.git"
+EGIT_REPO_URI="https://github.com/lizardfs/lizardfs.git"
 
 LICENSE="GPL-3"
 SLOT="0"
