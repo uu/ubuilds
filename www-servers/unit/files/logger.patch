@@ -1,0 +1,12 @@
+--- bin/heartbeat.orig	2017-08-29 13:40:00.649366439 +0300
++++ bin/heartbeat	2017-08-29 13:46:18.413359966 +0300
+@@ -21,7 +21,7 @@
+   end
+ end.parse!
+ 
+-$logger = Logger.new(File.expand_path("../../log/heartbeat.log", __FILE__), 3, 10_485_760)
++$logger = Logger.new(STDOUT)
+ 
+ threads = Dir.glob(options[:config]).collect do |path|
+   Thread.new path do |file|
+
