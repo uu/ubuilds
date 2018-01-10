@@ -30,3 +30,9 @@ DEPEND="test? (
 python_test() {
 	nosetests tests || die "Tests fail with ${EPYTHON}"
 }
+
+python_prepare_all() {
+	rm -rf tests || die
+	distutils-r1_python_prepare_all
+}
+
