@@ -9,7 +9,8 @@ inherit distutils-r1 vcs-snapshot
 
 DESCRIPTION="Environment Variable Parsing for Python"
 HOMEPAGE="https://github.com/rconradharris/envparse"
-SRC_URI="https://pypi.python.org/packages/2f/8d/bee8a59732c169a455627ff1557d0db180f7c352b0274480267ad3e46875/${P}.tar.gz -> ${P}.tar.gz"
+#SRC_URI="https://pypi.python.org/packages/2f/8d/bee8a59732c169a455627ff1557d0db180f7c352b0274480267ad3e46875/${P}.tar.gz -> ${P}.tar.gz"
+SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"

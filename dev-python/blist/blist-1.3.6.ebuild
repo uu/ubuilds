@@ -7,8 +7,10 @@ PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
 
 inherit distutils-r1 vcs-snapshot
 
-DESCRIPTION="Python SDK for Exotel API"
-HOMEPAGE="https://github.com/sarathsp06/exotel-py"
+DESCRIPTION="A list-like type with better asymptotic performance and similar performance on small lists"
+HOMEPAGE="http://stutzbachenterprises.com/blist/"
+#SRC_URI="https://pypi.python.org/packages/2f/8d/bee8a59732c169a455627ff1557d0db180f7c352b0274480267ad3e46875/${P}.tar.gz -> ${P}.tar.gz"
+#SRC_URI="mirror://pypi/${MY_PN:0:1}/${MY_PN}/${MY_P}.tar.gz"
 SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
