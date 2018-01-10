@@ -15,7 +15,7 @@ PYTHON_COMPAT=( python2_7 )
 
 inherit distutils-r1
 
-DEPEND=">=dev-python/twilio-6.10.0"
+DEPEND="=dev-python/twilio-6.0.0"
 RDEPEND="${DEPEND}"
 
 python_prepare_all() {
