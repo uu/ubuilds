@@ -3,8 +3,8 @@
 # - pidfile (default: /run/nomad/nomad.pid)
 # - user (default: nomad)
 
-# extra arguments for the consul agent
-command_args="-config-dir=/etc/nomad.d"
+# extra arguments for the nomad agent
+command_args="-config=/etc/nomad.d"
 
 # upstream strongly recommends > 1
 GOMAXPROCS=2
