@@ -53,7 +53,7 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/openresty/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.10.12rc1"
+HTTP_LUA_MODULE_PV="0.10.12rc2"
 HTTP_LUA_MODULE_P="ngx_http_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/openresty/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
@@ -213,9 +213,9 @@ HTTP_BODYTIME_MODULE_URI="https://github.com/koordinates/bodytime-nginx-module/a
 HTTP_BODYTIME_MODULE_WD="${WORKDIR}/bodytime-nginx-module-${HTTP_BODYTIME_MODULE_PV}"
 
 # nchan https://github.com/slact/nchan/releases
-HTTP_NCHAN_MODULE_PV="1.1.13"
+HTTP_NCHAN_MODULE_PV="1.1.14"
 HTTP_NCHAN_MODULE_P="ngx_http_nchan_module-${HTTP_NCHAN_MODULE_PV}"
-HTTP_NCHAN_MODULE_SHA1="347ff4b"
+HTTP_NCHAN_MODULE_SHA1="09d9251"
 
 # NginX DevKit module (https://github.com/simpl/ngx_devel_kit, BSD)
 HTTP_NDK_MODULE_PV="0.3.0"
