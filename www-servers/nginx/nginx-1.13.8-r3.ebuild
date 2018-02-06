@@ -942,7 +942,7 @@ src_install() {
 
 	if use nginx_modules_http_dav_ext; then
 		docinto ${HTTP_DAV_EXT_MODULE_P}
-		dodoc "${HTTP_DAV_EXT_MODULE_WD}"/README
+		dodoc "${HTTP_DAV_EXT_MODULE_WD}"/README.rst
 	fi
 
 	if use nginx_modules_http_echo; then
