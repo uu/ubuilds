@@ -7,7 +7,7 @@ PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 DOCS=( NEWS README CREDITS )
 
-USE_PHP="php5-6 php7-0 php7-1"
+USE_PHP="php5-6 php7-0 php7-1 php7-2"
 
 inherit php-ext-source-r3 git-r3
 
