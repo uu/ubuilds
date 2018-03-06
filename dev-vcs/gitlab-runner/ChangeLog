@@ -1,0 +1,16 @@
+  05 Nov 2017; Manuel Friedli <manuel@fritteli.ch> gitlab-runner-10.0.2.ebuild:
+  dev-vcs/gitlab-runner:  Final fix.
+
+  05 Nov 2017; Manuel Friedli <manuel@fritteli.ch> gitlab-runner-10.0.2.ebuild:
+  dev-vcs/gitlab-runner:  Try and fix permissions
+
+  05 Nov 2017; Manuel Friedli <manuel@fritteli.ch> gitlab-runner-10.0.2.ebuild:
+  dev-vcs/gitlab-runner:  Fix user and group creation.
+
+*gitlab-runner-10.0.2 (05 Nov 2017)
+
+  05 Nov 2017; Manuel Friedli <manuel@fritteli.ch>
+  +files/gitlab-runner-10.0.2.conf, +files/gitlab-runner-10.0.2.init,
+  +gitlab-runner-10.0.2.ebuild, +metadata.xml:
+  dev-vcs/gitlab-runner:  Add ebuild for version 10.0.2; this is the first
+  ebuild of this package.
