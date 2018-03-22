@@ -1,0 +1,12 @@
+--- a/setup.py.orig	2017-12-04 21:41:28.000000000 +0300
++++ b/setup.py	2018-03-22 17:48:26.938239315 +0300
+@@ -63,7 +63,7 @@
+     package_data={
+     },
+ 
+-    data_files=[('etc/letsencrypt', ['certbot-pdns.json'])],
++    data_files=[('/etc/letsencrypt', ['certbot-pdns.json'])],
+ 
+     entry_points={
+         'certbot.plugins': [
+
