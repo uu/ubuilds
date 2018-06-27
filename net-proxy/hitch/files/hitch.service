@@ -1,0 +1,15 @@
+[Unit]
+Description=hitch tls proxy
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User=hitch
+Environment=HITCH_OPTS="--config=/etc/hitch.conf"
+ExecStart=/usr/bin/hitch $HITCH_OPTS
+Restart=on-failure
+KillSignal=SIGINT
+ExecReload=/usr/sbin/hitch reload
+
+[Install]
+WantedBy=default.target

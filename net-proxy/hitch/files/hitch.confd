@@ -1,0 +1,3 @@
+# extra arguments for the hitch tls proxy
+command_args="--config=/etc/hitch.conf"
+
