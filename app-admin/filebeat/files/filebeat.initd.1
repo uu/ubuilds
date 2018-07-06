@@ -31,7 +31,7 @@ checkconfig() {
 	fi
 
 	ebegin "Checking your configuration"
-	${command} ${command_args} -configtest
+	${command} ${command_args} test config
 	eend $? "Configuration error. Please fix your configuration files."
 }
 
