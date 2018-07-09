@@ -48,6 +48,9 @@ src_install() {
 	fowners ${PN}:${PN} /var/{lib,log}/${PN}
 	fperms 0750 /var/{lib,log}/${PN}
 	dodir /usr/share/${PN}/plugins
+	
+	fowners -R ${PN}:${PN} /usr/share/${PN}/modules/
+	fperms 0700 /usr/share/${PN}/modules/x-pack/x-pack-ml/platform/linux-x86_64/bin/controller
 
 	insinto /etc/sysctl.d
 	newins "${FILESDIR}/${PN}.sysctl.d" ${PN}.conf
