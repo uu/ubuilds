@@ -49,6 +49,7 @@ src_install() {
 	find ${PN}/module -type d -name test -exec rm -r {} ';'
 	insinto /usr/share/${PN}
 	doins -r ${PN}/module
+	dosym /usr/share/${PN}/module /etc/${PN}/module
 }
 
 pkg_postinst() {
