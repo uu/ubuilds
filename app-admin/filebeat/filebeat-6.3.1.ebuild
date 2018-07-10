@@ -31,6 +31,7 @@ src_compile() {
 
 src_install() {
 	keepdir /var/{lib,log}/${PN}
+	keepdir /etc/${PN}
 
 	fperms 0750 /var/{lib,log}/${PN}
 
@@ -40,7 +41,14 @@ src_install() {
 	docinto examples
 	dodoc ${PN}/{filebeat.yml,filebeat.reference.yml}
 
-	dobin filebeat/filebeat
+	dobin ${PN}/${PN}
+	insinto /etc/${PN}
+	doins -r ${PN}/modules.d
+	doins ${PN}/{${PN}.yml,${PN}.reference.yml}
+	
+	find ${PN}/module -type d -name test -exec rm -r {} ';'
+	insinto /usr/share/${PN}
+	doins -r ${PN}/module
 }
 
 pkg_postinst() {
