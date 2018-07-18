@@ -9,5 +9,6 @@
 	<use>
 		<flag name="cgi">Install CGI server and scripts.</flag>
 		<flag name="fuse">Install the mfsmount utility.</flag>
+		<flag name="fuse3">Use new FUSE library.</flag>
 	</use>
 </pkgmetadata>

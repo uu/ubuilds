@@ -1,0 +1,12 @@
+diff --git a/src/chunkserver/iostat.h b/src/chunkserver/iostat.h
+index e1a50e97..09a04c67 100644
+--- a/src/chunkserver/iostat.h
++++ b/src/chunkserver/iostat.h
+@@ -28,6 +28,7 @@
+ #include <algorithm>
+ #include <unordered_map>
+ #include <vector>
++#include <sys/sysmacros.h>
+ 
+ #include <sys/stat.h>
+ #include <sys/types.h>
