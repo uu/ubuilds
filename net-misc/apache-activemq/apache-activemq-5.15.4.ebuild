@@ -9,7 +9,7 @@ inherit user
 DESCRIPTION="Apache ActiveMQ is the most popular and powerful open source messaging and Integration Patterns server"
 HOMEPAGE="https://activemq.apache.org"
 #SRC_URI="http://apache-mirror.rbc.ru/pub/apache/activemq/apache-activemq/${PV}/${PN}-${PV}-bin.tar.gz"
-SRC_URI="http://apache-mirror.rbc.ru/pub/apache/activemq/5.13.0/apache-activemq-${PV}-bin.tar.gz"
+SRC_URI="http://apache-mirror.rbc.ru/pub/apache/activemq/${PV}/apache-activemq-${PV}-bin.tar.gz"
 #MY_PN="${PN/-bin/}"
 #SRC_URI="mirror://apache/${MY_PN}/apache-${MY_PN}/${PV}/${P}-bin.tar.gz"
 
