@@ -21,6 +21,7 @@ RDEPEND="
 	cgi? ( dev-lang/python )
 	!sys-cluster/moosefs
 	app-text/asciidoc
+	dev-libs/judy
 	fuse? ( >=sys-fs/fuse-2.6 )
 	fuse3? ( >=sys-fs/fuse-3.2 )"
 DEPEND="${RDEPEND}"
