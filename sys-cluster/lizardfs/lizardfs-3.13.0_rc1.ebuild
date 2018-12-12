@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-cluster/moosefs/moosefs-1.6.25.ebuild,v 1.1 2012/07/02 13:51:07 ultrabug Exp $
+# $Header: 
 
 EAPI=6
 
@@ -11,7 +11,7 @@ HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/lizardfs/lizardfs.git"
-EGIT_COMMIT="v3.13.0-rc1"
+EGIT_OVERRIDE_COMMIT_LIZARDFS_LIZARDFS="v3.13.0-rc1"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
@@ -20,10 +20,12 @@ IUSE="cgi +fuse fuse3 static-libs -devel"
 RDEPEND="
 	cgi? ( dev-lang/python )
 	!sys-cluster/moosefs
-	app-text/asciidoc
 	dev-libs/judy
 	fuse? ( >=sys-fs/fuse-2.6 )
-	fuse3? ( >=sys-fs/fuse-3.2 )"
+	fuse3? ( >=sys-fs/fuse-3.2 )
+	dev-libs/isa-l
+	>=sys-devel/gcc-6.3.0
+	<=sys-libs/glibc-2.24"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
@@ -35,9 +37,10 @@ pkg_setup() {
 	enewgroup mfs
 	enewuser mfs -1 -1 -1 mfs
 	mycmakeargs=(
-		-DCMAKE_BUILD_TYPE=Release 
-		-DENABLE_TESTS=NO 
-		-DCMAKE_INSTALL_PREFIX=/ 
+		-DCMAKE_BUILD_TYPE=Release
+		-DENABLE_TESTS=NO
+		-DENABLE_DOCS=NO
+		-DCMAKE_INSTALL_PREFIX=/
 		-DENABLE_DEBIAN_PATHS=YES
 	)
 
@@ -47,7 +50,7 @@ fi
 }
 
 src_install() {
-	cmake-utils_src_install 
+	cmake-utils_src_install
 
 	newinitd "${FILESDIR}/mfs.initd" mfs
 	newconfd "${FILESDIR}/mfs.confd" mfs
