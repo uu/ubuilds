@@ -24,8 +24,7 @@ RDEPEND="
 	fuse? ( >=sys-fs/fuse-2.6 )
 	fuse3? ( >=sys-fs/fuse-3.2 )
 	dev-libs/isa-l
-	>=sys-devel/gcc-6.3.0
-	<=sys-libs/glibc-2.24"
+	>=sys-devel/gcc-6.3.0"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
