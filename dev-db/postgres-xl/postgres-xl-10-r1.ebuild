@@ -1,54 +1,45 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI="5"
+EAPI="6"
 
-PYTHON_COMPAT=( python{2_7,3_4,3_5} )
+PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
 
-inherit eutils flag-o-matic linux-info multilib pam prefix python-single-r1 \
+PLOCALES="af cs de en es fa fr hr hu it ko nb pl pt_BR ro ru sk sl sv tr zh_CN
+		 zh_TW"
+
+inherit flag-o-matic l10n linux-info multilib pam prefix python-single-r1 \
 		systemd user versionator
 
-KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~ppc-macos ~x86-solaris"
+KEYWORDS="alpha amd64 arm ~arm64 ~hppa ia64 ~mips ppc ppc64 ~s390 ~sh sparc x86 ~amd64-fbsd ~x86-fbsd ~ppc-macos ~x86-solaris"
 
-SLOT="$(get_version_component_range 1-2)"
+SLOT=$(get_major_version)
 
-#SRC_URI="http://repo.postgrespro.ru/pgpro-${SLOT}/src/${P}.tar.bz2"
-SRC_URI="http://files.postgres-xl.org/postgres-xl-9.5r1.3.tar.gz"
+MY_PV=${PV/_/}
+S="${WORKDIR}/${PN}-${MY_PV}r1"
+
+SRC_URI="https://www.postgres-xl.org/downloads/postgres-xl-10r1.tar.gz"
 
 LICENSE="POSTGRESQL GPL-2"
 DESCRIPTION="PostgreSQL RDBMS"
-HOMEPAGE="http://www.postgresql.org/"
+HOMEPAGE="https://www.postgresql.org/"
 
-LINGUAS="af cs de en es fa fr hr hu it ko nb pl pt_BR ro ru sk sl sv tr
-		 zh_CN zh_TW"
-IUSE="doc kerberos kernel_linux ldap libressl nls pam perl -pg_legacytimestamp python
-	  +readline selinux +server ssl static-libs tcl threads uuid xml zlib"
-S="${WORKDIR}/${P}r1.3"
-for lingua in ${LINGUAS}; do
-	IUSE+=" linguas_${lingua}"
-done
+IUSE="doc kerberos kernel_linux ldap libressl nls pam perl python +readline
+	  selinux +server systemd ssl static-libs tcl threads uuid xml zlib"
 
-wanted_languages() {
-	local enable_langs
-
-	for lingua in ${LINGUAS} ; do
-		use linguas_${lingua} && enable_langs+="${lingua} "
-	done
-
-	echo -n ${enable_langs}
-}
+REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 CDEPEND="
->=app-eselect/eselect-postgresql-1.2.0
+>=app-eselect/eselect-postgresql-2.0
 sys-apps/less
 virtual/libintl
 kerberos? ( virtual/krb5 )
 ldap? ( net-nds/openldap )
 pam? ( virtual/pam )
-perl? ( >=dev-lang/perl-5.8 )
+perl? ( >=dev-lang/perl-5.8:= )
 python? ( ${PYTHON_DEPS} )
 readline? ( sys-libs/readline:0= )
+server? ( systemd? ( sys-apps/systemd ) )
 ssl? (
 	!libressl? ( >=dev-libs/openssl-0.9.6-r1:0= )
 	libressl? ( dev-libs/libressl:= )
@@ -119,11 +110,7 @@ src_prepare() {
 	# hardened and non-hardened environments. (Bug #528786)
 	sed 's/@install_bin@/install -c/' -i src/Makefile.global.in || die
 
-	#use server || epatch "${FILESDIR}/${PN}-${SLOT}-no-server.patch"
-
-	# Fix bug 486556 where the server would crash at start up because of
-	# an infinite loop caused by a self-referencing symlink.
-	epatch "${FILESDIR}/postgresql-9.2-9.4-tz-dir-overflow.patch"
+	#use server || eapply "${FILESDIR}/${PN}-10.2-no-server.patch"
 
 	if use pam ; then
 		sed -e "s/\(#define PGSQL_PAM_SERVICE \"postgresql\)/\1-${SLOT}/" \
@@ -131,7 +118,7 @@ src_prepare() {
 			die 'PGSQL_PAM_SERVICE rename failed.'
 	fi
 
-	epatch_user
+	eapply_user
 }
 
 src_configure() {
@@ -166,7 +153,6 @@ src_configure() {
 		--sysconfdir="${PO}/etc/postgresql-${SLOT}" \
 		--with-system-tzdata="${PO}/usr/share/zoneinfo" \
 		$(use_enable !alpha spinlocks) \
-		$(use_enable !pg_legacytimestamp integer-datetimes) \
 		$(use_enable threads thread-safety) \
 		$(use_with kerberos gssapi) \
 		$(use_with ldap) \
@@ -175,12 +161,13 @@ src_configure() {
 		$(use_with python) \
 		$(use_with readline) \
 		$(use_with ssl openssl) \
+		$(usex server "$(use_with systemd)" '--without-systemd') \
 		$(use_with tcl) \
 		${uuid_config} \
 		$(use_with xml libxml) \
 		$(use_with xml libxslt) \
 		$(use_with zlib) \
-		"$(use_enable nls nls "$(wanted_languages)")"
+		$(use_enable nls nls "'$(l10n_get_locales)'")
 }
 
 src_compile() {
@@ -202,69 +189,94 @@ src_install() {
 	doins -r doc/src/sgml/man{1,3,7}
 	if ! use server; then
 		# Remove man pages for non-existent binaries
-		for m in {initdb,pg_{controldata,ctl,resetxlog},post{gres,master}}; do
+		serverman=(
+			initdb
+			pg_{archivecleanup,controldata,ctl,resetwal,rewind,standby}
+			pg_{test_{fsync,timing},upgrade,waldump}
+			post{gres,master}
+		)
+		for m in ${serverman[@]} ; do
 			rm "${ED}/usr/share/postgresql-${SLOT}/man/man1/${m}.1"
 		done
 	fi
 	docompress /usr/share/postgresql-${SLOT}/man/man{1,3,7}
 
+	# Create slot specific man pages
+	local bn f mansec slotted_name
+	for mansec in 1 3 7 ; do
+		local rel_manpath="../../postgresql-${SLOT}/man/man${mansec}"
+
+		mkdir -p "${ED}"/usr/share/man/man${mansec} || die "making man dir"
+		pushd "${ED}"/usr/share/man/man${mansec} > /dev/null || die "pushd failed"
+
+		for f in "${ED}/usr/share/postgresql-${SLOT}/man/man${mansec}"/* ; do
+			bn=$(basename "${f}")
+			slotted_name=${bn%.${mansec}}${SLOT}.${mansec}
+			case ${bn} in
+				TABLE.7|WITH.7)
+					echo ".so ${rel_manpath}/SELECT.7" > ${slotted_name}
+					;;
+				*)
+					echo ".so ${rel_manpath}/${bn}" > ${slotted_name}
+					;;
+			esac
+		done
+
+		popd > /dev/null
+	done
+
 	insinto /etc/postgresql-${SLOT}
 	newins src/bin/psql/psqlrc.sample psqlrc
 
-	dodir /etc/eselect/postgresql/slots/${SLOT}
-	echo "postgres_ebuilds=\"\${postgres_ebuilds} ${PF}\"" > \
-		"${ED}/etc/eselect/postgresql/slots/${SLOT}/base"
-
 	use static-libs || find "${ED}" -name '*.a' -delete
+
+	local f bn
+	for f in $(find "${ED}/usr/$(get_libdir)/postgresql-${SLOT}/bin" \
+					-mindepth 1 -maxdepth 1)
+	do
+		bn=$(basename "${f}")
+		# Temporarily tack on tmp to workaround a file collision
+		# issue. This is only necessary for 9.7 and earlier. 10 never
+		# had this issue.
+		dosym "../$(get_libdir)/postgresql-${SLOT}/bin/${bn}" \
+			  "/usr/bin/${bn}${SLOT/.}"
+	done
 
 	if use doc ; then
 		docinto html
 		dodoc doc/src/sgml/html/*
-
-		docinto sgml
-		dodoc doc/src/sgml/*.{sgml,dsl}
 	fi
 
 	if use server; then
 		sed -e "s|@SLOT@|${SLOT}|g" -e "s|@LIBDIR@|$(get_libdir)|g" \
-			"${FILESDIR}/${PN}.confd" | newconfd - postgresql-${SLOT}
+			"${FILESDIR}/${PN}.confd-9.3" | newconfd - ${PN}-${SLOT}
 
 		sed -e "s|@SLOT@|${SLOT}|g" -e "s|@LIBDIR@|$(get_libdir)|g" \
-			"${FILESDIR}/${PN}.init-9.5" | newinitd - postgresql-${SLOT}
+			"${FILESDIR}/${PN}.init-9.3-r1" | newinitd - ${PN}-${SLOT}
 
-		sed -e "s|@SLOT@|${SLOT}|g" -e "s|@LIBDIR@|$(get_libdir)|g" \
-			"${FILESDIR}/${PN}.service" | \
-			systemd_newunit - postgresql-${SLOT}.service
+		if use systemd; then
+			sed -e "s|@SLOT@|${SLOT}|g" -e "s|@LIBDIR@|$(get_libdir)|g" \
+				"${FILESDIR}/${PN}.service-9.6-r1" | \
+				systemd_newunit - ${PN}-${SLOT}.service
+			newbin "${FILESDIR}"/${PN}-check-db-dir ${PN}-${SLOT}-check-db-dir
+			systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfiles ${PN}-${SLOT}.conf
+		fi
 
-		newbin "${FILESDIR}"/${PN}-check-db-dir postgresql-${SLOT}-check-db-dir
-
-		use pam && pamd_mimic system-auth postgresql-${SLOT} auth account session
+		use pam && pamd_mimic system-auth ${PN}-${SLOT} auth account session
 
 		if use prefix ; then
 			keepdir /run/postgresql
-			fperms 0775 /run/postgresql
+			fperms 1775 /run/postgresql
 		fi
 	fi
 }
 
 pkg_postinst() {
+	use server && use systemd && systemd_tmpfiles_create ${PN}-${SLOT}.conf
 	postgresql-config update
-
-	if use alpha && use server ; then
-		ewarn "PostgreSQL 9.5+ no longer has native spinlock support on Alpha platforms."
-		ewarn "As a result, performance will be extremely degraded."
-	fi
 
 	elog "If you need a global psqlrc-file, you can place it in:"
 	elog "    ${EROOT%/}/etc/postgresql-${SLOT}/"
-
-	if [[ -z ${REPLACING_VERSIONS} ]] ; then
-		elog
-		elog "It looks like this is your first time installing PostgreSQL. Run the"
-		elog "following command in all active shells to pick up changes to the default"
-		elog "environment:"
-		elog "    source /etc/profile"
-	fi
 
 	if use server ; then
 		elog
@@ -272,7 +284,7 @@ pkg_postinst() {
 		elog "https://wiki.gentoo.org/wiki/PostgreSQL"
 		elog
 		elog "Official documentation:"
-		elog "http://www.postgresql.org/docs/${SLOT}/static/index.html"
+		elog "https://www.postgresql.org/docs/${SLOT}/static/index.html"
 		elog
 		elog "The default location of the Unix-domain socket is:"
 		elog "    ${EROOT%/}/run/postgresql/"
@@ -284,6 +296,14 @@ pkg_postinst() {
 		elog "Then, execute the following command to setup the initial database"
 		elog "environment:"
 		elog "    emerge --config =${CATEGORY}/${PF}"
+
+		if [[ -n ${REPLACING_VERSIONS} ]] ; then
+			ewarn "If your system is using 'pg_stat_statements' and you are running a"
+			ewarn "version of PostgreSQL ${SLOT}, we advise that you execute"
+			ewarn "the following command after upgrading:"
+			ewarn
+			ewarn "ALTER EXTENSION pg_stat_statements UPDATE;"
+		fi
 	fi
 }
 
@@ -337,8 +357,8 @@ pkg_config() {
 	einfo "    ${EROOT%/}/etc/conf.d/postgresql-${SLOT}"
 	einfo
 	einfo "Information on options that can be passed to initdb are found at:"
-	einfo "    http://www.postgresql.org/docs/${SLOT}/static/creating-cluster.html"
-	einfo "    http://www.postgresql.org/docs/${SLOT}/static/app-initdb.html"
+	einfo "    https://www.postgresql.org/docs/${SLOT}/static/creating-cluster.html"
+	einfo "    https://www.postgresql.org/docs/${SLOT}/static/app-initdb.html"
 	einfo
 	einfo "PG_INITDB_OPTS is currently set to:"
 	if [[ -z "${PG_INITDB_OPTS}" ]] ; then
@@ -353,17 +373,10 @@ pkg_config() {
 	einfo "The database cluster will be created in:"
 	einfo "    ${DATA_DIR}"
 	einfo
-	while [ "$correct" != "true" ] ; do
-		einfo "Are you ready to continue? (y/n)"
-		read answer
-		if [[ $answer =~ ^[Yy]([Ee][Ss])?$ ]] ; then
-			correct="true"
-		elif [[ $answer =~ ^[Nn]([Oo])?$ ]] ; then
-			die "Aborting initialization."
-		else
-			echo "Answer not recognized"
-		fi
-	done
+
+	ebegin "Continuing initialization in 5 seconds (Control-C to cancel)"
+	sleep 5
+	eend 0
 
 	if [ -n "$(ls -A ${DATA_DIR} 2> /dev/null)" ] ; then
 		eerror "The given directory, '${DATA_DIR}', is not empty."
@@ -391,6 +404,10 @@ pkg_config() {
 		ln -s "${PGDATA%/}"/{pg_{hba,ident},postgresql}.conf "${DATA_DIR%/}"
 	fi
 
+	# unix_socket_directory has no effect in postgresql.conf as it's
+	# overridden in the initscript
+	sed '/^#unix_socket_directories/,+1d' -i "${PGDATA%/}"/postgresql.conf
+
 	cat <<- EOF >> "${PGDATA%/}"/postgresql.conf
 		# This is here because of https://bugs.gentoo.org/show_bug.cgi?id=518522
 		# On the off-chance that you might need to work with UTF-8 encoded
@@ -403,9 +420,11 @@ pkg_config() {
 	einfo "by default. You can disable it in the cluster's:"
 	einfo "    ${PGDATA%/}/postgresql.conf"
 	einfo
-	einfo "The PostgreSQL server, by default, will log events to:"
-	einfo "    ${DATA_DIR%/}/postmaster.log"
-	einfo
+	if ! use systemd; then
+		einfo "The PostgreSQL server, by default, will log events to:"
+		einfo "    ${DATA_DIR%/}/postmaster.log"
+		einfo
+	fi
 	if use prefix ; then
 		einfo "The location of the configuration files have moved to:"
 		einfo "    ${PGDATA}"
@@ -416,6 +435,9 @@ pkg_config() {
 		einfo
 		einfo "Or move the configuration files back:"
 		einfo "mv ${PGDATA}*.conf ${DATA_DIR}"
+	elif use systemd; then
+		einfo "You should use the 'postgresql-${SLOT}.service' unit to run PostgreSQL"
+		einfo "instead of 'pg_ctl'."
 	else
 		einfo "You should use the '${EROOT%/}/etc/init.d/postgresql-${SLOT}' script to run PostgreSQL"
 		einfo "instead of 'pg_ctl'."
@@ -423,8 +445,6 @@ pkg_config() {
 }
 
 src_test() {
-	einfo ">>> Test phase [check]: ${CATEGORY}/${PF}"
-
 	if use server && [[ ${UID} -ne 0 ]] ; then
 		emake check
 
