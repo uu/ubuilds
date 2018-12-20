@@ -1,9 +1,7 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-
-inherit eapi7-ver
+EAPI=7
 
 DESCRIPTION="Lightweight log shipper for Logstash and Elasticsearch"
 HOMEPAGE="https://www.elastic.co/products/beats"
@@ -14,8 +12,11 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 RESTRICT="test"
 
-DEPEND=">=dev-lang/go-1.9.2"
+DEPEND=">=dev-lang/go-1.11.2"
 RDEPEND="!app-admin/filebeat-bin"
+
+# Do not complain about CFLAGS etc since go projects do not use them.
+QA_FLAGS_IGNORED='.*'
 
 S="${WORKDIR}/src/github.com/elastic/beats"
 
@@ -25,13 +26,22 @@ src_unpack() {
 	mv beats-${PV} "${S}" || die
 }
 
+src_prepare() {
+	default
+
+	# avoid Elastic license
+	rm -r x-pack || die
+
+	# use ${PV} instead of git commit id
+	sed -i "s/\(COMMIT_ID=\).*/\1${PV}/g" "${S}/libbeat/scripts/Makefile" || die
+}
+
 src_compile() {
 	GOPATH="${WORKDIR}" emake -C "${S}/filebeat"
 }
 
 src_install() {
 	keepdir /var/{lib,log}/${PN}
-	keepdir /etc/${PN}
 
 	fperms 0750 /var/{lib,log}/${PN}
 
@@ -41,15 +51,7 @@ src_install() {
 	docinto examples
 	dodoc ${PN}/{filebeat.yml,filebeat.reference.yml}
 
-	dobin ${PN}/${PN}
-	insinto /etc/${PN}
-	doins -r ${PN}/modules.d
-	doins ${PN}/{${PN}.yml,${PN}.reference.yml}
-	
-	find ${PN}/module -type d -name test -exec rm -r {} ';'
-	insinto /usr/share/${PN}
-	doins -r ${PN}/module
-	dosym /usr/share/${PN}/module /etc/${PN}/module
+	dobin filebeat/filebeat
 }
 
 pkg_postinst() {
@@ -60,5 +62,5 @@ pkg_postinst() {
 	fi
 
 	elog "Example configurations:"
-	elog "${EROOT%/}/usr/share/doc/${PF}/examples"
+	elog "${EROOT}/usr/share/doc/${PF}/examples"
 }
