@@ -7,7 +7,7 @@ DOCS=( ChangeLog README.markdown )
 
 USE_PHP="php5-6 php7-0 php7-1 php7-2 php7-3" # Pretend to support all three targets...
 inherit php-ext-pecl-r3
-USE_PHP="php7-0 php7-1 php7-2" # But only truly build for these two.
+USE_PHP="php7-0 php7-1 php7-2 php7-3" # But only truly build for these two.
 
 DESCRIPTION="Interface PHP with memcached via libmemcached library"
 LICENSE="PHP-3"
@@ -17,7 +17,7 @@ IUSE="examples igbinary json sasl +session "
 
 COMMON_DEPEND=">=dev-libs/libmemcached-1.0.14[sasl?]
 	sys-libs/zlib
-	igbinary? ( dev-php/igbinary[php_targets_php7-0?,php_targets_php7-1?,php_targets_php7-2?] )
+	igbinary? ( dev-php/igbinary[php_targets_php7-0?,php_targets_php7-1?,php_targets_php7-2?,php_targets_php7-3?] )
 "
 
 DEPEND="
@@ -29,6 +29,9 @@ DEPEND="
 	)
 	php_targets_php7-2? (
 		${COMMON_DEPEND} dev-lang/php:7.2[session?,json?]
+	)
+	php_targets_php7-3? (
+		${COMMON_DEPEND} dev-lang/php:7.3[session?,json?]
 	)"
 RDEPEND="${DEPEND}
 	php_targets_php5-6? (
@@ -36,7 +39,7 @@ RDEPEND="${DEPEND}
 	)"
 
 src_prepare(){
-	if use php_targets_php7-0 || use php_targets_php7-1 || use php_targets_php7-2 ; then
+	if use php_targets_php7-0 || use php_targets_php7-1 || use php_targets_php7-2 || use php_targets_php7-3 ; then
 		php-ext-source-r3_src_prepare
 	else
 		default_src_prepare
@@ -56,7 +59,7 @@ src_configure() {
 src_install(){
 	use examples && dodoc -r server-example
 
-	if use php_targets_php7-0 || use php_targets_php7-1 || use php_targets_php7-2 ; then
+	if use php_targets_php7-0 || use php_targets_php7-1 || use php_targets_php7-2 || use php_targets_php7-3 ; then
 		php-ext-source-r3_src_install
 	fi
 }
