@@ -1,0 +1,9 @@
+# config file for /etc/init.d/postfix_exporter
+# run /usr/bin/postfix_exporter -h to see available options
+
+POSTFIX_EXPORTER_LOGDIR="/var/log/${RC_SVCNAME}"
+POSTFIX_EXPORTER_OPTS=""
+
+# Logging
+#output_log="${POSTFIX_EXPORTER_LOGDIR}/postfix_exporter.log"
+#error_log="${POSTFIX_EXPORTER_LOGDIR}/error.log"

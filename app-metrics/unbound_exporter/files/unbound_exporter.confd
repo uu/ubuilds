@@ -1,0 +1,9 @@
+# config file for /etc/init.d/unbound_exporter
+# run /usr/bin/unbound_exporter -h to see available options
+
+UNBOUND_EXPORTER_LOGDIR="/var/log/${RC_SVCNAME}"
+UNBOUND_EXPORTER_OPTS=""
+
+# Logging
+#output_log="${UNBOUND_EXPORTER_LOGDIR}/unbound_exporter.log"
+#error_log="${UNBOUND_EXPORTER_LOGDIR}/error.log"

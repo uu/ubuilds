@@ -1,0 +1,9 @@
+# config file for /etc/init.d/ssl_exporter
+# run /usr/bin/ssl_exporter -h to see available options
+
+SSL_LOGDIR="/var/log/${RC_SVCNAME}"
+SSL_OPTS=""
+
+# Logging
+#output_log="${SSL_LOGDIR}/ssl_exporter.log"
+#error_log="${SSL_LOGDIR}/error.log"

@@ -1,0 +1,11 @@
+[Unit]
+Description=PHP-FPM Exporter service
+After=network.target
+
+[Service]
+User=php-fpm_exporter
+ExecStart=/usr/bin/php-fpm_exporter server --phpfpm.scrape-uri tcp://127.0.0.1:9000/status
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

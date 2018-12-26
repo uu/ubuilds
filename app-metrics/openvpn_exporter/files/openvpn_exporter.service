@@ -1,0 +1,11 @@
+[Unit]
+Description=OpenVPN Exporter service
+After=network.target
+
+[Service]
+User=openvpn_exporter
+ExecStart=/usr/bin/openvpn_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Script Exporter service
+After=network.target
+
+[Service]
+User=script_exporter
+ExecStart=/usr/bin/script_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>gentoo@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="gitlab">gitlab-org/gitlab-runner</remote-id>
+		<bugs-to>https://gitlab.com/gitlab-org/gitlab-runner/issues</bugs-to>
+	</upstream>
+	<longdescription lang="en">
+		It runs tests and sends the results to GitLab.
+		GitLab CI is the open-source continuous integration
+		service included with GitLab that coordinates the testing.
+	</longdescription>
+	<use>
+		<flag name="build-images">Use docker to build the images</flag>
+	</use>
+</pkgmetadata>

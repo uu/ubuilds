@@ -1,0 +1,10 @@
+# config file for /etc/init.d/script_exporter
+# run /usr/bin/script_exporter -h to see available options
+
+SCRIPT_EXPORTER_LOGDIR="/var/log/${RC_SVCNAME}"
+SCRIPT_EXPORTER_CONFIG="/etc/script_exporter/script-exporter.yml"
+SCRIPT_EXPORTER_OPTS="-config.file=${SCRIPT_EXPORTER_CONFIG}"
+
+# Logging
+#output_log="${SCRIPT_EXPORTER_LOGDIR}/script_exporter.log"
+#error_log="${SCRIPT_EXPORTER_LOGDIR}/error.log"

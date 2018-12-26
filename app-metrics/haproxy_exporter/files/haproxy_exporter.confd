@@ -1,0 +1,9 @@
+# config file for /etc/init.d/haproxy_exporter
+# run /usr/bin/haproxy_exporter -h to see available options
+
+HAPROXY_EXPORTER_LOGDIR="/var/log/${RC_SVCNAME}"
+HAPROXY_EXPORTER_OPTS=""
+
+# Logging
+#output_log="${HAPROXY_EXPORTER_LOGDIR}/haproxy_exporter.log"
+#error_log="${HAPROXY_EXPORTER_LOGDIR}/error.log"

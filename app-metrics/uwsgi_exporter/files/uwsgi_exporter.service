@@ -1,0 +1,11 @@
+[Unit]
+Description=uWSGI Exporter service
+After=network.target
+
+[Service]
+User=uwsgi_exporter
+ExecStart=/usr/bin/uwsgi_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

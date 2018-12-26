@@ -1,0 +1,19 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+output_log="${output_log:-/dev/null}"
+error_log="${error_log:-/var/log/php-fpm_exporter/error.log}"
+
+name="${name:-PHP-FPM Exporter}"
+command="/usr/bin/php-fpm_exporter"
+command_args="server ${PHP_FPM_EXPORTER_OPTS}"
+command_user="${command_user:-php-fpm_exporter:php-fpm_exporter}"
+command_background=yes
+pidfile="/run/${RC_SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}
+	-1 ${output_log} -2 ${error_log}"
+
+depend() {
+	need net
+}

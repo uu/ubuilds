@@ -1,0 +1,11 @@
+[Unit]
+Description=SQL Exporter service
+After=network.target
+
+[Service]
+User=sql_exporter
+ExecStart=/usr/bin/sql_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

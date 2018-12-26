@@ -1,0 +1,9 @@
+# config file for /etc/init.d/elasticsearch_exporter
+# run /usr/bin/elasticsearch_exporter -h to see available options
+
+ELASTICSEARCH_LOGDIR="/var/log/${RC_SVCNAME}"
+ELASTICSEARCH_OPTS=""
+
+# Logging
+#output_log="${ELASTICSEARCH_LOGDIR}/elasticsearch_exporter.log"
+#error_log="${ELASTICSEARCH_LOGDIR}/error.log"

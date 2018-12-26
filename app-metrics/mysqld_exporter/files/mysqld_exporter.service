@@ -1,0 +1,11 @@
+[Unit]
+Description=MySQL Exporter service
+After=network.target
+
+[Service]
+User=mysqld_exporter
+ExecStart=/usr/bin/mysqld_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

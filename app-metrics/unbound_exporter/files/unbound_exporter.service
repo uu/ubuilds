@@ -1,0 +1,11 @@
+[Unit]
+Description=Unbound Exporter service
+After=network.target
+
+[Service]
+User=unbound_exporter
+ExecStart=/usr/bin/unbound_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

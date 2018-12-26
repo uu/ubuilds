@@ -1,0 +1,22 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+output_log="${output_log:-/dev/null}"
+error_log="${error_log:-${DOVECOT_LOGDIR}/error.log}"
+
+name="${name:-Dovecot Exporter}"
+command="/usr/bin/dovecot_exporter"
+command_args="${DOVECOT_OPTS}"
+command_user="${command_user:-dovecot_exporter:dovecot_exporter}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o "${command_user}" "${DOVECOT_LOGDIR}"
+}

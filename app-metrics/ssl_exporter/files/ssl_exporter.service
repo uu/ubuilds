@@ -1,0 +1,11 @@
+[Unit]
+Description=SSL Exporter service
+After=network.target
+
+[Service]
+User=ssl_exporter
+ExecStart=/usr/bin/ssl_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

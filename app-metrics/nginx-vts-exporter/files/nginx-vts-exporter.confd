@@ -1,0 +1,9 @@
+# config file for /etc/init.d/nginx-vts-exporter
+# run /usr/bin/nginx-vts-exporter -h to see available options
+
+NGINX_VTS_EXPORTER_LOGDIR="/var/log/${RC_SVCNAME}"
+NGINX_VTS_EXPORTER_OPTS=""
+
+# Logging
+#output_log="${NGINX_VTS_EXPORTER_LOGDIR}/nginx-vts-exporter.log"
+#error_log="${NGINX_VTS_EXPORTER_LOGDIR}/error.log"

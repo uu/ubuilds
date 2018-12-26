@@ -1,0 +1,11 @@
+[Unit]
+Description=Dovecot Exporter service
+After=network.target
+
+[Service]
+User=dovecot_exporter
+ExecStart=/usr/bin/dovecot_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

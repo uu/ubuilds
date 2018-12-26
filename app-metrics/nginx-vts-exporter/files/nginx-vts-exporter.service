@@ -1,0 +1,11 @@
+[Unit]
+Description=Nginx vts stats Exporter service
+After=network.target
+
+[Service]
+User=nginx-vts-exporter
+ExecStart=/usr/bin/nginx-vts-exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

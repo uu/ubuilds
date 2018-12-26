@@ -1,0 +1,8 @@
+# config file for /etc/init.d/process-exporter
+# run /usr/bin/process-exporter -h to see available options
+
+PROCESS_EXPORTER_OPTS=""
+
+# Logging
+#output_log="/var/log/process-exporter/process-exporter.log"
+#error_log="/var/log/process-exporter/error.log"

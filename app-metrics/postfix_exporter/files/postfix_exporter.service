@@ -1,0 +1,11 @@
+[Unit]
+Description=Postfix Exporter service
+After=network.target
+
+[Service]
+User=postfix_exporter
+ExecStart=/usr/bin/postfix_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[Unit]
+Description=Redis Exporter service
+After=network.target
+
+[Service]
+User=redis_exporter
+ExecStart=/usr/bin/redis_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

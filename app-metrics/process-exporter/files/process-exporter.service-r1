@@ -1,0 +1,11 @@
+[Unit]
+Description=Process Exporter service
+After=network.target
+
+[Service]
+User=process-exporter
+ExecStart=/usr/bin/process-exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

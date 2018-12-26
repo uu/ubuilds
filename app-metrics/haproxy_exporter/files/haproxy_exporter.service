@@ -1,0 +1,11 @@
+[Unit]
+Description=HAProxy Exporter service
+After=network.target
+
+[Service]
+User=haproxy_exporter
+ExecStart=/usr/bin/haproxy_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
