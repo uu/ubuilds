@@ -1,0 +1,9 @@
+# config file for /etc/init.d/memcached_exporter
+# run /usr/bin/memcached_exporter -h to see available options
+
+MEMCACHED_LOGDIR="/var/log/${RC_SVCNAME}"
+MEMCACHED_OPTS=""
+
+# Logging
+#output_log="${MEMCACHED_LOGDIR}/memcached_exporter.log"
+#error_log="${MEMCACHED_LOGDIR}/error.log"
