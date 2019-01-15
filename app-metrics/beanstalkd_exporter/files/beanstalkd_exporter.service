@@ -1,0 +1,11 @@
+[Unit]
+Description=Beanstalkd Exporter service
+After=network.target
+
+[Service]
+User=beanstalkd_exporter
+ExecStart=/usr/bin/beanstalkd_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
