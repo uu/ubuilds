@@ -1,22 +1,19 @@
 #!/sbin/openrc-run
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 2016-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-output_log="${output_log:-/dev/null}"
-error_log="${error_log:-${REDIS_LOGDIR}/error.log}"
+description="Prometheus Exporter for Redis Metrics"
+pidfile=${pidfile:-"/run/${RC_SVCNAME}.pid"}
+user=${user:-${RC_SVCNAME}}
+group=${group:-${RC_SVCNAME}}
 
-name="${name:-Redis Exporter}"
 command="/usr/bin/redis_exporter"
-command_args="${REDIS_OPTS}"
-command_user="${command_user:-redis_exporter:redis_exporter}"
-command_background=true
-pidfile="/run/${RC_SVCNAME}.pid"
-start_stop_daemon_args="${SSD_OPTS}"
+command_args="${command_args:---web.listen-address=:9121 --redis.addr=localhost:6379}"
+command_background="true"
+start_stop_daemon_args="--user ${user} --group ${group} \
+	--stdout /var/log/${RC_SVCNAME}/${RC_SVCNAME}.log \
+	--stderr /var/log/${RC_SVCNAME}/${RC_SVCNAME}.log"
 
 depend() {
-	need net
-}
-
-start_pre() {
-	checkpath -d -m 0750 -o "${command_user}" "${REDIS_LOGDIR}"
+	after net
 }
