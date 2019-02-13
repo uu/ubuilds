@@ -1,0 +1,19 @@
+#!/sbin/openrc-run
+# Copyright 2019 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+output_log="${output_log:-/var/log/clicktail.log}"
+error_log="${error_log:-/var/log/clicktail.log}"
+
+name="clicktail"
+description="Tails and parse logs for clickhouse"
+command=/usr/bin/clicktail
+command_args="${clicktail_args}"
+command_background=yes
+pidfile="/run/${RC_SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}
+	-1 ${output_log} -2 ${error_log}"
+
+depend() {
+	need net
+}

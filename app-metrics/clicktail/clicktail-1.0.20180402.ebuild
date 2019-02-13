@@ -29,5 +29,9 @@ src_install() {
 
 	insinto /etc/clicktail
 	doins etc/clicktail/clicktail-example.conf
+
+	newinitd "${FILESDIR}/${PN}.initd" "${PN}"
+	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
+
 }
 

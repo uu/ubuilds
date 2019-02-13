@@ -1,0 +1,2 @@
+# clicktail_args="-p nginx -f /var/log/nginx/access.log -d nginx.access_log --nginx.conf=/etc/nginx/nginx.conf --nginx.format=main --localtime --api_host=http://localhost:8123"
+clicktail_args="--backoff"
