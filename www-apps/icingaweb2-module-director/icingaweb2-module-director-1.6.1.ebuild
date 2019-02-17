@@ -21,8 +21,7 @@ SLOT="0"
 DEPEND=">=net-analyzer/icinga2-2.4.3
 	>=www-apps/icingaweb2-2.2.0
 	|| (
-		dev-lang/php:5.6[curl]
-		dev-lang/php:7.0[curl]
+		dev-lang/php[curl]
 	)"
 RDEPEND="${DEPEND}"
 
