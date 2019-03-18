@@ -14,6 +14,10 @@ EGO_VENDOR=(
 	"github.com/prometheus/procfs 8b1c2da"
 	"github.com/coreos/go-systemd d1b7d05"
 	"github.com/coreos/pkg 97fdf19"
+	"github.com/alecthomas/kingpin 7613e5d"
+	"github.com/alecthomas/template a0175ee"
+	"github.com/alecthomas/units 2efee85"
+	"github.com/hpcloud/tail a1dbeea"
 )
 
 inherit golang-vcs-snapshot systemd user
@@ -29,7 +33,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="pie systemd"
 
-DOCS=( CHANGELOG README.md )
+DOCS=( CHANGELOG.md README.md )
 QA_PRESTRIPPED="usr/bin/postfix_exporter"
 
 G="${WORKDIR}/${P}"
