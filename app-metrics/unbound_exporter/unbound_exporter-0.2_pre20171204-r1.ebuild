@@ -3,7 +3,7 @@
 
 EAPI=6
 
-GIT_COMMIT="4f36729f553665a4268b5c265448977276a95096"
+GIT_COMMIT="b7e842d893d29200a5108eab717f5ab01d783c0c"
 EGO_PN="github.com/kumina/${PN}"
 EGO_VENDOR=(
 	"github.com/beorn7/perks 3a771d9"
@@ -13,7 +13,13 @@ EGO_VENDOR=(
 	"github.com/prometheus/client_model 99fa1f4"
 	"github.com/prometheus/common d811d2e"
 	"github.com/prometheus/procfs 8b1c2da"
-	"github.com/Sirupsen/logrus 778f2e7"
+	"golang.org/x/crypto a1f597ede03a7bef967a422b5b3a5bd08805a01e github.com/golang/crypto"
+	"golang.org/x/sys a2f829d7f35f2ed1c3520c553a6226495455cae0 github.com/golang/sys"
+	"github.com/sirupsen/logrus dae0fa8"
+	"gopkg.in/alecthomas/kingpin.v2 7613e5d github.com/alecthomas/kingpin"
+	"github.com/alecthomas/template a0175ee"
+	"github.com/alecthomas/units 2efee85"
+
 )
 
 inherit golang-vcs-snapshot systemd user
@@ -35,11 +41,6 @@ QA_PRESTRIPPED="usr/bin/unbound_exporter"
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
-pkg_setup() {
-	enewgroup unbound_exporter
-	enewuser unbound_exporter -1 -1 -1 unbound_exporter
-}
-
 src_compile() {
 	export GOPATH="${G}"
 	local mygoargs=(
@@ -60,6 +61,5 @@ src_install() {
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 	systemd_dounit "${FILESDIR}/${PN}.service"
 
-	diropts -m 0750 -o unbound_exporter -g unbound_exporter
 	keepdir /var/log/unbound_exporter
 }
