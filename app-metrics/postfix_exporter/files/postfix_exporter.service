@@ -3,7 +3,7 @@ Description=Postfix Exporter service
 After=network.target
 
 [Service]
-User=postfix_exporter
+User=root
 ExecStart=/usr/bin/postfix_exporter
 ExecReload=/bin/kill -HUP $MAINPID
 

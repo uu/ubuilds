@@ -39,11 +39,6 @@ QA_PRESTRIPPED="usr/bin/postfix_exporter"
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
-pkg_setup() {
-	enewgroup postfix_exporter
-	enewuser postfix_exporter -1 -1 -1 postfix_exporter
-}
-
 src_compile() {
 	export GOPATH="${G}"
 	local mygoargs=(
@@ -65,6 +60,5 @@ src_install() {
 	newconfd "${FILESDIR}/${PN}.confd" "${PN}"
 	systemd_dounit "${FILESDIR}/${PN}.service"
 
-	diropts -o postfix_exporter -g postfix_exporter -m 0750
 	keepdir /var/log/postfix_exporter
 }
