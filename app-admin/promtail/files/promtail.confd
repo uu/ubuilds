@@ -1,0 +1,3 @@
+# config file for /etc/init.d/promtail
+# run /usr/bin/promtail -h to see available options
+
