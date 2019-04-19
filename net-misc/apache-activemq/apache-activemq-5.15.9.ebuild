@@ -35,6 +35,6 @@ src_install() {
 
 pkg_preinst() {
 	enewgroup activemq
-	enewuser activemq -1 /bin/sh /opt/${PN} activemq -r
+	enewuser activemq -1 /bin/sh /opt/${PN} activemq
 }
 
