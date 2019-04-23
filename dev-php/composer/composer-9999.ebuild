@@ -15,7 +15,7 @@ SRC_URI="https://getcomposer.org/download/1.0.0-alpha8/composer.phar -> composer
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="**"
 IUSE=""
 
 DEPEND=">=dev-lang/php-5.3.4"
