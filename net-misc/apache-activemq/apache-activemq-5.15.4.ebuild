@@ -15,7 +15,7 @@ SRC_URI="http://apache-mirror.rbc.ru/pub/apache/activemq/${PV}/apache-activemq-$
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="**"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 DEPEND="virtual/jre"
