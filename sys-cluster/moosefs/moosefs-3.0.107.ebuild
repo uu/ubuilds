@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-cluster/moosefs/moosefs-1.6.25.ebuild,v 1.1 2012/07/02 13:51:07 ultrabug Exp $
 
-EAPI=5
+EAPI=7
 
 inherit eutils autotools user
 
@@ -29,6 +29,8 @@ pkg_setup() {
 }
 
 src_prepare() {
+	eapply_user
+	eapply $FILESDIR/mfscgi.patch
 	eautoreconf
 	# rename dist config files
 	sed -i 's@\.cfg\.dist@\.cfg@g' mfsdata/Makefile.in || die
