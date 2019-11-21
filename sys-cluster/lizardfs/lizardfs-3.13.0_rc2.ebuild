@@ -11,7 +11,7 @@ HOMEPAGE="http://lizardfs.org"
 SRC_URI=""
 
 EGIT_REPO_URI="https://github.com/lizardfs/lizardfs.git"
-EGIT_OVERRIDE_COMMIT_LIZARDFS_LIZARDFS="v3.13.0-rc1"
+EGIT_OVERRIDE_COMMIT_LIZARDFS_LIZARDFS="3.13.0-rc2"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
@@ -21,6 +21,7 @@ RDEPEND="
 	cgi? ( dev-lang/python )
 	!sys-cluster/moosefs
 	dev-libs/judy
+	dev-libs/spdlog
 	fuse? ( >=sys-fs/fuse-2.6 )
 	fuse3? ( >=sys-fs/fuse-3.2 )
 	dev-libs/isa-l
@@ -39,8 +40,10 @@ pkg_setup() {
 		-DCMAKE_BUILD_TYPE=Release
 		-DENABLE_TESTS=NO
 		-DENABLE_DOCS=NO
+		-DENABLE_JEMALLOC=YES
 		-DCMAKE_INSTALL_PREFIX=/
 		-DENABLE_DEBIAN_PATHS=YES
+		-Wno-dev
 	)
 
 if use devel; then
