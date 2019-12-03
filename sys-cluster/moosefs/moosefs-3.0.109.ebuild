@@ -30,7 +30,6 @@ pkg_setup() {
 
 src_prepare() {
 	eapply_user
-	eapply $FILESDIR/mfscgi.patch
 	eautoreconf
 	# rename dist config files
 	sed -i 's@\.cfg\.dist@\.cfg@g' mfsdata/Makefile.in || die
