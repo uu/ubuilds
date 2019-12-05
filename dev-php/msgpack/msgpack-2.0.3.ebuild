@@ -4,7 +4,7 @@
 EAPI=6
 
 PHP_EXT_NAME="${PN}"
-USE_PHP="php5-6 php7-0 php7-1 php7-2 php7-3"
+USE_PHP="php7-1 php7-2 php7-3 php7-4"
 DOCS=( README.md )
 PHP_EXT_ECONF_ARGS=""
 
