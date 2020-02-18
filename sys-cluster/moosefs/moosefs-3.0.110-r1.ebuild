@@ -11,7 +11,7 @@ inherit eutils autotools user
 
 DESCRIPTION="A filesystem for highly reliable petabyte storage"
 HOMEPAGE="http://www.moosefs.org/"
-SRC_URI="http://ppa.moosefs.com/src/${PF}-1.tar.gz"
+SRC_URI="http://ppa.moosefs.com/src/${PN}-${PV}-1.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -31,6 +31,7 @@ pkg_setup() {
 src_prepare() {
 	eapply_user
 	eautoreconf
+	eapply ${FILESDIR}/moosefs-cs-110-sf-fix.patch
 	# rename dist config files
 	sed -i 's@\.cfg\.dist@\.cfg@g' mfsdata/Makefile.in || die
 }
