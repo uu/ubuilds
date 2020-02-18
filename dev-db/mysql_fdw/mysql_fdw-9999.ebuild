@@ -1,6 +1,6 @@
 EAPI=5
 
-inherit git-2 eutils
+inherit git-r3 eutils
 
 DESCRIPTION="MySQL FDW (Foreign Data Wrapper) for PostgreSQL"
 HOMEPAGE="http://pgxn.org/dist/mysql_fdw/"

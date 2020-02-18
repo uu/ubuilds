@@ -6,9 +6,9 @@ EAPI=6
 inherit linux-info linux-mod eutils git-r3
 
 DESCRIPTION="Linux Driver for ITE LPC chips"
-HOMEPAGE="https://github.com/groeck/it87"
+HOMEPAGE="https://github.com/a1wong/it87"
 SRC_URI=""
-EGIT_REPO_URI="https://github.com/groeck/it87"
+EGIT_REPO_URI="https://github.com/a1wong/it87"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 x86"

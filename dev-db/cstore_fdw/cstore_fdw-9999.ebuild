@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Columnar store for analytics with PostgreSQL."
 HOMEPAGE="https://github.com/citusdata/cstore_fdw"

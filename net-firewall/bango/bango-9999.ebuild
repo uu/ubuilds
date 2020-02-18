@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=5
-inherit git-2 eutils
+inherit git-r3 eutils
 DESCRIPTION="Distributed banning system for fail2ban"
 HOMEPAGE="https://github.com/uu/bango"
 SRC_URI=""

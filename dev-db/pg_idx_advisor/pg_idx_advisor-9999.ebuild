@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2 eutils
+inherit git-r3 eutils
 
 DESCRIPTION="PostgreSQL extension to scale out real-time reads and writes."
 HOMEPAGE="https://github.com/cohenjo/pg_idx_advisor"

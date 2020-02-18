@@ -6,5 +6,5 @@ HOMEPAGE=https://github.com/redbo/cloudfuse
 KEYWORDS=x86 amd64
 RDEPEND=dev-libs/libxml2 net-misc/curl dev-libs/openssl sys-fs/fuse
 SLOT=0
-_eclasses_=git-2	7af5d170bfc02983b4bcd3167dc5edd4
+_eclasses_=git-r3	7af5d170bfc02983b4bcd3167dc5edd4
 _md5_=b66173c2b4f62b5589c09bf29212d260

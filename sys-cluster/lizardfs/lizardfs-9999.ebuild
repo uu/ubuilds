@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit eutils git-2 autotools cmake-utils user
+inherit eutils git-r3 autotools cmake-utils user
 
 MY_P="mfs-${PV}"
 S="${WORKDIR}/${MY_P}"

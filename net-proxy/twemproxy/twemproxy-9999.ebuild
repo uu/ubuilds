@@ -1,6 +1,6 @@
 EAPI="5"
 
-inherit eutils git-2 user
+inherit eutils git-r3 user
 
 DESCRIPTION="A fast, light-weight proxy for memcached and redis."
 

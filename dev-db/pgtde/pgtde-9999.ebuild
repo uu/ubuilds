@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Transparent Data Encryption for PostgreSQL"
 HOMEPAGE="https://github.com/nec-postgres/tdeforpg"

@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=5
-inherit flag-o-matic git-2
+inherit flag-o-matic git-r3
 
 DESCRIPTION="HOARD Memory Allocator"
 HOMEPAGE="http://www.hoard.org"

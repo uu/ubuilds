@@ -3,7 +3,7 @@
 EAPI=4
 
 #VIM_PLUGIN_VIM_VERSION="7.0"
-inherit vim-plugin git-2
+inherit vim-plugin git-r3
 
 DESCRIPTION="vim plugin: Advanced syntax highlighting for GNU as"
 HOMEPAGE="http://www.vim.org/scripts/script.php?script_id="

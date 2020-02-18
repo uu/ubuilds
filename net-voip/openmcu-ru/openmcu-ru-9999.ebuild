@@ -11,7 +11,7 @@ EVCS_OFFLINE=True
 #v3.49.19
 #EGIT_COMMIT="95545c1afe495757dac8f6ca299f482084a17b07"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="OpenMCU-ru is a simple Mutli Conference Unit using the H.323 and SIP protocol"
 HOMEPAGE="http://openmcu.ru/"

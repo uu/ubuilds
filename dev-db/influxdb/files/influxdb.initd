@@ -1,73 +1,26 @@
-#!/sbin/runscript
-# Copyright 1999-2013 Gentoo Foundation
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-extra_commands="configtest"
+output_log="${output_log:-/dev/null}"
+error_log="${error_log:-${INFLUXDB_LOGDIR}/error.log}"
 
-description="InfluxDB Daemon"
-description_configtest="Run syntax tests for configuration files."
+name="${name:-InfluxDB daemon}"
+command="/usr/bin/influxd"
+command_args="-config ${INFLUXDB_CONFIG}"
+command_user="${command_user:-influxdb:influxdb}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+required_files="${INFLUXDB_CONFIG}"
+start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {
-    need net localmount
-    use dns logger
-    after bootmisc
+	need net
 }
 
-checkconfig() {
-    if [ ! -f "${INFLUXDB_CONFIG}" ] ; then
-        eerror "Please create ${INFLUXDB_CONFIG}"
-        return 1
-    fi
-
-    checkpath -q -d -m 0750 -o ${INFLUXDB_USER}:${INFLUXDB_GROUP} ${INFLUXDB_DATADIR}
-    checkpath -q -d -m 0750 -o ${INFLUXDB_USER}:${INFLUXDB_GROUP} ${INFLUXDB_PIDDIR}
-    checkpath -q -d -m 0750 -o ${INFLUXDB_USER}:${INFLUXDB_GROUP} ${INFLUXDB_LOGDIR}
-
-    buildopts
-
-    touch "${INFLUXDB_PIDFILE}"
-    chown "${INFLUXDB_USER}:${INFLUXDB_GROUP}" "${INFLUXDB_PIDFILE}"
-
-    chown -R "${INFLUXDB_USER}:${INFLUXDB_GROUP}" "${INFLUXDB_DATADIR}"
-
-    return $ret
+start_pre() {
+	checkpath -f -m 0600 -o "${command_user}" "${INFLUXDB_CONFIG}"
+	checkpath -d -m 0750 -o "${command_user}" \
+		"${INFLUXDB_DATADIR}" "${INFLUXDB_LOGDIR}"
 }
 
-start() {
-    checkconfig || return $?
-    ebegin "Starting ${SVCNAME}"
-    start-stop-daemon --start --background \
-        --user $INFLUXDB_USER:$INFLUXDB_GROUP \
-        --pidfile $INFLUXDB_PIDFILE \
-        -1 $INFLUXDB_LOGFILE \
-        -2 $INFLUXDB_LOGFILE \
-        --exec /usr/bin/influxd \
-        -- ${OPTS}
-    eend $? "Failed to start ${SVCNAME}"
-}
-
-stop() {
-    ebegin "Stopping ${SVCNAME}"
-    start-stop-daemon --stop --pidfile "${INFLUXDB_PIDFILE}" --retry 15
-    eend $? "Failed to stop ${SVCNAME}"
-}
-
-configtest() {
-    ebegin "Checking ${SVCNAME} configuration"
-    checkconfig
-    eend $? "failed, please correct errors above"
-}
-
-buildopts() {
-    OPTS="-config ${INFLUXDB_CONFIG} \
-        -pidfile ${INFLUXDB_PIDFILE}"
-
-    if [[ -n "${INFLUXDB_JOIN}" ]]; then
-        OPTS+=" -join ${INFLUXDB_JOIN}"
-    fi
-    if [[ -n "${INFLUXDB_HOSTNAME}" ]]; then
-        OPTS+=" -hostname ${INFLUXDB_HOSTNAME}"
-    fi
-
-    OPTS+=" ${INFLUXDB_OPTS}"
-}

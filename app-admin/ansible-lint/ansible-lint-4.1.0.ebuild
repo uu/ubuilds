@@ -18,6 +18,7 @@ IUSE="test"
 
 CDEPEND="app-admin/ansible[${PYTHON_USEDEP}]
 		dev-python/pyyaml[${PYTHON_USEDEP}]
+		dev-python/ruamel-yaml[${PYTHON_USEDEP}]
 		dev-python/six[${PYTHON_USEDEP}]"
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 		dev-python/setuptools-git[${PYTHON_USEDEP}]

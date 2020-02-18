@@ -7,7 +7,7 @@ EAPI=5
 DESCRIPTION="Postgres Catalog Checker"
 HOMEPAGE="https://github.com/EnterpriseDB/pg_catcheck"
 SRC_URI=""
-inherit git-2 eutils
+inherit git-r3 eutils
 EGIT_REPO_URI="https://github.com/EnterpriseDB/pg_catcheck.git"
 
 LICENSE=""

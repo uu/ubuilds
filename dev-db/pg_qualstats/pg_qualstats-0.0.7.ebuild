@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="A PostgreSQL extension for collecting statistics about predicates, helping find what indices are missing"
 HOMEPAGE="https://github.com/dalibo/pg_qualstats"

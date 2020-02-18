@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2 eutils
+inherit git-r3 eutils
 
 DESCRIPTION="CUDA stream for PostgreSQL"
 HOMEPAGE="https://github.com/pg-strom/devel"

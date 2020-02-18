@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=5
-inherit git-2 eutils
+inherit git-r3 eutils
 DESCRIPTION="An experiment to cut logs in preparation for processing elsewhere."
 HOMEPAGE="https://github.com/elastic/logstash-forwarder"
 SRC_URI=""

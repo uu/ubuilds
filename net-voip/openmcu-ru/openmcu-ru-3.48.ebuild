@@ -8,7 +8,7 @@ EGIT_REPO_URI="https://github.com/muggot/openmcu.git"
 EGIT_PROJECT="openmcu-ru-${PV}"
 EGIT_BRANCH="3.48"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="OpenMCU-ru is a simple Mutli Conference Unit using the H.323 and SIP protocol"
 HOMEPAGE="http://openmcu.ru/"

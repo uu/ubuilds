@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2 multilib
+inherit git-r3 multilib
 
 DESCRIPTION="PostgreSQL plugin for Nagios."
 HOMEPAGE="https://github.com/OPMDG/check_pgactivity"

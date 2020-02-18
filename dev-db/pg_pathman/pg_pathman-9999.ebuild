@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Partitioning tool for PostgreSQL"
 HOMEPAGE="http://www.postgrespro.com/blog/pgsql/pg_pathman"

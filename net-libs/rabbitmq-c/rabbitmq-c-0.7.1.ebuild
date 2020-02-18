@@ -10,7 +10,7 @@ DESCRIPTION="RabbitMQ C client"
 HOMEPAGE="https://github.com/alanxz/rabbitmq-c"
 
 if [[ ${PV} == *9999* ]]; then
-	inherit git-2
+	inherit git-r3
 	EGIT_REPO_URI="https://github.com/alanxz/rabbitmq-c.git"
 else
 	SRC_URI="https://github.com/alanxz/rabbitmq-c/archive/v${PV}.zip -> ${PN}-v${PV}.zip"
@@ -27,7 +27,7 @@ DOCS=( "AUTHORS" "README.md" "THANKS" "TODO" )
 
 src_unpack() {
 	if [[ ${PV} == *9999* ]]; then
-		git-2_src_unpack
+		git-r3_src_unpack
 	else
 		unpack ${A}
 	fi

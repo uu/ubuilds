@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE="examples"
 
-inherit eutils git-2
+inherit eutils git-r3
 
 DEPEND="
 	dev-ruby/httparty

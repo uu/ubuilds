@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="Fast wildcard search for LIKE operator for PostgreSQL 8.4+"
 HOMEPAGE="http://sigaev.ru/git/gitweb.cgi?p=wildspeed.git;a=blob;hb=HEAD;f=README.md"

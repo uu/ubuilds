@@ -7,5 +7,5 @@ KEYWORDS=~amd64 ~x86
 LICENSE=POSTGRESQL GPL-2
 RDEPEND=dev-db/postgresql
 SLOT=0
-_eclasses_=git-2	7af5d170bfc02983b4bcd3167dc5edd4
+_eclasses_=git-r3	7af5d170bfc02983b4bcd3167dc5edd4
 _md5_=c1c08a14fdca7402d959418e356d8a56

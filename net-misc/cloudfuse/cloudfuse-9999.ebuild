@@ -19,5 +19,5 @@ DEPEND=" dev-libs/libxml2
 		 sys-fs/fuse"
 RDEPEND="${DEPEND}"
 
-inherit git-2
+inherit git-r3
 

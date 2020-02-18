@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=5
-inherit git-2 eutils
+inherit git-r3 eutils
 DESCRIPTION="View ip accesses to your server on a world map (using geoip and d3.js)"
 HOMEPAGE="https://github.com/tomerdmnt/geoipmap"
 SRC_URI=""

@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="PostgreSQL extension to scale out real-time reads and writes."
 HOMEPAGE="https://github.com/citusdata/pg_shard"

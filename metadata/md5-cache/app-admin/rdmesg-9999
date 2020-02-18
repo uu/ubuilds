@@ -6,5 +6,5 @@ HOMEPAGE=https://github.com/uu/rdmesg
 KEYWORDS=x86 amd64
 LICENSE=WTFPL-2
 SLOT=0
-_eclasses_=git-2	7af5d170bfc02983b4bcd3167dc5edd4
+_eclasses_=git-r3	7af5d170bfc02983b4bcd3167dc5edd4
 _md5_=456bb0d16a41b0f4dc9ca4fc41e2ef5d

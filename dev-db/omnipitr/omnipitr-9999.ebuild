@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI="5"
-inherit eutils git-2
+inherit eutils git-r3
 
 DESCRIPTION="OmniPITR is a set of scripts to ease setting up WAL replication,
 and making hot backups from both Master and Slave systems."

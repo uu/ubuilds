@@ -7,5 +7,5 @@ KEYWORDS=~amd64 ~x86
 LICENSE=GPL-2
 RDEPEND=dev-db/postgresql:9.5 >=dev-util/nvidia-cuda-toolkit-7.0.28 >=dev-util/nvidia-cuda-sdk-7.0.28
 SLOT=0
-_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	git-2	7af5d170bfc02983b4bcd3167dc5edd4	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
+_eclasses_=eutils	792f83d5ec9536cb5ccef375469d8bde	git-r3	7af5d170bfc02983b4bcd3167dc5edd4	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
 _md5_=2d0b50802ee7b324d05272effb934faa

@@ -7,7 +7,7 @@ EAPI=5
 DESCRIPTION="Loading data into PostgreSQL"
 HOMEPAGE="http://pgloader.io"
 SRC_URI=""
-inherit git-2 eutils
+inherit git-r3 eutils
 EGIT_REPO_URI="https://github.com/dimitri/pgloader.git"
 
 LICENSE=""

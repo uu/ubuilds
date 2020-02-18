@@ -11,7 +11,7 @@ PYTHON_COMPAT=( python{2_7,3_3,3_4} )
 
 PATCHES=( "${FILESDIR}"/gentoo-path.patch )
 
-inherit distutils-r1 git-2
+inherit distutils-r1 git-r3
 
 DESCRIPTION="naxsi whitelist creation"
 HOMEPAGE="https://github.com/prajal/nxutil"

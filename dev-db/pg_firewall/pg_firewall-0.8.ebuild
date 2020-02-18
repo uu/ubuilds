@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2
+inherit git-r3
 
 DESCRIPTION="SQL Firewall Extension for PostgreSQL"
 HOMEPAGE="https://github.com/uptimejp/sql_firewall"

@@ -4,7 +4,7 @@
 
 EAPI=5
 
-inherit git-2 eutils
+inherit git-r3 eutils
 
 DESCRIPTION="Watches last lines of a PostgreSQL table like in a 'tail -f'."
 HOMEPAGE="https://github.com/aaparmeggiani/pg_tail"

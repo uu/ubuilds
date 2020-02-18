@@ -3,7 +3,7 @@
 EAPI=4
 
 #VIM_PLUGIN_VIM_VERSION="7.0"
-inherit git-2 vim-plugin
+inherit git-r3 vim-plugin
 
 DESCRIPTION="vim plugin: ri plugin for Vim"
 HOMEPAGE="https://github.com/danchoi/ri.vim"

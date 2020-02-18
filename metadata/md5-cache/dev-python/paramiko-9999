@@ -8,5 +8,5 @@ KEYWORDS=~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 
 LICENSE=LGPL-2.1
 RDEPEND=>=dev-python/pycrypto-2.1 =dev-lang/python-2*
 SLOT=0
-_eclasses_=distutils	ad9e4720eb3e69090dd968b152fc611b	git-2	7af5d170bfc02983b4bcd3167dc5edd4	multilib	d062ae4ba2fc40a19c11de2ad89b6616	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
+_eclasses_=distutils	ad9e4720eb3e69090dd968b152fc611b	git-r3	7af5d170bfc02983b4bcd3167dc5edd4	multilib	d062ae4ba2fc40a19c11de2ad89b6616	python	efc1c55fc44c5b7272fc2ffba73c3e6f	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
 _md5_=20e74adc32bbac5688a7133107afe9b6

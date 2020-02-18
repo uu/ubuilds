@@ -7,5 +7,5 @@ KEYWORDS=~amd64 ~x86
 LICENSE=OPMDG
 RDEPEND=dev-db/postgresql
 SLOT=0
-_eclasses_=git-2	7af5d170bfc02983b4bcd3167dc5edd4	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
+_eclasses_=git-r3	7af5d170bfc02983b4bcd3167dc5edd4	multilib	d062ae4ba2fc40a19c11de2ad89b6616	toolchain-funcs	6198c04daba0e1307bd844df7d37f423
 _md5_=b67a9aac04b56afd1013f91d00068960
