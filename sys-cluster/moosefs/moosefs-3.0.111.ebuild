@@ -31,7 +31,6 @@ pkg_setup() {
 src_prepare() {
 	eapply_user
 	eautoreconf
-	eapply ${FILESDIR}/moosefs-cs-110-sf-fix.patch
 	# rename dist config files
 	sed -i 's@\.cfg\.dist@\.cfg@g' mfsdata/Makefile.in || die
 }
