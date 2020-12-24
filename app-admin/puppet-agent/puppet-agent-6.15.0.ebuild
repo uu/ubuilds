@@ -1,8 +1,8 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-inherit eutils systemd unpacker user
+EAPI=7
+inherit eutils systemd unpacker
 
 DESCRIPTION="general puppet client utils along with hiera and facter"
 HOMEPAGE="https://puppetlabs.com/"
@@ -17,17 +17,20 @@ KEYWORDS="amd64 x86"
 IUSE="puppetdb selinux"
 RESTRICT="strip"
 
-CDEPEND="!app-admin/augeas
-	!app-admin/puppet
+CDEPEND="!app-admin/puppet
 	!dev-ruby/hiera
 	!dev-ruby/facter
-	!app-emulation/virt-what"
+	!app-emulation/virt-what
+	acct-user/puppet
+	acct-group/puppet"
 
 DEPEND="
-	${CDEPEND}"
+	${CDEPEND}
+	app-admin/augeas"
 RDEPEND="${CDEPEND}
 	app-portage/eix
 	sys-apps/dmidecode
+	sys-libs/libselinux
 	sys-libs/glibc
 	sys-libs/readline:0/7
 	sys-libs/ncurses:0[tinfo]
@@ -38,11 +41,6 @@ RDEPEND="${CDEPEND}
 	puppetdb? ( >=dev-ruby/puppetdb-termini-5.0.1 )"
 
 S=${WORKDIR}
-
-pkg_setup() {
-	enewgroup puppet
-	enewuser puppet -1 -1 /var/run/puppet puppet
-}
 
 src_install() {
 	# conf.d
@@ -74,6 +72,5 @@ src_install() {
 	dosym ../../opt/puppetlabs/bin/hiera /usr/bin/hiera
 	dosym ../../opt/puppetlabs/bin/puppet /usr/bin/puppet
 	dosym ../../opt/puppetlabs/puppet/bin/virt-what /usr/bin/virt-what
-	dosym ../../opt/puppetlabs/puppet/bin/augparse /usr/bin/augparse
-	dosym ../../opt/puppetlabs/puppet/bin/augtool /usr/bin/augtool
 }
+
