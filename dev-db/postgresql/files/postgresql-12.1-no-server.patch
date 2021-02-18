@@ -1,6 +1,6 @@
 --- a/contrib/Makefile
 +++ b/contrib/Makefile
-@@ -5,57 +5,9 @@
+@@ -5,56 +5,9 @@
  include $(top_builddir)/src/Makefile.global
  
  SUBDIRS = \
@@ -11,7 +11,6 @@
 -		bloom		\
 -		btree_gin	\
 -		btree_gist	\
--		chkpass		\
 -		citext		\
 -		cube		\
 -		dblink		\
@@ -60,16 +59,16 @@
  SUBDIRS += uuid-ossp
 --- a/src/backend/Makefile
 +++ b/src/backend/Makefile
-@@ -51,7 +51,7 @@
+@@ -53,7 +53,7 @@
  
  ##########################################################################
  
--all: submake-libpgport submake-schemapg postgres $(POSTGRES_IMP)
+-all: submake-libpgport submake-catalog-headers submake-utils-headers postgres $(POSTGRES_IMP)
 +all: generated-headers
  
  ifneq ($(PORTNAME), cygwin)
  ifneq ($(PORTNAME), win32)
-@@ -226,23 +226,7 @@
+@@ -192,23 +192,7 @@
  
  ##########################################################################
  
@@ -86,23 +85,24 @@
 -endif
 -	$(MAKE) -C catalog install-data
 -	$(MAKE) -C tsearch install-data
+-	$(MAKE) -C utils install-data
 -	$(INSTALL_DATA) $(srcdir)/libpq/pg_hba.conf.sample '$(DESTDIR)$(datadir)/pg_hba.conf.sample'
 -	$(INSTALL_DATA) $(srcdir)/libpq/pg_ident.conf.sample '$(DESTDIR)$(datadir)/pg_ident.conf.sample'
 -	$(INSTALL_DATA) $(srcdir)/utils/misc/postgresql.conf.sample '$(DESTDIR)$(datadir)/postgresql.conf.sample'
--	$(INSTALL_DATA) $(srcdir)/access/transam/recovery.conf.sample '$(DESTDIR)$(datadir)/recovery.conf.sample'
 +install:
  
- install-bin: postgres $(POSTGRES_IMP) installdirs
- 	$(INSTALL_PROGRAM) postgres$(X) '$(DESTDIR)$(bindir)/postgres$(X)'
+ ifeq ($(with_llvm), yes)
+ install-bin: install-postgres-bitcode
 --- a/src/bin/Makefile
 +++ b/src/bin/Makefile
-@@ -14,19 +14,8 @@
+@@ -14,20 +14,8 @@
  include $(top_builddir)/src/Makefile.global
  
  SUBDIRS = \
 -	initdb \
 -	pg_archivecleanup \
 -	pg_basebackup \
+-	pg_checksums \
  	pg_config \
 -	pg_controldata \
 -	pg_ctl \
@@ -139,5 +139,5 @@
 -	test/perl
 +	makefiles
  
- # There are too many interdependencies between the subdirectories, so
- # don't attempt parallel make here.
+ ifeq ($(with_llvm), yes)
+ SUBDIRS += backend/jit/llvm

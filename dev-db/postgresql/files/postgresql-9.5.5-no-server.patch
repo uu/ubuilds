@@ -1,14 +1,12 @@
---- a/contrib/Makefile
-+++ b/contrib/Makefile
-@@ -5,57 +5,9 @@
+--- postgresql-9.5.5.orig/contrib/Makefile
++++ postgresql-9.5.5/contrib/Makefile
+@@ -5,55 +5,9 @@
  include $(top_builddir)/src/Makefile.global
  
  SUBDIRS = \
 -		adminpack	\
--		amcheck		\
 -		auth_delay	\
 -		auto_explain	\
--		bloom		\
 -		btree_gin	\
 -		btree_gist	\
 -		chkpass		\
@@ -38,7 +36,6 @@
 -		pgcrypto	\
 -		pgrowlocks	\
 -		pgstattuple	\
--		pg_visibility	\
 -		postgres_fdw	\
 -		seg		\
 -		spi		\
@@ -47,6 +44,7 @@
 -		test_decoding	\
 -		tsm_system_rows \
 -		tsm_system_time \
+-		tsearch2	\
 -		unaccent	\
  		vacuumlo
  
@@ -58,18 +56,27 @@
  
  ifneq ($(with_uuid),no)
  SUBDIRS += uuid-ossp
---- a/src/backend/Makefile
-+++ b/src/backend/Makefile
-@@ -51,7 +51,7 @@
+--- postgresql-9.5.5.orig/src/backend/Makefile
++++ postgresql-9.5.5/src/backend/Makefile
+@@ -47,7 +47,7 @@
  
  ##########################################################################
  
 -all: submake-libpgport submake-schemapg postgres $(POSTGRES_IMP)
-+all: generated-headers
++all: someheaders
  
  ifneq ($(PORTNAME), cygwin)
  ifneq ($(PORTNAME), win32)
-@@ -226,23 +226,7 @@
+@@ -106,7 +106,7 @@
+ endif # aix
+ 
+ # Update the commonly used headers before building the subdirectories
+-$(SUBDIRS:%=%-recursive): $(top_builddir)/src/include/parser/gram.h $(top_builddir)/src/include/catalog/schemapg.h $(top_builddir)/src/include/utils/fmgroids.h $(top_builddir)/src/include/utils/errcodes.h $(top_builddir)/src/include/utils/probes.h
++someheaders $(SUBDIRS:%=%-recursive): $(top_builddir)/src/include/parser/gram.h $(top_builddir)/src/include/catalog/schemapg.h $(top_builddir)/src/include/utils/fmgroids.h $(top_builddir)/src/include/utils/errcodes.h $(top_builddir)/src/include/utils/probes.h
+ 
+ # run this unconditionally to avoid needing to know its dependencies here:
+ submake-schemapg:
+@@ -199,23 +199,7 @@
  
  ##########################################################################
  
@@ -94,8 +101,8 @@
  
  install-bin: postgres $(POSTGRES_IMP) installdirs
  	$(INSTALL_PROGRAM) postgres$(X) '$(DESTDIR)$(bindir)/postgres$(X)'
---- a/src/bin/Makefile
-+++ b/src/bin/Makefile
+--- postgresql-9.5.5.orig/src/bin/Makefile
++++ postgresql-9.5.5/src/bin/Makefile
 @@ -14,19 +14,8 @@
  include $(top_builddir)/src/Makefile.global
  
@@ -107,18 +114,18 @@
 -	pg_controldata \
 -	pg_ctl \
  	pg_dump \
--	pg_resetwal \
+-	pg_resetxlog \
 -	pg_rewind \
 -	pg_test_fsync \
 -	pg_test_timing \
 -	pg_upgrade \
--	pg_waldump \
+-	pg_xlogdump \
  	pgbench \
  	psql \
  	scripts
---- a/src/Makefile
-+++ b/src/Makefile
-@@ -15,21 +15,12 @@
+--- postgresql-9.5.5.orig/src/Makefile
++++ postgresql-9.5.5/src/Makefile
+@@ -15,18 +15,11 @@
  SUBDIRS = \
  	common \
  	port \
@@ -129,13 +136,10 @@
  	include \
  	interfaces \
 -	backend/replication/libpqwalreceiver \
--	backend/replication/pgoutput \
- 	fe_utils \
  	bin \
 -	pl \
 -	makefiles \
 -	test/regress \
--	test/isolation \
 -	test/perl
 +	makefiles
  

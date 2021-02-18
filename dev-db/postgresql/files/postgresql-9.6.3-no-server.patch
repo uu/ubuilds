@@ -5,7 +5,6 @@
  
  SUBDIRS = \
 -		adminpack	\
--		amcheck		\
 -		auth_delay	\
 -		auto_explain	\
 -		bloom		\
@@ -47,6 +46,7 @@
 -		test_decoding	\
 -		tsm_system_rows \
 -		tsm_system_time \
+-		tsearch2	\
 -		unaccent	\
  		vacuumlo
  
@@ -69,7 +69,7 @@
  
  ifneq ($(PORTNAME), cygwin)
  ifneq ($(PORTNAME), win32)
-@@ -226,23 +226,7 @@
+@@ -218,23 +218,7 @@
  
  ##########################################################################
  
@@ -107,18 +107,18 @@
 -	pg_controldata \
 -	pg_ctl \
  	pg_dump \
--	pg_resetwal \
+-	pg_resetxlog \
 -	pg_rewind \
 -	pg_test_fsync \
 -	pg_test_timing \
 -	pg_upgrade \
--	pg_waldump \
+-	pg_xlogdump \
  	pgbench \
  	psql \
  	scripts
 --- a/src/Makefile
 +++ b/src/Makefile
-@@ -15,21 +15,12 @@
+@@ -15,19 +15,12 @@
  SUBDIRS = \
  	common \
  	port \
@@ -129,13 +129,11 @@
  	include \
  	interfaces \
 -	backend/replication/libpqwalreceiver \
--	backend/replication/pgoutput \
  	fe_utils \
  	bin \
 -	pl \
 -	makefiles \
 -	test/regress \
--	test/isolation \
 -	test/perl
 +	makefiles
  
