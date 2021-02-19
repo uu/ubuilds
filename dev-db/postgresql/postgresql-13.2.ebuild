@@ -112,7 +112,7 @@ src_prepare() {
 	fi
 
 	# https://bugs.gentoo.org/753257
-	eapply "${FILESDIR}"/postgresql-10.0-icu68.patch
+	#eapply "${FILESDIR}"/postgresql-10.0-icu68.patch
 
 	eapply_user
 }
