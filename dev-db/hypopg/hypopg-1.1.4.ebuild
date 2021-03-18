@@ -1,18 +1,17 @@
-# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-POSTGRES_COMPAT=( 10 )
+POSTGRES_COMPAT=( 12 13 )
 POSTGRES_USEDEP="server"
 
-inherit eutils postgres-multi versionator
+inherit eutils postgres-multi
 
 SLOT="0"
 
 DESCRIPTION="Hypothetical Indexes for PostgreSQL"
-HOMEPAGE="http://dalibo.github.io/hypopg/"
-SRC_URI="https://github.com/dalibo/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+HOMEPAGE="http://hypopg.github.io/hypopg/"
+SRC_URI="https://github.com/hypopg/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
