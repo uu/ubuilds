@@ -1,0 +1,8 @@
+# Configuration path
+#CRASH_CONFIG="/etc/crash.ini"
+
+# Path to log directory
+#CRASH_LOG="/var/log/crash.log"
+
+# Additional arguments passed to crash
+#CRASH_OPTS=""

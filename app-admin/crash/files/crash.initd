@@ -1,0 +1,19 @@
+#!/sbin/openrc-run
+# Copyright 1999-2021 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+CRASH_CONFIG="${CRASH_CONFIG:-/etc/crash.ini}"
+CRASH_LOG="${CRASH_LOG:-/var/log/crash.log}"
+CRASH_OPTS="${CRASH_OPTS:-}"
+
+command="/usr/sbin/crash"
+command_args="-c ${CRASH_CONFIG} ${CRASH_OPTS}"
+command_background="true"
+pidfile="/run/crash.pid"
+retry="TERM/5/KILL/5"
+start_stop_daemon_args="-1 ${CRASH_LOG} -2 ${CRASH_LOG}"
+
+depend() {
+	use net
+}
+
