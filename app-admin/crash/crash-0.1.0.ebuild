@@ -5,7 +5,7 @@ EAPI=7
 
 DESCRIPTION="Client and server for running commands via redis pub/sub."
 HOMEPAGE="https://github.com/uu/crash"
-SRC_URI="https://github.com/uu/crash/archive/${PV}.tar.gz"
+SRC_URI="https://github.com/uu/crash/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
