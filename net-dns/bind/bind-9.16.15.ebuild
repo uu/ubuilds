@@ -56,6 +56,7 @@ REQUIRED_USE="
 DEPEND="
 	acct-group/named
 	acct-user/named
+	berkdb? ( sys-libs/db:= )
 	!libressl? ( dev-libs/openssl:=[-bindist] )
 	libressl? ( dev-libs/libressl:= )
 	mysql? ( dev-db/mysql-connector-c:0= )
