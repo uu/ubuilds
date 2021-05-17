@@ -34,7 +34,7 @@ RDEPEND="
 		igbinary? ( dev-php/igbinary[php_targets_php7-4(-)] )
 	)
 	php_targets_php8-0? (
-		${COMMON_DEPEND} dev-lang/php:8.0[session(-)?,json(-)?]
+		${COMMON_DEPEND} dev-lang/php:8.0[session(-)?]
 		igbinary? ( dev-php/igbinary[php_targets_php8-0(-)] )
 	)"
 DEPEND="${RDEPEND} test? ( net-misc/memcached )"
