@@ -89,14 +89,11 @@ src_compile() {
 	args+=( $(haproxy_use device-atlas DEVICEATLAS) )
 	args+=( $(haproxy_use wurfl WURFL) )
 	args+=( $(haproxy_use systemd SYSTEMD) )
+	args+=( $(haproxy_use prometheus-exporter PROMEX) )
 
 	# Bug #668002
 	if use ppc || use arm || use hppa; then
 		TARGET_LDFLAGS=-latomic
-	fi
-
-	if use prometheus-exporter; then
-		EXTRA_OBJS="admin/prometheus-exporter/service-prometheus.o"
 	fi
 
 	# HAProxy really needs some of those "SPEC_CFLAGS", like -fno-strict-aliasing
