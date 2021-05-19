@@ -15,7 +15,7 @@ SRC_URI=""
 DESCRIPTION="Interface PHP with memcached via libmemcached library"
 LICENSE="PHP-3.01"
 SLOT="7"
-KEYWORDS="-*"
+KEYWORDS="~amd64 ~x86"
 IUSE="igbinary json sasl +session test"
 
 RESTRICT="!test? ( test )"
