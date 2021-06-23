@@ -191,7 +191,7 @@ src_install() {
 	default
 
 	# don't create /var/run
-	rmdir "${ED}"/var/run || die
+	#rmdir "${ED}"/var/run || die
 
 	dodoc CHANGES README
 
