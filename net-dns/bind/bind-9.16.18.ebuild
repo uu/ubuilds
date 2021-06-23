@@ -33,11 +33,10 @@ SRC_URI="https://downloads.isc.org/isc/bind9/${PV}/${P}.tar.xz
 
 LICENSE="Apache-2.0 BSD BSD-2 GPL-2 HPND ISC MPL-2.0"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sparc ~x86 ~amd64-linux ~x86-linux"
+KEYWORDS="~alpha amd64 arm arm64 ~hppa ~ia64 ~mips ppc ppc64 ~s390 sparc x86 ~amd64-linux ~x86-linux"
 # -berkdb by default re bug 602682
-IUSE="-berkdb +caps +dlz dnstap doc dnsrps fixed-rrset geoip geoip2 gssapi
-json ldap libressl lmdb mysql odbc postgres python selinux static-libs
-urandom xml +zlib"
+IUSE="berkdb +caps +dlz dnstap doc dnsrps fixed-rrset geoip geoip2 gssapi
+json ldap lmdb mysql odbc postgres python selinux static-libs xml +zlib"
 # sdb-ldap - patch broken
 # no PKCS11 currently as it requires OpenSSL to be patched, also see bug 409687
 
@@ -57,8 +56,7 @@ DEPEND="
 	acct-group/named
 	acct-user/named
 	berkdb? ( sys-libs/db:= )
-	!libressl? ( dev-libs/openssl:=[-bindist] )
-	libressl? ( dev-libs/libressl:= )
+	dev-libs/openssl:=[-bindist(-)]
 	mysql? ( dev-db/mysql-connector-c:0= )
 	odbc? ( >=dev-db/unixODBC-2.2.6 )
 	ldap? ( net-nds/openldap )
@@ -282,16 +280,9 @@ python_install() {
 pkg_postinst() {
 	tmpfiles_process "${FILESDIR}"/named.conf
 
-	if [ ! -f '/etc/bind/rndc.key' && ! -f '/etc/bind/rndc.conf' ]; then
-		if use urandom; then
-			einfo "Using /dev/urandom for generating rndc.key"
-			/usr/sbin/rndc-confgen -r /dev/urandom -a
-			echo
-		else
-			einfo "Using /dev/random for generating rndc.key"
-			/usr/sbin/rndc-confgen -a
-			echo
-		fi
+	if [[ ! -f '/etc/bind/rndc.key' && ! -f '/etc/bind/rndc.conf' ]]; then
+		einfo "Using /dev/urandom for generating rndc.key"
+		/usr/sbin/rndc-confgen -a
 		chown root:named /etc/bind/rndc.key || die
 		chmod 0640 /etc/bind/rndc.key || die
 	fi
@@ -363,14 +354,6 @@ pkg_config() {
 
 	mknod ${CHROOT}/dev/zero c 1 5 || die
 	chmod 0666 ${CHROOT}/dev/zero || die
-
-	if use urandom; then
-		mknod ${CHROOT}/dev/urandom c 1 9 || die
-		chmod 0666 ${CHROOT}/dev/urandom || die
-	else
-		mknod ${CHROOT}/dev/random c 1 8 || die
-		chmod 0666 ${CHROOT}/dev/random || die
-	fi
 
 	if [ "${CHROOT_NOMOUNT:-0}" -ne 0 ]; then
 		cp -a /etc/bind ${CHROOT}/etc/ || die
