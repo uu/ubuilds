@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,7 +9,7 @@ if [[ "${PV}" == 9999 ]]; then
 	inherit git-r3
 	EGIT_REPO_URI="https://github.com/Icinga/icingaweb2-module-director.git"
 else
-	KEYWORDS="~amd64 ~x86"
+	KEYWORDS="amd64 x86"
 	MY_PN="icingaweb2-module-director"
 	SRC_URI="https://codeload.github.com/Icinga/${MY_PN}/tar.gz/v${PV} -> ${P}.tar.gz"
 	S="${WORKDIR}/${MY_PN}-${PV}"
@@ -21,7 +21,10 @@ SLOT="0"
 DEPEND=">=net-analyzer/icinga2-2.4.3
 	>=www-apps/icingaweb2-2.2.0
 	|| (
-		dev-lang/php[curl]
+		dev-lang/php:5.6[curl]
+		dev-lang/php:7.1[curl]
+		dev-lang/php:7.2[curl]
+		dev-lang/php:7.3[curl]
 	)"
 RDEPEND="${DEPEND}"
 
