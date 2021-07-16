@@ -25,6 +25,7 @@ DEPEND=">=net-analyzer/icinga2-2.4.3
 		dev-lang/php:7.1[curl]
 		dev-lang/php:7.2[curl]
 		dev-lang/php:7.3[curl]
+		dev-lang/php:7.4[curl]
 	)"
 RDEPEND="${DEPEND}"
 
