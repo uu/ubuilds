@@ -45,11 +45,11 @@ src_compile() {
 	fi
 	if use promtail; then
 		einfo "Building cmd/loki/promtail..."
-		CGO_ENABLED=0 go build -ldflags "${EGO_LDFLAGS}" -tags netgo -mod vendor -o cmd/promtail/promtail ./cmd/promtail || die
+		CGO_ENABLED=0 go build -ldflags "${EGO_LDFLAGS}" -tags netgo -mod vendor -o clients/cmd/promtail/promtail ./clients/cmd/promtail || die
 	fi
 	if use fluent-bit; then
 		einfo "Building cmd/fluent-bit/out_loki..."
-		go build -ldflags "${EGO_LDFLAGS}" -tags netgo -mod vendor -buildmode=c-shared -o cmd/fluent-bit/out_loki.so ./cmd/fluent-bit || die
+		go build -ldflags "${EGO_LDFLAGS}" -tags netgo -mod vendor -buildmode=c-shared -o clients/cmd/fluent-bit/out_loki.so ./clients/cmd/fluent-bit || die
 	fi
 }
 
@@ -59,22 +59,22 @@ src_install() {
 		newconfd "${FILESDIR}/loki.confd" "loki"
 		newinitd "${FILESDIR}/loki.initd" "loki"
 		insinto "/etc/${PN}"
-		doins "${S}/cmd/loki/loki-local-config.yaml"
+		doins "${S}/clients/cmd/loki/loki-local-config.yaml"
 		keepdir "/etc/${PN}"
 		keepdir "/var/lib/${PN}"
 		fowners loki:grafana "/etc/${PN}"
 		fowners loki:grafana "/var/lib/${PN}"
 	fi
 	if use tools; then
-		dobin "${S}/cmd/loki/logcli"
-		dobin "${S}/cmd/loki/loki-canary"
+		dobin "${S}/cmd/logcli/logcli"
+		dobin "${S}/cmd/loki-canary/loki-canary"
 	fi
 	if use promtail; then
-		dobin "${S}/cmd/promtail/promtail"
+		dobin "${S}/clients/cmd/promtail/promtail"
 		newconfd "${FILESDIR}/promtail.confd" "promtail"
 		newinitd "${FILESDIR}/promtail.initd" "promtail"
 		insinto "/etc/${PN}"
-		doins "${S}/cmd/promtail/promtail-local-config.yaml"
+		doins "${S}/clients/cmd/promtail/promtail-local-config.yaml"
 		keepdir "/etc/${PN}"
 		keepdir "/var/lib/${PN}"
 		fowners loki:grafana "/etc/${PN}"
@@ -82,6 +82,7 @@ src_install() {
 	fi
 	if use fluent-bit; then
 		insinto "/usr/$(get_libdir)/loki"
-		dolib.so "${S}/cmd/fluent-bit/out_loki.so"
+		dolib.so "${S}/clients/cmd/fluent-bit/out_loki.so"
 	fi
 }
+
