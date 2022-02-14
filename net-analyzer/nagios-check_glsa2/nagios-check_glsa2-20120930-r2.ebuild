@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-analyzer/nagios-check_glsa2/nagios-check_glsa2-20120930-r1.ebuild,v 1.2 2013/03/30 13:11:20 ago Exp $
 
-EAPI=5
+EAPI=7
 
-inherit multilib user eutils
+inherit multilib eutils
 
 DESCRIPTION="Nagios check script for GLSAs (Gentoo Linux Security Advisories)"
 HOMEPAGE="https://github.com/craig/check_glsa2"
@@ -21,11 +21,6 @@ KEYWORDS="amd64"
 
 RDEPEND="app-portage/gentoolkit"
 DEPEND=""
-
-pkg_setup() {
-	enewgroup nagios
-	enewuser nagios -1 /bin/bash /dev/null nagios
-}
 
 src_prepare() {
 	sed -i -e '/CACHEDIR=/s:=.*:=/var/cache/check_glsa2:' ${MY_PN}_cached.sh || die
