@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI=6
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_8 )
 DISTUTILS_OPTIONAL=1
 GENTOO_DEPEND_ON_PERL="no"
 
@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 #	epatch "${FILESDIR}/${PV}-autoconf-fixes.patch"
-
+	eapply_user
 	# fixed in 1.0-dev
 	sed -i -e 's|tutorial||' Makefile.am || die
 
@@ -56,7 +56,7 @@ src_configure() {
 		$(use_with glib c_glib) \
 		$(use_with qt4 qt) \
 		$(use_with zlib) \
-		--without-{python,perl} \
+		--without-{python,perl,rs} \
 		--without-{csharp,java,erlang,php,php_extension,ruby,haskell,go,d,nodejs}
 
 	if use perl ; then
