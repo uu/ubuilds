@@ -1,47 +1,57 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/sys-cluster/moosefs/moosefs-1.6.25.ebuild,v 1.1 2012/07/02 13:51:07 ultrabug Exp $
+# $Header: 
 
-EAPI=5
+EAPI=6
 
-inherit eutils git-r3 autotools cmake-utils user
-
-MY_P="mfs-${PV}"
-S="${WORKDIR}/${MY_P}"
+inherit eutils autotools cmake-utils user
 
 DESCRIPTION="LizardFS is an Open Source Distributed File System licenced under GPLv3."
 HOMEPAGE="http://lizardfs.org"
-SRC_URI=""
-
-EGIT_REPO_URI="https://github.com/lizardfs/lizardfs.git"
-#EGIT_COMMIT="If316525daf78165494416508cb81b5448f3b760d"
-EGIT_COMMIT="v3.12.0"
+SRC_URI="https://github.com/lizardfs/lizardfs/archive/refs/tags/${PV}-rc3.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~x86 ~amd64"
-IUSE="cgi +fuse static-libs -devel"
-
+IUSE="cgi +fuse fuse3 static-libs -devel"
+S="${S}-rc3"
 RDEPEND="
 	cgi? ( dev-lang/python )
 	!sys-cluster/moosefs
-	app-text/asciidoc
 	dev-libs/judy
-	fuse? ( >=sys-fs/fuse-2.6 )"
+	dev-libs/spdlog
+	fuse? ( >=sys-fs/fuse-2.6 )
+	fuse3? ( >=sys-fs/fuse-3.2 )
+	dev-libs/isa-l
+	>=sys-devel/gcc-6.3.0"
 DEPEND="${RDEPEND}"
 
+src_prepare() {
+	eapply ${FILESDIR}/iostat_header.patch
+	eapply ${FILESDIR}/lizardfs-cstdio-header.patch
+	default
+}
 
 pkg_setup() {
 	enewgroup mfs
 	enewuser mfs -1 -1 -1 mfs
-mycmakeargs="-DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=NO -DCMAKE_INSTALL_PREFIX=/ -DENABLE_DEBIAN_PATHS=YES"
+	mycmakeargs=(
+		-DCMAKE_BUILD_TYPE=Release
+		-DENABLE_TESTS=NO
+		-DENABLE_DOCS=NO
+		-DENABLE_JEMALLOC=YES
+		-DENABLE_POLONAISE=OFF
+		-DTHROW_INSTEAD_OF_ABORT=YES
+		-DCMAKE_INSTALL_PREFIX=/
+		-Wno-dev
+	)
 
 if use devel; then
-  mycmakeargs+=" -DENABLE_CLIENT_LIB=YES"
+  mycmakeargs+=( -DENABLE_CLIENT_LIB=YES )
 fi
 }
 
 src_install() {
-	cmake-utils_src_install 
+	cmake-utils_src_install
 
 	newinitd "${FILESDIR}/mfs.initd" mfs
 	newconfd "${FILESDIR}/mfs.confd" mfs

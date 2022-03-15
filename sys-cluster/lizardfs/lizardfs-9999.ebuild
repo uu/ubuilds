@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/sys-cluster/moosefs/moosefs-1.6.25.ebuild,v 1.1 2012/07/02 13:51:07 ultrabug Exp $
 
-EAPI=5
+EAPI=6
 
 inherit eutils git-r3 autotools cmake-utils user
 
@@ -17,7 +17,7 @@ EGIT_REPO_URI="https://github.com/lizardfs/lizardfs.git"
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="x86 amd64"
+KEYWORDS="-*"
 IUSE="cgi +fuse static-libs"
 
 RDEPEND="
