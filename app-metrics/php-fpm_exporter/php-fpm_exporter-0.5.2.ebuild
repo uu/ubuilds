@@ -4,43 +4,43 @@
 EAPI=6
 
 # Change this when you update the ebuild:
-GIT_COMMIT="fba04f828621ece229347d5ec8a6ec529b9bfbe3"
+GIT_COMMIT="4dd180146368fd4a233bf24701b483e7e1f64b6c"
 EGO_PN="github.com/hipages/${PN}"
 # Note: Keep EGO_VENDOR in sync with Gopkg.lock
 # Deps that are not needed:
 # github.com/inconshreveable/mousetrap 76626ae
 # github.com/pmezard/go-difflib 792786c
 EGO_VENDOR=(
-	"github.com/beorn7/perks 3a771d9"
-	"github.com/davecgh/go-spew d8f796a"
-	"github.com/fsnotify/fsnotify 1485a34"
-	"github.com/golang/protobuf d3c38a4"
+	"github.com/beorn7/perks 4c0e845"
+	"github.com/davecgh/go-spew 8991bc2"
+	"github.com/fsnotify/fsnotify c282820"
+	"github.com/golang/protobuf 9255415"
 	"github.com/gosuri/uitable 36ee7e9"
-	"github.com/hashicorp/hcl 65a6292"
-	"github.com/magiconair/properties 7757cc9"
-	"github.com/mattn/go-runewidth 703b5e6"
-	"github.com/matttproud/golang_protobuf_extensions c182aff"
-	"github.com/mitchellh/go-homedir af06845"
-	"github.com/mitchellh/mapstructure 3536a92"
-	"github.com/pelletier/go-toml 690ec00"
-	"github.com/prometheus/client_golang fa4aa90"
-	"github.com/prometheus/client_model fd36f42"
-	"github.com/prometheus/common 8b74803"
-	"github.com/prometheus/procfs e56f2e2"
-	"github.com/sirupsen/logrus dae0fa8"
-	"github.com/speps/go-hashids 6ba254b"
-	"github.com/spf13/afero f4711e4"
-	"github.com/spf13/cast 8c9545a"
-	"github.com/spf13/cobra ba1052d"
-	"github.com/spf13/jwalterweatherman 94f6ae3"
-	"github.com/spf13/pflag 24fa697"
-	"github.com/spf13/viper 9e56dac"
-	"github.com/stretchr/testify 34c6fa2"
-	"github.com/tomasen/fcgi_client 2bb3d81"
-	"golang.org/x/crypto a1f597e github.com/golang/crypto"
-	"golang.org/x/sys 6c81ef8 github.com/golang/sys"
-	"golang.org/x/text 5d731a3 github.com/golang/text"
-	"gopkg.in/yaml.v2 51d6538 github.com/go-yaml/yaml"
+	"github.com/hashicorp/hcl 23c074d"
+	"github.com/magiconair/properties c3beff4"
+	"github.com/mattn/go-runewidth 9e777a8"
+	"github.com/matttproud/golang_protobuf_extensions 3247c84"
+	"github.com/mitchellh/go-homedir b8bc1bf"
+	"github.com/mitchellh/mapstructure 00c29f5"
+	"github.com/pelletier/go-toml acdc450"
+	"github.com/prometheus/client_golang c5b7fcc"
+	"github.com/prometheus/client_model 99fa1f4"
+	"github.com/prometheus/common 89604d1"
+	"github.com/prometheus/procfs 75f2d61"
+	"github.com/sirupsen/logrus 8c0189d"
+	"github.com/speps/go-hashids d1d57a8"
+	"github.com/spf13/afero bb8f192"
+	"github.com/spf13/cast 8965335"
+	"github.com/spf13/cobra 7b2c5ac"
+	"github.com/spf13/jwalterweatherman 7c0cea3"
+	"github.com/spf13/pflag e57e3ee"
+	"github.com/spf13/viper 25b30aa"
+	"github.com/stretchr/testify 69483b4"
+	"github.com/tomasen/fcgi_client d32b716"
+	"golang.org/x/crypto 8c65384 github.com/golang/crypto"
+	"golang.org/x/sys f6cff07 github.com/golang/sys"
+	"golang.org/x/text f21a4df github.com/golang/text"
+	"gopkg.in/yaml.v2 7f97868 github.com/go-yaml/yaml"
 )
 
 inherit golang-vcs-snapshot systemd user
@@ -99,3 +99,4 @@ src_install() {
 	diropts -o php-fpm_exporter -g php-fpm_exporter -m 0750
 	keepdir /var/log/php-fpm_exporter
 }
+
