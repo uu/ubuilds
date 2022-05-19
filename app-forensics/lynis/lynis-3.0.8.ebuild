@@ -8,7 +8,7 @@ inherit eutils bash-completion-r1
 
 DESCRIPTION="Security and system auditing tool"
 HOMEPAGE="http://cisofy.com/lynis/"
-SRC_URI="http://cisofy.com/files/${P}.tar.gz"
+SRC_URI="https://downloads.cisofy.com/lynis/${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
