@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="5"
+EAPI="7"
 inherit eutils git-r3
 
 DESCRIPTION="OmniPITR is a set of scripts to ease setting up WAL replication,
@@ -29,7 +29,7 @@ src_install() {
 	exeinto /usr/bin
 	doexe ${S}/bin/omnipitr-*
 	insinto /usr/lib
-    doins -r ${S}/lib/*
+	doins -r ${S}/lib/*
 	dodir /var/tmp/${PN}
 	doins ${FILESDIR}/omnipitr-wrapper
 }
