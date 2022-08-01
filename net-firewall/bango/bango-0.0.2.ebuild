@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
-inherit eutils
+EAPI=7
+inherit eutils git-r3
 DESCRIPTION="Distributed banning system for fail2ban"
 HOMEPAGE="https://github.com/uu/bango"
 SRC_URI="https://github.com/uu/bango/archive/v${PV}.tar.gz"
