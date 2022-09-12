@@ -26,6 +26,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_prepare() {
+	eapply ${FILESDIR}/cgi.patch
 	eapply ${FILESDIR}/iostat_header.patch
 	eapply ${FILESDIR}/lizardfs-cstdio-header.patch
 	default

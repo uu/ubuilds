@@ -1,0 +1,1784 @@
+From 10b4ab6c6ff791f3653f53d02beb52ee994c2f33 Mon Sep 17 00:00:00 2001
+From: ppjski <przemyslaw.poljanski@lizardfs.com>
+Date: Mon, 20 Jan 2020 16:12:26 +0100
+Subject: [PATCH] cgi: Update CGI to use Python3 instead of Python2
+
+Change-Id: I4ac68a508c6d09675586fce969114d9258b1adae
+---
+ debian/control                   |   6 +-
+ debian/lizardfs-cgiserv.init     |   2 +-
+ rpm/lizardfs.spec                |   2 +-
+ src/cgi/chart.cgi.in             | 160 +++++----
+ src/cgi/lizardfs-cgiserver.py.in | 227 +++++++------
+ src/cgi/mfs.cgi.in               | 537 ++++++++++++++++---------------
+ tests/setup_machine.sh           |   3 +
+ 7 files changed, 476 insertions(+), 461 deletions(-)
+
+diff --git a/debian/control b/debian/control
+index c4c135a63..9c474f497 100644
+--- a/debian/control
++++ b/debian/control
+@@ -8,7 +8,7 @@ Build-Depends: asciidoc (>= 8.6.6),
+                libfuse-dev,
+                pkg-config,
+                zlib1g-dev,
+-               python,
++               python3,
+ Standards-Version: 3.9.3
+ Homepage: http://lizardfs.org/
+ 
+@@ -93,7 +93,7 @@ Description: LizardFS administration tools
+ Package: lizardfs-cgi
+ Architecture: any
+ Depends: ${shlibs:Depends}, ${misc:Depends},
+-         python
++         python3
+ Conflicts: mfs-cgi
+ Replaces: mfs-cgi
+ Provides: mfs-cgi
+@@ -103,7 +103,7 @@ Description: LizardFS CGI Monitor
+ Package: lizardfs-cgiserv
+ Architecture: any
+ Depends: ${shlibs:Depends}, ${misc:Depends}, lizardfs-cgi,
+-         python
++         python3
+ Conflicts: mfs-cgiserv
+ Replaces: mfs-cgiserv
+ Provides: mfs-cgiserv
+diff --git a/debian/lizardfs-cgiserv.init b/debian/lizardfs-cgiserv.init
+index edca76714..7ab69d2d9 100644
+--- a/debian/lizardfs-cgiserv.init
++++ b/debian/lizardfs-cgiserv.init
+@@ -14,7 +14,7 @@
+ ### END INIT INFO
+ 
+ NAME=lizardfs-cgiserv
+-EXEC=/usr/bin/python
++EXEC=/usr/bin/python3
+ DAEMON=/usr/sbin/lizardfs-cgiserver
+ LIZARDFSCGISERV_USER=nobody
+ LIZARDFSCGISERV_GROUP=nogroup
+diff --git a/rpm/lizardfs.spec b/rpm/lizardfs.spec
+index 50108c34a..4b3f3dbb3 100644
+--- a/rpm/lizardfs.spec
++++ b/rpm/lizardfs.spec
+@@ -108,7 +108,7 @@ LizardFS fsal plugin for nfs-ganesha.
+ %package cgi
+ Summary:        LizardFS CGI Monitor
+ Group:          System Environment/Daemons
+-Requires:       python
++Requires:       python3
+ 
+ %description cgi
+ LizardFS CGI Monitor.
+diff --git a/src/cgi/chart.cgi.in b/src/cgi/chart.cgi.in
+index dce36e484..ce6eddbd7 100755
+--- a/src/cgi/chart.cgi.in
++++ b/src/cgi/chart.cgi.in
+@@ -1,97 +1,93 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ 
++import cgi
++import cgitb
++import os
+ import socket
+ import struct
+-import cgi
+-import cgitb; cgitb.enable()
++import sys
++cgitb.enable()
+ 
+ PROTO_BASE = @PROTO_BASE@
+ 
+-CUTOAN_CHART = (PROTO_BASE+504)
+-ANTOCU_CHART = (PROTO_BASE+505)
++CUTOAN_CHART = (PROTO_BASE + 504)
++ANTOCU_CHART = (PROTO_BASE + 505)
+ 
+-fields = cgi.FieldStorage()
++FIELDS = cgi.FieldStorage()
+ 
+-if fields.has_key("host"):
+-	host = fields.getvalue("host")
++if "host" in FIELDS:
++    HOST = FIELDS.getvalue("host")
+ else:
+-	host = ''
+-if fields.has_key("port"):
+-	try:
+-		port = int(fields.getvalue("port"))
+-	except ValueError:
+-		port = 0
++    HOST = ''
++if "port" in FIELDS:
++    try:
++        PORT = int(FIELDS.getvalue("port"))
++    except ValueError:
++        PORT = 0
+ else:
+-	port = 0
+-if fields.has_key("id"):
+-	try:
+-		chartid = int(fields.getvalue("id"))
+-	except ValueError:
+-		chartid = -1
++    PORT = 0
++if "id" in FIELDS:
++    try:
++        CHART_ID = int(FIELDS.getvalue("id"))
++    except ValueError:
++        CHART_ID = -1
+ else:
+-	chartid = -1
++    CHART_ID = -1
++
++
++def mysend(sock, msg):
++    totalsent = 0
++    while totalsent < len(msg):
++        sent = sock.send(msg[totalsent:])
++        if sent == 0:
++            raise RuntimeError("socket connection broken")
++        totalsent = totalsent + sent
++
++
++def myrecv(sock, leng):
++    msg = b''
++    while len(msg) < leng:
++        chunk = sock.recv(leng-len(msg))
++        if chunk == b'':
++            raise RuntimeError("socket connection broken")
++        msg = msg + chunk
++    return msg
++
++
++def handle_error():
++    rootpath = os.getenv('DOCUMENT_ROOT', default='')
++    resource_path = os.path.join(rootpath, 'err.gif')
+ 
+-def mysend(socket,msg):
+-	totalsent = 0
+-	while totalsent < len(msg):
+-		sent = socket.send(msg[totalsent:])
+-		if sent == 0:
+-			raise RuntimeError, "socket connection broken"
+-		totalsent = totalsent + sent
++    sys.stdout.write(b"Content-Type: image/gif\r\n\r\n")
++    f = open(resource_path, mode='rb')
++    sys.stdout.write(f.read())
++    f.close()
+ 
+-def myrecv(socket,leng):
+-	msg = ''
+-	while len(msg) < leng:
+-		chunk = socket.recv(leng-len(msg))
+-		if chunk == '':
+-			raise RuntimeError, "socket connection broken"
+-		msg = msg + chunk
+-	return msg
+ 
+-if host=='' or port==0 or chartid<0:
+-	print "Content-Type: image/gif"
+-	print
+-	f = open('err.gif')
+-	print f.read(),
+-	f.close()
++if HOST == '' or PORT == 0 or CHART_ID < 0:
++    handle_error()
+ else:
+-	try:
+-		s = socket.socket()
+-		s.connect((host,port))
+-		mysend(s,struct.pack(">LLL",CUTOAN_CHART,4,chartid))
+-		header = myrecv(s,8)
+-		cmd,length = struct.unpack(">LL",header)
+-		if cmd==ANTOCU_CHART and length>0:
+-			data = myrecv(s,length)
+-#               data = s.recv(length)
+-#               print len(data),length
+-			if data[:3]=="GIF":
+-				print "Content-Type: image/gif"
+-				print
+-				print data,
+-			elif data[:8]=="\x89PNG\x0d\x0a\x1a\x0a":
+-				print "Content-Type: image/png"
+-				print
+-				print data,
+-			elif data[:9]=="timestamp":
+-				print "Content-Type: text"
+-				print
+-				print data,
+-			else:
+-				print "Content-Type: image/gif"
+-				f = open('err.gif')
+-				print f.read(),
+-				f.close()
+-		else:
+-			print "Content-Type: image/gif"
+-			print
+-			f = open('err.gif')
+-			print f.read(),
+-			f.close()
+-		s.close()
+-	except Exception:
+-		print "Content-Type: image/gif"
+-		print
+-		f = open('err.gif')
+-		print f.read(),
+-		f.close()
++    try:
++        s = socket.socket()
++        s.connect((HOST, PORT))
++        mysend(s, struct.pack(">LLL", CUTOAN_CHART, 4, CHART_ID))
++        header = myrecv(s, 8)
++        cmd, length = struct.unpack(">LL", header)
++        if cmd == ANTOCU_CHART and length > 0:
++            data = myrecv(s, length)
++            if data[:3] == b"GIF":
++                sys.stdout.write(b"Content-Type: image/gif\r\n\r\n")
++                sys.stdout.write(data)
++            elif data[:8] == b"\x89PNG\x0d\x0a\x1a\x0a":
++                sys.stdout.write(b"Content-Type: image/png\r\n\r\n")
++                sys.stdout.write(data)
++            elif data[:9] == b"timestamp":
++                sys.stdout.write(b"Content-Type: text\r\n\r\n")
++                sys.stdout.write(data)
++            else:
++                handle_error()
++        else:
++            handle_error()
++        s.close()
++    except Exception:
++        handle_error()
+diff --git a/src/cgi/lizardfs-cgiserver.py.in b/src/cgi/lizardfs-cgiserver.py.in
+index d5427c138..a9d73de62 100644
+--- a/src/cgi/lizardfs-cgiserver.py.in
++++ b/src/cgi/lizardfs-cgiserver.py.in
+@@ -1,8 +1,8 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ 
+-import cStringIO
+ import datetime
+ import getopt
++import io
+ import mimetypes
+ import os
+ import pwd
+@@ -10,7 +10,7 @@ import select
+ import socket
+ import sys
+ import traceback
+-import urlparse
++import urllib.parse
+ 
+ 
+ # Http server based on recipes 511453,511454 from code.activestate.com by
+@@ -54,8 +54,9 @@ class ClientHandler(object):
+         self.client_socket = client_socket
+         self.client_socket.setblocking(0)
+         self.host = socket.getfqdn(client_address[0])
+-        self.incoming = ''  # receives incoming data
+-        self.outgoing = ''
++        #self.incoming_bytes = b''
++        self.incoming = b''  # receives incoming data
++        self.outgoing = b''
+         self.writable = False
+         self.close_when_done = True
+         self.response = None
+@@ -71,6 +72,7 @@ class ClientHandler(object):
+                 self.close()
+             # buffer the data in self.incoming
+             self.incoming += buff  # .write(buff)
++            #self.incoming_bytes += buff
+             self.process_incoming()
+         except socket.error:
+             self.close()
+@@ -78,10 +80,11 @@ class ClientHandler(object):
+     def process_incoming(self):
+         """Test if request is complete ; if so, build the response
+         and set self.writable to True"""
++        #self.incoming = self.incoming_bytes.decode('utf-8')
+         if not self.request_complete():
+             return
+         self.response = self.make_response()
+-        self.outgoing = ''
++        self.outgoing = b''
+         self.writable = True
+ 
+     def request_complete(self):
+@@ -93,15 +96,15 @@ class ClientHandler(object):
+         """Return the list of strings or file objects whose content will
+         be sent to the client
+         Override this method in subclasses"""
+-        return ["xxx"]
++        return [b"xxx"]
+ 
+     def handle_write(self):
+         """Send (a part of) the response on the socket
+         Finish the request if the whole response has been sent
+         self.response is a list of strings or file objects
+         """
+-        if self.outgoing == '' and self.response:
+-            if isinstance(self.response[0], str):
++        if self.outgoing == b'' and self.response:
++            if isinstance(self.response[0], bytes):
+                 self.outgoing = self.response.pop(0)
+             else:
+                 self.outgoing = self.response[0].read(self.blocksize)  # pylint: disable=E1101
+@@ -116,14 +119,15 @@ class ClientHandler(object):
+             if sent < len(self.outgoing):
+                 self.outgoing = self.outgoing[sent:]
+             else:
+-                self.outgoing = ''
+-        if self.outgoing == '' and not self.response:
++                self.outgoing = b''
++        if self.outgoing == b'' and not self.response:
+             if self.close_when_done:
+                 self.close()  # close socket
+             else:
+                 # reset for next request
+                 self.writable = False
+-                self.incoming = ''
++                #self.incoming_bytes = b''
++                self.incoming = b''
+ 
+     def close(self):
+         del CLIENT_HANDLERS[self.client_socket]
+@@ -140,31 +144,34 @@ class ClientHandler(object):
+ 
+ 
+ def loop(server, handler, timeout=30):
+-    while True:
+-        k = CLIENT_HANDLERS.keys()
+-        # w = sockets to which there is something to send
+-        # we must test if we can send data
+-        w = [cl for cl in CLIENT_HANDLERS if CLIENT_HANDLERS[cl].writable]
+-        # the heart of the program ! "r" will have the sockets that have sent
+-        # data, and the server socket if a new client has tried to connect
+-        r, w, e = select.select(k + [server.socket], w, k, timeout)
+-        for e_socket in e:
+-            CLIENT_HANDLERS[e_socket].handle_error()
+-        for r_socket in r:
+-            if r_socket is server.socket:
+-                # server socket readable means a new connection request
+-                try:
+-                    client_socket, client_address = server.socket.accept()
+-                    CLIENT_HANDLERS[client_socket] = handler(
+-                        server, client_socket, client_address)
+-                except socket.error:
+-                    pass
+-            else:
+-                # the client connected on r_socket has sent something
+-                CLIENT_HANDLERS[r_socket].handle_read()
+-        w = set(w) & set(CLIENT_HANDLERS.keys())  # remove deleted sockets
+-        for w_socket in w:
+-            CLIENT_HANDLERS[w_socket].handle_write()
++    try:
++        while True:
++            k = list(CLIENT_HANDLERS.keys())
++            # w = sockets to which there is something to send
++            # we must test if we can send data
++            w = [cl for cl in CLIENT_HANDLERS if CLIENT_HANDLERS[cl].writable]
++            # the heart of the program ! "r" will have the sockets that have sent
++            # data, and the server socket if a new client has tried to connect
++            r, w, e = select.select(k + [server.socket], w, k, timeout)
++            for e_socket in e:
++                CLIENT_HANDLERS[e_socket].handle_error()
++            for r_socket in r:
++                if r_socket is server.socket:
++                    # server socket readable means a new connection request
++                    try:
++                        client_socket, client_address = server.socket.accept()
++                        CLIENT_HANDLERS[client_socket] = handler(
++                            server, client_socket, client_address)
++                    except socket.error:
++                        pass
++                else:
++                    # the client connected on r_socket has sent something
++                    CLIENT_HANDLERS[r_socket].handle_read()
++            w = set(w) & set(CLIENT_HANDLERS.keys())  # remove deleted sockets
++            for w_socket in w:
++                CLIENT_HANDLERS[w_socket].handle_write()
++    except KeyboardInterrupt:
++        pass
+ 
+ 
+ # =============================================================
+@@ -176,7 +183,7 @@ class HTTP(ClientHandler):
+     # parameters to override if necessary
+     root = os.getcwd()                              # the directory to serve files from
+     # index files for directories
+-    index_files = ['index.cgi', 'index.html']
++    index_files = [b'index.cgi', b'index.html']
+     # print logging info for each request ?
+     logging = True
+     # size of blocks to read from files and send
+@@ -199,46 +206,46 @@ class HTTP(ClientHandler):
+         sequence ('\r\n\r\n') has been received
+         If the request is POST, stores the request body in a StringIO before
+         returning True"""
+-        terminator = self.incoming.find('\r\n\r\n')
++        terminator = self.incoming.find(b'\r\n\r\n')
+         if terminator == -1:
+             return False
+-        lines = self.incoming[:terminator].split('\r\n')
++        lines = self.incoming[:terminator].split(b'\r\n')
+         self.requestline = lines[0]
+         try:
+             self.method, self.url, self.protocol = lines[0].strip().split()
+-            if (not self.protocol.startswith("HTTP/1") or
+-                    (self.protocol[7] != '0' and self.protocol[7] != '1') or
++            if (not self.protocol.startswith(b"HTTP/1") or
++                    (self.protocol[7] != ord('0') and self.protocol[7] != ord('1')) or
+                     len(self.protocol) != 8):
+                 self.method = None
+-                self.protocol = "HTTP/1.1"
++                self.protocol = b"HTTP/1.1"
+                 return True
+         except Exception:
+             self.method = None
+-            self.protocol = "HTTP/1.1"
++            self.protocol = b"HTTP/1.1"
+             return True
+         # put request headers in a dictionary
+         self.headers = {}
+         for line in lines[1:]:
+-            k, v = line.split(':', 1)
++            k, v = line.split(b':', 1)
+             self.headers[k.lower().strip()] = v.strip()
+         # persistent connection
+-        close_conn = self.headers.get("connection", "")
+-        if (self.protocol == "HTTP/1.1" and close_conn.lower() == "keep-alive"):
++        close_conn = self.headers.get(b"connection", b"")
++        if (self.protocol == b"HTTP/1.1" and close_conn.lower() == b"keep-alive"):
+             self.close_when_done = False
+         # parse the url
+-        _, _, path, params, query, fragment = urlparse.urlparse(
++        _, _, path, params, query, fragment = urllib.parse.urlparse(
+             self.url)
+         self.path, self.rest = path, (params, query, fragment)
+ 
+-        if self.method == 'POST':
++        if self.method == b'POST':
+             # for POST requests, read the request body
+             # its length must be specified in the content-length header
+-            content_length = int(self.headers.get('content-length', 0))
++            content_length = int(self.headers.get(b'content-length', 0))
+             body = self.incoming[terminator + 4:]
+             # request is incomplete if not all message body received
+             if len(body) < content_length:
+                 return False
+-            f_body = cStringIO.StringIO(body)
++            f_body = io.BytesIO(body)
+             f_body.seek(0)
+             sys.stdin = f_body  # compatibility with CGI
+ 
+@@ -248,37 +255,37 @@ class HTTP(ClientHandler):
+         """Build the response: a list of strings or files"""
+         try:
+             if self.method is None:  # bad request
+-                return self.err_resp(400, 'Bad request : %s' % self.requestline)
+-            resp_headers, _, resp_file = '', '', None
+-            if self.method not in ['GET', 'POST', 'HEAD']:
+-                return self.err_resp(501, 'Unsupported method (%s)' % self.method)
++                return self.err_resp(400, b'Bad request : %s' % self.requestline)
++            resp_headers, resp_file = b'', None
++            if self.method not in [b'GET', b'POST', b'HEAD']:
++                return self.err_resp(501, b'Unsupported method (%s)' % self.method)
+             else:
+                 file_name = self.file_name = self.translate_path()
+-                if not file_name.startswith(HTTP.root + os.path.sep) and not file_name == HTTP.root:
+-                    return self.err_resp(403, 'Forbidden')
++                if not file_name.startswith(HTTP.root.encode('utf-8') + os.path.sep.encode('utf-8')) and not file_name == HTTP.root.encode('utf-8'):
++                    return self.err_resp(403, b'Forbidden')
+                 elif not os.path.exists(file_name):
+-                    return self.err_resp(404, 'File not found')
++                    return self.err_resp(404, b'File not found')
+                 elif self.managed():
+                     response = self.mngt_method()
+                 elif not os.access(file_name, os.R_OK):
+-                    return self.err_resp(403, 'Forbidden')
++                    return self.err_resp(403, b'Forbidden')
+                 else:
+                     fstatdata = os.stat(file_name)
+-                    if (fstatdata.st_mode & 0170000) == 0040000:    # directory
++                    if (fstatdata.st_mode & 0o170000) == 0o040000:    # directory
+                         for index in self.index_files:
+-                            if (os.path.exists(file_name + '/' + index) and
+-                                    os.access(file_name + '/' + index, os.R_OK)):
++                            if (os.path.exists(file_name + b'/' + index) and
++                                    os.access(file_name + b'/' + index, os.R_OK)):
+                                 return self.redirect_resp(index)
+-                    if (fstatdata.st_mode & 0170000) != 0100000:
+-                        return self.err_resp(403, 'Forbidden')
++                    if (fstatdata.st_mode & 0o170000) != 0o100000:
++                        return self.err_resp(403, b'Forbidden')
+                     ext = os.path.splitext(file_name)[1]
+-                    c_type = mimetypes.types_map.get(ext, 'text/plain')
+-                    resp_line = "%s 200 Ok\r\n" % self.protocol
++                    c_type = mimetypes.types_map.get(ext.decode('utf-8'), 'text/plain').encode('utf-8')
++                    resp_line = b"%s 200 Ok\r\n" % self.protocol
+                     size = fstatdata.st_size
+-                    resp_headers = "Content-Type: %s\r\n" % c_type
+-                    resp_headers += "Content-Length: %s\r\n" % size
+-                    resp_headers += '\r\n'
+-                    if self.method == "HEAD":
++                    resp_headers = b"Content-Type: %s\r\n" % c_type
++                    resp_headers += b"Content-Length: %d\r\n" % size
++                    resp_headers += b'\r\n'
++                    if self.method == b"HEAD":
+                         resp_string = resp_line + resp_headers
+                     elif size > HTTP.blocksize:
+                         resp_string = resp_line + resp_headers
+@@ -292,11 +299,11 @@ class HTTP(ClientHandler):
+             self.log(200)
+             return response
+         except Exception:
+-            return self.err_resp(500, 'Internal Server Error')
++            return self.err_resp(500, b'Internal Server Error')
+ 
+     def translate_path(self):
+         """Translate URL path into a path in the file system"""
+-        return os.path.realpath(os.path.join(HTTP.root, *self.path.split('/')))
++        return os.path.realpath(os.path.join(HTTP.root.encode('utf-8'), *self.path.split(b'/')))
+ 
+     def managed(self):
+         """Test if the request can be processed by a specific method
+@@ -309,42 +316,48 @@ class HTTP(ClientHandler):
+ 
+     def is_cgi(self):
+         """Test if url points to cgi script"""
+-        if self.path.endswith(".cgi"):
++        if self.path.endswith(b".cgi"):
+             return True
+         return False
+ 
++    class StrWritableBytesIO(io.BytesIO):
++        def write(self, str_or_byteslike):
++            if isinstance(str_or_byteslike, str):
++                return super().write(str_or_byteslike.encode('utf-8'))
++            else:
++                return super().write(str_or_byteslike)
++
+     def run_cgi(self):
+         if not os.access(self.file_name, os.X_OK):
+-            return self.err_resp(403, 'Forbidden')
++            return self.err_resp(403, b'Forbidden')
+         # set CGI environment variables
+         self.make_cgi_env()
+-        # redirect print statements to a cStringIO
+         save_stdout = sys.stdout
+-        output_buffer = cStringIO.StringIO()
++        output_buffer = self.StrWritableBytesIO()
+         sys.stdout = output_buffer
+         # run the script
+         try:
+-            execfile(self.file_name, {})
++            exec(compile(open(self.file_name, "rb").read(), self.file_name, 'exec'), {})
+         except SystemExit:
+             pass
+         except Exception:
+-            output_buffer = cStringIO.StringIO()
+-            output_buffer.write("Content-type:text/plain\r\n\r\n")
++            output_buffer = self.StrWritableBytesIO()
++            output_buffer.write(b"Content-type:text/plain\r\n\r\n")
+             traceback.print_exc(file=output_buffer)
+         sys.stdout = save_stdout  # restore sys.stdout
+         response = output_buffer.getvalue()
+-        if self.method == "HEAD":
++        if self.method == b"HEAD":
+             # for HEAD request, don't send message body even if the script
+             # returns one (RFC 3875)
+             head_lines = []
+-            for line in response.split('\n'):
++            for line in response.split(b'\n'):
+                 if not line:
+                     break
+                 head_lines.append(line)
+-            response = '\n'.join(head_lines)
++            response = b'\n'.join(head_lines)
+         # close connection in case there is no content-length header
+         self.close_when_done = True
+-        resp_line = "%s 200 Ok\r\n" % self.protocol
++        resp_line = b"%s 200 Ok\r\n" % self.protocol
+         return [resp_line + response]
+ 
+     def make_cgi_env(self):
+@@ -357,26 +370,26 @@ class HTTP(ClientHandler):
+         env['SERVER_PROTOCOL'] = "HTTP/1.1"
+         env['SERVER_PORT'] = str(self.server.port)
+ 
+-        env['REQUEST_METHOD'] = self.method
+-        env['REQUEST_URI'] = self.url
+-        env['PATH_TRANSLATED'] = self.translate_path()
+-        env['SCRIPT_NAME'] = self.path
+-        env['PATH_INFO'] = urlparse.urlunparse(
+-            ("", "", "", self.rest[0], "", ""))
+-        env['QUERY_STRING'] = self.rest[1]
++        env['REQUEST_METHOD'] = self.method.decode('utf-8')
++        env['REQUEST_URI'] = self.url.decode('utf-8')
++        env['PATH_TRANSLATED'] = self.translate_path().decode('utf-8')
++        env['SCRIPT_NAME'] = self.path.decode('utf-8')
++        env['PATH_INFO'] = urllib.parse.urlunparse(
++            ("", "", "", self.rest[0].decode('utf-8'), "", ""))
++        env['QUERY_STRING'] = self.rest[1].decode('utf-8')
+         if not self.host == self.client_address[0]:
+             env['REMOTE_HOST'] = self.host
+         env['REMOTE_ADDR'] = self.client_address[0]
+-        env['CONTENT_LENGTH'] = str(self.headers.get('content-length', ''))
+-        for k in ['USER_AGENT', 'COOKIE', 'ACCEPT', 'ACCEPT_CHARSET',
+-                  'ACCEPT_ENCODING', 'ACCEPT_LANGUAGE', 'CONNECTION']:
+-            hdr = k.lower().replace("_", "-")
+-            env['HTTP_%s' % k.upper()] = str(self.headers.get(hdr, ''))
++        env['CONTENT_LENGTH'] = str(self.headers.get(b'content-length', b''), 'utf-8')
++        for k in [b'USER_AGENT', b'COOKIE', b'ACCEPT', b'ACCEPT_CHARSET',
++                  b'ACCEPT_ENCODING', b'ACCEPT_LANGUAGE', b'CONNECTION']:
++            hdr = k.lower().replace(b"_", b"-")
++            env['HTTP_%s' % k.upper().decode('utf-8')] = str(self.headers.get(hdr, b''), 'utf-8')
+         os.environ.update(env)
+ 
+     def redirect_resp(self, redirurl):
+         """Return redirect message"""
+-        resp_line = "%s 301 Moved Permanently\r\nLocation: %s\r\n" % (
++        resp_line = b"%s 301 Moved Permanently\r\nLocation: %s\r\n" % (
+             self.protocol, redirurl)
+         self.close_when_done = True
+         self.log(301)
+@@ -384,7 +397,7 @@ class HTTP(ClientHandler):
+ 
+     def err_resp(self, code, msg):
+         """Return an error message"""
+-        resp_line = "%s %s %s\r\n" % (self.protocol, code, msg)
++        resp_line = b"%s %d %s\r\n" % (self.protocol, code, msg)
+         self.close_when_done = True
+         self.log(code)
+         return [resp_line]
+@@ -394,7 +407,7 @@ class HTTP(ClientHandler):
+         if HTTP.logging:
+             date_str = datetime.datetime.now().strftime('[%d/%b/%Y %H:%M:%S]')
+             sys.stderr.write('%s - - %s "%s" %s\n' %
+-                             (self.host, date_str, self.requestline, code))
++                             (self.host, date_str, self.requestline.decode('utf-8'), code))
+ 
+ 
+ # =======================================================================
+@@ -471,13 +484,13 @@ if __name__ == "__main__":
+     OPTS, ARGS = getopt.getopt(sys.argv[1:], "vhH:P:R:p:u:")
+     for opt, val in OPTS:
+         if opt == '-h':
+-            print "usage: %s [-H bind_host] [-P bind_port] [-R rootpath] [-v]\n" % sys.argv[0]
+-            print "-H bind_host : local address to listen on (default: any)"
+-            print "-P bind_port : port to listen on (default: 9425)"
+-            print "-R rootpath : local path to use as HTTP document root (default: @CGI_PATH@)"
+-            print "-v : log requests on stderr"
+-            print "-p : pidfile path, setting it triggers manual daemonization"
+-            print "-u : username of server owner, used in manual daemonization"
++            print("usage: %s [-H bind_host] [-P bind_port] [-R rootpath] [-v]\n" % sys.argv[0])
++            print("-H bind_host : local address to listen on (default: any)")
++            print("-P bind_port : port to listen on (default: 9425)")
++            print("-R rootpath : local path to use as HTTP document root (default: @CGI_PATH@)")
++            print("-v : log requests on stderr")
++            print("-p : pidfile path, setting it triggers manual daemonization")
++            print("-u : username of server owner, used in manual daemonization")
+             sys.exit(0)
+         elif opt == '-H':
+             HOST = val
+@@ -495,9 +508,9 @@ if __name__ == "__main__":
+     # launch the server on the specified port
+     SERVER = Server(HOST, PORT)
+     if HOST != 'any':
+-        print "Asynchronous HTTP server running on %s:%s" % (HOST, PORT)
++        print("Asynchronous HTTP server running on %s:%s" % (HOST, PORT))
+     else:
+-        print "Asynchronous HTTP server running on port %s" % PORT
++        print("Asynchronous HTTP server running on port %s" % PORT)
+     HTTP.logging = bool(VERBOSE)
+     HTTP.root = os.path.realpath(ROOTPATH)
+     if PIDFILE:
+diff --git a/src/cgi/mfs.cgi.in b/src/cgi/mfs.cgi.in
+index e8ac46468..f8fe5dcae 100644
+--- a/src/cgi/mfs.cgi.in
++++ b/src/cgi/mfs.cgi.in
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python2
++#!/usr/bin/env python3
+ 
+ import cgi
+ import cgitb
+@@ -8,7 +8,7 @@ import struct
+ import sys
+ import time
+ import traceback
+-import urllib
++import urllib.request, urllib.parse, urllib.error
+ from datetime import datetime
+ 
+ PROTO_BASE = @PROTO_BASE@
+@@ -135,7 +135,7 @@ def deserialize(buffer, tree, return_tuple=False):
+         head_len = 3
+     else:
+         raise RuntimeError("Unknown tree to deserialize: {0}".format(tree))
+-    if (len(tree) > head_len):
++    if len(tree) > head_len:
+         tail = deserialize(buffer, tree[head_len:], True)
+         return (head,) + tail
+     else:
+@@ -153,7 +153,7 @@ def deserialize_primitive(buffer, format):
+ def deserialize_tuple(bytebuffer, format):
+     """ Deserialize a tuple described in format string and remove it from buffer """
+     size = struct.calcsize(">" + format)
+-    ret = struct.unpack_from(">" + format, buffer(bytebuffer))
++    ret = struct.unpack_from(">" + format, memoryview(bytebuffer))
+     del bytebuffer[0:size]
+     return ret
+ 
+@@ -163,7 +163,10 @@ def deserialize_string(buffer):
+     length = deserialize_primitive(buffer, "L")
+     if len(buffer) < length or buffer[length - 1] != 0:
+         raise RuntimeError("malformed message; cannot deserialize")
+-    ret = str(buffer[0:length - 1])
++    if isinstance(buffer, (bytearray, bytes)):
++        ret = str(buffer[0:length - 1], 'utf-8')
++    else:
++        ret = str(buffer[0:length - 1])
+     del buffer[0:length]
+     return ret
+ 
+@@ -171,14 +174,14 @@ def deserialize_string(buffer):
+ def deserialize_list(buffer, element_tree):
+     """ Deserialize a list of elements and remove it from buffer """
+     length = deserialize_primitive(buffer, "L")
+-    return [deserialize(buffer, element_tree) for i in xrange(length)]
++    return [deserialize(buffer, element_tree) for i in range(length)]
+ 
+ 
+ def deserialize_dict(buffer, key_tree, value_tree):
+     """ Deserialize a dict and remove it from buffer """
+     length = deserialize_primitive(buffer, "L")
+     ret = {}
+-    for i in xrange(length):
++    for i in range(length):
+         key = deserialize(buffer, key_tree)
+         val = deserialize(buffer, value_tree)
+         ret[key] = val
+@@ -199,10 +202,10 @@ def make_liz_message(type, version, data):
+ def cltoma_list_goals():
+     if masterversion < LIZARDFS_VERSION_WITH_CUSTOM_GOALS:
+         # For old servers just return the default 10 goals
+-        return [(i, str(i), str(i) + "*_") for i in xrange(1, 10)]
++        return [(i, str(i), str(i) + "*_") for i in range(1, 10)]
+     else:
+         # For new servers, use LIZ_CLTOMA_LIST_GOALS to fetch the list of goal definitions
+-        request = make_liz_message(LIZ_CLTOMA_LIST_GOALS, 0, "\1")
++        request = make_liz_message(LIZ_CLTOMA_LIST_GOALS, 0, b"\1")
+         response = send_and_receive(
+             masterhost, masterport, request, LIZ_MATOCL_LIST_GOALS, 0)
+         goals = deserialize(response, List(Primitive("H") + 2 * String))
+@@ -236,7 +239,7 @@ def cltoma_chunks_health(only_regular):
+ 
+ 
+ def cltoma_hostname(host, port):
+-    request = make_liz_message(LIZ_CLTOMA_HOSTNAME, 0, "")
++    request = make_liz_message(LIZ_CLTOMA_HOSTNAME, 0, b"")
+     response = send_and_receive(host, port, request, LIZ_MATOCL_HOSTNAME, 0)
+     return deserialize(response, String)
+ 
+@@ -261,7 +264,7 @@ def cltoma_metadataserver_status(host, port):
+ 
+ 
+ def cltoma_metadataservers_list():
+-    request = make_liz_message(LIZ_CLTOMA_METADATASERVERS_LIST, 0, "")
++    request = make_liz_message(LIZ_CLTOMA_METADATASERVERS_LIST, 0, b"")
+     response = send_and_receive(
+         masterhost, masterport, request, LIZ_MATOCL_METADATASERVERS_LIST, 0)
+     _, shadows = deserialize(response, Primitive("L") + List(Tuple("LHHBB")))
+@@ -270,7 +273,7 @@ def cltoma_metadataservers_list():
+     for (addr, port, v1, v2, v3) in servers:
+         # for shadow masters, addr is int (4 bytes) -- convert it to string.
+         # for the active master we use "masterhost" to connect with it and we don't know the real IP
+-        ip = addr_to_host(addr) if isinstance(addr, (int, long)) else "-"
++        ip = addr_to_host(addr) if isinstance(addr, int) else "-"
+         version = "%u.%u.%u" % (v1, v2, v3)
+         if port == 0:
+             # shadow didn't register its port yet
+@@ -306,7 +309,7 @@ def htmlentities(str):
+ 
+ 
+ def urlescape(str):
+-    return urllib.quote_plus(str)
++    return urllib.parse.quote_plus(str)
+ 
+ 
+ def mysend(socket, msg):
+@@ -319,10 +322,10 @@ def mysend(socket, msg):
+ 
+ 
+ def myrecv(socket, leng):
+-    msg = ''
++    msg = b''
+     while len(msg) < leng:
+         chunk = socket.recv(leng - len(msg))
+-        if chunk == '':
++        if chunk == b'':
+             raise RuntimeError("socket connection broken")
+         msg = msg + chunk
+     return msg
+@@ -330,7 +333,7 @@ def myrecv(socket, leng):
+ 
+ def addr_to_host(addr):
+     """ Convert IP address ('xxx.xxx.xxx.xxx' or 'hostname' or a 4-byte integer) to string """
+-    if isinstance(addr, (int, long)):
++    if isinstance(addr, int):
+         return socket.inet_ntoa(struct.pack(">L", addr))
+     elif isinstance(addr, str):
+         return addr
+@@ -433,44 +436,44 @@ try:
+         elif length == 68 or length == 76:
+             masterversion = struct.unpack(">HBB", data[:4])
+ except Exception:
+-    print "Content-Type: text/html; charset=UTF-8"
+-    print
+-    print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">"""
+-    print """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">"""
+-    print """<head>"""
+-    print """<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />"""
+-    print """<title>LizardFS Info (%s)</title>""" % (htmlentities(mastername))
+-    print """<link href="favicon.ico" rel="icon" type="image/x-icon" />"""
+-    print """<link rel="stylesheet" href="mfs.css" type="text/css" />"""
+-    print """<script type="text/javascript">changemaster = function() {
++    print("Content-Type: text/html; charset=UTF-8")
++    print()
++    print("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">""")
++    print("""<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">""")
++    print("""<head>""")
++    print("""<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />""")
++    print("""<title>LizardFS Info (%s)</title>""" % (htmlentities(mastername)))
++    print("""<link href="favicon.ico" rel="icon" type="image/x-icon" />""")
++    print("""<link rel="stylesheet" href="mfs.css" type="text/css" />""")
++    print("""<script type="text/javascript">changemaster = function() {
+         window.location="mfs.cgi?masterhost=" + document.getElementById("masterhost").value + "&masterport=" + document.getElementById("masterport").value }
+-        </script>"""
+-    print """</head>"""
+-    print """<body>"""
+-    print """<h1 align="center">Can't connect to LizardFS master (IP:%s ; PORT:%u)</h1>""" % (
+-        htmlentities(masterhost), masterport)
+-    print """<h2 align="center">Please enter alternative master address:"""
+-    print """<input type="text" id="masterhost" value="mfsmaster" size="32" /><input type="number" id="masterport" size="6" value="9421" />"""
+-    print """<input type="button" value="Go" onclick="changemaster()" /></h2>"""
+-    print """</body>"""
+-    print """</html>"""
++        </script>""")
++    print("""</head>""")
++    print("""<body>""")
++    print("""<h1 align="center">Can't connect to LizardFS master (IP:%s ; PORT:%u)</h1>""" % (
++        htmlentities(masterhost), masterport))
++    print("""<h2 align="center">Please enter alternative master address:""")
++    print("""<input type="text" id="masterhost" value="mfsmaster" size="32" /><input type="number" id="masterport" size="6" value="9421" />""")
++    print("""<input type="button" value="Go" onclick="changemaster()" /></h2>""")
++    print("""</body>""")
++    print("""</html>""")
+     exit()
+ 
+ if masterversion == (0, 0, 0):
+-    print "Content-Type: text/html; charset=UTF-8"
+-    print
+-    print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">"""
+-    print """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">"""
+-    print """<head>"""
+-    print """<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />"""
+-    print """<title>LizardFS Info (%s)</title>""" % (htmlentities(mastername))
+-    print """<link href="favicon.ico" rel="icon" type="image/x-icon" />"""
+-    print """<link rel="stylesheet" href="mfs.css" type="text/css" />"""
+-    print """</head>"""
+-    print """<body>"""
+-    print """<h1 align="center">Can't detect LizardFS master version</h1>"""
+-    print """</body>"""
+-    print """</html>"""
++    print("Content-Type: text/html; charset=UTF-8")
++    print()
++    print("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">""")
++    print("""<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">""")
++    print("""<head>""")
++    print("""<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />""")
++    print("""<title>LizardFS Info (%s)</title>""" % (htmlentities(mastername)))
++    print("""<link href="favicon.ico" rel="icon" type="image/x-icon" />""")
++    print("""<link rel="stylesheet" href="mfs.css" type="text/css" />""")
++    print("""</head>""")
++    print("""<body>""")
++    print("""<h1 align="center">Can't detect LizardFS master version</h1>""")
++    print("""</body>""")
++    print("""</html>""")
+     exit()
+ 
+ 
+@@ -479,7 +482,7 @@ def createlink(update):
+     for k in fields:
+         if k not in update:
+             c.append("%s=%s" % (k, urlescape(fields.getvalue(k))))
+-    for k, v in update.iteritems():
++    for k, v in update.items():
+         if v != "":
+             c.append("%s=%s" % (k, urlescape(v)))
+     return "mfs.cgi?%s" % ("&amp;".join(c))
+@@ -508,7 +511,7 @@ if "CSremove" in fields:
+     try:
+         serverdata = fields.getvalue("CSremove").split(":")
+         if len(serverdata) == 2:
+-            csip = map(int, serverdata[0].split("."))
++            csip = list(map(int, serverdata[0].split(".")))
+             csport = int(serverdata[1])
+             if len(csip) == 4:
+                 s = socket.socket()
+@@ -523,45 +526,45 @@ if "CSremove" in fields:
+         tracedata = traceback.format_exc()
+     url = createlink({"CSremove": ""})
+     if cmd_success:
+-        print "Status: 302 Found"
+-        print "Location: %s" % url.replace("&amp;", "&")
+-        print "Content-Type: text/html; charset=UTF-8"
+-        print
+-        print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">"""
+-        print """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">"""
+-        print """<head>"""
+-        print """<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />"""
+-        print """<meta http-equiv="Refresh" content="0; url=%s" />""" % url
+-        print """<title>LizardFS Info (%s)</title>""" % (
+-            htmlentities(mastername))
+-        print """<link href="favicon.ico" rel="icon" type="image/x-icon" />"""
+-        print """<link rel="stylesheet" href="mfs.css" type="text/css" />"""
+-        print """</head>"""
+-        print """<body>"""
+-        print """<h1 align="center"><a href="%s">If you see this then it means that redirection didn't work, so click here</a></h1>"""
+-        print """</body>"""
+-        print """</html>"""
++        print("Status: 302 Found")
++        print("Location: %s" % url.replace("&amp;", "&"))
++        print("Content-Type: text/html; charset=UTF-8")
++        print()
++        print("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">""")
++        print("""<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">""")
++        print("""<head>""")
++        print("""<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />""")
++        print("""<meta http-equiv="Refresh" content="0; url=%s" />""" % url)
++        print("""<title>LizardFS Info (%s)</title>""" % (
++            htmlentities(mastername)))
++        print("""<link href="favicon.ico" rel="icon" type="image/x-icon" />""")
++        print("""<link rel="stylesheet" href="mfs.css" type="text/css" />""")
++        print("""</head>""")
++        print("""<body>""")
++        print("""<h1 align="center"><a href="%s">If you see this then it means that redirection didn't work, so click here</a></h1>""")
++        print("""</body>""")
++        print("""</html>""")
+     else:
+-        print "Content-Type: text/html; charset=UTF-8"
+-        print
+-        print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">"""
+-        print """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">"""
+-        print """<head>"""
+-        print """<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />"""
+-        print """<meta http-equiv="Refresh" content="5; url=%s" />""" % url
+-        print """<title>LizardFS Info (%s)</title>""" % (
+-            htmlentities(mastername))
+-        print """<link href="favicon.ico" rel="icon" type="image/x-icon" />"""
+-        print """<link rel="stylesheet" href="mfs.css" type="text/css" />"""
+-        print """</head>"""
+-        print """<body>"""
+-        print """<h3 align="center">Can't remove server (%s) from list - wait 5 seconds for refresh</h3>""" % fields.getvalue(
+-            "CSremove")
++        print("Content-Type: text/html; charset=UTF-8")
++        print()
++        print("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">""")
++        print("""<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">""")
++        print("""<head>""")
++        print("""<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />""")
++        print("""<meta http-equiv="Refresh" content="5; url=%s" />""" % url)
++        print("""<title>LizardFS Info (%s)</title>""" % (
++            htmlentities(mastername)))
++        print("""<link href="favicon.ico" rel="icon" type="image/x-icon" />""")
++        print("""<link rel="stylesheet" href="mfs.css" type="text/css" />""")
++        print("""</head>""")
++        print("""<body>""")
++        print("""<h3 align="center">Can't remove server (%s) from list - wait 5 seconds for refresh</h3>""" % fields.getvalue(
++            "CSremove"))
+         if tracedata:
+-            print """<hr />"""
+-            print """<pre>%s</pre>""" % tracedata
+-        print """</body>"""
+-        print """</html>"""
++            print("""<hr />""")
++            print("""<pre>%s</pre>""" % tracedata)
++        print("""</body>""")
++        print("""</html>""")
+     exit()
+ 
+ if "sections" in fields:
+@@ -611,51 +614,51 @@ else:
+                     "EX", "MS", "MO", "MC", "CC", "HELP"]
+ 
+ 
+-print "Content-Type: text/html; charset=UTF-8"
+-print
++print("Content-Type: text/html; charset=UTF-8")
++print()
+ # print """<!-- Put IE into quirks mode -->
+-print """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">"""
+-print """<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">"""
+-print """<head>"""
+-print """<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />"""
+-print """<title>LizardFS Info (%s)</title>""" % (htmlentities(mastername))
+-print """<link href="favicon.ico" rel="icon" type="image/x-icon" />"""
+-print """<link rel="stylesheet" href="mfs.css" type="text/css" />"""
+-print """</head>"""
+-print """<body>"""
++print("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">""")
++print("""<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">""")
++print("""<head>""")
++print("""<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />""")
++print("""<title>LizardFS Info (%s)</title>""" % (htmlentities(mastername)))
++print("""<link href="favicon.ico" rel="icon" type="image/x-icon" />""")
++print("""<link rel="stylesheet" href="mfs.css" type="text/css" />""")
++print("""</head>""")
++print("""<body>""")
+ 
+ # MENUBAR
+ 
+-print """<div id="header">"""
+-print """<table class="HDR" cellpadding="0" cellspacing="0" border="0" summary="Page header">"""
+-print """<tr>"""
+-print """<td class="LOGO"><a href="http://www.lizardfs.org"><img src="logomini.png" alt="logo" style="border:0;width:123px;height:47px" /></a></td>"""
+-print """<td class="MENU"><table class="MENU" cellspacing="0" summary="Header menu">"""
+-print """<tr>"""
++print("""<div id="header">""")
++print("""<table class="HDR" cellpadding="0" cellspacing="0" border="0" summary="Page header">""")
++print("""<tr>""")
++print("""<td class="LOGO"><a href="http://www.lizardfs.org"><img src="logomini.png" alt="logo" style="border:0;width:123px;height:47px" /></a></td>""")
++print("""<td class="MENU"><table class="MENU" cellspacing="0" summary="Header menu">""")
++print("""<tr>""")
+ last = "U"
+ for k in sectionorder:
+     if k == sectionorder[-1]:
+         last = "L%s" % last
+     if k in sectionset:
+         if len(sectionset) <= 1:
+-            print """<td class="%sS">%s &#8722;</td>""" % (last, sectiondef[k])
++            print("""<td class="%sS">%s &#8722;</td>""" % (last, sectiondef[k]))
+         else:
+-            print """<td class="%sS"><a href="%s">%s</a> <a href="%s">&#8722;</a></td>""" % (last, createlink(
+-                {"sections": k}), sectiondef[k], createlink({"sections": "|".join(sectionset - set([k]))}))
++            print("""<td class="%sS"><a href="%s">%s</a> <a href="%s">&#8722;</a></td>""" % (last, createlink(
++                {"sections": k}), sectiondef[k], createlink({"sections": "|".join(sectionset - set([k]))})))
+         last = "S"
+     else:
+-        print """<td class="%sU"><a href="%s">%s</a> <a href="%s">+</a></td>""" % (last, createlink(
+-            {"sections": k}), sectiondef[k], createlink({"sections": "|".join(sectionset | set([k]))}))
++        print("""<td class="%sU"><a href="%s">%s</a> <a href="%s">+</a></td>""" % (last, createlink(
++            {"sections": k}), sectiondef[k], createlink({"sections": "|".join(sectionset | set([k]))})))
+         last = "U"
+-print """</tr>"""
+-print """</table></td>"""
+-print """<td class="FILLER" style="white-space:nowrap;">"""
+-print """</td>"""
+-print """</tr>"""
+-print """</table>"""
+-print """</div>"""
++print("""</tr>""")
++print("""</table></td>""")
++print("""<td class="FILLER" style="white-space:nowrap;">""")
++print("""</td>""")
++print("""</tr>""")
++print("""</table>""")
++print("""</div>""")
+ 
+-print """<div id="container">"""
++print("""<div id="container">""")
+ 
+ if "IN" in sectionset:
+     try:
+@@ -842,15 +845,15 @@ if "IN" in sectionset:
+                 """	<tr><td align="left">unrecognized answer from LizardFS master</td></tr>""")
+             out.append("""</table>""")
+         s.close()
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+     if masterversion >= (1, 5, 13):
+         try:
+@@ -865,7 +868,7 @@ if "IN" in sectionset:
+             cmd, length = struct.unpack(">LL", header)
+             if cmd == MATOCL_CHUNKS_MATRIX and length == 484:
+                 matrix = []
+-                for i in xrange(11):
++                for i in range(11):
+                     data = myrecv(s, 44)
+                     matrix.append(list(struct.unpack(">LLLLLLLLLLL", data)))
+                 out.append(
+@@ -898,14 +901,14 @@ if "IN" in sectionset:
+                 out.append("""	</tr>""")
+                 classsum = 7 * [0]
+                 sumlist = 11 * [0]
+-                for neededCopies in xrange(11):
++                for neededCopies in range(11):
+                     out.append("""	<tr>""")
+                     if neededCopies == 10:
+                         out.append("""		<td align="center">10+</td>""")
+                     else:
+                         out.append("""		<td align="center">%u</td>""" %
+                                    neededCopies)
+-                    for vc in xrange(11):
++                    for vc in range(11):
+                         if neededCopies == 0:
+                             if vc == 0:
+                                 cl = "DELETEREADY"
+@@ -947,7 +950,7 @@ if "IN" in sectionset:
+                             a + b for (a, b) in zip(sumlist, matrix[neededCopies])]
+                 out.append("""	<tr>""")
+                 out.append("""		<td align="center">all 1+</td>""")
+-                for vc in xrange(11):
++                for vc in range(11):
+                     out.append("""		<td align="right">%u</td>""" % sumlist[vc])
+                 out.append("""		<td align="right">%u</td>""" % sum(sumlist))
+                 out.append("""	</tr>""")
+@@ -955,15 +958,15 @@ if "IN" in sectionset:
+                     1, "ENDANGERED", "endangered"), (2, "UNDERGOAL", "undergoal"), (3, "NORMAL", "stable"), (4, "OVERGOAL", "overgoal"), (5, "DELETEPENDING", "pending&nbsp;deletion"), (6, "DELETEREADY", "ready&nbsp;to&nbsp;be&nbsp;removed")]]) + """</td></tr>""")
+                 out.append("""</table>""")
+             s.close()
+-            print "\n".join(out)
++            print("\n".join(out))
+         except Exception:
+-            print """<table class="FR" cellspacing="0" summary="Exception">"""
+-            print """<tr><td align="left"><pre>"""
++            print("""<table class="FR" cellspacing="0" summary="Exception">""")
++            print("""<tr><td align="left"><pre>""")
+             traceback.print_exc(file=sys.stdout)
+-            print """</pre></td></tr>"""
+-            print """</table>"""
++            print("""</pre></td></tr>""")
++            print("""</table>""")
+ 
+-        print """<br/>"""
++        print("""<br/>""")
+ 
+     try:
+         out = []
+@@ -1019,15 +1022,15 @@ if "IN" in sectionset:
+                 out.append("""	</tr>""")
+             out.append("""</table>""")
+         s.close()
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+     try:
+         out = []
+@@ -1076,7 +1079,7 @@ if "IN" in sectionset:
+                             """	<tr><th colspan="8">Important messages:</th></tr>""")
+                     out.append("""	<tr>""")
+                     out.append("""		<td colspan="8" align="left"><small><pre>%s</pre></small></td>""" % (
+-                        urllib.unquote(data[36:]).replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;")))
++                        urllib.parse.unquote(data[36:]).replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;")))
+                     out.append("""	</tr>""")
+             else:
+                 out.append("""	<tr>""")
+@@ -1084,15 +1087,15 @@ if "IN" in sectionset:
+                 out.append("""	</tr>""")
+             out.append("""</table>""")
+         s.close()
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ if "CH" in sectionset:
+     try:
+@@ -1119,7 +1122,7 @@ if "CH" in sectionset:
+         out.append(make_table_row('<th class="PERC20">', '</th>', headers))
+         sums = 3 * [0]
+         i = 0
+-        for goal, safe, endangered, lost in filter(lambda row: sum(row[1:]) > 0, availability):
++        for goal, safe, endangered, lost in [row for row in availability if sum(row[1:]) > 0]:
+             out.append("""	<tr class="%s">""" % ("C1" if i % 2 == 0 else "C2"))
+             i += 1
+             out.append(
+@@ -1132,8 +1135,8 @@ if "CH" in sectionset:
+                     make_cell(lost, "MISSING"))
+             )
+             out.append("""	</tr>""")
+-            sums = map(
+-                sum, zip(sums, [safe, endangered, lost]))  # add row to the summary
++            sums = list(map(
++                sum, list(zip(sums, [safe, endangered, lost]))))  # add row to the summary
+         # Add summary and end the table
+         out.append("""	<tr>""")
+         out.append(
+@@ -1160,7 +1163,7 @@ if "CH" in sectionset:
+             )
+             i = 0
+             sums = 11 * [0]
+-            for row in filter(lambda row: sum(row[1:]) > 0, table):
++            for row in [row for row in table if sum(row[1:]) > 0]:
+                 out.append("""	<tr class="%s">""" %
+                            ("C1" if i % 2 == 0 else "C2"))
+                 i += 1
+@@ -1169,7 +1172,7 @@ if "CH" in sectionset:
+                     ((row[0], make_cell(row[1], "NORMAL")) + tuple(map(make_cell, row[2:])))
+                 )
+                 out.append("""	</tr>""")
+-                sums = map(sum, zip(sums, row[1:]))  # add row to the summary
++                sums = list(map(sum, list(zip(sums, row[1:]))))  # add row to the summary
+             # Add summary and end the table
+             out.append("""	<tr>""")
+             out.append(("""		<th>all</th>""" + 11 * """<th>%s</th>""") %
+@@ -1181,14 +1184,14 @@ if "CH" in sectionset:
+         add_repl_del_state(out, "replicat", replication)
+         out.append("""<br/>""")
+         add_repl_del_state(out, "delet", deletion)
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
+-    print """<br/>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
++    print("""<br/>""")
+ 
+ if "CS" in sectionset:
+     if masterversion >= LIZARDFS_VERSION_WITH_LIST_OF_SHADOWS:
+@@ -1233,14 +1236,14 @@ if "CS" in sectionset:
+                 out.append(make_table_row('<td>', '</td>', (i,) + row))
+                 i += 1
+             out.append("""</table>""")
+-            print "\n".join(out)
++            print("\n".join(out))
+         except Exception:
+-            print """<table class="FR" cellspacing="0" summary="Exception">"""
+-            print """<tr><td align="left"><pre>"""
++            print("""<table class="FR" cellspacing="0" summary="Exception">""")
++            print("""<tr><td align="left"><pre>""")
+             traceback.print_exc(file=sys.stdout)
+-            print """</pre></td></tr>"""
+-            print """</table>"""
+-        print """<br/>"""
++            print("""</pre></td></tr>""")
++            print("""</table>""")
++        print("""<br/>""")
+ 
+     out = []
+ 
+@@ -1314,11 +1317,11 @@ if "CS" in sectionset:
+         else:
+             vector_size = length / 54
+             pos = 0
+-        for i in xrange(vector_size):
++        for i in range(vector_size):
+             if cmd == LIZ_MATOCL_CSERV_LIST:
+                 disconnected, v1, v2, v3, ip1, ip2, ip3, ip4, port, used, total, chunks, tdused, tdtotal, tdchunks, errcnt, label_length = struct.unpack(
+                     ">BBBBBBBBHQQLQQLLL", data[pos:pos + 58])
+-                label = data[pos + 58:pos + 58 + label_length - 1]
++                label = data[pos + 58:pos + 58 + label_length - 1].decode('utf-8')
+                 pos = pos + 58 + label_length
+             else:
+                 disconnected, v1, v2, v3, ip1, ip2, ip3, ip4, port, used, total, chunks, tdused, tdtotal, tdchunks, errcnt = struct.unpack(
+@@ -1401,15 +1404,15 @@ if "CS" in sectionset:
+ 
+         out.append("""</table>""")
+         s.close()
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+     if masterversion >= (1, 6, 5):
+         out = []
+@@ -1445,9 +1448,9 @@ if "CS" in sectionset:
+             cmd, length = struct.unpack(">LL", header)
+             if cmd == MATOCL_MLOG_LIST and (length % 8) == 0:
+                 data = myrecv(s, length)
+-                n = length / 8
++                n = int(length / 8)
+                 servers = []
+-                for i in xrange(n):
++                for i in range(n):
+                     d = data[i * 8:(i + 1) * 8]
+                     v1, v2, v3, ip1, ip2, ip3, ip4 = struct.unpack(
+                         ">HBBBBBB", d)
+@@ -1475,15 +1478,15 @@ if "CS" in sectionset:
+                     i += 1
+             out.append("""</table>""")
+             s.close()
+-            print "\n".join(out)
++            print("\n".join(out))
+         except Exception:
+-            print """<table class="FR" cellspacing="0" summary="Exception">"""
+-            print """<tr><td align="left"><pre>"""
++            print("""<table class="FR" cellspacing="0" summary="Exception">""")
++            print("""<tr><td align="left"><pre>""")
+             traceback.print_exc(file=sys.stdout)
+-            print """</pre></td></tr>"""
+-            print """</table>"""
++            print("""</pre></td></tr>""")
++            print("""</table>""")
+ 
+-        print """<br/>"""
++        print("""<br/>""")
+ 
+ if "HD" in sectionset:
+     out = []
+@@ -1519,9 +1522,9 @@ if "HD" in sectionset:
+         cmd, length = struct.unpack(">LL", header)
+         if cmd == MATOCL_CSERV_LIST and masterversion >= (1, 5, 13) and (length % 54) == 0:
+             data = myrecv(s, length)
+-            n = length / 54
++            n = int(length / 54)
+             servers = []
+-            for i in xrange(n):
++            for i in range(n):
+                 d = data[i * 54:(i + 1) * 54]
+                 disconnected, v1, v2, v3, ip1, ip2, ip3, ip4, port, used, total, chunks, tdused, tdtotal, tdchunks, errcnt = struct.unpack(
+                     ">BBBBBBBBHQQLQQLL", d)
+@@ -1529,9 +1532,9 @@ if "HD" in sectionset:
+                     hostlist.append((v1, v2, v3, ip1, ip2, ip3, ip4, port))
+         elif cmd == MATOCL_CSERV_LIST and masterversion < (1, 5, 13) and (length % 50) == 0:
+             data = myrecv(s, length)
+-            n = length / 50
++            n = int(length / 50)
+             servers = []
+-            for i in xrange(n):
++            for i in range(n):
+                 d = data[i * 50:(i + 1) * 50]
+                 ip1, ip2, ip3, ip4, port, used, total, chunks, tdused, tdtotal, tdchunks, errcnt = struct.unpack(
+                     ">BBBBHQQLQQLL", d)
+@@ -1556,13 +1559,13 @@ if "HD" in sectionset:
+                     if cmd == CSTOCL_HDD_LIST_V1:
+                         data = myrecv(s, length)
+                         while length > 0:
+-                            plen = ord(data[0])
++                            plen = data[0]
+                             if HDaddrname == 1:
+                                 path = "%s:%u:%s" % (
+-                                    hoststr, port, data[1:plen + 1])
++                                    hoststr, port, data[1:plen + 1].decode('utf-8'))
+                             else:
+                                 path = "%s:%u:%s" % (
+-                                    hostip, port, data[1:plen + 1])
++                                    hostip, port, data[1:plen + 1].decode('utf-8'))
+                             flags, errchunkid, errtime, used, total, chunkscnt = struct.unpack(
+                                 ">BQLQQL", data[plen + 1:plen + 34])
+                             length -= plen + 34
+@@ -1603,13 +1606,13 @@ if "HD" in sectionset:
+                             data = data[2 + entrysize:]
+                             length -= 2 + entrysize
+ 
+-                            plen = ord(entry[0])
++                            plen = entry[0]
+                             if HDaddrname == 1:
+                                 path = "%s:%u:%s" % (
+-                                    hoststr, port, entry[1:plen + 1])
++                                    hoststr, port, entry[1:plen + 1].decode('utf-8'))
+                             else:
+                                 path = "%s:%u:%s" % (
+-                                    hostip, port, entry[1:plen + 1])
++                                    hostip, port, entry[1:plen + 1].decode('utf-8'))
+                             flags, errchunkid, errtime, used, total, chunkscnt = struct.unpack(
+                                 ">BQLQQL", entry[plen + 1:plen + 34])
+                             rbytes, wbytes, usecreadsum, usecwritesum, usecfsyncsum, rops, wops, fsyncops, usecreadmax, usecwritemax, usecfsyncmax = (
+@@ -1826,15 +1829,15 @@ if "HD" in sectionset:
+                 i += 1
+             out.append("""</table>""")
+ 
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ if "EX" in sectionset:
+     out = []
+@@ -1920,7 +1923,7 @@ if "EX" in sectionset:
+                 ipfrom = "%d.%d.%d.%d" % (fip1, fip2, fip3, fip4)
+                 ipto = "%d.%d.%d.%d" % (tip1, tip2, tip3, tip4)
+                 pos += 12
+-                path = data[pos:pos + pleng]
++                path = data[pos:pos + pleng].decode('utf-8')
+                 pos += pleng
+                 if masterversion >= (1, 6, 26):
+                     v1, v2, v3, exportflags, sesflags, rootuid, rootgid, mapalluid, mapallgid, mingoal, maxgoal, mintrashtime, maxtrashtime = struct.unpack(
+@@ -2073,11 +2076,11 @@ if "EX" in sectionset:
+         out.append("""</table>""")
+         out.append("""<br/>""")
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+     try:
+         goals = cltoma_list_goals()
+@@ -2100,15 +2103,15 @@ if "EX" in sectionset:
+             out.append("""	<tr class="C%u"><td>%s</td><td class="LEFT">%s</td><td class="LEFT">%s</td>""" %
+                        (row_class, id, name, definition))
+         out.append("""</table>""")
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ if "ML" in sectionset:
+     out = []
+@@ -2179,9 +2182,9 @@ if "ML" in sectionset:
+         cmd, length = struct.unpack(">LL", header)
+         if cmd == MATOCL_SESSION_LIST and masterversion <= (1, 5, 13) and (length % 136) == 0:
+             data = myrecv(s, length)
+-            n = length / 136
++            n = int(length / 136)
+             servers = []
+-            for i in xrange(n):
++            for i in range(n):
+                 d = data[i * 136:(i + 1) * 136]
+                 addrdata = d[0:8]
+                 stats_c = []
+@@ -2198,7 +2201,7 @@ if "ML" in sectionset:
+                         ver = "unknown"
+                 else:
+                     ver = "%d.%d.%d" % (v1, v2, v3)
+-                for i in xrange(16):
++                for i in range(16):
+                     stats_c.append(struct.unpack(">L", d[i * 4 + 8:i * 4 + 12]))
+                     stats_l.append(struct.unpack(">L", d[i * 4 + 72:i * 4 + 76]))
+                 try:
+@@ -2228,27 +2231,27 @@ if "ML" in sectionset:
+                     """		<td align="center" rowspan="2">%s</td>""" % ipnum)
+                 out.append(
+                     """		<td align="center" rowspan="2">%s</td>""" % ver)
+-                for st in xrange(16):
++                for st in range(16):
+                     out.append("""		<td align="right">%u</td>""" %
+                                (stats_c[st]))
+                 out.append("""	</tr>""")
+                 out.append("""	<tr class="C%u">""" % (((i - 1) % 2) * 2 + 2))
+-                for st in xrange(16):
++                for st in range(16):
+                     out.append("""		<td align="right">%u</td>""" %
+                                (stats_l[st]))
+                 out.append("""	</tr>""")
+                 i += 1
+         out.append("""</table>""")
+         s.close()
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ if "MS" in sectionset:
+     out = []
+@@ -2342,11 +2345,11 @@ if "MS" in sectionset:
+                 ipnum = "%d.%d.%d.%d" % (ip1, ip2, ip3, ip4)
+                 ver = "%d.%d.%d" % (v1, v2, v3)
+                 pos += 16
+-                info = data[pos:pos + ileng]
++                info = data[pos:pos + ileng].decode('utf-8')
+                 pos += ileng
+                 pleng = struct.unpack(">L", data[pos:pos + 4])[0]
+                 pos += 4
+-                path = data[pos:pos + pleng]
++                path = data[pos:pos + pleng].decode('utf-8')
+                 pos += pleng
+                 if masterversion >= (1, 6, 26):
+                     sesflags, rootuid, rootgid, mapalluid, mapallgid, mingoal, maxgoal, mintrashtime, maxtrashtime = struct.unpack(
+@@ -2511,15 +2514,15 @@ if "MS" in sectionset:
+                 i += 1
+         out.append("""</table>""")
+         s.close()
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ if "MO" in sectionset:
+     out = []
+@@ -2609,11 +2612,11 @@ if "MO" in sectionset:
+                 ipnum = "%d.%d.%d.%d" % (ip1, ip2, ip3, ip4)
+                 ver = "%d.%d.%d" % (v1, v2, v3)
+                 pos += 16
+-                info = data[pos:pos + ileng]
++                info = data[pos:pos + ileng].decode('utf-8')
+                 pos += ileng
+                 pleng = struct.unpack(">L", data[pos:pos + 4])[0]
+                 pos += 4
+-                path = data[pos:pos + pleng]
++                path = data[pos:pos + pleng].decode('utf-8')
+                 pos += pleng
+                 # sesflags,rootuid,rootgid,mapalluid,mapallgid = struct.unpack(">BLLLL",data[pos:pos+17])
+                 if masterversion >= (1, 6, 0):
+@@ -2663,13 +2666,13 @@ if "MO" in sectionset:
+                 out.append(
+                     """		<td align="center" rowspan="2">%s</td>""" % ipnum)
+                 out.append("""		<td align="left" rowspan="2">%s</td>""" % info)
+-                for st in xrange(16):
++                for st in range(16):
+                     out.append("""		<td align="right">%u</td>""" %
+                                (stats_c[st]))
+                 out.append("""		<td align="right">%u</td>""" % (sum(stats_c)))
+                 out.append("""	</tr>""")
+                 out.append("""	<tr class="C%u">""" % (((i - 1) % 2) * 2 + 2))
+-                for st in xrange(16):
++                for st in range(16):
+                     out.append("""		<td align="right">%u</td>""" %
+                                (stats_l[st]))
+                 out.append("""		<td align="right">%u</td>""" % (sum(stats_l)))
+@@ -2677,15 +2680,15 @@ if "MO" in sectionset:
+                 i += 1
+         out.append("""</table>""")
+         s.close()
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ if "MC" in sectionset:
+     out = []
+@@ -2835,7 +2838,7 @@ if "MC" in sectionset:
+         out.append("""</table>""")
+         out.append(
+             """<table class="FR" cellspacing="0" summary="Master charts view">""")
+-        for i in xrange(2):
++        for i in range(2):
+             out.append("""	<tr>""")
+             out.append("""		<td align="center" colspan="4">""")
+             out.append("""			<div id="ma_desc%u">%s</div>""" %
+@@ -2857,15 +2860,15 @@ if "MC" in sectionset:
+             out.append("""		</td>""")
+             out.append("""	</tr>""")
+         out.append("""</table>""")
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ if "CC" in sectionset:
+     out = []
+@@ -2888,8 +2891,8 @@ if "CC" in sectionset:
+         cmd, length = struct.unpack(">LL", header)
+         if cmd == MATOCL_CSERV_LIST and (length % 54) == 0:
+             data = myrecv(s, length)
+-            n = length / 54
+-            for i in xrange(n):
++            n = int(length / 54)
++            for i in range(n):
+                 d = data[i * 54:(i + 1) * 54]
+                 disconnected, v1, v2, v3, ip1, ip2, ip3, ip4, port, used, total, chunks, tdused, tdtotal, tdchunks, errcnt = struct.unpack(
+                     ">BBBBBBBBHQQLQQLL", d)
+@@ -2897,8 +2900,8 @@ if "CC" in sectionset:
+                     hostlist.append((ip1, ip2, ip3, ip4, port))
+         elif cmd == MATOCL_CSERV_LIST and (length % 50) == 0:
+             data = myrecv(s, length)
+-            n = length / 50
+-            for i in xrange(n):
++            n = int(length / 50)
++            for i in range(n):
+                 d = data[i * 50:(i + 1) * 50]
+                 ip1, ip2, ip3, ip4, port, used, total, chunks, tdused, tdtotal, tdchunks, errcnt = struct.unpack(
+                     ">BBBBHQQLQQLL", d)
+@@ -3083,7 +3086,7 @@ if "CC" in sectionset:
+             out.append("""</table>""")
+             out.append(
+                 """<table class="FR" cellspacing="0" summary="Server charts view">""")
+-            for i in xrange(2):
++            for i in range(2):
+                 out.append("""	<tr>""")
+                 out.append("""		<td align="center" colspan="4">""")
+                 out.append("""			<div id="cs_desc%u">%s</div>""" %
+@@ -3168,37 +3171,37 @@ if "CC" in sectionset:
+                     out.append("""		</td>""")
+                     out.append("""	</tr>""")
+                 out.append("""</table>""")
+-        print "\n".join(out)
++        print("\n".join(out))
+     except Exception:
+-        print """<table class="FR" cellspacing="0" summary="Exception">"""
+-        print """<tr><td align="left"><pre>"""
++        print("""<table class="FR" cellspacing="0" summary="Exception">""")
++        print("""<tr><td align="left"><pre>""")
+         traceback.print_exc(file=sys.stdout)
+-        print """</pre></td></tr>"""
+-        print """</table>"""
++        print("""</pre></td></tr>""")
++        print("""</table>""")
+ 
+-    print """<br/>"""
++    print("""<br/>""")
+ 
+ 
+ def print_file(name):
+     f = open(name)
+     for line in f:
+-        print line
++        print(line)
+ 
+ 
+ if "HELP" in sectionset:
+     # FIXME(kulek@lizardfs.org) - it should be in separate file help.html however we are waiting for CMAKE to make it happen.
+     # print_file("@CGI_PATH@/help.html")
+-    print """please contact with help@lizardfs.com"""
+-    print """<br/>"""
++    print("""please contact with help@lizardfs.com""")
++    print("""<br/>""")
+ 
+-print """</div> <!-- end of container -->"""
++print("""</div> <!-- end of container -->""")
+ 
+-print """<div id="footer">"""
+-print """<div id="footer-left">Python %u.%u.%u</div>""" % (
+-    sys.version_info.major, sys.version_info.minor, sys.version_info.micro)
+-print """<div id="footer-center"></div>"""
+-print """<div id="footer-right">Generated: %s</div>""" % datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+-print """</div>"""
++print("""<div id="footer">""")
++print("""<div id="footer-left">Python %u.%u.%u</div>""" % (
++    sys.version_info.major, sys.version_info.minor, sys.version_info.micro))
++print("""<div id="footer-center"></div>""")
++print("""<div id="footer-right">Generated: %s</div>""" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
++print("""</div>""")
+ 
+-print """</body>"""
+-print """</html>"""
++print("""</body>""")
++print("""</html>""")
+diff --git a/tests/setup_machine.sh b/tests/setup_machine.sh
+index eaf4e576a..c93345f17 100755
+--- a/tests/setup_machine.sh
++++ b/tests/setup_machine.sh
+@@ -27,6 +27,9 @@ shift
+ # Make this script safe and bug-free ;)
+ set -eux
+ 
++echo ; echo Add group fuse
++groupadd fuse
++
+ echo ; echo Add user lizardfstest
+ if ! getent passwd lizardfstest > /dev/null; then
+ 	useradd --system --user-group --home /var/lib/lizardfstest lizardfstest
