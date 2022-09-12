@@ -2,12 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI=6
 
-#PYTHON_DEPEND="2"
-#SUPPORT_PYTHON_ABIS="1"
-#RESTRICT_PYTHON_ABIS="3.*"
-PYTHON_COMPAT=( python{2_7,3_3,3_4} )
+PYTHON_COMPAT=( python{2_7,3_3,3_4,3_7,3_8,3_9,3_10} )
 
 PATCHES=( "${FILESDIR}"/gentoo-path.patch )
 

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI=6
 inherit git-r3 eutils
 DESCRIPTION="View ip accesses to your server on a world map (using geoip and d3.js)"
 HOMEPAGE="https://github.com/tomerdmnt/geoipmap"
@@ -11,7 +11,7 @@ EGIT_REPO_URI="https://github.com/tomerdmnt/geoipmap.git"
 
 LICENSE="WTFPL-2"
 SLOT="0"
-KEYWORDS="x86 amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 DEPEND="dev-lang/go"
