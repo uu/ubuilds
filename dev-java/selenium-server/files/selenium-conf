@@ -1,7 +1,0 @@
-PORT=5555
-PIDFILE="/var/run/selenium-server-${PORT}.pid"
-#PROFILE=/usr/lib64/python2.6/site-packages/SeleniumLibrary/firefoxprofile
-LOG="/var/log/selenium/selenium-${PORT}.log"
-USER="teamcity"
-GROUP="teamcity"
-PKG_ARGS="-log ${LOG}"

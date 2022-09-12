@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI=6
 inherit git-r3 eutils
 DESCRIPTION="An experiment to cut logs in preparation for processing elsewhere."
 HOMEPAGE="https://github.com/elastic/logstash-forwarder"

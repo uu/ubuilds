@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=6
 
 EGIT_REPO_URI="https://github.com/muggot/openmcu.git"
 EGIT_PROJECT="openmcu-ru-${PV}"
@@ -33,9 +33,9 @@ RDEPEND=${DEPEND}
 INSTALL_DIR="/usr"
 
 src_prepare() {
-    epatch "${FILESDIR}"/web_stream_start-3.48.patch
-    sed -i -e 's|ldconfig -v|ldconfig -r|g' configure.ac
-    ./autogen.sh
+	epatch "${FILESDIR}"/web_stream_start-3.48.patch
+	sed -i -e 's|ldconfig -v|ldconfig -r|g' configure.ac
+	./autogen.sh
 }
 
 src_configure() {

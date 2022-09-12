@@ -18,8 +18,7 @@ IUSE="fluent-bit promtail +server tools"
 RESTRICT="mirror strip"
 
 RDEPEND="acct-group/grafana
-	acct-user/loki
-	fluent-bit? ( app-admin/fluent-bit )"
+	acct-user/loki"
 DEPEND="${RDEPEND}"
 
 src_compile() {

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=6
 
 EGIT_REPO_URI="https://github.com/muggot/openmcu.git"
 EGIT_PROJECT="openmcu-ru-${PV}"
@@ -36,8 +36,8 @@ RDEPEND=${DEPEND}
 INSTALL_DIR="/opt"
 
 src_prepare() {
-    sed -i -e 's|ldconfig -v|ldconfig -r|g' configure.ac
-    ./autogen.sh
+	sed -i -e 's|ldconfig -v|ldconfig -r|g' configure.ac
+	./autogen.sh
 }
 
 src_configure() {
@@ -54,7 +54,7 @@ src_install() {
 	echo PATH=/opt/${PN}/bin > ${T}/99${PN}
 	echo LDPATH=/opt/${PN}/lib >> ${T}/99${PN}
 	echo CONFIG_PROTECT=${INSTALL_DIR}/openmcu-ru/config >> ${T}/99${PN}
-        doenvd "${T}"/99${PN}
+	doenvd "${T}"/99${PN}
 
 	newinitd "${FILESDIR}/openmcu-ru-git.initd" openmcu-ru
 }
