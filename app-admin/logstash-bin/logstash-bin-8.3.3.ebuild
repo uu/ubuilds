@@ -1,17 +1,17 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=8
 
-inherit java-pkg-2 user
+inherit java-pkg-2
 
 MY_PN="${PN%-bin}"
 MY_P="${MY_PN}-${PV}"
 
 DESCRIPTION="Tool for managing events and logs"
 HOMEPAGE="https://www.elastic.co/products/logstash"
-SRC_URI="x-pack? ( https://artifacts.elastic.co/downloads/${MY_PN}/${MY_P}.tar.gz )
-	!x-pack? ( https://artifacts.elastic.co/downloads/${MY_PN}/${MY_PN}-oss-${PV}.tar.gz )"
+SRC_URI="x-pack? ( https://artifacts.elastic.co/downloads/${MY_PN}/${MY_P}-linux-x86_64.tar.gz )
+	!x-pack? ( https://artifacts.elastic.co/downloads/${MY_PN}/${MY_PN}-oss-${PV}-linux-x86_64.tar.gz )"
 
 # source: LICENSE.txt and NOTICE.txt
 LICENSE="Apache-2.0 MIT x-pack? ( Elastic )"
@@ -22,18 +22,29 @@ IUSE="x-pack"
 RESTRICT="strip"
 QA_PREBUILT="opt/logstash/vendor/jruby/lib/jni/*/libjffi*.so"
 
-RDEPEND="virtual/jre:1.8"
+RDEPEND="acct-group/logstash
+	acct-user/logstash
+	virtual/jre"
 
 S="${WORKDIR}/${MY_P}"
 
-pkg_setup() {
-	enewgroup ${MY_PN}
-	enewuser ${MY_PN} -1 -1 /var/lib/${MY_PN} ${MY_PN}
+src_prepare() {
+	default
+
+	local d
+	for d in aarch64-FreeBSD aarch64-Linux arm-Linux Darwin i386-Linux i386-SunOS \
+		i386-Windows mips64el-Linux ppc64-AIX ppc64le-Linux ppc64-Linux \
+		ppc-AIX s390x-Linux sparcv9-Linux sparcv9-SunOS x86_64-DragonFlyBSD \
+		x86_64-FreeBSD x86_64-OpenBSD x86_64-SunOS x86_64-Windows; do
+			rm -r vendor/jruby/lib/jni/$d || die
+	done
+
+	# remove bundled java
+	rm -r jdk || die
 }
 
 src_install() {
 	keepdir /etc/"${MY_PN}"/{conf.d,patterns,plugins}
-	keepdir "/var/lib/${MY_PN}"
 	keepdir "/var/log/${MY_PN}"
 
 	insinto "/usr/share/${MY_PN}"
@@ -70,8 +81,8 @@ pkg_postinst() {
 
 	elog
 	elog "Sample configuration:"
-	elog "${EROOT%/}/usr/share/${MY_PN}"
+	elog "${EROOT}/usr/share/${MY_PN}"
 	elog
 	elog "The default pipeline configuration expects the configuration(s) to be found in:"
-	elog "${EROOT%/}/etc/logstash/conf.d/*.conf"
+	elog "${EROOT}/etc/logstash/conf.d/*.conf"
 }
