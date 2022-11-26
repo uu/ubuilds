@@ -77,6 +77,13 @@ HTTP_UPSTREAM_CHECK_MODULE_P="ngx_http_upstream_check-${HTTP_UPSTREAM_CHECK_MODU
 HTTP_UPSTREAM_CHECK_MODULE_URI="https://github.com/yaoweibin/nginx_upstream_check_module/archive/${HTTP_UPSTREAM_CHECK_MODULE_PV}.tar.gz"
 HTTP_UPSTREAM_CHECK_MODULE_WD="${WORKDIR}/nginx_upstream_check_module-${HTTP_UPSTREAM_CHECK_MODULE_PV}"
 
+# http_upstream_check (https://github.com/yaoweibin/nginx_upstream_check_module, BSD license)
+HTTP_EARLY_HINTS_MODULE_PV="72e270fa13c6d1b6bdeae24659425f58b5576f4a"
+HTTP_EARLY_HINTS_MODULE_P="ngx_http_early_hints-${HTTP_EARLY_HINTS_MODULE_PV}"
+HTTP_EARLY_HINTS_MODULE_URI="https://github.com/flano-yuki/ngx_http_early_hints/archive/${HTTP_EARLY_HINTS_MODULE_PV}.tar.gz"
+HTTP_EARLY_HINTS_MODULE_WD="${WORKDIR}/ngx_http_early_hints-${HTTP_EARLY_HINTS_MODULE_PV}"
+
+
 # http_metrics (https://github.com/zenops/ngx_metrics, BSD license)
 HTTP_METRICS_MODULE_PV="0.1.1"
 HTTP_METRICS_MODULE_P="ngx_metrics-${HTTP_METRICS_MODULE_PV}"
@@ -193,6 +200,7 @@ SRC_URI="https://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.bz2 )
 	nginx_modules_http_upload_progress? ( ${HTTP_UPLOAD_PROGRESS_MODULE_URI} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
 	nginx_modules_http_upstream_check? ( ${HTTP_UPSTREAM_CHECK_MODULE_URI} -> ${HTTP_UPSTREAM_CHECK_MODULE_P}.tar.gz )
+	nginx_modules_http_early_hints? ( ${HTTP_EARLY_HINTS_MODULE_URI} -> ${HTTP_EARLY_HINTS_MODULE_P}.tar.gz )
 	nginx_modules_http_vhost_traffic_status? ( ${HTTP_VHOST_TRAFFIC_STATUS_MODULE_URI} -> ${HTTP_VHOST_TRAFFIC_STATUS_MODULE_P}.tar.gz )
 	nginx_modules_stream_geoip2? ( ${GEOIP2_MODULE_URI} -> ${GEOIP2_MODULE_P}.tar.gz )
 	nginx_modules_stream_javascript? ( ${NJS_MODULE_URI} -> ${NJS_MODULE_P}.tar.gz )
@@ -242,6 +250,7 @@ NGINX_MODULES_3RD="
 	http_sticky
 	http_upload_progress
 	http_upstream_check
+	http_early_hints
 	http_vhost_traffic_status
 	stream_geoip2
 	stream_javascript
@@ -519,6 +528,11 @@ src_configure() {
 	if use nginx_modules_http_upstream_check; then
 		http_enabled=1
 		myconf+=( --add-module=${HTTP_UPSTREAM_CHECK_MODULE_WD} )
+	fi
+
+	if use nginx_modules_http_early_hints; then
+		http_enabled=1
+		myconf+=( --add-module=${HTTP_EARLY_HINTS_MODULE_WD} )
 	fi
 
 	if use nginx_modules_http_metrics; then
