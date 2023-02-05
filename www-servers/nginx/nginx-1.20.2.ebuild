@@ -120,12 +120,6 @@ HTTP_ECHO_MODULE_P="ngx_http_echo-${HTTP_ECHO_MODULE_PV}"
 HTTP_ECHO_MODULE_URI="https://github.com/openresty/echo-nginx-module/archive/v${HTTP_ECHO_MODULE_PV}.tar.gz"
 HTTP_ECHO_MODULE_WD="${WORKDIR}/echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
 
-# mod_security for nginx (https://modsecurity.org/, Apache-2.0)
-# keep the MODULE_P here consistent with upstream to avoid tarball duplication
-HTTP_SECURITY_MODULE_PV="2.9.3"
-HTTP_SECURITY_MODULE_P="modsecurity-${HTTP_SECURITY_MODULE_PV}"
-HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
-HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
 
 # push-stream-module (http://www.nginxpushstream.com, https://github.com/wandenberg/nginx-push-stream-module, GPL-3)
 HTTP_PUSH_STREAM_MODULE_PV="0.5.4"
@@ -195,7 +189,6 @@ SRC_URI="https://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_mogilefs? ( ${HTTP_MOGILEFS_MODULE_URI} -> ${HTTP_MOGILEFS_MODULE_P}.tar.gz )
 	nginx_modules_http_naxsi? ( ${HTTP_NAXSI_MODULE_URI} -> ${HTTP_NAXSI_MODULE_P}.tar.gz )
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
-	nginx_modules_http_security? ( ${HTTP_SECURITY_MODULE_URI} -> ${HTTP_SECURITY_MODULE_P}.tar.gz )
 	nginx_modules_http_slowfs_cache? ( ${HTTP_SLOWFS_CACHE_MODULE_URI} -> ${HTTP_SLOWFS_CACHE_MODULE_P}.tar.gz )
 	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.bz2 )
 	nginx_modules_http_upload_progress? ( ${HTTP_UPLOAD_PROGRESS_MODULE_URI} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
@@ -207,7 +200,6 @@ SRC_URI="https://nginx.org/download/${P}.tar.gz
 	rtmp? ( ${RTMP_MODULE_URI} -> ${RTMP_MODULE_P}.tar.gz )"
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
-	nginx_modules_http_security? ( Apache-2.0 )
 	nginx_modules_http_push_stream? ( GPL-3 )"
 
 SLOT="0"
@@ -245,7 +237,6 @@ NGINX_MODULES_3RD="
 	http_mogilefs
 	http_naxsi
 	http_push_stream
-	http_security
 	http_slowfs_cache
 	http_sticky
 	http_upload_progress
@@ -315,13 +306,6 @@ CDEPEND="
 	nginx_modules_http_auth_pam? ( sys-libs/pam )
 	nginx_modules_http_metrics? ( dev-libs/yajl:= )
 	nginx_modules_http_dav_ext? ( dev-libs/libxml2 )
-	nginx_modules_http_security? (
-		dev-libs/apr:=
-		dev-libs/apr-util:=
-		dev-libs/libxml2:=
-		net-misc/curl
-		www-servers/apache
-	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	nginx_modules_stream_geoip? ( dev-libs/geoip )
 	nginx_modules_stream_geoip2? ( dev-libs/libmaxminddb:= )"
@@ -331,8 +315,7 @@ RDEPEND="${CDEPEND}
 DEPEND="${CDEPEND}
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )"
-BDEPEND="nginx_modules_http_brotli? ( virtual/pkgconfig )
-	nginx_modules_http_security? ( ${AUTOTOOLS_DEPEND} )"
+BDEPEND="nginx_modules_http_brotli? ( virtual/pkgconfig )"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
 REQUIRED_USE="pcre-jit? ( pcre )
@@ -345,7 +328,6 @@ REQUIRED_USE="pcre-jit? ( pcre )
 	nginx_modules_http_naxsi? ( pcre )
 	nginx_modules_http_dav_ext? ( nginx_modules_http_dav nginx_modules_http_xslt )
 	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
-	nginx_modules_http_security? ( pcre )
 	nginx_modules_http_push_stream? ( ssl )"
 
 pkg_setup() {
@@ -404,19 +386,6 @@ src_prepare() {
 		cd "${S}" || die
 	fi
 
-	if use nginx_modules_http_security; then
-		cd "${HTTP_SECURITY_MODULE_WD}" || die
-
-		eautoreconf
-
-		if use nginx_modules_http_lua; then
-			sed -i \
-				-e "s|^\(LUA_PKGNAMES\)=.*|\1=\"${ELUA}\"|" \
-				configure || die
-		fi
-
-		cd "${S}" || die
-	fi
 
 	if use nginx_modules_http_upload_progress; then
 		cd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" || die
@@ -442,19 +411,6 @@ src_prepare() {
 }
 
 src_configure() {
-	# mod_security needs to generate nginx/modsecurity/config before including it
-	if use nginx_modules_http_security; then
-		cd "${HTTP_SECURITY_MODULE_WD}" || die
-
-		./configure \
-			--enable-standalone-module \
-			--disable-mlogc \
-			--with-ssdeep=no \
-			$(use_enable pcre-jit) \
-			$(use_with nginx_modules_http_lua lua) || die "configure failed for mod_security"
-
-		cd "${S}" || die
-	fi
 
 	local myconf=() http_enabled= mail_enabled= stream_enabled=
 
@@ -560,10 +516,6 @@ src_configure() {
 		myconf+=( --add-module=${HTTP_ECHO_MODULE_WD} )
 	fi
 
-	if use nginx_modules_http_security ; then
-		http_enabled=1
-		myconf+=( --add-module=${HTTP_SECURITY_MODULE_WD}/nginx/modsecurity )
-	fi
 
 	if use nginx_modules_http_push_stream ; then
 		http_enabled=1
@@ -706,7 +658,6 @@ src_configure() {
 }
 
 src_compile() {
-	use nginx_modules_http_security && emake -C "${HTTP_SECURITY_MODULE_WD}"
 
 	# https://bugs.gentoo.org/286772
 	export LANG=C LC_ALL=C
@@ -818,10 +769,6 @@ src_install() {
 		dodoc "${HTTP_ECHO_MODULE_WD}"/README.markdown
 	fi
 
-	if use nginx_modules_http_security; then
-		docinto ${HTTP_SECURITY_MODULE_P}
-		dodoc "${HTTP_SECURITY_MODULE_WD}"/{CHANGES,README.md,authors.txt}
-	fi
 
 	if use nginx_modules_http_push_stream; then
 		docinto ${HTTP_PUSH_STREAM_MODULE_P}
