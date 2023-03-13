@@ -419,6 +419,12 @@ src_prepare() {
 		cd "${S}" || die
 	fi
 
+	if use nginx_modules_http_slowfs_cache; then
+		cd "${HTTP_SLOWFS_CACHE_MODULE_WD}" || die
+		eapply "${FILESDIR}"/http_slowfs_cache-1.23.0.patch
+		cd "${S}" || die
+	fi
+
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):' || die
 	# We have config protection, don't rename etc files
 	sed -i 's:.default::' auto/install || die
