@@ -1,28 +1,25 @@
 # Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-GIT_COMMIT="1fab18aeb0" # Change this when you update the ebuild
-EGO_PN="github.com/ribbybibby/${PN}"
-
-inherit golang-vcs-snapshot systemd user
+inherit systemd user
 
 DESCRIPTION="Exports Prometheus metrics for SSL certificates"
 HOMEPAGE="https://github.com/ribbybibby/ssl_exporter"
-SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/ribbybibby/ssl_exporter/releases/download/v${PV}/${PN}_${PV}_linux_amd64.tar.gz -> ${P}.tar.gz"
 RESTRICT="mirror"
 
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="pie"
+IUSE=""
 
 DOCS=( README.md )
 QA_PRESTRIPPED="usr/bin/ssl_exporter"
 
-G="${WORKDIR}/${P}"
-S="${G}/src/${EGO_PN}"
+#G="${WORKDIR}/${P}"
+S="${WORKDIR}"
 
 pkg_pretend() {
 	if [[ "${MERGE_TYPE}" != binary ]]; then
@@ -35,30 +32,6 @@ pkg_pretend() {
 pkg_setup() {
 	enewgroup ssl_exporter
 	enewuser ssl_exporter -1 -1 -1 ssl_exporter
-}
-
-src_compile() {
-	export GOPATH="${G}"
-	local PROMU="${EGO_PN}/vendor/github.com/prometheus/common/version"
-	local myldflags=( -s -w
-		-X "${PROMU}.Version=${PV}"
-		-X "${PROMU}.Revision=${GIT_COMMIT}"
-		-X "${PROMU}.Branch=non-git"
-		-X "${PROMU}.BuildUser=$(id -un)@$(hostname -f)"
-		-X "${PROMU}.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
-	)
-	local mygoargs=(
-		-v -work -x
-		"-buildmode=$(usex pie pie default)"
-		"-asmflags=all=-trimpath=${S}"
-		"-gcflags=all=-trimpath=${S}"
-		-ldflags -ldflags "${myldflags[*]}"
-	)
-	go build "${mygoargs[@]}" || die
-}
-
-src_test() {
-	go test -v ./... || die
 }
 
 src_install() {
