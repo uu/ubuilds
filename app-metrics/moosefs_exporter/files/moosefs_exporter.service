@@ -1,0 +1,11 @@
+[Unit]
+Description=MooseFS Exporter service
+After=network.target
+
+[Service]
+User=moosefs_exporter
+ExecStart=/usr/bin/moosefs_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>vbnet.ru@gmail.com</email>
+		<name>Michael Pirogov</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">uu/moosefs_exporter</remote-id>
+		<bugs-to>https://github.com/uu/moosefs_exporter/issues</bugs-to>
+	</upstream>
+</pkgmetadata>
