@@ -1,0 +1,17 @@
+#!/sbin/openrc-run
+
+command=/usr/bin/janus
+command_user="$JANUS_USER:$JANUS_GROUP"
+command_args="$JANUS_OPTS -L /var/log/janus.log"
+command_background=true
+pidfile=/run/janus.pid
+required_files="/etc/janus/janus.jcfg"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -f -o $JANUS_USER:$JANUS_GROUP -m644 /var/log/janus.log
+}
+
