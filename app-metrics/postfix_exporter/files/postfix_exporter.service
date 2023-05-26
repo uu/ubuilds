@@ -1,11 +1,11 @@
 [Unit]
-Description=Postfix Exporter service
-After=network.target
+Description=Postfix Exporter
 
 [Service]
-User=root
-ExecStart=/usr/bin/postfix_exporter
-ExecReload=/bin/kill -HUP $MAINPID
+User=postfix_exporter
+Group=postdrop
+EnvironmentFile=/etc/conf.d/postfix_exporter
+ExecStart=/usr/bin/postfix_exporter $command_args
 
 [Install]
 WantedBy=multi-user.target
