@@ -1,11 +1,17 @@
 [Unit]
-Description=Unbound Exporter service
-After=network.target
+Description=Prometheus unbound exporter
+Documentation=https://github.com/kumina/unbound_exporter
+After=network-online.target
 
 [Service]
-User=root
-ExecStart=/usr/bin/unbound_exporter
+EnvironmentFile=/etc/default/%p
+User=prometheus-exporter
+Restart=on-failure
+ExecStart=/usr/bin/%p $ARGS
 ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
 
 [Install]
 WantedBy=multi-user.target
+
