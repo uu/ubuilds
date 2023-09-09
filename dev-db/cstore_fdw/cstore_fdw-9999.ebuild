@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=7
 
 inherit git-r3
 
@@ -31,7 +31,7 @@ src_install() {
 	insinto ${pg_shared}/extension
 	doins ${PN}.control
 	doins ${PN}--1.3.sql
-	
-	dodoc README.md 
+
+	dodoc README.md
 }
 
