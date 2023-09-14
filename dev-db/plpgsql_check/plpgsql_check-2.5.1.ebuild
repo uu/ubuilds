@@ -2,10 +2,10 @@
 
 EAPI=7
 
-POSTGRES_COMPAT=( 12 13 14 15 )
+POSTGRES_COMPAT=( 12 13 14 15 16 )
 POSTGRES_USEDEP="server"
 
-inherit eutils postgres-multi
+inherit postgres-multi
 
 SLOT="0"
 
