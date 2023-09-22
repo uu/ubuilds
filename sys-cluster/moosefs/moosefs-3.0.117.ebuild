@@ -4,11 +4,11 @@
 
 EAPI=7
 
-inherit eutils autotools user
+inherit autotools user
 
 DESCRIPTION="A filesystem for highly reliable petabyte storage"
 HOMEPAGE="http://www.moosefs.org/"
-SRC_URI="http://ppa.moosefs.com/src/${PN}-${PV}-1.tar.gz"
+SRC_URI="http://ppa.moosefs.com/src/${P}-1.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
