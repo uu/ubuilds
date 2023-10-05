@@ -1,0 +1,11 @@
+[Unit]
+Description=Exim Exporter service
+After=network.target
+
+[Service]
+User=exim_exporter
+ExecStart=/usr/bin/exim_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
