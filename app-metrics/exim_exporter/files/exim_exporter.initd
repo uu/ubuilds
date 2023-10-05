@@ -5,7 +5,7 @@
 output_log="${output_log:-/dev/null}"
 error_log="${error_log:-${EXIM_EXPORTER_LOGDIR}/error.log}"
 
-name="${name:-HAProxy Exporter}"
+name="${name:-Exim Exporter}"
 command="/usr/bin/exim_exporter"
 command_args="${EXIM_EXPORTER_OPTS}"
 command_user="${command_user:-exim_exporter:exim_exporter}"
