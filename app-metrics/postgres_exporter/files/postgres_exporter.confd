@@ -1,9 +1,0 @@
-# config file for /etc/init.d/postgres_exporter
-# run /usr/bin/postgres_exporter -h to see available options
-
-POSTGRES_EXPORTER_LOG="/var/log/${RC_SVCNAME}"
-POSTGRES_EXPORTER_OPTS=""
-
-# Logging
-#output_log="${POSTGRES_EXPORTER_LOGDIR}/postgres_exporter.log"
-#error_log="${POSTGRES_EXPORTER_LOGDIR}/error.log"
