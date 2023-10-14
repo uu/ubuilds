@@ -19,10 +19,11 @@ fi
 LICENSE="GPL-2"
 SLOT="0"
 # Dependencies according to https://github.com/Icinga/icingaweb2-module-director/blob/master/doc/02-Installation.md
-IUSE="php_targets_php8-1"
+IUSE="php_targets_php8-1 php_targets_php8-2"
 
 PHP_DEPEND="
 	php_targets_php8-1? ( dev-lang/php:8.1[curl,iconv,pcntl,posix,sockets] )
+	php_targets_php8-2? ( dev-lang/php:8.2[curl,iconv,pcntl,posix,sockets] )
 "
 DEPEND="
 	acct-group/icingaweb2
