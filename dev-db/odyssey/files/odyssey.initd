@@ -1,39 +1,12 @@
 #!/sbin/openrc-run
+# Copyright 1999-2021 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+command="/usr/bin/odyssey"
+pidfile="/run/${RC_SVCNAME}.pid"
+command_args="${CONFIG}"
+name="Odyssey"
 
 depend() {
-    use net
-    after postgresql
-}
-
-get_config() {
-    [ -f "${CONFFILE}" ] || eend 1 "'${CONFFILE}' not found"
-}
-
-start() {
-    ebegin "Starting Odyssey"
-    get_config
-    local ret=$?
-    if [ $ret -ne 0 ] ; then
-        eend $ret
-        exit $ret
-    fi
-    start-stop-daemon --start \
-        --pidfile ${PIDFILE} \
-        --user odyssey -b -m \
-        --exec /usr/bin/odyssey -- "${CONFFILE}"
-    eend $?
-}
-
-stop() {
-    ebegin "Stopping Odyssey"
-    # Loops through nice and force quit in one go.
-    start-stop-daemon --stop \
-        --pidfile ${PIDFILE} 
-    eend $?
-}
-
-reload() {
-    ebegin "Reloading Odyssey configuration from '${CONFFILE}'"
-    start-stop-daemon --signal HUP --pidfile ${PIDFILE}
-    eend $?
+	need net
 }

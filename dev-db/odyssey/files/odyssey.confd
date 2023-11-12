@@ -1,3 +1,4 @@
-# Location of configuration file for Odyssey.
-CONFFILE="/etc/odyssey/odyssey.conf"
-PIDFILE="/var/run/odyssey.pid"
+# Config file for /etc/init.d/odyssey
+
+# Various options.
+CONFIG="/etc/odyssey/odyssey.conf"
