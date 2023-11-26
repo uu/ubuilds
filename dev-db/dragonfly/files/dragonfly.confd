@@ -1,0 +1,4 @@
+DRAGONFLY_PID="/run/dragonfly.pid"
+# Dragonfly options.
+# You have to set something. See dragonfly --help
+DRAGONFLY_OPTS="--pidfile ${DRAGONFLY_PID}"

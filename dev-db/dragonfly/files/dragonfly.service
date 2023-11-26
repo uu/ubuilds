@@ -1,0 +1,12 @@
+[Unit]
+Description=A persistent key-value database
+After=syslog.target network.target
+
+[Service]
+Type=simple
+PIDFile=/run/dragonfly.pid
+ExecStart=/usr/bin/dragonfly
+
+[Install]
+WantedBy=multi-user.target
+
