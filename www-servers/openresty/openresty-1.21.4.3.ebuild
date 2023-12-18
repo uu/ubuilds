@@ -13,7 +13,7 @@ KEYWORDS="amd64 x86"
 
 DEPEND="!www-servers/nginx
 dev-libs/libpcre[jit]
->=dev-lang/luajit-2.1.0_beta3_p20220411
+>=dev-lang/luajit-2.1.0_beta3_p20220127-r2
 virtual/libcrypt"
 RDEPEND="${DEPEND}"
 BDEPEND=""
