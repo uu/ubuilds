@@ -7,7 +7,7 @@ PHP_EXT_INI="yes"
 PHP_EXT_ZENDEXT="no"
 DOCS=( README.md )
 
-USE_PHP="php7-3 php7-4 php8-0"
+USE_PHP="php8-1 php8-2 php8-3"
 
 inherit php-ext-source-r3 git-r3
 
