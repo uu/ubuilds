@@ -3,32 +3,21 @@
 # $Header: $
 
 EAPI=7
-inherit eutils git-r3
+#inherit eutils
 DESCRIPTION="Distributed banning system for fail2ban"
 HOMEPAGE="https://github.com/uu/bango"
-SRC_URI="https://github.com/uu/bango/archive/v${PV}.tar.gz"
-#EGIT_REPO_URI="https://github.com/uu/bango.git"
-#EGIT_COMMIT="65d73d9b2addc9e3b2877f04f24ef574d81ed7b3"
+SRC_URI="https://github.com/uu/bango/releases/download/v${PV}/bango-v${PV}.tar.gz"
 LICENSE="WTFPL-2"
 SLOT="0"
-KEYWORDS="x86 amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
+QA_PRESTRIPPED="usr/bin/${PN}"
 
-DEPEND="
-		net-analyzer/fail2ban 
-		dev-lang/go"
+DEPEND="net-analyzer/fail2ban"
 RDEPEND="${DEPEND}"
-
-src_compile(){
-	export GOPATH=${WORKDIR}
-
-	ebegin "getting code"
-	go get -d || die 'could not get'
-	eend $?
-	ebegin "building code"
-	go build -o ${PN} || die 'could not build'
-	eend $?
-}
+MY_V="v${PV}"
+#WORKDIR="${S}/${MY_V}"
+S="${WORKDIR}/${PN}-${MY_V}"
 
 src_install() {
 	insinto /usr/bin

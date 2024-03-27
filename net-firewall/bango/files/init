@@ -10,7 +10,6 @@ start() {
 }
 
 stop() {
-
 	ebegin "Stopping ${SVCNAME}"
 	start-stop-daemon --stop --exec "/usr/bin/bango" \
 	    --pidfile "/var/run/bango.pid" --quiet

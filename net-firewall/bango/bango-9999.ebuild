@@ -3,7 +3,7 @@
 # $Header: $
 
 EAPI=7
-inherit git-r3 eutils
+inherit git-r3
 DESCRIPTION="Distributed banning system for fail2ban"
 HOMEPAGE="https://github.com/uu/bango"
 SRC_URI=""
@@ -14,8 +14,7 @@ SLOT="0"
 KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-DEPEND="
-		net-analyzer/fail2ban 
+DEPEND="net-analyzer/fail2ban
 		dev-lang/go"
 RDEPEND="${DEPEND}"
 
