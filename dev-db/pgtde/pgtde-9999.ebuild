@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=7
 
 inherit git-r3
 
@@ -10,7 +10,7 @@ DESCRIPTION="Transparent Data Encryption for PostgreSQL"
 HOMEPAGE="https://github.com/nec-postgres/tdeforpg"
 SRC_URI=""
 EGIT_REPO_URI="https://github.com/snaga/tdeforpg.git"
-EGIT_BRANCH="benchmark"
+#EGIT_BRANCH="benchmark"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -34,7 +34,6 @@ src_install() {
 	insinto ${pg_shared}/extension
 	doins SOURCES/data_encryption/data_encryption.control
 	doins SOURCES/data_encryption/data_encryption--0.1.sql
-	
 	newbin SOURCES/bin/cipher_key_regist.sh pg_tde_key.sh
 
 	dodoc README SOURCES/COPYRIGHT SOURCES/INSTALL-NOTE.TXT
