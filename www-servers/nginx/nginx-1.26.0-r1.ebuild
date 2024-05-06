@@ -42,9 +42,10 @@ HTTP_HEADERS_MORE_MODULE_URI="https://github.com/openresty/headers-more-nginx-mo
 HTTP_HEADERS_MORE_MODULE_WD="${WORKDIR}/headers-more-nginx-module-${HTTP_HEADERS_MORE_MODULE_PV}"
 
 # http_cache_purge (http://labs.frickle.com/nginx_ngx_cache_purge/, https://github.com/FRiCKLE/ngx_cache_purge, BSD-2 license)
-HTTP_CACHE_PURGE_MODULE_PV="2.3"
+HTTP_CACHE_PURGE_MODULE_PV="2.5.3"
 HTTP_CACHE_PURGE_MODULE_P="ngx_http_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}"
-HTTP_CACHE_PURGE_MODULE_URI="http://labs.frickle.com/files/ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
+#HTTP_CACHE_PURGE_MODULE_URI="http://labs.frickle.com/files/ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
+HTTP_CACHE_PURGE_MODULE_URI="https://github.com/nginx-modules/ngx_cache_purge/archive/refs/tags/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="${WORKDIR}/ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}"
 
 # http_slowfs_cache (http://labs.frickle.com/nginx_ngx_slowfs_cache/, BSD-2 license)
@@ -453,11 +454,11 @@ src_prepare() {
 		eapply -p0 "${FILESDIR}"/http_upstream_check-nginx-1.11.5+.patch
 	fi
 
-	if use nginx_modules_http_cache_purge; then
-		cd "${HTTP_CACHE_PURGE_MODULE_WD}" || die
-		eapply "${FILESDIR}"/http_cache_purge-1.11.6+.patch
-		cd "${S}" || die
-	fi
+#	if use nginx_modules_http_cache_purge; then
+#		cd "${HTTP_CACHE_PURGE_MODULE_WD}" || die
+#		eapply "${FILESDIR}"/http_cache_purge-1.11.6+.patch
+#		cd "${S}" || die
+#	fi
 
 	if use nginx_modules_http_upload_progress; then
 		cd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" || die
@@ -804,7 +805,7 @@ src_install() {
 
 	if use nginx_modules_http_cache_purge; then
 		docinto ${HTTP_CACHE_PURGE_MODULE_P}
-		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md,TODO.md}
+		dodoc "${HTTP_CACHE_PURGE_MODULE_WD}"/{CHANGES,README.md}
 	fi
 
 	if use nginx_modules_http_slowfs_cache; then
