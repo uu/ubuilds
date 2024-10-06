@@ -167,7 +167,7 @@ GEOIP2_MODULE_URI="https://github.com/leev/ngx_http_geoip2_module/archive/${GEOI
 GEOIP2_MODULE_WD="${WORKDIR}/ngx_http_geoip2_module-${GEOIP2_MODULE_PV}"
 
 # njs-module (https://github.com/nginx/njs, as-is)
-NJS_MODULE_PV="0.8.4"
+NJS_MODULE_PV="0.8.5"
 NJS_MODULE_P="njs-${NJS_MODULE_PV}"
 NJS_MODULE_URI="https://github.com/nginx/njs/archive/${NJS_MODULE_PV}.tar.gz"
 NJS_MODULE_WD="${WORKDIR}/njs-${NJS_MODULE_PV}"
@@ -472,6 +472,12 @@ src_prepare() {
 		cd "${S}" || die
 	fi
 
+	if use nginx_modules_http_security ; then
+		cd "${HTTP_SECURITY_MODULE_WD}" || die
+		eapply "${FILESDIR}/http_security-nginx-1.26.2.patch"
+		cd "${S}" || die
+	fi
+
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):' || die
 	# We have config protection, don't rename etc files
 	sed -i 's:.default::' auto/install || die
@@ -650,7 +656,6 @@ src_configure() {
 
 	if use nginx_modules_http_vod; then
 		http_enabled=1
-		export HTTP_POSTPONE=no
 		myconf+=( --add-module=${HTTP_VOD_MODULE_WD} )
 	fi
 
