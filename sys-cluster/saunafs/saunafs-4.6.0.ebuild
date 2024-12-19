@@ -14,8 +14,8 @@ SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE="cgi +fuse -devel"
 RDEPEND="
-	acct-user/odyssey
-	acct-group/odyssey
+	acct-user/saunafs
+	acct-group/saunafs
 	!sys-cluster/moosefs
 	dev-libs/judy
 	dev-libs/spdlog
