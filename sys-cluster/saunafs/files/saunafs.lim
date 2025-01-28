@@ -1,0 +1,2 @@
+mfs soft nofile 35000
+mfs hard nofile 35000
