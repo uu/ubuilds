@@ -63,6 +63,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-5.0.7_configure-no-hyperscan-automagic.patch"
 	"${FILESDIR}/${PN}-6.0.0_default-config.patch"
 	"${FILESDIR}/${PN}-7.0.2_configure-no-sphinx-pdflatex-automagic.patch"
+	"${FILESDIR}/${PN}-7.0.8_configure-fortify_source.patch"
 )
 
 pkg_pretend() {
