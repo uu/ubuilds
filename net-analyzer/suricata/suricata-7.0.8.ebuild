@@ -55,7 +55,7 @@ RDEPEND="${PYTHON_DEPS}
 	redis?      ( dev-libs/hiredis:= )"
 DEPEND="${RDEPEND}
 	>=dev-build/autoconf-2.69-r5
-	virtual/rust"
+	dev-lang/rust-bin"
 BDEPEND="verify-sig? ( >=sec-keys/openpgp-keys-oisf-20200807 )"
 
 PATCHES=(
