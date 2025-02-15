@@ -8,14 +8,15 @@ inherit autotools user
 
 DESCRIPTION="A filesystem for highly reliable petabyte storage"
 HOMEPAGE="http://www.moosefs.org/"
+GIT_COMMIT="f3b279ed833edea87586b378d429f9e81d1e9a24"
 #SRC_URI="https://github.com/moosefs/moosefs/archive/refs/tags/v${PV}.tar.gz"
-SRC_URI="https://github.com/moosefs/moosefs/archive/fd3c92a26c1e85982ae413de478dd8024a6b1715.zip"
+SRC_URI="https://github.com/moosefs/moosefs/archive/${GIT_COMMIT}.zip"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="cgi +fuse static-libs systemd"
-S=${WORKDIR}/moosefs-fd3c92a26c1e85982ae413de478dd8024a6b1715
+S=${WORKDIR}/moosefs-${GIT_COMMIT}
 
 RDEPEND="
 	cgi? ( dev-lang/python )
