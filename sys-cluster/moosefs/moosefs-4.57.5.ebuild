@@ -8,7 +8,7 @@ inherit autotools user
 
 DESCRIPTION="A filesystem for highly reliable petabyte storage"
 HOMEPAGE="http://www.moosefs.org/"
-GIT_COMMIT="7feb6eb1b8e14747ac9d36fb4c0aea035e1b85ac"
+GIT_COMMIT="3e565bcf3c13ac17423ef351cbb4ec6f885c704a"
 #SRC_URI="https://github.com/moosefs/moosefs/archive/refs/tags/v${PV}.tar.gz"
 SRC_URI="https://github.com/moosefs/moosefs/archive/${GIT_COMMIT}.zip"
 
