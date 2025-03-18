@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -41,10 +41,9 @@ HTTP_HEADERS_MORE_MODULE_P="ngx_http_headers_more-${HTTP_HEADERS_MORE_MODULE_PV}
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/openresty/headers-more-nginx-module/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="${WORKDIR}/headers-more-nginx-module-${HTTP_HEADERS_MORE_MODULE_PV}"
 
-# http_cache_purge (http://labs.frickle.com/nginx_ngx_cache_purge/, https://github.com/FRiCKLE/ngx_cache_purge, BSD-2 license)
+# http_cache_purge (https://github.com/nginx-modules/ngx_cache_purge, BSD-2 license)
 HTTP_CACHE_PURGE_MODULE_PV="2.5.3"
 HTTP_CACHE_PURGE_MODULE_P="ngx_http_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}"
-#HTTP_CACHE_PURGE_MODULE_URI="http://labs.frickle.com/files/ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_URI="https://github.com/nginx-modules/ngx_cache_purge/archive/refs/tags/${HTTP_CACHE_PURGE_MODULE_PV}.tar.gz"
 HTTP_CACHE_PURGE_MODULE_WD="${WORKDIR}/ngx_cache_purge-${HTTP_CACHE_PURGE_MODULE_PV}"
 
@@ -167,7 +166,7 @@ GEOIP2_MODULE_URI="https://github.com/leev/ngx_http_geoip2_module/archive/${GEOI
 GEOIP2_MODULE_WD="${WORKDIR}/ngx_http_geoip2_module-${GEOIP2_MODULE_PV}"
 
 # njs-module (https://github.com/nginx/njs, as-is)
-NJS_MODULE_PV="0.8.5"
+NJS_MODULE_PV="0.8.9"
 NJS_MODULE_P="njs-${NJS_MODULE_PV}"
 NJS_MODULE_URI="https://github.com/nginx/njs/archive/${NJS_MODULE_PV}.tar.gz"
 NJS_MODULE_WD="${WORKDIR}/njs-${NJS_MODULE_PV}"
@@ -228,8 +227,6 @@ LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 SLOT="mainline"
 KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc ~ppc64 ~riscv ~x86 ~amd64-linux ~x86-linux"
 
-RESTRICT="!test? ( test )"
-
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
 	fastcgi geo grpc gzip limit_req limit_conn map memcached mirror
 	proxy referer rewrite scgi ssi split_clients upstream_hash
@@ -270,6 +267,8 @@ NGINX_MODULES_3RD="
 	stream_geoip2
 	stream_javascript
 "
+
+RESTRICT="!test? ( test )"
 
 IUSE="aio debug +http +http2 http3 +http-cache ktls libatomic pcre +pcre2 pcre-jit rtmp selinux ssl test threads vim-syntax"
 
@@ -335,7 +334,7 @@ CDEPEND="
 	nginx_modules_http_auth_pam? ( sys-libs/pam )
 	nginx_modules_http_metrics? ( dev-libs/yajl:= )
 	nginx_modules_http_dav_ext? ( dev-libs/libxml2 )
-	nginx_modules_http_security? ( dev-libs/modsecurity )
+	nginx_modules_http_security? ( dev-libs/modsecurity:= )
 	nginx_modules_http_auth_ldap? ( net-nds/openldap:=[ssl?] )
 	nginx_modules_http_vod? ( media-video/ffmpeg:0= )
 	nginx_modules_stream_geoip? ( dev-libs/geoip )
@@ -453,12 +452,6 @@ src_prepare() {
 	if use nginx_modules_http_upstream_check; then
 		eapply -p0 "${FILESDIR}"/http_upstream_check-nginx-1.11.5+.patch
 	fi
-
-#	if use nginx_modules_http_cache_purge; then
-#		cd "${HTTP_CACHE_PURGE_MODULE_WD}" || die
-#		eapply "${FILESDIR}"/http_cache_purge-1.11.6+.patch
-#		cd "${S}" || die
-#	fi
 
 	if use nginx_modules_http_upload_progress; then
 		cd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" || die
@@ -728,7 +721,7 @@ src_configure() {
 		--prefix="${EPREFIX}"/usr \
 		--conf-path="${EPREFIX}"/etc/${PN}/${PN}.conf \
 		--error-log-path="${EPREFIX}"/var/log/${PN}/error_log \
-		--pid-path="${EPREFIX}"/run/${PN}.pid \
+		--pid-path="${EPREFIX}"/run/${PN}/${PN}.pid \
 		--lock-path="${EPREFIX}"/run/lock/${PN}.lock \
 		--with-cc-opt="-I${ESYSROOT}/usr/include" \
 		--with-ld-opt="-L${ESYSROOT}/usr/$(get_libdir)" \
