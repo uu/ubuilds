@@ -39,7 +39,7 @@ IUSE="${IUSE} acl apparmor argon2 avif bcmath berkdb bzip2 calendar
 	qdbm readline selinux +session session-mm sharedmem
 	+simplexml snmp soap sockets sodium spell sqlite ssl
 	sysvipc systemd test tidy +tokenizer tokyocabinet truetype unicode
-	valgrind webp +xml xmlreader xmlwriter xpm xslt zip zlib"
+	valgrind webp +xml xmlreader xmlwriter xpm xslt zip zlib zend-max-execution-timers"
 
 # Without USE=readline or libedit, the interactive "php -a" CLI will hang.
 REQUIRED_USE="
@@ -355,6 +355,7 @@ src_configure() {
 		$(use_with zip)
 		$(use_with zlib zlib "${EPREFIX}/usr")
 		$(use_enable debug)
+		$(use_enable zend-max-execution-timers)
 		$(use_with valgrind)
 	)
 
