@@ -1,2 +1,2 @@
-mfs soft nofile 35000
-mfs hard nofile 35000
+saunafs soft nofile 35000
+saunafs hard nofile 35000

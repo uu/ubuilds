@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Foundation
+# Copyright 1999-2025 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: 
 
@@ -14,41 +14,45 @@ SRC_URI="https://github.com/leil-io/saunafs/archive/refs/tags/v${MY_PV}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="x86 amd64"
-IUSE="cgi +fuse -devel"
+IUSE="cgi"
 RDEPEND="
 	acct-user/saunafs
 	acct-group/saunafs
 	!sys-cluster/moosefs
+	!sys-cluster/lizardfs
 	dev-libs/judy
 	dev-libs/spdlog
 	app-text/asciidoc
 	dev-libs/jemalloc
 	dev-libs/thrift
 	dev-cpp/prometheus-cpp
-	fuse? ( >=sys-fs/fuse-3.16 )
+	>=sys-fs/fuse-3.16
 	dev-libs/isa-l
 	>=sys-devel/gcc-14.0.0"
 DEPEND="${RDEPEND}"
 
+
 src_configure() {
-	local mycmakeargs=(
-		-DCMAKE_BUILD_TYPE=Release
+	cd $BUILD_DIR
+	# Ugly. gentoo's cmake_src_configure breaks linkage
+	local mycmakeargs="
 		-DENABLE_TESTS=NO
-		-DENABLE_WERROR=ON
-		-DENABLE_CCACHE=OFF
+		-DENABLE_WERROR=YES
+		-DENABLE_CCACHE=NO
 		-DENABLE_DOCS=YES
-		-DENABLE_JEMALLOC=YES
-		-DENABLE_POLONAISE=OFF
-		-DENABLE_UTILS=ON
+		-DENABLE_JEMALLOC=NO
+		-DENABLE_POLONAISE=NO
+		-DENABLE_UTILS=YES
 		-DTHROW_INSTEAD_OF_ABORT=YES
 		-DCMAKE_INSTALL_PREFIX=/
 		-Wno-dev
-	)
+	"
+	cmake -G Ninja ../${P} $mycmakeargs
+}
 
-if use devel; then
-  mycmakeargs+=( -DENABLE_CLIENT_LIB=YES )
-fi
-cmake_src_configure
+src_compile() {
+	cd $BUILD_DIR
+	cmake_src_compile
 }
 
 src_install() {
@@ -62,22 +66,8 @@ src_install() {
 	fi
 
 	diropts -m0750 -o saunafs -g saunafs
-	dolib.so "${BUILD_DIR}"/src/slogger/libslogger.so
-	dolib.so "${BUILD_DIR}"/src/errors/libsfserr.so
-	dolib.so "${BUILD_DIR}"/src/common/libsfscommon.so
-	dolib.so "${BUILD_DIR}"/src/metarestore/libmetarestore.so
-	dolib.so "${BUILD_DIR}"/src/admin/libsaunafs-admin-lib.so
-	#dolib.so "${BUILD_DIR}"/src/mount/libmount.so
-	dolib.so "${BUILD_DIR}"/external/libcrcutil.so
-	dolib.so "${BUILD_DIR}"/src/chunkserver/libchunkserver.so
-	dolib.so "${BUILD_DIR}"/src/protocol/libsafsprotocol.so
-	dolib.so "${BUILD_DIR}"/src/chunkserver/chunkserver-common/libchunkserver-common.so
-	dolib.so "${BUILD_DIR}"/src/metrics/libmetrics.so
-	dolib.so "${BUILD_DIR}"/src/master/libmaster.so
-	dolib.so "${BUILD_DIR}"/src/metalogger/libmetalogger.so
-	dodir "/var/lib/saunafs"
-	keepdir "/var/lib/saunafs"
+	dodir "/var/lib/saunafs" "/etc/saunafs"
+	keepdir "/var/lib/saunafs" "/etc/saunafs"
 	chown -R saunafs:saunafs "${D}/var/lib/saunafs" || die
 	chmod 750 "${D}/var/lib/saunafs" || die
 }
-

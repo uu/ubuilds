@@ -14,7 +14,7 @@ chkconfig() {
 		[ ${FAILOVER} -ne 1 ] && { eerror "Autorestore must be enabled !"; return 1;}
 	fi
 	for ROLE in ${ROLES}; do
-		if [ ! -f /etc/mfs/${ROLE}.cfg ]; then
+		if [ ! -f /etc/sfs/${ROLE}.cfg ]; then
 			eerror "Missing configuration file for role ${ROLE} !"
 			return 1
 		fi
@@ -24,7 +24,7 @@ chkconfig() {
 
 autorestore() {
 	einfo "AUTORESTORE set, trying to restore metadata files"
-	mfsmetarestore -a &>/dev/null
+	sfsmetarestore -a &>/dev/null
 	return $?
 }
 
@@ -49,7 +49,7 @@ start_roles() {
 		start_role ${ROLE} || RETURN=$?
 		eend ${RETURN}
 
-		if [ "${RETURN}" != "0" ] && [ "${ROLE}" == "mfsmaster" ] && [ ${AUTORESTORE} -eq 1 ]; then
+		if [ "${RETURN}" != "0" ] && [ "${ROLE}" == "sfsmaster" ] && [ ${AUTORESTORE} -eq 1 ]; then
 			eindent
 			autorestore && start_role ${ROLE}
 			RETURN=$?
@@ -64,7 +64,7 @@ start_roles() {
 }
 
 start() {
-	ebegin "Starting mfs node"
+	ebegin "Starting sfs node"
 	chkconfig && start_roles
 	eend $?
 }
@@ -72,7 +72,7 @@ start() {
 stop() {
 	local RETURN=0
 
-	ebegin "Stopping mfs node"
+	ebegin "Stopping sfs node"
 	eindent
 	local REVERSE=$(echo ${ROLES} | tac -s' ')
 	for ROLE in ${REVERSE}; do
@@ -91,7 +91,7 @@ failover() {
 		then
 		ip addr add ${FAILOVER_IP}'/32' dev ${IFACE}
 		fi
-		start-stop-daemon -q --stop -n mfsmetalogger || RETURN=$?
-		autorestore && start_role mfsmaster
+		start-stop-daemon -q --stop -n sfsmetalogger || RETURN=$?
+		autorestore && start_role sfsmaster
 		eend $?
 }

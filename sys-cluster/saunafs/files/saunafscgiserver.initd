@@ -1,21 +1,21 @@
 #!/sbin/openrc-run
 
-PIDFILE=/var/run/mfscgiserv.pid
+PIDFILE=/var/run/sfscgiserv.pid
 
 depend() {
 	need net
 }
 
 start() {
-	ebegin "Starting mfs CGI server"
-	start-stop-daemon --start --quiet --exec /usr/sbin/mfscgiserv \
+	ebegin "Starting sfs CGI server"
+	start-stop-daemon --start --quiet --exec /usr/sbin/sfscgiserv \
 	--pidfile "${PIDFILE}" --make-pidfile --background \
 	-- -H ${BIND_HOST} -P ${BIND_PORT} -f
 	eend $?
 }
 
 stop() {
-	ebegin "Stopping mfs CGI server"
+	ebegin "Stopping sfs CGI server"
 	start-stop-daemon --stop -q --pidfile "${PIDFILE}"
 	eend $?
 }
