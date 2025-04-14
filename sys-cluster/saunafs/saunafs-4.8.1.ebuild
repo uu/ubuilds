@@ -26,6 +26,7 @@ RDEPEND="
 	dev-libs/jemalloc
 	dev-libs/thrift
 	dev-cpp/prometheus-cpp
+	dev-cpp/yaml-cpp
 	>=sys-fs/fuse-3.16
 	dev-libs/isa-l
 	>=sys-devel/gcc-14.0.0"
