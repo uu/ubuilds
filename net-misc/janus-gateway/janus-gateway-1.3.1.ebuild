@@ -22,6 +22,7 @@ media-libs/opus
 media-libs/libogg
 dev-libs/nanomsg
 net-libs/libwebsockets[libuv,lejp]
+net-libs/nodejs[npm]
 net-libs/rabbitmq-c
 net-libs/usrsctp
 net-libs/libsrtp:2
@@ -32,10 +33,6 @@ IUSE="static"
 RESTRICT="network-sandbox"
 
 src_prepare() {
-	if has network-sandbox ${FEATURES}; then
-		eerror "emerge with FEATURES=-network-sandbox"       
-		die
-    fi
 	eautoreconf
 	eapply_user
 }
