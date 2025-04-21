@@ -13,7 +13,9 @@ LICENSE="GPL-3.0-only"
 SLOT="0"
 KEYWORDS="amd64"
 
-DEPEND="dev-libs/jansson
+DEPEND="acct-user/janus
+acct-group/janus
+dev-libs/jansson
 dev-libs/libconfig
 net-libs/libnice
 net-libs/libmicrohttpd
