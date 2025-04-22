@@ -4,7 +4,7 @@
 
 EAPI=7
 
-inherit multilib eutils
+inherit multilib
 
 DESCRIPTION="Nagios check script for GLSAs (Gentoo Linux Security Advisories)"
 HOMEPAGE="https://github.com/craig/check_glsa2"
@@ -25,6 +25,7 @@ DEPEND=""
 src_prepare() {
 	sed -i -e '/CACHEDIR=/s:=.*:=/var/cache/check_glsa2:' ${MY_PN}_cached.sh || die
 	epatch "${FILESDIR}"/warning.patch
+	eapply_user
 }
 
 src_install() {
