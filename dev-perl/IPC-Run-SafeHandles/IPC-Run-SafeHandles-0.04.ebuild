@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-perl/dbix-searchbuilder/dbix-searchbuilder-1.56.ebuild,v 1.7 2009/10/28 17:57:27 armin76 Exp $
 
-EAPI=5
+EAPI=8
 MODULE_AUTHOR=CLKAO
 MY_PN=IPC-Run-SafeHandles
 MY_P=${MY_PN}-${PV}
