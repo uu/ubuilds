@@ -1,0 +1,6 @@
+# config file for /etc/init.d/janus_exporter
+# run /usr/bin/janus_exporter -h to see available options
+
+JANUSED_LOGDIR="/var/log/${RC_SVCNAME}"
+JANUSED_OPTS=""
+

@@ -1,0 +1,22 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+output_log="${output_log:-/dev/null}"
+error_log="${error_log:-${BEANSTALKD_LOGDIR}/error.log}"
+
+name="${name:-Janus Exporter}"
+command="/usr/bin/janus_exporter"
+command_args="${BEANSTALKD_OPTS}"
+command_user="${command_user:-janus_exporter:janus_exporter}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o "${command_user}" "${JANUSED_LOGDIR}"
+}

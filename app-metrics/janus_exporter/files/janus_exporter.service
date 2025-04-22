@@ -1,0 +1,11 @@
+[Unit]
+Description=Janus Exporter service
+After=network.target
+
+[Service]
+User=janus_exporter
+ExecStart=/usr/bin/janus_exporter
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
