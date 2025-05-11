@@ -4,7 +4,7 @@
 EAPI=8
 
 LUA_COMPAT=( lua5-1 luajit )
-PYTHON_COMPAT=( python3_{10..12} )
+PYTHON_COMPAT=( python3_{10..14} )
 
 inherit autotools flag-o-matic linux-info lua-single python-single-r1 systemd tmpfiles verify-sig
 
@@ -39,7 +39,7 @@ RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep '
 		dev-python/pyyaml[${PYTHON_USEDEP}]
 	')
-	>=net-libs/libhtp-0.5.49
+	>=net-libs/libhtp-0.5.50
 	net-libs/libpcap
 	sys-apps/file
 	sys-libs/libcap-ng
