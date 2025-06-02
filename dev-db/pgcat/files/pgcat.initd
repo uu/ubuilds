@@ -1,0 +1,42 @@
+#!/sbin/openrc-run
+
+extra_started_commands="reload"
+
+depend() {
+    use net
+    after postgresql
+}
+
+start() {
+    ebegin "Starting PgCat"
+    [ -f ${PIDFILE} ] && rm ${PIDFILE}
+
+    start-stop-daemon --start \
+                      --pidfile ${PIDFILE} \
+                      --background \
+                      --make-pidfile \
+                      --user pgcat:postgres \
+                      --exec /usr/bin/pgcat \
+                      -- "${CONFFILE}"
+    eend $?
+}
+
+stop() {
+    local seconds=$(( ${NICE_TIMEOUT} + ${FORCE_QUIT_TIMEOUT} ))
+    ebegin "Stopping PgCat (this can take up to ${seconds} seconds)"
+
+    local retries=SIGINT/${NICE_TIMEOUT}
+
+    if [ "${FORCE_QUIT}" = "YES" ] ; then
+        einfo "FORCE_QUIT enabled."
+        retries="${retries}/SIGTERM/${FORCE_QUIT_TIMEOUT}"
+    fi
+
+    # Loops through nice and force quit in one go.
+    start-stop-daemon --stop \
+                      --user pgcat:postgres \
+                      --pidfile ${PIDFILE} \
+                      --retry ${retries}
+
+    eend $?
+}
