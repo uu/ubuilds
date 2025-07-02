@@ -14,7 +14,7 @@ SRC_URI="https://github.com/moosefs/moosefs/archive/refs/tags/v${PV}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="cgi +fuse static-libs systemd"
+IUSE="cgi gui +fuse static-libs systemd"
 
 RDEPEND="
 	cgi? ( dev-lang/python )
@@ -41,6 +41,7 @@ src_configure() {
 		--sysconfdir=/etc \
 		--with-default-user=mfs \
 		--with-default-group=mfs \
+		$(use_enable gui mfsgui) \
 		$(use_enable cgi mfscgi) \
 		$(use_enable cgi mfscgiserv) \
 		$(use_enable static-libs static) \
