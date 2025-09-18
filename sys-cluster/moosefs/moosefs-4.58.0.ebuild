@@ -43,7 +43,6 @@ src_configure() {
 		--with-default-group=mfs \
 		$(use_enable gui mfsgui) \
 		$(use_enable cgi mfscgi) \
-		$(use_enable cgi mfscgiserv) \
 		$(use_enable static-libs static) \
 		${myopts}
 }
@@ -54,8 +53,8 @@ src_install() {
 	newinitd "${FILESDIR}/mfs.initd" mfs
 	newconfd "${FILESDIR}/mfs.confd" mfs
 	if use cgi; then
-		newinitd "${FILESDIR}/mfscgiserver.initd" mfscgiserver
-		newconfd "${FILESDIR}/mfscgiserver.confd" mfscgiserver
+    	newinitd "${FILESDIR}/mfscgiserver.initd" mfscgiserver
+    	newconfd "${FILESDIR}/mfscgiserver.confd" mfscgiserver
 	fi
 
 	chown -R mfs:mfs "${D}/var/lib/mfs" || die
