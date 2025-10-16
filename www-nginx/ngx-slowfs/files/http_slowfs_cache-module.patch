@@ -1,0 +1,25 @@
+From d011a18b51071527472cdc21c58a9b938cab2d5c Mon Sep 17 00:00:00 2001
+From: Vu Tran <baysao@users.noreply.github.com>
+Date: Sat, 13 Jan 2018 21:22:29 +0700
+Subject: [PATCH] support dynamic module
+
+---
+ config | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/config b/config
+index 983440d..df68eee 100644
+--- a/config
++++ b/config
+@@ -1,3 +1,11 @@
+ ngx_addon_name=ngx_http_slowfs_module
++if test -n "$ngx_module_link"; then
++    ngx_module_type=HTTP
++    ngx_module_name=ngx_http_slowfs_module
++    ngx_module_srcs="$ngx_addon_dir/ngx_http_slowfs_module.c"
++    . auto/module
++else
++
+ HTTP_MODULES="$HTTP_MODULES ngx_http_slowfs_module"
+ NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/ngx_http_slowfs_module.c"
++fi
