@@ -1,8 +1,8 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2025 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=7
+EAPI=8
 #inherit eutils
 DESCRIPTION="Distributed banning system for fail2ban"
 HOMEPAGE="https://github.com/uu/bango"

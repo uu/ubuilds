@@ -11,7 +11,7 @@ EGIT_REPO_URI="https://github.com/uu/bango.git"
 
 LICENSE="WTFPL-2"
 SLOT="0"
-KEYWORDS="~x86 ~amd64"
+KEYWORDS="-*"
 IUSE=""
 
 DEPEND="net-analyzer/fail2ban
