@@ -5,7 +5,7 @@ EAPI=8
 
 WANT_AUTOMAKE="none"
 PHP_EXT_NAME="mailparse"
-USE_PHP="php8-1 php8-2 php8-3 php8-4"
+USE_PHP="php8-1 php8-2 php8-3 php8-4 php8-5"
 PHP_EXT_NEEDED_USE="unicode(-)"
 DOCS=( README.md )
 
