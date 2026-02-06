@@ -1,0 +1,10 @@
+--- A/configure.ac	2025-06-17 02:20:35.123997216 +0200
++++ B/configure.ac	2025-06-17 02:23:12.456392345 +0200
+@@ -1284,6 +1284,7 @@
+             AC_COMPILE_IFELSE(
+                 [AC_LANG_PROGRAM(
+                     [
++                    #include <sys/types.h>
+                     #include <pfring.h>
+                     ],
+                     [
