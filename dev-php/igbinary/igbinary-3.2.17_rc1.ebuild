@@ -7,13 +7,14 @@ PHP_EXT_ECONF_ARGS=( --enable-${PN} )
 PHP_EXT_INI="yes"
 PHP_EXT_NAME="${PN}"
 PHP_EXT_ZENDEXT="no"
-USE_PHP="php8-1 php8-2 php8-3 php8-4"
+USE_PHP="php8-1 php8-2 php8-3 php8-4 php8-5"
 
+S="$WORKDIR/${PN}-3.2.17RC1"
 inherit php-ext-source-r3
 
 DESCRIPTION="A fast drop-in replacement for the standard PHP serialize"
 HOMEPAGE="https://github.com/igbinary/igbinary"
-SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/${PN}/${PN}/archive/3.2.17RC1.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
