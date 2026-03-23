@@ -1,11 +1,11 @@
-# Copyright 1999-2025 Gentoo Authors
+# Copyright 1999-2026 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=8
+EAPI=9
 
-
-NGINX_MOD_S="${WORKDIR}/mod_zip-${PV}"
 inherit nginx-module
+
+S="${WORKDIR}/mod_zip-${PV}"
 
 DESCRIPTION="Streaming ZIP archiver for nginx"
 HOMEPAGE="https://github.com/evanmiller/mod_zip"
@@ -16,8 +16,6 @@ SLOT="0"
 KEYWORDS="amd64"
 
 BDEPEND="virtual/pkgconfig"
-DEPEND=""
-RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}/mod-zip-crc.patch"
