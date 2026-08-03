@@ -1,9 +1,9 @@
 # Copyright 2020-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-POSTGRES_COMPAT=( 9.6 10 11 12 13 14 15 )
+POSTGRES_COMPAT=( 14 15 16 17 18 19 )
 POSTGRES_USEDEP="server"
 
 inherit postgres-multi
