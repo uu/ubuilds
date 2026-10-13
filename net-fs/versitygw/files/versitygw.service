@@ -1,0 +1,10 @@
+[Unit]
+Description=versitygw
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/versitygw
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

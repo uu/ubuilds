@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+
+name="${name:-versitygw}"
+command="/usr/bin/versitygw"
+command_args="${versitygw_opts}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}"
+
+depend() {
+	need net
+}
