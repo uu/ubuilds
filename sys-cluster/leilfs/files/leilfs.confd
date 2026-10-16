@@ -3,9 +3,9 @@
 # NOTE: The roles are stopped in *reverse* order of the given list
 # so make sure to list sfsmaster *before* the other roles.
 #
-# Possible values: sfsmaster sfsmetalogger sfschunkserver
+# Possible values: leil-master leil-metalogger leil-chunkserver
 #ROLES=""
 
-# If the role sfsmaster fails to start, should we try to run sfsmetarestore -a ?
+# If the role leil-master fails to start, should we try to run leil-metarestore -a ?
 # Possible values: 0 (no), 1 (yes)
 AUTORESTORE=0

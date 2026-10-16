@@ -6,23 +6,25 @@ EAPI=8
 
 inherit autotools cmake
 
-DESCRIPTION="SaunaFS is a free-and open source, distributed POSIX file system."
-HOMEPAGE="https://saunafs.com"
+DESCRIPTION="LeilFS is a free-and open source, distributed POSIX file system."
+HOMEPAGE="https://leilfs.com"
 MY_PV="${PV/_/-}"
-S=${WORKDIR}/saunafs-${MY_PV}
-SRC_URI="https://github.com/leil-io/saunafs/archive/refs/tags/v${MY_PV}.tar.gz"
+S=${WORKDIR}/leilfs-${MY_PV}
+SRC_URI="https://github.com/leil-io/leilfs/archive/refs/tags/v${MY_PV}.tar.gz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE="cgi"
 RDEPEND="
-	acct-user/saunafs
-	acct-group/saunafs
+	acct-user/leilfs
+	acct-group/leilfs
 	!sys-cluster/moosefs
 	!sys-cluster/lizardfs
+	!sys-cluster/saunafs
 	dev-libs/judy
 	dev-libs/spdlog
 	app-text/asciidoc
+	dev-ruby/asciidoctor
 	dev-libs/jemalloc
 	dev-libs/thrift
 	dev-cpp/prometheus-cpp
@@ -42,6 +44,7 @@ src_configure() {
 		-DENABLE_CCACHE=NO
 		-DENABLE_DOCS=YES
 		-DENABLE_JEMALLOC=NO
+		-DENABLE_INODE64=NO
 		-DENABLE_POLONAISE=NO
 		-DENABLE_UTILS=YES
 		-DTHROW_INSTEAD_OF_ABORT=YES
@@ -59,16 +62,16 @@ src_compile() {
 src_install() {
 	cmake_src_install
 
-	newinitd "${FILESDIR}/saunafs.initd" saunafs
-	newconfd "${FILESDIR}/saunafs.confd" saunafs
+	newinitd "${FILESDIR}/leilfs.initd" leilfs
+	newconfd "${FILESDIR}/leilfs.confd" leilfs
 	if use cgi; then
-		newinitd "${FILESDIR}/saunafscgiserver.initd" saunafscgiserver
-		newconfd "${FILESDIR}/saunafscgiserver.confd" saunafscgiserver
+		newinitd "${FILESDIR}/leilfscgiserver.initd" leilfscgiserver
+		newconfd "${FILESDIR}/leilfscgiserver.confd" leilfscgiserver
 	fi
 
-	diropts -m0750 -o saunafs -g saunafs
-	dodir "/var/lib/saunafs" "/etc/saunafs"
-	keepdir "/var/lib/saunafs" "/etc/saunafs"
-	chown -R saunafs:saunafs "${D}/var/lib/saunafs" || die
-	chmod 750 "${D}/var/lib/saunafs" || die
+	diropts -m0750 -o leilfs -g leilfs
+	dodir "/var/lib/leilfs" "/etc/leilfs"
+	keepdir "/var/lib/leilfs" "/etc/leilfs"
+	chown -R leilfs:leilfs "${D}/var/lib/leilfs" || die
+	chmod 750 "${D}/var/lib/leilfs" || die
 }

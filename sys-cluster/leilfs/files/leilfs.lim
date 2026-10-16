@@ -1,0 +1,2 @@
+leilfs soft nofile 60000
+leilfs hard nofile 60000

@@ -1,4 +1,4 @@
-# MooseFS HTTP/CGI server configuration.
+# LeilFS HTTP/CGI server configuration.
 
 # BIND_HOST: local address to listen on
 # default: any

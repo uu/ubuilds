@@ -1,21 +1,21 @@
 #!/sbin/openrc-run
 
-PIDFILE=/var/run/sfscgiserv.pid
+PIDFILE=/var/run/leilfs-cgiserver.pid
 
 depend() {
 	need net
 }
 
 start() {
-	ebegin "Starting sfs CGI server"
-	start-stop-daemon --start --quiet --exec /usr/sbin/sfscgiserv \
+	ebegin "Starting leilfs CGI server"
+	start-stop-daemon --start --quiet --exec /usr/sbin/leil-cgiserver \
 	--pidfile "${PIDFILE}" --make-pidfile --background \
 	-- -H ${BIND_HOST} -P ${BIND_PORT} -f
 	eend $?
 }
 
 stop() {
-	ebegin "Stopping sfs CGI server"
+	ebegin "Stopping leilfs CGI server"
 	start-stop-daemon --stop -q --pidfile "${PIDFILE}"
 	eend $?
 }
