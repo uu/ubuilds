@@ -25,6 +25,7 @@ RDEPEND="
 	dev-libs/spdlog
 	app-text/asciidoc
 	dev-ruby/asciidoctor
+	cgi? ( dev-python/chardet )
 	dev-libs/jemalloc
 	dev-libs/thrift
 	dev-cpp/prometheus-cpp
