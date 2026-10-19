@@ -8,9 +8,9 @@ depend() {
 
 start() {
 	ebegin "Starting leilfs CGI server"
-	start-stop-daemon --start --quiet --exec /usr/sbin/leil-cgiserver \
+	start-stop-daemon --start --quiet --exec /usr/bin/leil-cgiserver \
 	--pidfile "${PIDFILE}" --make-pidfile --background \
-	-- -H ${BIND_HOST} -P ${BIND_PORT} -f
+	-- -H ${BIND_HOST} -P ${BIND_PORT}
 	eend $?
 }
 
