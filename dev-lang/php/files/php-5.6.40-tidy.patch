@@ -1,0 +1,268 @@
+Only in php-5.6.40/ext/tidy: .config.m4.swp
+Only in php-5.6.40/ext/tidy: .config.w32.swp
+Only in php-5.6.40/ext/tidy: .php_tidy.h.swp
+Only in php-5.6.40/ext/tidy: .tidy.c.swp
+diff -puri php-5.6.40-2022-07-22.orig/ext/tidy/config.m4 php-5.6.40/ext/tidy/config.m4
+--- php-5.6.40-2022-07-22.orig/ext/tidy/config.m4	2019-01-09 03:54:13.000000000 -0600
++++ php-5.6.40/ext/tidy/config.m4	2022-07-22 12:33:36.000000000 -0500
+@@ -1,9 +1,7 @@
+-dnl
+-dnl $Id$
+-dnl
+-
+-PHP_ARG_WITH(tidy,for TIDY support,
+-[  --with-tidy[=DIR]         Include TIDY support])
++PHP_ARG_WITH([tidy],
++  [for TIDY support],
++  [AS_HELP_STRING([[--with-tidy[=DIR]]],
++    [Include TIDY support])])
+ 
+ if test "$PHP_TIDY" != "no"; then
+ 
+@@ -14,31 +12,61 @@ if test "$PHP_TIDY" != "no"; then
+   fi
+ 
+   for i in $TIDY_SEARCH_DIRS; do
+-    if test -f $i/include/tidy/tidy.h; then
+-      TIDY_DIR=$i
+-      TIDY_INCDIR=$i/include/tidy
+-    elif test -f $i/include/tidy.h; then
+-      TIDY_DIR=$i
+-      TIDY_INCDIR=$i/include
+-    fi
++    for j in tidy tidyp; do
++        if test -f $i/include/$j/$j.h; then
++            TIDY_DIR=$i
++            TIDY_INCDIR=$i/include/$j
++            TIDY_LIB_NAME=$j
++        break
++        elif test -f $i/include/$j.h; then
++            TIDY_DIR=$i
++            TIDY_INCDIR=$i/include
++            TIDY_LIB_NAME=$j
++        break
++        fi
++    done
+   done
+ 
+   if test -z "$TIDY_DIR"; then
+     AC_MSG_ERROR(Cannot find libtidy)
++  else
++    dnl Check for tidybuffio.h (as opposed to simply buffio.h) which indicates
++    dnl that we are building against tidy-html5 and not the legacy htmltidy. The
++    dnl two are compatible, except for with regard to this header file.
++    if test -f "$TIDY_INCDIR/tidybuffio.h"; then
++      AC_DEFINE(HAVE_TIDYBUFFIO_H,1,[defined if tidybuffio.h exists])
++    fi
+   fi
+ 
+   TIDY_LIBDIR=$TIDY_DIR/$PHP_LIBDIR
++  if test "$TIDY_LIB_NAME" == 'tidyp'; then
++    AC_DEFINE(HAVE_TIDYP_H,1,[defined if tidyp.h exists])
++  else
++    AC_DEFINE(HAVE_TIDY_H,1,[defined if tidy.h exists])
++  fi
+ 
+-  PHP_ADD_LIBRARY_WITH_PATH(tidy, $TIDY_LIBDIR, TIDY_SHARED_LIBADD)
+-  PHP_ADD_INCLUDE($TIDY_INCDIR)
+ 
+-  PHP_CHECK_LIBRARY(tidy,tidyOptGetDoc,
++  PHP_CHECK_LIBRARY($TIDY_LIB_NAME,tidyOptGetDoc,
++  [
++    AC_DEFINE(HAVE_TIDYOPTGETDOC,1,[ ])
++  ],[
++    PHP_CHECK_LIBRARY(tidy5,tidyOptGetDoc,
++    [
++      TIDY_LIB_NAME=tidy5
++      AC_DEFINE(HAVE_TIDYOPTGETDOC,1,[ ])
++    ], [], [])
++  ],[])
++
++  PHP_CHECK_LIBRARY($TIDY_LIB_NAME,tidyReleaseDate,
+   [
+-  AC_DEFINE(HAVE_TIDYOPTGETDOC,1,[ ])
+-  ],[],[])
++    AC_DEFINE(HAVE_TIDYRELEASEDATE,1,[ ])
++  ], [], [])
++
++  PHP_ADD_LIBRARY_WITH_PATH($TIDY_LIB_NAME, $TIDY_LIBDIR, TIDY_SHARED_LIBADD)
++  PHP_ADD_INCLUDE($TIDY_INCDIR)
+ 
+ 
+-  PHP_NEW_EXTENSION(tidy, tidy.c, $ext_shared)
++  PHP_NEW_EXTENSION(tidy, tidy.c, $ext_shared,, -DZEND_ENABLE_STATIC_TSRMLS_CACHE=1)
+   PHP_SUBST(TIDY_SHARED_LIBADD)
+   AC_DEFINE(HAVE_TIDY,1,[ ])
+ fi
+diff -puri php-5.6.40-2022-07-22.orig/ext/tidy/config.w32 php-5.6.40/ext/tidy/config.w32
+--- php-5.6.40-2022-07-22.orig/ext/tidy/config.w32	2019-01-09 03:54:13.000000000 -0600
++++ php-5.6.40/ext/tidy/config.w32	2022-07-22 12:34:34.000000000 -0500
+@@ -1,22 +1,35 @@
+-// $Id$
+ // vim:ft=javascript
+ 
+ ARG_WITH("tidy", "TIDY support", "no");
+ 
+ if (PHP_TIDY != "no") {
+-	if (CHECK_LIB("libtidy_a.lib;libtidy.lib", "tidy", PHP_TIDY) &&
++	var tidy_static = false;
++	if ((CHECK_LIB("libtidy_a.lib;tidy_a.lib", "tidy", PHP_TIDY) && (tidy_static = true) ||
++		CHECK_LIB("libtidy.lib;tidy.lib", "tidy", PHP_TIDY)) &&
+ 			(
+ 				CHECK_HEADER_ADD_INCLUDE("tidy.h", "CFLAGS_TIDY") ||
+ 				CHECK_HEADER_ADD_INCLUDE("tidy/tidy.h", "CFLAGS_TIDY", null, null, true) ||
+ 				CHECK_HEADER_ADD_INCLUDE("libtidy/tidy.h", "CFLAGS_TIDY", null, null, true)
+ 			)) {
++
++		if (CHECK_HEADER_ADD_INCLUDE("tidybuffio.h", "CFLAGS_TIDY")) {
++			AC_DEFINE('HAVE_TIDYBUFFIO_H', 1, 'Have tidybuffio.h header file');
++		}
++
+ 		EXTENSION("tidy", "tidy.c");
+ 		AC_DEFINE('HAVE_TIDY', 1, 'Have TIDY library');
++		AC_DEFINE('HAVE_TIDY_H', 1, "tidy include header")
++		AC_DEFINE('HAVE_TIDYOPTGETDOC', 1, "tidy_get_opt_doc function")
++		AC_DEFINE('HAVE_TIDYRELEASEDATE', 1, "tidy release date function")
++		ADD_FLAG('CFLAGS_TIDY', '/DZEND_ENABLE_STATIC_TSRMLS_CACHE=1');
+ 		if (!PHP_TIDY_SHARED) {
+ 			ADD_DEF_FILE("ext\\tidy\\php_tidy.def");
+ 		}
++		if (tidy_static) {
++			ADD_FLAG("CFLAGS_TIDY", "/DTIDY_STATIC=1");
++		}
++
+ 	} else {
+ 		WARNING("tidy not enabled; libraries and headers not found");
+ 	}
+ }
+-
+diff -puri php-5.6.40-2022-07-22.orig/ext/tidy/php_tidy.h php-5.6.40/ext/tidy/php_tidy.h
+--- php-5.6.40-2022-07-22.orig/ext/tidy/php_tidy.h	2019-01-09 03:54:13.000000000 -0600
++++ php-5.6.40/ext/tidy/php_tidy.h	2022-07-22 13:24:00.000000000 -0500
+@@ -24,6 +24,10 @@
+ extern zend_module_entry tidy_module_entry;
+ #define phpext_tidy_ptr &tidy_module_entry
+ 
++	/* backported from php 7.4 */
++#include "php_version.h"
++#define PHP_TIDY_VERSION PHP_VERSION
++
+ #define TIDY_METHOD_MAP(name, func_name, arg_types) \
+ 	ZEND_NAMED_FE(name, ZEND_FN(func_name), arg_types)
+ #define TIDY_NODE_METHOD(name)    PHP_FUNCTION(tnm_ ##name)
+diff -puri php-5.6.40-2022-07-22.orig/ext/tidy/tidy.c php-5.6.40/ext/tidy/tidy.c
+--- php-5.6.40-2022-07-22.orig/ext/tidy/tidy.c	2019-01-09 03:54:13.000000000 -0600
++++ php-5.6.40/ext/tidy/tidy.c	2022-07-22 12:49:00.000000000 -0500
+@@ -30,8 +30,18 @@
+ #include "php_ini.h"
+ #include "ext/standard/info.h"
+ 
++/* backported from php 7.4 */
++#if HAVE_TIDY_H
+ #include "tidy.h"
++#elif HAVE_TIDYP_H
++#include "tidyp.h"
++#endif
++
++#if HAVE_TIDYBUFFIO_H
++#include "tidybuffio.h"
++#else
+ #include "buffio.h"
++#endif
+ 
+ /* compatibility with older versions of libtidy */
+ #ifndef TIDY_CALL
+@@ -1102,8 +1112,18 @@ static PHP_MINFO_FUNCTION(tidy)
+ {
+ 	php_info_print_table_start();
+ 	php_info_print_table_header(2, "Tidy support", "enabled");
++	/* backported from php 7.4 */
++#if HAVE_TIDYBUFFIO_H
++	php_info_print_table_row(2, "libTidy Version", (char *)tidyLibraryVersion());
++#elif HAVE_TIDYP_H
++	php_info_print_table_row(2, "libtidyp Version", (char *)tidyVersion());
++#endif
++#if HAVE_TIDYRELEASEDATE
+ 	php_info_print_table_row(2, "libTidy Release", (char *)tidyReleaseDate());
+-	php_info_print_table_row(2, "Extension Version", PHP_TIDY_MODULE_VERSION " ($Id: 57f050b275c6da348310461a64aaad21feef8091 $)");
++#endif
++	/* orig php 5.6 line
++	 * php_info_print_table_row(2, "Extension Version", PHP_TIDY_MODULE_VERSION " ($Id: 57f050b275c6da348310461a64aaad21feef8091 $)");
++	 * */
+ 	php_info_print_table_end();
+ 
+ 	DISPLAY_INI_ENTRIES();
+@@ -1357,7 +1377,15 @@ static PHP_FUNCTION(tidy_get_release)
+ 		return;
+ 	}
+ 
++/* backported from php 7.4 */
++#if HAVE_TIDYRELEASEDATE
++	RETURN_STRING((char *)tidyReleaseDate(), 1);
++#else
++	RETURN_STRING((char *)"unknown", 1);
++#endif
++	/* orig php 5.6 line 
+ 	RETURN_STRING((char *)tidyReleaseDate(), 1);
++	*/
+ }
+ /* }}} */
+ 
+@@ -1987,6 +2015,37 @@ static void _php_tidy_register_tags(INIT
+ 	TIDY_TAG_CONST(VAR);
+ 	TIDY_TAG_CONST(WBR);
+ 	TIDY_TAG_CONST(XMP);
++/* backported from php 7.4 */
++# if HAVE_TIDYBUFFIO_H
++	TIDY_TAG_CONST(ARTICLE);
++	TIDY_TAG_CONST(ASIDE);
++	TIDY_TAG_CONST(AUDIO);
++	TIDY_TAG_CONST(BDI);
++	TIDY_TAG_CONST(CANVAS);
++	TIDY_TAG_CONST(COMMAND);
++	TIDY_TAG_CONST(DATALIST);
++	TIDY_TAG_CONST(DETAILS);
++	TIDY_TAG_CONST(DIALOG);
++	TIDY_TAG_CONST(FIGCAPTION);
++	TIDY_TAG_CONST(FIGURE);
++	TIDY_TAG_CONST(FOOTER);
++	TIDY_TAG_CONST(HEADER);
++	TIDY_TAG_CONST(HGROUP);
++	TIDY_TAG_CONST(MAIN);
++	TIDY_TAG_CONST(MARK);
++	TIDY_TAG_CONST(MENUITEM);
++	TIDY_TAG_CONST(METER);
++	TIDY_TAG_CONST(NAV);
++	TIDY_TAG_CONST(OUTPUT);
++	TIDY_TAG_CONST(PROGRESS);
++	TIDY_TAG_CONST(SECTION);
++	TIDY_TAG_CONST(SOURCE);
++	TIDY_TAG_CONST(SUMMARY);
++	TIDY_TAG_CONST(TEMPLATE);
++	TIDY_TAG_CONST(TIME);
++	TIDY_TAG_CONST(TRACK);
++	TIDY_TAG_CONST(VIDEO);
++# endif
+ }
+ 
+ #endif
+Only in php-5.6.40/main: .php_config.h.in.swp
+diff -puri php-5.6.40-2022-07-22.orig/main/php_config.h.in php-5.6.40/main/php_config.h.in
+--- php-5.6.40-2022-07-22.orig/main/php_config.h.in	2019-01-09 04:25:58.000000000 -0600
++++ php-5.6.40/main/php_config.h.in	2022-07-22 12:38:58.000000000 -0500
+@@ -1945,9 +1945,15 @@
+ /* */
+ #undef HAVE_TIDY
+ 
++/* defined if tidybuffio.h exists */
++#undef HAVE_TIDYBUFFIO_H
++
+ /* */
+ #undef HAVE_TIDYOPTGETDOC
+ 
++/* defined if tidy.h exists */
++#undef HAVE_TIDY_H
++
+ /* Have timelib_config.h */
+ #undef HAVE_TIMELIB_CONFIG_H
+ 

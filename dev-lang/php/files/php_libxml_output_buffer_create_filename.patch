@@ -1,0 +1,12 @@
+diff '--color=auto' -uri php-8.1.29.orig/ext/libxml/libxml.c php-8.1.29/ext/libxml/libxml.c
+--- php-8.1.29.orig/ext/libxml/libxml.c	2024-06-04 23:51:57.000000000 -0600
++++ php-8.1.29/ext/libxml/libxml.c	2025-11-30 21:07:48.000000000 -0600
+@@ -430,7 +430,7 @@
+ static xmlOutputBufferPtr
+ php_libxml_output_buffer_create_filename(const char *URI,
+                               xmlCharEncodingHandlerPtr encoder,
+-                              int compression ATTRIBUTE_UNUSED)
++                              int compression )
+ {
+ 	xmlOutputBufferPtr ret;
+ 	xmlURIPtr puri;

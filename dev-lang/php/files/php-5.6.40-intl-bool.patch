@@ -1,0 +1,47 @@
+diff -puriN php-5.6.40-2021-05.orig/ext/intl/breakiterator/codepointiterator_internal.cpp php-5.6.40/ext/intl/breakiterator/codepointiterator_internal.cpp
+--- php-5.6.40-2021-05.orig/ext/intl/breakiterator/codepointiterator_internal.cpp	2020-08-02 03:14:37.000000000 -0500
++++ php-5.6.40/ext/intl/breakiterator/codepointiterator_internal.cpp	2021-05-19 04:30:23.000000000 -0500
+@@ -17,6 +17,7 @@
+ #include "codepointiterator_internal.h"
+ #include <unicode/uchriter.h>
+ #include <typeinfo>
++#include "../intl_cppshims.h"
+ 
+ //copied from cmemory.h, which is not public
+ typedef union {
+diff -puriN php-5.6.40-2021-05.orig/ext/intl/intl_cppshims.h php-5.6.40/ext/intl/intl_cppshims.h
+--- php-5.6.40-2021-05.orig/ext/intl/intl_cppshims.h	2019-01-09 03:54:13.000000000 -0600
++++ php-5.6.40/ext/intl/intl_cppshims.h	2021-05-19 04:28:02.000000000 -0500
+@@ -31,4 +31,15 @@
+ #define _MSC_STDINT_H_ 1
+ #endif
+ 
++extern "C" {
++#include <stdbool.h>
++#ifndef TRUE
++#define TRUE true
+ #endif
++#ifndef FALSE
++#define FALSE false
++#endif
++}
++
++#endif
++
+diff -puriN php-5.6.40-2021-05.orig/ext/intl/php_intl.h php-5.6.40/ext/intl/php_intl.h
+--- php-5.6.40-2021-05.orig/ext/intl/php_intl.h	2019-01-09 03:54:13.000000000 -0600
++++ php-5.6.40/ext/intl/php_intl.h	2021-05-19 04:18:51.000000000 -0500
+@@ -21,6 +21,13 @@
+ #define PHP_INTL_H
+ 
+ #include <php.h>
++#include <stdbool.h>
++#ifndef TRUE
++#define TRUE true
++#endif
++#ifndef FALSE
++#define FALSE false
++#endif
+ 
+ /* Even if we're included from C++, don't introduce C++ definitions
+  * because we were included with extern "C". The effect would be that

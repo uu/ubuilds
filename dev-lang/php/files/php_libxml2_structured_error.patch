@@ -1,0 +1,15 @@
+diff '--color=auto' -uri php-7.4.33.orig/ext/libxml/libxml.c php-7.4.33/ext/libxml/libxml.c
+--- php-7.4.33.orig/ext/libxml/libxml.c	2022-10-31 04:36:06.000000000 -0600
++++ php-7.4.33/ext/libxml/libxml.c	2026-01-10 16:18:32.000000000 -0600
+@@ -782,7 +782,11 @@
+ 	va_end(args);
+ }
+ 
++#if LIBXML_VERSION >= 21200
++PHP_LIBXML_API void php_libxml_structured_error_handler(void *userData, const xmlError *error)
++#else
+ PHP_LIBXML_API void php_libxml_structured_error_handler(void *userData, xmlErrorPtr error)
++#endif
+ {
+ 	_php_list_set_error_structure(error, NULL);
+ 
