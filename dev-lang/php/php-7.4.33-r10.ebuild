@@ -152,6 +152,11 @@ PATCHES=(
 	"${FILESDIR}"/php_libxml_output_buffer_create_filename.patch
 	"${FILESDIR}"/php_libxml2_structured_error.patch
 	"${FILESDIR}"/php-7.4-CVE-2026-109618-109619.patch
+	"${FILESDIR}"/php-7.4.33-pcntl-tick-gcc15.patch
+	"${FILESDIR}"/php-7.4.33-openssl-sslv23-padding.patch
+	"${FILESDIR}"/php-7.4.33-gd-gcc15.patch
+	"${FILESDIR}"/php-7.4.33-icu74-cxx17.patch
+	"${FILESDIR}"/php-7.4.33-scanf-gcc15.patch
 )
 
 php_install_ini() {
